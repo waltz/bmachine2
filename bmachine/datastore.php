@@ -64,6 +64,8 @@ class FlatFileStore {
 	 */
 	function getAllLock($file, $hold_lock = true, &$h ) {
 
+		//error_log("getAllLock: $file - $hold_lock");
+
     global $data_dir;
 
 		$handle = fopen("$data_dir/$file", "a+b");
@@ -83,6 +85,7 @@ class FlatFileStore {
 			$h = $handle;
 		}
     
+		//error_log("getAllLock: $file - $hold_lock - done");
     return bdecode( $contents );
 	}	
 	
@@ -104,6 +107,8 @@ class FlatFileStore {
 	 */
 	function saveAll($file, $data, $handle = null) {
 
+		//error_log("saveAll: $file");
+
     global $errorstr;
     global $data_dir;
     
@@ -124,8 +129,14 @@ class FlatFileStore {
     fseek($handle,0);
     fwrite($handle,bencode($data));
 
+		// make sure the file is flushed out to the filesystem
+		fflush($handle);
     fclose($handle);
+		
+		// make sure we aren't holding onto a cached copy
+		clearstatcache();
     
+		//error_log("saveAll: $file - done");
     return true;
 	}
 
@@ -180,7 +191,9 @@ class FlatFileStore {
       if ( !isset( $settings['sharing_actual_python'] ) )
         $settings['sharing_actual_python']='';
       
+			fflush ($handle);
       fclose ( $handle );
+			clearstatcache();
     }
     
     return true;
@@ -210,7 +223,10 @@ class FlatFileStore {
 
     $settings  = $newsettings;
     fwrite( $handle, bencode( $settings ) );
-    fclose ( $handle );
+
+		fflush ($handle);
+		fclose ( $handle );
+		clearstatcache();
 
     return true;
   }
@@ -419,6 +435,7 @@ class FlatFileStore {
    * @returns user data
    */
   function getAllUsers() {
+//		return $this->getAll("users");
 	
 		$usertmp = $this->getAll("users");
 
@@ -447,7 +464,8 @@ class FlatFileStore {
 			return array();
 		}
 
-		return $users;      
+		return $users;
+		
   }
 
   /**
@@ -596,6 +614,7 @@ class FlatFileStore {
   }
 
 
+
   /**
    * add a new user
    * @returns true on success, false on failure
@@ -605,7 +624,13 @@ class FlatFileStore {
     global $data_dir;
 
     $contents = '';
-    $username = strtolower( $username );
+    $username = trim(strtolower( $username ));
+
+		if ( $username == "" ) {
+      $error = "Please specify a username";
+      return false;		
+		}
+		
     $users = $this->getAllUsers();
 
     if ( isset( $users[$username] ) ) {
@@ -637,7 +662,7 @@ class FlatFileStore {
 			return false;
 		}
 
-    $hashlink = sha1( $username . $password . $email );
+    $hashlink = $this->userHash( $username, $password, $email );
     $filehash = sha1( $username . $hashlink );
     $newusers[$filehash]['Hash']   =hashpass( $username, $password );
     $newusers[$filehash]['Email']  =$email;
@@ -645,6 +670,7 @@ class FlatFileStore {
     $newusers[$filehash]['Created']=time();
 
 		$result = $this->saveAll("newusers", $newusers, $handle);
+		
 		
 		// some sort of error, so stop processing
 		if ( $result == false ) {
@@ -680,6 +706,15 @@ class FlatFileStore {
 		return true;
   }
 
+	/**
+	 * generate a user hash and return it
+	 * @returns string
+	 */
+	function userHash( $username, $password, $email ) {
+		$username = trim(strtolower( $username ));
+		return sha1($username . $password . $email);
+	}
+
   /**
    * authorize a user for access to the website
    * @returns true on success, false on failure
@@ -692,14 +727,24 @@ class FlatFileStore {
     $contents = '';
     $success = false;
 	
+    $username = trim(strtolower( $username ));
     $filehash = sha1( $username . $hashlink );
 		
 		$newusers = $this->getAllLock("newusers", true, $handle);
+
+		if ( !isset($handle) || $handle == "" ) {
+			global $errstr;
+			$errstr = "Error: Couldn't open newusers file";
+			return false;
+		}
 
     if ( isset( $newusers[$filehash] ) ) {
       $users = $this->getAllLock("users", true, $handle2);
 			
 			if ( !isset($handle2) || $handle2 == "" ) {
+				global $errstr;
+				$errstr = "Error: Couldn't open users file";
+				fclose($handle);
 				return false;
 			}
 	
@@ -788,7 +833,7 @@ class FlatFileStore {
    * NOTE - make sure this doesn't screw up any of our other data
    * @returns true on success, false on failure
    */
-  function updateUser( $username, $hash, $email, $canAdmin = false, $isPending = true, $requireAdmin = true ) {
+  function updateUser( $username, $hash, $email, $canAdmin = false, $isPending = true ) {
 
     $contents = '';
     global $data_dir;
@@ -926,7 +971,9 @@ class FlatFileStore {
 		ftruncate( $handle, 0 );
 		fwrite( $handle, join( '', $peer ), $peer_num * 7 );
 		flock( $handle, LOCK_UN );
+		fflush ($handle);
 		fclose ( $handle );
+		clearstatcache();
 
 		$o='';
 
@@ -1054,8 +1101,10 @@ class FlatFileStore {
 		
 		$handle = opendir( $torrents_dir );
 		while ( false !== ( $torrentfile=readdir( $handle )) ) {
-			if ( ( $torrentfile != '.' ) && ( $torrentfile != '..' ) && ( $torrentfile != '.htaccess' ) && 
-				endsWith($torrentfile, ".torrent") ) {
+			if ( $torrentfile != '.' && 
+					$torrentfile != '..' && 
+					$torrentfile != '.htaccess' && 
+					endsWith($torrentfile, ".torrent") ) {
 				$list[] = $torrentfile;
 				$times[] = $this->getTorrentDate( $torrentfile );
 			} // if

@@ -43,6 +43,8 @@ if ( count($users) > 0 ) {
 global $settings;
 $email = (isset($_POST['email'])) ? $_POST['email'] : '';
 $username = (isset($_POST['username'])) ? $_POST['username'] : '';
+$username = encode(trim(strtolower( $username )));
+
 $pass1 = (isset($_POST['pass1'])) ? $_POST['pass1'] : '';
 $pass2 = (isset($_POST['pass2'])) ? $_POST['pass2'] : '';
 
@@ -52,6 +54,7 @@ $show_form = true;
 
 if ( strlen($email) > 0 && strlen($username) > 0 && 
 		strlen($pass1) > 0 && $pass1 == $pass2 ) {
+
 
 	global $store;
   if ( $store->addNewUser($username, $pass1, $email, false, $is_front, $error) ) {
@@ -68,7 +71,8 @@ if ( strlen($email) > 0 && strlen($username) > 0 &&
 								Follow the instructions in that email to continue the authentication process";
 		}
 		else {
-			$hashlink = sha1( $username . $pass1 . $email );		
+	    $hashlink = $store->userHash( $username, $pass1, $email );
+//			$hashlink = sha1( $username . $pass1 . $email );		
 			$result = $store->authNewUser( $hashlink, $username );
 			
 			if ( $result == true ) {

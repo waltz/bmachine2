@@ -13,13 +13,13 @@ $is_mine = false;
 if (isset($_SESSION['user']) && $_SESSION['user']) {
 
 	if (isset($_GET["i"])) {
-		$username = $_GET["i"];
+		$username = trim(strtolower( $_GET["i"] ));
 	} 
 	else if (isset($_POST["username"])) {
-		$username = $_POST["username"];
+		$username = trim(strtolower( $_POST["username"] ));
 	}
 
-	if ($_SESSION['user']['Name'] == $username) {
+	if (strtolower($_SESSION['user']['Name']) == $username) {
 		$is_mine = true;
 	}
 
@@ -41,10 +41,11 @@ if (isset($_GET["a"])) {
 
 	global $store;
 	$users = $store->getAllUsers();
-	$update = $users[$_GET["i"]];
+//	$update = $users[$_GET["i"]];
+	$update = $users[$username];
 
 	if ( isset($update) ) {
-		$store->updateUser($_GET["i"], $update["Hash"], $update["Email"], $update["IsAdmin"], false);
+		$store->updateUser($username, $update["Hash"], $update["Email"], $update["IsAdmin"]);
 	}
 
 	header('Location: ' . get_base_url() . 'users.php');
@@ -55,7 +56,7 @@ if (isset($_GET["a"])) {
 // delete the user
 //
 if (isset($_GET["d"]) && is_admin() ) {
-	$store->deleteUser($_GET["i"]);
+	$store->deleteUser($username);
 
 	global $store;
 	$users = $store->getAllUsers();
@@ -73,21 +74,22 @@ if (isset($_GET["d"]) && is_admin() ) {
 	exit;
 }
 
-if (isset($_POST["username"])) {
+if ( isset($_POST["username"]) ) {
 
 	$hash = $_POST["hash"];
 
 	if (isset($_POST["pass1"]) && $_POST["pass1"] != "" &&
 				$_POST["pass1"] == $_POST["pass2"] ) {
-		$hash = hashpass($_POST["username"],$_POST["pass1"]);
+		$hash = hashpass($username, $_POST["pass1"]);
 	}
 	
 	// if the user has changed their username, we need to do a special update
-	if ( $_POST["oldname"] != $_POST["username"] ) {
-		$store->renameUser($_POST["oldname"], $_POST["username"]);	
+	$oldname = trim(strtolower( $_POST["oldname"] ));
+	if ( $oldname != $username ) {
+		$store->renameUser($oldname, $username);	
 	}
 
-	$store->updateUser($_POST["username"], $hash, $_POST["email"], isset($_POST["admin"]), false, !$is_mine);
+	$store->updateUser($username, $hash, $_POST["email"], isset($_POST["admin"]), false);
 	header('Location: ' . get_base_url() . 'users.php');
 	exit;
 }
@@ -95,7 +97,7 @@ if (isset($_POST["username"])) {
 
 global $store;
 $users = $store->getAllUsers();
-$this_user = $users[$_GET["i"]];
+$this_user = $users[$username];
 
 bm_header();
 ?>

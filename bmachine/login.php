@@ -20,8 +20,8 @@ else if (isset($_GET['hash'])) {
 
 	$newuser = 0;
 	$hashlink = $_GET['hash'];
-	$username = $_GET['username'];
-	
+	$username = trim(strtolower( $_GET['username'] ));
+
 	global $store;
 	if ($store->authNewUser($hashlink,$username)) {
 		$newuser = 1;

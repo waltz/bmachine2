@@ -23,14 +23,16 @@ if (isset($_POST["username"])) {
 	if ($_POST["pass1"] == $_POST["pass2"] && $_POST["pass1"] != "") {
 		global $store;
 
+		$username = trim(strtolower( $_POST["username"] ));
+
 		$store->addNewUser(
-			$_POST["username"],
+			$username,
 			$_POST["pass1"],
 			encode($_POST["email"]),
 			isset($_POST["admin"]), false, $error);
 
-    $hashlink = sha1( $_POST["username"] . $_POST["pass1"] . $_POST["email"] );		
-		$store->authNewUser( $hashlink, $_POST["username"] );
+    $hashlink = sha1( $username . $_POST["pass1"] . $_POST["email"] );		
+		$store->authNewUser( $hashlink, $username );
 
 	}
 }
