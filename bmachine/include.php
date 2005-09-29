@@ -368,7 +368,7 @@ function hashpass($username,$password) {
  *
  * @returns true and sets $_SESSION['user'] on success, false on error
  */
-function login($username,$password,&$error) {
+function login($username,$password,&$error, $set_cookies = true) {
 	global $store;
 
 	if ( ! $username || ! $password ) {
@@ -389,12 +389,14 @@ function login($username,$password,&$error) {
 	$users[$username]['Username'] = $username;
 	$_SESSION['user'] = $users[$username];
 	
-	global $usercookie;
-	global $hashcookie;
 	
-	setcookie($usercookie, $username, 0, dirname($_SERVER['PHP_SELF']) );
-	setcookie($hashcookie, hashpass($username, $password), 0, dirname($_SERVER['PHP_SELF']) );
+	if ( $set_cookies == true ) {
+		global $usercookie;
+		global $hashcookie;
 
+		setcookie($usercookie, $username, 0, dirname($_SERVER['PHP_SELF']) );
+		setcookie($hashcookie, hashpass($username, $password), 0, dirname($_SERVER['PHP_SELF']) );
+	}
 	return true;
 }
 
@@ -463,7 +465,42 @@ function do_http_auth() {
 			login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], $errstr) ) {
 		   unset($_SESSION['login']);
 		   return true;
-		}    
+		}
+		
+		/** 
+		 * if this PHP is running as a CGI, http auth won't work without this hack
+		 * (see http://us3.php.net/manual/en/features.http-auth.php#52405)
+		 *
+		 * and also this mod_rewrite in our .htaccess file
+				<IfModule mod_rewrite.c>
+					 RewriteEngine on
+					 RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
+				</IfModule>
+			*/
+		else if ( isset($_SERVER["REMOTE_USER"]) || isset($_SERVER["REDIRECT_REMOTE_USER"]) ) {
+			$str = isset($_SERVER["REMOTE_USER"]) ? $_SERVER["REMOTE_USER"] : $_SERVER["REDIRECT_REMOTE_USER"];
+
+			if ( beginsWith($str, "Basics") ) {
+				$match = '/Basics +(.*)$/i';
+			}
+			else {
+				$match = '/Basic +(.*)$/i';
+			}
+			preg_match($match, $str, $matches);
+	
+			$a = base64_decode( substr($str, 6) ) ;
+			if ( strlen($a) > 0 && strcasecmp($a, ":" ) != 0 ) {
+				list($name, $password) = explode(':', base64_decode($matches[1]));
+				$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+				$_SERVER['PHP_AUTH_PW']    = strip_tags($password);
+
+				if ( login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], $errstr) ) {
+					 unset($_SESSION['login']);
+					 return true;
+				}
+
+			}		
+		}
 		
 		// let the browser ask for a username and a password:
 		$_SESSION['login'] = true;
@@ -1169,39 +1206,44 @@ function makeChannelRss($channelID, $use_cache = true) {
 	if (!file_exists($rss_dir)) {
 		mkdir($rss_dir, $perm_level);
 	}
+
 	if (!file_exists($rss_dir . "/" . $channelID)) {
 		mkdir("$rss_dir/" . $channelID, $perm_level);
+		$rss_publish_time = 0;
+	}
+	else {
+		$rss_publish_time = filemtime("$rss_dir/$channelID");
 	}
 
-	if (!file_exists("$rss_dir/" . $channelID . ".rss")) {
+	// force an rss rebuild if we've updated our rss-generation code
+	if ( filemtime("include.php") > $rss_publish_time ) {
 		$use_cache = false;
 	}
-	
-	$last_rss_update = 0;
-	$this_dir = dir("$rss_dir/" . $channelID);
-
-	// also force an rss rebuild if we've updated our rss-generation code
-	if ( filemtime("include.php") > $last_rss_update ) {
+	else if (!file_exists("$rss_dir/" . $channelID . ".rss")) {
 		$use_cache = false;
 	}
 	else {
-		while(($file = $this_dir->read()) !== false) {
-		
-			if (is_numeric($file)) {
-			
-				$last_rss_update = $file;
-			
-				if (time() > $file) {
-					//$use_cache = false;
-					unlink_file("$rss_dir/" . $channelID . "/" . $file);
-				}
+	
+		$last_publish_time = 0;
+		$this_dir = dir("$rss_dir/" . $channelID);
+	
+		while(($file = $this_dir->read()) !== false) {	
+			if (is_numeric($file)) {		
+				$last_publish_time = $file;
 			}
 		}
-	}	
+		
+		if ( $last_publish_time > $rss_publish_time ) {
+			$use_cache = false;
+		}	
+	}
+
+	if ( $use_cache == true ) {
+		return;
+	}
 
 	$channel = $store->getChannel($channelID);
 	$base_url = get_base_url();
-
 
 	$sOut = '<?xml version="1.0" encoding="utf-8"?>';
 
@@ -1288,6 +1330,9 @@ EOF;
 						$filename = basename($elements["path"]);
 						$parts = explode(".", $filename);
 						if ( is_array($parts) && count($parts) > 0 ) {
+
+							require_once("mime.php");
+
 							$ext = $parts[count($parts) - 1];
 							if ( $ext != "" && get_mime_from_extension($filename) != false ) {
 								$download_url .= "&amp;e=$ext";
