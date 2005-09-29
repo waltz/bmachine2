@@ -176,7 +176,7 @@ $can_use_cookies = true;
  * @returns install version number
  */
 function version_number() {
-	return 18;
+	return 19;
 }
 
 /**
