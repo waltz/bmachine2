@@ -100,7 +100,7 @@ class EncodingTest extends BMTestCase {
 		$utftext = $utftext;
 		
 		$file = array();
-		$file['post_file_url'] = "http://www.archive.org/download/DuckandC1951/DuckandC1951.mpeg";
+		$file['post_file_url'] = "http://www.archive.org/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
 		$file['post_title'] = "unit test " . rand(0, 10000) . ": " . $utftitle;
 		$file['post_desc'] = $utftext;
 		$file['post_do_save'] = 1;

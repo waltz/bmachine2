@@ -18,7 +18,7 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['post_file_url'] = "http://www.archive.org/download/DuckandC1951/DuckandC1951.mpeg";
+		$file['post_file_url'] = "http://www.archive.org/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
 		$file['post_title'] = "URL unit test " . rand(0, 10000);
 		$file['post_desc'] = "URL desc";
 		$file['post_do_save'] = 1;
@@ -40,7 +40,10 @@ class PublishTest extends BMTestCase {
 	function TestPublishURLWithSpaces() {
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-			
+		
+		if ( !file_exists("test file.mp3") ) {
+			copy("tests/testfile.mp3", "test file.mp3");
+		}
 		$file = array();
 		$file['post_file_url'] = get_base_url() . "test file.mp3";
 		$file['post_title'] = "unit test - URL with a space" . rand(0, 10000);
@@ -65,7 +68,7 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['post_file_url'] = "http://www.archivedjsodh2.xxyzzy/download/DuckandC1951/DuckandC1951.mpeg";
+		$file['post_file_url'] = "http://www.junkjunknudsaasd.fake/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
 		$file['post_title'] = "URL unit test " . rand(0, 10000);
 		$file['post_desc'] = "URL desc";
 		$file['post_do_save'] = 1;

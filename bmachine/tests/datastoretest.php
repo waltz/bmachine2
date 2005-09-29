@@ -383,7 +383,8 @@ class DataStoreTest extends BMTestCase {
 		
 		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAuthUser: couldn't add user" );
 		
-	  $hashlink = sha1( $username . $password . $email );
+    $hashlink = $store->userHash( $username, $password, $email );
+//	  $hashlink = sha1( $username . $password . $email );
     $this->assertTrue( $store->authNewUser( $hashlink, $username), "DataStoreTest/TestAuthUser: couldn't auth user" );	
 	}
 	
@@ -403,7 +404,8 @@ class DataStoreTest extends BMTestCase {
 		$email = "$username@foo.net";
 		
 		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAuthUser: couldn't add user" );
-		$hashlink = sha1( $username . $password . $email );		
+//		$hashlink = sha1( $username . $password . $email );		
+    $hashlink = $store->userHash( $username, $password, $email );
 		$store->authNewUser( $hashlink, $username );
 
 		$users = $store->getAllUsers();
