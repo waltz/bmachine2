@@ -1211,8 +1211,8 @@ function makeChannelRss($channelID, $use_cache = true) {
 		mkdir("$rss_dir/" . $channelID, $perm_level);
 		$rss_publish_time = 0;
 	}
-	else {
-		$rss_publish_time = filemtime("$rss_dir/$channelID");
+	else if ( file_exists("$rss_dir/" . $channelID . ".rss") ) {
+		$rss_publish_time = filemtime("$rss_dir/$channelID.rss");
 	}
 
 	// force an rss rebuild if we've updated our rss-generation code
@@ -1228,12 +1228,12 @@ function makeChannelRss($channelID, $use_cache = true) {
 		$this_dir = dir("$rss_dir/" . $channelID);
 	
 		while(($file = $this_dir->read()) !== false) {	
-			if (is_numeric($file)) {		
+			if (is_numeric($file) && $file > $last_publish_time ) {		
 				$last_publish_time = $file;
 			}
 		}
 		
-		if ( $last_publish_time > $rss_publish_time ) {
+		if ( $last_publish_time == 0 || $last_publish_time >= $rss_publish_time ) {
 			$use_cache = false;
 		}	
 	}
@@ -1322,23 +1322,27 @@ EOF;
 	
 	
 					$download_url = $base_url . 'download.php?c=' . $channelID . '&amp;i=' . $file[0] . '&amp;type=direct';
+
+					if ( is_local_torrent($tmpurl) ) {
+							$download_url .= "&amp;e=.torrent";					
+					}	
+					else {
+						$elements = @parse_url($tmpurl);
+						if ( isset($elements["path"]) ) {
+							// try to figure out the extension of this file
+							$filename = basename($elements["path"]);
+							$parts = explode(".", $filename);
+							if ( is_array($parts) && count($parts) > 0 ) {
 	
-
-					$elements = @parse_url($tmpurl);
-					if ( isset($elements["path"]) ) {
-						// try to figure out the extension of this file
-						$filename = basename($elements["path"]);
-						$parts = explode(".", $filename);
-						if ( is_array($parts) && count($parts) > 0 ) {
-
-							require_once("mime.php");
-
-							$ext = $parts[count($parts) - 1];
-							if ( $ext != "" && get_mime_from_extension($filename) != false ) {
-								$download_url .= "&amp;e=$ext";
+								require_once("mime.php");
+	
+								$ext = $parts[count($parts) - 1];
+								if ( $ext != "" && get_mime_from_extension($filename) != false ) {
+										$download_url .= "&amp;e=$ext";
+								}
 							}
-						}					
-					}
+						}
+					}  // else
 	
 					$sOut .= '<enclosure url="' . $download_url . '" ';
 	
