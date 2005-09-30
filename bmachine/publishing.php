@@ -398,7 +398,8 @@ function publish_file($file) {
 				mkdir("$publish_dir/" . $channelID, $perm_level);
 			}
 		
-			$handle = fopen("$publish_dir/" . $channelID . "/" . $publish_date, "a+b");
+//			$handle = fopen("$publish_dir/" . $channelID . "/" . $publish_date, "a+b");
+			$handle = fopen("$publish_dir/" . $channelID . "/" . time(), "a+b");
 			fclose($handle);
 		}
 	}	
