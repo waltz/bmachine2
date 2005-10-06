@@ -1332,13 +1332,16 @@ EOF;
 							// try to figure out the extension of this file
 							$filename = basename($elements["path"]);
 							$parts = explode(".", $filename);
+
 							if ( is_array($parts) && count($parts) > 0 ) {
+							
 	
 								require_once("mime.php");
 	
 								$ext = $parts[count($parts) - 1];
-								if ( $ext != "" && get_mime_from_extension($filename) != false ) {
-										$download_url .= "&amp;e=$ext";
+//								if ( $ext != "" && get_mime_from_extension($filename) != false ) {
+								if ( $ext != "" ) {
+										$download_url .= "&amp;e=.$ext";
 								}
 							}
 						}
