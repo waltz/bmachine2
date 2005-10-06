@@ -347,7 +347,7 @@ class FlatFileStore {
 		$this->store_channels($channels);
 	
 		foreach ($update_rss as $channelID) {
-			makeChannelRss($channelID);
+			makeChannelRss($channelID, false);
 		}
 
 		return true;
