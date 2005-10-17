@@ -27,7 +27,6 @@ global $text_dir;
 class FlatFileStore {
 
   var $error;
-  //	var $cache;
 
   /**
    * return the type of file store object
@@ -63,6 +62,8 @@ class FlatFileStore {
 	 * a handle to the file
 	 */
 	function getAllLock($file, $hold_lock = true, &$h ) {
+
+		//print "flat::getAllLock - $file<br>";
 
 		//error_log("getAllLock: $file - $hold_lock");
 
@@ -207,13 +208,6 @@ class FlatFileStore {
   function saveSettings( $newsettings ) {
 
     global $settings;
-
-// cjm - removing calls to is_admin - the datastore should solely handle loading and storing data,
-// not making determinations about what sort of user is logged in - let the frontend or a security layer handle that (08/15/2005)
-//    if ( !is_admin() ) {
-//      return false;
-//    }
-
     global $data_dir;
 
     $handle = fopen(  $data_dir . '/settings', "a+b" );
@@ -236,7 +230,16 @@ class FlatFileStore {
    * @returns array of files
    */
   function getAllFiles() {
-		return $this->getAll("files");
+		$tmp = $this->getAll("files");
+		
+		foreach($tmp as $f) {
+			if ( isset($f["Desc"]) ) {
+				$f["Description"] = $f["Desc"];
+				unset($f["Desc"]);
+			}
+		}
+		
+		return $tmp;
   }
 
   /**
@@ -244,7 +247,14 @@ class FlatFileStore {
    * @returns array of channels
    */
   function getFile( $hash ) {
-		return $this->getOne("files", $hash);
+		$f =  $this->getOne("files", $hash);
+
+		if ( isset($f["Desc"]) ) {
+			$f["Description"] = $f["Desc"];
+			unset($f["Desc"]);
+		}
+
+		return $f;
   }
 
 
@@ -379,14 +389,41 @@ class FlatFileStore {
    * @returns array of channels
    */
   function getAllChannels() {
-		return $this->getAll("channels");
+
+		//print "mysql::getAllChannels<br>";
+
+		$tmp = $this->getAll("channels");
+		foreach($tmp as $c) {
+			if ( isset($c["Options"]["Desc"]) ) {
+				$c["Options"]["Description"] = $c["Options"]["Desc"];
+				unset($c["Options"]["Desc"]);
+			}
+			if ( isset($c["Desc"]) ) {
+				$c["Description"] = $c["Desc"];
+				unset($c["Desc"]);
+			}
+		}
+		
+		return $tmp;
   }
 
 	/**
 	 * return the data for the specified channel
 	 */	
 	function getChannel($id) {
-		return $this->getOne("channels", $id);
+		$c = $this->getOne("channels", $id);
+
+		if ( isset($c["Options"]["Desc"]) ) {
+			$c["Options"]["Description"] = $c["Options"]["Desc"];
+			unset($c["Options"]["Desc"]);
+		}
+
+		if ( isset($c["Desc"]) ) {
+			$c["Description"] = $c["Desc"];
+			unset($c["Desc"]);
+		}
+		
+		return $c;
 	}
 
   /**
@@ -425,9 +462,7 @@ class FlatFileStore {
 		if ( $donation_id != "" && isset($donations[$donation_id]) ) {
 			$donations[$donation_id]['Files'][$id] = 1;	
 			$this->saveAll("donations", $donations, $handle);
-
-		}
-		
+		}		
 	}
 
   /**
@@ -435,8 +470,6 @@ class FlatFileStore {
    * @returns user data
    */
   function getAllUsers() {
-//		return $this->getAll("users");
-	
 		$usertmp = $this->getAll("users");
 
 		$idx = 1;
@@ -484,6 +517,12 @@ class FlatFileStore {
 		$this->saveAll("donations", $donations);
     return true;
   }
+	
+	function deleteDonation($id) {
+		$donations = 	$this->getAllDonations();
+		unset($donations[$_GET["id"]]);
+		$this->saveDonations($donations);
+	}
 
   /**
    * add a new channel to our data files
@@ -539,7 +578,7 @@ class FlatFileStore {
     $newchannels[$lastID]['Options']['Thumbnail']=true;
     $newchannels[$lastID]['Options']['Title']    =true;
     $newchannels[$lastID]['Options']['Creator']  =false;
-    $newchannels[$lastID]['Options']['Desc']     =false;
+    $newchannels[$lastID]['Options']['Description']     =false;
     $newchannels[$lastID]['Options']['Length']   =false;
     $newchannels[$lastID]['Options']['Published']=false;
     $newchannels[$lastID]['Options']['Torrent']  =false;
@@ -580,7 +619,9 @@ class FlatFileStore {
    * given an array of files, write it to the filesystem
    */
   function store_files($newcontent) {
-		$this->saveAll("files", $newcontent);
+		foreach($newcontent as $f) {
+			$this->store_file($f);		
+		}
   }
 
 	/**
@@ -671,7 +712,6 @@ class FlatFileStore {
 
 		$result = $this->saveAll("newusers", $newusers, $handle);
 		
-		
 		// some sort of error, so stop processing
 		if ( $result == false ) {
 			global $errstr;
@@ -757,6 +797,8 @@ class FlatFileStore {
 			if ( isset($users) && is_array($users) ) {
 				foreach ( $users as $user ) {
 					if ( $newusers[$filehash]['Email'] == $user['Email'] ) {
+						global $errstr;
+						$errstr = "Error: A user with that email address already exists.";
 						return false;
 					}
 				}
@@ -1613,7 +1655,7 @@ EOD;
       fclose ( $file );
     }
 
-    if ( !file_exists( $data_dir . '/channels') || count($this->getAllChannels()) <= 0  ) {
+    if ( $this->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($this->getAllChannels()) <= 0  ) ) {
       $this->addNewChannel( "First Channel" );
     }
 
