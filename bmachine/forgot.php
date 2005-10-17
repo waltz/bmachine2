@@ -59,7 +59,14 @@ if (isset($_POST["username"])) {
 		}
 	}
 
-	$store->updateUser($_POST["username"],$hash,$_POST["email"],isset($_POST["admin"]),false);
+	// grab the user so we can figure out if they are admin or not
+  $user = $store->getUser($_POST["username"]);
+
+	$store->updateUser($_POST["username"],
+											$hash,
+											$_POST["email"],
+											isset($user["IsAdmin"]) && $user["IsAdmin"] == 1 ? true : false,
+											isset($user["IsPending"]) && $user["IsPending"] == 1 ? true : false );
 
 	login($_POST["username"], $_POST["pass1"], $msg);
 	header('Location: ' . get_base_url() . 'admin.php');
