@@ -25,14 +25,26 @@ if (isset($_POST["username"])) {
 
 		$username = trim(strtolower( $_POST["username"] ));
 
-		$store->addNewUser(
+		$result = $store->addNewUser(
 			$username,
 			$_POST["pass1"],
 			encode($_POST["email"]),
 			isset($_POST["admin"]), false, $error);
+			
+		if ( $result == false ) {
+			// if we get here, there was a filesystem error or something like that
+			$msg = "Your account could not be added. <strong>" . $error . "</strong>";		
+		}
+		else {
+			$hashlink = sha1( $username . $_POST["pass1"] . $_POST["email"] );		
+			$result = $store->authNewUser( $hashlink, $username );
 
-    $hashlink = sha1( $username . $_POST["pass1"] . $_POST["email"] );		
-		$store->authNewUser( $hashlink, $username );
+			if ( $result == false ) {
+				// if we get here, there was a filesystem error or something like that
+				$msg = "Your account could not be added. <strong>" . $error . "</strong>";		
+			}
+			
+		}
 
 	}
 }
@@ -93,6 +105,11 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 }
 // End -->
 </script>
+<?php
+	if ( isset($msg) && $msg != "") {
+		print("<p class=\"error\">" . $msg . "</p>");
+	} 
+?>
 
 <div class="page_name">
 <h2>Users</h2>
