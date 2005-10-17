@@ -18,12 +18,13 @@ global $perm_level;
 // code to delete a donation setup
 //
 if ( isset($_GET["id"]) && isset($_GET["action"]) && $_GET["action"] == "delete" ) {
-	$donations = 	$store->getAllDonations();
+	$store->deleteDonation($_GET["id"]);
+/*	$donations = 	$store->getAllDonations();
 	unset($donations[$_GET["id"]]);
 	$store->saveDonations($donations);
-
+*/
 	header('Location: ' . get_base_url() . "donations.php" . "");
-	exit;
+//	exit;
 	
 }
 
