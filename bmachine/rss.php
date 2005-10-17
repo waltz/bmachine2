@@ -9,6 +9,11 @@ require_once("include.php");
 $channelID = $_GET["i"];
 
 $channels = $store->getAllChannels();
+if ( !isset($channels[$channelID]) ) {
+  header("HTTP/1.0 404 Not Found");
+	exit;
+}
+
 $channel = $channels[$channelID];
 
 header('Content-Type: application/rss+xml; charset=utf-8');
