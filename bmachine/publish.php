@@ -101,7 +101,7 @@ if (isset($_GET["i"])) {
 
 	$file_url = $file['URL'];
 	$title = $file['Title'];
-	$desc = $file['Desc'];
+	$desc = $file['Description'];
 	$image = $file['Image'];
 	$license_url = $file['LicenseURL'];
 	$license_name = $file['LicenseName'];

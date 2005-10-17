@@ -76,8 +76,8 @@ if ( isset($file['Creator']) && $file['Creator'] != "") {
   print("<div class=\"creator_name\">by " . $file["Creator"] . "</div>");
 }
 
-if ( isset($file['Desc']) && $file['Desc'] != "") {
-  print("<div class=\"video_description\">" . str_replace("\n","<br/>",$file["Desc"]) . "</div>");
+if ( isset($file['Description']) && $file['Description'] != "") {
+  print("<div class=\"video_description\">" . str_replace("\n","<br/>",$file["Description"]) . "</div>");
 }
 
 if ( isset($file['RuntimeHours']) && $file['RuntimeHours'] != "") {
@@ -277,9 +277,9 @@ function display_cc_metadata($file) {
   <dc:title><?php echo $file["Title"]; ?></dc:title>
 <?php
   }
- if ( isset($file["Desc"]) && $file["Desc"] != "" ) {
+ if ( isset($file[Description]) && $file["Description"] != "" ) {
 ?>
-  <dc:description><?php echo $file["Desc"]; ?></dc:description>
+  <dc:description><?php echo $file["Description"]; ?></dc:description>
 <?php
   }
    if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {

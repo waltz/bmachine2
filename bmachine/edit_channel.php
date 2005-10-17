@@ -79,7 +79,7 @@ if (isset($_POST['post_options'])) {
 	$channel['Options']['Thumbnail'] = isset($_POST['post_thumb']);
 	$channel['Options']['Title'] = isset($_POST['post_title']);
 	$channel['Options']['Creator'] = isset($_POST['post_creator']);
-	$channel['Options']['Desc'] = isset($_POST['post_desc']);
+	$channel['Options']['Description'] = isset($_POST['post_desc']);
 	$channel['Options']['Length'] = isset($_POST['post_length']);
 	$channel['Options']['Filesize'] = isset($_POST['post_filesize']);
 	$channel['Options']['Published'] = isset($_POST['post_published']);
@@ -163,7 +163,7 @@ foreach($channel['Sections'] as $section) {
 <li><input type="checkbox" name="post_thumb"<?php if ($channel['Options']['Thumbnail']) print(" checked=\"true\""); ?>>Thumbnail</li>
 <li><input type="checkbox" name="post_title"<?php if ($channel['Options']['Title']) print(" checked=\"true\""); ?>>Title</li>
 <li><input type="checkbox" name="post_creator"<?php if ($channel['Options']['Creator']) print(" checked=\"true\""); ?>>Creator's Name</li>
-<li><input type="checkbox" name="post_desc"<?php if ($channel['Options']['Desc']) print(" checked=\"true\""); ?>>Description</li>
+<li><input type="checkbox" name="post_desc"<?php if ($channel['Options']['Description']) print(" checked=\"true\""); ?>>Description</li>
 <li><input type="checkbox" name="post_length"<?php if ($channel['Options']['Length']) print(" checked=\"true\""); ?>>Play Length</li>
 <li><input type="checkbox" name="post_filesize"<?php if ($channel['Options']['Filesize']) print(" checked=\"true\""); ?>>File Size</li>
 <li><input type="checkbox" name="post_published"<?php if ($channel['Options']['Published']) print(" checked=\"true\""); ?>>Published Date</li>
@@ -279,7 +279,7 @@ foreach ($channel['Files'] as $file) {
 			?></div>
 
 			 <div class="video_name"><?php echo $data['Title']; ?></div>
-			 <div class="video_description"><?php echo mb_substr($data["Desc"],0,50); ?></div>
+			 <div class="video_description"><?php echo mb_substr($data["Description"],0,50); ?></div>
 
 		</div>
 		</div>

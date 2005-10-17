@@ -267,9 +267,9 @@ function display_video($filehash, $file) {
   if (isset($channel['Options']['Creator']) && $channel['Options']['Creator'] == 1 && $file["Creator"]) {
     print("<div class=\"creator_name\">by " . $file["Creator"] . "</div>\n");
   }
-  if ( isset($channel['Options']['Desc']) && $channel['Options']['Desc'] == 1 && $file["Desc"] != "" ) {
+  if ( isset($channel['Options']['Description']) && $channel['Options']['Description'] == 1 && $file["Description"] != "" ) {
     print("<div class=\"video_description\">\n");
-    print(mb_substr($file["Desc"],0,52) . "...\n</div>\n");
+    print(mb_substr($file["Description"],0,52) . "...\n</div>\n");
   }
 
   if ( isset($channel['Options']['Length']) && $channel['Options']['Length'] == 1) {

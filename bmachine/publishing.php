@@ -559,7 +559,7 @@ function publish_file($file) {
 	}
 		
 	$newcontent[$filehash]['Title'] = $title;
-	$newcontent[$filehash]['Desc'] = $desc;
+	$newcontent[$filehash]['Description'] = $desc;
 	$newcontent[$filehash]['Image'] = $image;
 	$newcontent[$filehash]['LicenseURL'] = $license_url;
 	$newcontent[$filehash]['LicenseName'] = $licenseName;
