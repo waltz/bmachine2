@@ -119,7 +119,7 @@ Sort By: <a href="edit_videos.php?sort=name">Name</a> || <a href="edit_videos.ph
 <div class="video_description">
 <?php 
 // cjm - strip tags from the description before outputing it (1201560)
-echo mb_substr(strip_tags($file["Desc"]), 0, 50); 
+echo mb_substr(strip_tags($file["Description"]), 0, 50); 
 ?>
 </div>
 
