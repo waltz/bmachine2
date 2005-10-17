@@ -23,6 +23,7 @@ ini_set('url_rewriter.tags', '');
 // make sure that magic quotes are turned off
 set_magic_quotes_runtime(0);
 
+
 //
 // if magic quotes on then get rid of them
 // see: http://us3.php.net/get_magic_quotes_gpc
@@ -45,6 +46,8 @@ if ( get_magic_quotes_gpc( ) ) {
 	$_REQUEST = array_map_recursive('stripslashes', $_REQUEST);
 
 }
+
+
 
 //
 // start session up
@@ -92,6 +95,7 @@ if ( ! isset($data_dir) ) {
   $text_dir = "text";
 }
 
+
 //
 // include files for legacy code, data storeage and file sharing
 //
@@ -100,6 +104,8 @@ require_once("datastore.php");
 require_once("mysql.php");
 require_once("seeder.php");
 
+
+global $store;
 
 /*
 	there's a couple functions in here that we might want to use
@@ -118,7 +124,7 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
     bm_footer();
     exit;
   }
-	
+		
 	if ( ! setup_helper_apps() ) {
 
 		include_once "theme.php";
@@ -131,8 +137,8 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 }
 
 // prevent page cacheing
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+//header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+//header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 
 // if we don't have a user yet, then send off to the newuser page
@@ -176,7 +182,7 @@ $can_use_cookies = true;
  * @returns install version number
  */
 function version_number() {
-	return 19;
+	return 20;
 }
 
 /**
@@ -612,7 +618,6 @@ function setup_data_directories() {
     if (!$store->setup()) {
       return false;
     }
-    
   }
 
   $seeder = new ServerSideSeeder();
@@ -1307,8 +1312,8 @@ EOF;
 					}
 	
 					// dont send a description flag if we don't have the data
-					if ( $data["Desc"] ) {
-						$sOut .= '<description>' . encode($data['Desc']) . "</description>\n";
+					if ( $data["Description"] ) {
+						$sOut .= '<description>' . encode($data['Description']) . "</description>\n";
 					}
 	
 					// cjm - get the length - is this right?
