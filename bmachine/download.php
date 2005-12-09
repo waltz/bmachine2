@@ -27,18 +27,30 @@ if ( is_admin() && !isset($_GET["c"]) ) {
 	$_GET["c"] = -1;
 }
 
+// we'll get this if doing a mod_rewrite
+if ( isset($_GET["file"]) ) {
+	$i = $store->getHashFromFilename($_GET["file"]);
+}
+else if ( isset($_GET["i"]) ) {
+	$i = $_GET["i"];
+}
 
 //
 // if the link doesnt have valid file/channel, then don't process it
 //
-if ( (!isset($_GET["i"]) || !isset($_GET["c"]) ) ) {
+if ( (!isset($i) || !isset($_GET["c"]) ) ) {
   header('HTTP/1.0 404 Not Found');
   echo "Invalid link";
   exit;
 }
 
-$file = $store->getFile($_GET["i"]);
 
+if ( stristr($i, ".") ) {
+	$tmp = split("\.", $i);
+	$i = $tmp[0];
+}
+$file = $store->getFile($i);
+	 
 if ( !isset($file) ) {
 	header("HTTP/1.0 404 Not Found");
 	print("Couldn't find your file");
@@ -53,8 +65,11 @@ if ( ! is_admin() ) {
 		die("Couldn't find channel");
 	}
 
-	if ( ! $store->channelContainsFile($_GET["i"], $channel) ) {
-		die("Wrong channel for this file!");
+	if ( ! $store->channelContainsFile($i, $channel) ) {
+		header("HTTP/1.0 404 Not Found");
+		print("Couldn't find your file");
+		exit;
+//		die("Wrong channel for this file!");
 	}
 
 }
@@ -139,7 +154,7 @@ front_header($file["Title"] . ": Download",
 	     $onload);
 
 draw_detect_scripts();
-draw_download_link($file, $channel); 
+draw_download_link($file, $channel, $i); 
 
 front_footer($_GET["c"]);
 
@@ -188,11 +203,13 @@ if ( is_local_file($file["URL"] ) ) {
 header('Location: ' . linkencode($file["URL"]));
 */
 
-function draw_download_link($file, $channel) {
+function draw_download_link($file, $channel, $i) {
 
   //  $file = preg_replace('/^(.*)\.torrent$/','\\1',$filename);
-$filename = $file["Title"];
-$url = "download.php?c=" . $_GET["c"] . "&i=" . $_GET["i"];
+	$filename = $file["Title"];
+	//$url = "download.php?c=" . $_GET["c"] . "&i=" . $i;
+	$url = download_link($_GET["c"], $i, true);
+  $url = str_replace("&amp;", "&", $url);
 
 ?>
 <script  language="JavaScript" type="text/javascript" ><!--
@@ -236,7 +253,8 @@ else {
 function sendTorrent() {
   if (hasBlogTorrent()) {
 
-    myurl = "<?php echo get_base_url() . $url; ?>";
+    myurl = "<?php echo $url; ?>";
+
     if ( hasWindows() ) {
       myurl = myurl + "&type=exe";
     }
@@ -246,6 +264,7 @@ function sendTorrent() {
     else {
       myurl = myurl + "&type=torrent";
     }
+		//alert(myurl);
 		window.open(myurl, 'download', 'width=300,height=200');
   }
 }
