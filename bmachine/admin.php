@@ -7,8 +7,14 @@
 
 require_once("include.php");
 require_once("theme.php");
+require_once("version.php");
 
 requireUserAccess();
+
+if ( ! is_admin() ) {
+	header("Location: " . get_base_url() );
+	exit;
+}
 
 function mycomp($a, $b) {
 	return ($b["Created"] - $a["Created"]);
@@ -30,6 +36,18 @@ bm_header();
 </div>
 
 <?php
+	// check to see if the datastore version is the same as the stated version of BM -
+	// if not, we will ask the user to upgrade
+	if ( get_datastore_version() != get_version() ) {
+?>
+<h4 style="color: #c00">Time to Upgrade!</h4>
+<p>
+It looks like you've uploaded a new copy of Broadcast Machine.  Please <a href="upgrade.php">Click Here</a>
+to do any required maintenance.
+</p>
+
+<?php
+	}
 
 	// do a check here to make sure we can write to the filesystem.  we
 	// could do this globally, on every single page, but for security reasons,
@@ -112,7 +130,6 @@ security risk.  You should take steps to make sure that those files aren't downl
 <div id="alerts_activity">
 
 <?php
-
 if (is_admin()) {
 
 	$pendingCount = 0;
