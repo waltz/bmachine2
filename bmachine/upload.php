@@ -22,42 +22,41 @@ global $store;
  * this to stay here too long
  */
 if ( isset($_POST["Hash"]) ) {
-	$hash = $_POST["Hash"];
+  $hash = $_POST["Hash"];
 }
 else if ( isset($_POST["hash"]) ) {
-	$hash = $_POST["hash"];
+  $hash = $_POST["hash"];
 }
-
 
 if (
-	!isset($_FILES["Torrent"]) ||
-  !( isset($hash) && $store->isValidAuthHash($_POST["Username"], $hash) )
-	) {
-
-	global $data_dir;
-	$handle = fopen($data_dir . '/' . $hash . '.error', "wb+");
-	if ( $handle ) {
-		fwrite($handle, "This upload is not authorized.");
-		fclose($handle);
-	}
-	
+    !isset($_FILES["Torrent"]) ||
+    !( isset($hash) && $store->isValidAuthHash($_POST["Username"], $hash) )
+    ) {
+  
+  global $data_dir;
+  $handle = fopen($data_dir . '/' . $hash . '.error', "wb+");
+  if ( $handle ) {
+    fwrite($handle, "This upload is not authorized.");
+    fclose($handle);
+  }
+  
   header("HTTP/1.0 404 Not Found");
   die("Upload failed");
-
-} 
-else {
-
-  if (isset($hash)) {
-    $store->dropAuthHash($_POST["Username"],$hash,$_FILES['Torrent']['name']);
-  }
-
-  $torrent = bdecode(file_get_contents($_FILES['Torrent']['tmp_name']));
-
-  if (isset($torrent['sha1'])) {
-    $store->addTorrentToTracker($_FILES['Torrent']['tmp_name'],$_FILES['Torrent']['name']);
-	}
-
-}
+  
+ } 
+ else {
+   
+   if (isset($hash)) {
+     $store->dropAuthHash($_POST["Username"],$hash,$_FILES['Torrent']['name']);
+   }
+   
+   $torrent = bdecode(file_get_contents($_FILES['Torrent']['tmp_name']));
+   
+   if (isset($torrent['sha1'])) {
+     $store->addTorrentToTracker($_FILES['Torrent']['tmp_name'],$_FILES['Torrent']['name']);
+   }
+   
+ }
 
 
 
