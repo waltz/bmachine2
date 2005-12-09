@@ -49,11 +49,47 @@ function is_valid_mimetype($type = "text/html") {
 	return false;
 }
 
+function max_upload_size() {
+	$val = ini_get("upload_max_filesize");
+	$val = trim($val);
+	$last = strtolower($val{strlen($val)-1});
+	switch($last) {
+		 // The 'G' modifier is available since PHP 5.1.0
+		 case 'g':
+				 $val *= 1024;
+		 case 'm':
+				 $val *= 1024;
+		 case 'k':
+				 $val *= 1024;
+	}
+	return $val;
+}
+/**
+ * given the $_FILES data for an uploaded file, figure out if it uploaded okay.
+ * right now that is just a check to make sure it isn't exactly the 
+ * file upload limit for PHP.
+ */
+function good_upload($file) {
+	$max_filesize = max_upload_size();
+	$upload_length = filesize( $file['tmp_name'] );
+	// $_FILES['userfile']['tmp_name']
+	//print_r($file);
+
+//	print "$upload_length >= $max_filesize || " . $file['size'] . ">= $max_filesize";
+//	exit;
+
+	if ( $upload_length >= $max_filesize || $file['size'] >= $max_filesize || $file['size'] == 0 ) {
+		return false;
+	}
+
+	return true;	
+}
+
+
 /**
  * publish a file from POST input
  */
 function publish_file($file) {
-	
 	//
 	// if the user doesn't have upload access, then stop right here
 	//
@@ -276,7 +312,14 @@ function publish_file($file) {
 	//
 	// this is set if the user is uploading a file using http upload
 	//
-	else if (isset($_FILES["post_file_upload"]) && $_FILES["post_file_upload"]["size"] > 0 && $file["post_use_upload"] == 1 ) {
+	else if (isset($_FILES["post_file_upload"]) && $file["post_use_upload"] == 1 ) {
+//&& $_FILES["post_file_upload"]["size"] > 0 
+
+		if ( good_upload($_FILES['post_file_upload']) == false ) {
+			global $errorstr;
+			$errorstr = "SIZE";
+			return false;
+		}
 
 		if (!file_exists('torrents')) {
 			mkdir("torrents",$perm_level);
@@ -524,14 +567,15 @@ function publish_file($file) {
 		}
 	}
 
+
 	//
 	// create a new file entry, load in our data, and save it
 	//
-	$newcontent = $store->getAllFiles();
+	$newcontent = $store->getFile($filehash);
 
 	// grab our old donation_id - if it was set, then we'll unset it if needed
-	if ( isset($newcontent[$filehash]) && isset($newcontent[$filehash]['donation_id']) ) {
-		$old_donation_id = $newcontent[$filehash]['donation_id'];
+	if ( isset($newcontent) && isset($newcontent['donation_id']) ) {
+		$old_donation_id = $newcontent['donation_id'];
 	}
 	else {
 		$old_donation_id = "";
@@ -540,61 +584,70 @@ function publish_file($file) {
 	// keep track of if this is a posted URL, or a torrent/uploaded file.  posted URLs
 	// will have slightly different logic - we won't check to see if they are files
 	// under the control of Broadcast Machine
-	if ( ! isset($newcontent[$filehash]) && isset($is_external) ) {	
-		$newcontent[$filehash]["External"] = $is_external ? 1 : 0;
+	if ( ! isset($newcontent) && isset($is_external) ) {	
+		$newcontent["External"] = $is_external ? 1 : 0;
 	}
 
 
 	// cjm - started adding this to the actual data - 8/7/2005
-	$newcontent[$filehash]['ID'] = $filehash;
+	$newcontent['ID'] = $filehash;
+	$newcontent['URL'] = $file_url;
 
-	$newcontent[$filehash]['URL'] = $file_url;
+	//
+	// use the actual filename if we have it - we'll use this in download.php for prettier filenames
+	//
 	global $actual_fname;
-	
+	if ( (!isset($actual_fname) || $actual_fname == "") && 
+		isset($file["actual_fname"])
+		) {
+		$actual_fname = $file["actual_fname"];
+	}
+
 	if ( isset($actual_fname) && $actual_fname != "" ) {
-		$newcontent[$filehash]['FileName'] = encode($actual_fname);	
+		$newcontent['FileName'] = encode($actual_fname);	
 	}
 	else if ( isset($file['actual_fname']) && $file['actual_fname'] != "" ) {
-		$newcontent[$filehash]['FileName'] = encode($file['actual_fname']);
+		$newcontent['FileName'] = encode($file['actual_fname']);
 	}
 		
-	$newcontent[$filehash]['Title'] = $title;
-	$newcontent[$filehash]['Description'] = $desc;
-	$newcontent[$filehash]['Image'] = $image;
-	$newcontent[$filehash]['LicenseURL'] = $license_url;
-	$newcontent[$filehash]['LicenseName'] = $licenseName;
-	$newcontent[$filehash]['Creator'] = $creator;
-	$newcontent[$filehash]['Rights'] = $rights;
-	$newcontent[$filehash]['Keywords'] = $keywords;
-	$newcontent[$filehash]['People'] = $people;
-	$newcontent[$filehash]['Webpage'] = $webpage;
-	$newcontent[$filehash]['Mimetype'] = trim($mimetype);
-	$newcontent[$filehash]['RuntimeHours'] = $runtime_hours;
-	$newcontent[$filehash]['RuntimeMinutes'] = $runtime_minutes;
-	$newcontent[$filehash]['RuntimeSeconds'] = $runtime_seconds;
-	$newcontent[$filehash]['Publishdate'] = $publish_date;
-	$newcontent[$filehash]['ReleaseYear'] = $release_year;
-	$newcontent[$filehash]['ReleaseMonth'] = $release_month;
-	$newcontent[$filehash]['ReleaseDay'] = $release_day;
-	$newcontent[$filehash]['Transcript'] = $transcript_url;
-	$newcontent[$filehash]['Explicit'] = $explicit;
-	$newcontent[$filehash]['Excerpt'] = $excerpt;
-	$newcontent[$filehash]['donation_id'] = $donation_id;
-	$newcontent[$filehash]['Created'] = $create_date;
+	$newcontent['Title'] = $title;
+	$newcontent['Description'] = $desc;
+	$newcontent['Image'] = $image;
+	$newcontent['LicenseURL'] = $license_url;
+	$newcontent['LicenseName'] = $licenseName;
+	$newcontent['Creator'] = $creator;
+	$newcontent['Rights'] = $rights;
+	$newcontent['Keywords'] = $keywords;
+	$newcontent['People'] = $people;
+	$newcontent['Webpage'] = $webpage;
+	$newcontent['Mimetype'] = trim($mimetype);
+	$newcontent['RuntimeHours'] = $runtime_hours;
+	$newcontent['RuntimeMinutes'] = $runtime_minutes;
+	$newcontent['RuntimeSeconds'] = $runtime_seconds;
+	$newcontent['Publishdate'] = $publish_date;
+	$newcontent['ReleaseYear'] = $release_year;
+	$newcontent['ReleaseMonth'] = $release_month;
+	$newcontent['ReleaseDay'] = $release_day;
+	$newcontent['Transcript'] = $transcript_url;
+	$newcontent['Explicit'] = $explicit;
+	$newcontent['Excerpt'] = $excerpt;
+	$newcontent['donation_id'] = $donation_id;
+	$newcontent['Created'] = $create_date;
 
 	// we'll only do this mime check the first time we try and save a file,
 	// so force it to be set after that
-	$newcontent[$filehash]['ignore_mime'] = 1;
+	$newcontent['ignore_mime'] = 1;
 	
-	$newcontent[$filehash]['SharingEnabled'] = $sharing_enabled;
+	$newcontent['SharingEnabled'] = $sharing_enabled;
 
-	if (!isset($newcontent[$filehash]['Publisher'])) {
+	if (!isset($newcontent['Publisher'])) {
 		if (isset($_SESSION['user']['Name'])) {
-			$newcontent[$filehash]['Publisher'] = $_SESSION['user']['Name'];
+			$newcontent['Publisher'] = $_SESSION['user']['Name'];
 		}
 	}
 
-	$store->store_files($newcontent);
+//error_log("HERE");
+	$store->store_file($newcontent, $filehash);
 
 	//
 	// add to the donation setup, if it exists
@@ -615,15 +668,22 @@ function publish_file($file) {
 
 	foreach ($channels as $channel) {
 		if (is_admin() || $channel["OpenPublish"]) {
-			$keys = array_keys($channel['Files']);
+//		print_r($channel['Files']);
+//			$keys = array_keys($channel['Files']);
+			$keys = $channel['Files'];
 
 			//
 			// first, unset any channels that this was published to
 			//
-			foreach ($keys as $key) {
-				$file = $channel['Files'][$key];
-				if ($file[0] == $filehash) {
-					unset($channel['Files'][$key]);
+			foreach ($keys as $key_id => $key) {
+//				$file = $channel['Files'][$key];
+//				if ($file[0] == $filehash) {
+
+				if ($key[0] == $filehash) {
+//					print "REMOVE FROM $key_id: $channel - $filehash<br>";
+					$store->removeFileFromChannel($channel, $filehash, $key_id);
+//					unset($channel['Files'][$key]);
+					unset($channel['Files'][$key_id]);
 				}
 			}
 	
@@ -639,6 +699,7 @@ function publish_file($file) {
 					foreach ($keys as $key) {
 						$file = $channel['Sections'][$section]['Files'][$key];
 						if ($file == $filehash) {
+							$store->removeFileFromChannelSection($channel, $section, $key);
 							unset($channel['Sections'][$section]['Files'][$key]);
 						}
 					}
@@ -650,29 +711,35 @@ function publish_file($file) {
 		}
 	}
 
-	$store->store_channels($channels);
-	$channels = $store->getAllChannels();
+		//	exit;
+
+//	$store->saveChannels($channels);
+//	$channels = $store->getAllChannels();
 
 
 	if ( isset($channelIDs) && count($channelIDs) > 0 ) {
 		foreach ($channelIDs as $channelID) {
 		
 			if ($channelID != '') {
+			
+				//
+				// add the file to the channel
+				//
 				if (is_admin() || $channels[$channelID]["OpenPublish"]) {
 					$channels[$channelID]["Files"][] = array($filehash, $publish_date);
+					$store->saveChannel($channels[$channelID]);
 				}
+
+				//
+				// generate new RSS feeds for any channels we just re-published
+				//
+				makeChannelRss($channelID);
+
 			}
 		}
 		
-		$store->store_channels($channels);
+//		$store->saveChannels($channels);
 	
-		//
-		// generate new RSS feeds for any channels we just re-published
-		//
-		$channels = $store->getAllChannels();
-		foreach ($channelIDs as $channelID) {
-			makeChannelRss($channelID);
-		}
 	}
 
 	global $seeder;
