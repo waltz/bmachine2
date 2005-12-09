@@ -525,24 +525,26 @@ EOD;
 		flock($fp,LOCK_EX);
 	
 		foreach ($torrents as $torrentfile) {
-			$torrentfile = $torrents_dir . "/$torrentfile";
-			$torrent = bdecode(file_get_contents($torrentfile));
-
-			if (is_array($torrent)) {
-				$stats = $this->getSpawnStatus($torrent["sha1"]);
-
-				if (count($stats)>0) {
-					$pids[] = $stats["process id"];
-				}
-
-				if (!preg_match('/(\/|^\.\.)/',$torrent["info"]["name"])) {
-					$delete[] = $data_dir . "/seedfiles/".$torrent["info"]["name"];
-				}
-
-				$delete[] = $data_dir . "/".$torrent["sha1"].".status";
-			}
-		}
-	
+      if ( file_exists($torrents_dir . "/$torrentfile") ) {
+        $torrentfile = $torrents_dir . "/$torrentfile";
+        $torrent = bdecode(file_get_contents($torrentfile));
+        
+        if (is_array($torrent)) {
+          $stats = $this->getSpawnStatus($torrent["sha1"]);
+          
+          if (count($stats)>0) {
+            $pids[] = $stats["process id"];
+          }
+          
+          if (!preg_match('/(\/|^\.\.)/',$torrent["info"]["name"])) {
+            $delete[] = $data_dir . "/seedfiles/".$torrent["info"]["name"];
+          }
+          
+          $delete[] = $data_dir . "/".$torrent["sha1"].".status";
+        }
+      }
+    }
+    
 		$this->stop_by_pid_array($pids);
 
 		foreach ($delete as $delme) {
