@@ -22,13 +22,11 @@ if ( !isset($channel) ) {
 // delete a section for this channel
 if (isset($_GET['d'])) {
 
-	$channels = $store->getAllChannels();
-
 	unset($channel['Sections'][$_GET["s"]]);
 	unset($_GET['s']);
 
-	$channels[$_GET["i"]] = $channel;
-	$store->store_channels($channels);
+//	$channels[$_GET["i"]] = $channel;
+	$store->saveChannel($channel);
 }
 
 $do_update = false;
@@ -48,11 +46,7 @@ if (isset($_POST['file_array'])) {
 
 	$channel['Sections'][$_GET["s"]] = $section;
 
-//	$channels = $store->getAllChannels();
-//	$channels[$_GET["i"]] = $channel;
-//	$store->store_channels($channels);
-
-	$store->store_channel($channel);
+	$store->saveChannel($channel);
 }
 
 if (isset($_POST['post_section'])) {
@@ -64,9 +58,9 @@ if (isset($_POST['post_section'])) {
 	$sections[$_POST['post_section']]['Files'] = array();
 
 	$channel['Sections'] = $sections;
-	$channels[$_GET["i"]] = $channel;
+//	$channels[$_GET["i"]] = $channel;
 
-	$store->store_channels($channels);
+	$store->saveChannel($channel);
 }
 
 
@@ -99,7 +93,7 @@ if (isset($_POST['post_options'])) {
 
 	$channel['CSSURL'] = $css;
 	
-	$store->store_channel($channel);
+	$store->saveChannel($channel);
 }
 
 if ( $do_update ) {
