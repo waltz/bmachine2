@@ -9,6 +9,7 @@
  */
 
 
+
 //
 // mime-checking function
 // (see http://us4.php.net/mime_content_type)
@@ -175,7 +176,8 @@ if(!function_exists('get_headers')) {
    		$old_error_level = error_reporting(0);
    
        $url_info = parse_url($url);
-	   
+//	   print_r($url_info);
+
 	   if ( $url_info["scheme"] != "http" ) {
 			return false;
 	   }
@@ -237,46 +239,8 @@ if(!function_exists('get_headers')) {
    }
 }
 
-if ( !function_exists("mb_substr") ) {
-
-	function mb_substr($str, $start = 0) {
-
-		if( func_num_args() >= 3 ) {
-			$end = func_get_arg(2);
-		} 
-		else {
-			$end = strlen($str) - $start;
-		}
-		
-		$chars = 0;
-		
-		$start_pos = -1;
-		$end_pos = strlen($str);
-		
-		$total = $end - $start;
-		
-		// if this doesn't look like UTF, then just parse like a normal string
-		if (!preg_match('/\&#[0-9]*;.*/i', $str)) {
-			 $rVal = substr($str, $start, $end);
-			 return $rVal;
-		}
-		
-		$stuff = split(' ', $str);
-
-		$output = "";
-		foreach($stuff as $wordstr) {
-
-			$chars += substr_count($wordstr, '&');
-			$output = $output . $wordstr;
-
-			if ($chars >= $total ) {
-				break;
-			}
-			
-			$output = $output . " ";
-		}			
-
-		return $output;
-	}
+// multibyte functions that we need for UTF stuff
+if ( !function_exists("mb_substr") || !function_exists("mb_substr") ) {
+	include_once("mb.php");
 }
 ?>
