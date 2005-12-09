@@ -246,6 +246,16 @@ margin-left: 0;
 	margin-bottom: 10px;
 }
 
+#file_errors {
+	line-height: 150%;
+	font-size: 14px;
+	background-color: #E0E2ED;
+	background-color: #FFFFD1;
+	padding: 5px;
+	margin-bottom: 10px;
+	border: 2px solid #f00;
+}
+
 /* ----- AUTO FILL -------- */
 #auto_fill {
 	line-height: 150%;

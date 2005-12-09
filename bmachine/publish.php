@@ -11,6 +11,8 @@ require_once("include.php");
 require_once("theme.php");
 require_once("publishing.php");
 
+
+
 //
 // don't let the user access this page if they don't have the permission to upload
 //
@@ -643,12 +645,17 @@ global $errorstr;
 global $do_mime_check;
 
 if ( isset($errorstr) ) {
-
 	//
 	// CJM - make this much more annoying somehow so that users see it
 	//
 	if ( $errorstr == "404" ) {
-		$errorstr = "<p><strong>Error: Sorry, it looks like your file isn't at the URL you specified.  <a href='javascript:submit_force();'>Click here</a> to save the file anyway.</strong></p>";
+		$errorstr = "<div id=\"file_errors\"><strong>Error: Sorry, it looks like your file isn't at the URL you specified.  <a href='javascript:submit_force();'>Click here</a> to save the file anyway.</strong></div>";
+	}
+	else if ( $errorstr == "SIZE" ) {
+		$errorstr = "<div id=\"file_errors\">
+		<strong>Error:</strong> Your file was larger than the maximum allowed size of " . ini_get("upload_max_filesize") . "<br />
+		Please try posting the file as a torrent or uploading it manually, then linking to it.		
+		</div>";
 	}
 	else if ( $errorstr == "MIME" && $do_mime_check == true ) {
 		$errorstr = build_mime_chooser();
@@ -690,7 +697,8 @@ Specify URL: <input type="text" name="post_file_url" size="60" value="<?php echo
 depending on the file size.  The file upload will begin when you click "Publish".  Please be patient 
 and do not touch the browser while your file is uploading.  Also be aware that servers sometimes have 
 a limit on the maximum size of an uploaded file.  For files larger than 2 or 3 megabytes, we generally 
-recommend either posting a torrent or using an FTP program and then linking to the file.
+recommend either posting a torrent or using an FTP program and then linking to the file.<br />
+The maximum upload size on this server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>
 </div>
     </fieldset>
 
@@ -737,6 +745,8 @@ else if ( is_local_file($file_url) ) {
 ?>
 
 <div style="color: #A00;">Uploaded "<?php echo $filename; ?>".<br /> </div>
+<input type="hidden" name="actual_fname" value="<?php echo $filename; ?>" class="hidden">
+
 <?php
 }
 else {
