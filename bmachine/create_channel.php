@@ -65,8 +65,9 @@ if (isset($_POST['post_title'])) {
 		}
 		$channel["OpenPublish"] = isset($_POST['post_open']);
 		$channel["RequireLogin"] = isset($_POST['RequireLogin']);
+		$channel["NotPublic"] = isset($_POST['NotPublic']);
 
-		$store->store_channel($channel);
+		$store->saveChannel($channel);
 
 		if (file_exists("publish/" . $_POST["post_id"] . ".rss")) {
 			unlink_file("publish/" . $_POST["post_id"] . ".rss");
@@ -116,6 +117,8 @@ if (isset($_GET["i"])) {
 	// the checkbox was activated
 	$RequireLogin = isset($channel["RequireLogin"]) && $channel["RequireLogin"] == true;
 
+	$NotPublic = isset($channel["NotPublic"]) && $channel["NotPublic"] == true;
+
 	if (stristr($url,get_base_url())) {
 		$url = '';
 	}
@@ -131,6 +134,7 @@ else {
 	$url = '';
 	$id = '';
 	$RequireLogin = false;
+	$NotPublic = false;
 }
 
 
@@ -195,6 +199,13 @@ if ($open) {
 
 <fieldset><div class="the_legend">Require Users to Login to View: </div><input type="checkbox" name="RequireLogin" <?php
 if ($RequireLogin) {
+	echo " checked=\"true\"";
+}
+?>/></fieldset>
+
+<fieldset><div class="the_legend">Hide Channel From Public: </div>
+<input type="checkbox" name="NotPublic" <?php
+if ($NotPublic) {
 	echo " checked=\"true\"";
 }
 ?>/></fieldset>
