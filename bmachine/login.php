@@ -20,7 +20,7 @@ else if (isset($_GET['hash'])) {
 
 	$newuser = 0;
 	$hashlink = $_GET['hash'];
-	$username = trim(strtolower( $_GET['username'] ));
+	$username = trim(mb_strtolower( $_GET['username'] ));
 
 	global $store;
 	if ($store->authNewUser($hashlink,$username)) {
@@ -30,7 +30,7 @@ else if (isset($_GET['hash'])) {
 }
 else {
 
-	$username = (isset($_POST['username'])) ? strtolower($_POST['username']) : '';
+	$username = (isset($_POST['username'])) ? mb_strtolower($_POST['username']) : '';
 	$password = (isset($_POST['password'])) ? $_POST['password'] : '';
 	$do_http_auth = (isset($_GET["httpauth"])) ? $_GET["httpauth"] : 0;
 	$login = 0;
@@ -84,8 +84,14 @@ else {
 ?>
 
 <form action="login.php" method="post" accept-charset="utf-8, iso-8859-1">
-<div class="login_field"><div class="login_label">Alias:</div> <input type="text" size="20" tabindex="1" name="username" value="<?php echo htmlspecialchars($username); ?>" /></div>
-<div class="login_field"><div class="login_label">Password:</div> <input type="password" name="password" value="" size="20" tabindex="2" /></div>
+<div class="login_field">
+<div class="login_label">Alias:</div> 
+<input type="text" size="20" tabindex="1" name="username" value="<?php echo $username; ?>" />
+</div>
+<div class="login_field">
+<div class="login_label">Password:</div> 
+<input type="password" name="password" value="" size="20" tabindex="2" />
+</div>
 
 <div class="spacer">&nbsp;</div>
 <p class="submit">
