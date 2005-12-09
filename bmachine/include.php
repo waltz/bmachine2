@@ -8,6 +8,8 @@
  * @package Broadcast Machine
  */
 
+//error_reporting(E_ALL);
+//ini_set('errors.display_errors', true);
 
 // you could also put this in a .htaccess file
 // php_flag session.use_trans_sid off
@@ -53,7 +55,6 @@ if ( get_magic_quotes_gpc( ) ) {
 // start session up
 //
 session_cache_limiter('none');
-session_name("BMSESSID");
 session_start();
 
 //
@@ -101,7 +102,6 @@ if ( ! isset($data_dir) ) {
 //
 require_once("legacylib.php");
 require_once("datastore.php");
-require_once("mysql.php");
 require_once("seeder.php");
 
 
@@ -134,11 +134,15 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
     bm_footer();
 		exit;
 	}	
+
 }
 
 // prevent page cacheing
 //header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 //header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+
+// send all content as utf-8
+header("Content-type: text/html; charset=UTF-8");
 
 
 // if we don't have a user yet, then send off to the newuser page
@@ -152,8 +156,8 @@ if ( !(isset($NEW_USER) && $NEW_USER == 1) && isset($store) && count($store->get
 	exit;
 }
 
-
-if ( isset($_COOKIE[$usercookie]) && !isset($_SESSION["user"]) ) {
+if ( !( isset($skip_setup) && $skip_setup == 1 ) &&
+	isset($_COOKIE[$usercookie]) && !isset($_SESSION["user"]) ) {
 
 	global $store;
 	global $usercookie;
@@ -176,6 +180,7 @@ if ( isset($_COOKIE[$usercookie]) && !isset($_SESSION["user"]) ) {
 //
 global $can_use_cookies;
 $can_use_cookies = true;
+
 
 /**
  * return the version number of this install
@@ -382,6 +387,7 @@ function login($username,$password,&$error, $set_cookies = true) {
 	}
 
 	$users = $store->getAllUsers();
+	$username = trim(mb_strtolower($username));
 
 	if (!isset($users[$username])) {
 		$error = "User &quot;" . $username . "&quot; does not exist.";
@@ -610,19 +616,28 @@ function setup_data_directories() {
 
   global $store;
   global $seeder;
-	
-  $store = new MYSqlStore();
 
-  if (!$store->setup()) {
-    $store = new FlatFileStore();
-    if (!$store->setup()) {
-      return false;
-    }
+  // TODO - might get rid of this
+  if ( isset($store) && $store != null ) {
+    return $store;
+  }
+
+  $store = new DataStore();
+	
+	if ( !isset($store) || $store->is_setup == false ) {
+		return false;
+	}
+
+	$store->init();
+
+  global $data_dir;
+  if ( $store->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($store->getAllChannels()) <= 0  ) ) {
+    $store->addNewChannel( "First Channel" );
   }
 
   $seeder = new ServerSideSeeder();
   $seeder->setup();
-	
+
   return true;
 }
 
@@ -1146,8 +1161,16 @@ function comp($a, $b) {
  * @returns formatted string
  */
 function encode($s) {
-//	return utf8_encode(htmlentities($s, ENT_NOQUOTES, "UTF-8"));
-	return html_encode_utf8(htmlentities(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8"));
+//	return html_encode_utf8(htmlentities(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8"));
+//	return htmlentities(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8");
+
+	//$tmp = htmlspecialchars(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8");
+	//return preg_replace('/&amp;#(x[a-f0-9]+|[0-9]+);/i', '&#$1;', $tmp);
+
+	// this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
+	// and fixes the problem of htmlspecialchars replacing & with &amp and breaking character entities
+//	return html_encode_utf8(preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", htmlspecialchars(strip_tags($s, "<b><strong><i><em><ul>"))));
+	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
 }
 
 /**
@@ -1155,7 +1178,6 @@ function encode($s) {
  * @returns filesize
  */
 function get_filesize($tmpurl) {
-
 	//
 	// if this is a local file, then let's get the size info from the filesystem
 	//
@@ -1285,19 +1307,21 @@ EOF;
 		foreach ($channel_files as $file) {
 		
 			if (array_key_exists($file[0], $files)) {
-	
+
 				$data = $files[$file[0]];
 	
 				if ($data["Publishdate"] <= time()) {
 				
-					$detail_link = $base_url . 'detail.php?c=' . $channel["ID"] . '&amp;i=' . $file[0];
+//					$detail_link = $base_url . 'detail.php?c=' . $channel["ID"] . '&amp;i=' . $file[0];
+					$detail_link = detail_link($channel["ID"], $file[0]);
 					$sOut .= '<item><title>' . encode($data['Title']) . '</title>
+
 					<link>' . $detail_link . '</link>
 					<guid isPermaLink="false">' . $file[0] . '</guid>';
 					
 					if ( isset($data["donation_id"]) && $data["donation_id"] != "" ) {
 						$sOut .= "\n";
-	
+
 						$donations = $store->getAllDonations();
 	
 						if ( isset(	$donations[$data["donation_id"]]["text"]) ) {
@@ -1306,9 +1330,7 @@ EOF;
 							// see http://participatoryculture.org/wiki/index.php?title=RSS_Extensions
 							$sOut .= "<dtvmedia:paymentLink><![CDATA[" . $donate_text . "]]></dtvmedia:paymentLink>\n";
 						
-						}
-	
-					
+						}					
 					}
 	
 					// dont send a description flag if we don't have the data
@@ -1319,41 +1341,17 @@ EOF;
 					// cjm - get the length - is this right?
 					$tmpurl = $files[$file[0]]["URL"];
 					$length = get_filesize($tmpurl);
-					
 					// ensure we have a positive length, which we need to produce valid rss
 					if ( $length <= 0 ) {
 						$length = 1;
 					}
 	
 	
-					$download_url = $base_url . 'download.php?c=' . $channelID . '&amp;i=' . $file[0] . '&amp;type=direct';
+//					$download_url = $base_url . 'download.php?c=' . $channelID . '&amp;i=' . $file[0] . '&amp;type=direct';
+					$download_url = download_link($channelID, $file[0] );
+			
+					$sOut .= "<enclosure url=\"$download_url\" ";
 
-					if ( is_local_torrent($tmpurl) ) {
-							$download_url .= "&amp;e=.torrent";					
-					}	
-					else {
-						$elements = @parse_url($tmpurl);
-						if ( isset($elements["path"]) ) {
-							// try to figure out the extension of this file
-							$filename = basename($elements["path"]);
-							$parts = explode(".", $filename);
-
-							if ( is_array($parts) && count($parts) > 0 ) {
-							
-	
-								require_once("mime.php");
-	
-								$ext = $parts[count($parts) - 1];
-//								if ( $ext != "" && get_mime_from_extension($filename) != false ) {
-								if ( $ext != "" ) {
-										$download_url .= "&amp;e=.$ext";
-								}
-							}
-						}
-					}  // else
-	
-					$sOut .= '<enclosure url="' . $download_url . '" ';
-	
 					// sometimes the mime-type comes with some extra data (like the charset)
 					// make sure we remove that here
 					if ( $data["Mimetype"] ) { 
@@ -1398,8 +1396,10 @@ EOF;
 		
 			}
 		
-		}
-	}
+		} // foreach
+
+	} // is_array
+
 
 	// if we have a thumbnail, go ahead and display it
 	if ( isset($channel["Icon"]) && $channel["Icon"] != "" ) {
@@ -1413,7 +1413,7 @@ EOF;
 
 	$sOut .= '</channel>';
 	$sOut .= '</rss>';
-	
+
 	$handle = fopen($rss_dir . "/" . $channelID . ".rss", "a+b");
 	flock($handle,LOCK_EX);
 	fseek($handle,0);
@@ -1490,8 +1490,8 @@ function displayChannelRSS($channelID) {
  * @returns true/false
  */
 function beginsWith( $str, $sub ) {
-	$str = strtolower($str);
-	$sub = strtolower($sub);
+	$str = mb_strtolower($str);
+	$sub = mb_strtolower($sub);
   return ( substr( $str, 0, strlen( $sub ) ) == $sub );
 }
 
@@ -1500,8 +1500,8 @@ function beginsWith( $str, $sub ) {
  * @returns true/false
  */
 function endsWith( $str, $sub ) {
-	$str = strtolower($str);
-	$sub = strtolower($sub);
+	$str = mb_strtolower($str);
+	$sub = mb_strtolower($sub);
    return ( substr( $str, strlen( $str ) - strlen( $sub ) ) == $sub );
 }
 
@@ -1511,14 +1511,13 @@ function endsWith( $str, $sub ) {
  * @returns length, and sets $errstr if something goes wrong - like a 404
  */
 function get_content_length( $file_url, &$errstr ) {
+	$headers = @get_headers($file_url, 1);
 
-	$headers = get_headers($file_url, 1);
-	
 	if ( ! $headers || stristr($headers[0], "404") != 0 ) {
 		$errstr = "404";
 		return 0;
 	}
-	
+
 	if ( isset($headers["content-length"]) ) {
 		return $headers["content-length"];
 	}
@@ -1715,6 +1714,127 @@ function is_process_running($p) {
 	$pid = @exec("ps -p $p");
 	$result = strpos($pid, $p);
 	return stristr($pid, $p) ? true : false;
+}
+
+/**
+ * try to figure out the extension of this file
+ */
+function get_extension_from_url($tmpurl) {
+
+	if ( is_local_torrent($tmpurl) ) {
+		return "torrent";					
+	}
+	else {
+
+		$elements = @parse_url($tmpurl);
+		if ( isset($elements["path"]) ) {
+			$filename = basename($elements["path"]);
+			$parts = explode(".", $filename);
+		
+			if ( is_array($parts) && count($parts) > 0 ) {
+				require_once("mime.php");
+		
+				$ext = $parts[count($parts) - 1];
+		
+				if ( $ext != "" ) {
+						return $ext;
+				}
+			} // if ( parts > 0 )
+		} // if elements["path"]
+	}
+
+	return "";
+}
+
+function download_link($channel_id, $hash, $force_no_rewrite = false) {
+	global $settings;
+	global $store;
+
+	$file = $store->getFile($hash);
+	$ext = get_extension_from_url($file["URL"]);
+
+	if ( $ext != "" ) {
+		$ext = ".$ext";
+	}
+
+	if ( $force_no_rewrite == false && isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
+		$url = get_base_url() . "download/$channel_id/$hash$ext";
+	}
+	else {
+		$url = get_base_url() . "download.php?c=" . $channel_id . "&amp;i=" . $hash . "&amp;e=$ext";
+	}
+	
+	//error_log($url);
+	return $url;
+}
+
+
+function detail_link($channel_id, $hash, $force_no_rewrite = false) {
+	global $settings;
+
+	if ( $force_no_rewrite == false &&  isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
+		$url = get_base_url() . "detail/$channel_id/" . $hash;
+	}
+	else {
+		$url = get_base_url() . "detail.php?c=" . $channel_id . "&amp;i=" . $hash;
+	}
+	
+	return $url;
+}
+
+function channel_link($channel_id, $force_no_rewrite = false) {
+	global $settings;
+
+	if ( $force_no_rewrite == false && isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
+		$url = get_base_url() . "library/$channel_id";
+	}
+	else {
+		$url = get_base_url() . "library.php?i=" . $channel_id;
+	}
+	
+	return $url;
+}
+
+function write_mod_rewrite($on = true) {
+	$rules = <<<EOF
+###
+### MOD REWRITE RULES (DO NOT EDIT)
+###
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^library/([0-9]+) library.php?i=$1 [QSA]
+RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
+RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
+</IfModule>
+EOF;
+
+	$f = fopen(".htaccess", 'wb');
+	flock( $f, LOCK_EX );
+	rewind ( $f );
+
+	$file = "";
+	while ( !feof( $f ) ) {
+		$file .= fread( $f, 8192 );
+	}
+
+	if ( $on == true ) {
+		if ( stristr( $file, "### MOD REWRITE RULES (DO NOT EDIT)" ) === false ) {
+			$file .= $rules;	
+			ftruncate($f, 0);
+			fwrite($f, $file);
+		}
+	}
+	else {
+		if ( stristr( $file, "### MOD REWRITE RULES (DO NOT EDIT)" ) !== false ) {
+			str_replace( $rules, "", $file );	
+			ftruncate($f, 0);
+			fwrite($f, $file);
+		}
+	}
+
+	flock( $f, LOCK_UN );
+	fclose($f);
+
 }
 
 /*
