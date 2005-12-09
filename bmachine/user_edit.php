@@ -13,13 +13,13 @@ $is_mine = false;
 if (isset($_SESSION['user']) && $_SESSION['user']) {
 
 	if (isset($_GET["i"])) {
-		$username = trim(strtolower( $_GET["i"] ));
+		$username = trim(mb_strtolower( $_GET["i"] ));
 	} 
 	else if (isset($_POST["username"])) {
-		$username = trim(strtolower( $_POST["username"] ));
+		$username = trim(mb_strtolower( $_POST["username"] ));
 	}
 
-	if (strtolower($_SESSION['user']['Name']) == $username) {
+	if (mb_strtolower($_SESSION['user']['Name']) == $username) {
 		$is_mine = true;
 	}
 
@@ -84,7 +84,7 @@ if ( isset($_POST["username"]) ) {
 	}
 	
 	// if the user has changed their username, we need to do a special update
-	$oldname = trim(strtolower( $_POST["oldname"] ));
+	$oldname = trim(mb_strtolower( $_POST["oldname"] ));
 	if ( $oldname != $username ) {
 		$store->renameUser($oldname, $username);	
 	}
