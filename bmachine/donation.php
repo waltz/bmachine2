@@ -19,13 +19,8 @@ global $perm_level;
 //
 if ( isset($_GET["id"]) && isset($_GET["action"]) && $_GET["action"] == "delete" ) {
 	$store->deleteDonation($_GET["id"]);
-/*	$donations = 	$store->getAllDonations();
-	unset($donations[$_GET["id"]]);
-	$store->saveDonations($donations);
-*/
 	header('Location: ' . get_base_url() . "donations.php" . "");
-//	exit;
-	
+	exit;
 }
 
 if (isset($_POST['donation_text'])) {
@@ -34,24 +29,31 @@ if (isset($_POST['donation_text'])) {
 
 	// we don't encode this because the user can enter in html if they want, but we will do
 	// some formatting on display, and we'll make sure it's UTF-8 happy for now
-	$donation_text = html_encode_utf8($_POST['donation_text']);
-	$donation_email = encode($_POST['donation_email']);
+	$donation_text = $_POST['donation_text'];
+	if ( isset($_POST['donation_email']) ) {
+		$donation_email = encode($_POST['donation_email']);
+	}
 	$donation_title = encode($_POST['donation_title']);
 
 	if ( ! isset($_POST['id']) || $_POST['id'] == "" ) {
-		$donationhash = md5( rand() );
+		$donationhash = md5( microtime() . rand() );
 		while ( isset($donations[$donationhash]) ) {
-			$donationhash = md5( rand() );		
+			$donationhash = md5( microtime() . rand() );		
 		}
 	}
 	else {
 		$donationhash = $_POST["id"];
 	}
 
-	$donations[$donationhash]["text"] = $donation_text;	
-	$donations[$donationhash]["email"] = $donation_email;	
-	$donations[$donationhash]["title"] = $donation_title;	
-	$store->saveDonations($donations);
+	$donation["text"] = $donation_text;	
+	if ( isset($donation_email) ) {
+		$donation["email"] = $donation_email;	
+	}
+	else {
+		unset($donation["email"]);
+	}
+	$donation["title"] = $donation_title;	
+	$store->saveDonation($donation, $donationhash);
 	
 	//
 	// update the feeds containing any files that are using this donation text
