@@ -50,7 +50,7 @@ if ($channel['Options']['Keywords'] == "1") {
   if (isset($_GET['kw'])) {
 ?>
 
-<div id="show_all"><a href="library.php?i=<?php echo $channelID; ?>">Show All Videos</a></div>
+<div id="show_all"><a href="<?php print channel_link($channelID); ?>">Show All Videos</a></div>
 <?php
    }
 ?>
