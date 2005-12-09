@@ -12,14 +12,14 @@ if (!is_admin()) {
 	exit;
 }
 
+bm_header();
+
 processSettings();
 
 function processSettings() {
 	global $settings;
 	global $store;
 	global $seeder;
-
-	bm_header();
 
 	if (isset($_POST['title'])) {
 		$title = encode($_POST['title']);
@@ -72,6 +72,22 @@ function processSettings() {
 	  $mysql_password = isset($settings['mysql_password'])?$settings['mysql_password']:'';
 	}
 
+	if (isset($_POST['mysql_prefix'])) {
+	  $mysql_prefix = $_POST['mysql_prefix'];
+	} 
+	else {
+	  $mysql_prefix = isset($settings['mysql_prefix'])?$settings['mysql_prefix']:'';
+	}
+
+
+	$use_mod_rewrite = ((isset($_POST['use_mod_rewrite']) && ($_POST['use_mod_rewrite']=="1")));
+	if ( $use_mod_rewrite == 1 ) {
+		write_mod_rewrite(true);
+	}
+	else {
+		write_mod_rewrite(false);		
+	}
+
 	if ( count($_POST) > 0 ) {
 		$sharing_enable = ((isset($_POST['sharing_enable']) && ($_POST['sharing_enable']=="1")));
 		$sharing_auto = ((isset($_POST['sharing_auto']) && ($_POST['sharing_auto']=="1")));
@@ -97,7 +113,9 @@ function processSettings() {
 	$newsettings['mysql_database'] = $mysql_database;
 	$newsettings['mysql_username'] = $mysql_username;
 	$newsettings['mysql_password'] = $mysql_password;
-
+	$newsettings['mysql_prefix'] = $mysql_prefix;
+	$newsettings['use_mod_rewrite'] = $use_mod_rewrite;
+	
 
 	// Stop seeding everything if sharing is turned off
 	if ($settings['sharing_enable'] && !$newsettings['sharing_enable']) {
@@ -126,8 +144,7 @@ function processSettings() {
 	$was_sharing = $settings['sharing_enable'];
 
 	if ( count($_POST) > 0 ) {
-//	print_r($newsettings);
-//	exit;
+
 		$store->saveSettings($newsettings);
 
 		//Re-setup sharing if the setting has changed
@@ -135,24 +152,26 @@ function processSettings() {
 			$seeder->setup();
 		}
 
-	  	//Automagically change the backend if the database settings have changed
-		if ( strlen($newsettings['mysql_database']) ) {
-		    if ($store->type() != 'MySQL') {
-		      $temp = new MySqlStore();
-		      if ($temp->setup()) {
-				$store = $temp;
-				$store->addFlatFileTorrents();
-		      }
-		    }
-		} 
+		//Automagically change the backend if the database settings have changed
+/*		if ( strlen($newsettings['mysql_database']) ) {
+			if ($store->type() != 'MySQL') {
+				$temp = new MySqlStore();
+				if ($temp->setup()) {
+					$store = $temp;
+					$store->addFlatFileTorrents();
+				}
+			}
+		}  // if
 		else {
-		    if ($store->type() == 'MySQL') {
-		      $temp = new FlatFileStore();
-		      if ($temp->setup())
-				$store = $temp;
-		    }
-		}
-	}
+			if ($store->type() == 'MySQL') {
+				$temp = new FlatFileStore();
+				if ($temp->setup()) {
+					$store = $temp;
+				}
+			}
+		} // else*/
+
+	} // if ( $_POST )
 
 $default_channel = isset($settings['DefaultChannel'])?$settings['DefaultChannel']:'';
 
@@ -247,6 +266,14 @@ if (count($_POST)>0) {
 
 <br />
 
+<div class="section_header">URL Settings</div>
+
+<?php
+   echo '<p><input type="checkbox" name="use_mod_rewrite" value="1" '.(isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] ? "checked=\"true\" ":"")." /> 
+	 Use mod_rewrite for prettier URLs <strong>(NOTE: THIS IS EXPERIMENTAL)</strong></p>\n";
+?>
+
+<br />
 
 <div class="section_header">Server-Sharing Settings</div>
 
@@ -309,6 +336,8 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 <p>Username: <input type="textbox" name="mysql_username" value="<?php echo isset($settings['mysql_username'])?$settings['mysql_username']:''; ?>" /></p>
 
 <p>Password: <input type="textbox" name="mysql_password" value="<?php echo isset($settings['mysql_password'])?$settings['mysql_password']:''; ?>" /></p>
+
+<p>Table Prefix: <input type="textbox" name="mysql_prefix" value="<?php echo isset($settings['mysql_prefix'])?$settings['mysql_prefix']:''; ?>" /></p>
 
 
 <input type="submit" value="Save Settings" />
