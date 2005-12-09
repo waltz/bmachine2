@@ -19,7 +19,9 @@ class DonationTest extends BMTestCase {
 		$publish_url = get_base_url() . "donation.php";
 		
 		$donation = array();
-		$donation['donation_title'] = "donation unit test " . rand(0, 10000);
+		$title = "donation unit test " . rand(0, 10000);
+		print "create donation $title<br>";
+		$donation['donation_title'] = $title;
 		$donation['donation_text'] = "donation text!";
 
 		$this->Login();		
@@ -30,7 +32,7 @@ class DonationTest extends BMTestCase {
 		global $store;
 		$donations = $store->getAllDonations();
 		$got_it = $this->Find($donations, "title", encode($donation['donation_title']));
-		$this->assertTrue( $got_it, "DonationTest/TestCreatePage: didn't find new channel");
+		$this->assertTrue( $got_it, "DonationTest/TestCreatePage: didn't find new donation");
 	}
 
 	function TestEdit() {
@@ -63,6 +65,34 @@ class DonationTest extends BMTestCase {
 			}
 		}
 	}
+	
+	function TestAddFileToDonation() {
+
+		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+
+		global $store;	
+		$donations = $store->getAllDonations();
+		$files = $store->getAllFiles();
+
+		foreach ($files as $filehash => $f) {
+			$keys = array_keys($donations);
+			$d = $keys[0];
+			$store->addFileToDonation($filehash, $d);
+
+			$donations = $store->getAllDonations();
+      //      print_r($donations);
+			$this->assertTrue( isset($donations[$d]['Files'][$filehash]), "DonationTest/TestAddFileToDonation: donation id wasn't added to donation store" );
+
+			$store->removeFileFromDonation($filehash, $d);
+
+			$donations = $store->getAllDonations();
+			$this->assertTrue( !isset($donations[$d]['Files'][$filehash]), 
+						"DonationTest/TestAddFileToDonation: donation id wasn't removed from donation store" );
+
+			break;
+		}
+
+	}
 
 	function TestDelete() {
 
@@ -85,35 +115,6 @@ class DonationTest extends BMTestCase {
 				$this->assertTrue( !$got_it, "didnt delete donation: " . $d["title"] );
 			}
 		}
-	}
-	
-	function TestAddFileToDonation() {
-
-		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		$this->Logout();
-		$this->Login();
-
-		global $store;	
-		$donations = $store->getAllDonations();
-		$files = $store->getAllFiles();
-
-		foreach ($files as $filehash => $f) {
-			$keys = array_keys($donations);
-			$d = $keys[0];
-			$store->addFileToDonation($filehash, $d);
-
-			$donations = $store->getAllDonations();
-			$this->assertTrue( isset($donations[$d]['Files'][$filehash]), "DonationTest/TestAddFileToDonation: donation id wasn't added to donation store" );
-
-			$store->removeFileFromDonation($filehash, $d);
-
-			$donations = $store->getAllDonations();
-			$this->assertTrue( !isset($donations[$d]['Files'][$filehash]), "DonationTest/TestAddFileToDonation: donation id wasn't removed from donation store" );
-
-			break;
-		}
-
 	}
 
 }

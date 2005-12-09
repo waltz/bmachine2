@@ -29,7 +29,7 @@ class XHTMLTest extends BMTestCase {
 	}
 	
 	function TestIndex() {
-		$this->TestPage(get_base_url() . "index.php");
+		$output = $this->TestPage(get_base_url() . "index.php");
 		$this->assertWantedPattern("/This Page Is Valid XHTML 1.0 Transitional/", "XHTMLText/TestIndex: index.php didn't pass!" );	
 	}
 	

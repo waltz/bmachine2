@@ -23,8 +23,7 @@ class DataStoreTest extends BMTestCase {
    * test the global setup function
    */
   function TestSetup() {
-
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+    $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
     global $data_dir;
     global $torrents_dir;
@@ -38,7 +37,7 @@ class DataStoreTest extends BMTestCase {
    */
   function TestGetType() {
 
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+    $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
     global $store;
     $v = $store->type();
@@ -50,17 +49,16 @@ class DataStoreTest extends BMTestCase {
    */
   function TestSettings() {
 
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		$this->Login();
+    $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
     global $store;
     global $settings;
 
-    $this->assertTrue( $store->loadSettings() );
+    $this->assertTrue( $store->layer->loadSettings() );
     $this->assertTrue( $settings, "DataStoreTest/TestSettings: Didn't load settings");
-    $this->assertTrue( $store->saveSettings($settings), "DataStoreTest/TestSettings: Can't Save Settings" );
+    $this->assertTrue( $store->layer->saveSettings($settings), "DataStoreTest/TestSettings: Can't Save Settings" );
   }
+
 
 	/**
 	 * test the users load/save functions
@@ -76,23 +74,22 @@ class DataStoreTest extends BMTestCase {
     if ( isset($users["unittest"]) ) {
       $this->assertTrue($store->deleteUser("unittest"), "couldn't delete user");
 	    $users = $store->getAllUsers();
-      $this->assertTrue(!isset($users["unittest"]), "deleted user, but they still exist");
+      $this->assertTrue(!isset($users["unittest"]), "deleted user unittest, but they still exist");
     }
-
 	
     $settings['AllowRegistration'] = true;
-    $this->assertTrue( $store->addNewUser( "unittest",  "unittest", $this->email, true, false, $error ), $error);
+		$result = $store->addNewUser( "unittest",  "unittest", $this->email, true, false, $error );
+    $this->assertTrue( $result, $error );
 
     $this->assertTrue( $store->deleteUser("unittest") );
-		$users = $store->getAllUsers();
-		$this->assertTrue(!isset($users["unittest"]));
+    $users = $store->getAllUsers();
+    $this->assertTrue(!isset($users["unittest"]));
   }
 
 	/**
 	 * test our login form
 	 */
   function TestLogin() {
-
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
     global $settings;
@@ -127,12 +124,12 @@ class DataStoreTest extends BMTestCase {
 	/**
 	 * test our save-one function
 	 */
-	function TestSaveOne() {
+/*	function TestSaveOne() {
 
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		global $store;
-		$files = $store->getAll("tmpfiles");
+		$files = $store->layer->getAll("tmpfiles");
 
 		for ( $i = 0; $i < 5; $i++ ) {
 			$count = count($files);
@@ -140,24 +137,25 @@ class DataStoreTest extends BMTestCase {
 			$tmpfile["ID"] = rand(0, 100000);
 			$tmpfile["rand"] = rand(0, 100000);
 			
-			$store->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
+			$store->layer->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
 
-      //      clearstatcache();
-			$files = $store->getAll("tmpfiles");
-			$this->assertTrue( $count + 1 == count($files), "saveOne didn't work" );
+      clearstatcache();
+			$files = $store->layer->getAll("tmpfiles");
+			$this->assertTrue( $count + 1 == count($files) && isset($tmpfile["ID"]), "saveOne didn't work" );
+//			print_r($files);
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * test our save-all function
 	 */
-	function TestSaveAll() {
+/*	function TestSaveAll() {
 
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		global $store;
-		$files = $store->getAll("tmpfiles");
+		$files = $store->layer->getAll("tmpfiles");
 
 		for ( $i = 0; $i < 5; $i++ ) {
 			$count = count($files);
@@ -166,40 +164,40 @@ class DataStoreTest extends BMTestCase {
 			$tmpfile["rand"] = rand(0, 100000);
 			
 			$files[$tmpfile["ID"]] = $tmpfile;
-			$store->saveAll("tmpfiles", $files );
+			$store->layer->saveAll("tmpfiles", $files );
 	
-			$files = $store->getAll("tmpfiles");
+			$files = $store->layer->getAll("tmpfiles");
 			$this->assertTrue( $count + 1 == count($files), "saveAll didn't work" );
 		}
 	
 	}
-	
+	*/
 	
 	/**
 	 * test our get-one function
 	 */
-	function TestGetOne() {
-
+/*	function TestGetOne() {
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		global $store;
 
 		$tmpfile["ID"] = rand(0, 100000);
 		$tmpfile["rand"] = rand(0, 100000);			
-		$store->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
+		$store->layer->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
 
-		$tmpfile2 = $store->getOne("tmpfiles", $tmpfile["ID"]);		
+		$tmpfile2 = $store->layer->getOne("tmpfiles", $tmpfile["ID"]);		
 		
 		$this->assertTrue( $tmpfile["ID"] == $tmpfile2["ID"] && $tmpfile["rand"] == $tmpfile["rand"],
 				"getOne didn't work" );
 	}
+*/
 
 	/**
 	 * test our get-all function
 	 */
-	function TestGetAll() {
+/*	function TestGetAll() {
 		global $store;
-		$files = $store->getAll("tmpfiles");
+		$files = $store->layer->getAll("tmpfiles");
 
 		for ( $i = 0; $i < 5; $i++ ) {
 			$count = count($files);
@@ -208,15 +206,17 @@ class DataStoreTest extends BMTestCase {
 			$tmpfile["rand"] = rand(0, 100000);
 			
 			$files[$tmpfile["ID"]] = $tmpfile;
-			$store->saveAll("tmpfiles", $files );
+			$store->layer->saveAll("tmpfiles", $files );
 		}
 		
 		$count = count($files);
 
-		$files2 = $store->getAll("tmpfiles");
+		$files2 = $store->layer->getAll("tmpfiles");
 		$this->assertTrue( $count  == count($files2), "DataStoreTest/TestGetAll getAll/saveAll counts don't match" );
 		$this->assertTrue( $files == $files2, "DataStoreTest/TestGetAll getAll/saveAll data doesnt match" );
+
 	}
+*/
 
 	function TestDeleteChannel() {
 		global $store;
@@ -273,7 +273,7 @@ class DataStoreTest extends BMTestCase {
 		$donation_text = "random donation text " . rand(0, 10000);
 		$donation_email = "email" . rand(0, 10000) . "@foo.net";
 		$donation_title = "random donation title " . rand(0, 10000);
-		$donationhash = md5( rand() );
+		$donationhash = md5( microtime() . rand() );
 		
 		$donations[$donationhash]["text"] = $donation_text;	
 		$donations[$donationhash]["email"] = $donation_email;	
@@ -294,10 +294,13 @@ class DataStoreTest extends BMTestCase {
 		global $store;
 
     $channel_id = $store->addNewChannel( "Junky Channel" );
+    //		print "added channel $channel_id<br>";
 		$channel = $store->getChannel($channel_id);
 		
 		$this->assertTrue( isset($channel), "DataStoreTest/TestAddNewChannel: couldn't load channel" );
-		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", "DataStoreTest/TestAddNewChannel: couldn't load channel" );
+		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", 
+			"DataStoreTest/TestAddNewChannel: couldn't load channel" );
+
 	}
 	
 	function TestStoreChannel() {
@@ -305,16 +308,16 @@ class DataStoreTest extends BMTestCase {
 
     $channel_id = $store->addNewChannel( "Junky Channel: TestStoreChannel" );
 		$channel = $store->getChannel($channel_id);
-
 		$this->assertTrue( isset($channel), "DataStoreTest/TestStoreChannel: couldn't load channel" );
 		
 		$channel['Name'] = "TestStoreChannel" . rand(0, 10000);
-		$store->store_channel($channel);
+		$store->saveChannel($channel);
 
 		$channel2 = $store->getChannel($channel_id);
 
 		$this->assertTrue( $channel["Name"] == $channel2["Name"], "DataStoreTest/TestStoreChannel: getChannel didn't return expected data" );	
 		$this->assertTrue( $channel['ID'] == $channel2['ID'] && $channel2['ID'] == $channel_id, "DataStoreTest/TestStoreChannel: channel IDs don't match" );	
+
 	}
 	
 	function TestStoreChannels() {
@@ -327,8 +330,8 @@ class DataStoreTest extends BMTestCase {
 		$this->assertTrue( isset($channel), "DataStoreTest/TestStoreChannel: couldn't load channel" );
 		
 		$channel['Name'] = "TestStoreChannel" . rand(0, 10000);
-		$channels[$channel_id] = $channel;
-		$store->store_channels($channels);
+//		$channels[$channel_id] = $channel;
+		$store->saveChannel($channel);
 
 		$channel2 = $store->getChannel($channel_id);
 
@@ -336,7 +339,7 @@ class DataStoreTest extends BMTestCase {
 	}
 
 	function TestDeleteUser() {
-	
+
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
     global $settings;
@@ -358,6 +361,7 @@ class DataStoreTest extends BMTestCase {
 		$this->assertTrue(!isset($users["unittest"]), "DataStoreTest/TestDeleteUser: deleted user, but they still exist (2)");
 	}
 
+/*
 	function TestAddNewUser() {
 		global $store;
 		$username = "unittest" . rand(0, 10000);
@@ -366,7 +370,7 @@ class DataStoreTest extends BMTestCase {
 		
 		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAddNewUser: couldn't add user: $error" );
 	
-	}
+	}*/
 	
 	function TestAuthUser() {
     global $store;
@@ -382,40 +386,9 @@ class DataStoreTest extends BMTestCase {
 		$email = "$username@foo.net";
 		
 		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAuthUser: couldn't add user" );
-		
+
     $hashlink = $store->userHash( $username, $password, $email );
-//	  $hashlink = sha1( $username . $password . $email );
     $this->assertTrue( $store->authNewUser( $hashlink, $username), "DataStoreTest/TestAuthUser: couldn't auth user" );	
-	}
-	
-	/*
-	function TestChangePassword() {
-
-	}*/
-	
-	function TestRenameUser() {
-		global $store;
-		global $settings;
-
-		$settings['RequireRegAuth'] = false;
-
-		$username = "unittest" . rand(0, 10000);
-		$password = $username;
-		$email = "$username@foo.net";
-		
-		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAuthUser: couldn't add user" );
-//		$hashlink = sha1( $username . $password . $email );		
-    $hashlink = $store->userHash( $username, $password, $email );
-		$store->authNewUser( $hashlink, $username );
-
-		$users = $store->getAllUsers();
-		$this->assertTrue( isset($users[$username]), "DataStoreTest/TestAuthUser: couldn't add user (2)" );
-
-		$username2 = "unittest" . rand(0, 10000);
-		$store->renameUser($username, $username2);
-			
-		$users = $store->getAllUsers();
-		$this->assertTrue( !isset($users[$username]) && isset($users[$username2]), "DataStoreTest/TestRenameUser: couldn't rename user" );
 
 	}
 
@@ -431,15 +404,15 @@ class DataStoreTest extends BMTestCase {
 
 		$newemail = "new$username@foo.net";
 		$newhash = "newhash";
+    //		$user = $store->getUser($username);
 		
-		$user = $store->getUser($username);
-		
+    //    print "change $username email to $newemail<br>";
 		$store->updateUser( $username, $newhash, $newemail, false, false, false);
 		
 		$newuser = $store->getUser($username);
-		
-		$this->assertTrue($newuser['Email'] == $newemail, "DataStoreTest/TestUpdateUser: email didn't update");
-		$this->assertTrue($newuser['Hash'] == $newhash, "DataStoreTest/TestUpdateUser: hash didn't update");
+		$this->assertTrue(isset($newuser), "DataStoreTest/TestUpdateUser: user missing?");	
+		$this->assertTrue(isset($newuser['Email']) && $newuser['Email'] == $newemail, "DataStoreTest/TestUpdateUser: email didn't update");
+		$this->assertTrue(isset($newuser['Email']) && $newuser['Hash'] == $newhash, "DataStoreTest/TestUpdateUser: hash didn't update");
 		
 	}
 
@@ -448,101 +421,9 @@ class DataStoreTest extends BMTestCase {
 		if ( !file_exists( $torrents_dir . "/test.torrent" ) ) {
 			copy("tests/test.torrent", $torrent_dir . "/test.torrent");
 		}
-
-
 		$file['Title'] = "torrent test " . rand(0, 10000);
 		$file['Description'] = "torrent test description";
-
 	}
-	
-
-
-	function TestChannelContainsFile() {
-	
-	}
-	
-	
-	
-/*	
-	function TestBTAnnounce() {
-	
-	}
-	
-	function TestGetStat() {
-	
-	}
-	
-	function TestGetHashFromTorrent() {
-	
-	}
-	
-	function TestGetTorrentFromHash() {
-	
-	}
-	
-	function TestGetTorrentList() {
-	
-	
-	}
-	
-	function TestGetTorrent() {
-	
-	}
-	
-	function TestSaveTorrent() {
-	
-	}
-	
-		
-	function TestGetTorrentDate() {
-	
-	}
-
-	
-	function TestTorrentExists() {
-	
-	}
-
-	
-	function TestGetTorrentDetails() {
-	
-	}
-	
-		
-	function TestGetAuthHash() {
-	
-	}
-		
-	function TestIsValidAuthHash() {
-	
-	}
-	
-			
-	function TestDropAuthHash() {
-	
-	}
-	
-			
-	function TestClearAuthHashes() {
-	
-	}
-	
-			
-	function TestSettingsExist() {
-	
-	}
-	
-			
-	function TestAddTorrentToTracker() {
-	
-	}
-
-	function TestDeleteTorrent() {
-	
-	}
-
-*/
-
 }
 
 
@@ -553,5 +434,4 @@ class DataStoreTest extends BMTestCase {
  * indent-tabs-mode: nil
  * End:
  */
-
 ?>

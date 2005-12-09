@@ -14,7 +14,7 @@ class BMTestCase extends WebTestCase {
 	
 	function Login() {
 
-	  $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+	  $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
 		global $store;
 
@@ -33,7 +33,7 @@ class BMTestCase extends WebTestCase {
 
 			$users["unittest"] = $user;
 			
-			$store->saveAll("users", $users);
+			$store->saveUser($user);
 		}
 
 		global $usercookie;
@@ -67,7 +67,11 @@ class BMTestCase extends WebTestCase {
 	}
 
 	function getContent() {
-		return $this->_browser->getContent();
+		return $this->_browser->getContentAsText();
+	}
+	
+	function getResponseCode() {
+		return $this->_browser->getResponseCode();
 	}
 
 }

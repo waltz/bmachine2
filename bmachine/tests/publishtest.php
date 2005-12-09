@@ -18,15 +18,21 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['post_file_url'] = "http://www.archive.org/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
+    //		$file['post_file_url'] = "http://www.archive.org/download/LuckyStr1948/LuckyStr1948_64kb.mp4";
+		$file['post_file_url'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
 		$file['post_title'] = "URL unit test " . rand(0, 10000);
 		$file['post_desc'] = "URL desc";
 		$file['post_do_save'] = 1;
 	
 		$this->Login();		
 		$publish_url = get_base_url() . "publish.php";
+
+    //print "post to $publish_url<br>";
+    //print_r($file);
+
 		$this->post( $publish_url, $file );
-	
+
+    print "CODE: " . $this->_browser->getResponseCode() . "<br>";
 		$this->assertResponse("200", "PublishTest/TestPublishURL: didn't get 200 response");		
 	
 		global $store;
@@ -123,6 +129,7 @@ class PublishTest extends BMTestCase {
 		foreach ($files as $filehash => $f) {
 			if ( beginsWith($f["Title"], "unit test" ) ) {
 
+				//print get_base_url() . "delete.php?t=v&i=" . $filehash . "<br>";
 				$this->get(	get_base_url() . "delete.php?t=v&i=" . $filehash );
 
         global $store;

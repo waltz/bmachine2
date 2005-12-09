@@ -81,12 +81,40 @@ class IncludeTest extends BMTestCase {
 		$this->assertTrue(unlink_file($tmpfile), "IncludeTest/TestDelete: couldn't delete tmpfile");
 	}
 
+	
+	function TestURLMatch() {
+		$url1 = "http://localhost/torrents/file1.mp3";
+		
+		$this->assertTrue( !is_local_file($url1), "IncludeTest/TestURLMatch: file doesn't exist but is_local_file says it does");
+
+		global $torrents_dir;		
+		$handle = opendir($torrents_dir);
+
+		while (false != ($file = readdir($handle))) {
+			if (($file != '.') && ($file != '..')) {
+				$url1 = "http://junkydomain.com/$torrents_dir/$file";
+				$this->assertTrue( is_local_file($url1), "IncludeTest/TestURLMatch: file exists but is_local_file says it doesn't");
+				
+				if ( endsWith( $url1, ".torrent" ) ) {
+					$this->assertTrue( is_local_torrent($url1), "IncludeTest/TestURLMatch: file is a torrent but is_local_torrent fails");					
+				}
+				else {
+					$this->assertTrue( !is_local_torrent($url1), "IncludeTest/TestURLMatch: file isn't a torrent but is_local_torrent suceeds");
+				}
+
+			}
+		}
+	
+		closedir($handle);	
+	}
+
+
+/*
 	function TestCanUpload() {
 
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+    $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
 		global $settings;
-		
 		unset($_SESSION["user"]);
 
 		$settings['HasOpenChannels'] = 0;
@@ -126,33 +154,7 @@ class IncludeTest extends BMTestCase {
 
 		$settings['HasOpenChannels'] = 1;
 		$settings['UploadRegRequired'] = 1;
-	}
-	
-	function TestURLMatch() {
-		$url1 = "http://localhost/torrents/file1.mp3";
-		
-		$this->assertTrue( !is_local_file($url1), "IncludeTest/TestURLMatch: file doesn't exist but is_local_file says it does");
 
-		global $torrents_dir;		
-		$handle = opendir($torrents_dir);
-
-		while (false != ($file = readdir($handle))) {
-			if (($file != '.') && ($file != '..')) {
-				$url1 = "http://junkydomain.com/$torrents_dir/$file";
-				$this->assertTrue( is_local_file($url1), "IncludeTest/TestURLMatch: file exists but is_local_file says it doesn't");
-				
-				if ( endsWith( $url1, ".torrent" ) ) {
-					$this->assertTrue( is_local_torrent($url1), "IncludeTest/TestURLMatch: file is a torrent but is_local_torrent fails");					
-				}
-				else {
-					$this->assertTrue( !is_local_torrent($url1), "IncludeTest/TestURLMatch: file isn't a torrent but is_local_torrent suceeds");
-				}
-
-			}
-		}
-	
-		closedir($handle);
-	
-	}
+	}*/
 }
 ?>

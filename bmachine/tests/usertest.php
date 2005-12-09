@@ -107,6 +107,7 @@ class UserTest extends BMTestCase {
 	
 	}
 
+  /*
 	function TestUsernameChange() {
 
 		global $store;
@@ -119,7 +120,6 @@ class UserTest extends BMTestCase {
 		$this->assertTrue($result, "UserTest/TestAuthUserAsUser: couldn't add user - $error");
 
     $hashlink = $store->userHash( $username, $password, $email );
-//		$hashlink = sha1( $username . $password . $email );		
 		$result = $store->authNewUser($hashlink, $username);
 		global $errstr;
 		$this->assertTrue($result, "UserTest/TestAuthUserAsUser: couldn't auth user - $errstr");
@@ -130,7 +130,39 @@ class UserTest extends BMTestCase {
 		$users = $store->getAllUsers();
 		$this->assertTrue(isset($users[$newuser]), "UserTest/TestUsernameChange: user rename failed");
 		$this->assertTrue(!isset($users[$username]), "UserTest/TestUsernameChange: user rename - old name still exists");
+    }*/
+
+	
+	function TestRenameUser() {
+		global $store;
+		global $settings;
+
+		$settings['RequireRegAuth'] = false;
+
+		$username = "unittest" . rand(0, 10000);
+		$password = $username;
+		$email = "$username@foo.net";
+		
+		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), 
+                       "DataStoreTest/TestAuthUser: couldn't add user" );
+    $hashlink = $store->userHash( $username, $password, $email );
+		$store->authNewUser( $hashlink, $username );
+
+		$users = $store->getAllUsers();
+		$this->assertTrue( isset($users[$username]), 
+                       "DataStoreTest/TestAuthUser: couldn't add user (2)" );
+
+		$username2 = "unittest" . rand(0, 10000);
+		$store->renameUser($username, $username2);
+			
+		$users = $store->getAllUsers();
+		$this->assertTrue( !isset($users[$username]) && isset($users[$username2]), 
+                       "DataStoreTest/TestRenameUser: couldn't rename user from $username to $username2" );
+    //    print "<pre>";
+    //    print_r($users);
+    //print "</pre>";
 	}
+
 	
 	function TestDeleteUser() {
 
@@ -144,15 +176,18 @@ class UserTest extends BMTestCase {
 		$this->assertTrue($result, "UserTest/TestAuthUserAsUser: couldn't add user - $error");
 
     $hashlink = $store->userHash( $username, $password, $email );
-//		$hashlink = sha1( $username . $password . $email );		
 		$result = $store->authNewUser($hashlink, $username);
 		global $errstr;
 		$this->assertTrue($result, "UserTest/TestAuthUserAsUser: couldn't auth user - $errstr");
 
+		$user = $store->getUser($username);
+		$this->assertTrue(isset($user), "UserTest/TestDeleteUser: user add failed");
+
 		$store->deleteUser($username);
 		
-		$users = $store->getAllUsers();
-		$this->assertTrue(!isset($users[$username]), "UserTest/TestDeleteUser: user delete failed");
+		$user = $store->getUser($username);
+    print_r($user);
+		$this->assertTrue(!(isset($user)), "UserTest/TestDeleteUser: user delete failed - $username");
 
 		$store->deleteUser("fakeuser" . rand(0, 10000));
 	
@@ -172,34 +207,40 @@ class UserTest extends BMTestCase {
 		$this->assertTrue($result, "UserTest/TestAuthUser: couldn't add user - $error");
 
     $hashlink = $store->userHash( $username, $password, $email );
-
 		$result = $store->authNewUser($hashlink, $username);
-		$this->assertTrue($result, "UserTest/TestAuthUser: couldn't auth user - $errstr");
+		$this->assertTrue($result, "UserTest/TestAuthUser: couldn't auth user $username - $errstr");
 	
-		$username = trim(strtolower($username));
-		$users = $store->getAllUsers();
-		$this->assertTrue(isset($users[$username]), "UserTest/TestAuthUserAsUser: user wasn't authed");
+		$username = trim(mb_strtolower($username));
+		$user = $store->getUser($username);
+		$this->assertTrue(isset($user), 
+                      "UserTest/TestAuthUserAsUser: user $username ($email) wasn't authed");
 
 		$utfname = file_get_contents("tests/utftitle.txt");
-		$username = encode($utfname . rand(0,10000));
+    //    for ( $i = 0; $i < 1000; $i++ ) {
+      $username = encode($utfname). rand(0,10000);
+      //      print "$username<br>";
+      //    }
 		$email = "junkyuser" . rand(0, 10000) . "@fake.net";
 
+		print "TEST ADDING $email - $username<br>\n";
+    print "LOWERCASED: " . trim(mb_strtolower($username)) . "<br>";
 		$result = $store->addNewUser($username, $password, $email, false, false, $error);
 		$this->assertTrue($result, "UserTest/TestAuthUser: couldn't add UTF user - $error");
-    $hashlink = $store->userHash( $username, $password, $email );
+	  $hashlink = $store->userHash( $username, $password, $email );
+
 		$result = $store->authNewUser($hashlink, $username);
 		$this->assertTrue($result, "UserTest/TestAuthUser: couldn't auth UTF user - $errstr");
 		
 		$result = login($username, $password, $error, false);
-		$this->assertTrue($result, "UserTest/TestAuthUser: UTF user couldnt log in - $error");
-		
-/*		print "*** $username<br>\n";
+		$this->assertTrue($result, 
+                      "UserTest/TestAuthUser: UTF user $username ($email) couldnt log in - $error");
+
+/*		
+		print "*** $username<br>\n";
 		$users = $store->getAllUsers();
 		print "<pre>";
 		print_r($users);
 		print "</pre>";*/
-		
-
 	}
 
 
