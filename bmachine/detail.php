@@ -30,7 +30,7 @@ if ( ! $store->channelContainsFile($_GET["i"], $channel) ) {
 front_header($channel["Name"],$_GET["c"],$channel["CSSURL"], get_base_url() . "rss.php?i=" . $_GET["c"]);
 ?>
 
-<div id="show_all"><a href="library.php?i=<?php echo $_GET["c"];  ?>">Show All Videos</a></div>
+<div id="show_all"><a href="<?php print channel_link($_GET["c"]);  ?>">Show All Videos</a></div>
 <div class="spacer">&nbsp;</div>
 <div id="video_zone">
 
@@ -52,9 +52,11 @@ front_header($channel["Name"],$_GET["c"],$channel["CSSURL"], get_base_url() . "r
 
 
 // if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
-$url = "download.php?c=" . $channel["ID"] . "&amp;i=" . $_GET["i"];
+//$url = "download.php?c=" . $channel["ID"] . "&amp;i=" . $_GET["i"];
+$url = download_link($channel["ID"], $_GET["i"]);
+$ezurl = download_link($channel["ID"], $_GET["i"], true);
 if ( is_local_torrent($file["URL"]) ) {
-  print ("<div class=\"dl_links\"><a href=\"$url&amp;type=torrent\">Torrent File</a> - <a href=\"$url\">Easy Downloader</a></div>");	  
+  print ("<div class=\"dl_links\"><a href=\"$url\">Torrent File</a> - <a href=\"$ezurl\">Easy Downloader</a></div>");	  
 }
 
 // otherwise, just a direct link
@@ -119,6 +121,7 @@ License: <a rel=\"license\" href=\"" . $file["LicenseURL"] . "\" target=\"_blank
 //
 
 if ( is_local_torrent($file["URL"]) ) {
+//  $return_url = "detail.php?c=" . $_GET["c"] . "&amp;i=" . $_GET["i"] ;
   $return_url = "detail.php?c=" . $_GET["c"] . "&amp;i=" . $_GET["i"] ;
   displayTorrentInfo($file["URL"], $_GET["i"], $return_url );
 }
