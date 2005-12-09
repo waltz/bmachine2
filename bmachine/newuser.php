@@ -43,7 +43,7 @@ if ( count($users) > 0 ) {
 global $settings;
 $email = (isset($_POST['email'])) ? $_POST['email'] : '';
 $username = (isset($_POST['username'])) ? $_POST['username'] : '';
-$username = encode(trim(strtolower( $username )));
+$username = encode(trim(mb_strtolower( $username )));
 
 $pass1 = (isset($_POST['pass1'])) ? $_POST['pass1'] : '';
 $pass2 = (isset($_POST['pass2'])) ? $_POST['pass2'] : '';
