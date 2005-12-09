@@ -15,7 +15,9 @@
  * @package Broadcast Machine
  */
 
-require_once( "zipfile.php" );
+include_once "zipfile.php";
+include_once "data_layer.php";
+include_once "mysql_layer.php";
 
 global $data_dir;
 global $thumbs_dir;
@@ -24,364 +26,148 @@ global $publish_dir;
 global $rss_dir;
 global $text_dir;
 
-class FlatFileStore {
+
+//class FlatFileStore {
+class DataStore {
 
   var $error;
+	var $layer;
+	var $is_setup;
+
+	/**
+	 * constructor
+	 * force_flat - if true, don't even try and use the MySQL layer - we can use this
+	 * to have two layers and transfer data between them.
+	 */
+	function DataStore($force_flat = false) {
+
+		if ( $force_flat == false ) {
+			$this->layer = new MySQLDataLayer();
+	
+			if (!$this->layer->setup()) {
+        //error_log("couldn't attach to mysql");
+				$this->layer = new BEncodedDataLayer();
+				if (!$this->layer->setup()) {
+					$this->is_setup = false;
+				}
+			}
+		}
+		else {
+      //error_log("forced to use flat file");
+			$this->layer = new BEncodedDataLayer();
+			if (!$this->layer->setup()) {
+				$this->is_setup = false;
+			}
+		}
+
+		$this->is_setup = true;
+		
+		//
+		// register some hooks which will be called at different places
+		// when we load/save/delete data
+		//
+		
+		$this->layer->registerHook("files", "pre-delete", "PreDeleteFile");
+		$this->layer->registerHook("files", "post-delete", "PostDeleteFile");
+
+		if ( $this->layer->type() == "flat file" ) {
+			$this->layer->registerHook("files", "get", "FileHook");
+			$this->layer->registerHook("channels", "get", "FlatGetChannelHook");
+		}
+		else {
+			$this->layer->registerHook("files", "get", "MySQLFileHook");
+			$this->layer->registerHook("channels", "pre-save", "MySQLPreSaveChannelHook");
+			$this->layer->registerHook("channels", "save", "MySQLSaveChannelHook");
+			$this->layer->registerHook("channels", "get", "MySQLGetChannelHook");
+			$this->layer->registerHook("channels", "pre-delete", "MySQLDeleteChannelHook");
+			$this->layer->registerHook("donations", "get", "MySQLGetDonationHook");
+		}
+	}
+	
+	/**
+	 * initialization
+	 */
+	function init() {
+		$this->layer->init();
+	}
 
   /**
    * return the type of file store object
    * @returns type of object as a string
    */
   function type() {
-    return 'flat file';
+    return $this->layer->type();
   }
 
-
 	/**
-	 * get a single item from the specified file
-	 * returns the item if it exists, null otherwise
+	 * save the settings info for this installation
 	 */
-	function getOne($file, $id) {
-    $data = $this->getAll($file);
-		if ( isset($data[$id]) ) {
-	    return $data[$id];
-		}
-		
-		return null;	
+	function saveSettings($s) {
+		return $this->layer->saveSettings($s);
 	}
 
 	/**
-	 * get all of the data from the specified file
+	 * load the settings info for this installation
 	 */
-	function getAll($file) {
-		return $this->getAllLock($file, false, $junk);
+	function loadSettings() {
+		return $this->layer->loadSettings();
 	}
-
-	/**
-	 * get all data from the specified file.  set a lock if requested, and return
-	 * a handle to the file
-	 */
-	function getAllLock($file, $hold_lock = true, &$h ) {
-
-		//print "flat::getAllLock - $file<br>";
-
-		//error_log("getAllLock: $file - $hold_lock");
-
-    global $data_dir;
-
-		$handle = fopen("$data_dir/$file", "a+b");
-		
-		flock( $handle, LOCK_EX );
-		fseek( $handle, 0 );
-	
-		$contents = "";
-		while ( !feof( $handle ) ) {
-			$contents .= fread( $handle, 8192 );
-		}
-
-		if ( $hold_lock == false ) {
-			fclose($handle);
-		}
-		else {
-			$h = $handle;
-		}
-    
-		//error_log("getAllLock: $file - $hold_lock - done");
-    return bdecode( $contents );
-	}	
-	
-	/**
-	 * save a single item to the specified file, using $hash as the id
-	 */
-	function saveOne($file, $data, $hash) {
-		$all = $this->getAllLock($file, true, $h);
-		if ( !$h ) {
-			return false;
-		}
-
-		$all[$hash] = $data;
-		return $this->saveAll($file, $all, $h);	
-	}
-	
-	/**
-	 * save the data to the specified file, using the handle if provided
-	 */
-	function saveAll($file, $data, $handle = null) {
-
-		//error_log("saveAll: $file");
-
-    global $errorstr;
-    global $data_dir;
-    
-		if ( $handle == null ) {
-			$old_error_level = error_reporting(0);
-			$handle = fopen( "$data_dir/$file", "a+b");
-			error_reporting($old_error_level);
-		}
-    
-    if ( ! $handle ) {
-      $errorstr = "Couldn't open $data_dir/$file!";
-      return false;
-    }
-    
-    fseek($handle,0);
-    flock($handle, LOCK_EX);
-    ftruncate($handle,0);
-    fseek($handle,0);
-    fwrite($handle,bencode($data));
-
-		// make sure the file is flushed out to the filesystem
-		fflush($handle);
-    fclose($handle);
-		
-		// make sure we aren't holding onto a cached copy
-		clearstatcache();
-    
-		//error_log("saveAll: $file - done");
-    return true;
-	}
-
-
-  /**
-   * return the type of file store object
-   * @returns true on success, false on failure
-   */
-  function loadSettings() {
-
-    global $settings;
-
-    $contents = '';
-
-    if ( !$this->settingsExist() ) {
-      $settings = array	(
-                         'AllowRegistration'         => false,
-                         'RequireRegApproval'    => false,
-                         'RequireRegAuth'        => true,
-                         'UploadRegRequired'     => true,
-                         'DownloadRegRequired'   => false,
-                         'DefaultChannel'        => '',
-                         'HasOpenChannels'       => false,
-                         'sharing_enable'        => false,
-                         'sharing_auto'          => false,
-                         'sharing_python'        => '',
-                         'sharing_actual_python' => ''
-                         );
-      
-    }
-    else {
-      global $data_dir;
-      $handle=fopen( $data_dir . '/settings', "rb" );
-      flock( $handle, LOCK_EX );
-
-      while ( !feof( $handle ) ) {
-        $contents .= fread( $handle, 8192 );
-      }
-      
-      $settings = bdecode( $contents );
-      
-      //Early beta's didn't have these settings
-      if ( !isset( $settings['sharing_enable'] ) )
-        $settings['sharing_enable']=false;
-      
-      if ( !isset( $settings['sharing_auto'] ) )
-        $settings['sharing_auto']=true;
-      
-      if ( !isset( $settings['sharing_python'] ) )
-        $settings['sharing_python']='';
-      
-      if ( !isset( $settings['sharing_actual_python'] ) )
-        $settings['sharing_actual_python']='';
-      
-			fflush ($handle);
-      fclose ( $handle );
-			clearstatcache();
-    }
-    
-    return true;
-  }
-
-
-  /**
-   * Saves settings to config file
-   * @returns true on success, false on failure
-   */
-  function saveSettings( $newsettings ) {
-
-    global $settings;
-    global $data_dir;
-
-    $handle = fopen(  $data_dir . '/settings', "a+b" );
-    flock( $handle, LOCK_EX );
-    fseek( $handle, 0 );
-    ftruncate( $handle, 0 );
-
-    $settings  = $newsettings;
-    fwrite( $handle, bencode( $settings ) );
-
-		fflush ($handle);
-		fclose ( $handle );
-		clearstatcache();
-
-    return true;
-  }
 
   /**
    * get all of our files
    * @returns array of files
    */
   function getAllFiles() {
-		$tmp = $this->getAll("files");
-		
-		foreach($tmp as $f) {
-			if ( isset($f["Desc"]) ) {
-				$f["Description"] = $f["Desc"];
-				unset($f["Desc"]);
-			}
-		}
-		
-		return $tmp;
+		//error_log("getAllFiles");
+		return $this->layer->getAll("files");
   }
 
   /**
    * given a hash, return its file
-   * @returns array of channels
+   * @returns file array
    */
   function getFile( $hash ) {
-		$f =  $this->getOne("files", $hash);
+		//error_log("getFile: $hash");
+		$f = $this->layer->getOne("files", $hash);
 
-		if ( isset($f["Desc"]) ) {
-			$f["Description"] = $f["Desc"];
-			unset($f["Desc"]);
-		}
-
-		return $f;
+    if ( count($f) > 0 ) {
+      return $f;
+    }
+    return null;
   }
 
-
+  /**
+   * given a filename, try and figure out what its hash is
+   */
+	function getHashFromFilename($fname) {
+	
+		// todo - we can have a much faster mysql version
+	
+		$files = $this->getAllFiles();
+		foreach ( $files as $hash => $f ) {
+			if ( $f["FileName"] == $fname ) {
+				return $hash;
+			}
+		}
+		
+		return null;
+	}
 
 	/**
 	 * delete the specified file
 	 * @returns true if successful, false on error and sets global $errstr
 	 */
 	function DeleteFile($id) {
-
-		$file = $this->getFile($id);
-		
-		if ( !isset($file) ) {
-			return true;
-		}
-
-		$url = $file["URL"];
-		$owner = isset($file["Publisher"]) ? $file["Publisher"] : "";
-
-		// if this is a local torrent, then lets make sure we turn off sharing
-		if ( is_local_file($file["URL"]) ) {
-	
-			$filename = local_filename($url);
-	
-			if ($filename != "") {
-				if ( is_local_torrent($file["URL"]) ) {
-					global $seeder;
-					
-					// stop the seeder process and delete any files
-					// related to the torrent
-					$seeder->stop($filename, true);
-					$this->deleteTorrent($filename);
-				}
-	
-				if ( file_exists("torrents/" . $filename) ) {
-					unlink_file("torrents/" . $filename);
-				}
-			}
-		} // if is_local_file
-
-		// remove this file from any donations	
-		if ( isset($file['donation_id']) ) {
-			$donation_id = $file['donation_id'];
-			$this->removeFileFromDonation($id, $donation_id);
-		}
-	
-		//
-		// delete the file
-		//
-		$files = $this->getAllLock("files", true, $handle);
-
-		if ( !isset($handle) || !$handle ) {
-			global $errstr;
-			$errstr = "Error opening the 'files' file!";
-			return false;		
-		}
-
-		unset($files[$id]);
-		$this->saveAll("files", $files, $handle);
-	
-		//
-		// update our channels data
-		//
-		$channels = $this->getAllChannels();
-		
-		// keep track of which RSS feeds need to be updated
-		$update_rss = array();
-	
-		foreach ($channels as $channel) {
-			$keys = array_keys($channel['Files']);
-	
-			foreach ($keys as $key) {
-				$file = $channel['Files'][$key];
-				if ($file[0] == $id) {
-					$update_rss[] = $channel['ID'];
-					unset($channel['Files'][$key]);
-				}
-			}
-	
-			if (is_array($channel['Sections'])) {
-				$sections = array_keys($channel['Sections']);
-	
-				foreach ($sections as $section) {
-					if (is_array($section['Files'])) {
-						$keys = array_keys($section['Files']);
-						foreach ($keys as $key) {
-							$file = $channel['Files'][$key];
-							if ($file == $id) {
-								unset($channel['Sections'][$section]['Files'][$key]);
-							}
-						}
-					}
-				}
-			}
-	
-			$channels[$channel['ID']] = $channel;
-		}
-	
-		// write the channel data
-		$this->store_channels($channels);
-	
-		foreach ($update_rss as $channelID) {
-			makeChannelRss($channelID, false);
-		}
-
-		return true;
-	
+		return $this->layer->deleteOne("files", $id);
 	} // DeleteFile
+	
 
 	/**
 	 * delete the specified channel
+	 * @returns true if successful, false on error and sets global $errstr
 	 */
 	function DeleteChannel($id) {
-
-		$channels = $this->getAllLock("channels", true, $handle);
-
-		if ( !isset($handle) || !$handle ) {
-			global $errstr;
-			$errstr = "Error opening the channels file!";
-			return false;		
-		}
-		
-		
-		unset($channels[$id]);
-		$this->saveAll("channels", $channels, $handle);
-
-		return true;
+		return $this->layer->deleteOne("channels", $id);
 	}
 	
   /**
@@ -389,49 +175,87 @@ class FlatFileStore {
    * @returns array of channels
    */
   function getAllChannels() {
-
-		//print "mysql::getAllChannels<br>";
-
-		$tmp = $this->getAll("channels");
-		foreach($tmp as $c) {
-			if ( isset($c["Options"]["Desc"]) ) {
-				$c["Options"]["Description"] = $c["Options"]["Desc"];
-				unset($c["Options"]["Desc"]);
-			}
-			if ( isset($c["Desc"]) ) {
-				$c["Description"] = $c["Desc"];
-				unset($c["Desc"]);
-			}
-		}
-		
-		return $tmp;
+		return $this->layer->getAll("channels");
   }
 
 	/**
 	 * return the data for the specified channel
 	 */	
 	function getChannel($id) {
-		$c = $this->getOne("channels", $id);
+		return $this->layer->getOne("channels", $id);
+	}
 
-		if ( isset($c["Options"]["Desc"]) ) {
-			$c["Options"]["Description"] = $c["Options"]["Desc"];
-			unset($c["Options"]["Desc"]);
-		}
-
-		if ( isset($c["Desc"]) ) {
-			$c["Description"] = $c["Desc"];
-			unset($c["Desc"]);
+	/**
+	 * determine if the given file is actually published to the given channel.  this prevents
+	 * hackers from doing simple tricks like changing the channel ID to get to a file which shouldn't
+	 * be publicly available
+	 */
+	function channelContainsFile($filehash, &$channel) {
+		$channel_files = $channel["Files"];
+	 	foreach($channel_files as $cf) {
+			if ( $cf[0] == $filehash ) {
+				return true;
+			}
 		}
 		
-		return $c;
+		return false;
 	}
+
+	/**
+	 * remove the file from the specified channel
+	 */
+	function removeFileFromChannel($channel, $key, $index = -1) {
+
+		if ( $this->layer->type() == "flat file" ) {
+
+			if ( $index != -1 ) {
+				unset($channel['Files'][$index]);
+			}
+			else {
+				$keys = $channel['Files'];
+	
+				//
+				// first, unset any channels that this was published to
+				//
+				foreach ($keys as $key_id => $key) {
+					if ($key[0] == $filehash) {
+						unset($channel['Files'][$key_id]);
+					}
+				}
+			}
+
+			$this->saveChannel($channel);	
+		}
+		else {
+      //			$this->layer->removeFileFromChannel($channel, $key);
+      $qarr = $this->layer->getTableQueries("channel_files");
+      $sql = $qarr["delete_by_file"];
+      $sql = str_replace("%key", $key, $sql);
+      $sql .= " AND channel_id = " . $channel["ID"];
+      $result = mysql_query( $sql );
+		}
+	}
+
+	/**
+	 * remove the file from the specified channel_section
+	 */
+	function removeFileFromChannelSection($channel, $section, $key) {
+		if ( $this->layer->type() == "flat file" ) {
+			unset($channel['Sections'][$section]['Files'][$key]);
+			$this->saveChannel($channel);	
+		}
+		else {
+			$this->layer->removeFileFromChannelSection($channel, $key);
+		}
+	}
+
 
   /**
    * get an array of all of our donation links
    * @returns array of donation links
    */
   function getAllDonations() {
-		return $this->getAll("donations");
+		return $this->layer->getAll("donations");
   }
 
   /**
@@ -439,38 +263,67 @@ class FlatFileStore {
    * @returns array of donation data
    */
   function getDonation($id) {
-		return $this->getOne("donations", $id);
+		return $this->layer->getOne("donations", $id);
   }
 
   /**
    * remove the specified file from the given donation setup
    */
 	function removeFileFromDonation($id, $donation_id) {
-		$donations = $this->getAllLock("donations", true, $handle);
-		if ( isset($donations[$donation_id]) && isset($donations[$donation_id]['Files'][$id]) ) {
-			unset($donations[$donation_id]['Files'][$id]);
+		if ( $this->layer->type() == "flat file" ) {
+			$donations = $this->layer->getAllLock("donations", $handle);
+			if ( isset($donations[$donation_id]) && isset($donations[$donation_id]['Files'][$id]) ) {
+				unset($donations[$donation_id]['Files'][$id]);
+			}
+			$this->layer->saveAll("donations", $donations, $handle);
+			$this->layer->unlockResource("donations");
 		}
-		$this->saveAll("donations", $donations, $handle);
+		else {
+      $qarr = $this->layer->getTableQueries("donation_files");
+      $sql = $qarr["delete"];
+      $sql = str_replace("%key", $donation_id, $sql);
+      $sql = str_replace("%hash", $id, $sql);
+      $result = mysql_query( $sql );
+		}
 	}
 	
   /**
    * add the specified file to the given donation setup
    */
 	function addFileToDonation($id, $donation_id) {
-		$donations = $this->getAllLock("donations", true, $handle);
+		if ( $this->layer->type() == "flat file" ) {
+      $donations = $this->layer->getAllLock("donations", $handle);
 	
-		if ( $donation_id != "" && isset($donations[$donation_id]) ) {
-			$donations[$donation_id]['Files'][$id] = 1;	
-			$this->saveAll("donations", $donations, $handle);
-		}		
-	}
+      if ( $donation_id != "" && isset($donations[$donation_id]) ) {
+        $donations[$donation_id]['Files'][$id] = 1;	
+        $this->layer->saveAll("donations", $donations, $handle);
+      }
+      
+      $this->layer->unlockResource("donations");
+    }
+    else {
+      $tmp = array();
+      $tmp["id"] = $donation_id;
+      $tmp["hash"] = $id;
+			$data = $this->layer->prepareForMySQL($tmp);
+
+      $qarr = $this->layer->getTableQueries("donation_files");
+      $sql = $qarr["insert"];
+			$sql = str_replace("%vals", $data, $sql);
+      mysql_query( $sql );
+    }
+  }
+    
 
   /**
    * get an array of user data
    * @returns user data
    */
   function getAllUsers() {
-		$usertmp = $this->getAll("users");
+    //error_log("get users");
+		$usertmp = $this->layer->getAll("users");
+
+		$users = array();
 
 		$idx = 1;
 		if ( isset($usertmp) && is_array($usertmp) ) {
@@ -480,9 +333,10 @@ class FlatFileStore {
 					$person['Name'] = "unknown" . $idx;
 					$idx++;
 				}
-				else {
-					$users[$person['Name']] = $person;
-				}
+
+//				else {
+					$users[$person['Username']] = $person;
+//				}
 			}
 		}	
 				
@@ -490,15 +344,11 @@ class FlatFileStore {
 		// if we had some screwy user data, then let's rewrite the file so it doesn't happen again
 		//
 		if ( $idx > 1 ) {
-			$this->saveAll("users", $users);
-		}
-
-		if ( !isset($users) ) {
-			return array();
-		}
+      //error_log("save users to fix data");
+      $this->layer->saveAll("users", $users);
+     }
 
 		return $users;
-		
   }
 
   /**
@@ -506,7 +356,20 @@ class FlatFileStore {
    * @returns array of userdata
    */
   function getUser($username) {
-		return $this->getOne("users", $username);
+		$tmp = $this->layer->getOne("users", $username);
+    if ( count($tmp) > 0 ) {
+      return $tmp;
+    }
+    return null;
+  }
+
+  /**
+   * Save a single donation record
+   * @returns true on success, false on failure
+   */
+  function saveDonation($newcontent, $id) {
+		//error_log("store donation $id");
+		return $this->layer->saveOne("donations", $newcontent, $id);
   }
 
   /**
@@ -514,14 +377,15 @@ class FlatFileStore {
    * @returns true on success, false on failure
    */
   function saveDonations( $donations ) {
-		$this->saveAll("donations", $donations);
+		$this->layer->saveAll("donations", $donations);
     return true;
   }
 	
+	/**
+	 * delete a single donation record
+	 */
 	function deleteDonation($id) {
-		$donations = 	$this->getAllDonations();
-		unset($donations[$_GET["id"]]);
-		$this->saveDonations($donations);
+		return $this->layer->deleteOne("donations", $id);
 	}
 
   /**
@@ -532,7 +396,7 @@ class FlatFileStore {
                           $weburl = "", $libraryurl = "", $files = "", $cssurl = "", $openChannel = "" ) {
 
 		$lastID = 0;
-		$newchannels = $this->getAllLock("channels", true, $handle);
+		$newchannels = $this->layer->getAllLock("channels", $handle);
 
 		if ( ! isset($handle) ) {
 			global $errstr;
@@ -594,7 +458,8 @@ class FlatFileStore {
     $newchannels[$lastID]['OpenPublish']=$openChannel;
     $newchannels[$lastID]['Created']    =time();
 		
-		$this->saveAll("channels", $newchannels, $handle);
+		$this->layer->saveAll("channels", $newchannels, $handle);
+		$this->layer->unlockResource("channels");
 
     return $lastID;
   }
@@ -602,23 +467,16 @@ class FlatFileStore {
 	/**
 	 * store a single channel
 	 */
-	function store_channel($channel) {
-		$this->saveOne("channels", $channel, $channel["ID"]);
+	function saveChannel($channel) {
+		$this->layer->saveOne("channels", $channel, $channel["ID"]);
 	}
 
-  /**
-   * store our channel data
-   * @returns true
-   */
-  function store_channels($channels) {
-    $this->saveAll("channels", $channels);
-    return true;
-  }
  
   /**
    * given an array of files, write it to the filesystem
    */
   function store_files($newcontent) {
+		$this->layer->saveAll("files", $newcontent);
 		foreach($newcontent as $f) {
 			$this->store_file($f);		
 		}
@@ -628,12 +486,11 @@ class FlatFileStore {
 	 * store the data for a single file
 	 */
   function store_file($newcontent, $id = "") {
-
 		if ( $id == "" ) {
 			$id = $newcontent["ID"];
 		}
-
-		$this->saveOne("files", $newcontent, $id);
+		////error_log("store file $id");
+		$this->layer->saveOne("files", $newcontent, $id);
   }
 
   /**
@@ -642,15 +499,14 @@ class FlatFileStore {
    */
   function deleteUser( $username ) {
 		global $data_dir;
-		$users = $this->getAllLock("users", true, $handle2);
+		$users = $this->layer->getAllLock("users", $handle);
 
 		if ( count($users) <= 0 ) {
 			return true;
 		}
 
-    unset ( $users[$username] );
-		$this->saveAll("users", $users, $handle2);
-
+		$this->layer->deleteOne("users", $username, $handle);
+		$this->layer->unlockResource("users");
     return true;
   }
 
@@ -665,14 +521,14 @@ class FlatFileStore {
     global $data_dir;
 
     $contents = '';
-    $username = trim(strtolower( $username ));
+    $username = trim(mb_strtolower( $username ));
 
-		if ( $username == "" ) {
-      $error = "Please specify a username";
-      return false;		
+		if ( strlen($username) == 0 || $username == "" ) {
+				$error = "Please specify a username";
+				return false;		
 		}
 		
-    $users = $this->getAllUsers();
+    $users = $this->layer->getAllLock("users", $handle2);
 
     if ( isset( $users[$username] ) ) {
       $error = "That username already exists";
@@ -692,9 +548,9 @@ class FlatFileStore {
 			$settings['RequireRegAuth'] = false;
 			$isAdmin = true;
 		}
-
-		$newusers = $this->getAllLock("newusers", true, $handle);
-
+	
+		$newusers = $this->layer->getAllLock("newusers", $handle);
+	
 		if ( !isset($handle) ) {
 			global $errstr;
 			if ( isset($errstr) ) {
@@ -707,10 +563,13 @@ class FlatFileStore {
     $filehash = sha1( $username . $hashlink );
     $newusers[$filehash]['Hash']   =hashpass( $username, $password );
     $newusers[$filehash]['Email']  =$email;
-    $newusers[$filehash]['IsAdmin'] = $isAdmin;
+    $newusers[$filehash]['IsAdmin'] = isset($isAdmin) && $isAdmin == true ? 1 : 0;
     $newusers[$filehash]['Created']=time();
 
-		$result = $this->saveAll("newusers", $newusers, $handle);
+		$result = $this->layer->saveOne("newusers", $newusers[$filehash], $filehash, $handle);
+		
+		$this->layer->unlockResource("newusers");
+		$this->layer->unlockResource("users");
 		
 		// some sort of error, so stop processing
 		if ( $result == false ) {
@@ -720,38 +579,46 @@ class FlatFileStore {
 			}
 			return false;
 		}
-
-    $qs_app = "";
-
-    if ( $isFront ) {
-      $qs_app="&f=1";
-    }
-
-
-
-    if ( $settings['RequireRegAuth'] && count($users) > 0 && !is_admin() ) {
-
+	
+		$qs_app = "";
+	
+		if ( $isFront ) {
+			$qs_app="&f=1";
+		}
+	
+		if ( $settings['RequireRegAuth'] && count($users) > 0 && !is_admin() ) {
+	
 			// cjm - obviously we shouldn't be doing this, but while i'm running the unit tests
 			// 100x a day i'm turning off email generation
 			global $RUNNING_UNIT_TESTS;
 			if ( ! ( isset($RUNNING_UNIT_TESTS) && $RUNNING_UNIT_TESTS == true ) ) {
-
+	
 				mail( $email,
 				"New Account on " . site_title(),
 				"Click below to activate your account:\n" . get_base_url() . "login.php?hash="
 				. $hashlink . "&username=" . urlencode( $username ) . $qs_app );
 			}
-    }
-
+		}
+	
 		return true;
   }
+	
+	/**
+	 * save a user
+	 */
+	function saveUser( $u ) {
+		if ( ! isset($u["Username"]) ) {
+			$u["Username"] = $u["Name"];
+		}
+		$this->layer->saveOne("users", $u, $u["Username"] );
+	}
 
 	/**
 	 * generate a user hash and return it
 	 * @returns string
 	 */
 	function userHash( $username, $password, $email ) {
-		$username = trim(strtolower( $username ));
+		$username = trim(mb_strtolower( $username ));
 		return sha1($username . $password . $email);
 	}
 
@@ -766,11 +633,14 @@ class FlatFileStore {
 	
     $contents = '';
     $success = false;
-	
-    $username = trim(strtolower( $username ));
+
+		$name = $username;
+    $username = trim(mb_strtolower( $username ));
+
+//		print "AUTH: $username<br>";
     $filehash = sha1( $username . $hashlink );
 		
-		$newusers = $this->getAllLock("newusers", true, $handle);
+		$newusers = $this->layer->getAllLock("newusers", $handle);
 
 		if ( !isset($handle) || $handle == "" ) {
 			global $errstr;
@@ -779,7 +649,7 @@ class FlatFileStore {
 		}
 
     if ( isset( $newusers[$filehash] ) ) {
-      $users = $this->getAllLock("users", true, $handle2);
+			$users = $this->layer->getAllLock("users", $handle2);
 			
 			if ( !isset($handle2) || $handle2 == "" ) {
 				global $errstr;
@@ -817,25 +687,32 @@ class FlatFileStore {
       }
 
       $users[$username]['Hash']     =$newusers[$filehash]['Hash'];
-      $users[$username]['Name']     =$username;
+      $users[$username]['Name']     =$name;
       $users[$username]['Email']    =$newusers[$filehash]['Email'];
       $users[$username]['IsAdmin']  =$isAdmin;
       $users[$username]['IsPending']=$pending;
       $users[$username]['Created']  =$newusers[$filehash]['Created'];
       $users[$username]['Username'] = $username;
-		
-			$this->saveAll("users", $users, $handle2);
+	  
+//		print "SAVE: $username<br>\n";
 
-      unset ( $newusers[$filehash] );
+	  	$this->layer->saveOne("users", $users[$username], $username, $handle2);
+
       $success = true;
     }
 		else {
 			global $errstr;
 			$errstr = "Error: Invalid Hash";
-			return false;
+			$success = false;
 		}
 
-		$this->saveAll("newusers", $newusers, $handle);
+		$this->layer->unlockResource("users");
+		if ( $success == true ) {
+			$this->layer->deleteOne("newusers", $filehash, $handle);
+		}
+		$this->layer->unlockResource("newusers");
+
+//		$this->saveAll("newusers", $newusers, $handle);
 		
     return $success;
   }
@@ -848,7 +725,8 @@ class FlatFileStore {
    */
   function renameUser( $oldname, $newname ) {
 
-    $users = $this->getAllLock("users", true, $handle);
+    $users = $this->layer->getAllLock("users", $handle);
+		$result = false;
 
 		if ( isset($users[$oldname]) ) {
 				
@@ -857,14 +735,14 @@ class FlatFileStore {
 			$users[$newname]['Name'] = $newname;
 			$users[$newname]['Username'] = $newname;
 
-			$this->saveAll("users", $users, $handle);
-	
-			$this->deleteUser($oldname);
-			
-			return true;
+			$this->layer->deleteOne("users", $oldname, $handle);
+			$this->layer->saveOne("users", $users[$newname], $handle);
+				
+			$result = true;
 		}
 		
-		return false;
+		$this->layer->unlockResource("users");
+		return $result;
   }
 
 
@@ -880,14 +758,14 @@ class FlatFileStore {
     $contents = '';
     global $data_dir;
 	
-    $users = $this->getAllLock("users", true, $handle);
+    $user = $this->layer->getOne("users", $username);
 
-    $users[$username]['Hash']     =$hash;
-    $users[$username]['Email']    =$email;
-    $users[$username]['IsAdmin']  =$canAdmin;
-    $users[$username]['IsPending']=$isPending;
+    $user['Hash']     =$hash;
+    $user['Email']    =$email;
+    $user['IsAdmin']  =$canAdmin;
+    $user['IsPending']=$isPending;
 
-		$this->saveAll("users", $users, $handle);
+		$this->layer->saveOne("users", $user, $username);
   }
 
 
@@ -898,6 +776,16 @@ class FlatFileStore {
    * @returns data to be passed back to the client or NULL on error
    */
 	function BTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
+
+		if ( $this->layer->type() == "MySQL" ) {
+      return $this->MySQLBTAnnounce($info_hash, $event, $remote_addr, $port, $left, $numwant);
+    }
+    else {
+      return $this->FlatBTAnnounce($info_hash, $event, $remote_addr, $port, $left, $numwant);
+    }
+  }
+
+	function FlatBTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
 
 		$this->error = '';
 
@@ -952,7 +840,7 @@ class FlatFileStore {
 
 		$time = pack( "C", $time );
 
-		$handle=fopen( $data_dir . '/' . $info_hash, "rb+" );
+		$handle = fopen( $data_dir . '/' . $info_hash, "rb+" );
 		flock( $handle, LOCK_EX );
 		$peer_num = intval( filesize( 'data/' . $info_hash ) / 7 );
 
@@ -990,7 +878,7 @@ class FlatFileStore {
 				}
 
 				$diff = $int_time - $peer_time;
-        if ($diff < 0) // Check for loop around
+        if ( $diff < 0 ) // Check for loop around
           $diff += 128;
 
 				// we've heard from the peer in the last 10 minutes, so don't
@@ -1013,8 +901,8 @@ class FlatFileStore {
 		ftruncate( $handle, 0 );
 		fwrite( $handle, join( '', $peer ), $peer_num * 7 );
 		flock( $handle, LOCK_UN );
-		fflush ($handle);
-		fclose ( $handle );
+		fflush( $handle );
+		fclose( $handle );
 		clearstatcache();
 
 		$o='';
@@ -1047,6 +935,72 @@ class FlatFileStore {
 	}
 
 
+  function MySQLBTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
+  	$this->error = '';
+
+    if ( strlen( $info_hash ) != 40 ) {
+      $this->error = 'Invalid info hash';
+      return null;
+    }
+
+    $peer_ip  =explode( '.', $remote_addr );
+    $peer_ip  =pack( "C*", $peer_ip[0], $peer_ip[1], $peer_ip[2], $peer_ip[3] );
+    $peer_port=pack( "n*", (int)$port );
+    $seeder   =( $left == 0 ) ? '1' : '0';
+
+    if ( !$this->torrentExists( $info_hash ) ) {
+      $this->error = 'This torrent is not authorized on this tracker.';
+      return null;
+    }
+
+    if ( $event == 'stopped' ) {
+      mysql_query ( "DELETE FROM " . $this->layer->prefix . "peers WHERE info_hash='" . mysql_escape_string(
+										$info_hash ) . "' AND ip='"
+		    . mysql_escape_string( $peer_ip ) . "' AND port='" . mysql_escape_string( $peer_port )
+		    . "'" );
+		}
+    else {
+      mysql_query ( "REPLACE INTO " . $this->layer->prefix . "peers (info_hash,ip,port,seeder,time) VALUES ('"
+		    . mysql_escape_string( $info_hash )
+		    . "', '" . mysql_escape_string( $peer_ip )
+		    . "','" . mysql_escape_string( $peer_port ) . "','" . mysql_escape_string( $seeder )
+		    . "',NOW())" );
+		}
+
+    $peer_num = 0;
+
+
+    mysql_query( "DELETE FROM " . $this->layer->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
+
+    $o = '';
+
+    //Fill $o with a list of peers
+    if ( $event == 'stopped' || $numwant === 0 ) {
+      $o='';
+    }
+    else {
+      $result=mysql_query( "SELECT CONCAT(ip,port) as out FROM " . $this->layer->prefix . "peers WHERE info_hash='"
+			   . mysql_escape_string( $info_hash )
+			   . "' ORDER BY RAND() LIMIT 50" );
+
+      while ( $row=mysql_fetch_array( $result ) ) {
+				$peer_num++;
+				$o .= $row[0];
+      }
+    }
+
+
+    if ($peer_num <= 3) {
+      $interval = '30';
+		}
+    else {
+      $interval = '300';
+		}
+
+    return 'd8:intervali'.$interval.'e5:peers' . strlen( $o ) . ':' . $o . 'e';
+  }
+
+
 	/**
 	 * get the stats for the given torrent
 	 * @return array of stats
@@ -1055,57 +1009,82 @@ class FlatFileStore {
 
 		$complete = 0;
 		$incomplete = 0;
+
+    if ( $this->layer->type() == "MySQL" ) {
+      mysql_query( "DELETE FROM " . $this->layer->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
+      
+      $query = mysql_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+                           mysql_escape_string($info_hash) . "'" );
+      
+      $row = mysql_fetch_array($query);
+      $total = $row[0];
+      
+      $query = mysql_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+                           mysql_escape_string( $info_hash ) . "' AND seeder = 1" );
+      
+      $row = mysql_fetch_array($query);
+      
+      $complete = $row[0];
+      $incomplete = $total - $complete;
+      
+    }
+    else {
 		
-		global $data_dir;
+      global $data_dir;
 
-		$time = intval( ( time() % 7680 ) / 60 );
-		$int_time = $time;
+      $time = intval( ( time() % 7680 ) / 60 );
+      $int_time = $time;
 
 
-		if ( file_exists($data_dir . '/' . $info_hash) ) {
+      if ( file_exists($data_dir . '/' . $info_hash) ) {
 
-			$handle = fopen(  $data_dir . '/' . $info_hash, "rb" );
-			flock( $handle, LOCK_EX );
-	
-			$size = filesize(  $data_dir . '/' . $info_hash );
-			
-			if ( $size > 0 ) {
-				$x=fread( $handle, $size );
-				flock( $handle, LOCK_UN );
-				fclose ( $handle );
-				$no_peers = intval( strlen( $x ) / 7 );
+        $handle = fopen(  $data_dir . '/' . $info_hash, "rb" );
+        flock( $handle, LOCK_EX );
+        
+        $size = filesize(  $data_dir . '/' . $info_hash );
+        
+        if ( $size > 0 ) {
+          $x=fread( $handle, $size );
+          flock( $handle, LOCK_UN );
+          fclose ( $handle );
+          $no_peers = intval( strlen( $x ) / 7 );
 
-				for ( $j=0; $j < $no_peers; $j++ ) {
-					$t_peer_seed = join( '', unpack( "C", substr( $x, $j * 7, 1 ) ) );
-			
-					if ( $t_peer_seed >= 128 ) {
-            $peer_time = $t_peer_seed - 128;
-					}
-					else {
-            $peer_time = $t_peer_seed;
-					}
+          for ( $j=0; $j < $no_peers; $j++ ) {
+            $t_peer_seed = join( '', unpack( "C", substr( $x, $j * 7, 1 ) ) );
+            
+            if ( $t_peer_seed >= 128 ) {
+              $peer_time = $t_peer_seed - 128;
+            }
+            else {
+              $peer_time = $t_peer_seed;
+            }
+            
+            $diff = $int_time - $peer_time;
+            if ($diff < 0) // Check for loop around
+              $diff += 128;
+            
+            // we've heard from the peer in the last 10 minutes, so count it
+            if ( $diff < 10 ) {
+              if ( $t_peer_seed == $peer_time )
+                $incomplete++;
+              else
+                $complete++;
+            }
+            
+          } // for
 
-          $diff = $int_time - $peer_time;
-          if ($diff < 0) // Check for loop around
-            $diff += 128;
+        } // if ( size > 0 )
 
-          // we've heard from the peer in the last 10 minutes, so count it
-          if ( $diff < 10 ) {
-						if ($t_peer_seed == $peer_time)
-              $incomplete++;
-            else
-              $complete++;
-          }
+      }	
 
-				} // for
-			} // if ( size > 0 )
-		}	
-			
-		return array (
-			"hash"           => $info_hash,
-			"complete"   => $complete,
-			"incomplete" => $incomplete
-		);
+    } // else
+
+    return array (
+                  "hash"		 => $info_hash,
+                  "complete"   => $complete,
+                  "incomplete" => $incomplete
+                  );    
+    
 	}
 		
 	/**
@@ -1137,26 +1116,39 @@ class FlatFileStore {
 	 * get a list of torrents that are currently in the system
 	 */
 	function getTorrentList() {
-		$list = array();
-		$times = array();
-		global $torrents_dir;
-		
-		$handle = opendir( $torrents_dir );
-		while ( false !== ( $torrentfile=readdir( $handle )) ) {
-			if ( $torrentfile != '.' && 
-					$torrentfile != '..' && 
-					$torrentfile != '.htaccess' && 
-					endsWith($torrentfile, ".torrent") ) {
-				$list[] = $torrentfile;
-				$times[] = $this->getTorrentDate( $torrentfile );
-			} // if
-		} // while
-		
-		if ( count( $list ) > 0 ) {
-			array_multisort( $times, SORT_DESC, $list );
+
+    if ( $this->layer->type() == "MySQL" ) {
+      $list = array();
+      $result = mysql_query( "SELECT filename from " . $this->layer->prefix . "torrents" );
+      
+      while ( $row = mysql_fetch_array( $result ) ) {
+        $list[]=$row[0];
+      }
+      
+      return $list;
+    }
+    else {
+      $list = array();
+      $times = array();
+      global $torrents_dir;
+      
+      $handle = opendir( $torrents_dir );
+      while ( false !== ( $torrentfile=readdir( $handle )) ) {
+        if ( $torrentfile != '.' && 
+             $torrentfile != '..' && 
+             endsWith($torrentfile, ".torrent") ) {
+          $list[] = $torrentfile;
+          $times[] = $this->getTorrentDate( $torrentfile );
+        } // if
+      } // while
+      
+      if ( count( $list ) > 0 ) {
+        array_multisort( $times, SORT_DESC, $list );
+      }
+
+      return $list;
 		}
-		
-		return $list;
+
   }
 
 	/**
@@ -1168,6 +1160,7 @@ class FlatFileStore {
 	
 	/**
 	 * save a torrent to the filesystem
+   * todo - add mysql code here
 	 */
 	function saveTorrent( $filename, $data ) {
 		global $torrents_dir;
@@ -1187,13 +1180,29 @@ class FlatFileStore {
 	 * get the raw torrent file
 	 */
   function getRawTorrent( $filename ) {
-    global $torrents_dir;
 
-		if ( file_exists( $torrents_dir . "/" . $filename ) ) {
-	    return file_get_contents( $torrents_dir . "/" . $filename );
-		}
-		
-		return "";
+    if ( $this->layer->type() == "MySQL" ) {
+      $result = mysql_query( "SELECT raw_data FROM " . $this->layer->prefix . "torrents 
+                              WHERE filename='" . 
+                             mysql_escape_string($filename ) . "'" );
+      
+      if ( mysql_num_rows( $result ) > 0 ) {
+        $row=mysql_fetch_row( $result );
+        return $row[0];
+      }
+      
+    }
+    else {
+      global $torrents_dir;
+      
+      if ( file_exists( $torrents_dir . "/" . $filename ) ) {
+        return file_get_contents( $torrents_dir . "/" . $filename );
+      }
+      
+    }
+
+    return null;
+
   }
 
 	/** 
@@ -1208,9 +1217,20 @@ class FlatFileStore {
 	 * does the specified torrent exist?
 	 */
   function torrentExists( $info_hash ) {
-    global $data_dir;
-    return file_exists(  $data_dir . '/' . $info_hash );
+
+    if ( $this->layer->type() == "MySQL" ) {
+      $result =mysql_query( "SELECT COUNT(*) FROM " . 
+                            $this->layer->prefix . "torrents WHERE info_hash='" . 
+                            mysql_escape_string( $info_hash ) . "'" );
+      $row=mysql_fetch_row( $result );
+      return $row[0] > 0;
+    }
+    else {
+      global $data_dir;
+      return file_exists(  $data_dir . '/' . $info_hash );
+    }
   }
+
 
   /**
    * load a list of peers from the filesystem, for the given hash.  if prune is true,
@@ -1220,58 +1240,87 @@ class FlatFileStore {
    */
   function getTorrentDetails( $info_hash, $prune = true ) {
 
-    $peers = array();
-    global $data_dir;
-    
-    $handle=fopen(  $data_dir . '/' . $info_hash, "rb+" );
-    flock( $handle, LOCK_EX );
-    
-    if ( filesize(  $data_dir . '/' . $info_hash ) > 0 ) {
-      $x = fread( $handle, filesize(  $data_dir . '/' . $info_hash ) );
+    if ( $this->layer->type() == "MySQL" ) {
+      $peers=array();
+
+      $now   =time();
+      $result=mysql_query(
+                          "SELECT ip, port, UNIX_TIMESTAMP(time) AS time,	 if (seeder,'seeder','leecher') AS what FROM " . 
+                          $this->layer->prefix . "peers WHERE info_hash = '" . mysql_escape_string( $info_hash )
+                          . "'" );
+      
+      while ( $row=mysql_fetch_array( $result ) ) {
+        $ip  = unpack( "C*", $row['ip'] );
+        $ip  =$ip[1] . '.' . $ip[2] . '.' . $ip[3] . '.*';
+        $port=join( '', unpack( "n*", $row['port'] ) );
+        
+        $peers[]=array
+          (
+           "ip"	    => $ip,
+           "what" => $row['what'],
+           "port" => $port,
+           "time" => number_format( (int)( ( $now - $row['time'] ) / 60 ) )
+           );
+        
+      } // while
+      
+      return $peers;
     }
     else {
-      $x='';
-    }
 
-    flock( $handle, LOCK_UN );
-    fclose ( $handle );
-    $no_peers = intval( strlen( $x ) / 7 );
+      $peers = array();
+      global $data_dir;
     
-    for ( $j=0; $j < $no_peers; $j++ ) {
-      $ip         = unpack( "C*", substr( $x, $j * 7 + 1, 4 ) );
+      $handle=fopen(  $data_dir . '/' . $info_hash, "rb+" );
+      flock( $handle, LOCK_EX );
       
-      // cjm - get whole ip instead of just 3/4
-      $ip         =$ip[1] . '.' . $ip[2] . '.' . $ip[3] . '.' . $ip[4];
-      //			$ip         =$ip[1] . '.' . $ip[2] . '.' . $ip[3] . '.*';
-      $port       =join( '', unpack( "n*", substr( $x, $j * 7 + 5, 2 ) ) );
-      $t_peer_seed=join( '', unpack( "C", substr( $x, $j * 7, 1 ) ) );
-      
-      if ( $t_peer_seed >= 128 ) {
-        $what      ='seeder';
-        $t_time = $t_peer_seed - 128;
+      if ( filesize(  $data_dir . '/' . $info_hash ) > 0 ) {
+        $x = fread( $handle, filesize(  $data_dir . '/' . $info_hash ) );
       }
       else {
-        $what      ='leecher';
-        $t_time = $t_peer_seed;
+        $x='';
       }
       
-      // figure out the current time
-      $time = intval( ( time() % 7680 ) / 60 );
-	
-      // we've heard from this peer in 30 minutes or less, so add them to the list
-      if ( $prune == false || $time - $t_time <= 30 ) {
-			
-        $peers[] = array(
-                         "ip"       => $ip,
-                         "what" => $what,
-                         "port" => $port,
-                         "time" => number_format( $time - $t_time )
-                         );
+      flock( $handle, LOCK_UN );
+      fclose ( $handle );
+      $no_peers = intval( strlen( $x ) / 7 );
+      
+      for ( $j=0; $j < $no_peers; $j++ ) {
+        $ip         = unpack( "C*", substr( $x, $j * 7 + 1, 4 ) );
+        
+        // cjm - get whole ip instead of just 3/4
+        $ip         =$ip[1] . '.' . $ip[2] . '.' . $ip[3] . '.' . $ip[4];
+        //			$ip         =$ip[1] . '.' . $ip[2] . '.' . $ip[3] . '.*';
+        $port       =join( '', unpack( "n*", substr( $x, $j * 7 + 5, 2 ) ) );
+        $t_peer_seed=join( '', unpack( "C", substr( $x, $j * 7, 1 ) ) );
+        
+        if ( $t_peer_seed >= 128 ) {
+          $what      ='seeder';
+          $t_time = $t_peer_seed - 128;
+        }
+        else {
+          $what      ='leecher';
+          $t_time = $t_peer_seed;
+        }
+        
+        // figure out the current time
+        $time = intval( ( time() % 7680 ) / 60 );
+        
+        // we've heard from this peer in 30 minutes or less, so add them to the list
+        if ( $prune == false || $time - $t_time <= 30 ) {
+          
+          $peers[] = array(
+                           "ip"       => $ip,
+                           "what" => $what,
+                           "port" => $port,
+                           "time" => number_format( $time - $t_time )
+                           );
+        }
+        
       }
 
+      return $peers;
     }
-
-    return $peers;
   }
 
 	/**
@@ -1377,21 +1426,12 @@ class FlatFileStore {
     $now = time();
 
     foreach ( $hashes as $hash => $stamp ) {
-      if ( $stamp < $now - 3600 ) //Hash was created more than 1 hour ago
+			//Hash was created more than 1 hour ago
+      if ( $stamp < $now - 3600 ) {
         unset ( $hashes[$hash] );
+			}
     }
   }
-
-
-  /**
-   * check whether our settings exist or not
-   * @returns true/false
-   */
-  function settingsExist() {
-    global $data_dir;
-    return file_exists(  $data_dir . '/settings' ) && filesize($data_dir . '/settings') > 0 ;
-  }
-
 
   /**
    * Sends the location of this feed to BlogTorrent.com periodically
@@ -1429,48 +1469,63 @@ class FlatFileStore {
    * add a torrent to the tracker
    */
   function addTorrentToTracker( $tmpfile, $torrent ) {
+
     global $seeder;
     global $settings;
     global $perm_level;
-
+    
     global $data_dir;
     global $torrents_dir;
+    
+    //error_log("addTorrentToTracker");
+
+    $rawTorrent = file_get_contents( $tmpfile );
+    
+    //    print "add $tmpfile as $torrent<br>";
 
     if ( !file_exists( $torrents_dir . '/' . $torrent ) ) {
 
-      move_uploaded_file( $tmpfile, $torrents_dir . '/' . $torrent );
-      chmod($torrents_dir . '/' . $torrent, 0777);
+      $result = move_uploaded_file( $tmpfile, $torrents_dir . '/' . $torrent );
+      if ( !file_exists( $torrents_dir . '/' . $torrent ) ) {
+        //error_log("addTorrentToTracker: move_uploaded_file failed!");
+        return false;
+      }
+      else {
+        //error_log("addTorrentToTracker: get hash");
 
-      $info_hash=$this->getHashFromTorrent( $torrent );
+        chmod($torrents_dir . '/' . $torrent, 0777);
+        
+        $info_hash = $this->getHashFromTorrent( $torrent );
+        
+        if ( !file_exists(  $data_dir . '/' . $info_hash ) ) {
+          $handle = fopen(  $data_dir . '/' . $info_hash, "wb" );
+          fclose ( $handle );
+        }
 
-      if ( !file_exists(  $data_dir . '/' . $info_hash ) ) {
-        $handle = fopen(  $data_dir . '/' . $info_hash, "wb" );
-        fclose ( $handle );
       }
     }
+    
+    if ( $this->layer->type() == "MySQL" ) {
 
+      //error_log("addtorrent: here");
+
+      $data = bdecode( $rawTorrent );
+      
+      $sql = "INSERT INTO " . $this->layer->prefix . "torrents (info_hash, filename, raw_data) 
+										VALUES (
+											'" . mysql_escape_string( $data['sha1'] ) . "',
+											'" . mysql_escape_string( $torrent ) . "',
+											'" . mysql_escape_string( $rawTorrent ) . "')";
+      print $sql;
+      mysql_query ( $sql );
+      
+    }
+    
     if ( $seeder->enabled() && $settings["sharing_auto"] ) {
       $seeder->spawn( $torrent );
     }
   }
 
-
-
-	/**
-	 * determine if the given file is actually published to the given channel.  this prevents
-	 * hackers from doing simple tricks like changing the channel ID to get to a file which shouldn't
-	 * be publicly available
-	 */
-	function channelContainsFile($filehash, &$channel) {
-		$channel_files = $channel["Files"];
-	 	foreach($channel_files as $cf) {
-			if ( $cf[0] == $filehash ) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
 	/**
 	 * delete the given torrent from the filesystem
@@ -1480,6 +1535,22 @@ class FlatFileStore {
 
     if ( $seeder->enabled() ) {
       $seeder->stop( $torrent );
+		}
+		
+		if ( $this->layer->type() == "MySQL" ) {
+
+			$result = mysql_query( "SELECT info_hash FROM " . $this->layer->prefix . "torrents WHERE filename='" . 
+				mysql_escape_string($torrent ) . "'" );
+	
+			if ( mysql_num_rows( $result ) > 0 ) {
+				$row = mysql_fetch_row( $result );
+				$info_hash=$row[0];
+	
+				mysql_query ( "DELETE FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+					mysql_escape_string( $info_hash ) . "'" );
+				mysql_query ( "DELETE FROM " . $this->layer->prefix . "torrents WHERE info_hash='" . 
+					mysql_escape_string( $info_hash ) . "'" );
+			}
 		}
 
     global $data_dir;
@@ -1503,19 +1574,19 @@ class FlatFileStore {
    * using this function
    */
   function createZipObject( $zipfile ) {
-    $zipobj     =new zipfile();
+    $zipobj = new zipfile();
     $origzip = @zip_open( $zipfile );
 
     if ( $origzip ) {
-      while ( $entry=zip_read( $origzip ) ) {
+      while ( $entry = zip_read( $origzip ) ) {
         $name = zip_entry_name( $entry );
-        $size =zip_entry_filesize( $entry );
+        $size = zip_entry_filesize( $entry );
         
         if ( $size == 0 )
           $zipobj->add_dir( $name );
         else {
           zip_entry_open( $origzip, $entry );
-          $data=zip_entry_read( $entry, $size );
+          $data = zip_entry_read( $entry, $size );
           zip_entry_close ( $entry );
           $zipobj->add_file( $data, $name, 9 );
         }
@@ -1615,54 +1686,6 @@ EOD;
   }
 
 
-  /**
-   * setup BM - create directories, set permissions, write a couple of .htaccess files
-   * @returns true if successful, false if not
-   */
-  function setup() {
-
-    global $perm_level;
-    global $data_dir;
-    global $torrents_dir;
-
-    $old_error_level = error_reporting ( 0 );
-
-    if ( !file_exists($data_dir) ) {
-      if ( !mkdir( $data_dir, $perm_level ) ) {
-        return false;
-      }
-    }
-
-    if ( !file_exists($torrents_dir) ) {
-      if ( !mkdir( $torrents_dir, $perm_level ) ) {
-        return false;
-      }
-    }
-
-    if ( !is_writable( $data_dir ) || !is_writable( $torrents_dir ) ) {
-      return false;
-    }
-
-    if ( !file_exists(  $data_dir . '/.htaccess' ) ) {
-      $file=fopen(  $data_dir . '/.htaccess', 'wb' );
-      fwrite( $file, "deny from all\n" );
-      fclose ( $file );
-    }
-
-    if ( !file_exists( $torrents_dir . '/.htaccess' ) ) {
-      $file=fopen( $torrents_dir . '/.htaccess', 'wb' );
-      fwrite( $file, "deny from all\n" );
-      fclose ( $file );
-    }
-
-    if ( $this->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($this->getAllChannels()) <= 0  ) ) {
-      $this->addNewChannel( "First Channel" );
-    }
-
-    error_reporting ( $old_error_level );
-
-    return $this->loadSettings();
-  }
 
 
 	/**
@@ -1691,6 +1714,334 @@ EOD;
 
 		return true;
 	}
+
+} // DataStore
+
+
+/******************************************************************
+ *  DATASTORE HOOKS
+ *****************************************************************/
+
+function PreDeleteFile($id) {
+	global $store;
+
+	$file = $store->getFile($id);
+
+	if ( is_local_file($file["URL"]) ) {
+
+		$filename = local_filename($file["URL"]);
+
+		if ($filename != "") {
+			if ( is_local_torrent($file["URL"]) ) {
+				global $seeder;
+				
+				// stop the seeder process and delete any files
+				// related to the torrent
+				$seeder->stop($filename, true);
+				$store->deleteTorrent($filename);
+			}
+
+			if ( file_exists("torrents/" . $filename) ) {
+				unlink_file("torrents/" . $filename);
+			}
+		}
+	} // if is_local_file
+
+	// remove this file from any donations	
+	if ( isset($file['donation_id']) ) {
+		$donation_id = $file['donation_id'];
+		$store->removeFileFromDonation($id, $donation_id);
+	}
+
+}
+
+function PostDeleteFile($id) {
+
+	global $store;
+
+	//
+	// update our channels data
+	//
+	$channels = $store->getAllChannels();
+	
+	// keep track of which RSS feeds need to be updated
+	$update_rss = array();
+
+	foreach ($channels as $channel) {
+		$keys = array_keys($channel['Files']);
+
+		foreach ($keys as $key) {
+			$file = $channel['Files'][$key];
+			if ($file[0] == $id) {
+				$update_rss[] = $channel['ID'];
+				unset($channel['Files'][$key]);
+			}
+		}
+
+		if (is_array($channel['Sections'])) {
+			$sections = array_keys($channel['Sections']);
+
+			foreach ($sections as $section) {
+				if (is_array($section['Files'])) {
+					$keys = array_keys($section['Files']);
+					foreach ($keys as $key) {
+						$file = $channel['Files'][$key];
+						if ($file == $id) {
+							unset($channel['Sections'][$section]['Files'][$key]);
+						}
+					}
+				}
+			}
+		}
+
+		$channels[$channel['ID']] = $channel;
+		$store->saveChannel($channel);
+	}
+
+	foreach ($update_rss as $channelID) {
+		makeChannelRss($channelID, false);
+	}
+
+}
+
+function FlatGetChannelHook(&$c) {
+	if ( isset($c["Options"]["Desc"]) ) {
+		$c["Options"]["Description"] = $c["Options"]["Desc"];
+		unset($c["Options"]["Desc"]);
+	}
+	if ( isset($c["Desc"]) ) {
+		$c["Description"] = $c["Desc"];
+		unset($c["Desc"]);
+	}
+}
+
+function FileHook(&$f) {
+	if ( isset($f["Desc"]) ) {
+		$f["Description"] = $f["Desc"];
+		unset($f["Desc"]);
+	}
+}
+
+function MySQLFileHook(&$f) {
+	if ( isset($f["Desc"]) ) {
+		$f["Description"] = $f["Desc"];
+		unset($f["Desc"]);
+	}
+
+	$f["Keywords"] = array();
+	$f["People"] = array();
+
+	global $store;
+	
+	// get keywords
+	$keys = $store->layer->getByKey("file_keywords", $f["ID"]);
+	foreach( $keys as $k ) {
+		$f["Keywords"][] = array( $k["word"] );
+	}
+
+	// get people
+	$peeps = $store->layer->getByKey("file_people", $f["ID"]);
+	foreach( $peeps as $p ) {
+		$f["People"][] = array( $p["name"], $p["role"] );
+	}
+
+	return $f;
+}
+
+function MySQLGetChannelHook(&$c) {
+
+	global $store;
+
+	$qarr = $store->layer->getTableQueries("channel_options");		
+	$option_sql = $qarr["select"];
+
+	$qarr = $store->layer->getTableQueries("channel_sections");
+	$section_sql = $qarr["select"];
+
+	$qarr = $store->layer->getTableQueries("section_files");
+	$sf_sql = $qarr["select"];
+
+	$sql = str_replace("%key", $c["ID"], $option_sql);
+	$result = mysql_query( $sql );
+
+	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+		$c["Options"] = array();
+		foreach($row as $key => $val) {
+			$c["Options"][$key] = $val;
+		}
+	}	
+
+	$sql = str_replace("%key", $c["ID"], $section_sql);
+	$result = mysql_query( $sql );
+
+	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+		$c["Sections"][ $row["Name"] ]["Name"] = $row["Name"];
+		$c["Sections"][ $row["Name"] ]["Files"] = array();
+
+		// section_files
+		$sql = "SELECT * FROM " . $store->layer->prefix . "section_files WHERE 
+			channel_id = '" . $c["ID"] . "' AND 
+			Name = '" . mysql_escape_string( $row["Name"] ) . "'";
+		$result2 = mysql_query( $sql );
+		while ( $row2 = mysql_fetch_array( $result2, MYSQL_ASSOC ) ) {
+			$c["Sections"][ $row["Name"] ]["Files"][] = $row2["hash"];
+		} // while ($row2)
+	} // while ($row)
+
+	$sql = "SELECT * FROM " . $store->layer->prefix . "channel_files WHERE 
+		channel_id = '" . $c["ID"] . "'";
+	$result2 = mysql_query( $sql );
+
+	$c["Files"] = array();
+	while ( $row2 = mysql_fetch_array( $result2, MYSQL_ASSOC ) ) {
+		$c["Files"][] = array( 0 => $row2["hash"], 1 => $row2["channel_id"] );
+	} // while ($row2)
+
+	return $c;
+}
+
+function MySQLPreSaveChannelHook(&$channel) {
+	global $store;
+
+	// clear out old files
+	$tmp = array();
+	$do_query = false;
+	foreach( $channel["Files"] as $f ) {
+		$tmp[] = "'" . mysql_escape_string($f[0]) . "'";
+		$do_query = true;
+	}
+
+	if ( $do_query == true ) {
+		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
+		//print "*** $sql<br>";
+		mysql_query($sql);
+	}
+
+	$sect_temp = array();
+
+	foreach( $channel["Sections"] as $s ) {
+
+		$sect_tmp[] = "'" . mysql_escape_string($s["Name"]) . "'";
+
+		// delete section files
+		$tmp = array();
+		$do_query = false;
+		foreach($s["Files"] as $f) {
+			$tmp[] = "'" . mysql_escape_string($f) . "'";
+			$do_query = true;
+		}
+
+		if ( $do_query == true ) {
+			$sql = "DELETE FROM " . $store->layer->prefix . 
+				"section_files WHERE hash NOT IN (" . implode(",", $tmp) . ")
+				AND channel_id = '" . $channel["ID"] . "' AND
+					Name = '" . mysql_escape_string($s["Name"]) . "'";
+			print "*** $sql<br>";
+			mysql_query( $sql );
+		}
+	}	
+
+	// delete section files from any section that we tossed
+	$sql = "DELETE FROM " . $store->layer->prefix . 
+		"section_files WHERE channel_id = '" . $channel["ID"] . "' AND
+		Name NOT IN (" . implode(",", $sect_tmp) . ")";
+	//print "*** $sql";
+	mysql_query( $sql );
+	
+	$sql = "DELETE FROM " . $store->layer->prefix . 
+		"channel_sections WHERE channel_id = '" . $channel["ID"] . "' AND
+		Name NOT IN (" . implode(",", $sect_tmp) . ")";
+	//print "*** $sql";
+	mysql_query( $sql );
+
+	
+	// clear out old section files
+	$tmp = array();
+	foreach( $channel["Files"] as $f ) {
+		$tmp[] = "'" . mysql_escape_string($f) . "'";
+	}
+
+	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
+	mysql_query( $sql );
+}
+
+function MySQLSaveChannelHook(&$channel) {
+
+	global $store;
+
+	// store channel files
+	foreach( $channel["Files"] as $f ) {
+		$sql = "REPLACE INTO " . $store->layer->prefix . "channel_files 
+			SET channel_id = " . $channel["ID"] . ", 
+			hash = '" . mysql_escape_string($f["0"]) . "', 
+			thetime = '" . mysql_escape_string($f["1"]) . "'";
+		mysql_query( $sql );
+	}
+
+	// store options
+//	$store->layer->saveOne("channel_options", $channel["Options"], $channel["ID"]);
+	$qarr = $store->layer->getTableQueries("channel_options");
+	$query = $qarr["insert"];
+	$channel["Options"]["ID"] = $channel["ID"];
+	$tmp = $store->layer->prepareForMySQL($channel["Options"]);
+	$sql = str_replace("%vals", $tmp, $query);
+	mysql_query( $sql );
+
+	$qarr = $store->layer->getTableQueries("channel_sections");
+	$query = $qarr["insert"];
+
+	$qarr = $store->layer->getTableQueries("section_files");
+	$sf_sql = $qarr["insert"];
+
+	// store sections
+	foreach( $channel["Sections"] as $s ) {
+		$data = "channel_id = '" . $channel["ID"] . "', 
+			Name = '" . mysql_escape_string($s["Name"]) . "'";
+		$sql = str_replace("%vals", $data, $query);
+		mysql_query( $sql );
+
+		// store section files
+		foreach($s["Files"] as $f) {
+			$data = "channel_id = '" . $channel["ID"] . "', 
+				Name = '" . mysql_escape_string($s["Name"]) . "', 
+				hash = '" . mysql_escape_string($f) . "'";
+
+			$sql = str_replace("%vals", $data, $sf_sql);
+			mysql_query( $sql );
+		}
+	}	
+}
+
+function MySQLDeleteChannelHook($id) {
+	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE channel_id = $id";
+	mysql_query($sql);
+
+	$sql = "DELETE FROM " . $store->layer->prefix . "section_files WHERE channel_id = $id";
+	mysql_query($sql);
+
+	$sql = "DELETE FROM " . $store->layer->prefix . "channel_sections WHERE channel_id = $id";
+	mysql_query($sql);
+
+	$sql = "DELETE FROM " . $store->layer->prefix . "channel_options WHERE channel_id = $id";
+	mysql_query($sql);
+}
+
+function MySQLGetDonationHook(&$d) {
+
+	global $store;
+
+	$qarr = $store->layer->getTableQueries("donation_files");		
+	$sql = $qarr["select"];
+
+	$sql = str_replace("%key", $d["id"], $sql);
+	$result = mysql_query( $sql );
+
+  $d["Files"] = array();
+	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+    $d["Files"][$row["hash"]] = 1;
+	}	
+
+	return $d;
 }
 
 /*
