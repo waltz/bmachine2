@@ -13,7 +13,6 @@
 function front_header($pagename = "", $channelID = "", $stylesheet = "default.css", $feed = "", $onload = "" ) {
 
 	global $settings;
-
 	header("Content-type: text/html; charset=utf-8");
 
 	$site = site_title();	
@@ -21,23 +20,31 @@ function front_header($pagename = "", $channelID = "", $stylesheet = "default.cs
 		$pagename = "$site: $pagename";
 	}
 
-	print("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+	print '<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>';
+
+/*	
+print("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
 <title>");
-
+*/
 	if ($pagename) {
 	  print($pagename);
 	}
 
 	print("</title>
 <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />
-<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $stylesheet . "\"/>\n");
+<link rel=\"stylesheet\" type=\"text/css\" href=\"" . get_base_url() . "/" . $stylesheet . "\"/>\n");
 
 	if ( $feed != "" ) {
-		print "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS 2.0\" href=\"$feed\" />";
+		print "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS 2.0\" href=\"" . get_base_url() . "/$feed\" />";
 	}
 
+	print "<base href=\"" . get_base_url() . "\" />\n";
 	print("\n</head>\n");
 
   if ( $onload != "" ) {
@@ -65,7 +72,7 @@ function front_header($pagename = "", $channelID = "", $stylesheet = "default.cs
 
 		global $can_use_cookies;
 		if ( $can_use_cookies ) {
-			print("<a href=\"login.php?f=1&logout=1\">Logout</a> ");
+			print("<a href=\"login.php?f=1&amp;logout=1\">Logout</a> ");
 		}
 		
 		if ( is_admin() ) {
@@ -85,7 +92,7 @@ function front_header($pagename = "", $channelID = "", $stylesheet = "default.cs
 	<div id=\"library_title\">" . $pagename . "</div>\n");
 
 	if ( $channelID ) {
-		$rsslink = '<a href="rss.php?i=' . $channelID . '"><img src="images/rss_button.gif" alt="rss feed" border="0" /></a>';
+		$rsslink = '<a href="rss.php?i=' . $channelID . '"><img src="images/rss_button.gif" alt="rss feed" style="border: 0" /></a>';
 		print("<div id=\"rss_feed\">$rsslink</div>\n");
 	}
 
@@ -106,7 +113,6 @@ function front_footer() {
 
 </div>
 </div>
-<br/>
 </body>
 </html>");
 
@@ -243,10 +249,14 @@ function display_video($filehash, $file) {
 
   // bug #1223713  - make sure we actually pay attention to the channel display settings
 
+	$url = detail_link($channel["ID"], $filehash);
+
   if ( isset($channel['Options']['Thumbnail']) && $channel['Options']['Thumbnail'] == 1) {
-        	
+
+		//<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\"><img src=\"");
+
     print("<div class=\"thumbnail\">
-<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\"><img src=\"");
+<a href=\"$url\"><img src=\"");
       
     if ($file['Image'] == '' || !$channel['Options']['Thumbnail']) {
       print("t.gif");
@@ -254,14 +264,16 @@ function display_video($filehash, $file) {
     else {
       print($file['Image']);
     }
-    print("\" width=\"180\" border=\"0\" alt=\"" . $file["Title"] . "\" /></a>
+    print("\" width=\"180\" style=\"border: 0\" alt=\"" . $file["Title"] . "\" /></a>
 </div>\n"); 
   }
 
   if ( isset($channel['Options']['Title']) && $channel['Options']['Title'] == 1) {
+//	<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash . "\">" . $file["Title"] . "</a>
+
     print("
 <div class=\"video_title\">
-	<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash . "\">" . $file["Title"] . "</a>
+	<a href=\"$url\">" . $file["Title"] . "</a>
 </div>\n");
   }
   if (isset($channel['Options']['Creator']) && $channel['Options']['Creator'] == 1 && $file["Creator"]) {
@@ -365,18 +377,27 @@ function display_video($filehash, $file) {
   
   }
 
-  print("<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\">more...</a>\n");
+	$detail_url = detail_link($channel["ID"], $filehash);
+  print("<a href=\"$detail_url\">more...</a>\n");
 
 print "</div>";
   // if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
-  $url = "download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash;
+//  $url = "download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash;
+	$url = download_link($channel["ID"], $filehash);
+	$ezurl = download_link($channel["ID"], $filehash, true);
+
   if ( is_local_torrent($file["URL"]) ) {
-    print ("<div class=\"dl_links\"><a href=\"$url&amp;type=torrent\">Torrent File</a> - <a href=\"$url\">Easy Downloader</a></div>\n");	  
+    print ("<div class=\"dl_links\">
+		<a href=\"$url\">Torrent File</a> - 
+		<a href=\"$ezurl\">Easy Downloader</a></div>\n");	  
   }
 
   // otherwise, just a direct link
   else {
-    print ("<div class=\"dl_links\"><a href=\"download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\">download</a></div>\n");
+
+		$url = download_link($channel["ID"], $filehash);
+	  print ("<div class=\"dl_links\"><a href=\"$url\">download</a></div>\n");
+//    print ("<div class=\"dl_links\"><a href=\"download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\">download</a></div>\n");
   }
 
 	print "</li>\n";
