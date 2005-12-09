@@ -23,7 +23,7 @@ if (isset($_POST["username"])) {
 	if ($_POST["pass1"] == $_POST["pass2"] && $_POST["pass1"] != "") {
 		global $store;
 
-		$username = trim(strtolower( $_POST["username"] ));
+		$username = trim(mb_strtolower( $_POST["username"] ));
 
 		$result = $store->addNewUser(
 			$username,
@@ -63,6 +63,7 @@ if (isset($_POST["uploadReg"])) {
 			$hasOpen = true;
 		}
 		$channels[$channel["ID"]]["OpenPublish"] = isset($_POST["allow_" . $channel["ID"]]);
+		$store->saveChannel($channel);
 	}
 
 	$settings['AllowRegistration'] = isset($_POST["allowReg"]);
@@ -73,7 +74,6 @@ if (isset($_POST["uploadReg"])) {
 	$settings['HasOpenChannels'] = $hasOpen;
 
 	$store->saveSettings($settings);
-	$store->store_channels($channels);
 }
 
 
