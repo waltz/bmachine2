@@ -60,50 +60,50 @@ class MySQLDataLayer extends BEncodedDataLayer {
     global $data_dir;
     if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != get_version() ) {
 
-      error_log("init - create tables");
+      //error_log("init - create tables");
       $m = new MySQLLoader();
     
       if ( ! $this->tableExists("peers") ) {
-	error_log("create peers");
-	mysql_query( $this->getTableDef("peers") );
+//				error_log("create peers");
+				mysql_query( $this->getTableDef("peers") );
       }
       
       if ( ! $this->tableExists("torrents") ) {
-	error_log("create torrents");
-	mysql_query( $this->getTableDef("torrents") );
-	$m->addFlatFileTorrents();
+//				error_log("create torrents");
+				mysql_query( $this->getTableDef("torrents") );
+				$m->addFlatFileTorrents();
       }
       
       if ( ! $this->tableExists("newusers") ) {
-	error_log("create newusers/users");
-	mysql_query( $this->getTableDef("newusers") );
-	mysql_query( $this->getTableDef("users") );
-	$m->addFlatFileUsers();
+//				error_log("create newusers/users");
+				mysql_query( $this->getTableDef("newusers") );
+				mysql_query( $this->getTableDef("users") );
+				$m->addFlatFileUsers();
       }
       
       if ( ! $this->tableExists("channels") ) {
-	error_log("create channels");
-	mysql_query( $this->getTableDef("channels") );
-	mysql_query( $this->getTableDef("channel_options") );
-	mysql_query( $this->getTableDef("channel_files") );
-	mysql_query( $this->getTableDef("channel_sections") );
-	mysql_query( $this->getTableDef("section_files") );				
-	$m->addFlatFileChannels();
+//				error_log("create channels");
+				mysql_query( $this->getTableDef("channels") );
+				mysql_query( $this->getTableDef("channel_options") );
+				mysql_query( $this->getTableDef("channel_files") );
+				mysql_query( $this->getTableDef("channel_sections") );
+				mysql_query( $this->getTableDef("section_files") );				
+				$m->addFlatFileChannels();
       }
       
       if ( ! $this->tableExists("files") ) {
-	error_log("create files");
-	mysql_query( $this->getTableDef("files") );
-	mysql_query( $this->getTableDef("file_people") );
-	mysql_query( $this->getTableDef("file_keywords") );
-	$m->addFlatFileFiles();
+	//			error_log("create files");
+				mysql_query( $this->getTableDef("files") );
+				mysql_query( $this->getTableDef("file_people") );
+				mysql_query( $this->getTableDef("file_keywords") );
+				$m->addFlatFileFiles();
       }
       
       if ( ! $this->tableExists("donations") ) {
-	error_log("create donations");
-	mysql_query( $this->getTableDef("donations") );
-	mysql_query( $this->getTableDef("donation_files") );
-	$m->addFlatFileDonations();
+//				error_log("create donations");
+				mysql_query( $this->getTableDef("donations") );
+				mysql_query( $this->getTableDef("donation_files") );
+				$m->addFlatFileDonations();
       }
 
       set_datastore_version( get_version() );
