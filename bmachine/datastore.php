@@ -41,27 +41,37 @@ class DataStore {
 	 */
 	function DataStore($force_flat = false) {
 
+    error_log("DataStore constructor");
+
 		if ( $force_flat == false ) {
+      error_log("Trying MySQL");
 			$this->layer = new MySQLDataLayer();
 	
 			if (!$this->layer->setup()) {
-        //error_log("couldn't attach to mysql");
+        error_log("couldn't attach to mysql");
 				$this->layer = new BEncodedDataLayer();
 				if (!$this->layer->setup()) {
 					$this->is_setup = false;
 				}
 			}
 		}
-		else {
-      //error_log("forced to use flat file");
+
+
+    if ( $this->is_setup == false ) {
+      error_log("forced to use flat file");
 			$this->layer = new BEncodedDataLayer();
 			if (!$this->layer->setup()) {
 				$this->is_setup = false;
 			}
-		}
+      else {
+        $this->is_setup = true;
+      }
+    }
 
-		$this->is_setup = true;
+
 		
+    error_log("Register hooks");
+
 		//
 		// register some hooks which will be called at different places
 		// when we load/save/delete data
