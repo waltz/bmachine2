@@ -21,20 +21,20 @@ function get_datastore_version() {
 
 function set_datastore_version($v) {
 
-  error_log("set datastore version to $v");
+  //error_log("set datastore version to $v");
 
   global $data_dir;
   $data["datastore"]["version"] = $v;
   $xml = XML_serialize($data);
   
-  error_log("$data_dir/version.xml");
+//  error_log("$data_dir/version.xml");
   $f = fopen("$data_dir/version.xml", 'wb');
   
   flock( $f, LOCK_EX );
   ftruncate($f, 0);
   fwrite($f, $xml);
 
-  error_log($xml);
+ // error_log($xml);
   
   // make sure the file is flushed out to the filesystem
   fflush($f);
