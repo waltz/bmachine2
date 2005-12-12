@@ -62,147 +62,158 @@ class BEncodedDataLayer {
     return $this->loadSettings();
   }
 
-	/**
-	 * lock the requested resource
-	 */
-	function lockResource($file) {
-		if ( isset($this->_handles[$file]) ) {
-			return $this->_handles[$file];
-		}
+  /**
+   * lock the requested resource
+   */
+  function lockResource($file) {
 
+    if ( isset($this->_handles[$file]) ) {
+      return $this->_handles[$file];
+    }
+
+    $old_error_level = error_reporting ( 0 );
+    
     global $data_dir;
-		$handle = fopen("$data_dir/$file", "a+b");		
-		
-		if ( isset($handle) ) {
-			flock( $handle, LOCK_EX );
-			$this->_handles[$file] = $handle;
-			//error_log("lock $file - $handle");
-			return $handle;
-		}
-		
-		return false;
-	}
+    $handle = fopen("$data_dir/$file", "a+b");		
+    
+    error_reporting ( $old_error_level );
 
-	function unlockResource($file) {
-		if ( isset($this->_handles[$file]) ) {
-			//error_log("unlock $file - " . $this->_handles[$file] );
-	    fflush($this->_handles[$file]);
-	    fclose($this->_handles[$file]);
-			unset($this->_handles[$file]);
-			clearstatcache();
-		}
-	}
+    if ( isset($handle) && $handle != false ) {
+      flock( $handle, LOCK_EX );
+      $this->_handles[$file] = $handle;
+      //error_log("lock $file - $handle");
+      return $handle;
+    }
+    
+    return false;
+  }
+  
+  function unlockResource($file) {
+    if ( isset($this->_handles[$file]) ) {
+      //error_log("unlock $file - " . $this->_handles[$file] );
+      fflush($this->_handles[$file]);
+      fclose($this->_handles[$file]);
+      unset($this->_handles[$file]);
+      clearstatcache();
+    }
+  }
+  
+  /**
+   * get a single item from the specified file
+   * returns the item if it exists, null otherwise
+   */
+  function getOne($file, $id, $handle = null) {
+    if ( $handle == null ) {
+      $data = $this->getAll($file);
+    }
+    else {
+      $data = $this->getAll($file, $handle);
+    }
+    if ( isset($data[$id]) ) {
+      return $data[$id];
+    }
+    
+    return null;	
+  }
 
-	/**
-	 * get a single item from the specified file
-	 * returns the item if it exists, null otherwise
-	 */
-	function getOne($file, $id, $handle = null) {
-		if ( $handle == null ) {
-			$data = $this->getAll($file);
-		}
-		else {
-			$data = $this->getAll($file, $handle);
-		}
-		if ( isset($data[$id]) ) {
-			return $data[$id];
-		}
-		
-		return null;	
-	}
-
-	function getAll($file) {
-		$handle = null;
-		return $this->getAllLock($file, $handle, false);
-	}
+  function getAll($file) {
+    $handle = null;
+    return $this->getAllLock($file, $handle, false);
+  }
 	
-	/**
-	 * get all data from the specified file.
-	 */
-	function getAllLock($file, &$handle, $get_lock = true ) {
-
+  /**
+   * get all data from the specified file.
+   */
+  function getAllLock($file, &$handle, $get_lock = true ) {
+    
     global $data_dir;
+    
+    if ( $handle == null ) {
+      $handle = $this->lockResource($file);
+    }
 
-		if ( $handle == null ) {
-			$handle = $this->lockResource($file);
-		}
-
-		if ( $get_lock == true ) {
-			$hold_lock = true;
-			//error_log("hold lock");
-		}
-		else {
-			//error_log("Don't hold lock");
-			$hold_lock = false;
-		}
-		
-//		fflush( $handle );
-		fseek( $handle, 0 );
-	
-		$contents = "";
-		while ( !feof( $handle ) ) {
-			$contents .= fread( $handle, 8192 );
-		}
-
-		if ( $hold_lock == false ) {
-			//error_log("unlocking handle for $file");
-			$this->unlockResource($file);
-		}
+    if ( $handle == false ) {
+      global $errorstr;
+      $errorstr = "Couldn't open $file";
+      return false;
+    }
+    
+    if ( $get_lock == true ) {
+      $hold_lock = true;
+      //error_log("hold lock");
+    }
+    else {
+      //error_log("Don't hold lock");
+      $hold_lock = false;
+    }
+    
+    //		fflush( $handle );
+    fseek( $handle, 0 );
+    
+    $contents = "";
+    while ( !feof( $handle ) ) {
+      $contents .= fread( $handle, 8192 );
+    }
+    
+    if ( $hold_lock == false ) {
+      //error_log("unlocking handle for $file");
+      $this->unlockResource($file);
+    }
     
     $contents = bdecode( $contents );
-		
-		$hooks = $this->getHooks($file, "get");
-		if ( $hooks != null ) {		
-			foreach($contents as $key => $row) {
-				foreach ( $hooks as $h ) {
-					$h( $row[$key] );
-				}
-			}
-		}
-
-		//error_log("loaded $file: " . count($contents) . " items");
-		return $contents;
-	}	
-	
-	/**
-	 * save a single item to the specified file, using $hash as the id
-	 */
-	function saveOne($file, $data, $hash, $handle = null) {
-
-		if ( $handle == null ) {
-			$handle = $this->lockResource($file);
-			$hold_lock = false;
-		}
-		else {
-			$hold_lock = true;
-		}
-
-		if ( !$handle ) {
-			return false;
-		}
-
-		error_log("saveOne $file - $hash " . $handle );
-
-		$all = $this->getAllLock($file, $handle);
-		$all[$hash] = $data;
-
-		$result = $this->saveAll($file, $all, $handle);	
-
-		if ( $hold_lock == false ) {
-			$this->unlockResource($file);
-		}
-
-		$hooks = $this->getHooks($file, "save");
-
-		if ( $hooks != null ) {
-			foreach ( $hooks as $h ) {
-				$h( $all[$hash] );
-			}
-		}
-
-		return $result;
+    
+    $hooks = $this->getHooks($file, "get");
+    if ( $hooks != null ) {		
+      foreach($contents as $key => $row) {
+	foreach ( $hooks as $h ) {
+	  $h( $row[$key] );
 	}
-	
+      }
+    }
+    
+    //error_log("loaded $file: " . count($contents) . " items");
+    return $contents;
+  }	
+  
+  /**
+   * save a single item to the specified file, using $hash as the id
+   */
+  function saveOne($file, $data, $hash, $handle = null) {
+    
+    if ( $handle == null ) {
+      $handle = $this->lockResource($file);
+      $hold_lock = false;
+    }
+    else {
+      $hold_lock = true;
+    }
+    
+    if ( !$handle ) {
+      return false;
+    }
+    
+    //error_log("saveOne $file - $hash " . $handle );
+    
+    $all = $this->getAllLock($file, $handle);
+    $all[$hash] = $data;
+    
+    $result = $this->saveAll($file, $all, $handle);	
+    
+    if ( $hold_lock == false ) {
+      $this->unlockResource($file);
+    }
+    
+    $hooks = $this->getHooks($file, "save");
+    
+    if ( $hooks != null ) {
+      foreach ( $hooks as $h ) {
+	$h( $all[$hash] );
+      }
+    }
+    
+    return $result;
+  }
+  
 	/**
 	 * save the data to the specified file, using the handle if provided
 	 */
@@ -210,7 +221,7 @@ class BEncodedDataLayer {
 
     global $errorstr;
 
-		error_log("saveAll: $file $handle - " . count($data) . " items");
+		//error_log("saveAll: $file $handle - " . count($data) . " items");
 		if ( $handle == null ) {
 			$handle = $this->lockResource($file);
 			$hold_lock = false;
