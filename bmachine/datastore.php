@@ -41,14 +41,14 @@ class DataStore {
 	 */
 	function DataStore($force_flat = false) {
 
-    error_log("DataStore constructor");
+    //error_log("DataStore constructor");
 
 		if ( $force_flat == false ) {
-      error_log("Trying MySQL");
+      //error_log("Trying MySQL");
 			$this->layer = new MySQLDataLayer();
 	
 			if (!$this->layer->setup()) {
-        error_log("couldn't attach to mysql");
+        //error_log("couldn't attach to mysql");
 				$this->layer = new BEncodedDataLayer();
 				if (!$this->layer->setup()) {
 					$this->is_setup = false;
@@ -58,7 +58,7 @@ class DataStore {
 
 
     if ( $this->is_setup == false ) {
-      error_log("forced to use flat file");
+      //error_log("forced to use flat file");
 			$this->layer = new BEncodedDataLayer();
 			if (!$this->layer->setup()) {
 				$this->is_setup = false;
@@ -70,7 +70,7 @@ class DataStore {
 
 
 		
-    error_log("Register hooks");
+    //error_log("Register hooks");
 
 		//
 		// register some hooks which will be called at different places
@@ -402,7 +402,12 @@ class DataStore {
    * add a new channel to our data files
    * @returns id of the new channel on success, false on failure
    */
-  function addNewChannel( $channelname, $description = "",	$icon = "", $publisher = "", 
+	function addNewChannel( $channelname ) {
+		$channel = array();
+		$channel["Name"] = $channelname;
+		$this->saveChannel($channel);
+	}
+/*  function addNewChannel( $channelname, $description = "",	$icon = "", $publisher = "", 
                           $weburl = "", $libraryurl = "", $files = "", $cssurl = "", $openChannel = "" ) {
 
 		$lastID = 0;
@@ -472,13 +477,66 @@ class DataStore {
 		$this->layer->unlockResource("channels");
 
     return $lastID;
-  }
+  }*/
 
 	/**
 	 * store a single channel
 	 */
 	function saveChannel($channel) {
-		$this->layer->saveOne("channels", $channel, $channel["ID"]);
+
+		$channels = $this->layer->getAllLock("channels", $handle);
+
+		if ( ! isset($channel["ID"]) ) {	
+			$lastID = 0;
+	
+			if ( ! isset($handle) ) {
+				global $errstr;
+				$errstr = "Couldn't load channels data";
+				return false;		
+			}
+	
+			foreach ( $channels as $tmp ) {
+				if ( $tmp['ID'] > $lastID ) {
+					$lastID = $tmp['ID'];
+				}
+			}
+			
+			$channel["ID"] = $lastID + 1;
+		}
+
+		if ( !isset($channel['LibraryURL']) ) {
+		    $channel['LibraryURL'] = get_base_url() . "library.php?i=" . $channel["ID"];
+		}
+
+		if ( !isset($channel['CSSURL']) ) {
+		    $channel['CSSURL'] = "default.css";
+		}
+
+		if ( !isset($channel['Files']) ) {
+	    $channel['Files']=array();
+		}
+		if ( !isset($channel['Options']) ) {
+	    $channel['Options']=array();
+			$channel['Options']['Thumbnail']=true;
+			$channel['Options']['Title']    =true;
+			$channel['Options']['Creator']  =false;
+			$channel['Options']['Description']     =false;
+			$channel['Options']['Length']   =false;
+			$channel['Options']['Published']=false;
+			$channel['Options']['Torrent']  =false;
+			$channel['Options']['URL']      =false;
+			$channel['Options']['Filesize'] =false;
+			$channel['Options']['Keywords'] =true;
+		}
+		if ( !isset($channel['Sections']) ) {
+	    $channel['Sections']=array();
+			$channel['Sections']['Featured']=array();
+			$channel['Sections']['Featured']['Name']='Featured';
+			$channel['Sections']['Featured']['Files']=array();
+		}
+	
+//		$this->layer->saveOne("channels", $channel, $channel["ID"]);
+		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 	}
 
  

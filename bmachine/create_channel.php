@@ -38,19 +38,22 @@ if (isset($_POST['post_title'])) {
 	}
 
 	if ( isset($_POST['post_use_auto']) && $_POST['post_use_auto'] == '1') {
-		$url = "";
+//		$url = "";
 	} 
 	else if ( isset($_POST['post_homepage']) ) {
 		$url = $_POST['post_homepage'];
 	}
 
+//	if( isset($_POST["post_id"]) && $_POST["post_id"] != "" ) {
+
 	if( isset($_POST["post_id"]) && $_POST["post_id"] != "" ) {
-
-		if ($url == "") {
-			$url = get_base_url() . "library.php?i=" . $_POST["post_id"];
-		}
-
 		$channel = $store->getChannel($_POST["post_id"]);
+	}
+	else {
+		$channel = array();
+		$channel["Files"] = array();
+	}
+
 
 		if ($icon == "http://") {
 			$icon = "";
@@ -58,7 +61,10 @@ if (isset($_POST['post_title'])) {
 
 		$channel["Name"] = encode($_POST['post_title']);
 		$channel["Description"] = encode($_POST['post_description']);
-		$channel["LibraryURL"] = $url;
+		
+		if ( isset($url) ) {
+			$channel["LibraryURL"] = $url;
+		}
 		$channel["Icon"] = $icon;
 		if ( isset($_POST['post_publisher']) ) {
 			$channel["Publisher"] = encode($_POST['post_publisher']);
@@ -72,7 +78,7 @@ if (isset($_POST['post_title'])) {
 		if (file_exists("publish/" . $_POST["post_id"] . ".rss")) {
 			unlink_file("publish/" . $_POST["post_id"] . ".rss");
 		}
-
+/*
 	} 
 	else {
 
@@ -84,7 +90,7 @@ if (isset($_POST['post_title'])) {
 			$url, '', '', '',
 			isset($_POST['post_open']) );
 
-	}
+	}*/
 
 	if (isset($_POST['post_open'])) {
 		$settings['HasOpenChannels'] = true;

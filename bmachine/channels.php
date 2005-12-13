@@ -85,7 +85,7 @@ bm/help/channels_popup.php')">
 	<!-- 1225115 formatting change -->
 	 <div class="channel_url"><a href="rss.php?i=<?php echo $channel["ID"]; ?>">Subscription Link</a> - <a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a>
 
-	 <div class="channel_stats"><?php echo count($channel["Files"]);?> Files</div>
+	 <div class="channel_stats"><?php if ( isset($channel["Files"]) ) { echo count($channel["Files"]); } else { echo "0"; } ?> Files</div>
 
 	 <div class="edit_channel"><a href="create_channel.php?i=<?php echo $channel["ID"];  ?>">Edit Channel Settings</a>
 
