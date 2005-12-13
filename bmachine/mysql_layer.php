@@ -64,25 +64,25 @@ class MySQLDataLayer extends BEncodedDataLayer {
       $m = new MySQLLoader();
     
       if ( ! $this->tableExists("peers") ) {
-//				error_log("create peers");
+//				//error_log("create peers");
 				mysql_query( $this->getTableDef("peers") );
       }
       
       if ( ! $this->tableExists("torrents") ) {
-//				error_log("create torrents");
+//				//error_log("create torrents");
 				mysql_query( $this->getTableDef("torrents") );
 				$m->addFlatFileTorrents();
       }
       
       if ( ! $this->tableExists("newusers") ) {
-//				error_log("create newusers/users");
+//				//error_log("create newusers/users");
 				mysql_query( $this->getTableDef("newusers") );
 				mysql_query( $this->getTableDef("users") );
 				$m->addFlatFileUsers();
       }
       
       if ( ! $this->tableExists("channels") ) {
-//				error_log("create channels");
+//				//error_log("create channels");
 				mysql_query( $this->getTableDef("channels") );
 				mysql_query( $this->getTableDef("channel_options") );
 				mysql_query( $this->getTableDef("channel_files") );
@@ -92,7 +92,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
       }
       
       if ( ! $this->tableExists("files") ) {
-	//			error_log("create files");
+	//			//error_log("create files");
 				mysql_query( $this->getTableDef("files") );
 				mysql_query( $this->getTableDef("file_people") );
 				mysql_query( $this->getTableDef("file_keywords") );
@@ -100,7 +100,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
       }
       
       if ( ! $this->tableExists("donations") ) {
-//				error_log("create donations");
+//				//error_log("create donations");
 				mysql_query( $this->getTableDef("donations") );
 				mysql_query( $this->getTableDef("donation_files") );
 				$m->addFlatFileDonations();
