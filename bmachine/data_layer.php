@@ -160,14 +160,20 @@ class BEncodedDataLayer {
       $this->unlockResource($file);
     }
     
-    $contents = bdecode( $contents );
+		if ( $contents == "" ) {
+			$contents = array();
+		}
+		else {
+	    $contents = bdecode( $contents );
+		}
     
     $hooks = $this->getHooks($file, "get");
     if ( $hooks != null ) {		
       foreach($contents as $key => $row) {
-	foreach ( $hooks as $h ) {
+	/*foreach ( $hooks as $h ) {
 	  $h( $row[$key] );
-	}
+	}*/
+	$hooks($row[$key]);
       }
     }
     
@@ -191,9 +197,7 @@ class BEncodedDataLayer {
     if ( !$handle ) {
       return false;
     }
-    
-    //error_log("saveOne $file - $hash " . $handle );
-    
+        
     $all = $this->getAllLock($file, $handle);
     $all[$hash] = $data;
     
