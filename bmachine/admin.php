@@ -38,7 +38,7 @@ bm_header();
 <?php
 	// check to see if the datastore version is the same as the stated version of BM -
 	// if not, we will ask the user to upgrade
-	if ( get_datastore_version() != get_version() ) {
+	if ( get_datastore_version() < get_version() ) {
 ?>
 <h4 style="color: #c00">Time to Upgrade!</h4>
 <p>
