@@ -213,6 +213,7 @@ if (count($_POST)>0) {
 ?>
 
 <form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1">
+<input type="submit" value="Save Settings >>" />
 
 <div class="section_header">Website Information</div>
 <p>Please enter a title and description for your installation of Broadcast Machine:</p>
@@ -266,11 +267,19 @@ if (count($_POST)>0) {
 
 <br />
 
-<div class="section_header">URL Settings</div>
 
+<div class="section_header">Direct URLs</div>
+
+Enabling this setting makes your feeds compatible with iTunes and improves access for some search 
+engines.  It works by changing the way the Broadcast Machine links to files with a "mod_rewrite"  
+command.  It may not work on all servers-- you should test it by enabling the setting and then 
+clicking on links to files on your front page.  If the links work, then everything is 
+fine.  <a href="javascript:popUp('http://www.participatoryculture.org/bm/help/settings_popup.php')">More info >></a>
+
+<br />
 <?php
    echo '<p><input type="checkbox" name="use_mod_rewrite" value="1" '.(isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] ? "checked=\"true\" ":"")." /> 
-	 Use mod_rewrite for prettier URLs <strong>(NOTE: THIS IS EXPERIMENTAL)</strong></p>\n";
+	 Enable Direct URLs</p>\n";
 ?>
 
 <br />
@@ -340,7 +349,7 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 <p>Table Prefix: <input type="textbox" name="mysql_prefix" value="<?php echo isset($settings['mysql_prefix'])?$settings['mysql_prefix']:''; ?>" /></p>
 
 
-<input type="submit" value="Save Settings" />
+<input type="submit" value="Save Settings >>" />
 
 <br /><br />
 </div> <!-- closes section-->
