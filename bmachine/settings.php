@@ -12,6 +12,9 @@ if (!is_admin()) {
 	exit;
 }
 
+$mod_write_result = true;
+$rewrite_rss = false;
+
 bm_header();
 
 processSettings();
@@ -27,8 +30,6 @@ function processSettings() {
 	else {
 		$title = isset($settings['title'])?$settings['title']:'';
 	}
-	
-//	print "*** $title";
 	
 	if (isset($_POST['description'])) {
 		$description = encode($_POST['description']);
@@ -80,21 +81,20 @@ function processSettings() {
 	}
 
 
-	$use_mod_rewrite = ((isset($_POST['use_mod_rewrite']) && ($_POST['use_mod_rewrite']=="1")));
-	if ( $use_mod_rewrite == 1 ) {
-		write_mod_rewrite(true);
-	}
-	else {
-		write_mod_rewrite(false);		
-	}
-
 	if ( count($_POST) > 0 ) {
 		$sharing_enable = ((isset($_POST['sharing_enable']) && ($_POST['sharing_enable']=="1")));
 		$sharing_auto = ((isset($_POST['sharing_auto']) && ($_POST['sharing_auto']=="1")));
+  	$use_mod_rewrite = ((isset($_POST['use_mod_rewrite']) && ($_POST['use_mod_rewrite']=="1")));
+
+    if ( $use_mod_rewrite != $settings["use_mod_rewrite"] ) {
+      $mod_write_result = write_mod_rewrite($use_mod_rewrite);
+      $rewrite_rss = true;
+    }
 	} 
 	else {
 		$sharing_enable = $settings["sharing_enable"];
 		$sharing_auto = $settings["sharing_auto"];
+    $use_mod_rewrite = $settings["use_mod_rewrite"];
 	}
 
 	$newsettings = array();
@@ -152,24 +152,27 @@ function processSettings() {
 			$seeder->setup();
 		}
 
-		//Automagically change the backend if the database settings have changed
-/*		if ( strlen($newsettings['mysql_database']) ) {
+    //
+		// Automagically change the backend if the database settings have changed
+    //
+		if ( strlen($newsettings['mysql_database']) ) {
 			if ($store->type() != 'MySQL') {
-				$temp = new MySqlStore();
-				if ($temp->setup()) {
-					$store = $temp;
-					$store->addFlatFileTorrents();
-				}
+		        setup_data_directories(true);
 			}
 		}  // if
 		else {
 			if ($store->type() == 'MySQL') {
-				$temp = new FlatFileStore();
-				if ($temp->setup()) {
-					$store = $temp;
-				}
+		        setup_data_directories(true);
 			}
-		} // else*/
+		} // else
+
+    if ( $rewrite_rss ) {
+      // rewrite our RSS files with the proper URLs
+      $channels = $store->getAllChannels();
+      foreach ($channels as $channelID => $c) {
+        makeChannelRss($channelID, false);
+      }
+    }
 
 	} // if ( $_POST )
 
@@ -275,6 +278,26 @@ engines.  It works by changing the way the Broadcast Machine links to files with
 command.  It may not work on all servers-- you should test it by enabling the setting and then 
 clicking on links to files on your front page.  If the links work, then everything is 
 fine.  <a href="javascript:popUp('http://www.participatoryculture.org/bm/help/settings_popup.php')">More info >></a>
+
+<?php
+if ( $mod_write_result == false ) {
+
+	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+  $output .= "
+touch .htaccess
+chmod 777 .htaccess";
+
+?>
+<br />
+<br />
+
+In order to use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  You can do 
+this by logging into your server and entering the following commands:
+<?
+
+print "<pre>$output</pre>";
+}
+?>
 
 <br />
 <?php
