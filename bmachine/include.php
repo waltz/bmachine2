@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Broadcast Machine include file
  *
@@ -137,13 +138,9 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 
 }
 
-// prevent page cacheing
-//header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-//header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 // send all content as utf-8
 header("Content-type: text/html; charset=UTF-8");
-
 
 // if we don't have a user yet, then send off to the newuser page
 
@@ -612,13 +609,14 @@ function site_description() {
  * seeder and call the setup function for that as well.
  * @returns true if everything worked, otherwise exits processing
  */
-function setup_data_directories() {
+function setup_data_directories( $force = false ) {
 
   global $store;
   global $seeder;
 
-  // TODO - might get rid of this
-  if ( isset($store) && $store != null ) {
+  // if we've already setup our datastore, just return it
+  // unless we want to force it to be re-created
+  if ( $force == false && isset($store) && $store != null ) {
     return $store;
   }
 
@@ -1278,7 +1276,7 @@ function makeChannelRss($channelID, $use_cache = true) {
 <rss version="2.0" 
 	xmlns:media="http://search.yahoo.com/mrss" 
 	xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
-	xmlns:dtvmedia="http://participatoryculture.org/RSSModules/dtv/1.0" >
+	xmlns:dtvmedia="http://participatoryculture.org/RSSModules/dtv/1.0">
 
 EOF;
 
@@ -1294,7 +1292,7 @@ EOF;
 				 type=\"application/rss+xml\" 
 				 title=\"" . encode($channel['Name']) . "\" 
 				 href=\"" . get_base_url() . "rss.php?i=$channelID\" 
-				 xmlns:atom=\"http://purl.org/atom/ns#\" />
+				 xmlns:atom=\"http://www.w3.org/2005/Atom\" />
 				 ";
 
 	// only go through this if we actually have files to display
@@ -1379,14 +1377,17 @@ EOF;
 		
 					// dont send if we dont have a thumbnail
 					if ( $data["Image"] ) {
-						$sOut .= '<media:thumbnail url="' . linkencode($data["Image"]) . "\" />\n";
+            $tmp = linkencode($data["Image"]);
+            $tmp = str_replace("&", "&amp;", $tmp);
+            $tmp = str_replace("&&amp;", "&amp;", $tmp);
+						$sOut .= '<media:thumbnail url="' . $tmp . "\" />\n";
 					}
 		
 					foreach ($data["People"] as $people) {
 						if ( $people[0] && $people[1] ) {
 							$sOut .= "<media:people 
-								role=\"" . encode($people[1]) . "\">" . 
-								encode($people[0]) . "</media:people>\n";
+								role=\"" . encode(trim($people[1])) . "\">" . 
+								encode(trim($people[0])) . "</media:people>\n";
 						}
 					}
 		
@@ -1796,19 +1797,30 @@ function channel_link($channel_id, $force_no_rewrite = false) {
 }
 
 function write_mod_rewrite($on = true) {
+
+	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
+
 	$rules = <<<EOF
 ###
 ### MOD REWRITE RULES (DO NOT EDIT)
 ###
 <IfModule mod_rewrite.c>
 RewriteEngine On
+RewriteBase $base
 RewriteRule ^library/([0-9]+) library.php?i=$1 [QSA]
 RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
 RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
 </IfModule>
 EOF;
 
+  $old_error_level = error_reporting(0);
 	$f = fopen(".htaccess", 'wb');
+  error_reporting($old_error_level);
+
+  if ( ! $f ) {
+    return false;
+  }
+
 	flock( $f, LOCK_EX );
 	rewind ( $f );
 
@@ -1834,7 +1846,7 @@ EOF;
 
 	flock( $f, LOCK_UN );
 	fclose($f);
-
+  return true;
 }
 
 /*
