@@ -294,12 +294,12 @@ class DataStoreTest extends BMTestCase {
 		global $store;
 
     $channel_id = $store->addNewChannel( "Junky Channel" );
-    //		print "added channel $channel_id<br>";
+    print "added channel $channel_id<br>";
 		$channel = $store->getChannel($channel_id);
 		
 		$this->assertTrue( isset($channel), "DataStoreTest/TestAddNewChannel: couldn't load channel" );
 		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", 
-			"DataStoreTest/TestAddNewChannel: couldn't load channel" );
+			"DataStoreTest/TestAddNewChannel: didn't load channel data" );
 
 	}
 	
@@ -307,6 +307,7 @@ class DataStoreTest extends BMTestCase {
 		global $store;
 
     $channel_id = $store->addNewChannel( "Junky Channel: TestStoreChannel" );
+    print "added channel $channel_id<br>";
 		$channel = $store->getChannel($channel_id);
 		$this->assertTrue( isset($channel), "DataStoreTest/TestStoreChannel: couldn't load channel" );
 		
@@ -404,8 +405,12 @@ class DataStoreTest extends BMTestCase {
 
 		$newemail = "new$username@foo.net";
 		$newhash = "newhash";
-    //		$user = $store->getUser($username);
+    //    $user = $store->getUser($username);
+    //    print_r($user);
 		
+    $hashlink = $store->userHash( $username, $password, $email );
+    $this->assertTrue( $store->authNewUser( $hashlink, $username), "DataStoreTest/TestUpdateUser: couldn't auth user" );	
+
     //    print "change $username email to $newemail<br>";
 		$store->updateUser( $username, $newhash, $newemail, false, false, false);
 		
