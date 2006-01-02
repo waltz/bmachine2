@@ -54,6 +54,9 @@ class DataStore {
 					$this->is_setup = false;
 				}
 			}
+      else {
+        $this->is_setup = true;
+      }
 		}
 
 
@@ -345,7 +348,13 @@ class DataStore {
 				}
 
 //				else {
+        if ( !isset($person['Username']) ) {
+//          print "******";
+//          print_r($person);
+        }
+        else {
 					$users[$person['Username']] = $person;
+        }
 //				}
 			}
 		}	
@@ -405,8 +414,9 @@ class DataStore {
 	function addNewChannel( $channelname ) {
 		$channel = array();
 		$channel["Name"] = $channelname;
-		$this->saveChannel($channel);
+		return $this->saveChannel($channel);
 	}
+
 /*  function addNewChannel( $channelname, $description = "",	$icon = "", $publisher = "", 
                           $weburl = "", $libraryurl = "", $files = "", $cssurl = "", $openChannel = "" ) {
 
@@ -537,6 +547,8 @@ class DataStore {
 	
 //		$this->layer->saveOne("channels", $channel, $channel["ID"]);
 		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
+
+    return $channel["ID"];
 	}
 
  
@@ -827,7 +839,13 @@ class DataStore {
     global $data_dir;
 	
     $user = $this->layer->getOne("users", $username);
+    if ( ! $user || count($user) <= 0 ) {
+			global $errstr;
+			$errstr = "Sorry, that user doesn't exist";
+      return false;
+    }
 
+    $user['Username'] = $username;
     $user['Hash']     =$hash;
     $user['Email']    =$email;
     $user['IsAdmin']  =$canAdmin;
@@ -1159,8 +1177,18 @@ class DataStore {
 	 * figure out what the hash is for the given filename
 	 */
 	function getHashFromTorrent( $filename ) {
-		$tmp = $this->getTorrent( $filename );
-		return $tmp["sha1"];
+
+    if ( $this->layer->type() == "MySQL" ) {
+      $result = mysql_query( "SELECT info_hash from " . $this->layer->prefix . "torrents 
+                               WHERE filename = '" . mysql_escape_string($filename) . "'" );
+
+      $tmp = mysql_fetch_array( $result );
+      return $tmp["info_hash"];
+    }
+    else {
+      $tmp = $this->getTorrent( $filename );
+      return $tmp["sha1"];
+    }
 	}
 
 	/** 
