@@ -211,7 +211,9 @@ if ( $file["Keywords"] ) {
       print(", ");
     }
     $i++;
-//    print($keyword);
+    if ( is_array($keyword) ) {
+      $keyword = $keyword[0];
+    }
 		print("<a href=\"library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>");
   }
   
