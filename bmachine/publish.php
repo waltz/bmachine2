@@ -882,10 +882,12 @@ else {
 <input id="publish_button" style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
+<!--
 <div style="display:none;" id="progress_bar">
 <img src="images/upload.gif" width="32" height="32">
 <big>Please Wait...</big>
 </div>
+-->
 
 <div class="section optional">
 <div class="section_header">Optional: Additional Information</div>
@@ -1293,11 +1295,13 @@ Will be set to the time that you press 'publish'.
 <input style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
+
+<!--
 <div style="display:none;" id="progress_bar2">
 <img src="images/upload.gif" width="32" height="32">
 <big>Please Wait...</big>
 </div>
-
+-->
 
 </div>
 </form>
