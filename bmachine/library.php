@@ -1,4 +1,5 @@
 <?php
+
 /**
  * channel display page
  *
@@ -23,11 +24,11 @@ if (isset($_GET['i'])) {
   if ( isset($channel['RequireLogin']) && $channel['RequireLogin'] == true ) {
     requireUserAccess(true);
   }
-	
 
 	// if the user has an external LibraryURL, send them to that page here
 	if ( isset($channel['LibraryURL']) && 
 		! strstr($channel['LibraryURL'], get_base_url() . "library.php?i=" . $channelID) ) {
+
 			header("Location: " . $channel['LibraryURL']);
 			exit;
 	}
@@ -69,6 +70,9 @@ if ($channel['Options']['Keywords'] == "1") {
 
       foreach ($files[$filehash[0]]["Keywords"] as $words) {
 
+        if ( is_array($words) ) {
+          $words = $words[0];
+        }
 				if (!array_key_exists($words,$keywords)) {	  
 					$keywords[$words] = 0;
 				}
