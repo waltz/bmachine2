@@ -287,7 +287,11 @@ function display_video($filehash, $file) {
   if ( isset($channel['Options']['Length']) && $channel['Options']['Length'] == 1) {
     print("<div class=\"video_stats\">\n");
     print("<div class=\"published_date\">Posted " . date("F j, Y", $file["Publishdate"]) . "</div>\n");
-    if (($file["RuntimeHours"] || $file["RuntimeMinutes"] || $file["RuntimeSeconds"])) {
+
+    if (
+      ($file["RuntimeHours"] || $file["RuntimeMinutes"] || $file["RuntimeSeconds"]) &&
+        ($file["RuntimeHours"] > 0 || $file["RuntimeMinutes"] > 0 || $file["RuntimeSeconds"] > 0 )
+        ) {
       $runtime = "";
       
       if ($file["RuntimeHours"] != "") {	
@@ -450,7 +454,8 @@ function displayTorrentInfo( $url, $filehash, $return_url, $type = "basic", $res
 		<br />
 		SEEDERS: " . $stats["complete"] . "<br />
 		DOWNLOADERS: " . $stats["incomplete"] . "<br /><br />";
-	
+
+
 	if ( $type != "basic" && $sharing == true && $seeder->enabled() ) {
 		if ( !isset($file["SharingEnabled"]) || $file["SharingEnabled"] == false ) {
 			print "<strong>Server Sharing STOPPED</strong><br />
@@ -486,11 +491,7 @@ function displayTorrentInfo( $url, $filehash, $return_url, $type = "basic", $res
 			else {
 				$tally = "0.0";
 			}
-	
-	/*			<strong>Torrent Status</strong>
-				<br />
-				SEEDERS: " . $stats["complete"] . "<br />
-				DOWNLOADERS: " . $stats["incomplete"] . "<br /><br />*/
+
 			print "
 				<strong>Server Sharing ON</strong><br />
 				Status: " . $status . "<br />
