@@ -35,7 +35,6 @@ class MySQLDataLayer extends BEncodedDataLayer {
 			    $settings['mysql_username'],
 			    $settings['mysql_password'] ) ) {
 
-
       //We can connect to the server. try to connect to the database
       if ( !@mysql_selectdb( $settings['mysql_database'] ) ) {
 
@@ -1169,7 +1168,7 @@ class MySQLLoader {
     
     foreach ( $oldTorrents as $torrent ) {
       
-      $raw = $store->getRawTorrent( $torrent );
+      $raw = $this->flat->getRawTorrent( $torrent );
       $tmp = bdecode($raw);
       $hash = $tmp["sha1"];
       
@@ -1177,9 +1176,11 @@ class MySQLLoader {
 	. mysql_escape_string( $hash )
 	. "','" . mysql_escape_string( $torrent ) . "','" . mysql_escape_string( $raw )
 	. "')";
-      
+
+
       mysql_query( $sql );
     }
+
   }
 		
   function addFlatFileUsers() {
@@ -1270,54 +1271,54 @@ class MySQLLoader {
   }
   
   function addFlatFileFiles() {
-		global $store;
+    global $store;
 		
-		$files = $this->flat->layer->getAll("files");
+    $files = $this->flat->layer->getAll("files");
 		
-		$qarr = $store->layer->getTableQueries("files");
-		$query = $qarr["insert"];
+    $qarr = $store->layer->getTableQueries("files");
+    $query = $qarr["insert"];
 		
-		$qarr = $store->layer->getTableQueries("file_people");
-		$people_sql = $qarr["insert"];
+    $qarr = $store->layer->getTableQueries("file_people");
+    $people_sql = $qarr["insert"];
 		
-		$qarr = $store->layer->getTableQueries("file_keywords");
-		$kw_sql = $qarr["insert"];
+    $qarr = $store->layer->getTableQueries("file_keywords");
+    $kw_sql = $qarr["insert"];
 		
-		foreach ( $files as $f ) {
+    foreach ( $files as $f ) {
 		
-			// desc is a reserved word in SQL, so lets not be using that
-			if ( isset($f["Desc"]) ) {
-				$f["Description"] = $f["Desc"];
-				unset($f["Desc"]);
-			}
+      // desc is a reserved word in SQL, so lets not be using that
+      if ( isset($f["Desc"]) ) {
+	$f["Description"] = $f["Desc"];
+	unset($f["Desc"]);
+      }
 		
-			$data = $store->layer->prepareForMySQL($f);
-			
-			$sql = str_replace("%vals", $data, $query);
-			mysql_query( $sql );
-			
-			foreach($f["People"] as $p) {
-				$tmp["Name"] = trim($p[0]);
-				$tmp["Role"] = trim($p[1]);
-				$tmp["ID"] = $f["ID"];
-			
-				if ( $tmp["Name"] != "" ) {
-					$data = $store->layer->prepareForMySQL($tmp);
-					$sql = str_replace("%vals", $data, $people_sql);
-					mysql_query( $sql );
-				}
-			}
-		
-			foreach($f["Keywords"] as $kw) {
-				$kw = trim($kw);
-				$sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (ID, word) 
+      $data = $store->layer->prepareForMySQL($f);
+      
+      $sql = str_replace("%vals", $data, $query);
+      mysql_query( $sql );
+      
+      foreach($f["People"] as $p) {
+	$tmp["Name"] = trim($p[0]);
+	$tmp["Role"] = trim($p[1]);
+	$tmp["ID"] = $f["ID"];
+	
+	if ( $tmp["Name"] != "" ) {
+	  $data = $store->layer->prepareForMySQL($tmp);
+	  $sql = str_replace("%vals", $data, $people_sql);
+	  mysql_query( $sql );
+	}
+      }
+      
+      foreach($f["Keywords"] as $kw) {
+	$kw = trim($kw);
+	$sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (ID, word) 
 								VALUES ('" . mysql_escape_string($f["ID"]) . "', 
 								'" . mysql_escape_string($kw) . "')";
-				mysql_query( $sql );
-			}
-		
-		}	
-
+	mysql_query( $sql );
+      }
+      
+    }	
+    
   } // addFlatFileFiles
   
   function addFlatFileDonations() {
@@ -1335,8 +1336,8 @@ class MySQLLoader {
       mysql_query( $sql );
       
       foreach($d["Files"] as $f) {
-				$sql = "REPLACE INTO " . $store->layer->prefix . "donation_files SET id = '$id', hash = '$f'";
-				mysql_query( $sql );
+	$sql = "REPLACE INTO " . $store->layer->prefix . "donation_files SET id = '$id', hash = '$f'";
+	mysql_query( $sql );
       }
     }	
   }
