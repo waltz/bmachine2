@@ -85,6 +85,43 @@ function good_upload($file) {
 	return true;	
 }
 
+/**
+ * ensure that a url is (somewhat) valid
+ * submitted by pnomolos -at- gmail.com
+ * https://develop.participatoryculture.org/projects/dtv/ticket/846
+ */
+function check_url($url) {
+  // empty URLs are okay
+  if ( "" === $url ) {
+    return true;
+  }
+
+  // parse it (disable/re-enable warnings in case things are mangled)
+  $old_error_level = error_reporting();
+  $url_parts;
+
+  error_reporting ( $old_error_level & ~E_WARNING );
+
+  $url_parts = parse_url($url);
+  error_reporting ( $old_error_level );
+
+  // return false if something went seriously 
+  // wrong and parse_url couldn't even parse it
+  if ( false === $url_parts ) {
+    return false;
+  }
+
+  $valid_url = true;
+  $valid_url = $url_parts['host'] ? 
+    preg_match ( '/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/', $url_parts['host'] ) ||
+    preg_match ( '/(?:(?:[a-zA-Z0-9]|-)+\\.)+[a-zA-Z]{2,4}/', $url_parts['host'] ) : true;
+
+  // We won't check this for now, just html entity-ify the url
+  /* $valid_url = $url_parts['path'] ?
+		preg_match ( '#^[^\\{\\}\\|<>\\#\\"]*$#', $url_parts['host'] ) : true;*/
+
+  return $valid_url;
+}
 
 /**
  * publish a file from POST input
@@ -162,8 +199,8 @@ function publish_file($file) {
 		$temp_keywords = "";
 	}
 
-	if ( isset($file["post_webpage"])) {
-		$webpage = $file["post_webpage"];
+	if ( isset($file["post_webpage"]) && check_url($file["post_webpage"])) {
+	  $webpage = htmlentities($file["post_webpage"]);
 	}
 	else {
 		$webpage = "";
@@ -460,11 +497,11 @@ function publish_file($file) {
 	}
 
 
-	if ( isset($file['post_transcript_url']) ) {
-		$transcript_url = $file["post_transcript_url"];
+	if ( isset($file['post_transcript_url']) && check_url($file["post_transcript_url"]) ) {
+	  $transcript_url = htmlentities($file["post_transcript_url"]);
 	}
 	else {
-		$transcript_url = "";
+	  $transcript_url = "";
 	}
 
 	global $text_dir;
