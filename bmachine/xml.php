@@ -59,7 +59,8 @@ class XML{
 	var $last_opened_tag; #keeps track of the last tag opened.
 
 	function XML(){
- 		$this->parser = &xml_parser_create();
+// 		$this->parser = &xml_parser_create();
+ 		$this->parser = xml_parser_create();
 		xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, false);
 		xml_set_object($this->parser, $this);
 		xml_set_element_handler($this->parser, 'open','close');
@@ -69,8 +70,10 @@ class XML{
 	function & parse(&$data){
 		$this->document = array();
 		$this->stack    = array();
-		$this->parent   = &$this->document;
-		return xml_parse($this->parser, $data, true) ? $this->document : NULL;
+//		$this->parent   = &$this->document;
+		$this->parent   = $this->document;
+		$result = xml_parse($this->parser, $data, true) ? $this->document : NULL;
+		return $result;
 	}
 	function open(&$parser, $tag, $attributes){
 		$this->data = ''; #stores temporary cdata
