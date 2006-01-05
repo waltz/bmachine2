@@ -66,7 +66,7 @@ class EncodingTest extends BMTestCase {
   }
 
   function TestUTFDonation() {
-
+error_log("TestUTFDonation");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		$utftitle = file_get_contents("tests/utftitle.txt");
@@ -87,6 +87,7 @@ class EncodingTest extends BMTestCase {
 		$donations = $store->getAllDonations();
 		$got_it = $this->Find($donations, "title", encode($donation['donation_title']));
 		$this->assertTrue( $got_it, "EncodingTest/TestUTFDonation: didn't find new donation" . $donation['donation_title']);
+error_log("TestUTFDonation - done");
   }
 	
 	function TestUTFFile() {

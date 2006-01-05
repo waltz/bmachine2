@@ -32,6 +32,12 @@ class DonationTest extends BMTestCase {
 		global $store;
 		$donations = $store->getAllDonations();
 		$got_it = $this->Find($donations, "title", encode($donation['donation_title']));
+
+  print "<pre>";
+  print $title . "<br>";
+  print_r($donations);
+  print "</pre>";
+
 		$this->assertTrue( $got_it, "DonationTest/TestCreatePage: didn't find new donation");
 	}
 

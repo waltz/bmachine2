@@ -49,6 +49,7 @@ class DataStoreTest extends BMTestCase {
    */
   function TestSettings() {
 
+    error_log("DataStoreTest/TestSettings");
     $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
     global $store;
@@ -64,6 +65,8 @@ class DataStoreTest extends BMTestCase {
 	 * test the users load/save functions
 	 */
   function TestUsers() {
+
+    error_log("DataStoreTest/TestUsers");
 
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
@@ -90,6 +93,9 @@ class DataStoreTest extends BMTestCase {
 	 * test our login form
 	 */
   function TestLogin() {
+
+    error_log("DataStoreTest/TestLogin");
+
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
     global $settings;
@@ -114,6 +120,8 @@ class DataStoreTest extends BMTestCase {
 	 * test our user-loading function
 	 */
   function TestGetUsers() {
+
+    error_log("DataStoreTest/TestGetUsers");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;
@@ -121,104 +129,9 @@ class DataStoreTest extends BMTestCase {
   }
   
 
-	/**
-	 * test our save-one function
-	 */
-/*	function TestSaveOne() {
-
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		global $store;
-		$files = $store->layer->getAll("tmpfiles");
-
-		for ( $i = 0; $i < 5; $i++ ) {
-			$count = count($files);
-			
-			$tmpfile["ID"] = rand(0, 100000);
-			$tmpfile["rand"] = rand(0, 100000);
-			
-			$store->layer->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
-
-      clearstatcache();
-			$files = $store->layer->getAll("tmpfiles");
-			$this->assertTrue( $count + 1 == count($files) && isset($tmpfile["ID"]), "saveOne didn't work" );
-//			print_r($files);
-		}
-		
-	}*/
-	
-	/**
-	 * test our save-all function
-	 */
-/*	function TestSaveAll() {
-
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		global $store;
-		$files = $store->layer->getAll("tmpfiles");
-
-		for ( $i = 0; $i < 5; $i++ ) {
-			$count = count($files);
-			
-			$tmpfile["ID"] = rand(0, 100000);
-			$tmpfile["rand"] = rand(0, 100000);
-			
-			$files[$tmpfile["ID"]] = $tmpfile;
-			$store->layer->saveAll("tmpfiles", $files );
-	
-			$files = $store->layer->getAll("tmpfiles");
-			$this->assertTrue( $count + 1 == count($files), "saveAll didn't work" );
-		}
-	
-	}
-	*/
-	
-	/**
-	 * test our get-one function
-	 */
-/*	function TestGetOne() {
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		global $store;
-
-		$tmpfile["ID"] = rand(0, 100000);
-		$tmpfile["rand"] = rand(0, 100000);			
-		$store->layer->saveOne("tmpfiles", $tmpfile, $tmpfile["ID"] );
-
-		$tmpfile2 = $store->layer->getOne("tmpfiles", $tmpfile["ID"]);		
-		
-		$this->assertTrue( $tmpfile["ID"] == $tmpfile2["ID"] && $tmpfile["rand"] == $tmpfile["rand"],
-				"getOne didn't work" );
-	}
-*/
-
-	/**
-	 * test our get-all function
-	 */
-/*	function TestGetAll() {
-		global $store;
-		$files = $store->layer->getAll("tmpfiles");
-
-		for ( $i = 0; $i < 5; $i++ ) {
-			$count = count($files);
-			
-			$tmpfile["ID"] = rand(0, 100000);
-			$tmpfile["rand"] = rand(0, 100000);
-			
-			$files[$tmpfile["ID"]] = $tmpfile;
-			$store->layer->saveAll("tmpfiles", $files );
-		}
-		
-		$count = count($files);
-
-		$files2 = $store->layer->getAll("tmpfiles");
-		$this->assertTrue( $count  == count($files2), "DataStoreTest/TestGetAll getAll/saveAll counts don't match" );
-		$this->assertTrue( $files == $files2, "DataStoreTest/TestGetAll getAll/saveAll data doesnt match" );
-
-	}
-*/
-
 	function TestDeleteChannel() {
+
+    error_log("DataStoreTest/TestDeleteChannel");
 		global $store;
 		
 		$channels = $store->getAllChannels();
@@ -239,6 +152,7 @@ class DataStoreTest extends BMTestCase {
 
 	function TestDeleteFile() {
 
+    error_log("DataStoreTest/TestDeleteFile");
 		global $store;	
 		$files = $store->getAllFiles();
 		
@@ -254,18 +168,14 @@ class DataStoreTest extends BMTestCase {
 
   function TestGetAllDonations() {
 		global $store;
+    error_log("DataStoreTest/TestGetAllDonations");
 		$store->getAllDonations();
   }
-/*
-  function TestGetDonation() {
-		global $store;
-		$store->getDonation();
-  }*/
 
   function TestSaveDonations() {
 
 		global $store;
-
+    error_log("DataStoreTest/TestSaveDonations");
 		$donations = $store->getAllDonations();
 	
 		// we don't encode this because the user can enter in html if they want, but we will do
@@ -283,12 +193,9 @@ class DataStoreTest extends BMTestCase {
 
 		$donations = 	$store->getAllDonations();
 		$this->assertTrue( isset($donations[$donationhash]), "DataStoreTest/TestSaveDonations: save didn't work");
+
+    error_log("DataStoreTest/TestSaveDonations done");
   }
-/*
-	function TestRemoveFileFromDonation() {
-		global $store;	
-		$store->removeFileFromDonation($id, $donation_id);
-	}*/
 	
 	function TestAddNewChannel() {
 		global $store;
