@@ -139,10 +139,10 @@ class DataStore {
    * given a hash, return its file
    * @returns file array
    */
-  function getFile( $hash ) {
+  function getFile( $hash, $handle = null ) {
 		//error_log("getFile: $hash");
-		$f = $this->layer->getOne("files", $hash);
-
+		$f = $this->layer->getOne("files", $hash, $handle);
+//error_log("getFile - called getOne");
     if ( count($f) > 0 ) {
       return $f;
     }
@@ -171,6 +171,7 @@ class DataStore {
 	 * @returns true if successful, false on error and sets global $errstr
 	 */
 	function DeleteFile($id) {
+
 		return $this->layer->deleteOne("files", $id);
 	} // DeleteFile
 	
@@ -1818,10 +1819,10 @@ EOD;
  *  DATASTORE HOOKS
  *****************************************************************/
 
-function PreDeleteFile($id) {
+function PreDeleteFile($id, $handle) {
 	global $store;
 
-	$file = $store->getFile($id);
+	$file = $store->getFile($id, $handle);
 
 	if ( is_local_file($file["URL"]) ) {
 
@@ -2032,7 +2033,7 @@ function MySQLPreSaveChannelHook(&$channel) {
 				"section_files WHERE hash NOT IN (" . implode(",", $tmp) . ")
 				AND channel_id = '" . $channel["ID"] . "' AND
 					Name = '" . mysql_escape_string($s["Name"]) . "'";
-			print "*** $sql<br>";
+//			print "*** $sql<br>";
 			mysql_query( $sql );
 		}
 	}	
@@ -2054,7 +2055,8 @@ function MySQLPreSaveChannelHook(&$channel) {
 	// clear out old section files
 	$tmp = array();
 	foreach( $channel["Files"] as $f ) {
-		$tmp[] = "'" . mysql_escape_string($f) . "'";
+//		$tmp[] = "'" . mysql_escape_string($f) . "'";
+		$tmp[] = "'" . mysql_escape_string($f[0]) . "'";
 	}
 
 	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
