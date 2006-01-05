@@ -699,6 +699,8 @@ function check_folders() {
     return;
   }  
 
+  clearstatcache();
+
   $error = array();
   $good_perms = true;
   
@@ -801,7 +803,9 @@ function check_permissions() {
 	
   if ( ! $store ) {
     return;
-  }  
+  }
+
+  clearstatcache();
 
   $error = array();
   $good_perms = true;
