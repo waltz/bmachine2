@@ -56,6 +56,9 @@ class MySQLDataLayer extends BEncodedDataLayer {
 	
   function init() {
 
+//      $m = new MySQLLoader();
+//	$m->addFlatFileChannels();
+
     global $data_dir;
     if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != get_version() ) {
 
@@ -712,319 +715,10 @@ class MySQLDataLayer extends BEncodedDataLayer {
       return null;
     }
   }
-	
-  /*
-   function _DeleteFile($id) {
-   $qarr = $this->getTableQueries("channel_files");
-   $sql = $qarr["delete_by_file"];
-   $sql = str_replace("%key", $id, $sql);
-   $result = mysql_query( $sql );
-    
-   $qarr = $this->getTableQueries("file_keywords");
-   $sql = $qarr["delete"];
-   $sql = str_replace("%key", $id, $sql);
-   $result = mysql_query( $sql );
-    
-   $qarr = $this->getTableQueries("file_people");
-   $sql = $qarr["delete"];
-   $sql = str_replace("%key", $id, $sql);
-   $result = mysql_query( $sql );
-    
-   $qarr = $this->getTableQueries("files");
-   $sql = $qarr["delete"];
-   $sql = str_replace("%key", $id, $sql);
-   $result = mysql_query( $sql );
-   }  
 
-   function DeleteChannel($id) {
-   $channel = $this->getChannel($id);
-    
-   // figure out the sections and delete the section_files
-   $sql = "DELETE FROM " . $this->prefix . "section_files WHERE channel_id = '$id'";
-   mysql_query( $sql );
-    
-   $qarr = $this->getTableQueries("channels");
-   $query = $qarr["delete"];
-    
-   $sql = str_replace("%key", $id, $query);
-   mysql_query( $sql );
-    
-   $qarr = $this->getTableQueries("channel_files");
-   $query = $qarr["delete"];
-
-   $sql = str_replace("%key", $id, $query);
-   mysql_query( $sql );
-
-   $qarr = $this->getTableQueries("channel_options");
-   $query = $qarr["delete"];
-
-   $sql = str_replace("%key", $id, $query);
-   mysql_query( $sql );
-
-   $qarr = $this->getTableQueries("channel_sections");
-   $query = $qarr["delete"];
-
-   $sql = str_replace("%key", $id, $query);
-   mysql_query( $sql );
-		
-   return true;
-
-   }
-	
-   function getChannel($id) {
-   $tmp = $this->getAllChannels();
-   return $tmp[$id];
-   }
-  */
-	
-  /**
-   * remove a file from the channel
-   */
-  /*  function removeFileFromChannel($channel, $key) {
-    $sql = "REPLACE INTO " . $this->prefix . "donation_files SET id = '$donation_id', hash = '$id'";
-    mysql_query( $sql );			
-  }
-
-  function removeFileFromChannelSection($channel, $section, $key) {
-    $sql = "DELETE FROM " . $this->prefix . "section_files WHERE channel_id='" . $channel['ID'] . "' 
-							AND Name = '" . mysql_escape_string($section) . "' 
-							AND hash = '" . $key . "'";
-    $result = mysql_query( $sql );
-    }*/
-  
-  
-  /**
-   * get an array of all of our donation links
-   * @returns array of donation links
-   */
-  /*  function getAllDonations() {
-    $tmp = $this->getAll("donations");
-    
-    $qarr = $this->getTableQueries("donation_files");
-    $donation_sql = $qarr["select"];
-    
-    foreach($tmp as $d) {
-      $sql = str_replace("%key", $d["id"], $donation_sql);
-      $result = mysql_query( $sql );
-      $tmp[ $d["id"] ]["Files"] = array();
-      
-      while ( $row = mysql_fetch_array( $result ) ) {
-	$tmp[ $d["id"] ]["Files"][$row["hash"]] = 1;
-      }	
-      
-    }
-    return $tmp;
-  }
-  */
-  
-  /**
-   * get the given donation by id
-   * @returns array of donation data
-   */
-  /*  function getDonation($id) {
-    $tmp = $this->getOne("donations", $id);
-
-    $qarr = $this->getTableQueries("donation_files");
-    $donation_sql = $qarr["select"];
-
-    $sql = str_replace("%key", $c["ID"], $donation_sql);
-    $result = mysql_query( $sql );
-    
-    while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
-      foreach($row as $val) {
-	$tmp["Files"][$val["hash"]] = 1;
-      }
-    }	
-    
-    return $tmp;
-  }
-
-  function saveDonations( $donations ) {
-    foreach($donations as $id => $d ) {
-      $this->saveOne("donations", $d, $id);
-      foreach($d["Files"] as $f) {
-	$sql = "REPLACE INTO " . $this->prefix . "donation_files SET id = '$id', hash = '$f'";
-	mysql_query( $sql );			
-      }
-    }
-  }
-
-  function addFileToDonation($id, $donation_id) {
-    $sql = "REPLACE INTO " . $this->prefix . "donation_files SET id = '$donation_id', hash = '$id'";
-    mysql_query( $sql );			
-  }
-
-  function removeFileFromDonation($id, $donation_id) {
-    $sql = "DELETE FROM " . $this->prefix . "donation_files WHERE hash = '$id' and id = '$donation_id'";
-    mysql_query( $sql );
-    return true;
-  }
-
-	
-  function deleteDonation($id) {
-  $qarr = $this->getTableQueries("donation_files");
-  $donation_sql = $qarr["delete"];
-  $sql = str_replace("%key", $id, $donation_sql);
-  $result = mysql_query( $sql );
-  //print $sql . "<br>";
-  
-  $qarr = $this->getTableQueries("donations");
-  $donation_sql = $qarr["delete"];
-  $sql = str_replace("%key", $id, $donation_sql);
-  $result = mysql_query( $sql );		
-  
-  //		print $sql . "<br>";
-  //exit;
-  }
-  */
-
-  /**
-   * store a single channel
-   */
-  /*
-  function saveChannel($channel) {
-    
-    // store channel data
-    $this->saveOne("channels", $channel, $channel["ID"]);
-    
-    // store channel files
-    foreach( $channel["Files"] as $f ) {
-      $sql = "REPLACE INTO " . $this->prefix . "channel_files 
-				SET channel_id = " . $channel["ID"] . ", 
-				hash = '" . mysql_escape_string($f["0"]) . "', 
-				thetime = '" . mysql_escape_string($f["1"]) . "'";
-      mysql_query( $sql );
-    }
-    
-    // store options
-    $this->saveOne("channel_options", $channel["Options"], $channel["ID"]);
-    
-    $qarr = $this->getTableQueries("channel_sections");
-    $query = $qarr["insert"];
-    
-    $qarr = $this->getTableQueries("section_files");
-    $sf_sql = $qarr["insert"];
-    
-    // store sections
-    foreach( $channel["Sections"] as $s ) {
-      $data = "channel_id = '" . $channel["ID"] . "', 
-				Name = '" . mysql_escape_string($s["Name"]) . "'";
-      $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
-      
-      // store section files
-      foreach($s["Files"] as $f) {
-	$data = "channel_id = '" . $channel["ID"] . "', 
-					Name = '" . mysql_escape_string($s["Name"]) . "', 
-					hash = '" . mysql_escape_string($f) . "'";
-	
-	$sql = str_replace("%vals", $data, $sf_sql);
-	mysql_query( $sql );
-      }
-    }	
-    
-    return true;
-  }
-  */
-
-  /**
-   * store our channel data
-   * @returns true
-   */
-  /*  function saveChannels($channels) {
-		foreach($channels as $c) {
-			$this->saveChannel($c);
-		}
-    return true;
-    }*/
-	
-  /**
-   * delete a user
-   * @returns true on success, false on failure
-   */
-  /*  function deleteUser( $username ) {
-		$qarr = $this->getTableQueries("users");
-		$query = $qarr["delete"];
-		$sql = str_replace("%key", $username, $query);
-		if ( mysql_query( $sql ) == false ) {
-			return false;
-		}
-		
-		return true;
-	}
-  */
-
-  /**
-   * handle a bittorrent announce - mysql version
-   */ 
-  /*function BTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
-    $this->error = '';
-    
-    if ( strlen( $info_hash ) != 40 ) {
-      $this->error = 'Invalid info hash';
-      return null;
-    }
-    
-    $peer_ip  =explode( '.', $remote_addr );
-    $peer_ip  =pack( "C*", $peer_ip[0], $peer_ip[1], $peer_ip[2], $peer_ip[3] );
-    $peer_port=pack( "n*", (int)$port );
-    $seeder   =( $left == 0 ) ? '1' : '0';
-
-    if ( !$this->torrentExists( $info_hash ) ) {
-      $this->error = 'This torrent is not authorized on this tracker.';
-      return null;
-    }
-
-    if ( $event == 'stopped' ) {
-      mysql_query ( "DELETE FROM " . $this->prefix . "peers WHERE info_hash='" . mysql_escape_string(
-										$info_hash ) . "' AND ip='"
-		    . mysql_escape_string( $peer_ip ) . "' AND port='" . mysql_escape_string( $peer_port )
-		    . "'" );
-		}
-    else {
-      mysql_query ( "REPLACE INTO " . $this->prefix . "peers (info_hash,ip,port,seeder,time) VALUES ('"
-		    . mysql_escape_string( $info_hash )
-		    . "', '" . mysql_escape_string( $peer_ip )
-		    . "','" . mysql_escape_string( $peer_port ) . "','" . mysql_escape_string( $seeder )
-		    . "',NOW())" );
-		}
-
-    $peer_num = 0;
-
-
-    mysql_query( "DELETE FROM " . $this->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
-
-    $o = '';
-
-    //Fill $o with a list of peers
-    if ( $event == 'stopped' || $numwant === 0 ) {
-      $o='';
-    }
-    else {
-      $result=mysql_query( "SELECT CONCAT(ip,port) as out FROM " . $this->prefix . "peers WHERE info_hash='"
-			   . mysql_escape_string( $info_hash )
-			   . "' ORDER BY RAND() LIMIT 50" );
-
-      while ( $row=mysql_fetch_array( $result ) ) {
-				$peer_num++;
-				$o .= $row[0];
-      }
-    }
-
-
-    if ($peer_num <= 3) {
-      $interval = '30';
-		}
-    else {
-      $interval = '300';
-		}
-
-    return 'd8:intervali'.$interval.'e5:peers' . strlen( $o ) . ':' . $o . 'e';
-    }*/
-
-	/**
-	 * get the stats for the specified torrent from the db
-	 */
+/**
+ * get the stats for the specified torrent from the db
+ */
   function getStat( $info_hash ) {
 
     // delete expired peers
@@ -1221,6 +915,10 @@ class MySQLLoader {
     
     $qarr = $store->layer->getTableQueries("channel_options");
     $option_sql = $qarr["insert"];
+//print "<pre>";
+//print_r($channels);
+//print "</pre>";
+
     
     foreach ( $channels as $c ) {
       
@@ -1257,17 +955,23 @@ class MySQLLoader {
 								SET channel_id = " . $c["ID"] . ", 
 								Name = '" . mysql_escape_string($s["Name"]) . "'";
 	mysql_query( $sql );
-	
+
+//print "<pre>";
+//print_r($c);
+
 	foreach( $s["Files"] as $sf ) {
 	  $sql = "REPLACE INTO " . $store->layer->prefix . "section_files 
 									SET channel_id = " . $c["ID"] . ", 
 									Name = '" . mysql_escape_string($s["Name"]) . "',
 									hash = '" . mysql_escape_string($sf) . "'";
+//print "$sql<br>";
 	  mysql_query( $sql );
 	}
+
+//print "</pre>";
       }
     }	
-    
+//    exit;
   }
   
   function addFlatFileFiles() {
@@ -1334,11 +1038,13 @@ class MySQLLoader {
       $data = $store->layer->prepareForMySQL($d);
       $sql = str_replace("%vals", $data, $query);
       mysql_query( $sql );
-      
+
+	if ( isset($d["Files"]) && $d["Files"] != null ) {
       foreach($d["Files"] as $f) {
 	$sql = "REPLACE INTO " . $store->layer->prefix . "donation_files SET id = '$id', hash = '$f'";
 	mysql_query( $sql );
       }
+	}
     }	
   }
 }
