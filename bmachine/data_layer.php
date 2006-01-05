@@ -103,13 +103,16 @@ class BEncodedDataLayer {
    * returns the item if it exists, null otherwise
    */
   function getOne($file, $id, $handle = null) {
+	//error_log("getOne $file $id $handle");
     if ( $handle == null ) {
       $data = $this->getAll($file);
     }
     else {
-      $data = $this->getAll($file, $handle);
+      $data = $this->getAllLock($file, $handle, true);
     }
+
     if ( isset($data[$id]) ) {
+	//error_log("found it");
       return $data[$id];
     }
     
@@ -140,14 +143,13 @@ class BEncodedDataLayer {
     
     if ( $get_lock == true ) {
       $hold_lock = true;
-      //error_log("hold lock");
+      //error_log("hold lock on $file");
     }
     else {
-      //error_log("Don't hold lock");
+      //error_log("Don't hold lock on $file");
       $hold_lock = false;
     }
     
-    //		fflush( $handle );
     fseek( $handle, 0 );
     
     $contents = "";
@@ -269,7 +271,7 @@ class BEncodedDataLayer {
 	}
 	
 	function deleteOne($file, $hash, $handle = null) {
-	
+//error_log("deleteOne $file $hash");	
 		if ( $handle == null ) {
 			$handle = $this->lockResource($file);
 			$hold_lock = false;
@@ -281,24 +283,26 @@ class BEncodedDataLayer {
 		if ( !$handle ) {
 			return false;
 		}
-
+//error_log("get pre-delete hooks");
 		$hooks = $this->getHooks($file, "pre-delete");
 
 		if ( $hooks != null ) {
-			foreach ( $hooks as $h ) {
-				$h($hash);
-			}
+			$hooks($hash, $handle);
 		}
+
+//error_log("done calling pre-delete hooks");
 
 		$all = $this->getAllLock($file, $handle, true);
 		unset($all[$hash]);
+//error_log("done with unset");
 		$result = $this->saveAll($file, $all, $handle);	
+//error_log("done with save");	
 		$hooks = $this->getHooks($file, "post-delete");
 
 		if ( $hooks != null ) {
-			foreach ( $hooks as $h ) {
-				$h($hash);
-			}
+//			foreach ( $hooks as $h ) {
+			$hooks($hash);
+	//		}
 		}
 
 		if ( $hold_lock == false ) {
