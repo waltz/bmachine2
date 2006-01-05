@@ -17,6 +17,11 @@ $rewrite_rss = false;
 
 bm_header();
 
+if ( $settings["use_mod_rewrite"] == true &&  ( !file_exists(".htaccess") || filesize(".htaccess") <= 0 ) ) {
+  $mod_write_result = write_mod_rewrite(true);
+  $rewrite_rss = true;
+} 
+
 processSettings();
 
 function processSettings() {
@@ -157,12 +162,12 @@ function processSettings() {
     //
 		if ( strlen($newsettings['mysql_database']) ) {
 			if ($store->type() != 'MySQL') {
-		        setup_data_directories(true);
+        setup_data_directories(true);
 			}
 		}  // if
 		else {
 			if ($store->type() == 'MySQL') {
-		        setup_data_directories(true);
+        setup_data_directories(true);
 			}
 		} // else
 
@@ -280,7 +285,7 @@ clicking on links to files on your front page.  If the links work, then everythi
 fine.  <a href="javascript:popUp('http://www.participatoryculture.org/bm/help/settings_popup.php')">More info >></a>
 
 <?php
-if ( $mod_write_result == false ) {
+if ( is_writable('.htaccess') == false ) {
 
 	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
   $output .= "
