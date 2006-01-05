@@ -53,8 +53,9 @@ to do any required maintenance.
 	// could do this globally, on every single page, but for security reasons,
 	// this seems a little safer
 
-	$perms = check_permissions();
 	$folders = check_folders();
+	$perms = check_permissions();
+
 
 	if ( $perms || $folders ) {
 ?>
