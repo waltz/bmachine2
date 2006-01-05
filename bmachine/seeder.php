@@ -727,20 +727,23 @@ EOD;
 	
 		$stats = $this->getSpawnStatus( $torrent["sha1"], $update_interval );
 
+//    error_log("seeding $torrentfile");
 		if ( count($stats) == 0 || !$stats["Running"] ) {
 
 			// if it's already running, then we're all set
 			if ( isset($stats["process id"]) && is_process_running($stats["process id"]) ) {
+//        error_log("$torrentfile already running " . $stats["process id"] );
 				return true;
-/*				print "stop " . $stats["process id"] . "<br>";
-				$this->stop_by_pid($stats["process id"]);*/
 			}
 
 			$statusfile = $data_dir . "/" . $torrent["sha1"] . ".status";
 			$savein = $data_dir . "/seedfiles/";
 
 			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>&1";
+//			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>/tmp/errors";
 			
+//      error_log($command);
+
 			$old_error_level = error_reporting(0);
 			passthru($command);
 			error_reporting($old_error_level);
