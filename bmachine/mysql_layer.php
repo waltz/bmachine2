@@ -14,6 +14,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
    * setup our datastore object
    */
   function setup() {
+    //error_log("MySQLDataLayer/setup");
 
     global $settings;
 
@@ -48,16 +49,18 @@ class MySQLDataLayer extends BEncodedDataLayer {
       }
 
       $this->good_setup = true;
+
+      //error_log("MySQLDataLayer/setup worked");
       return true;
     }
 
+    //error_log("MySQLDataLayer/setup failed");
     return false;
   }
 	
   function init() {
 
-//      $m = new MySQLLoader();
-//	$m->addFlatFileChannels();
+    //error_log("MySQLDataLayer/init");
 
     global $data_dir;
     if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != get_version() ) {
@@ -189,6 +192,8 @@ class MySQLDataLayer extends BEncodedDataLayer {
   }
   
   function getAllLock($file, &$handle, $get_lock = true ) {
+
+    //error_log("mysql getAllLock $file");
     
     //		if ( $get_lock == true ) {
     //			print "$file - start<br>";
@@ -196,11 +201,13 @@ class MySQLDataLayer extends BEncodedDataLayer {
     $key = $this->getTableKey($file);
     
     if ( $key == null || $this->good_setup == false ) {
+      //error_log("no key, get the flat file");
       return parent::getAll($file, $handle);
     }
     
     $queries = $this->getTableQueries($file);
-    //print "*** " . $queries["all"] . "<br>";
+    
+    //error_log($queries["all"]);
     $result = mysql_query( $queries["all"] );
     
     $hooks = $this->getHooks($file, "get");
@@ -209,9 +216,14 @@ class MySQLDataLayer extends BEncodedDataLayer {
 
     print (mysql_error());
 
+    $count = 0;
     while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+
+      //error_log("fetch row $count");
+
       // handle any hooks that have been defined for this content-type
       if ( $hooks != null ) {
+	//error_log("call $hooks");
 	if ( $key == null ) {
 	  $out[] = $hooks($row);
 	}
@@ -236,6 +248,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
     //		if ( $get_lock == true ) {
     //			print "$file - done<br>";
     //		}
+    //error_log("done");
     return $out;
   }
   
