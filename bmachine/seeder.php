@@ -413,33 +413,37 @@ EOD;
    * @returns array of information
    */
    function getSpawnStatus($hash, $update_interval = 15) {
-	
-		global $data_dir;
-	
-		if (!file_exists($data_dir . "/$hash.status")) {
-			return array();
-		}
-	
-		$data = array();
-		$fp = fopen($data_dir . "/$hash.status","rb");
-		flock($fp,LOCK_EX);
-	
-		while ($line = fgets($fp, 4096)) {
-			$key = preg_replace("/^\s*(.*?)\s*?:.*/s",'\\1',$line);
-			$value = preg_replace("/^.*:\s*(.*)\s*$/s",'\\1',$line);
-			$data[$key] = $value;
-		}
-	
-		flock($fp,LOCK_UN);
-		fclose($fp);
-	
-		$stats = stat("./data/$hash.status");
 
-		$data["Last Update"] = $stats[9]; //Last modification time
-		$data["Running"] = (time() - $stats[9] <= $update_interval);
+     error_log("getSpawnStatus for $hash");
 	
-		return $data;
-	}
+     global $data_dir;
+	
+     if (!file_exists($data_dir . "/$hash.status")) {
+       //error_log("no status file");
+       return array();
+     }
+	
+     $data = array();
+     $fp = fopen($data_dir . "/$hash.status","rb");
+     flock($fp,LOCK_EX);
+	
+     while ($line = fgets($fp, 4096)) {
+       $key = preg_replace("/^\s*(.*?)\s*?:.*/s",'\\1',$line);
+       $value = preg_replace("/^.*:\s*(.*)\s*$/s",'\\1',$line);
+       $data[$key] = $value;
+     }
+	
+     flock($fp,LOCK_UN);
+     fclose($fp);
+     
+     //error_log("get stats");
+     $stats = stat("$data_dir/$hash.status");
+
+     $data["Last Update"] = $stats[9]; //Last modification time
+     $data["Running"] = (time() - $stats[9] <= $update_interval);
+	
+     return $data;
+   }
 
 
 	/**
@@ -471,6 +475,7 @@ EOD;
 
 		// try a couple times to kill this pid
 		while ( $retries < 3 && is_process_running($pid) ) {	
+      error_log("kill $pid");
 			if ( $pid > 0 ) {
 				@posix_kill($pid, 2); // SIGINT
 				sleep(10);
@@ -493,6 +498,7 @@ EOD;
 		foreach ($pids as $pid) {
 			$pid = (integer)$pid;
 			if ( $pid > 0 ) {
+        error_log("sigint $pid");
 				@posix_kill($pid,2); //SIGINT
 			}
 		}
@@ -502,6 +508,7 @@ EOD;
 		foreach ($pids as $pid) {
 			$pid = (integer)$pid;
 			if ( $pid > 0 ) {
+        error_log("sigkill $pid");
 				@posix_kill($pid,9); //SIGKILL
 			}
 		}
@@ -520,34 +527,51 @@ EOD;
 
 		$pids = array();
 		$delete = array();
+
+    error_log("stop_array");
 	
 		$fp = fopen( $data_dir . "/spawnlock","wb");
 		flock($fp,LOCK_EX);
 	
+    error_log("here");
+
 		foreach ($torrents as $torrentfile) {
+      error_log("*** $torrentfile");
       if ( file_exists($torrents_dir . "/$torrentfile") ) {
         $torrentfile = $torrents_dir . "/$torrentfile";
+        error_log("bdecode $torrentfile");
         $torrent = bdecode(file_get_contents($torrentfile));
+        error_log("done");
         
         if (is_array($torrent)) {
           $stats = $this->getSpawnStatus($torrent["sha1"]);
-          
-          if (count($stats)>0) {
+          error_log("got spawn status");
+
+          if (count($stats) > 0) {
             $pids[] = $stats["process id"];
           }
-          
-          if (!preg_match('/(\/|^\.\.)/',$torrent["info"]["name"])) {
-            $delete[] = $data_dir . "/seedfiles/".$torrent["info"]["name"];
+          //          error_log("check for file to delete");
+          if (!preg_match('/(\/|^\.\.)/',$torrent["info"]["name"]) && file_exists($data_dir . "/seedfiles/" . $torrent["info"]["name"]) ) {
+            error_log($data_dir . "/seedfiles/" . $torrent["info"]["name"]);
+            $delete[] = $data_dir . "/seedfiles/" . $torrent["info"]["name"];
           }
           
-          $delete[] = $data_dir . "/".$torrent["sha1"].".status";
+          if ( file_exists($data_dir . "/" . $torrent["sha1"] . ".status") ) {
+            error_log("add status file to delete queue");
+            $delete[] = $data_dir . "/" . $torrent["sha1"] . ".status";
+          }
         }
       }
+      else {
+        error_log("torrent $torrentfile doesn't exist?");
+      }
     }
-    
+
+    error_log("call stop_by_pid_array");
 		$this->stop_by_pid_array($pids);
 
 		foreach ($delete as $delme) {
+      error_log("delete $delme");
 			$this->recursive_remove($delme);
 		}
 
@@ -575,6 +599,7 @@ EOD;
 				}
 	
 				closedir($handle);
+        error_log("rmdir $dir");
 				rmdir($dir);
 			}
 		}
@@ -590,14 +615,16 @@ EOD;
 		global $store;
 	
 		$torrents = array();
+    error_log("get list of torrents");
 		$files = $store->getTorrentList();
 	
 		foreach ($files as $torrentfile) {
 			if (($torrentfile != '.') && ($torrentfile != '..') && ($torrentfile != '.htaccess')) {
+        error_log($torrentfile);
 				$torrents[] = $torrentfile;
 			}
 		}
-	
+
 		$this->stop_array($torrents);
 	
 		//Erase any seeded files we might have missed
@@ -727,12 +754,12 @@ EOD;
 	
 		$stats = $this->getSpawnStatus( $torrent["sha1"], $update_interval );
 
-//    error_log("seeding $torrentfile");
+    error_log("seeding $torrentfile");
 		if ( count($stats) == 0 || !$stats["Running"] ) {
 
 			// if it's already running, then we're all set
 			if ( isset($stats["process id"]) && is_process_running($stats["process id"]) ) {
-//        error_log("$torrentfile already running " . $stats["process id"] );
+        error_log("$torrentfile already running " . $stats["process id"] );
 				return true;
 			}
 
@@ -740,9 +767,8 @@ EOD;
 			$savein = $data_dir . "/seedfiles/";
 
 			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>&1";
-//			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>/tmp/errors";
 			
-//      error_log($command);
+      error_log($command);
 
 			$old_error_level = error_reporting(0);
 			passthru($command);
