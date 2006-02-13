@@ -611,31 +611,42 @@ function site_description() {
  */
 function setup_data_directories( $force = false ) {
 
+//  error_log("setup_data_directories");
+
   global $store;
   global $seeder;
 
   // if we've already setup our datastore, just return it
   // unless we want to force it to be re-created
   if ( $force == false && isset($store) && $store != null ) {
+//    error_log("returning pre-existing datastore");
     return $store;
   }
 
+//  error_log("create new datastore");
   $store = new DataStore();
 	
 	if ( !isset($store) || $store->is_setup == false ) {
+ //   error_log("setup_data_directories - failed");
 		return false;
 	}
 
+ // error_log("init datastore");
 	$store->init();
+ // error_log("done with init");
 
   global $data_dir;
   if ( $store->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($store->getAllChannels()) <= 0  ) ) {
     $store->addNewChannel( "First Channel" );
   }
 
+ // error_log("start seeder");
   $seeder = new ServerSideSeeder();
+ // error_log("start seeder 1");
   $seeder->setup();
+ // error_log("start seeder done");
 
+ // error_log("setup_data_directories - worked");
   return true;
 }
 
@@ -923,7 +934,7 @@ function draw_upload_link() {
 
   global $store;
   $hash = $store->getAuthHash($user, get_passhash());
-
+//  error_log("draw_upload: AuthHash - $hash");
 ?>
 
 <script  language="JavaScript" type="text/javascript" ><!--
