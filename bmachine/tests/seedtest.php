@@ -11,12 +11,14 @@ class SeedTest extends BMTestCase {
   var $first_run;
   
 	function SeedTest() {
+    error_log("SeedTest");
     $this->BMTestCase();
     $this->first_run = true;
   }
 
   function StartSeeder() {
 
+    error_log("SeedTest/StartSeeder");
     setup_data_directories(false);
 
     global $settings;
@@ -28,32 +30,39 @@ class SeedTest extends BMTestCase {
 
 		$result = $seeder->setup();
 
+    error_log("here");
     if ( $this->first_run ) {
       $this->first_run = false;
       if ( $result == false ) {
-        print "Couldn't setup seeder: " . $seeder->problem . "<br>";
+        error_log("Couldn't setup seeder: " . $seeder->problem);
       }
       else {
-        print "seeder setup worked<br>";
+        error_log("seeder setup worked");
       }
     }
   }
 	
 	function TestStopServerSharing() {
 
+    error_log("SeedTest/TestStopServerSharing");
     $this->StartSeeder();
 
 		global $seeder;
-		
+
 		if ( $seeder->enabled() ) {
+      error_log("try and stop");
 			$seeder->stop_seeding();
+      error_log("try and stop - done");
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+      error_log("Seeding not enabled, can't test it");
+			print "Seeding not enabled, can't test it.<br>";
 		}
 	}
 
 	function TestStartServerSharing() {
+
+    error_log("SeedTest/TestStartServerSharing");
 
 		global $seeder;
 		if ( $seeder->enabled() ) {
@@ -67,7 +76,7 @@ class SeedTest extends BMTestCase {
 
 	function TestStart() {
 
-    print "HERE<br>";
+    error_log("SeedTest/TestStart");
 
     $this->StartSeeder();
 
@@ -151,6 +160,8 @@ class SeedTest extends BMTestCase {
 
 	function TestPause() {
 
+    error_log("SeedTest/TestPause");
+
     $this->StartSeeder();
 
 		$this->Logout();
@@ -183,6 +194,8 @@ class SeedTest extends BMTestCase {
 
 	function TestStop() {
 
+    error_log("SeedTest/TestStop");
+
     $this->StartSeeder();
 
 		$this->Logout();
@@ -213,6 +226,9 @@ class SeedTest extends BMTestCase {
 	}
 
 	function TestAnnounceNoCompact() {
+
+    error_log("SeedTest/TestAnnounceNoCompact");
+
 		$announce_url = get_base_url() . "announce.php?info_hash=hhdhdhdhdhd";
 		$this->get($announce_url);
 		$this->assertWantedPattern("/This tracker requires new tracker protocol/", 
@@ -221,12 +237,18 @@ class SeedTest extends BMTestCase {
 
 
 	function TestAnnounceBadHash() {
+
+    error_log("SeedTest/TestAnnounceBadHash");
+
 		$announce_url = get_base_url() . "announce.php?info_hash=hhdhdhdhdhd&compact=1";
 		$this->get($announce_url);
 		$this->assertWantedPattern("/Invalid info_hash/", "SeedText/TestAnnounceBadHash: expected announce to fail but it didn't");
 	}
 
 	function TestAnnounceUnAuthedHash() {
+
+    error_log("SeedTest/TestAnnounceUnAuthedHash");
+
 		$announce_url = get_base_url() . "announce.php?info_hash=01234567890123456789&compact=1";
 		$this->get($announce_url);
 		$this->assertWantedPattern("/This torrent is not authorized on this tracker/", "SeedText/TestAnnounceUnAuthedHash: expected announce to fail but it didn't");

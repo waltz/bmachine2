@@ -12,7 +12,6 @@ class MySQLTest extends BMTestCase {
 
   function MySQLTest($p) {
 		$this->prefix = $p;
-//		mysql_attach($this->prefix);
 		$this->BMTestCase();
   }
 
@@ -20,6 +19,7 @@ class MySQLTest extends BMTestCase {
    * test the global setup function
    */
   function TestSetup() {
+    error_log("MySQLTest/TestSetup");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 		global $store;
 		$this->assertTrue(isset($store) && $store->type() == 'MySQL', "mysql didnt enable");
@@ -30,72 +30,20 @@ class MySQLTest extends BMTestCase {
    */
   function TestGetType() {
 
+    error_log("MySQLTest/TestGetType");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;
     $v = $store->type();
     $this->assertTrue(isset($v) && $v == "MySQL", "DataStoreTest/TestGetType - no type or not mysql");
   }
-	/*
-	function TestAddTorrentToTracker() {
-
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		global $store;
-		global $settings;
-		global $torrents_dir;
-
-		$fname = "unittest" . rand(0, 10000) . ".torrent";
-
-    $rawTorrent = file_get_contents( "tests/test.torrent" );
-    $data = bdecode( $rawTorrent );
-
-		$sql = "DELETE FROM " . $settings['mysql_prefix'] . "torrents 
-						WHERE info_hash = '" . mysql_escape_string( $data["sha1"] ) . "'";
-    mysql_query( $sql );
-
-		$store->addTorrentToTracker( "tests/test.torrent", $fname );
-		
-		$sql = "SELECT raw_data FROM " . $settings['mysql_prefix'] . "torrents 
-								WHERE filename='" . mysql_escape_string($fname) . "'";
-    $result = mysql_query( $sql );
-
-    $this->assertTrue( mysql_num_rows( $result ) > 0 , "mysql addTorrentToTracker failed" );
-	}
-
-	function TestDeleteTorrent() {
-
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-
-		global $store;
-		global $settings;
-		global $torrents_dir;
-
-		$sql = "SELECT filename FROM " . $settings['mysql_prefix'] . "torrents LIMIT 0,1";
-    $result = mysql_query( $sql );
-    $row = mysql_fetch_row( $result );
-		
-		$this->assertTrue( isset($row) && isset($row[0]) , "expected to find a torrent to delete but didn't");
-		$store->deleteTorrent( $row[0] );
-		$filename = $row[0];
-
-    $result = mysql_query( $sql );
-		$this->assertTrue( mysql_num_rows( $result ) <= 0, "mysql deleteTorrent failed" );
-
-		$sql = "SELECT filename FROM " . $settings['mysql_prefix'] . "torrents LIMIT 0,1";
-    $result = mysql_query( $sql );
-    $row = mysql_fetch_row( $result );
-		
-		$this->assertTrue( !isset($row[0]) || $row[0] != $filename , "didn;t delete torrent");
-
-	}*/
-
 
   /**
    * test the settings load/save functions
    */
   function TestSettings() {
 
+    error_log("MySQLTest/TestSettings");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;

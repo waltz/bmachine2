@@ -95,9 +95,8 @@ class ChannelTest extends BMTestCase {
 
 				$this->get(	get_base_url() . "delete.php?t=c&i=" . $c["ID"] );
 
-        global $store;
-        $donations = $store->getAllChannels();
-        $got_it = $this->Find($channels, "Name", $c['Name']);
+        $tmp = $store->getAllChannels();
+        $got_it = $this->Find($tmp, "Name", $c['Name']);
         $this->assertTrue( $got_it, "ChannelTest/TestDelete: didn't delete channel" . $c["Name"] );
 
 			}

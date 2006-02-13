@@ -108,53 +108,5 @@ class IncludeTest extends BMTestCase {
 		closedir($handle);	
 	}
 
-
-/*
-	function TestCanUpload() {
-
-    $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
-
-		global $settings;
-		unset($_SESSION["user"]);
-
-		$settings['HasOpenChannels'] = 0;
-		$settings['UploadRegRequired'] = 1;
-		$this->assertTrue( !can_upload(), "IncludeTest/TestCanUpload: no user, reg required but i can post");
-
-		$settings['HasOpenChannels'] = 1;
-		$this->assertTrue( !can_upload(), "IncludeTest/TestCanUpload: open channel, reg required but i can post");
-
-		$settings['HasOpenChannels'] = 1;
-		$settings['UploadRegRequired'] = 0;
-		$this->assertTrue( can_upload(), "IncludeTest/TestCanUpload: no reg required but i can't post");
-		
-		$this->Login();
-
-		$settings['HasOpenChannels'] = 1;
-		$settings['UploadRegRequired'] = 1;
-		$_SESSION['user'] = "unittest";
-		$_SESSION['user']['IsPending'] = 0;
-		$this->assertTrue( can_upload(), "IncludeTest/TestCanUpload: valid user, open channel, reg required, but i can't post");
-
-		$settings['HasOpenChannels'] = 1;
-		$settings['UploadRegRequired'] = 0;
-		$_SESSION['user'] = "unittest";
-		$_SESSION['user']['IsPending'] = 0;
-		$this->assertTrue( can_upload(), "IncludeTest/TestCanUpload: valid user, open channel but i can't post");
-
-
-		$settings['HasOpenChannels'] = 0;
-		$settings['UploadRegRequired'] = 1;
-		$_SESSION['user']['IsPending'] = 1;
-		global $store;
-		$users = $store->getAllUsers();
-		$users["unittest"]["IsPending"] = 1;
-		
-		$this->assertTrue( !can_upload(), "IncludeTest/TestCanUpload: pending user but i can post");
-
-		$settings['HasOpenChannels'] = 1;
-		$settings['UploadRegRequired'] = 1;
-
-	}*/
 }
 ?>

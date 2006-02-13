@@ -14,6 +14,7 @@ class DonationTest extends BMTestCase {
 
 	function TestCreatePage() {
 
+    error_log("DonationTest/TestCreatePage");
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		$publish_url = get_base_url() . "donation.php";
@@ -33,15 +34,12 @@ class DonationTest extends BMTestCase {
 		$donations = $store->getAllDonations();
 		$got_it = $this->Find($donations, "title", encode($donation['donation_title']));
 
-  print "<pre>";
-  print $title . "<br>";
-  print_r($donations);
-  print "</pre>";
-
 		$this->assertTrue( $got_it, "DonationTest/TestCreatePage: didn't find new donation");
 	}
 
 	function TestEdit() {
+
+    error_log("DonationTest/TestEdit");
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
@@ -74,6 +72,8 @@ class DonationTest extends BMTestCase {
 	
 	function TestAddFileToDonation() {
 
+    error_log("DonationTest/TestAddFileToDonation");
+
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		global $store;	
@@ -101,6 +101,8 @@ class DonationTest extends BMTestCase {
 	}
 
 	function TestDelete() {
+
+    error_log("DonationTest/TestDelete");
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
