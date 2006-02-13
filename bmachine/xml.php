@@ -98,10 +98,10 @@ class XML{
 			$key = $tag;
 		}
 		if($attributes) $this->parent["$key attr"] = $attributes;
-//		$this->parent  = &$this->parent[$key];
-//		$this->stack[] = &$this->parent;
-		$this->parent  = $this->parent[$key];
-		$this->stack[] = $this->parent;
+		$this->parent  = &$this->parent[$key];
+		$this->stack[] = &$this->parent;
+//		$this->parent  = $this->parent[$key];
+//		$this->stack[] = $this->parent;
 	}
 	function data(&$parser, $data){
 		if($this->last_opened_tag != NULL) #you don't need to store whitespace in between tags
