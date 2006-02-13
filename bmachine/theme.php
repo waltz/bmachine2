@@ -229,6 +229,12 @@ function bm_footer() {
 
 
 
+/**
+ * display information about a video on the front/main pages of the site
+ */
+function front_display_video($filehash, $file) {
+	display_video($filehash, $file);
+}
 
 /**
  * display information about a video
@@ -247,13 +253,9 @@ function display_video($filehash, $file) {
   print("
 <li><div class='video_display'>");
 
-  // bug #1223713  - make sure we actually pay attention to the channel display settings
-
 	$url = detail_link($channel["ID"], $filehash);
 
   if ( isset($channel['Options']['Thumbnail']) && $channel['Options']['Thumbnail'] == 1) {
-
-		//<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\"><img src=\"");
 
     print("<div class=\"thumbnail\">
 <a href=\"$url\"><img src=\"");
@@ -269,7 +271,6 @@ function display_video($filehash, $file) {
   }
 
   if ( isset($channel['Options']['Title']) && $channel['Options']['Title'] == 1) {
-//	<a href=\"detail.php?c=" . $channel["ID"] . "&amp;i=" . $filehash . "\">" . $file["Title"] . "</a>
 
     print("
 <div class=\"video_title\">
@@ -386,7 +387,6 @@ function display_video($filehash, $file) {
 
 print "</div>";
   // if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
-//  $url = "download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash;
 	$url = download_link($channel["ID"], $filehash);
 	$ezurl = download_link($channel["ID"], $filehash, true);
 
@@ -401,7 +401,6 @@ print "</div>";
 
 		$url = download_link($channel["ID"], $filehash);
 	  print ("<div class=\"dl_links\"><a href=\"$url\">download</a></div>\n");
-//    print ("<div class=\"dl_links\"><a href=\"download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\">download</a></div>\n");
   }
 
 	print "</li>\n";
