@@ -95,6 +95,8 @@ class DataStore {
 			$this->layer->registerHook("channels", "pre-delete", "MySQLDeleteChannelHook");
 			$this->layer->registerHook("donations", "get", "MySQLGetDonationHook");
 		}
+
+    //error_log("done with constructor");
 	}
 	
 	/**
@@ -142,7 +144,7 @@ class DataStore {
   function getFile( $hash, $handle = null ) {
 		//error_log("getFile: $hash");
 		$f = $this->layer->getOne("files", $hash, $handle);
-//error_log("getFile - called getOne");
+    //error_log("getFile - called getOne");
     if ( count($f) > 0 ) {
       return $f;
     }
@@ -1122,8 +1124,7 @@ class DataStore {
       $time = intval( ( time() % 7680 ) / 60 );
       $int_time = $time;
 
-
-      if ( file_exists($data_dir . '/' . $info_hash) ) {
+      if ( file_exists($data_dir . '/' . $info_hash) && filesize($data_dir . '/' . $info_hash) > 0 ) {
 
         $handle = fopen(  $data_dir . '/' . $info_hash, "rb" );
         flock( $handle, LOCK_EX );
@@ -1162,7 +1163,23 @@ class DataStore {
 
         } // if ( size > 0 )
 
-      }	
+      }
+      // if the infohash doesn't exist, that means we're sharing a torrent that is being announced
+      // on another server, so parse the stats from our .status file
+      else if ( file_exists($data_dir . '/' . $info_hash . '.status') ) {
+        $status = file_get_contents( $data_dir . '/' . $info_hash . '.status');
+
+        if ( preg_match("/seed status: ([0-9]+) distributed copies/", $status, $vals) ) {
+          $complete = $vals[1] + 1;
+        }
+        else {
+          preg_match("/seed status: ([0-9]+) seen now/", $status, $vals);
+          $complete = isset($vals[1]) ? $vals[1] : "??";
+        }
+
+        preg_match("/peer status: ([0-9]+) seen now/", $status, $vals);
+        $incomplete = isset($vals[1]) ? $vals[1] : "??";
+      }
 
     } // else
 
@@ -1428,8 +1445,20 @@ class DataStore {
 
     global $data_dir;
 
+    //error_log("isValidAuthHash");
+
 		if ( file_exists( $data_dir . '/hash' ) ) {
-			$hashes = bdecode( file_get_contents(  $data_dir . '/hash' ) );
+
+      //error_log("isValidAuthHash - check for hash");
+    
+			$hashes = bdecode( file_get_contents( $data_dir . '/hash' ) );
+     // foreach($hashes as $h => $t) {
+     //   //error_log("AuthHash: $h $t");
+     // }
+
+      //error_log("AuthHash: check for $username $hash - " . sha1($username . $hash) );
+      //error_log("AuthHash: " . $hashes[sha1( $username . $hash )]);
+
 			return ( isset( $hashes[sha1( $username . $hash )] ) && 
 							( $hashes[sha1( $username . $hash )] > ( time() - 3600 ) ) 
 							);
@@ -1445,6 +1474,44 @@ class DataStore {
 	 */
   function getAuthHash( $username, $passhash ) {
 
+    $hash = md5( $username . microtime() . rand() . $passhash );
+    $this->addAuthHash($username, $hash);
+    return $hash;
+
+    /*    global $data_dir;
+
+    $contents = '';
+
+    $handle = fopen(  $data_dir . '/hash', "ab+" );
+    fseek( $handle, 0 );
+    flock( $handle, LOCK_EX );
+
+    while ( !feof( $handle ) ) {
+      $contents .= fread( $handle, 8192 );
+    }
+
+    $hashes = bdecode( $contents );
+
+    if ( ! is_array( $hashes ) )
+      $hashes = array();
+
+    $hashes[sha1( $username . $hash )] = time();
+
+	  $this->clearOldAuthHashes($hashes);
+
+    ftruncate( $handle, 0 );
+    fseek( $handle, 0 );
+    fwrite( $handle, bencode( $hashes ) );
+
+    fclose ( $handle );
+    return $hash;
+    */
+
+    //    $hash = md5( $username . microtime() . rand() . $passhash );
+    //    return $this->addAuthHash($username, $hash);
+  }
+
+  function addAuthHash( $username, $hash ) {
     global $data_dir;
 
     $contents = '';
@@ -1462,8 +1529,8 @@ class DataStore {
     if ( ! is_array( $hashes ) )
       $hashes = array();
 
-    $hash = md5( $username . microtime() . rand() . $passhash );
-    $hashes[sha1( $username . $hash )]=time();
+    $hashval = sha1( $username . $hash );
+    $hashes[$hashval] = time();
 
 	  $this->clearOldAuthHashes($hashes);
 
@@ -1472,7 +1539,7 @@ class DataStore {
     fwrite( $handle, bencode( $hashes ) );
 
     fclose ( $handle );
-    return $hash;
+    return $hashval;
   }
 
 	/**
@@ -1565,7 +1632,7 @@ class DataStore {
   /**
    * add a torrent to the tracker
    */
-  function addTorrentToTracker( $tmpfile, $torrent ) {
+  function addTorrentToTracker( $torrent ) {
 
     global $seeder;
     global $settings;
@@ -1576,31 +1643,26 @@ class DataStore {
     
     //error_log("addTorrentToTracker");
 
-    $rawTorrent = file_get_contents( $tmpfile );
+    $rawTorrent = file_get_contents(  "$torrents_dir/$torrent" );
     
-    //    print "add $tmpfile as $torrent<br>";
+    if ( !file_exists( "$torrents_dir/$torrent" ) ) {
+      //error_log("addTorrentToTracker: torrent doesn't exist!");
+      return false;
+    }
+    else {
+      //error_log("addTorrentToTracker: get hash");
+      
+      chmod( "$torrents_dir/$torrent", 0777);
+      
+      $info_hash = $this->getHashFromTorrent( $torrent );
 
-    if ( !file_exists( $torrents_dir . '/' . $torrent ) ) {
-
-      $result = move_uploaded_file( $tmpfile, $torrents_dir . '/' . $torrent );
-      if ( !file_exists( $torrents_dir . '/' . $torrent ) ) {
-        //error_log("addTorrentToTracker: move_uploaded_file failed!");
-        return false;
-      }
-      else {
-        //error_log("addTorrentToTracker: get hash");
-
-        chmod($torrents_dir . '/' . $torrent, 0777);
-        
-        $info_hash = $this->getHashFromTorrent( $torrent );
-        
-        if ( !file_exists(  $data_dir . '/' . $info_hash ) ) {
-          $handle = fopen(  $data_dir . '/' . $info_hash, "wb" );
-          fclose ( $handle );
-        }
-
+      if ( !file_exists(  $data_dir . '/' . $info_hash ) ) {
+        $handle = fopen(  $data_dir . '/' . $info_hash, "wb" );
+        //        fwrite($handle, $torrent);
+        fclose ( $handle );
       }
     }
+
     
     if ( $this->layer->type() == "MySQL" ) {
 
@@ -1613,7 +1675,6 @@ class DataStore {
 											'" . mysql_escape_string( $data['sha1'] ) . "',
 											'" . mysql_escape_string( $torrent ) . "',
 											'" . mysql_escape_string( $rawTorrent ) . "')";
-      print $sql;
       mysql_query ( $sql );
       
     }
@@ -1819,7 +1880,7 @@ EOD;
  *  DATASTORE HOOKS
  *****************************************************************/
 
-function PreDeleteFile($id, $handle) {
+function PreDeleteFile($id, $handle = NULL) {
 	global $store;
 
 	$file = $store->getFile($id, $handle);
