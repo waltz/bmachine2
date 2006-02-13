@@ -129,6 +129,7 @@ class BEncodedDataLayer {
    */
   function getAllLock($file, &$handle, $get_lock = true ) {
     
+    //error_log("flat getAllLock $file");
     global $data_dir;
     
     if ( $handle == null ) {
@@ -287,7 +288,7 @@ class BEncodedDataLayer {
 		$hooks = $this->getHooks($file, "pre-delete");
 
 		if ( $hooks != null ) {
-			$hooks($hash, $handle);
+		  $hooks($hash, $handle);
 		}
 
 //error_log("done calling pre-delete hooks");
