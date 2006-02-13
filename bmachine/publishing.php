@@ -367,20 +367,21 @@ function publish_file($file) {
 		$actual_fname = $_FILES['post_file_upload']['name'];
 
 		// use a hashed name so we never overwrite anything
-//		$fname = unique_file_name("torrents", $_FILES['post_file_upload']['name']);
+
 		$ext = ereg_replace("^.+\\.([^.]+)$", "\\1", $actual_fname );
 		$fname = $filehash;
 		if ( $ext != "" ) {
 			$fname .= "." . $ext;
 		}
-				
+
+		global $torrents_dir;
 		if (
 			move_uploaded_file(
 				$_FILES['post_file_upload']['tmp_name'], 
-				"torrents/" . $fname ) ) {
+				"$torrents_dir/" . $fname ) ) {
 
-			chmod("torrents/" . $fname, $perm_level);
-			$file_url = get_base_url() . "torrents/" . $fname;
+			chmod("$torrents_dir/" . $fname, $perm_level);
+			$file_url = get_base_url() . "$torrents_dir/" . $fname;
 		}
 
 		if ( isset($_FILES["post_file_upload"]["type"]) && 
@@ -388,6 +389,20 @@ function publish_file($file) {
 				is_valid_mimetype($_FILES["post_file_upload"]["type"]) ) {
 			$mimetype = $_FILES["post_file_upload"]["type"];
 			$got_mime_type = true;
+
+			if ( $mimetype == "application/x-bittorrent" ) {
+			  global $store;
+
+			  clearstatcache();
+
+			  $torrent = bdecode( file_get_contents($torrents_dir . "/" . $fname) );
+
+			  // we need to generate a hash for sha1
+			  $user = get_username();
+			  $store->addAuthHash($user, $torrent["sha1"]);
+
+			  $store->addTorrentToTracker($fname);
+			}
 		}
 		else if ( $ignore_mime == 0 ) {
 			$mimetype = @mime_content_type("torrents/" . $fname);
