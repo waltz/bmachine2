@@ -1001,7 +1001,11 @@ class MySQLLoader {
     $qarr = $store->layer->getTableQueries("file_keywords");
     $kw_sql = $qarr["insert"];
 		
-    foreach ( $files as $f ) {
+    foreach ( $files as $id => $f ) {
+
+      if ( !isset($f["ID"]) ) {
+	$f["ID"] = $id;
+      }
 		
       // desc is a reserved word in SQL, so lets not be using that
       if ( isset($f["Desc"]) ) {
@@ -1028,9 +1032,11 @@ class MySQLLoader {
       
       foreach($f["Keywords"] as $kw) {
 	$kw = trim($kw);
-	$sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (ID, word) 
+	$sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (id, word) 
 								VALUES ('" . mysql_escape_string($f["ID"]) . "', 
 								'" . mysql_escape_string($kw) . "')";
+
+
 	mysql_query( $sql );
       }
       

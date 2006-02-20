@@ -121,10 +121,13 @@ if ( is_local_file($file["URL"]) &&
 	
 	// if we have the actual filename stored for this file, then send it instead of the hash
 	if ( isset($file['FileName']) && $file['FileName'] != '' ) {
-	  header('Content-Disposition: inline; filename="' . urlencode($file['FileName']) . '"');	
+// Content-Disposition: attachment; filename=filename.ext
+//	  header('Content-Disposition: inline; filename="' . urlencode($file['FileName']) . '"');	
+	  header('Content-Disposition: attachment; filename="' . urlencode($file['FileName']) . '"');	
 	}
 	else {
-	  header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
+	  header('Content-Disposition: attachment; filename="' . urlencode($filename) . '"');
+//	  header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
 	}
 
   header('Content-length: ' . filesize('./torrents/' . $filename));
