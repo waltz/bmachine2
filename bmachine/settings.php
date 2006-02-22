@@ -21,10 +21,12 @@ if ( $settings["use_mod_rewrite"] == true &&  ( !file_exists(".htaccess") || fil
   $mod_write_result = write_mod_rewrite(true);
   $rewrite_rss = true;
 } 
-
+/*
 processSettings();
 
 function processSettings() {
+*/
+
 	global $settings;
 	global $store;
 	global $seeder;
@@ -206,16 +208,13 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 <div class="page_name">
    <h2>General Settings</h2>
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/settings_popup.php')">
-<img src="images/help_button.gif" alt="help"/></a>
+      <a href="javascript:popUp('http://www.participatoryculture.org/bm/help/settings_popup.php')"><img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
 
 <div class="section">
 <?php
-
-if (count($_POST)>0) {
+if ( count($_POST) > 0 ) {
 	echo "<p>Changes Saved</p>";
 }
 ?>
@@ -291,23 +290,21 @@ if ( is_writable('.htaccess') == false ) {
   $output .= "
 touch .htaccess
 chmod 777 .htaccess";
-
 ?>
 <br />
 <br />
 
 In order to use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  You can do 
 this by logging into your server and entering the following commands:
-<?
-
-print "<pre>$output</pre>";
+<?php
+	print "<pre>$output</pre>";
 }
 ?>
 
 <br />
 <?php
-   echo '<p><input type="checkbox" name="use_mod_rewrite" value="1" '.(isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] ? "checked=\"true\" ":"")." /> 
-	 Enable Direct URLs</p>\n";
+   echo '<p><input type="checkbox" name="use_mod_rewrite" 
+	 	value="1" '.(isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] ? "checked=\"true\" ":"")." /> Enable Direct URLs</p>\n";
 ?>
 
 <br />
@@ -385,7 +382,7 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 
 <?php
 	bm_footer();
-}
+
 
 /*
  * Local variables:
