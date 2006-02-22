@@ -535,12 +535,14 @@ function do_http_auth() {
 function valid_user() {
 
   global $store;
-  $users = $store->getAllUsers();
+//  $users = $store->getAllUsers();
 
   if ( !isset($_SESSION['user']) || 
 				$_SESSION['user'] == "" || 
-				!isset($_SESSION['user']) || 
-				!isset($users[$_SESSION['user']['Username']])) {
+				!isset($_SESSION['user']) 
+//				|| 
+//				!isset($users[$_SESSION['user']['Username']])
+				) {
     return false;
   }
 	
