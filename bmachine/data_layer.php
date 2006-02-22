@@ -196,11 +196,9 @@ class BEncodedDataLayer {
     else {
       $hold_lock = true;
     }
-    
     if ( !$handle ) {
       return false;
     }
-        
     $all = $this->getAllLock($file, $handle);
     $all[$hash] = $data;
     
@@ -370,7 +368,7 @@ class BEncodedDataLayer {
       
       $settings = bdecode( $contents );
       
-      //Early beta's didn't have these settings
+      // early betas didn't have these settings
       if ( !isset( $settings['sharing_enable'] ) )
         $settings['sharing_enable']=false;
       

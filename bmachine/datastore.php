@@ -352,8 +352,6 @@ class DataStore {
 
 //				else {
         if ( !isset($person['Username']) ) {
-//          print "******";
-//          print_r($person);
         }
         else {
 					$users[$person['Username']] = $person;
@@ -603,6 +601,8 @@ class DataStore {
     global $settings;
     global $data_dir;
 
+//error_log("addNewUser");
+
     $contents = '';
     $username = trim(mb_strtolower( $username ));
 
@@ -611,6 +611,7 @@ class DataStore {
 				return false;		
 		}
 		
+//error_log("addNewUser - lock users");
     $users = $this->layer->getAllLock("users", $handle2);
 
     if ( isset( $users[$username] ) ) {
@@ -632,13 +633,18 @@ class DataStore {
 			$isAdmin = true;
 		}
 	
+//error_log("addNewUser - lock newusers");
 		$newusers = $this->layer->getAllLock("newusers", $handle);
 	
 		if ( !isset($handle) ) {
+
 			global $errstr;
 			if ( isset($errstr) ) {
 				$error = $errstr;
 			}
+
+			$this->layer->unlockResource("newusers");
+			$this->layer->unlockResource("users");
 			return false;
 		}
 
@@ -649,8 +655,10 @@ class DataStore {
     $newusers[$filehash]['IsAdmin'] = isset($isAdmin) && $isAdmin == true ? 1 : 0;
     $newusers[$filehash]['Created']=time();
 
+//error_log("addNewUser - save newusers");
 		$result = $this->layer->saveOne("newusers", $newusers[$filehash], $filehash, $handle);
-		
+
+//error_log("addNewUser - unlock both");		
 		$this->layer->unlockResource("newusers");
 		$this->layer->unlockResource("users");
 		
@@ -683,6 +691,7 @@ class DataStore {
 			}
 		}
 	
+//error_log("addNewUser - DONE!");
 		return true;
   }
 	
@@ -720,11 +729,10 @@ class DataStore {
 		$name = $username;
     $username = trim(mb_strtolower( $username ));
 
-//		print "AUTH: $username<br>";
     $filehash = sha1( $username . $hashlink );
-		
-		$newusers = $this->layer->getAllLock("newusers", $handle);
 
+//error_log("authNewUser - lock newusers");
+		$newusers = $this->layer->getAllLock("newusers", $handle);
 		if ( !isset($handle) || $handle == "" ) {
 			global $errstr;
 			$errstr = "Error: Couldn't open newusers file";
@@ -732,20 +740,23 @@ class DataStore {
 		}
 
     if ( isset( $newusers[$filehash] ) ) {
+
+//error_log("authNewUser - lock users");
 			$users = $this->layer->getAllLock("users", $handle2);
-			
+
 			if ( !isset($handle2) || $handle2 == "" ) {
 				global $errstr;
 				$errstr = "Error: Couldn't open users file";
 				fclose($handle);
 				return false;
 			}
-	
+
       if ( isset( $users[$username] ) ) {
 				global $errstr;
 				$errstr = "Error: User $username missing";
         return false;
       }
+
 
 			if ( isset($users) && is_array($users) ) {
 				foreach ( $users as $user ) {
@@ -756,6 +767,7 @@ class DataStore {
 					}
 				}
 			}
+
 	
       $isAdmin = false;
 	
@@ -769,6 +781,8 @@ class DataStore {
         $pending = true;
       }
 
+					    fseek($handle2, 0);
+
       $users[$username]['Hash']     =$newusers[$filehash]['Hash'];
       $users[$username]['Name']     =$name;
       $users[$username]['Email']    =$newusers[$filehash]['Email'];
@@ -777,8 +791,6 @@ class DataStore {
       $users[$username]['Created']  =$newusers[$filehash]['Created'];
       $users[$username]['Username'] = $username;
 	  
-//		print "SAVE: $username<br>\n";
-
 	  	$this->layer->saveOne("users", $users[$username], $username, $handle2);
 
       $success = true;
@@ -789,10 +801,13 @@ class DataStore {
 			$success = false;
 		}
 
+//error_log("authNewUser - unlock users");
 		$this->layer->unlockResource("users");
 		if ( $success == true ) {
+//error_log("authNewUser - delete newusers");
 			$this->layer->deleteOne("newusers", $filehash, $handle);
 		}
+//error_log("authNewUser - unlock newusers");
 		$this->layer->unlockResource("newusers");
 
 //		$this->saveAll("newusers", $newusers, $handle);
@@ -2071,7 +2086,6 @@ function MySQLPreSaveChannelHook(&$channel) {
 
 	if ( $do_query == true ) {
 		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
-		//print "*** $sql<br>";
 		mysql_query($sql);
 	}
 
@@ -2094,7 +2108,6 @@ function MySQLPreSaveChannelHook(&$channel) {
 				"section_files WHERE hash NOT IN (" . implode(",", $tmp) . ")
 				AND channel_id = '" . $channel["ID"] . "' AND
 					Name = '" . mysql_escape_string($s["Name"]) . "'";
-//			print "*** $sql<br>";
 			mysql_query( $sql );
 		}
 	}	
@@ -2103,13 +2116,11 @@ function MySQLPreSaveChannelHook(&$channel) {
 	$sql = "DELETE FROM " . $store->layer->prefix . 
 		"section_files WHERE channel_id = '" . $channel["ID"] . "' AND
 		Name NOT IN (" . implode(",", $sect_tmp) . ")";
-	//print "*** $sql";
 	mysql_query( $sql );
 	
 	$sql = "DELETE FROM " . $store->layer->prefix . 
 		"channel_sections WHERE channel_id = '" . $channel["ID"] . "' AND
 		Name NOT IN (" . implode(",", $sect_tmp) . ")";
-	//print "*** $sql";
 	mysql_query( $sql );
 
 	
