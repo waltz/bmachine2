@@ -240,7 +240,7 @@ if (count($channels) > 0) {
 
 		print("<li>&nbsp;&nbsp;<input type=checkbox name=\"allow_" . $channel['ID'] . "\"");
 
-		if ($channel["OpenPublish"]) {
+		if ( isset($channel["OpenPublish"]) && $channel["OpenPublish"]) {
 			print(" checked=\"true\"");
 		}
 
