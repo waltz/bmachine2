@@ -155,17 +155,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
   function getByKey($file, $id, $key = null) {
     $qarr = $this->getTableQueries($file);
     $query = $qarr["select"];
-    //		$data = $this->prepareForMySQL($query);
     $sql = str_replace("%key", $id, $query);
     
-
-    //    if ( $file == "users" ) {
-    //      print "$sql<br>";
-    //    }
-
     $result = mysql_query( $sql );
     $hooks = $this->getHooks($file, "get");
     $out = array();
+
+    if ( !isset($result) ) {
+      return $out;
+    }
 
     while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
       // handle any hooks that have been defined for this content-type
@@ -184,7 +182,6 @@ class MySQLDataLayer extends BEncodedDataLayer {
 	else {
 	  $out[ $row[$key] ] = $row;
 	}
-	//		print_r($out);
       }
     }
 
