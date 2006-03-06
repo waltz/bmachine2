@@ -25,6 +25,7 @@ else if (isset($_GET['hash'])) {
 	global $store;
 	if ($store->authNewUser($hashlink,$username)) {
 		$newuser = 1;
+		$msg = "You are now registered and may login";
 	}
 
 }
@@ -58,14 +59,10 @@ else {
 		else {
 			$msg = "";		
 		}
-		
-//if ($is_front) {
-//	front_header("Log In");
-/*} else {
-	bm_header();
-}*/
-	bm_header();
+	}
+}
 
+bm_header();
 ?>
 
 
@@ -128,8 +125,5 @@ if ( $settings['AllowRegistration'] || is_admin() || count( $store->getAllUsers(
 
 
 <?php
-
-			bm_footer();
-	}	
-}
+	bm_footer();
 ?>
