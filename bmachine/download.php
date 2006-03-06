@@ -14,6 +14,16 @@ require_once("theme.php");
 
 global $settings;
 
+// processing here in case our rewrite rules choke
+if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
+	$params = split("/", $_SERVER['REQUEST_URI']);
+
+	if ( count($params) == 5 ) {
+		$_GET["c"] = $params[3];
+		$_GET["i"] = $params[4];
+	}
+}
+
 //
 // just serve up the helper
 //
