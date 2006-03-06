@@ -112,7 +112,6 @@ class BEncodedDataLayer {
     }
 
     if ( isset($data[$id]) ) {
-	//error_log("found it");
       return $data[$id];
     }
     
@@ -163,20 +162,17 @@ class BEncodedDataLayer {
       $this->unlockResource($file);
     }
     
-		if ( $contents == "" ) {
-			$contents = array();
-		}
-		else {
-	    $contents = bdecode( $contents );
-		}
+    if ( $contents == "" ) {
+      $contents = array();
+    }
+    else {
+      $contents = bdecode( $contents );
+    }
     
     $hooks = $this->getHooks($file, "get");
-    if ( $hooks != null ) {		
+    if ( $hooks != null ) {
       foreach($contents as $key => $row) {
-	/*foreach ( $hooks as $h ) {
-	  $h( $row[$key] );
-	}*/
-	$hooks($row[$key]);
+	$hooks($row);
       }
     }
     
@@ -211,9 +207,9 @@ class BEncodedDataLayer {
     $hooks = $this->getHooks($file, "save");
     
     if ( $hooks != null ) {
-      foreach ( $hooks as $h ) {
-	$h( $all[$hash] );
-      }
+//      foreach ( $hooks as $h ) {
+				$hooks( $all[$hash] );
+//      }
     }
     
     return $result;
@@ -260,9 +256,9 @@ class BEncodedDataLayer {
 
 		if ( $hooks != null ) {
 			foreach($data as $key => $row) {
-				foreach ( $hooks as $h ) {
-					$h($out[ $row[$key] ]);
-				}
+//				foreach ( $hooks as $h ) {
+					$hooks($out[ $row[$key] ]);
+//				}
 			}
 		}
 
@@ -353,7 +349,8 @@ class BEncodedDataLayer {
                          'sharing_enable'        => false,
                          'sharing_auto'          => false,
                          'sharing_python'        => '',
-                         'sharing_actual_python' => ''
+                         'sharing_actual_python' => '',
+												 'base_url'							 => ''
                          );
       
     }
@@ -380,7 +377,10 @@ class BEncodedDataLayer {
       
       if ( !isset( $settings['sharing_actual_python'] ) )
         $settings['sharing_actual_python']='';
-      
+
+      if ( !isset( $settings['base_url'] ) )
+        $settings['base_url']='';
+
 			fflush ($handle);
       fclose ( $handle );
 			clearstatcache();
