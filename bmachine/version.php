@@ -1,6 +1,26 @@
 <?php
 include_once("include.php");
-include_once("xml.php");
+
+//include saxy parser
+require_once('xml_saxy_parser.php');
+
+function startElementHandler($parser, $elementName, $attrArray) {
+  global $current_element;
+  $current_element = $elementName;
+} //startElementHandler
+
+function endElementHandler($parser, $elementName) {
+
+}
+
+function characterHandler($parser, $text) {
+  global $current_element;
+  global $ds_version;
+
+  if ( $current_element == "version" ) {
+    $ds_version = $text;
+  }
+} //characterHandler
 
 function get_datastore_version() {
   global $data_dir;
@@ -10,13 +30,20 @@ function get_datastore_version() {
     return 20;
   }
   $xml = file_get_contents("$data_dir/version.xml");
-  $data = XML_unserialize($xml);
-  
-  if ( !isset($data["datastore"]["version"]) ) {
+
+  $saxparser =& new SAXY_Parser();
+
+  //register events
+  $saxparser->xml_set_element_handler("startElementHandler", "endElementHandler");
+  $saxparser->xml_set_character_data_handler("characterHandler");
+
+  $success = $saxparser->parse($xml);
+  global $ds_version;
+  if ( $success == false || !isset($ds_version) ) {
     return 20;
   }
   
-  return $data["datastore"]["version"];
+  return $ds_version;
 }
 
 function set_datastore_version($v) {
@@ -24,8 +51,11 @@ function set_datastore_version($v) {
   //error_log("set datastore version to $v");
 
   global $data_dir;
-  $data["datastore"]["version"] = $v;
-  $xml = XML_serialize($data);
+
+  $xml = '<?xml version="1.0" ?>
+<datastore>
+  <version>' . $v . '</version>
+</datastore>';
   
   $f = fopen("$data_dir/version.xml", 'wb');
   
@@ -44,33 +74,78 @@ function set_datastore_version($v) {
   clearstatcache();
 }
 
+
+
+function upgradeStartElementHandler($parser, $elementName, $attrArray) {
+  global $in_script;
+  if ( $elementName == "script" ) {
+    $in_script = true;
+  }
+  else if ( $in_script == true ) {
+    global $scripts;
+    global $current_element;
+    $current_element = $elementName;    
+  }
+} //startElementHandler
+
+function upgradeEndElementHandler($parser, $elementName) {
+  global $in_script;
+  if ( $elementName == "script" ) {
+    $in_script = false;
+  }
+}
+
+function upgradeCharacterHandler($parser, $text) {
+  global $current_element;
+  global $scripts;
+  global $in_script;
+
+  if ( $in_script == true ) {
+    global $current_element;
+    global $current_name;
+
+    if ( $current_element == "name" ) {
+      $current_name = $text;
+    }
+    else {
+      $scripts[$current_name][$current_element] = $text;
+    }
+  }
+
+} //characterHandler
+
+
+
 function get_upgrade_scripts($from, $to) {
 
-	if ( ! isset($from) ) {
-		$from = get_datastore_version();	
-	}
+  if ( ! isset($from) ) {
+    $from = get_datastore_version();	
+  }
+  
+  if ( ! isset($to) ) {
+    $to = get_version();		
+  }
+  
+  $xml = file_get_contents("upgrades.xml");
+  $saxparser =& new SAXY_Parser();
+  
+  //register events
+  $saxparser->xml_set_element_handler("upgradeStartElementHandler", "upgradeEndElementHandler");
+  $saxparser->xml_set_character_data_handler("upgradeCharacterHandler");
 
-	if ( ! isset($to) ) {
-		$to = get_version();		
-	}
+  $success = $saxparser->parse($xml);
+  global $scripts;
+  $data = $scripts;
 
-	$xml = file_get_contents("upgrades.xml");
-	$data = XML_unserialize($xml);
-//	print_r($data["upgrades"]);
-
-	global $store;
-
-	foreach( $data as $x ) {
-		$a = $x["script"];
-//		print "Version: " . $a["version"] . "<br>";
-//		print "Type: " . $a["type"] . "<br>";
-
-		if ( $store->type() == "MySQL" && $a["type"] == "mysql" && $a["version"] > get_datastore_version() ) {
-			$sql = str_replace("__", $store->prefix, $a["action"]);
-			print "Action: $sql<br>\n";
-		    mysql_query ($sql);
-		}
-	}
-
+  global $store;
+  
+  foreach( $data as $a ) {
+    if ( $store->type() == "MySQL" && $a["type"] == "mysql" && $a["version"] > get_datastore_version() ) {
+      $sql = str_replace("__", $store->prefix, $a["action"]);
+      print "Action: $sql<br>\n";
+      mysql_query ($sql);
+    }
+  }
+  
 }
 ?>
