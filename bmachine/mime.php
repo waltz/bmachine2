@@ -5,28 +5,25 @@
  */
 function get_content_type( $file_url, &$errstr ) {
 
-	if ( is_local_file($file_url) ) {
+  if ( is_local_file($file_url) ) {
+    $fname = local_filename($file_url);
+    return mime_content_type("torrents/" . $fname);
+  }
+  else {
+    $headers = @get_headers($file_url, 1);
 
-		$fname = local_filename($file_url);
-		return mime_content_type("torrents/" . $fname);
+    if ( ! $headers || stristr($headers[0], "404") != 0 ) {
 
-	}
-	else {
-
-		$headers = get_headers($file_url, 1);
-
-		if ( ! $headers || stristr($headers[0], "404") != 0 ) {
-
-			$errstr = "404";
+      $errstr = "404";
 			
-			// if this is a URL that is reporting a 404, let's guess the mime type so 
-			// that if the user saves the file anyway, we have a chance of reporting the mime
-			// type in RSS, etc.
-			return get_mime_from_extension($file_url);
-		}
+      // if this is a URL that is reporting a 404, let's guess the mime type so 
+      // that if the user saves the file anyway, we have a chance of reporting the mime
+      // type in RSS, etc.
+      return get_mime_from_extension($file_url);
+    }
 		
-		return $headers["content-type"];
-	}
+    return $headers["content-type"];
+  }
 }
 
 
