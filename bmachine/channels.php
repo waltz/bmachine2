@@ -71,19 +71,22 @@ bm/help/channels_popup.php')">
 
 	 <div class="channel_name"><?php echo $channel['Name']; ?></div><?php
 
-	 	if ($channel['Publisher'] != "") {
-
+	 	if (isset($channel['Publisher']) && $channel['Publisher'] != "") {
 	 		print(" <div class=\"channel_publisher_name\">by " . $channel['Publisher'] . "</div>");
-
 	 	}
 
 	 ?>
 
+   <?php
+    if ( !isset($channel["Description"]) ) {
+      $channel["Description"] = "";
+    }
+   ?>
 	 <div class="channel_description"><?php echo $channel["Description"]; ?></div>
 
 
 	<!-- 1225115 formatting change -->
-	 <div class="channel_url"><a href="rss.php?i=<?php echo $channel["ID"]; ?>">Subscription Link</a> - <a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a>
+	 <div class="channel_url"><a href="<?php print rss_link($channel["ID"]); ?>">Subscription Link</a> - <a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a>
 
 	 <div class="channel_stats"><?php if ( isset($channel["Files"]) ) { echo count($channel["Files"]); } else { echo "0"; } ?> Files</div>
 
