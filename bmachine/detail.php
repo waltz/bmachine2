@@ -3,9 +3,19 @@
  * file detail display
  * @package Broadcast Machine
  */
-
 require_once("include.php");
 require_once("theme.php");
+
+// processing here in case our rewrite rules choke
+if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
+	$params = split("/", $_SERVER['REQUEST_URI']);
+
+	if ( count($params) == 5 ) {
+		$_GET["c"] = $params[3];
+		$_GET["i"] = $params[4];
+	}
+}
+
 
 if(!isset($_GET["i"]) || !isset($_GET["c"])) {
   header('Location: ' . get_base_url() . "index.php" );

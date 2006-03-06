@@ -13,6 +13,14 @@ require_once("theme.php");
 $channels = $store->getAllChannels();
 $files = $store->getAllFiles();
 
+// processing here in case our rewrite rules choke
+if ( !isset($_GET["i"]) ) {
+	$params = split("/", $_SERVER['REQUEST_URI']);
+	if ( count($params) == 4 ) {
+		$_GET["i"] = $params[3];
+	}
+}
+
 //
 // don't show anything here if we don't have a channel to display
 //
