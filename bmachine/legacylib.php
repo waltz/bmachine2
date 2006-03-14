@@ -8,6 +8,10 @@
  * @package Broadcast Machine
  */
 
+// multibyte functions that we need for UTF stuff
+if ( !function_exists("mb_substr") || !function_exists("mb_strtolower") ) {
+	include_once("mb.php");
+}
 
 
 //
@@ -237,10 +241,5 @@ if(!function_exists('get_headers')) {
            return false;
        }
    }
-}
-
-// multibyte functions that we need for UTF stuff
-if ( !function_exists("mb_substr") || !function_exists("mb_substr") ) {
-	include_once("mb.php");
 }
 ?>
