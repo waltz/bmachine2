@@ -48,7 +48,7 @@ function get_datastore_version() {
 
 function set_datastore_version($v) {
 
-  //error_log("set datastore version to $v");
+  //debug_message("set datastore version to $v");
 
   global $data_dir;
 
@@ -63,7 +63,7 @@ function set_datastore_version($v) {
   ftruncate($f, 0);
   fwrite($f, $xml);
 
- // //error_log($xml);
+ // //debug_message($xml);
   
   // make sure the file is flushed out to the filesystem
   fflush($f);
