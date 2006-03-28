@@ -9,57 +9,56 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 
 if (isset($_GET['logout'])) {
-	logout();
-	header('Location: ' . get_base_url() . 'index.php');
-	exit;
+  logout();
+  header('Location: ' . get_base_url() . 'index.php');
+  exit;
 }
 else if (isset($_GET['hash'])) {
 
-	$newuser = 0;
-	$hashlink = $_GET['hash'];
-	$username = trim(mb_strtolower( $_GET['username'] ));
+  $newuser = 0;
+  $hashlink = $_GET['hash'];
+  $username = trim(mb_strtolower( $_GET['username'] ));
 
-	global $store;
-	if ($store->authNewUser($hashlink,$username)) {
-		$newuser = 1;
-		$msg = "You are now registered and may login";
-	}
-
+  global $store;
+  if ($store->authNewUser($hashlink,$username)) {
+    $newuser = 1;
+    $msg = "You are now registered and may login";
+  }
+  
 }
 else {
 
-	$username = (isset($_POST['username'])) ? mb_strtolower($_POST['username']) : '';
-	$password = (isset($_POST['password'])) ? $_POST['password'] : '';
-	$do_http_auth = (isset($_GET["httpauth"])) ? $_GET["httpauth"] : 0;
-	$login = 0;
+  $username = (isset($_POST['username'])) ? mb_strtolower($_POST['username']) : '';
+  $password = (isset($_POST['password'])) ? $_POST['password'] : '';
+  $do_http_auth = (isset($_GET["httpauth"])) ? $_GET["httpauth"] : 0;
+  $login = 0;
 
-	if ( $username != '' && $password != '' && login($username, $password, $msg) ) {
-		$login = 1;
-	} 
-	else if ( $do_http_auth && ( isset($_SESSION['user']) || do_http_auth() ) ) {
-		$login = 1;
-	}
-
-	if ( $login == 1 ) {
-		if ( is_admin() ) {
-			header('Location: ' . get_base_url() . 'admin.php');
-		} 
-		else {
-			header('Location: ' . get_base_url() . 'index.php');
-		}
-		exit;
-	}
-	else {
-		if ( $username != '' && $password != '' ) {
-			$msg = "Unable to log in";
-		}
-		else {
-			$msg = "";		
-		}
-	}
+  if ( $username != '' && $password != '' && login($username, $password, $msg) ) {
+    $login = 1;
+  } 
+  else if ( $do_http_auth && ( isset($_SESSION['user']) || do_http_auth() ) ) {
+    $login = 1;
+  }
+  
+  if ( $login == 1 ) {
+    if ( is_admin() ) {
+      header('Location: ' . get_base_url() . 'admin.php');
+    } 
+    else {
+      header('Location: ' . get_base_url() . 'index.php');
+    }
+    exit;
+  }
+  else {
+    if ( $username != '' && $password != '' ) {
+      $msg = "Unable to log in";
+    }
+    else {
+      $msg = "";		
+    }
+  }
 }
 
 bm_header();
