@@ -6,7 +6,6 @@
 
 
 require_once("include.php");
-require_once("theme.php");
 
 $is_mine = false;
 
