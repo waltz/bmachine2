@@ -5,7 +5,6 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 
 
 // don't allow non-admin access
@@ -114,8 +113,7 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 <div class="page_name">
 <h2>Users</h2>
 <div class="help_pop_link">
-  <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/settings_popup.php')">
+  <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/settings_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
 </div>
 </div>
