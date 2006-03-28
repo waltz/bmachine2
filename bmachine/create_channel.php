@@ -5,7 +5,6 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 
 if ( ! is_admin() ) {
 	header("Location: " . get_base_url() . "index.php");
@@ -112,12 +111,12 @@ if (isset($_GET["i"])) {
 		die("Couldn't find channel");
 	}
 	
-	$name = $channel["Name"];
-	$desc = $channel["Description"];
-	$icon = $channel["Icon"];
-	$publisher = $channel["Publisher"];
-	$open = $channel["OpenPublish"];
-	$url = $channel["LibraryURL"];
+	$name = isset($channel["Name"]) ? $channel["Name"] : '';
+	$desc = isset($channel["Description"]) ? $channel["Description"] : '';
+	$icon = isset($channel["Icon"]) ? $channel["Icon"] : '';
+	$publisher = isset($channel["Publisher"]) ? $channel["Publisher"] : '';
+	$open = isset($channel["OpenPublish"]) ? $channel["OpenPublish"] : '';
+	$url = isset($channel["LibraryURL"]) ? $channel["LibraryURL"] : '';
 	
 	// cjm - this was only an isset before, so even if RequireLogin was set to false,
 	// the checkbox was activated
@@ -158,8 +157,7 @@ bm_header();
 <div class="page_name">
    <h2>Create / Edit a Channel</h2>
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/channel_popup.php')">
+      <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channel_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
