@@ -14,14 +14,13 @@ class DonationTest extends BMTestCase {
 
 	function TestCreatePage() {
 
-    error_log("DonationTest/TestCreatePage");
+    debug_message("DonationTest/TestCreatePage");
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		$publish_url = get_base_url() . "donation.php";
 		
 		$donation = array();
 		$title = "donation unit test " . rand(0, 10000);
-		print "create donation $title<br>";
 		$donation['donation_title'] = $title;
 		$donation['donation_text'] = "donation text!";
 
@@ -39,7 +38,7 @@ class DonationTest extends BMTestCase {
 
 	function TestEdit() {
 
-    error_log("DonationTest/TestEdit");
+    debug_message("DonationTest/TestEdit");
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
@@ -72,7 +71,7 @@ class DonationTest extends BMTestCase {
 	
 	function TestAddFileToDonation() {
 
-    error_log("DonationTest/TestAddFileToDonation");
+    debug_message("DonationTest/TestAddFileToDonation");
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
@@ -86,7 +85,6 @@ class DonationTest extends BMTestCase {
 			$store->addFileToDonation($filehash, $d);
 
 			$donations = $store->getAllDonations();
-      //      print_r($donations);
 			$this->assertTrue( isset($donations[$d]['Files'][$filehash]), "DonationTest/TestAddFileToDonation: donation id wasn't added to donation store" );
 
 			$store->removeFileFromDonation($filehash, $d);
@@ -102,7 +100,7 @@ class DonationTest extends BMTestCase {
 
 	function TestDelete() {
 
-    error_log("DonationTest/TestDelete");
+    debug_message("DonationTest/TestDelete");
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 

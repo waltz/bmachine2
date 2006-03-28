@@ -131,7 +131,7 @@
             restore_error_handler();
             if (ini_get('log_errors')) {
                 $label = SimpleErrorQueue::getSeverityAsString($severity);
-                error_log("$label: $message in $filename on line $line");
+                debug_message("$label: $message in $filename on line $line");
             }
             $queue = &SimpleErrorQueue::instance();
             $queue->add($severity, $message, $filename, $line, $super_globals);

@@ -24,7 +24,6 @@ class IncludeTest extends BMTestCase {
 	 */
 	function TestGetVersionString() {
 		$v = get_version();
-		print "Testing Version $v<br>\n";
 		$this->assertTrue($v != "", "IncludeTest: couldn't get version string");
 	}
 	

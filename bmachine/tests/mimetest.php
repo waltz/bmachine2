@@ -17,8 +17,8 @@ class MIMETest extends BMTestCase {
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
     $file = array();
-    $file['post_title'] = "unit test " . rand(0, 10000) . ": MP3 Upload";
-    $file['post_desc'] = "description";
+    $file['Title'] = "unit test " . rand(0, 10000) . ": MP3 Upload";
+    $file['Description'] = "description";
     $file['post_do_save'] = 1;
     $file['post_use_upload'] = 1;
 
@@ -39,12 +39,8 @@ class MIMETest extends BMTestCase {
     
     global $store;
     $files = $store->getAllFiles();
-    $got_it = $this->Find($files, "Title", encode($file['post_title']));
-    $this->assertTrue( $got_it, "MIMETest/TestMP3File: didn't find new file: " . $file["post_title"]);
-
-    //    print "<pre>";
-    //    print_r($files);
-    //    print "</pre>";
+    $got_it = $this->Find($files, "Title", $file['Title']);
+    $this->assertTrue( $got_it, "MIMETest/TestMP3File: didn't find new file: " . $file["Title"]);
   }
   
   function TestHTMLFile() {
@@ -52,8 +48,8 @@ class MIMETest extends BMTestCase {
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
     $file = array();
-    $file['post_title'] = "unit test " . rand(0, 10000) . ": HTML Upload";
-    $file['post_desc'] = "description";
+    $file['Title'] = "unit test " . rand(0, 10000) . ": HTML Upload";
+    $file['Description'] = "description";
     $file['post_do_save'] = 1;
     $file['post_use_upload'] = 1;
     
@@ -77,7 +73,7 @@ class MIMETest extends BMTestCase {
     
     global $store;
     $files = $store->getAllFiles();
-    $got_it = $this->Find($files, "Title", encode($file['post_title']));
+    $got_it = $this->Find($files, "Title", encode($file['Title']));
     $this->assertTrue( $got_it, "MIMETest/TestHTMLFile: didn't find new file");
   }
 

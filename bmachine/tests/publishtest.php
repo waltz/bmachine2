@@ -18,26 +18,22 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-    //		$file['post_file_url'] = "http://www.archive.org/download/LuckyStr1948/LuckyStr1948_64kb.mp4";
-		$file['post_file_url'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
-		$file['post_title'] = "URL unit test " . rand(0, 10000);
-		$file['post_desc'] = "URL desc";
+		$file['URL'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
+		$file['Title'] = "URL unit test " . rand(0, 10000);
+		$file['Description'] = "URL desc";
 		$file['post_do_save'] = 1;
 	
 		$this->Login();		
 		$publish_url = get_base_url() . "publish.php";
 
-    //print "post to $publish_url<br>";
-    //print_r($file);
-
 		$this->post( $publish_url, $file );
 
-    print "CODE: " . $this->_browser->getResponseCode() . "<br>";
+    //print "CODE: " . $this->_browser->getResponseCode() . "<br>";
 		$this->assertResponse("200", "PublishTest/TestPublishURL: didn't get 200 response");		
 	
 		global $store;
 		$files = $store->getAllFiles();
-		$got_it = $this->Find($files, "Title", encode($file['post_title']));
+		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertTrue( $got_it, "PublishTest/TestPublishURL: didn't find new file");
 	}
 
@@ -51,9 +47,9 @@ class PublishTest extends BMTestCase {
 			copy("tests/testfile.mp3", "test file.mp3");
 		}
 		$file = array();
-		$file['post_file_url'] = get_base_url() . "test file.mp3";
-		$file['post_title'] = "unit test - URL with a space" . rand(0, 10000);
-		$file['post_desc'] = "unit test - URL with a space";
+		$file['URL'] = get_base_url() . "test file.mp3";
+		$file['Title'] = "unit test - URL with a space" . rand(0, 10000);
+		$file['Description'] = "unit test - URL with a space";
 		$file['post_do_save'] = 1;
 	
 		$this->Login();		
@@ -64,7 +60,7 @@ class PublishTest extends BMTestCase {
 	
 		global $store;
 		$files = $store->getAllFiles();
-		$got_it = $this->Find($files, "Title", encode($file['post_title']));
+		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertTrue( $got_it, "PublishTest/TestPublishURLWithSpaces: didn't find new file");
 
 	}
@@ -74,9 +70,9 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['post_file_url'] = "http://www.junkjunknudsaasd.fake/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
-		$file['post_title'] = "URL unit test " . rand(0, 10000);
-		$file['post_desc'] = "URL desc";
+		$file['URL'] = "http://www.junkjunknudsaasd.fake/download/AHTheManWhoKnewTooMuch1934/AHTheManWhoKnewTooMuch1934_256kb.mp4";
+		$file['Title'] = "URL unit test " . rand(0, 10000);
+		$file['Description'] = "URL desc";
 		$file['post_do_save'] = 1;
 	
 		$this->Login();		
@@ -87,7 +83,7 @@ class PublishTest extends BMTestCase {
 	
 		global $store;
 		$files = $store->getAllFiles();
-		$got_it = $this->Find($files, "Title", encode($file['post_title']));
+		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertFalse( $got_it, "PublishTest/TestPublishBadURLHost: file was published but shouldn't be");
 	}
 
@@ -96,9 +92,9 @@ class PublishTest extends BMTestCase {
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['post_file_url'] = get_base_url() . "file_that_does_not_exist.mp3";
-		$file['post_title'] = "URL unit test " . rand(0, 10000);
-		$file['post_desc'] = "URL desc";
+		$file['URL'] = get_base_url() . "file_that_does_not_exist.mp3";
+		$file['Title'] = "URL unit test " . rand(0, 10000);
+		$file['Description'] = "URL desc";
 		$file['post_do_save'] = 1;
 	
 		$this->Login();		
@@ -109,7 +105,7 @@ class PublishTest extends BMTestCase {
 	
 		global $store;
 		$files = $store->getAllFiles();
-		$got_it = $this->Find($files, "Title", encode($file['post_title']));
+		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertFalse( $got_it, "PublishTest/TestPublishBadURL: file was published but shouldn't be");
 	}
 
@@ -129,7 +125,6 @@ class PublishTest extends BMTestCase {
 		foreach ($files as $filehash => $f) {
 			if ( beginsWith($f["Title"], "unit test" ) ) {
 
-				//print get_base_url() . "delete.php?t=v&i=" . $filehash . "<br>";
 				$this->get(	get_base_url() . "delete.php?t=v&i=" . $filehash );
 
         global $store;

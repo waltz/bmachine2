@@ -6,42 +6,87 @@ require_once(SIMPLE_TEST . 'unit_tester.php');
 require_once(SIMPLE_TEST . 'web_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 
-class RSSTest extends WebTestCase {
+include_once("publishing.php");
 
-	function RSSTest() {
-	}
+class RSSTest extends BMTestCase {
 
-	function TestGenerateRSS() {
+  function RSSTest() {
+  }
 
-		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+  function TestGenerateRSS() {
+
+    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 	
-		global $store;
-		global $rss_dir;
+    global $store;
+    global $rss_dir;
 
-		$channels = $store->getAllChannels();
+    $this->Login();
+
+    $channel_id = $store->addNewChannel( "Junky Channel" );
+    $channel = $store->getChannel($channel_id);
+    $channel["OpenPublish"] = 1;
+    $store->saveChannel($channel);
 	
-		foreach($channels as $channel) {
-		
-			makeChannelRss($channel["ID"]);
-			$this->assertTrue(file_exists("$rss_dir/" . $channel["ID"] . ".rss"), "Didn't generate " . $channel["ID"] . ".rss" );			
-		}
-	}
+    $file = array();
+    set_file_defaults($file);
+    
+    $file['URL'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
+    $file['Title'] = "RSS File & Junk Test";
+    $file['Description'] = "URL desc";
+    $file['donation_id'] = 1;
+    $file['People'] = array(
+			    0 => "colin:did stuff & had fun",
+			    1 => "colin2:did other stuff & slept a lot",
+    );
+    $file['Keywords'] = array(
+			      0 => 'kw1',
+			      1 => 'kw2');
 
-	function TestValidateRSS() {
+    $file['post_channels'] = array($channel_id);
+    
+    assert( publish_file($file) );
 
-		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+    $rss_url = get_base_url() . "rss.php?i=" . $channel_id . "&amp;force=1";
+    $test_url = "http://www.feedvalidator.org/check.cgi?url=" . $rss_url;
+    
+    $this->get($test_url);
+    $this->assertWantedPattern('/Congratulations/i', $rss_url);
 
-		global $store;
-		$channels = $store->getAllChannels();
 
-		foreach($channels as $channel) {
-			$rss_url = get_base_url() . "rss.php?i=" . $channel["ID"];
-			$test_url = "http://www.feedvalidator.org/check.cgi?url=" . urlencode($rss_url);
+    $channels = $store->getAllChannels();
+	
+    foreach($channels as $channel) {
+      makeChannelRss($channel["ID"]);
+      $this->assertTrue(file_exists("$rss_dir/" . $channel["ID"] . ".rss"), "Didn't generate " . $channel["ID"] . ".rss" );			
+    }
+  }
 
-			$this->get($test_url);
-			$this->assertWantedPattern('/Congratulations/i', $rss_url);
+  function TestValidateRSS() {
 
-		}
-	}
+    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+    
+    global $store;
+    $channels = $store->getAllChannels();
+    
+    foreach($channels as $channel) {
+      $rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
+      $test_url = "http://www.feedvalidator.org/check.cgi?url=" . urlencode($rss_url);
+
+      $this->get($test_url);
+
+      $content = $this->_browser->getContent();
+      eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
+      //      preg_match('/<span class="message">(.*?)<\/span>/', $content, $errors);
+      //preg_match('/<span class="message">(.*?)<\/span>/', $content, $errors);
+      //print $content . "\n\n\n";
+      //      print_r($errors);
+      //$details = strip_tags($errors[4]);
+      $details = $errors[4];
+      $details = str_replace("&nbsp;", " ", $details);
+      $details = str_replace("&gt;", ">", $details);
+      $details = str_replace("&lt;", "<", $details);
+      $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
+    }
+  }
 }
 ?>

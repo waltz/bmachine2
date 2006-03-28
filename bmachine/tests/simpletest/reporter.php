@@ -176,7 +176,7 @@
          */
         function paintHeader($test_name) {
             if (! SimpleReporter::inCli()) {
-                header('Content-type: text/plain');
+                @header('Content-type: text/plain');
             }
             print "$test_name\n";
             flush();

@@ -19,7 +19,7 @@ class MySQLTest extends BMTestCase {
    * test the global setup function
    */
   function TestSetup() {
-    error_log("MySQLTest/TestSetup");
+    debug_message("MySQLTest/TestSetup");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 		global $store;
 		$this->assertTrue(isset($store) && $store->type() == 'MySQL', "mysql didnt enable");
@@ -30,7 +30,7 @@ class MySQLTest extends BMTestCase {
    */
   function TestGetType() {
 
-    error_log("MySQLTest/TestGetType");
+    debug_message("MySQLTest/TestGetType");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;
@@ -43,7 +43,7 @@ class MySQLTest extends BMTestCase {
    */
   function TestSettings() {
 
-    error_log("MySQLTest/TestSettings");
+    debug_message("MySQLTest/TestSettings");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;

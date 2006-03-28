@@ -11,14 +11,14 @@ class SeedTest extends BMTestCase {
   var $first_run;
   
 	function SeedTest() {
-    error_log("SeedTest");
+    debug_message("SeedTest");
     $this->BMTestCase();
     $this->first_run = true;
   }
 
   function StartSeeder() {
 
-    error_log("SeedTest/StartSeeder");
+    debug_message("SeedTest/StartSeeder");
     setup_data_directories(false);
 
     global $settings;
@@ -30,39 +30,39 @@ class SeedTest extends BMTestCase {
 
 		$result = $seeder->setup();
 
-    error_log("here");
+    debug_message("here");
     if ( $this->first_run ) {
       $this->first_run = false;
       if ( $result == false ) {
-        error_log("Couldn't setup seeder: " . $seeder->problem);
+        debug_message("Couldn't setup seeder: " . $seeder->problem);
       }
       else {
-        error_log("seeder setup worked");
+        debug_message("seeder setup worked");
       }
     }
   }
 	
 	function TestStopServerSharing() {
 
-    error_log("SeedTest/TestStopServerSharing");
+    debug_message("SeedTest/TestStopServerSharing");
     $this->StartSeeder();
 
 		global $seeder;
 
 		if ( $seeder->enabled() ) {
-      error_log("try and stop");
+      debug_message("try and stop");
 			$seeder->stop_seeding();
-      error_log("try and stop - done");
+      debug_message("try and stop - done");
 		}
 		else {
-      error_log("Seeding not enabled, can't test it");
+      debug_message("Seeding not enabled, can't test it");
 			print "Seeding not enabled, can't test it.<br>";
 		}
 	}
 
 	function TestStartServerSharing() {
 
-    error_log("SeedTest/TestStartServerSharing");
+    debug_message("SeedTest/TestStartServerSharing");
 
 		global $seeder;
 		if ( $seeder->enabled() ) {
@@ -76,7 +76,7 @@ class SeedTest extends BMTestCase {
 
 	function TestStart() {
 
-    error_log("SeedTest/TestStart");
+    debug_message("SeedTest/TestStart");
 
     $this->StartSeeder();
 
@@ -160,7 +160,7 @@ class SeedTest extends BMTestCase {
 
 	function TestPause() {
 
-    error_log("SeedTest/TestPause");
+    debug_message("SeedTest/TestPause");
 
     $this->StartSeeder();
 
@@ -194,7 +194,7 @@ class SeedTest extends BMTestCase {
 
 	function TestStop() {
 
-    error_log("SeedTest/TestStop");
+    debug_message("SeedTest/TestStop");
 
     $this->StartSeeder();
 
@@ -227,7 +227,7 @@ class SeedTest extends BMTestCase {
 
 	function TestAnnounceNoCompact() {
 
-    error_log("SeedTest/TestAnnounceNoCompact");
+    debug_message("SeedTest/TestAnnounceNoCompact");
 
 		$announce_url = get_base_url() . "announce.php?info_hash=hhdhdhdhdhd";
 		$this->get($announce_url);
@@ -238,7 +238,7 @@ class SeedTest extends BMTestCase {
 
 	function TestAnnounceBadHash() {
 
-    error_log("SeedTest/TestAnnounceBadHash");
+    debug_message("SeedTest/TestAnnounceBadHash");
 
 		$announce_url = get_base_url() . "announce.php?info_hash=hhdhdhdhdhd&compact=1";
 		$this->get($announce_url);
@@ -247,7 +247,7 @@ class SeedTest extends BMTestCase {
 
 	function TestAnnounceUnAuthedHash() {
 
-    error_log("SeedTest/TestAnnounceUnAuthedHash");
+    debug_message("SeedTest/TestAnnounceUnAuthedHash");
 
 		$announce_url = get_base_url() . "announce.php?info_hash=01234567890123456789&compact=1";
 		$this->get($announce_url);

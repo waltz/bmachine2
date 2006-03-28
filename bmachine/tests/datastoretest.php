@@ -49,7 +49,7 @@ class DataStoreTest extends BMTestCase {
    */
   function TestSettings() {
 
-    error_log("DataStoreTest/TestSettings");
+    debug_message("DataStoreTest/TestSettings");
     $this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
 
     global $store;
@@ -66,7 +66,7 @@ class DataStoreTest extends BMTestCase {
 	 */
   function TestUsers() {
 
-    error_log("DataStoreTest/TestUsers");
+    debug_message("DataStoreTest/TestUsers");
 
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
@@ -94,7 +94,7 @@ class DataStoreTest extends BMTestCase {
 	 */
   function TestLogin() {
 
-    error_log("DataStoreTest/TestLogin");
+    debug_message("DataStoreTest/TestLogin");
 
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
     
@@ -103,7 +103,8 @@ class DataStoreTest extends BMTestCase {
 
     $settings['AllowRegistration'] = true;
     $settings['RequireRegAuth'] = false;
-    $this->assertTrue( $store->addNewUser( "unittest",  "unittest", $this->email, true, false, $error ), $error);
+    $result = $store->addNewUser( "unittest",  "unittest", $this->email, true, false, $error );
+    $this->assertTrue($result, $error);
 
     $login_url = get_base_url() . "login.php";
     $this->get($login_url);
@@ -121,7 +122,7 @@ class DataStoreTest extends BMTestCase {
 	 */
   function TestGetUsers() {
 
-    error_log("DataStoreTest/TestGetUsers");
+    debug_message("DataStoreTest/TestGetUsers");
     $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
     global $store;
@@ -131,7 +132,7 @@ class DataStoreTest extends BMTestCase {
 
 	function TestDeleteChannel() {
 
-    error_log("DataStoreTest/TestDeleteChannel");
+    debug_message("DataStoreTest/TestDeleteChannel");
 		global $store;
 		
 		$channels = $store->getAllChannels();
@@ -152,7 +153,7 @@ class DataStoreTest extends BMTestCase {
 
 	function TestDeleteFile() {
 
-    error_log("DataStoreTest/TestDeleteFile");
+    debug_message("DataStoreTest/TestDeleteFile");
 		global $store;	
 		$files = $store->getAllFiles();
 		
@@ -168,14 +169,14 @@ class DataStoreTest extends BMTestCase {
 
   function TestGetAllDonations() {
 		global $store;
-    error_log("DataStoreTest/TestGetAllDonations");
+    debug_message("DataStoreTest/TestGetAllDonations");
 		$store->getAllDonations();
   }
 
-  function TestSaveDonations() {
+  /*  function TestSaveDonations() {
 
 		global $store;
-    error_log("DataStoreTest/TestSaveDonations");
+    debug_message("DataStoreTest/TestSaveDonations");
 		$donations = $store->getAllDonations();
 	
 		// we don't encode this because the user can enter in html if they want, but we will do
@@ -194,16 +195,16 @@ class DataStoreTest extends BMTestCase {
 		$donations = 	$store->getAllDonations();
 		$this->assertTrue( isset($donations[$donationhash]), "DataStoreTest/TestSaveDonations: save didn't work");
 
-    error_log("DataStoreTest/TestSaveDonations done");
+    debug_message("DataStoreTest/TestSaveDonations done");
   }
-	
+	*/
+
 	function TestAddNewChannel() {
 		global $store;
 
     $channel_id = $store->addNewChannel( "Junky Channel" );
-    print "added channel $channel_id<br>";
 		$channel = $store->getChannel($channel_id);
-		
+
 		$this->assertTrue( isset($channel), "DataStoreTest/TestAddNewChannel: couldn't load channel" );
 		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", 
 			"DataStoreTest/TestAddNewChannel: didn't load channel data" );
@@ -214,7 +215,6 @@ class DataStoreTest extends BMTestCase {
 		global $store;
 
     $channel_id = $store->addNewChannel( "Junky Channel: TestStoreChannel" );
-    print "added channel $channel_id<br>";
 		$channel = $store->getChannel($channel_id);
 		$this->assertTrue( isset($channel), "DataStoreTest/TestStoreChannel: couldn't load channel" );
 		
@@ -312,20 +312,16 @@ class DataStoreTest extends BMTestCase {
 
 		$newemail = "new$username@foo.net";
 		$newhash = "newhash";
-    //    $user = $store->getUser($username);
-    //    print_r($user);
 		
     $hashlink = $store->userHash( $username, $password, $email );
     $this->assertTrue( $store->authNewUser( $hashlink, $username), "DataStoreTest/TestUpdateUser: couldn't auth user" );	
 
-    //    print "change $username email to $newemail<br>";
 		$store->updateUser( $username, $newhash, $newemail, false, false, false);
 		
 		$newuser = $store->getUser($username);
 		$this->assertTrue(isset($newuser), "DataStoreTest/TestUpdateUser: user missing?");	
 		$this->assertTrue(isset($newuser['Email']) && $newuser['Email'] == $newemail, "DataStoreTest/TestUpdateUser: email didn't update");
-		$this->assertTrue(isset($newuser['Email']) && $newuser['Hash'] == $newhash, "DataStoreTest/TestUpdateUser: hash didn't update");
-		
+		$this->assertTrue(isset($newuser['Email']) && $newuser['Hash'] == $newhash, "DataStoreTest/TestUpdateUser: hash didn't update");		
 	}
 
 	function PublishTorrent() {

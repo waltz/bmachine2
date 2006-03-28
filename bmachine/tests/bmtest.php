@@ -30,6 +30,7 @@ class BMTestCase extends WebTestCase {
 			$user["IsAdmin"] = 1;
 			$user["IsPending"] = 0;
 			$user["Name"] = "unittest";
+			$user["Username"] = "unittest";
 
 			$users["unittest"] = $user;
 			
