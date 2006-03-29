@@ -4,7 +4,6 @@
  * @package Broadcast Machine
  */
 require_once("include.php");
-require_once("theme.php");
 
 if ( ! is_admin() ) {
 	header("Location: " . get_base_url() . "index.php");
@@ -112,8 +111,7 @@ bm_header();
 <div class="page_name">
    <h2>Create a New 'Donation' Setup</h2>
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/channel_popup.php')">
+      <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channel_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
