@@ -11,8 +11,8 @@ if (!isset($_GET['hash'])) {
 
 <html>
 <head></head>
-<body <?php if (can_upload()) { ?>onLoad="javascript:sendUpload();"<?php }?>>
 
+<body <?php if (can_upload()) { ?>onLoad="javascript:sendUpload();"<?php }?>>
 <?php
 	if (can_upload()) {
 		draw_detect_scripts();
