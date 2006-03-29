@@ -6,7 +6,6 @@
 
 
 require_once("include.php");
-require_once("theme.php");
 
 if (!is_admin()) {
 	header('Location: ' . get_base_url() . 'admin.php');
@@ -39,8 +38,7 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
    <h2>Donation Setups</h2>
 <!--
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/channels_popup.php')">
+      <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channels_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 -->
