@@ -3,7 +3,6 @@
  * polling page which gets called from the publish page when the user is
  * uploading a torrent
  *
- * (more details to follow)
  * @package Broadcast Machine
  */
 
@@ -11,14 +10,9 @@ $hash = $_GET["i"];
 
 include_once "include.php";
 
-//
-// cjm - not sure why this strlen logic was here, but none of the
-// hashes are 40 chars, so i'm removing it (05/23/2005)
-//	(strlen($hash)==40) && preg_match("/^[a-z0-9]+$/",$hash) && 
-//
 global $data_dir;
 
-if ( preg_match("/^[a-z0-9]+$/",$hash) && file_exists( $data_dir . '/' . $hash ) ) {
+if ( preg_match("/^[a-z0-9]+$/", $hash) && file_exists( $data_dir . '/' . $hash ) ) {
 	$handle = fopen($data_dir . '/' . $hash, "rb+");
 	$torrent = fread($handle, 1024);
 	fclose($handle);
