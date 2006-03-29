@@ -5,7 +5,6 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 
 if (!is_admin()) {
 	header('Location: ' . get_base_url() . 'index.php');
@@ -38,8 +37,7 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 <div class="page_name">
    <h2>Channels</h2>
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/channels_popup.php')">
+      <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channels_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
@@ -94,7 +92,8 @@ bm/help/channels_popup.php')">
 
 	 <?php
 
-	 	if (strstr($channel['LibraryURL'], get_base_url() . "library.php?i=" . $channel["ID"])) {
+//	 	if (strstr($channel['LibraryURL'], get_base_url() . "library.php?i=" . $channel["ID"])) {
+	 	if (strstr($channel['LibraryURL'], "library.php?i=" . $channel["ID"])) {
 
 	 ?>
 
