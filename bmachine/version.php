@@ -125,27 +125,30 @@ function get_upgrade_scripts($from, $to) {
   if ( ! isset($to) ) {
     $to = get_version();		
   }
-  
-  $xml = file_get_contents("upgrades.xml");
-  $saxparser =& new SAXY_Parser();
-  
-  //register events
-  $saxparser->xml_set_element_handler("upgradeStartElementHandler", "upgradeEndElementHandler");
-  $saxparser->xml_set_character_data_handler("upgradeCharacterHandler");
 
-  $success = $saxparser->parse($xml);
-  global $scripts;
-  $data = $scripts;
-
-  global $store;
+  if ( file_exists("upgrades.xml") ) {
   
-  foreach( $data as $a ) {
-    if ( $store->type() == "MySQL" && $a["type"] == "mysql" && $a["version"] > get_datastore_version() ) {
-      $sql = str_replace("__", $store->prefix, $a["action"]);
-      print "Action: $sql<br>\n";
-      mysql_query ($sql);
+    $xml = file_get_contents("upgrades.xml");
+    $saxparser =& new SAXY_Parser();
+  
+    //register events
+    $saxparser->xml_set_element_handler("upgradeStartElementHandler", "upgradeEndElementHandler");
+    $saxparser->xml_set_character_data_handler("upgradeCharacterHandler");
+
+    $success = $saxparser->parse($xml);
+    global $scripts;
+    $data = $scripts;
+
+    global $store;
+  
+    foreach( $data as $a ) {
+      if ( $store->type() == "MySQL" && $a["type"] == "mysql" && $a["version"] > get_datastore_version() ) {
+        $sql = str_replace("__", $store->prefix, $a["action"]);
+        print "Action: $sql<br>\n";
+        mysql_query ($sql);
+      }	
     }
   }
-  
+
 }
 ?>
