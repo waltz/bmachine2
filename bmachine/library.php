@@ -8,7 +8,6 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 
 $channels = $store->getAllChannels();
 $files = $store->getAllFiles();
@@ -35,8 +34,7 @@ if (isset($_GET['i'])) {
 
 	// if the user has an external LibraryURL, send them to that page here
 	if ( isset($channel['LibraryURL']) && 
-		! strstr($channel['LibraryURL'], get_base_url() . "library.php?i=" . $channelID) ) {
-
+		! strstr($channel['LibraryURL'], "library.php?i=" . $channelID) ) {
 			header("Location: " . $channel['LibraryURL']);
 			exit;
 	}
@@ -46,159 +44,13 @@ else {
   exit;
 }
 
+$keyword = NULL;
 
-$channel_files = $channel["Files"];
-
-// sort our files
-usort($channel_files, "comp");
-
-
-front_header($channel["Name"],$channelID,$channel["CSSURL"], get_base_url() . "rss.php?i=" . $_GET["i"]);
-
-if ($channel['Options']['Keywords'] == "1") {
-  if (isset($_GET['kw'])) {
-?>
-
-<div id="show_all"><a href="<?php print channel_link($channelID); ?>">Show All Videos</a></div>
-<?php
-   }
-?>
-
-<div id="tags_list">
-<div id="tags_title">Tags:</div>
-
-<!-- show up 8 most popular tags -->
-<?php
-
-   $keywords = array();
-
-  foreach ($channel_files as $filehash) {
-    
-    if ($filehash[1] <= time()) {
-
-      foreach ($files[$filehash[0]]["Keywords"] as $words) {
-
-        if ( is_array($words) ) {
-          $words = $words[0];
-        }
-				if (!array_key_exists($words,$keywords)) {	  
-					$keywords[$words] = 0;
-				}
-
-				$keywords[$words]++;
-
-      } // foreach
-
-    } // if
-
-  } // foreach
-
-  arsort($keywords);
-  reset($keywords);
-
-  $i = 0;
-
-	if ( count($keywords) > 0 ) {
-		print "<ul>\n";
-
-		foreach ($keywords as $words => $count) {
-			print("<li><a href=\"library.php?i=" . $channelID . "&amp;kw=" . urlencode($words) . "\">" . $words . "</a> (" . $count . ")</li> ");
-			$i++;
-		
-			if ($i == 8) {
-				break;
-			}
-		}
-		print "</ul>\n";
-	}
-?>
-
-
-<div class="spacer">&nbsp;</div>
-
-</div> <!-- tags list -->
-
-<?php
+if ( isset($_GET["kw"]) ) {
+  $keyword = $_GET["kw"];
 }
-?>
 
-<div id="video_zone">
-<?php
-  if (isset($_GET['kw'])) {
-?>
-
-    <div class="video_section">
-    <h3 class="section_name">Files Matching &quot;<?php echo $_GET['kw']; ?>&quot;</h3>
-<?php 
-if ( count($channel_files) > 0 ) {
-	print "<ul>\n";
-
-	foreach ($channel_files as $filehash) {
-
-		$filehash = $filehash[0];
-		$file = $files[$filehash];
-
-		foreach ($file["Keywords"] as $words) {
-			if ($words == $_GET['kw']) {
-				display_video($filehash, $file);
-			}
-		}
-
-	}
-	print "</ul>\n";
-}
-?>
-		
-<div class="spacer_left">&nbsp;</div>
-
-</div>
-
-<?php
-
-  } 
-  else {
-
-		foreach ($channel['Sections'] as $section) {
-		
-			if (count($section["Files"]) > 0) {
-				print("
-				<div class=\"video_section\">
-					<h3 class=\"section_name\">" . $section["Name"] . "</h3>
-					<ul>");
-		
-				foreach ($section["Files"] as $filehash) {
-					display_video($filehash, $files[$filehash]);
-				}
-		
-				print("</ul>
-					<div class=\"spacer_left\">&nbsp;</div></div>");
-			}
-		
-		}
-
-
-		if ( count($channel_files) > 0 ) {
-			print("
-	<div class=\"video_section\">
-	<h3 class=\"section_name\">All Files</h3>
-	<ul>
-				");
-	
-			foreach ($channel_files as $filehash) {
-				display_video($filehash[0], $files[$filehash[0]]);
-			}
-	
-			print("
-	</ul>
-	<div class=\"spacer_left\">&nbsp;</div>
-	</div>
-			");
-		}
-  }
-
-print("</div>");
-
-front_footer($channelID);
+render_channel_page($channel, $files, $keyword);
 
 /*
  * Local variables:

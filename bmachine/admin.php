@@ -6,7 +6,6 @@
  */
 
 require_once("include.php");
-require_once("theme.php");
 require_once("version.php");
 
 requireUserAccess();
@@ -15,6 +14,8 @@ if ( ! is_admin() ) {
 	header("Location: " . get_base_url() );
 	exit;
 }
+
+update_base_url();
 
 function mycomp($a, $b) {
 	return ($b["Created"] - $a["Created"]);

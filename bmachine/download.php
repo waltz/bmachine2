@@ -10,9 +10,14 @@
 
 
 require_once("include.php");
-require_once("theme.php");
 
 global $settings;
+global $store;
+
+
+if ( !isset($_GET["type"]) ) {
+  $_GET["type"]= "direct";
+}
 
 // processing here in case our rewrite rules choke
 if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
@@ -21,6 +26,7 @@ if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
 	if ( count($params) == 5 ) {
 		$_GET["c"] = $params[3];
 		$_GET["i"] = $params[4];
+    $_GET["type"]= "direct";
 	}
 }
 
@@ -113,7 +119,7 @@ $filename = local_filename($file["URL"]);
 // special handling for sending our helper installer files.  someday this will be broken out
 // into its own file
 //
-if (isset($_GET["type"])) {
+if (isset($_GET["type"]) && $_GET["type"] != "direct" ) {
 	send_helper($_GET["type"], $file);
 } 
 
@@ -131,23 +137,23 @@ if ( is_local_file($file["URL"]) &&
 	
 	// if we have the actual filename stored for this file, then send it instead of the hash
 	if ( isset($file['FileName']) && $file['FileName'] != '' ) {
-// Content-Disposition: attachment; filename=filename.ext
-//	  header('Content-Disposition: inline; filename="' . urlencode($file['FileName']) . '"');	
 	  header('Content-Disposition: attachment; filename="' . urlencode($file['FileName']) . '"');	
 	}
 	else {
 	  header('Content-Disposition: attachment; filename="' . urlencode($filename) . '"');
-//	  header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
 	}
 
   header('Content-length: ' . filesize('./torrents/' . $filename));
   echo file_get_contents( './torrents/' . $filename );
+
+  $store->recordStartedDownload($file["ID"], is_local_torrent($file["URL"]) );
   exit;
 }
 
 
 if ( !is_local_file($file["URL"] ) ) {
   header('Location: ' . linkencode($file["URL"]));
+  $store->recordStartedDownload($file["ID"], false );
   exit;
 }
 

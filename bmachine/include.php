@@ -73,9 +73,8 @@ $do_mime_check = true;
 // some other software's config, they can be changed
 //
 global $usercookie;
-$usercookie = "bm_username";
-
 global $hashcookie;
+$usercookie = "bm_username";
 $hashcookie = "bm_userhash";
 
 //
@@ -87,6 +86,7 @@ global $torrents_dir;
 global $publish_dir;
 global $rss_dir;
 global $text_dir;
+global $themes_dir;
 
 if ( ! isset($data_dir) ) {
   $data_dir = "data";
@@ -95,6 +95,7 @@ if ( ! isset($data_dir) ) {
   $publish_dir = "publish";
   $rss_dir = "publish";
   $text_dir = "text";
+  $themes_dir = "themes";
 }
 
 
@@ -104,7 +105,6 @@ if ( ! isset($data_dir) ) {
 require_once("legacylib.php");
 require_once("datastore.php");
 require_once("seeder.php");
-
 
 global $store;
 
@@ -118,7 +118,7 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 
   if ( ! setup_data_directories() ) {
 
-		include_once "theme.php";
+		include_once "theme_defaults.php";
 
     bm_header();
     $store->setupHelpMessage();
@@ -128,16 +128,14 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 		
 	if ( ! setup_helper_apps() ) {
 
-		include_once "theme.php";
+		include_once "theme_defaults.php";
 
     bm_header();
     $store->setupHelperMessage();
     bm_footer();
 		exit;
 	}	
-
 }
-
 
 // send all content as utf-8
 header("Content-type: text/html; charset=UTF-8");
@@ -147,7 +145,7 @@ header("Content-type: text/html; charset=UTF-8");
 // this global will be set in newuser.php so that we don't get into a recursive loop here
 global $NEW_USER;
 
-if ( !(isset($NEW_USER) && $NEW_USER == 1) && isset($store) && count($store->getAllUsers()) <= 0 ) {
+if ( (!isset($NEW_USER) || $NEW_USER != 1) && isset($store) && count($store->getAllUsers()) <= 0 ) {
 	logout();
 	header('Location: ' . get_base_url() . 'newuser.php');
 	exit;
@@ -169,7 +167,6 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) &&
 	} 
 }
 
-
 //
 // if the user has logged in through http auth, but doesn't have cookies on, or
 // something like that, then this will grab their login info and put it in the
@@ -179,20 +176,71 @@ global $can_use_cookies;
 $can_use_cookies = true;
 
 
+//
+// initialize our theme
+//
+global $settings;
+if ( isset($settings['theme']) ) {
+	global $themes_dir;
+	$theme = $settings['theme'];
+	$theme_path = $themes_dir . "/" . $theme . "/theme.php";
+
+	if ( file_exists($theme_path) ) {
+		require_once $theme_path;
+	}
+}
+
+// theme_defaults.php and render.php will cover anything thats not in our custom theme file
+require_once("theme_defaults.php");
+require_once("render.php");
+
+function active_theme() {
+	global $settings;
+	if ( isset($settings['theme']) ) {
+		return $settings['theme'];
+	}
+	
+	return NULL;
+}
+
+function theme_path() {
+	global $settings;
+	global $themes_dir;
+
+	return $themes_dir . "/" . $settings['theme'];
+}
+
 /**
  * return the version number of this install
  * @returns install version number
  */
 function version_number() {
-	return 20;
+	return 21;
 }
 
 /**
- * return a string describing this install
- * @returns string describing this install
+ * return a string with the version of this installation
+ * @returns string string with the version of this installation
  */
 function get_version() {
   return 'Release ' . version_number();
+}
+
+/**
+ * figure out the base url of this installation and update it in our settings.  we shouldn't be storing
+ * the base url as an absolute anywhere - doing this makes the app extremely unportable
+ */
+function update_base_url() {
+  global $settings;
+	$tmpurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/";
+
+  if ( isset($settings) && 
+       ( $settings['base_url'] == '' || $settings['base_url'] != $tmpurl ) ) {
+		$settings['base_url'] = $tmpurl;
+		global $store;
+		$store->saveSettings($settings);
+  }
+
 }
 
 /**
@@ -202,20 +250,19 @@ function get_version() {
  */
 function get_base_url() {
 
-// cjm try using this instead
-	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-//	return $url;
+  global $settings;
 
-  if ((!isset($_SERVER['HTTPS'])) && $_SERVER['SERVER_PORT']!=80)
-    $port = ':'.$_SERVER['SERVER_PORT'];
-  else if ((isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT']!=443))
-    $port = ':'.$_SERVER['SERVER_PORT'];
-  else
-    $port = '';
-  
-  $url = 'http'.( isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $port .
-    preg_replace( '|^(.*/).*$|','\\1', $_SERVER['PHP_SELF'] );
-  
+	if ( isset($settings) && $settings['base_url'] != '' ) {
+		return $settings['base_url'];
+	}
+
+  if ( isset($_SERVER['HTTP_HOST']) ) {
+  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+  } 
+  else {
+  	$url = "/" . dirname($_SERVER['PHP_SELF']);
+  }
+
   // make sure the url doesnt have multiple slashes on the end (bug # 1211743)
   while ( $url{strlen($url)-1} == '/' ) {
     $url = substr($url, 0, strlen($url) - 1);
@@ -425,17 +472,19 @@ function login($username,$password,&$error, $set_cookies = true) {
 	setcookie($usercookie, "", $expire, dirname($_SERVER['PHP_SELF']) );
 	setcookie($hashcookie, "", $expire, dirname($_SERVER['PHP_SELF']) );
 
+  unset($_SESSION['user']);
+
 	// Unset all of the session variables.
 	$_SESSION = array();
 	
 	// If it's desired to kill the session, also delete the session cookie.
 	// Note: This will destroy the session, and not just the session data!
 	if (isset($_COOKIE[session_name()])) {
-		 setcookie(session_name(), '', $expire, '/');
+		 setcookie(session_name(), '', $expire, dirname($_SERVER['PHP_SELF']));
 	}
 	
 	// Finally, destroy the session.
-	session_destroy();	
+	@session_destroy();	
 	return true;
 }
 
@@ -588,7 +637,7 @@ function can_upload() {
  */
 function site_title() {
   global $settings;
-  return isset($settings['title']) ? $settings['title'] : '';
+  return isset($settings['title']) ? $settings['title'] : 'Site Title';
 }
 
 /**
@@ -597,8 +646,18 @@ function site_title() {
  */
 function site_description() {
   global $settings;
-  return isset($settings['description']) ? $settings['description'] : '';
+  return isset($settings['description']) ? $settings['description'] : 'Site Description';
 }
+
+/**
+ * return the site image/icon, if it has been specified
+ * @returns site image/icon, if it has been specified, t.gif if not
+ */
+function site_image() {
+  global $settings;
+  return isset($settings['image']) ? $settings['image'] : 't.gif';
+}
+
 
 
 /**
@@ -613,7 +672,7 @@ function site_description() {
  */
 function setup_data_directories( $force = false ) {
 
-//  error_log("setup_data_directories");
+//  debug_message("setup_data_directories");
 
   global $store;
   global $seeder;
@@ -621,34 +680,34 @@ function setup_data_directories( $force = false ) {
   // if we've already setup our datastore, just return it
   // unless we want to force it to be re-created
   if ( $force == false && isset($store) && $store != null ) {
-//    error_log("returning pre-existing datastore");
+//    debug_message("returning pre-existing datastore");
     return $store;
   }
 
-//  error_log("create new datastore");
+//  debug_message("create new datastore");
   $store = new DataStore();
 	
 	if ( !isset($store) || $store->is_setup == false ) {
- //   error_log("setup_data_directories - failed");
+ //   debug_message("setup_data_directories - failed");
 		return false;
 	}
 
- // error_log("init datastore");
+ // debug_message("init datastore");
 	$store->init();
- // error_log("done with init");
+ // debug_message("done with init");
 
   global $data_dir;
   if ( $store->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($store->getAllChannels()) <= 0  ) ) {
     $store->addNewChannel( "First Channel" );
   }
 
- // error_log("start seeder");
+ // debug_message("start seeder");
   $seeder = new ServerSideSeeder();
- // error_log("start seeder 1");
+ // debug_message("start seeder 1");
   $seeder->setup();
- // error_log("start seeder done");
+ // debug_message("start seeder done");
 
- // error_log("setup_data_directories - worked");
+ // debug_message("setup_data_directories - worked");
   return true;
 }
 
@@ -869,60 +928,43 @@ function check_permissions() {
 function draw_detect_scripts() {
 ?>
 
-<script  language="JavaScript" type="text/javascript" ><!--
+<script language="JavaScript" type="text/javascript" >
+<!--
 
 function hasBlogTorrent() {
 <?php
   //Detects IE with the client installed
-
-if (substr_count($_SERVER['HTTP_ACCEPT'],'application/x-blogtorrent')>0) {
-
-  echo "return true;\n";
-
-} else {
-
+	if (substr_count($_SERVER['HTTP_ACCEPT'],'application/x-blogtorrent')>0) {
+	  echo "return true;\n";
+	} 
+	else {
 ?>
 
-  //Detects Mozilla browser with the client installed
-
-  for (count=0;count<window.navigator.plugins.length;count++) {
-
-    if (window.navigator.plugins[count].name.substring(0,12) == "Blog Torrent") {
-
-      return true;
-
-    }
-
-  }
-
-
-
-  //No client is installed
-
-  return false;
-
-<?php } ?>
+		//Detects Mozilla browser with the client installed
+		for (count=0;count<window.navigator.plugins.length;count++) {
+			if (window.navigator.plugins[count].name.substring(0,12) == "Blog Torrent") {
+				return true;
+			}
+		}
+	
+		// No client is installed
+		return false;
+<?php 
+	} 
+?>
 
 }
 
-
-
 function hasWindows() {
-
     return (navigator.userAgent.indexOf('Windows') > 0);
-
 }
 
 function hasMac() {
-
     return (navigator.userAgent.indexOf('Mac') > 0);
-
 }
-
---></script>
-
+-->
+</script>
 <?php
-
 }
 
 
@@ -936,13 +978,13 @@ function draw_upload_link() {
 
   global $store;
   $hash = $store->getAuthHash($user, get_passhash());
-//  error_log("draw_upload: AuthHash - $hash");
+  debug_message("draw_upload: AuthHash - $hash");
 ?>
 
-<script  language="JavaScript" type="text/javascript" ><!--
+<script language="JavaScript" type="text/javascript" >
+<!--
 
 parent.hash = "<?php echo $hash; ?>";
-
 
 //
 // check to see if the user has the helper installed -- if not we will send them
@@ -951,9 +993,6 @@ parent.hash = "<?php echo $hash; ?>";
 if ( ! hasBlogTorrent() ) {
 
 	if(confirm("You don't appear to have the Broadcast Machine Helper installed.  Click 'OK' to install the Broadcast Machine Helper now or 'Cancel' if you already have the Broadcast Machine Helper installed")) {
-
-		// logic here to figure out what kind of machine the user is on
-		// fixes bug # 1216625
 
 		// if this user is on a mac, send the mac helper
 		if ( hasMac() ) {
@@ -971,24 +1010,15 @@ if ( ! hasBlogTorrent() ) {
 	else {
 		self.location.replace('trigger.php?hash=<?php echo $hash; ?>');
 	}
-
 }
-
-
-
-
 
 function sendUpload() {
-
   if (hasBlogTorrent()) {
-
     document.location.replace("trigger.php?hash=<?php echo $hash; ?>");
-
   }
-
 }
-
---></script>
+-->
+</script>
 
 <?php
 }
@@ -1176,16 +1206,10 @@ function comp($a, $b) {
  * @returns formatted string
  */
 function encode($s) {
-//	return html_encode_utf8(htmlentities(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8"));
-//	return htmlentities(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8");
-
-	//$tmp = htmlspecialchars(strip_tags($s, "<b><strong><i><em><ul>"), ENT_NOQUOTES, "UTF-8");
-	//return preg_replace('/&amp;#(x[a-f0-9]+|[0-9]+);/i', '&#$1;', $tmp);
-
 	// this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
 	// and fixes the problem of htmlspecialchars replacing & with &amp and breaking character entities
-//	return html_encode_utf8(preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", htmlspecialchars(strip_tags($s, "<b><strong><i><em><ul>"))));
-	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
+  //	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
+  return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", htmlentities(strip_tags(html_entity_decode($s), "<b><strong><i><em><ul><li><ol>")));
 }
 
 /**
@@ -1247,45 +1271,115 @@ function makeChannelRss($channelID, $use_cache = true) {
 	//
 	if (!file_exists($rss_dir)) {
 		mkdir($rss_dir, $perm_level);
-	}
-
-	if (!file_exists($rss_dir . "/" . $channelID)) {
-		mkdir("$rss_dir/" . $channelID, $perm_level);
-		$rss_publish_time = 0;
-	}
-	else if ( file_exists("$rss_dir/" . $channelID . ".rss") ) {
-		$rss_publish_time = filemtime("$rss_dir/$channelID.rss");
-	}
-
-	// force an rss rebuild if we've updated our rss-generation code
-	if ( filemtime("include.php") > $rss_publish_time ) {
-		$use_cache = false;
-	}
-	else if (!file_exists("$rss_dir/" . $channelID . ".rss")) {
 		$use_cache = false;
 	}
 	else {
-	
-		$last_publish_time = 0;
-		$this_dir = dir("$rss_dir/" . $channelID);
-	
-		while(($file = $this_dir->read()) !== false) {	
-			if (is_numeric($file) && $file > $last_publish_time ) {		
-				$last_publish_time = $file;
-			}
+
+		$rss_publish_time = 0;
+		if ( file_exists("$rss_dir/" . $channelID . ".rss") ) {
+			$rss_publish_time = filemtime("$rss_dir/$channelID.rss");
 		}
-		
-		if ( $last_publish_time == 0 || $last_publish_time >= $rss_publish_time ) {
+	
+		// force an rss rebuild if we've updated our rss-generation code
+		if ( filemtime("include.php") > $rss_publish_time ) {
 			$use_cache = false;
-		}	
-	}
+		}
+		else if (!file_exists("$rss_dir/" . $channelID . ".rss")) {
+			$use_cache = false;
+		}
+		else {
+	
+			$last_publish_time = $store->getRSSPublishTime($channelID);
+			
+			if ( $last_publish_time == 0 || $last_publish_time >= $rss_publish_time ) {
+				$use_cache = false;
+			}	
+		}
+	} // else
+
 
 	if ( $use_cache == true ) {
 		return;
 	}
 
-	$channel = $store->getChannel($channelID);
+
 	$base_url = get_base_url();
+	$rss_files = array();
+
+
+	$filename = $channelID . ".rss";
+	if ( $channelID == "ALL" ) {
+		$link = $base_url;
+		$description = site_description();
+		$name = site_title();
+		$icon = site_image();
+		
+		$files = $store->getAllFiles();
+		$channels = $store->getAllChannels();
+
+		foreach($files as $filehash => $data) {
+			if ($data["Publishdate"] <= time()) {
+				foreach($channels as $c) {
+					if ( $store->channelContainsFile($filehash, $c) ) {
+						$data["channelID"] = $c["ID"];
+						$rss_files[$filehash] = $data;
+					}
+				}
+			} // if ( file published)
+		}
+	} // if all
+	else {
+		$channel = $store->getChannel($channelID);
+		$link = $channel['LibraryURL'];
+		if ( isset($channel['Icon']) ) {
+			$icon = $channel['Icon'];
+		}
+		else {
+			$icon = '';
+		}
+
+		if ( !isset($channel['Description']) ) {
+			$channel['Description'] = '';
+		} 
+		$description = $channel['Description'];
+		$name = $channel['Name'];
+		
+		// only go through this if we actually have files to display
+		if ( is_array($channel["Files"]) ) {
+			$channel_files = $channel["Files"];
+			usort($channel_files, "comp");
+		
+			$files = $store->getAllFiles();
+		
+			foreach ($channel_files as $file) {
+			
+				if (array_key_exists($file[0], $files)) {
+	
+					$data = $files[$file[0]];
+		
+					if ($data["Publishdate"] <= time()) {
+						$data["channelID"] = $channelID;
+						$rss_files[$file[0]] = $data;
+					} // if ( file published )
+
+				} // if ( $file in channel )
+
+			} // foreach
+
+		} // if 
+
+	} // else (channel)
+
+  if ( $name == "" ) {
+    $name = "Broadcast Machine";
+  }
+
+	outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files );
+}
+
+function outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files ) {
+
+  global $store;
 
 	$sOut = '<?xml version="1.0" encoding="utf-8"?>';
 
@@ -1298,141 +1392,117 @@ function makeChannelRss($channelID, $use_cache = true) {
 EOF;
 
 	$sOut .= "
-	<channel><title>" . encode($channel['Name']) . "</title>
-			<description>" . encode($channel['Description']) . "</description>
-			<link>" . linkencode($channel['LibraryURL']) . "</link>
-			<dtvmedia:libraryLink>" . linkencode($channel['LibraryURL']) . "</dtvmedia:libraryLink>
+	<channel><title>" . encode($name) . "</title>
+			<description>" . encode($description) . "</description>
+			<link>" . linkencode($link) . "</link>
+			<dtvmedia:libraryLink>" . linkencode($link) . "</dtvmedia:libraryLink>
 			<pubDate>" . date('r', time()) . "</pubDate>
 			<generator>Broadcast Machine version " . version_number() . "</generator>
 			<atom:link 
 				 rel=\"self\" 
 				 type=\"application/rss+xml\" 
-				 title=\"" . encode($channel['Name']) . "\" 
+				 title=\"" . encode($name) . "\" 
 				 href=\"" . get_base_url() . "rss.php?i=$channelID\" 
 				 xmlns:atom=\"http://www.w3.org/2005/Atom\" />
 				 ";
 
-	// only go through this if we actually have files to display
-	if ( is_array($channel["Files"]) ) {
-		$channel_files = $channel["Files"];
-		usort($channel_files, "comp");
-	
-		$files = $store->getAllFiles();
-	
-		foreach ($channel_files as $file) {
-		
-			if (array_key_exists($file[0], $files)) {
-
-				$data = $files[$file[0]];
-	
-				if ($data["Publishdate"] <= time()) {
+	foreach ($rss_files as $filehash => $data) {
+		$detail_link = detail_link($data["channelID"], $filehash);
+		$sOut .= '<item><title>' . encode($data['Title']) . '</title>
+				<link>' . $detail_link . '</link>
+				<guid isPermaLink="false">' . $filehash . '</guid>';
 				
-//					$detail_link = $base_url . 'detail.php?c=' . $channel["ID"] . '&amp;i=' . $file[0];
-					$detail_link = detail_link($channel["ID"], $file[0]);
-					$sOut .= '<item><title>' . encode($data['Title']) . '</title>
+		if ( isset($data["donation_id"]) && $data["donation_id"] != "" ) {
+			$sOut .= "\n";
+			$donations = $store->getAllDonations();
 
-					<link>' . $detail_link . '</link>
-					<guid isPermaLink="false">' . $file[0] . '</guid>';
-					
-					if ( isset($data["donation_id"]) && $data["donation_id"] != "" ) {
-						$sOut .= "\n";
-
-						$donations = $store->getAllDonations();
-	
-						if ( isset(	$donations[$data["donation_id"]]["text"]) ) {
-							$donate_text = $donations[$data["donation_id"]]["text"];
-							// cjm - there should be a url="" field here?
-							// see http://participatoryculture.org/wiki/index.php?title=RSS_Extensions
-							$sOut .= "<dtvmedia:paymentLink><![CDATA[" . $donate_text . "]]></dtvmedia:paymentLink>\n";
-						
-						}					
-					}
-	
-					// dont send a description flag if we don't have the data
-					if ( $data["Description"] ) {
-						$sOut .= '<description>' . encode($data['Description']) . "</description>\n";
-					}
-	
-					// cjm - get the length - is this right?
-					$tmpurl = $files[$file[0]]["URL"];
-					$length = get_filesize($tmpurl);
-					// ensure we have a positive length, which we need to produce valid rss
-					if ( $length <= 0 ) {
-						$length = 1;
-					}
-	
-	
-//					$download_url = $base_url . 'download.php?c=' . $channelID . '&amp;i=' . $file[0] . '&amp;type=direct';
-					$download_url = download_link($channelID, $file[0] );
+			if ( isset(	$donations[$data["donation_id"]]["text"]) ) {
+				$donate_text = $donations[$data["donation_id"]]["text"];
+				$sOut .= "<dtvmedia:paymentLink><![CDATA[" . $donate_text . "]]></dtvmedia:paymentLink>\n";
 			
-					$sOut .= "<enclosure url=\"$download_url\" ";
+			}					
+		}
 
-					// sometimes the mime-type comes with some extra data (like the charset)
-					// make sure we remove that here
-					if ( $data["Mimetype"] ) { 
+		// dont send a description flag if we don't have the data
+		if ( $data["Description"] ) {
+			$sOut .= '<description>' . encode($data['Description']) . "</description>\n";
+		}
 
-						// if we have a junky mimetype, just set it to application/octet-stream - this
-						// should help ensure that the file is downloaded as text by mistake
-						if ( beginsWith($data["Mimetype"], "text") ) {
-							$data["Mimetype"] = "application/octet-stream";
-						}
+		$tmpurl = $data["URL"];
+		$length = get_filesize($tmpurl);
+		// ensure we have a positive length, which we need to produce valid rss
+		if ( $length <= 0 ) {
+			$length = 1;
+		}
 
-						$junk = split(";", $data["Mimetype"]);
-						$sOut .= 'type="' . $junk[0] . '" ';
-					}
-					// ensure we have a mime-type here.  this might not be ideal,
-					// but we need this to produce valid rss
-					else {
-						$sOut .= 'type="application/octet-stream" ';
-					}
-					
-					$sOut .= ' length="' . $length . '" ';
-					
-					$sOut .= '/>
-							<pubDate>' . date("D, d M Y H:i:s O", $data["Publishdate"]) . "</pubDate>\n";
-	
-		
-					// dont send if we dont have a thumbnail
-					if ( $data["Image"] ) {
-            $tmp = linkencode($data["Image"]);
-            $tmp = str_replace("&", "&amp;", $tmp);
-            $tmp = str_replace("&&amp;", "&amp;", $tmp);
-						$sOut .= '<media:thumbnail url="' . $tmp . "\" />\n";
-					}
-		
-					foreach ($data["People"] as $people) {
-						if ( $people[0] && $people[1] ) {
-							$sOut .= "<media:people 
-								role=\"" . encode(trim($people[1])) . "\">" . 
-								encode(trim($people[0])) . "</media:people>\n";
-						}
-					}
-		
-					$sOut .= "</item>\n";
-		
-				}
-		
+
+		$download_url = download_link($data["channelID"], $filehash );			
+		$sOut .= "<enclosure url=\"$download_url\" ";
+
+		// sometimes the mime-type comes with some extra data (like the charset)
+		// make sure we remove that here
+		if ( $data["Mimetype"] ) { 
+
+			// if we have a junky mimetype, just set it to application/octet-stream - this
+			// should help ensure that the file is downloaded as text by mistake
+			if ( beginsWith($data["Mimetype"], "text") ) {
+				$data["Mimetype"] = "application/octet-stream";
 			}
+
+			$junk = split(";", $data["Mimetype"]);
+			$sOut .= 'type="' . $junk[0] . '" ';
+		}
+		// ensure we have a mime-type here.  this might not be ideal,
+		// but we need this to produce valid rss
+		else {
+			$sOut .= 'type="application/octet-stream" ';
+		}
+				
+		$sOut .= ' length="' . $length . '" ';
 		
-		} // foreach
+		$sOut .= '/>
+				<pubDate>' . date("D, d M Y H:i:s O", $data["Publishdate"]) . "</pubDate>\n";
 
-	} // is_array
+	
+		// dont send if we dont have a thumbnail
+		if ( $data["Image"] ) {
+			$tmp = linkencode($data["Image"]);
+			$tmp = str_replace("&", "&amp;", $tmp);
+			$tmp = str_replace("&&amp;", "&amp;", $tmp);
+			$sOut .= '<media:thumbnail url="' . $tmp . "\" />\n";
+		}
 
+		foreach ($data["People"] as $people) {
+			if ( isset($people[0]) && isset($people[1]) ) {
+        $name = $people[0];
+        $role = $people[1];
+/*				$role = str_replace("&", "&amp;", $people[1]);
+				$role = str_replace("&&amp;", "&amp;", $role);
+				$name = str_replace("&", "&amp;", $people[0]);
+				$name = str_replace("&&amp;", "&amp;", $name);*/
+				$sOut .= "<media:credit role=\"" . encode(mb_strtolower(trim($role))) . "\" scheme=\"urn:pculture-org:custom\">" .	encode(trim($name)) . "</media:credit>\n";
+			}
+		}
+
+		$sOut .= "</item>\n";
+	
+	} // foreach
 
 	// if we have a thumbnail, go ahead and display it
-	if ( isset($channel["Icon"]) && $channel["Icon"] != "" ) {
+	if ( isset($icon) && $icon != "" ) {
 		$sOut .= "
 <image>
-<title>" . encode($channel['Name']) . "</title>
-<url>" . linkencode($channel["Icon"]) . "</url>
-<link>" . linkencode($channel['LibraryURL']) . "</link>
+<title>" . encode($name) . "</title>
+<url>" . linkencode($icon) . "</url>
+<link>" . linkencode($link) . "</link>
 </image>";
 	}
 
 	$sOut .= '</channel>';
 	$sOut .= '</rss>';
 
-	$handle = fopen($rss_dir . "/" . $channelID . ".rss", "a+b");
+	global $rss_dir;
+	$handle = fopen($rss_dir . "/" . $filename, "a+b");
 	flock($handle,LOCK_EX);
 	fseek($handle,0);
 	ftruncate($handle,0);
@@ -1619,17 +1689,9 @@ function linkencode($p_url){
  * @returns true/false
  */
 function is_local_file($url) {
-/*
+
 	// figure out what server we are one - since URLs sometimes have www
 	// and sometimes don't, make sure we don't include that in the search
-	$my_server = str_replace("www.", "", $_SERVER["HTTP_HOST"]);
-
-	if ( ( beginsWith($url, "http://" ) || beginsWith($url, "https://" ) ) &&
-		stristr( $url, $my_server ) && 
-		stristr( $url, "/torrents/") ) {
-		return true;
-	}*/
-
 	global $torrents_dir;
 	if ( file_exists( $torrents_dir . "/" . basename($url) ) ) {
 		return true;
@@ -1637,6 +1699,11 @@ function is_local_file($url) {
 
 	return false;
 }
+/*
+function local_file_path($url) {
+	$fname = basename($url);
+	
+}*/
 
 /**
  * figure out if this is a .torrent file located within the control of BM.  
@@ -1662,15 +1729,6 @@ function local_filename($url) {
 
 	if ( is_local_file($url) ) {
 		return basename($url);
-//		global $torrents_dir;
-/*		$filename = str_replace("www.", "", $url );
-		
-		$base = get_base_url() . "torrents/";
-		$base = str_replace("www.", "", $base );
-	
-		$filename = substr($filename, strlen($base));
-*/
-		return $filename;
 	}
 	else {
 		return false;
@@ -1782,7 +1840,7 @@ function download_link($channel_id, $hash, $force_no_rewrite = false) {
 		$url = get_base_url() . "download.php?c=" . $channel_id . "&amp;i=" . $hash . "&amp;e=$ext";
 	}
 	
-	//error_log($url);
+	//debug_message($url);
 	return $url;
 }
 
@@ -1813,6 +1871,23 @@ function channel_link($channel_id, $force_no_rewrite = false) {
 	return $url;
 }
 
+function rss_link($channel_id = "ALL", $for_itunes = false) {
+	global $settings;
+	if ( isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
+		$url = get_base_url() . "rss/$channel_id";
+		if ( $for_itunes == true ) {
+		   $uparts = @parse_url($p_url);
+		   $scheme = array_key_exists('scheme', $uparts) ? $uparts['scheme'] : "http";
+       $url = str_replace($scheme, "itpc", $url);
+		}
+	}
+	else {
+		$url = get_base_url() . "rss.php?i=" . $channel_id;
+	}
+	
+	return $url;
+}
+
 function write_mod_rewrite($on = true) {
 
 	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
@@ -1824,17 +1899,19 @@ function write_mod_rewrite($on = true) {
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase $base
+RewriteRule ^rss/([0-9]+) rss.php?i=$1 [QSA]
 RewriteRule ^library/([0-9]+) library.php?i=$1 [QSA]
 RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
 RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
 </IfModule>
 EOF;
 
+
   $old_error_level = error_reporting(0);
 	$f = fopen(".htaccess", 'wb');
   error_reporting($old_error_level);
 
-  if ( ! $f ) {
+  if ( ! $f || !is_resource($f) ) {
     return false;
   }
 
@@ -1864,6 +1941,16 @@ EOF;
 	flock( $f, LOCK_UN );
 	fclose($f);
   return true;
+}
+
+function debug_message($str) {
+//  error_log($str);
+}
+
+function do_query($sql) {
+//  debug_message($sql);
+//  print("$sql<br>");
+  return mysql_query($sql);
 }
 
 /*
