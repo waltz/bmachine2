@@ -6,11 +6,8 @@
  * logic to handle torrents, URLs, file uploads, and so on.
  * @package Broadcast Machine
  */
-
 require_once("include.php");
-require_once("theme.php");
 require_once("publishing.php");
-
 
 
 //
@@ -47,331 +44,155 @@ Sorry, there are no publicly accessible channels for publishing content at this 
 	}
 }
 
-//
-// set up some defaults here
-//
-$filehash = "";
-$file_url = "";
-$title = "";
-$desc = "";
-$image = "http://";
-$license_url = "";
-$license_name = "";
-$creator = "";
-$rights = "";
-$keywords = "";
-$people_array = array();
-$webpage = "";
-$mimetype = "";
+$file = $_POST;
 
-$publishday = date("j");
-$publishmonth = date("n");
-$publishyear = date("Y");
-$publishhour = date("G");
-$publishminute = date("i");
+if ( isset($file["post_do_save"]) ) {
+	set_file_defaults($file);
 
-$createday = date("j");
-$createmonth = date("n");
-$createyear = date("Y");
-$createhour = date("G");
-$createminute = date("i");
-
-$releaseday = "";
-$releasemonth = -1;
-$releaseyear = "";
-$explicit = 0;
-$excerpt = 0;
-$runninghours = "";
-$runningminutes = "";
-$runningseconds = "";
-$transcript_text = "";
-$transcript_url = "";
-$sharing_enabled = false;
-$ignore_mime = 0;
-
-
-
-//
-// user is editing, let's grab the file info
-//
-if (isset($_GET["i"])) {
-	$filehash = $_GET["i"];
-
-//	$files = $store->getAllFiles();
-//	$file = $files[$filehash];
-	$file = $store->getFile($filehash);
-
-	$file_url = $file['URL'];
-	$title = $file['Title'];
-	$desc = $file['Description'];
-	$image = $file['Image'];
-	$license_url = $file['LicenseURL'];
-	$license_name = $file['LicenseName'];
-	$creator = $file['Creator'];
-	$rights = $file['Rights'];
-	$keywords = implode("\n",$file['Keywords']);
-	$people_array = $file['People'];
-	$webpage = $file['Webpage'];
-	$mimetype = $file['Mimetype'];
-	$publishtime = $file['Publishdate'];
-	$publishday = date("j",$publishtime);
-	$publishmonth = date("n",$publishtime);
-	$publishyear = date("Y",$publishtime);
-	$publishhour = date("G",$publishtime);
-	$publishminute = date("i",$publishtime);
-
-	$createtime = $file['Created'];
-	$createday = date("j",$createtime);
-	$createmonth = date("n",$createtime);
-	$createyear = date("Y",$createtime);
-	$createhour = date("G",$createtime);
-	$createminute = date("i",$createtime);
-
-	$releaseday = $file['ReleaseDay'];
-	$releasemonth = $file['ReleaseMonth'];
-	$releaseyear = $file['ReleaseYear'];
-	$explicit = $file['Explicit'];
-	$excerpt = $file['Excerpt'];
-	$runninghours = $file['RuntimeHours'];
-	$runningminutes = $file['RuntimeMinutes'];
-	$runningseconds = $file['RuntimeSeconds'];
-	$transcript_url = $file['Transcript'];
-	$transcript_text = "";
-	
-	if ( isset($file["donation_id"]) ) {
-		$donation_id = $file["donation_id"];
-	}
-
-	if ( isset($file['SharingEnabled']) ) {
-		$sharing_enabled = $file['SharingEnabled'];
-	}
-	else {
-		$sharing_enabled = false;
-	}
-
-	if (stristr($transcript_url,get_base_url())) {
-		$transcript_text = file_get_contents('text/' . $filehash . ".txt");
-		$transcript_url = "";
-	}
-
-	// cjm - fixed a wicked typo here - donation_id was being set to the value of ignore_mime (08/18/2005)
-	if ( isset($file["donation_id"]) ) {
-		$donation_id = $file["donation_id"];
-	}
-
-	if ( isset($file["ignore_mime"]) ) {
-		$ignore_mime = $file["ignore_mime"];
-	}
-
-	foreach ($channels as $channel ) {
-		foreach ($channel["Files"] as $list) {
-			if ($list[0] == $filehash) {
-				$channelIDs[] = $channel["ID"];
-			}
-		}
-	}
-
-} 
-else if ( isset($_POST["post_do_save"]) ) {
-
-	$result = publish_file($_POST);
+  error_log("TRY PUBLISH: " . $file["Title"] );
+	$result = publish_file($file);
 
 	if ( $result ) {
+    error_log("TRY PUBLISH: success!");
 		session_write_close();
 		header('Location: ' . get_base_url() . 'edit_videos.php' );
 		exit;
 	}
-	else {
+
+
+  global $errorstr;
+  global $uploaded_file_url;
+
+  error_log("TRY: " . $file["URL"]);	
+  error_log("TRY AND SAVE - $errorstr - $uploaded_file_url");
+
+  if ( (!isset($file["URL"]) || $file["URL"] == "") && isset($uploaded_file_url) ) {
+    $file["URL"] = $uploaded_file_url;
+    $is_external = 0;
+  }
+  else if ( isset($uploaded_file_url) && $file["URL"] == $uploaded_file_url ) {
+    $is_external = 0;
+  }
+
+  error_log("TRY URL: $uploaded_file_url");
+
+
+} // if $_POST["post_do_save"]
+
+
+
+bm_header();
+
+if ( isset($_GET["method"]) ) {
+	$method = $_GET["method"];
+}
+
+if ( isset($method) || isset($_GET["i"]) || isset($_POST["post_do_save"]) ) {
+	show_publish_form($file);
+}
+else {
+	pick_publish_method();
+}
+
+
+bm_footer();
+
+function pick_publish_method() {
+?>
+<div class="wrap">
+	<div id="poststuff">
+
+		<div class="page_name">
+			 <h2>Publish</h2>
+			 <div class="help_pop_link">
+					<a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/publish_popup.php')">
+		<img src="images/help_button.gif" alt="help"/></a>
+			 </div>
+		</div>
+
+		<div class="section">
+			<h3>How would you like to publish this file?</h3>
+			
+			<p>1. <a href="publish.php?method=upload">Upload the file directly</a>. Servers sometimes have a limit on 
+			the maximum size of an uploaded file. For files larger than 2 or 3 megabytes, we generally recommend either 
+			posting a torrent or using an FTP program and then linking to the file. The maximum upload size on this 
+			server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>.</p>
+			
+			<p>2. <a href="publish.php?method=link">Link to the file</a>. Use this option for files that are already on a 
+			server. Just enter the link to the file you want to publish.</p>
+			
+			<p>3. <a href="publish.php?method=torrent">Post a torrent</a>. When you share a file with a torrent, you can reduce 
+			or eliminate bandwidth costs. To post a torrent, you first need to have Broadcast Machine Helper. Download it 
+			now: Windows | Mac. 
+			<a target="_blank" href="http://www.getdemocracy.com/broadcast/help/torrent_posting.php">Learn more</a>. </p>
+		</div>
+	</div>
+</div>
+
+<?php
+}
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+
+function show_publish_form($file = null) {
+	global $store;
+
+	//
+	// set up some defaults here
+	//
+	if ( $file == null ) {
+		$file = array();
+	}
+	set_file_defaults($file);
+
+	if ( isset($_GET["method"]) ) {
+		$method = $_GET["method"];
+	}
+
+	// there was a problem of some sort
+	if ( isset($file["post_do_save"]) ) {
 		global $errorstr;
 		global $uploaded_file_url;
 
 
-		if ( isset($_POST["post_file_url"]) ) {
-			$file_url = $_POST["post_file_url"];
-		}
-		
-		if ( $file_url == "" && isset($uploaded_file_url) ) {
-			$file_url = $uploaded_file_url;
+		if ( (!isset($file["URL"]) || $file["URL"] == "") && isset($uploaded_file_url) ) {
+			$file["URL"] = $uploaded_file_url;
 			$is_external = 0;
-		}
-		
-		if ( isset($_POST["post_filehash"]) ) {
-			$filehash = $_POST["post_filehash"];
-		}
-		else {
-			$filehash = "";
-		}
+		}		
 
-		if ($filehash == "") {
-			$filehash = sha1($file_url);
-		}
+	} // else
 
-		$title = encode($_POST["post_title"]);
-		$desc = encode($_POST["post_desc"]);
-		
-		if ( isset($_POST["post_image"]) ) {
-			$image = $_POST["post_image"];
-		}
-		if ( isset($_POST["post_license_url"]) ) {
-			$license_url = encode($_POST["post_license_url"]);
-		}
-		else {
-			$license_url = "";
-		}
+	//
+	// user is editing, let's grab the file info
+	//
+	else if (isset($_GET["i"])) {
+		$file = $store->getFile($_GET["i"]);
 
-		if ( isset($_POST["post_license_name"]) ) {
-			$licenseName = encode($_POST["post_license_name"]);
+		if ( !isset($file['SharingEnabled']) ) {
+			$file["SharingEnabled"] = false;
 		}
-		else {
-			$licenseName = "";
+	
+		$transcript_text = "";
+		if (stristr($file["Transcript"], get_base_url())) {
+			global $text_dir;
+			$transcript_text = file_get_contents("$text_dir/" . $file["ID"] . ".txt");
+			$file["Transcript"] = "";
 		}
-
-		
-		if ( isset($_POST["post_creator"]) ) {
-			$creator = encode($_POST["post_creator"]);
+	
+    $channels = $store->getAllChannels();	
+		foreach ($channels as $channel ) {
+			foreach ($channel["Files"] as $list) {
+				if ($list[0] == $file["ID"]) {
+					$file["post_channels"][] = $channel["ID"];
+				}
+			}
 		}
-		else {
-			$creator = "";		
-		}
-
-		
-		if ( isset($_POST["post_rights"]) ) {
-			$rights = encode($_POST["post_rights"]);
-		}
-		else {
-			$rights = "";
-		}
-
-		if ( isset($_POST["post_keywords"]) ) {
-			$keywords = explode("\n", $_POST["post_keywords"]);
-		}
-		else {
-			$keywords = array();
-		}
-
-		if ( isset($_POST["post_people"]) ) {
-			$people_array = explode("\n", $_POST["post_people"]);
-		}
-		else {
-			$people_array = array();
-		}
-
-
-		if ( isset($_POST["post_webpage"]) ) {
-			$webpage = linkencode($_POST["post_webpage"]);
-		}
-		else {
-			$webpage = "";
-		}
-		
-		if ( isset($_POST["post_mimetype"]) ) {
-			$mimetype = $_POST["post_mimetype"];
-		}
-		else {
-			$mimetype = "";
-		}
-
-		
-		if ( isset($_POST["post_length_hours"]) ) {
-			$runtime_hours = $_POST["post_length_hours"];		
-		}
-		else {
-			$runtime_hours = "";
-		}
-
-		if ( isset($_POST["post_length_minutes"]) ) {
-			$runtime_minutes = $_POST["post_length_minutes"];
-		}
-		else {
-			$runtime_minutes = "";
-		}
-
-		if ( isset($_POST["post_length_seconds"]) ) {
-			$runtime_seconds = $_POST["post_length_seconds"];
-		}
-		else {
-			$runtime_seconds = "";
-		}
-
-		if ( isset($_POST["post_publish_month"]) &&
-				isset($_POST["post_publish_day"])&&
-				isset($_POST["post_publish_year"])&&
-				isset($_POST["post_publish_hour"])&&
-				isset($_POST["post_publish_minute"]) ) {
-			$publish_date = strtotime(($_POST["post_publish_month"] + 1) . "/" . $_POST["post_publish_day"] . "/" . $_POST["post_publish_year"] . " " . $_POST["post_publish_hour"] . ":" . $_POST["post_publish_minute"]);
-		}
-		else {
-			$publish_date = time();
-		}
-		
-		if ( isset($_POST["post_release_year"]) ) {
-			$release_year = $_POST["post_release_year"];
-		}
-		else {
-			$release_year = "";
-		}
-
-		if ( isset($_POST["post_release_month"]) ) {
-			$release_month = $_POST["post_release_month"];
-		}
-		else {
-			$release_month = "";
-		}
-
-		if ( isset($_POST["post_release_day"]) ) {
-			$release_day = $_POST["post_release_day"];
-		}
-		else {
-			$release_day = "";
-		}
-
-		if ( isset($_POST["donation_id"]) ) {
-			$donation_id = $_POST["donation_id"];
-		}
-		else {
-//			$donation_id = 
-		}
-
-		if ( isset($_POST["post_channels"]) ) {
-			$channelIDs = $_POST["post_channels"];
-		}
-		else {
-			$channelIDs = array();
-		}
-
-		
-		$sharing_enabled = isset($_POST["sharing_enabled"]);
-
-		if ( isset($_POST["post_keywords"]) ) {
-			$keywords = $_POST["post_keywords"];
-		}
-		else {
-			$keywords = array();
-		}
-
-		if ( isset($_POST["post_people"]) ) {
-			$people = $_POST["post_people"];
-		}
-		else {
-			
-		}
-
-		if ( isset($_POST["post_transcript_url"]) ) {
-			$transcript_url = $_POST["post_transcript_url"];
-		}
-		else {
-			$transcript_url = "";
-		}
-	}
-
-}
-
-$months = array(
-		"January", "February", "March", "April", "May", "June", 
-		"July", "August", "September", "October", "November", "December");
-
-bm_header();
-
+	
+	} 
 ?>
 
 <SCRIPT LANGUAGE="JavaScript">
@@ -419,8 +240,6 @@ function upload() {
     if (hash != '') {
       hash = '';
       torrent_name = '';
-      // dont hide the help text at this point (bug #1210035)
-      //		document.getElementById('video_blurb').innerHTML = '';
     }
 
     window.frames['uploader'].location = 'trigger.php';
@@ -444,10 +263,10 @@ function isFull() {
 	if (document.getElementById('people_table').rows.length > 2) {
 		var do_add = true;
 
-		for( i = 0; i < frm.post_people_name.length; i++ ) {
+		for( i = 0; i < frm.People_name.length; i++ ) {
 
-			if ( frm.post_people_name[i].value == '' || 
-					frm.post_people_role[i].value == '' ) {
+			if ( frm.People_name[i].value == '' || 
+					frm.People_role[i].value == '' ) {
 				do_add = false;
 				break;
 			}
@@ -460,7 +279,7 @@ function isFull() {
 	} 
 	else {
 
-		if (frm.post_people_name.value != '' && frm.post_people_role.value != '') {
+		if (frm.People_name.value != '' && frm.People_role.value != '') {
 			addPeople();
 		}
 	}
@@ -497,8 +316,8 @@ function addPerson(name, role) {
 	oNewRow.appendChild(oNewCell1);
 	oNewRow.appendChild(oNewCell2);
 
-	oNewCell1.innerHTML = '<input type="text" id="person" name="post_people_name" value="' + name + '" onKeyDown="isFull();"/>';
-	oNewCell2.innerHTML = '<input type="text" id="person" name="post_people_role" value="' + role + '" onKeyDown="isFull();"/>';
+	oNewCell1.innerHTML = '<input type="text" id="person" name="People_name" value="' + name + '" onKeyDown="isFull();"/>';
+	oNewCell2.innerHTML = '<input type="text" id="person" name="People_role" value="' + role + '" onKeyDown="isFull();"/>';
 
 }
 
@@ -507,32 +326,36 @@ function addPerson(name, role) {
 function do_submit(frm) {
 
 	var err = '';
+	if ( hash == '' && frm.ID.value != '' ) {
+		hash = frm.ID.value;
+	}
 
-	if (hash != '') {
-		frm.post_file_url.value = hash;
-		frm.post_mimetype.value = 'application/x-bittorrent';
+	if (hash != '' && (frm.URL.value == '' || frm.URL.value == 'http://') ) {
+		frm.URL.value = hash;
+		frm.Mimetype.value = 'application/x-bittorrent';
 	} 
-	else if (
-		(frm.post_file_url.value == '' || frm.post_file_url.value == 'http://') &&
+	
+  if (
+		(frm.URL.value == '' || frm.URL.value == 'http://') &&
 		frm.post_file_upload.value == ''	) {
 		err = 'Please enter a file location or upload a file';
 	}
 	
-	if ( frm.post_title.value == '' ) {
+	if ( frm.Title.value == '' ) {
 		err = 'Please enter a title';
 	}
 
 	// clear out the values of the form widgets that aren't visible, so their data isn't stored as the file info
-	if ( document.getElementById('upload_file').style.display == 'block' ) {
+/*	if ( document.getElementById('upload_file').style.display == 'block' ) {
 		document.getElementById('specify_url').value = '';
-		frm.post_file_url.value = '';
+		frm.URL.value = '';
 		frm.post_use_upload.value = 1;
 	}
 	else if ( document.getElementById('specify_url').style.display == 'block' ) {
 //		document.getElementById('upload_file').value = '';
 		frm.post_use_upload.value = 0;
 	}
-
+*/
 
 	var channel_count = 0;
 
@@ -554,30 +377,34 @@ function do_submit(frm) {
 		}		
 	}
 
-	frm.post_people.value = '';
+	frm.People.value = '';
 
 	if ( document.getElementById('people_table').rows.length > 2 ) {
 
-		for( i=0; i < frm.post_people_name.length; i++ ) {
-			if ( frm.post_people_name[i].value != '' && frm.post_people_role[i].value != '' ) {
-				frm.post_people.value += frm.post_people_name[i].value + ':' + frm.post_people_role[i].value + '\n';
+		for( i=0; i < frm.People_name.length; i++ ) {
+			if ( frm.People_name[i].value != '' && frm.People_role[i].value != '' &&
+           trim(frm.People_name[i].value) != '' && trim(frm.People_role[i].value) != '' ) {
+				frm.People.value += trim(frm.People_name[i].value) + ':' + trim(frm.People_role[i].value) + '\n';
 			}
 		}
 
 	} 
 	else {
-		frm.post_people.value = frm.post_people_name.value + ':' + frm.post_people_role.value;
+    if ( frm.People_name.value != '' && frm.People_role.value != '' &&
+          trim(frm.People_name.value) != null && trim(frm.People_role.value) != null ) {
+		  frm.People.value = frm.People_name.value + ':' + frm.People_role.value;
+	  }
 	}
 
 //	frm.post_channel_array.value = channel_array.join(',');
 
 	if (err == '') {
 
-		if ( document.getElementById('upload_file').style.display == 'block' ) {
+/*		if ( document.getElementById('upload_file').style.display == 'block' ) {
 			document.getElementById('progress_bar').style.display = 'block';
 			document.getElementById('progress_bar2').style.display = 'block';
 		}
-
+*/
 		return true;
 	} 
 
@@ -599,33 +426,31 @@ function submit_force() {
 
 <!-- BASIC PUBLISHING OPTIONS -->
 <div class="wrap">
-<!-- iso-8859-1 -->
 <form name="post" action="publish.php" method="post" id="post" 
 		onLoad="this.reset();" onSubmit="return do_submit(this);" enctype="multipart/form-data" 
 		accept-charset="utf-8, iso-8859-1">
 
-	<input type="hidden" name="ignore_mime" class="hidden" value="<?php echo $ignore_mime; ?>" />
+	<input type="hidden" name="ignore_mime" class="hidden" value="<?php echo $file['ignore_mime']; ?>" />
 	<input type="hidden" name="post_do_save" class="hidden" value="1" />
-	<input type="hidden" name="post_use_upload" class="hidden" value="0" />
 
-	<input type="hidden" name="post_mimetype" value="<?php echo $mimetype; ?>" class="hidden">
-	<input type="hidden" name="post_people" class="hidden"/>
-	<input type="hidden" name="post_filehash" class="hidden" value="<?php echo $filehash; ?>"/>
+	<input type="hidden" name="Mimetype" value="<?php echo $file["Mimetype"]; ?>" class="hidden">
+	<input type="hidden" name="People" class="hidden" />
+	<input type="hidden" name="ID" class="hidden" value="<?php echo $file["ID"]; ?>"/>
 <?php
-	if ( isset($is_external) ) {
+		if ( isset($is_external) ) {
 ?>
 	<input type="hidden" name="is_external" class="hidden" value="<?php echo $is_external; ?>"/>
 <?php
-	}
+		}
 ?>
 
 <?php
-	global $actual_fname;
-	if ( isset($actual_fname) ) {
+		global $actual_fname;
+		if ( isset($actual_fname) ) {
 ?>
 	<input type="hidden" name="actual_fname" class="hidden" value="<?php echo $actual_fname; ?>"/>
 <?php
-	}
+		}
 ?>
 
 <div id="poststuff">
@@ -633,8 +458,7 @@ function submit_force() {
 <div class="page_name">
    <h2>Publish</h2>
    <div class="help_pop_link">
-      <a href="javascript:popUp('http://www.participatoryculture.org/
-bm/help/publish_popup.php')">
+      <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/publish_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
@@ -662,45 +486,31 @@ if ( isset($errorstr) ) {
 	}
 
 	print $errorstr;
-}
+} // if ( error )
 
 
-if (1 || $file_url == "") {
+if (1 || $file["URL"] == "") {
 
-	if ( $file_url == "" ) {
-		$file_url = "http://";
+	if ( $file["URL"] == "" ) {
+		$file["URL"] = "http://";
 	}
 ?>
 
 <div class="section">
 <fieldset id="video_file">
-<!--
-<img href="#" 
-	onClick="upload(); return false;" 
-	style="border: 0px solid black; vertical-align: bottom;" 
-	src="images/post_torrent_button.gif" border=0 alt="Post a Torrent" />
--->
-<a href="#" onClick="upload(); return false;">Post a Torrent</a>
-<!-- javascript explanation - hide the form widget that's not in use here -->
-&nbsp;<em>or</em>&nbsp;&nbsp;<a href="#" id="specify_upload_link"
-		onClick="document.getElementById('upload_file').style.display = 'block'; document.getElementById('specify_url').style.display = 'none'; return false;">Upload File</a>&nbsp;&nbsp;
-		<em>or</em>
-&nbsp;&nbsp;<a href="#" id="specify_url_link" 
-		onClick="document.getElementById('specify_url').style.display = 'block'; document.getElementById('upload_file').style.display = 'none'; return false;">Link to a File</a>
-<div <?php if ( !isset($file_url) || is_local_file($file_url) || $file_url == "http://") { echo 'style="display:none;"'; } ?> id="specify_url">
-Specify URL: <input type="text" name="post_file_url" size="60" value="<?php echo $file_url; ?>" />
-</div>
-
-<div style="display:none;" id="upload_file">
-<input type="file" name="post_file_upload" value="Choose File" /><br />
-<strong>Please Note:</strong> Uploading files with your browser can take several minutes or longer, 
-depending on the file size.  The file upload will begin when you click "Publish".  Please be patient 
-and do not touch the browser while your file is uploading.  Also be aware that servers sometimes have 
-a limit on the maximum size of an uploaded file.  For files larger than 2 or 3 megabytes, we generally 
-recommend either posting a torrent or using an FTP program and then linking to the file.<br />
-The maximum upload size on this server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>
-</div>
-    </fieldset>
+<?php
+if ( isset($method) ) {
+	if ( $method == "torrent" ) {
+?>
+<input type="hidden" name="post_use_upload" class="hidden" value="0" />
+<input type="hidden" name="post_file_upload" value="" class="hidden"  />
+<input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
+<iframe width="0" height="0" frameborder="0" src="" name="uploader"></iframe>
+<iframe width="0" height="0" frameborder="0" src="" name="poll"></iframe>
+<h3>Post a Torrent</h3>
+<script>
+	upload();
+</script>
 
 <div 
 <?php 
@@ -708,30 +518,71 @@ The maximum upload size on this server is <strong><?php echo ini_get("upload_max
 global $seeder;
 
 if ( 
-		! $seeder->enabled() || ! is_local_torrent($file_url)
+		! $seeder->enabled() || ! is_local_torrent($file["URL"])
 		) echo 'style="display:none;"' ?> id="server_sharing">
 <fieldset>
-	<input type=checkbox name="sharing_enabled" value="1" 
+	<input type=checkbox name="SharingEnabled" value="1" 
 <?php 
 	global $settings;
-	if ( $sharing_enabled || ( isset($settings["sharing_auto"]) && $settings["sharing_auto"] == 1 ) ) echo " checked"; 
+	if ( $file["SharingEnabled"] || ( isset($settings["sharing_auto"]) && $settings["sharing_auto"] == 1 ) ) echo " checked"; 
 ?> /> Enable server sharing for this file
 </fieldset>
 </div>
 
+<?php
+	}
+	else if ( $method == "upload" ) {
+?>
+	<input type="hidden" name="post_use_upload" class="hidden" value="1" />
+  <input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
+	<h3>Upload a File</h3>
+	<div id="upload_file">
+	<input type="file" name="post_file_upload" value="Choose File" /><br />
+	<strong>Please Note:</strong> Uploading files with your browser can take several minutes or longer, 
+	depending on the file size.  The file upload will begin when you click "Publish".  Please be patient 
+	and do not touch the browser while your file is uploading.  Also be aware that servers sometimes have 
+	a limit on the maximum size of an uploaded file.  For files larger than 2 or 3 megabytes, we generally 
+	recommend either posting a torrent or using an FTP program and then linking to the file.<br />
+	The maximum upload size on this server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>
+	</div>
+<?php
+	} // else if method == upload
+
+	else if ( $method == "link" ) {
+?>
+	<input type="hidden" name="post_file_upload" value="" class="hidden"  />
+	<input type="hidden" name="post_use_upload" class="hidden" value="0" />
+	<div id="specify_url">
+		<h3>Specify URL:</h3>
+		<input type="text" name="URL" size="60" value="<?php echo $file["URL"]; ?>" />
+	</div>
+<?php
+	} // else if method == link
+} // if ( isset method )
+else {
+?>
+
+
+<input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
+<input type="hidden" name="post_file_upload" value="" class="hidden">
+<?php
+}
+?>
+</fieldset>
 
 <fieldset id="video_blurb">
 <?php
-if ( is_local_torrent($file_url) ) {
-		$torrentfile = local_filename($file_url);
+if ( is_local_torrent($file["URL"]) ) {
+	$torrentfile = local_filename($file["URL"]);
 ?>
+<input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
 
 <div style="color: #A00;">Sharing "<?php echo $torrentfile; ?>".<br /> 
 <strong>You must keep the BM Helper window open for this file to remain available.</strong></div>
 
 <?php
-}
-else if ( is_local_file($file_url) ) {
+} // if is_local_torrent
+else if ( is_local_file($file["URL"]) ) {
 	global $actual_fname;
 	if ( isset($actual_fname) && $actual_fname != "" ) {
 		$filename = encode($actual_fname);
@@ -740,7 +591,7 @@ else if ( is_local_file($file_url) ) {
 		$filename = $file['FileName'];
 	}
 	else {
-		$filename = local_filename($file_url);
+		$filename = local_filename($file["URL"]);
 	}
 ?>
 
@@ -749,21 +600,14 @@ else if ( is_local_file($file_url) ) {
 
 <?php
 }
-else {
-// onClick="window.frames['uploader'].location = 'download.php?type=exe'; return false;"
-// onClick="window.frames['uploader'].location = 'http://www.blogtorrent.com/demo/BM%20Helper.dmg'; return false;"
+else if ( $file["URL"] != "http://" ) {
 ?>
-		To post a torrent, you need to download Broadcast Machine 
-		Helper: <a href="download.php?type=exe">Windows</a> | 
-		<a href="http://www.blogtorrent.com/demo/BM%20Helper.dmg">Mac</a>
+<div style="color: #A00;">Linked to "<a href="<?php echo $file["URL"]; ?>"><?php echo $file["URL"]; ?></a>".<br /> </div>
 <?php
-      }
+}
 ?>
 	</fieldset>
 </div>
-
-<iframe width="0" height="0" frameborder="0" src="" name="uploader"></iframe>
-<iframe width="0" height="0" frameborder="0" src="" name="poll"></iframe>
 
 <?php
 
@@ -772,7 +616,8 @@ else {
 
 ?>
 
-<input type="hidden" name="post_file_url" value="<?php echo $file_url; ?>" class="hidden">
+<input type="hidden" name="post_file_upload" value="" class="hidden" />
+<input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
 
 <?php
 	}
@@ -781,11 +626,11 @@ else {
 <div class="section">
 
 <fieldset id="channel_selection">
-      <legend>Publish to These Channels</legend>
-
-      <ul>
+	<legend>Publish to These Channels</legend>
+   <ul>
 
 <?php
+	$channels = $store->getAllChannels();
 	foreach ($channels as $channel) {
 
 		if ( is_admin() || $channel["OpenPublish"] ) {
@@ -793,8 +638,8 @@ else {
 			print("<li>");
 						
 			print("<input type=checkbox name=\"post_channels[]\" value=\"" . $channel['ID'] . "\"");
-			if ( isset($channelIDs) ) {
-				foreach ( $channelIDs as $channel_id ) {
+			if ( isset($file["post_channels"]) ) {
+				foreach ( $file["post_channels"] as $channel_id ) {
 					if ( $channel_id == $channel["ID"] ) {
 						print(" checked=\"true\"");
 						break;
@@ -802,10 +647,10 @@ else {
 				}
 			}
 
-			if ($file_url != "") {
+			if ($file["URL"] != "") {
 
 				foreach ($channel["Files"] as $list) {
-					if ($list[0] == $filehash) {
+					if ($list[0] == $file["ID"]) {
 						print(" checked=\"true\"");
 						break;
 					}
@@ -830,24 +675,24 @@ else {
 
 
 <fieldset>
-<div class="the_legend">Title: </div><br /><input type="text" name="post_title" size="38" value="<?php echo $title; ?>"/>
+<div class="the_legend">Title: </div><br /><input type="text" name="Title" size="38" value="<?php echo $file["Title"]; ?>"/>
 </fieldset>
 
 <fieldset>
-       <div class="the_legend">Description (optional):</div><br /><textarea rows="4" cols="38" name="post_desc"><?php echo $desc; ?></textarea>
+       <div class="the_legend">Description (optional):</div><br /><textarea rows="4" cols="38" name="Description"><?php echo $file["Description"]; ?></textarea>
 </fieldset>
 
 <fieldset><div class="the_legend">Thumbnail (optional): </div>
 <a href="#" onClick="document.getElementById('specify_image').style.display = 'none'; document.getElementById('upload_image').style.display = 'block'; return false;">Upload Image</a> or <a href="#" onClick="document.getElementById('upload_image').style.display = 'none'; document.getElementById('specify_image').style.display = 'block'; return false;">Specify URL</a>
 
 <div style="display:none;" id="upload_image">
-<input type="file" name="post_image_upload" value="Choose Image" />
+<input type="file" name="Image_upload" value="Choose Image" />
 </div>
 
 
 <div id="specify_image" style="display:<?php
 
-	if ($image == "" || $image == "http://") {
+	if ($file["Image"] == "" || $file["Image"] == "http://") {
 		echo "none";
 	} else {
 		echo "block";
@@ -855,16 +700,16 @@ else {
 
 ?>;" >
 
-<input type="text" name="post_image" size="40" value="<?php echo $image; ?>"/>
+<input type="text" name="Image" size="40" value="<?php echo $file["Image"]; ?>"/>
 
 </div>
 </fieldset>
 
-<fieldset><img src="images/cc_logo_17px.png" alt="CC logo" /> Creative Commons (optional): <input type="text" name="post_license_name" size="38" value="<?php echo $license_name; ?>" onFocus="this.blur();" autocomplete="off" class="blended"/><br/>
+<fieldset><img src="images/cc_logo_17px.png" alt="CC logo" /> Creative Commons (optional): <input type="text" name="post_license_name" size="38" value="<?php echo $file['LicenseName']; ?>" onFocus="this.blur();" autocomplete="off" class="blended"/><br/>
 
 <a href="#" onClick="window.open('http://creativecommons.org/license/?partner=bmachine&exit_url=' + escape('<?php echo get_base_url(); ?>cc.php?license_url=[license_url]&license_name=[license_name]'),'cc_window','scrollbars=yes,status=no,directories=no,titlebar=no,menubar=no,location=no,toolbar=no,width=450,height=600'); return false;"><?php
 
-	if ($license_url == "") {
+	if ($file["LicenseURL"] == "") {
 		echo "Choose";
 	} else {
 		echo "Change";
@@ -872,7 +717,7 @@ else {
 
 ?> License</a>
 
-<input type="hidden" name="post_license_url" value="<?php echo $license_url; ?>" class="hidden"/>
+<input type="hidden" name="LicenseURL" value="<?php echo $file["LicenseURL"]; ?>" class="hidden"/>
 
 </fieldset>
 </div>
@@ -881,13 +726,6 @@ else {
 <p class="publish_button" style="clear: both;">
 <input id="publish_button" style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
 </p>
-
-<!--
-<div style="display:none;" id="progress_bar">
-<img src="images/upload.gif" width="32" height="32">
-<big>Please Wait...</big>
-</div>
--->
 
 <div class="section optional">
 <div class="section_header">Optional: Additional Information</div>
@@ -916,7 +754,7 @@ else {
       <div class="the_legend">
 			Creator (can be multiple or an organization)
 			</div><br />
-			<input type="text" name="post_creator" size="40" value="<?php echo $creator; ?>"/>
+			<input type="text" name="Creator" size="40" value="<?php echo $file["Creator"]; ?>"/>
     </fieldset>
 
     <fieldset>
@@ -930,7 +768,7 @@ else {
 		foreach($donations as $id => $donation) {
 			if ( isset($donation["title"]) && isset($donation["text"]) ) {
 				print("<option value=" . $id);
-				if (isset($donation_id) && $donation_id == $id) {
+				if (isset($file["donation_id"]) && $file["donation_id"] == $file["ID"]) {
 					print(" selected=\"true\"");
 				}
 				print(">" . $donation["title"] . "</option>");
@@ -945,17 +783,21 @@ else {
     <fieldset>
       <div class="the_legend">Copyright Holder (if different than creator)</div>
 			<br />
-			<input type="text" name="post_rights" size="40" value="<?php echo $rights; ?>"/>
+			<input type="text" name="Rights" size="40" value="<?php echo $file["Rights"]; ?>"/>
     </fieldset>
 
     <fieldset>
       <div class="the_legend">Keywords / Tags (1 per line)</div>
 			<br/>
-			<textarea name="post_keywords" rows="4" cols="38"><?php echo $keywords; ?></textarea>
+			<textarea name="Keywords" rows="4" cols="38"><?php 
+				foreach( $file["Keywords"] as $kw ) {
+					print $kw . "\n";
+				}
+			?></textarea>
     </fieldset>
 
 <fieldset style="clear:both" id="postdiv">
-       <div class="the_legend">People Involved</div>
+       <div class="the_legend">People Involved:</div>
 <div id="people_header"><table cellpadding="2" cellspacing="0" border="0">
 	<tr>
 		<td width="200"><font class="the_legend">Name</font></td>
@@ -971,20 +813,20 @@ else {
 	</tr>
 
 <?php
-	foreach ($people_array as $people_row) {
-		if ( isset( $people_row[0] ) && isset( $people_row[1] ) ) {
+	foreach ($file["People"] as $person_row) {
+		if ( isset( $person_row[0] ) && isset( $person_row[1] ) ) {
 ?>
 	<tr>
-		<td><input type="text" name="post_people_name" value="<?php echo $people_row[0]; ?>" onKeyDown="isFull();"/></td>
-		<td><input type="text" name="post_people_role" value="<?php echo $people_row[1]; ?>" onKeyDown="isFull();"/></td>
+		<td><input type="text" name="People_name" value="<?php echo $person_row[0]; ?>" onKeyDown="isFull();"/></td>
+		<td><input type="text" name="People_role" value="<?php echo $person_row[1]; ?>" onKeyDown="isFull();"/></td>
 	</tr>
 <?php
 		}
 	}
 ?>
 	<tr>
-		<td><input type="text" name="post_people_name" value="" onKeyDown="isFull();"/></td>
-		<td><input type="text" name="post_people_role" value="" onKeyDown="isFull();"/></td>
+		<td><input type="text" name="People_name" value="" onKeyDown="isFull();"/></td>
+		<td><input type="text" name="People_role" value="" onKeyDown="isFull();"/></td>
 	</tr>
 </table>
 </div>
@@ -997,12 +839,17 @@ else {
 </div>
 
 <div id="transcript_text"<?php
-	if ($transcript_url != "") {
+	if ($file["Transcript"] != "") {
 		print(" style=\"display:none;\"");
 	}
 ?>>
 
-<textarea rows="3" cols="40" name="post_transcript_text"><?php echo $transcript_text; ?></textarea>
+<textarea rows="3" cols="40" 
+	name="post_transcript_text"><?php 
+		if ( isset($transcript_text) ) {
+			echo $transcript_text;
+		}
+	?></textarea>
 </div>
 
 <div id="transcript_upload" style="display:none;">
@@ -1010,31 +857,31 @@ else {
 </div>
 
 <div id="transcript_url"<?php
-	if ($transcript_url == "") {
+	if ($file["Transcript"] == "") {
 		print(" style=\"display:none;\"");
 	}
 ?>>
 
-<input type="text" name="post_transcript_url" size="40" value="<?php echo $transcript_url; ?>"/>
+<input type="text" name="Transcript" size="40" value="<?php echo $file["Transcript"]; ?>"/>
 </div>
 </fieldset>
 
 <fieldset>
   <div class="the_legend">Associated Webpage </div>
 	<br />
-	<input type="text" name="post_webpage" size="40" value="<?php echo $webpage; ?>"/>
+	<input type="text" name="Webpage" size="40" value="<?php echo $file["Webpage"]; ?>"/>
 </fieldset>
 
 
 <fieldset>Release Date
 <div class="input_sub">
-Day: <select name="post_release_day">
+Day: <select name="ReleaseDay">
 	<option value=""></option>
 <?php
 
 	for ( $i=1; $i<=31; $i++ ) {
 		print("<option value=" . $i);
-		if ($i == $releaseday) {
+		if ($i == $file['ReleaseDay']) {
 			print(" selected=\"true\"");
 		}
 		print(">" . $i . "</option>");
@@ -1043,15 +890,19 @@ Day: <select name="post_release_day">
 ?>
 </select>
 
-&nbsp;&nbsp;Month: <select name="post_release_month">
+&nbsp;&nbsp;Month: <select name="ReleaseMonth">
 	<option value=""></option>
 
 <?php
 
+	$months = array(
+			"January", "February", "March", "April", "May", "June", 
+			"July", "August", "September", "October", "November", "December");
+
 	for ( $i = 0; $i < count($months); $i++ ) {
 
 		print("<option value=" . $i);
-		if ($releasemonth != "" && $i == $releasemonth) {
+		if ($file['ReleaseMonth'] != "" && $i == $file['ReleaseMonth']) {
 			print(" selected=\"true\"");
 		}
 		print(">" . $months[$i] . "</option>");
@@ -1061,7 +912,7 @@ Day: <select name="post_release_day">
 ?>
 </select>
 
-&nbsp;&nbsp;Year: <input type="text" name="post_release_year" size="4" maxlength="5" value="<?php echo $releaseyear; ?>"/>
+&nbsp;&nbsp;Year: <input type="text" name="ReleaseYear" size="4" maxlength="5" value="<?php echo $file['ReleaseYear']; ?>"/>
 
 </div>
 </fieldset>
@@ -1070,7 +921,7 @@ Day: <select name="post_release_day">
 Play Length
 
 <div class="input_sub">
-Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $runninghours; ?>"/> Minutes: <select name="post_length_minutes">
+Hours: <input type="text" name="RuntimeHours" size="2" value="<?php echo $file['RuntimeHours']; ?>"/> Minutes: <select name="RuntimeMinutes">
 	<option value=""></option>
 <?php
 
@@ -1079,7 +930,7 @@ Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $r
 		$min = str_pad($i,2,'0',STR_PAD_LEFT);
 
 		print("<option value=" . $min);
-		if ($min == $runningminutes) {
+		if ($min == $file['RuntimeMinutes']) {
 			print(" selected=\"true\"");
 		}
 		print(">" . $min . "</option>");
@@ -1087,7 +938,7 @@ Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $r
 
 ?>
 
-</select> Seconds: <select name="post_length_seconds">
+</select> Seconds: <select name="RuntimeSeconds">
 
 	<option value=""></option>
 
@@ -1098,7 +949,7 @@ Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $r
 		$sec = str_pad($i,2,'0',STR_PAD_LEFT);
 
 		print("<option value=" . $sec);
-		if ($sec == $runningseconds) {
+		if ($sec == $file['RuntimeSeconds']) {
 			print(" selected=\"true\"");
 		}
 		print(">" . $sec . "</option>");
@@ -1106,7 +957,7 @@ Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $r
 
 ?>
 
-</select>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="post_is_excerpt"<?php if ($excerpt) {
+</select>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="Excerpt"<?php if ($file['Excerpt']) {
 
 	print(" checked=\"true\"");
 
@@ -1116,7 +967,7 @@ Hours: <input type="text" name="post_length_hours" size="2" value="<?php echo $r
 </fieldset>
 
 
-<fieldset><input type="checkbox" name="post_explicit"<?php if ($explicit) {
+<fieldset><input type="checkbox" name="Explicit"<?php if ($file['Explicit']) {
 	print(" checked=\"true\"");
 }?>> Contains explicit content (some search services filter based on this).
 </fieldset>
@@ -1132,6 +983,8 @@ Will be set to the timestamp of the first time that publish the file.
 <div id="create_time" style="display:none;">
 <select name="post_create_day">
 <?php
+	$createday = date("j",$file['Created']);
+
 	for ( $i=1; $i<=31; $i++ ) {
 
 		print("<option value=\"" . $i . "\"");
@@ -1146,6 +999,13 @@ Will be set to the timestamp of the first time that publish the file.
 
 <select name="post_create_month">
 <?php
+
+	$createmonth = date("n",$file['Created']);
+
+	$months = array(
+			"January", "February", "March", "April", "May", "June", 
+			"July", "August", "September", "October", "November", "December");
+
 	for ( $i=0; $i < count($months); $i++ ) {
 
 		print("<option value=" . $i);
@@ -1159,6 +1019,9 @@ Will be set to the timestamp of the first time that publish the file.
 
 <select name="post_create_year">
 <?php
+
+	$createyear = date("Y",$file['Created']);
+
 	for( $i=2005; $i<2026; $i++ ) {
 
 		print("<option value=" . $i);
@@ -1172,6 +1035,9 @@ Will be set to the timestamp of the first time that publish the file.
 
 <select name="post_create_hour">
 <?php
+
+	$createhour = date("G",$file['Created']);
+
 	for ($i=0; $i <= 23; $i++ ) {
 
 		print("<option value=" . $i);
@@ -1185,6 +1051,8 @@ Will be set to the timestamp of the first time that publish the file.
 </select>:<select name="post_create_minute">
 
 <?php
+	$createminute = date("i",$file['Created']);
+
 	for ( $i=0; $i < 60; $i++ ) {
 
 		$min = str_pad($i,2,'0',STR_PAD_LEFT);
@@ -1212,7 +1080,10 @@ Will be set to the time that you press 'publish'.
 <div id="publish_time" style="display:none;">
 <select name="post_publish_day">
 <?php
-	for ( $i=1; $i<=31; $i++ ) {
+
+	$publishday = date("j",$file['Publishdate']);
+
+	for ( $i=1; $i <= 31; $i++ ) {
 
 		print("<option value=" . $i);
 		if ($i == $publishday) {
@@ -1226,6 +1097,13 @@ Will be set to the time that you press 'publish'.
 
 <select name="post_publish_month">
 <?php
+
+	$publishmonth = date("n",$file['Publishdate']);
+
+	$months = array(
+			"January", "February", "March", "April", "May", "June", 
+			"July", "August", "September", "October", "November", "December");
+
 	for ( $i=0; $i < count($months); $i++ ) {
 
 		print("<option value=" . $i);
@@ -1239,8 +1117,9 @@ Will be set to the time that you press 'publish'.
 
 <select name="post_publish_year">
 <?php
-	for( $i=2005; $i<2026; $i++ ) {
+	$publishyear = date("Y",$file['Publishdate']);
 
+	for( $i=2005; $i<2026; $i++ ) {
 		print("<option value=" . $i);
 		if ($i == $publishyear) {
 			print(" selected=\"true\"");
@@ -1252,6 +1131,8 @@ Will be set to the time that you press 'publish'.
 
 <select name="post_publish_hour">
 <?php
+
+	$publishhour = date("G",$file['Publishdate']);
 	for ($i=0; $i <= 23; $i++ ) {
 
 		print("<option value=" . $i);
@@ -1265,6 +1146,8 @@ Will be set to the time that you press 'publish'.
 </select>:<select name="post_publish_minute">
 
 <?php
+	$publishminute = date("i",$file['Publishdate']);
+
 	for ( $i=0; $i < 60; $i++ ) {
 
 		$min = str_pad($i,2,'0',STR_PAD_LEFT);
@@ -1277,36 +1160,18 @@ Will be set to the time that you press 'publish'.
 	}
 ?>
 </select>
-
-<!--
-<input type="text" name="aa" value="2004" size="4" maxlength="5" /> @
-<input type="text" name="hh" value="16" size="2" maxlength="2" /> :
-<input type="text" name="mn" value="41" size="2" maxlength="2" /> :
-<input type="text" name="ss" value="14" size="2" maxlength="2" />
--->
-
 </div>
 </fieldset>
 </div>
-
-
 
 <p class="publish_button" style="clear: both;">
 <input style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
-
-<!--
-<div style="display:none;" id="progress_bar2">
-<img src="images/upload.gif" width="32" height="32">
-<big>Please Wait...</big>
-</div>
--->
-
 </div>
 </form>
 <?php
-bm_footer();
+}
 
 function build_auto_select($files) {
 	global $store;
@@ -1314,8 +1179,8 @@ function build_auto_select($files) {
 	if ( is_array($files) && count($files) > 0 ) {
 		$out = '<select name="videos" onChange="autofill(this.options[this.selectedIndex].value);" >';
 		$out .= '<option value=""></option>';
-		foreach($files as $filehash => $file) {
-			$out .= '<option value="' . $filehash . '">' . $file["Title"] . '</option>';
+		foreach($files as $file["ID"] => $file) {
+			$out .= '<option value="' . $file["ID"] . '">' . $file["Title"] . '</option>';
 		}
 	
 		$out .= '</select>';
@@ -1331,17 +1196,17 @@ function build_auto_fill($files) {
 		frm = document.getElementById("post");
 	';
 
-	foreach($files as $filehash => $file) {
+	foreach($files as $id => $file) {
 
 		$js .= '
-		if ( id == "' . $filehash . '") {
+		if ( id == "' . $id. '") {
 		';
 
 		if ( isset($file["Creator"]) ) {
-			$js .= 'frm.post_creator.value = "' . urlencode($file["Creator"]) . '";';
+			$js .= 'frm.Creator.value = "' . urlencode($file["Creator"]) . '";';
 		}
 		else {
-			$js .= 'frm.post_creator.value = "";';		
+			$js .= 'frm.Creator.value = "";';		
 		}
 
 		if ( isset($file["donation_id"]) ) {
@@ -1352,40 +1217,40 @@ function build_auto_fill($files) {
 		}
 
 		if ( isset($file["Rights"]) ) {
-			$js .= 'frm.post_rights.value = "' . urlencode($file["Rights"]) . '";';
+			$js .= 'frm.Rights.value = "' . urlencode($file["Rights"]) . '";';
 		}
 		else {
-			$js .= 'frm.post_rights.value = "";';		
+			$js .= 'frm.Rights.value = "";';		
 		}
 
 		if ( isset($file["Keywords"]) ) {
-			$js .= 'frm.post_keywords.value = "' . urlencode(join($file["Keywords"], ' ')) . '";';
+			$js .= 'frm.Keywords.value = "' . urlencode(join($file["Keywords"], ' ')) . '";';
 		}
 		else {
-			$js .= 'frm.post_keywords.value = "";';		
+			$js .= 'frm.Keywords.value = "";';		
 		}
 
 		if ( isset($file["Webpage"]) ) {
-			$js .= 'frm.post_webpage.value = "' . $file["Webpage"] . '";';
+			$js .= 'frm.Webpage.value = "' . $file["Webpage"] . '";';
 		}
 		else {
-			$js .= 'frm.post_webpage.value = "";';		
+			$js .= 'frm.Webpage.value = "";';		
 		}
 
 		if ( isset($file["Explicit"]) && $file["Explicit"] == 1 ) {
-			$js .= 'frm.post_explicit.checked = true;';
+			$js .= 'frm.Explicit.checked = true;';
 		}
 		else {
-			$js .= 'frm.post_explicit.checked = false;';
+			$js .= 'frm.Explicit.checked = false;';
 		}
 
 
-		$people_array = $file['People'];
-		if ( count($people_array) > 0 ) {
-			foreach ($people_array as $people_row) {
-				if ( isset( $people_row[0] ) && isset( $people_row[1] ) && 
-						$people_row[0] != "" && $people_row[1] != "" ) {
-					$js .= "addPerson('" . trim($people_row[0]) . "', '" . trim($people_row[1]) . "');";
+		$file["People"] = $file['People'];
+		if ( count($file["People"]) > 0 ) {
+			foreach ($file["People"] as $person_row) {
+				if ( isset( $person_row[0] ) && isset( $person_row[1] ) && 
+						$person_row[0] != "" && $person_row[1] != "" ) {
+					$js .= "addPerson('" . trim($person_row[0]) . "', '" . trim($person_row[1]) . "');";
 				}
 			}
 		}
@@ -1402,10 +1267,6 @@ function build_auto_fill($files) {
 } // build_auto_fill
 
 function build_mime_chooser() {
-
-//	$out = "It looks like this file might not be usable in DTV.  If this isn't a problem for you, 
-//		<a href='javascript:submit_force();'>click here</a> to save the file";
-
 
 	$mime_value = "video/unknown";
 	$mime_options = array();
@@ -1434,6 +1295,7 @@ This file is a :<br>";
 
 }
 
+
 /*
  * Local variables:
  * tab-width: 2
@@ -1441,5 +1303,4 @@ This file is a :<br>";
  * indent-tabs-mode: nil
  * End:
  */
-
 ?>
