@@ -54,7 +54,7 @@ if (
    
    if (isset($torrent['sha1'])) {
 
-     //error_log("addTorrentToTracker: try to create $torrent");
+     //debug_message("addTorrentToTracker: try to create $torrent");
 
      global $torrents_dir;
      $result = move_uploaded_file($_FILES['Torrent']['tmp_name'], $torrents_dir . "/" . $_FILES['Torrent']['name']);
