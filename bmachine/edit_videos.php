@@ -5,19 +5,18 @@
  */
 
 function mycomp($a, $b) {
-	return ($b["Created"] - $a["Created"]);
+  return ($b["Created"] - $a["Created"]);
 }
 
 function mycomp_title($a, $b) {
-	return strcmp($a["Title"], $b["Title"]);
+  return strcmp($a["Title"], $b["Title"]);
 }
 
 require_once("include.php");
-require_once("theme.php");
 
 if (!is_admin()) {
-	header('Location: ' . get_base_url() . 'admin.php');
-	exit;
+  header('Location: ' . get_base_url() . 'admin.php');
+  exit;
 }
 
 $channels = $store->getAllChannels();
@@ -25,12 +24,12 @@ $files = $store->getAllFiles();
 
 // this was just a usort and that was breaking the associative array
 if ( count($files) > 0 ) {
-	if ( isset($_GET["sort"]) && $_GET["sort"] == "name") {
-		uasort($files, "mycomp_title");
-	}
-	else{
-		uasort($files, "mycomp");
-	}
+  if ( isset($_GET["sort"]) && $_GET["sort"] == "name") {
+    uasort($files, "mycomp_title");
+  }
+  else{
+    uasort($files, "mycomp");
+  }
 }
 
 bm_header();
@@ -62,16 +61,14 @@ Sort By: <a href="edit_videos.php?sort=name">Name</a> || <a href="edit_videos.ph
 				'useSessions' => true,
 				'closeSession' => true,
 				'mode'  => 'sliding',    //try switching modes
-				//'mode'  => 'Jumping',
-		
-		);
+				);
 
 		// cjm - this is a hack until we can get away from this upper/lowercase issue
 		if ( file_exists("Pager.php") ) {
-			require_once 'Pager.php';
+		  require_once 'Pager.php';
 		}
 		else {
-			require_once 'pager.php';		
+		  require_once 'pager.php';		
 		}
 
 		$pager = & Pager::factory($params);
@@ -84,23 +81,24 @@ Sort By: <a href="edit_videos.php?sort=name">Name</a> || <a href="edit_videos.ph
 	}
 	
 	if ( is_array($files) ) {
-		foreach ($files as $filehash => $file) {
+	  foreach ($files as $filehash => $file) {
 ?>
 
 <div class="video_display">
 <?php
 
-			if (is_local_torrent($file["URL"]) ) {
+   if (is_local_torrent($file["URL"]) ) {
 
-				//
-				// make sure this torrent is running (in case the server has crashed, etc
-				//
-				$torrentfile = local_filename($file["URL"]);
-				$torrenthash = $store->getHashFromTorrent($torrentfile);
-				$restarted = !$seeder->confirmSeederRunning($torrenthash, $torrentfile);
-		
-				displayTorrentInfo($file["URL"], $filehash, "edit_videos.php", "detail", $restarted );
-			}
+     //
+     // make sure this torrent is running (in case the server has crashed, etc
+     //
+     $torrentfile = local_filename($file["URL"]);
+     $torrenthash = $store->getHashFromTorrent($torrentfile);
+     $restarted = !$seeder->confirmSeederRunning($torrenthash, $torrentfile);
+     
+     displayTorrentInfo($file["URL"], $filehash, "edit_videos.php", "detail", $restarted );
+   }
+
 ?>
 
  <div class="video_logo">
@@ -126,20 +124,7 @@ echo mb_substr(strip_tags($file["Description"]), 0, 50);
 <div class="video_info">
 <?php
 
-	$runtime = "";
-
-	if ($file["RuntimeHours"] != "") {
-		$runtime .= $file["RuntimeHours"] . " hr. ";
-	}
-
-	if ($file["RuntimeMinutes"] != "") {
-		$runtime .= $file["RuntimeMinutes"] . " min. ";
-	}
-
-	if ($file["RuntimeSeconds"] != "") {
-		$runtime .= $file["RuntimeSeconds"] . " seconds ";
-	}
-
+	$runtime = runtime_string($file);
 	if ($runtime != "") {
 		print($runtime . " - ");
 	}
@@ -152,29 +137,20 @@ echo mb_substr(strip_tags($file["Description"]), 0, 50);
 	ON CHANNELS: 
 	
 <?php
-
-$i = 0;
-$my_channel_id = -1;
-
-foreach ($channels as $channel) {
-	foreach ($channel["Files"] as $list) {
-		if ($list[0] == $filehash) {
-			$my_channel_id = $channel["ID"];
-			if ($i > 0) {
-				print(", ");
-			}
-
-			print($channel["Name"]);
-			$i++;
-		}
-	}
+$file_channels = $store->channelsForFile($filehash);
+$titles = array();
+foreach ($file_channels as $c) {
+	$titles[] = $channels[$c["ID"]]["Name"];
 }
+print join($titles, ", ");
 
 $username = "NOT_LOGGED_IN";
 
 if (isset($_SESSION['user']['Name'])) {
-	$username = $_SESSION['user']['Name'];
+  $username = $_SESSION['user']['Name'];
 }
+
+print "<br>" . theme_file_stats($file["ID"]);
 
 if ( is_admin() || $file["Publisher"] == $username ) {
 
