@@ -9,12 +9,14 @@ class MySQLDataLayer extends BEncodedDataLayer {
   /** a prefix which will be added to table names to prevent potential conflicts with other apps */
   var $prefix = '';
   var $good_setup = false;
+	var $locks = array();
 
   /**
    * setup our datastore object
    */
   function setup() {
-    //error_log("MySQLDataLayer/setup");
+
+    debug_message("mysql setup");
 
     global $settings;
 
@@ -35,79 +37,85 @@ class MySQLDataLayer extends BEncodedDataLayer {
 			    $settings['mysql_host'],
 			    $settings['mysql_username'],
 			    $settings['mysql_password'] ) ) {
-
+      
       //We can connect to the server. try to connect to the database
       if ( !@mysql_selectdb( $settings['mysql_database'] ) ) {
 
 	//If we can't connect to the database, try to create it
-	@mysql_query ( "CREATE DATABASE IF NOT EXISTS " . $settings['mysql_database'] );
-
+	@do_query ( "CREATE DATABASE IF NOT EXISTS " . $settings['mysql_database'] );
+	
 	// we weren't able to create the database, so back to the flat-file store
 	if ( !@mysql_selectdb( $settings['mysql_database'] ) ) {
+	  global $mysql_error;
+	  $mysql_error = "It looks like your username/password are okay, but I couldn't connect to the database that you specified.";
 	  return false;
 	}
       }
 
       $this->good_setup = true;
 
-      //error_log("MySQLDataLayer/setup worked");
+      debug_message("MySQLDataLayer/setup worked");
       return true;
     }
+    else {
+      global $mysql_error;
+      $mysql_error = "Couldn't connect using the username/password/hostname that you supplied.";
+    }
 
-    //error_log("MySQLDataLayer/setup failed");
+    debug_message("MySQLDataLayer/setup failed");
     return false;
   }
 	
   function init() {
 
-    //error_log("MySQLDataLayer/init");
+    debug_message("MySQLDataLayer/init");
 
     global $data_dir;
     if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != get_version() ) {
 
-      //error_log("init - create tables");
+      debug_message("init - create tables");
       $m = new MySQLLoader();
     
       if ( ! $this->tableExists("peers") ) {
-//				//error_log("create peers");
-				mysql_query( $this->getTableDef("peers") );
+//				debug_message("create peers");
+				do_query( $this->getTableDef("peers") );
       }
       
       if ( ! $this->tableExists("torrents") ) {
-//				//error_log("create torrents");
-				mysql_query( $this->getTableDef("torrents") );
+//				debug_message("create torrents");
+				do_query( $this->getTableDef("torrents") );
 				$m->addFlatFileTorrents();
       }
       
       if ( ! $this->tableExists("newusers") ) {
-//				//error_log("create newusers/users");
-				mysql_query( $this->getTableDef("newusers") );
-				mysql_query( $this->getTableDef("users") );
+//				debug_message("create newusers/users");
+				do_query( $this->getTableDef("newusers") );
+				do_query( $this->getTableDef("users") );
 				$m->addFlatFileUsers();
       }
       
       if ( ! $this->tableExists("channels") ) {
-//				//error_log("create channels");
-				mysql_query( $this->getTableDef("channels") );
-				mysql_query( $this->getTableDef("channel_options") );
-				mysql_query( $this->getTableDef("channel_files") );
-				mysql_query( $this->getTableDef("channel_sections") );
-				mysql_query( $this->getTableDef("section_files") );				
+//				debug_message("create channels");
+				do_query( $this->getTableDef("channels") );
+				do_query( $this->getTableDef("channel_options") );
+				do_query( $this->getTableDef("channel_files") );
+				do_query( $this->getTableDef("channel_sections") );
+				do_query( $this->getTableDef("section_files") );				
 				$m->addFlatFileChannels();
       }
       
       if ( ! $this->tableExists("files") ) {
-	//			//error_log("create files");
-				mysql_query( $this->getTableDef("files") );
-				mysql_query( $this->getTableDef("file_people") );
-				mysql_query( $this->getTableDef("file_keywords") );
+	//			debug_message("create files");
+				do_query( $this->getTableDef("files") );
+				do_query( $this->getTableDef("file_people") );
+				do_query( $this->getTableDef("file_keywords") );
 				$m->addFlatFileFiles();
       }
       
       if ( ! $this->tableExists("donations") ) {
-//				//error_log("create donations");
-				mysql_query( $this->getTableDef("donations") );
-				mysql_query( $this->getTableDef("donation_files") );
+//				debug_message("create donations");
+				do_query( $this->getTableDef("donations") );
+				do_query( $this->getTableDef("donation_files") );
 				$m->addFlatFileDonations();
       }
 
@@ -123,16 +131,45 @@ class MySQLDataLayer extends BEncodedDataLayer {
   function type() {
     return 'MySQL';
   }
-  
+
+
+  function lockResources($list) {
+    $this->locks = $this->lockList($list);
+    $tmplocks = array();
+    foreach($this->locks as $l) {
+      $tmplocks[] = $this->prefix . $l;
+    }
+
+    $result = @do_query( "LOCK TABLES " . join( $tmplocks, "," ) . " WRITE");
+
+    $handle = 1;
+    foreach($this->lockList($list) as $file) {
+      $this->_handles[$file] = $handle;
+    }
+  }
+
+  function unlockResources($list) {
+    @do_query("UNLOCK TABLES");
+    foreach($this->lockList($list) as $file) {
+      $this->unlockResource($file);
+    }
+  }
+
   /**
    * lock the requested resource
    */
   function lockResource($file) {
+    debug_message("mysql lockResource $file");
+    
+    if ( $this->dataInMySQL($file) == false || $this->good_setup == false ) {
+      return parent::lockResource($file);
+    }
+
     if ( isset($this->_handles[$file]) ) {
       return $this->_handles[$file];
     }
-    
-    $result = @mysql_query( "LOCK TABLES " . $this->prefix . $file . " WRITE");
+
+    $result = @do_query( "LOCK TABLES " . $this->prefix . $file . " WRITE");
     
     $handle = 1;
     $this->_handles[$file] = $handle;
@@ -140,24 +177,34 @@ class MySQLDataLayer extends BEncodedDataLayer {
   }
   
   function unlockResource($file) {
-    if ( isset($this->_handles[$file]) ) {
-      $result = @mysql_query("UNLOCK TABLES");
-      unset($this->_handles[$file]);
+    debug_message("mysql unlockResource $file");
+
+    if ( $this->dataInMySQL($file) == false || $this->good_setup == false ) {
+      return parent::unlockResource($file);
     }
+
+    /*
+    if ( isset($this->_handles[$file]) ) {
+      print "unlock tables<br>";
+      $result = @do_query("UNLOCK TABLES");
+      unset($this->_handles[$file]);
+    }*/
   }
   
   
   function getAll($file) {
     $handle = 0;
+    debug_message("mysql setup $file");
     return $this->getAllLock($file, $handle, false);
   }
   
   function getByKey($file, $id, $key = null) {
+    debug_message("mysql getByKey $file $id $key");
     $qarr = $this->getTableQueries($file);
     $query = $qarr["select"];
     $sql = str_replace("%key", $id, $query);
     
-    $result = mysql_query( $sql );
+    $result = do_query( $sql );
     $hooks = $this->getHooks($file, "get");
     $out = array();
 
@@ -168,20 +215,20 @@ class MySQLDataLayer extends BEncodedDataLayer {
     while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
       // handle any hooks that have been defined for this content-type
       if ( $hooks != null ) {
-	if ( $key == null ) {
-	  $out[] = $hooks($row);
-	}
-	else {
-	  $out[ $row[$key] ] = $hooks($row);
-	}
+				if ( $key == null ) {
+					$out[] = $hooks($row);
+				}
+				else {
+					$out[ $row[$key] ] = $hooks($row);
+				}
       }
       else {
-	if ( $key == null ) {
-	  $out[] = $row;
-	}
-	else {
-	  $out[ $row[$key] ] = $row;
-	}
+				if ( $key == null ) {
+					$out[] = $row;
+				}
+				else {
+					$out[ $row[$key] ] = $row;
+				}
       }
     }
 
@@ -190,66 +237,61 @@ class MySQLDataLayer extends BEncodedDataLayer {
   
   function getAllLock($file, &$handle, $get_lock = true ) {
 
-    //error_log("mysql getAllLock $file");
-    
-    //		if ( $get_lock == true ) {
-    //			print "$file - start<br>";
-    //		}
+    debug_message("mysql getAllLock $file");
     $key = $this->getTableKey($file);
     
     if ( $key == null || $this->good_setup == false ) {
-      //error_log("no key, get the flat file");
-      return parent::getAll($file, $handle);
+      debug_message("no key, get the flat file");
+      return parent::getAllLock($file, $handle);
     }
     
     $queries = $this->getTableQueries($file);
     
-    //error_log($queries["all"]);
-    $result = mysql_query( $queries["all"] );
-    
+    debug_message($queries["all"]);
+    $result = do_query( $queries["all"] );
     $hooks = $this->getHooks($file, "get");
     
     $out = array();
-
-    print (mysql_error());
-
-    $count = 0;
-    while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
-
-      //error_log("fetch row $count");
-
-      // handle any hooks that have been defined for this content-type
-      if ( $hooks != null ) {
-	//error_log("call $hooks");
-	if ( $key == null ) {
-	  $out[] = $hooks($row);
-	}
-	else {
-	  $out[ $row[$key] ] = $hooks($row);
-	}
-      }
-      else {
-	if ( $key == null ) {
-	  $out[] = $row;
-	}
-	else {
-	  $out[ $row[$key] ] = $row;
-	}
-      }
-    }
     
+    $count = 0;
+    if ( $result ) {
+      while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+	// handle any hooks that have been defined for this content-type
+	if ( $hooks != null ) {
+	  debug_message("call $hooks");
+	  if ( $key == null ) {
+	    $out[] = $hooks($row);
+	  }
+	  else {
+	    $out[ $row[$key] ] = $hooks($row);
+	  }
+	}
+	else {
+	  if ( $key == null ) {
+	    $out[] = $row;
+	  }
+	  else {
+	    $out[ $row[$key] ] = $row;
+	  }
+	}
+      } // while
+    }
+      
     if ( $get_lock == true ) {
       $handle = 1;
     }
     
-    //		if ( $get_lock == true ) {
-    //			print "$file - done<br>";
-    //		}
-    //error_log("done");
     return $out;
   }
-  
+    
   function getOne($file, $id, $handle = null) {
+    debug_message("mysql getOne $file $id $handle");
+    $key = $this->getTableKey($file);
+    
+    if ( $key == null || $this->good_setup == false ) {
+      return parent::getOne($file, $id, $handle);
+    }
+
     $data = $this->getByKey($file, $id /*, $handle */);
 
     if ( isset($data[0]) ) {
@@ -265,6 +307,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
    */
   function saveOne($file, $data, $hash, $handle = null) {
     
+    debug_message("mysql saveOne $file $hash");
     $key = $this->getTableKey($file);
     
     if ( $key == null || $this->good_setup == false ) {
@@ -292,11 +335,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
       $hooks($data);
     }
     
+
     $tmp = $this->prepareForMySQL($data);
     $sql = str_replace("%vals", $tmp, $query);
     
-    $result = mysql_query( $sql );
-    if ( $result == false ) {
+    $result = do_query( $sql );
+    if ( mysql_affected_rows() <= 0 ) {
+      global $errstr;
+      $errstr = mysql_error();
+      //      print "error on $sql - " . mysql_error() . "<br>";
       return false;
     }
     
@@ -317,6 +364,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
    * save the data to the specified file, using the handle if provided
    */
   function saveAll($file, $data, $handle = null) {
+    debug_message("mysql saveAll $file");
     $key = $this->getTableKey($file);
     
     if ( $key == null || $this->good_setup == false ) {
@@ -333,6 +381,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
   }
   
   function deleteOne($file, $hash, $handle = null) {
+    debug_message("mysql deleteOne $file $hash");
     $key = $this->getTableKey($file);
     
     if ( $key == null || $this->good_setup == false ) {
@@ -356,7 +405,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
     $qarr = $this->getTableQueries($file);
     $sql = $qarr["delete"];
     $sql = str_replace("%key", $hash, $sql);
-    $result = mysql_query( $sql );
+    $result = do_query( $sql );
     $hooks = $this->getHooks($file, "post-delete");
     
     if ( $hooks != null ) {
@@ -376,8 +425,9 @@ class MySQLDataLayer extends BEncodedDataLayer {
    * @return true/false
    */
   function tableExists($name) {
-    
-    $result = @mysql_query( "DESC " . $this->prefix . $name );
+
+    debug_message("mysql $name");    
+    $result = @do_query( "DESC " . $this->prefix . $name );
     if ( $result && mysql_num_rows($result) > 0 ) {
       return true;
     }
@@ -697,6 +747,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
     
   }
 
+  function dataInMySQL($name) {
+    $count = count($this->getTableQueries($name));
+    if ( $count > 0 ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
   /**
    * return the key for the specified table
@@ -732,15 +791,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
   function getStat( $info_hash ) {
 
     // delete expired peers
-    mysql_query( "DELETE FROM " . $this->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
+    do_query( "DELETE FROM " . $this->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
     
-    $query = mysql_query("SELECT COUNT(*) FROM " . $this->prefix . "peers WHERE info_hash='" . 
+    $query = do_query("SELECT COUNT(*) FROM " . $this->prefix . "peers WHERE info_hash='" . 
 			 mysql_escape_string($info_hash) . "'" );
     
     $row = mysql_fetch_array($query);
     $total = $row[0];
     
-    $query = mysql_query("SELECT COUNT(*) FROM " . $this->prefix . "peers WHERE info_hash='" . 
+    $query = do_query("SELECT COUNT(*) FROM " . $this->prefix . "peers WHERE info_hash='" . 
 			 mysql_escape_string( $info_hash ) . "' AND seeder = 1" );
     
     $row = mysql_fetch_array($query);
@@ -761,7 +820,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
   function getTorrentList() {
 
     $list = array();
-    $result = mysql_query( "SELECT filename from " . $this->prefix . "torrents" );
+    $result = do_query( "SELECT filename from " . $this->prefix . "torrents" );
 
     while ( $row = mysql_fetch_array( $result ) ) {
       $list[]=$row[0];
@@ -774,7 +833,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
 	 * get the data for this torrent from the db
 	 */
   function getRawTorrent( $torrent ) {
-    $result = mysql_query( "SELECT raw_data FROM " . $this->prefix . "torrents WHERE filename='" . mysql_escape_string(
+    $result = do_query( "SELECT raw_data FROM " . $this->prefix . "torrents WHERE filename='" . mysql_escape_string(
 												$torrent ) . "'" );
 
     if ( mysql_num_rows( $result ) > 0 ) {
@@ -789,7 +848,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
 	 * determine if this torrent exists in the db or not
 	 */
   function torrentExists( $info_hash ) {
-    $result =mysql_query( "SELECT COUNT(*) FROM " . $this->prefix . "torrents WHERE info_hash='" . mysql_escape_string(
+    $result =do_query( "SELECT COUNT(*) FROM " . $this->prefix . "torrents WHERE info_hash='" . mysql_escape_string(
 												  $info_hash ) . "'" );
     $row=mysql_fetch_row( $result );
     return $row[0] > 0;
@@ -802,7 +861,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
     $peers=array();
 
     $now   =time();
-    $result=mysql_query(
+    $result=do_query(
 			"SELECT ip, port, UNIX_TIMESTAMP(time) AS time,	 if (seeder,'seeder','leecher') AS what FROM " . $this->prefix . "peers WHERE info_hash = '" . mysql_escape_string( $info_hash )
 			. "'" );
 
@@ -842,7 +901,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
 										'" . mysql_escape_string( $torrent ) . "',
 										'" . mysql_escape_string( $rawTorrent ) . "')";
 		
-    mysql_query ( $sql );
+    do_query ( $sql );
   }
 
   /**
@@ -882,7 +941,7 @@ class MySQLLoader {
 	. "')";
 
 
-      mysql_query( $sql );
+      do_query( $sql );
     }
 
   }
@@ -897,22 +956,21 @@ class MySQLLoader {
     foreach ( $newusers as $u ) {
       $data = $store->layer->prepareForMySQL($u);
       $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
+      do_query( $sql );
     }	
     
     $users = $this->flat->layer->getAll("users");
     $qarr = $store->layer->getTableQueries("users");
     $query = $qarr["insert"];
-    //		print_r($users);
     
     foreach ( $users as $u ) {
       $data = $store->layer->prepareForMySQL($u);
       $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
+      do_query( $sql );
     }	
     
-    mysql_query("UPDATE " . $store->layer->prefix . "users SET Username = Name WHERE Username IS NULL OR Username = ''");
-    mysql_query("UPDATE " . $store->layer->prefix . "users SET Name = Username WHERE Name IS NULL OR Name = ''");
+    do_query("UPDATE " . $store->layer->prefix . "users SET Username = Name WHERE Username IS NULL OR Username = ''");
+    do_query("UPDATE " . $store->layer->prefix . "users SET Name = Username WHERE Name IS NULL OR Name = ''");
   }
   
   
@@ -925,17 +983,13 @@ class MySQLLoader {
     
     $qarr = $store->layer->getTableQueries("channel_options");
     $option_sql = $qarr["insert"];
-//print "<pre>";
-//print_r($channels);
-//print "</pre>";
-
     
     foreach ( $channels as $c ) {
       
       $data = $store->layer->prepareForMySQL($c);
       
       $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
+      do_query( $sql );
       
       // options
       // desc is a reserved word in SQL, so lets not be using that
@@ -948,7 +1002,7 @@ class MySQLLoader {
       $data = $store->layer->prepareForMySQL($c["Options"]);
       
       $sql = str_replace("%vals", $data, $option_sql);
-      mysql_query( $sql );
+      do_query( $sql );
       
       // files
       foreach( $c["Files"] as $f ) {
@@ -956,7 +1010,7 @@ class MySQLLoader {
 								SET channel_id = " . $c["ID"] . ", 
 								hash = '" . mysql_escape_string($f["0"]) . "', 
 								thetime = '" . mysql_escape_string($f["1"]) . "'";
-	mysql_query( $sql );
+	do_query( $sql );
       }
       
       // sections
@@ -964,21 +1018,16 @@ class MySQLLoader {
 	$sql = "REPLACE INTO " . $store->layer->prefix . "channel_sections 
 								SET channel_id = " . $c["ID"] . ", 
 								Name = '" . mysql_escape_string($s["Name"]) . "'";
-	mysql_query( $sql );
-
-//print "<pre>";
-//print_r($c);
+	do_query( $sql );
 
 	foreach( $s["Files"] as $sf ) {
 	  $sql = "REPLACE INTO " . $store->layer->prefix . "section_files 
 									SET channel_id = " . $c["ID"] . ", 
 									Name = '" . mysql_escape_string($s["Name"]) . "',
 									hash = '" . mysql_escape_string($sf) . "'";
-//print "$sql<br>";
-	  mysql_query( $sql );
+	  do_query( $sql );
 	}
 
-//print "</pre>";
       }
     }	
 //    exit;
@@ -1013,17 +1062,19 @@ class MySQLLoader {
       $data = $store->layer->prepareForMySQL($f);
       
       $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
+      do_query( $sql );
       
       foreach($f["People"] as $p) {
-	$tmp["Name"] = trim($p[0]);
-	$tmp["Role"] = trim($p[1]);
-	$tmp["ID"] = $f["ID"];
+	if ( is_array($p) && count($p) == 2 ) {
+	  $tmp["Name"] = trim($p[0]);
+	  $tmp["Role"] = trim($p[1]);
+	  $tmp["ID"] = $f["ID"];
 	
-	if ( $tmp["Name"] != "" ) {
-	  $data = $store->layer->prepareForMySQL($tmp);
-	  $sql = str_replace("%vals", $data, $people_sql);
-	  mysql_query( $sql );
+	  if ( $tmp["Name"] != "" ) {
+	    $data = $store->layer->prepareForMySQL($tmp);
+	    $sql = str_replace("%vals", $data, $people_sql);
+	    do_query( $sql );
+	  }
 	}
       }
       
@@ -1034,7 +1085,7 @@ class MySQLLoader {
 								'" . mysql_escape_string($kw) . "')";
 
 
-	mysql_query( $sql );
+	do_query( $sql );
       }
       
     }	
@@ -1045,23 +1096,25 @@ class MySQLLoader {
     global $store;
     
     $donations = $this->flat->layer->getAll("donations");
-    //		print_r($store);
     $qarr = $store->layer->getTableQueries("donations");
     $query = $qarr["insert"];
-    
-    foreach ( $donations as $id => $d ) {
-      $d["id"] = $id;
-      $data = $store->layer->prepareForMySQL($d);
-      $sql = str_replace("%vals", $data, $query);
-      mysql_query( $sql );
+
+    if ( $donations ) {
+      foreach ( $donations as $id => $d ) {
+	$d["id"] = $id;
+	$data = $store->layer->prepareForMySQL($d);
+	$sql = str_replace("%vals", $data, $query);
+	do_query( $sql );
 
 	if ( isset($d["Files"]) && $d["Files"] != null ) {
-      foreach($d["Files"] as $f) {
-	$sql = "REPLACE INTO " . $store->layer->prefix . "donation_files SET id = '$id', hash = '$f'";
-	mysql_query( $sql );
-      }
+	  foreach($d["Files"] as $f) {
+	    $sql = "REPLACE INTO " . $store->layer->prefix . "donation_files SET id = '$id', hash = '$f'";
+	    do_query( $sql );
+	  }
 	}
-    }	
+      }	
+    }
+
   }
 }
 ?>
