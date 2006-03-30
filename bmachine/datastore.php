@@ -26,8 +26,6 @@ global $publish_dir;
 global $rss_dir;
 global $text_dir;
 
-
-//class FlatFileStore {
 class DataStore {
 
   var $error;
@@ -41,14 +39,14 @@ class DataStore {
 	 */
 	function DataStore($force_flat = false) {
 
-    //error_log("DataStore constructor");
+    debug_message("DataStore constructor");
 
 		if ( $force_flat == false ) {
-      //error_log("Trying MySQL");
+      debug_message("Trying MySQL");
 			$this->layer = new MySQLDataLayer();
 	
 			if (!$this->layer->setup()) {
-        //error_log("couldn't attach to mysql");
+        debug_message("couldn't attach to mysql");
 				$this->layer = new BEncodedDataLayer();
 				if (!$this->layer->setup()) {
 					$this->is_setup = false;
@@ -61,7 +59,7 @@ class DataStore {
 
 
     if ( $this->is_setup == false ) {
-      //error_log("forced to use flat file");
+      debug_message("forced to use flat file");
 			$this->layer = new BEncodedDataLayer();
 			if (!$this->layer->setup()) {
 				$this->is_setup = false;
@@ -73,7 +71,7 @@ class DataStore {
 
 
 		
-    //error_log("Register hooks");
+    debug_message("Register hooks");
 
 		//
 		// register some hooks which will be called at different places
@@ -89,14 +87,14 @@ class DataStore {
 		}
 		else {
 			$this->layer->registerHook("files", "get", "MySQLFileHook");
+			$this->layer->registerHook("files", "pre-save", "MySQLPreSaveFileHook");
+			$this->layer->registerHook("files", "save", "MySQLSaveFileHook");
 			$this->layer->registerHook("channels", "pre-save", "MySQLPreSaveChannelHook");
 			$this->layer->registerHook("channels", "save", "MySQLSaveChannelHook");
 			$this->layer->registerHook("channels", "get", "MySQLGetChannelHook");
 			$this->layer->registerHook("channels", "pre-delete", "MySQLDeleteChannelHook");
 			$this->layer->registerHook("donations", "get", "MySQLGetDonationHook");
 		}
-
-    //error_log("done with constructor");
 	}
 	
 	/**
@@ -133,7 +131,7 @@ class DataStore {
    * @returns array of files
    */
   function getAllFiles() {
-		//error_log("getAllFiles");
+		debug_message("getAllFiles");
 		return $this->layer->getAll("files");
   }
 
@@ -142,15 +140,75 @@ class DataStore {
    * @returns file array
    */
   function getFile( $hash, $handle = null ) {
-		//error_log("getFile: $hash");
 		$f = $this->layer->getOne("files", $hash, $handle);
-    //error_log("getFile - called getOne");
     if ( count($f) > 0 ) {
       return $f;
     }
     return null;
   }
 
+  /**
+   * given a channel ID, figure out when RSS was last generated
+   * @returns file array
+   */
+  function getRSSPublishTime( $channel = "ALL" ) {
+    debug_message("getRSSPublishTme $channel");
+		$f = $this->layer->getOne("rss", $channel);
+    if ( count($f) > 0 && isset($f["lastdate"]) ) {
+      return $f["lastdate"];
+    }
+    return 0;
+  }
+
+	/**
+	 * store the data for a single file
+	 */
+  function setRSSPublishTime( $channel = "ALL", $time = -1 ) {
+    debug_message("setRSSPublishTme $channel $time");
+		if ( $time <= -1 ) {
+			$time = time();
+		}
+		$content["lastdate"] = $time;
+		$content["channel"] = $channel;
+		$this->layer->saveOne("rss", $content, $channel);
+  }
+
+	/**
+	 * store the data for a single file
+	 */
+  function setRSSNeedsPublish( $channel = "ALL" ) {
+    debug_message("setRSSNeedsPublish $channel");
+		$f = $this->layer->getOne( "rss", $channel );
+		$f["time"] = time();
+		$f["channel"] = $channel;
+    debug_message("setRSSNeedsPublish - save data");
+		$this->layer->saveOne("rss", $f, $channel);
+  }
+	
+
+	function generateRSS() {
+    debug_message("generateRSS");
+		$rss = $this->layer->getAll("rss");
+		
+		$make_all = false;
+
+		foreach($rss as $r) {
+			if ( !isset($r["lastdate"]) || $r["lastdate"] <= $r["time"] ) {
+				$make_all = true;
+
+        debug_message("generateRSS: " . $r["channel"] );
+
+				makeChannelRss($r["channel"], false);
+				$r["lastdate"] = time();
+				$this->layer->saveOne("rss", $r, $r["channel"]);
+			}
+		}
+		
+		if ( $make_all == true ) {
+			makeChannelRss("ALL", false);
+		}
+	}
+	
   /**
    * given a filename, try and figure out what its hash is
    */
@@ -173,7 +231,6 @@ class DataStore {
 	 * @returns true if successful, false on error and sets global $errstr
 	 */
 	function DeleteFile($id) {
-
 		return $this->layer->deleteOne("files", $id);
 	} // DeleteFile
 	
@@ -218,9 +275,26 @@ class DataStore {
 	}
 
 	/**
+	 * return an array of channel IDs that contain this file
+	 */
+	function channelsForFile($filehash) {
+
+		$out = array();
+		$channels = $this->getAllChannels();
+		foreach($channels as $c ) {
+			if ( $this->channelContainsFile($filehash, $c) ) {
+				$out[] = $c["ID"];			
+			}
+		}	
+		return $out;
+	}
+
+	/**
 	 * remove the file from the specified channel
 	 */
 	function removeFileFromChannel($channel, $key, $index = -1) {
+
+		$this->layer->lockResources( array("channels", "channel_files") );
 
 		if ( $this->layer->type() == "flat file" ) {
 
@@ -248,14 +322,17 @@ class DataStore {
       $sql = $qarr["delete_by_file"];
       $sql = str_replace("%key", $key, $sql);
       $sql .= " AND channel_id = " . $channel["ID"];
-      $result = mysql_query( $sql );
+      $result = do_query( $sql );
 		}
+
+		$this->layer->unlockResources( array("channels", "channel_files") );
 	}
 
 	/**
 	 * remove the file from the specified channel_section
 	 */
 	function removeFileFromChannelSection($channel, $section, $key) {
+		$this->layer->lockResources( array("channels", "channel_sections") );
 		if ( $this->layer->type() == "flat file" ) {
 			unset($channel['Sections'][$section]['Files'][$key]);
 			$this->saveChannel($channel);	
@@ -263,6 +340,7 @@ class DataStore {
 		else {
 			$this->layer->removeFileFromChannelSection($channel, $key);
 		}
+		$this->layer->unlockResources(array("channels", "channel_sections") );
 	}
 
 
@@ -286,27 +364,30 @@ class DataStore {
    * remove the specified file from the given donation setup
    */
 	function removeFileFromDonation($id, $donation_id) {
+		$this->layer->lockResources( array("donations", "donation_files") );
 		if ( $this->layer->type() == "flat file" ) {
 			$donations = $this->layer->getAllLock("donations", $handle);
 			if ( isset($donations[$donation_id]) && isset($donations[$donation_id]['Files'][$id]) ) {
 				unset($donations[$donation_id]['Files'][$id]);
 			}
 			$this->layer->saveAll("donations", $donations, $handle);
-			$this->layer->unlockResource("donations");
 		}
 		else {
       $qarr = $this->layer->getTableQueries("donation_files");
       $sql = $qarr["delete"];
       $sql = str_replace("%key", $donation_id, $sql);
       $sql = str_replace("%hash", $id, $sql);
-      $result = mysql_query( $sql );
+      $result = do_query( $sql );
 		}
+
+		$this->layer->unlockResources( array("donations", "donation_files") );
 	}
 	
   /**
    * add the specified file to the given donation setup
    */
 	function addFileToDonation($id, $donation_id) {
+		$this->layer->lockResources( array("donations", "donation_files") );
 		if ( $this->layer->type() == "flat file" ) {
       $donations = $this->layer->getAllLock("donations", $handle);
 	
@@ -314,8 +395,7 @@ class DataStore {
         $donations[$donation_id]['Files'][$id] = 1;	
         $this->layer->saveAll("donations", $donations, $handle);
       }
-      
-      $this->layer->unlockResource("donations");
+
     }
     else {
       $tmp = array();
@@ -326,8 +406,9 @@ class DataStore {
       $qarr = $this->layer->getTableQueries("donation_files");
       $sql = $qarr["insert"];
 			$sql = str_replace("%vals", $data, $sql);
-      mysql_query( $sql );
+      do_query( $sql );
     }
+		$this->layer->unlockResources( array("donations", "donation_files") );
   }
     
 
@@ -336,9 +417,11 @@ class DataStore {
    * @returns user data
    */
   function getAllUsers() {
-    //error_log("get users");
-		$usertmp = $this->layer->getAll("users");
 
+    $this->layer->lockResources("users");
+
+    debug_message("get users");
+		$usertmp = $this->layer->getAll("users");
 		$users = array();
 
 		$idx = 1;
@@ -350,13 +433,12 @@ class DataStore {
 					$idx++;
 				}
 
-//				else {
+
         if ( !isset($person['Username']) ) {
         }
         else {
 					$users[$person['Username']] = $person;
         }
-//				}
 			}
 		}	
 				
@@ -364,10 +446,11 @@ class DataStore {
 		// if we had some screwy user data, then let's rewrite the file so it doesn't happen again
 		//
 		if ( $idx > 1 ) {
-      //error_log("save users to fix data");
+      debug_message("save users to fix data");
       $this->layer->saveAll("users", $users);
      }
 
+    $this->layer->unlockResources("users");
 		return $users;
   }
 
@@ -388,8 +471,10 @@ class DataStore {
    * @returns true on success, false on failure
    */
   function saveDonation($newcontent, $id) {
-		//error_log("store donation $id");
+		debug_message("store donation $id");
+    $this->layer->lockResources("donations");
 		return $this->layer->saveOne("donations", $newcontent, $id);
+    $this->layer->unlockResources("donations");
   }
 
   /**
@@ -418,83 +503,12 @@ class DataStore {
 		return $this->saveChannel($channel);
 	}
 
-/*  function addNewChannel( $channelname, $description = "",	$icon = "", $publisher = "", 
-                          $weburl = "", $libraryurl = "", $files = "", $cssurl = "", $openChannel = "" ) {
-
-		$lastID = 0;
-		$newchannels = $this->layer->getAllLock("channels", $handle);
-
-		if ( ! isset($handle) ) {
-			global $errstr;
-			$errstr = "Couldn't load channels data";
-			return false;		
-		}
-
-    foreach ( $newchannels as $channel ) {
-      if ( $channel['ID'] > $lastID ) {
-        $lastID = $channel['ID'];
-      }
-    }
-
-    $lastID++;
-
-    if ( $lastID == "" ) {
-      $lastID = 1;
-    }
-
-    if ( $libraryurl == "" ) {
-      $libraryurl = get_base_url() . "library.php?i=" . $lastID;
-    }
-
-    if ( $icon == "http://" ) {
-      $icon = "";
-    }
-
-    if ( $cssurl == '' ) {
-      $cssurl = "default.css";
-    }
-
-    $newchannels[$lastID]['ID']=$lastID;
-    $newchannels[$lastID]['Name']=$channelname;
-    $newchannels[$lastID]['Description']=$description;
-    $newchannels[$lastID]['Icon']=$icon;
-    $newchannels[$lastID]['Publisher']=$publisher;
-    $newchannels[$lastID]['WebURL']=$weburl;
-    $newchannels[$lastID]['LibraryURL']=$libraryurl;
-
-    $newchannels[$lastID]['Files']=array();
-    $newchannels[$lastID]['Options']=array();
-
-    $newchannels[$lastID]['Options']['Thumbnail']=true;
-    $newchannels[$lastID]['Options']['Title']    =true;
-    $newchannels[$lastID]['Options']['Creator']  =false;
-    $newchannels[$lastID]['Options']['Description']     =false;
-    $newchannels[$lastID]['Options']['Length']   =false;
-    $newchannels[$lastID]['Options']['Published']=false;
-    $newchannels[$lastID]['Options']['Torrent']  =false;
-    $newchannels[$lastID]['Options']['URL']      =false;
-    $newchannels[$lastID]['Options']['Filesize'] =false;
-    $newchannels[$lastID]['Options']['Keywords'] =true;
-    $newchannels[$lastID]['CSSURL']              =$cssurl;
-
-    $newchannels[$lastID]['Sections']=array();
-    $newchannels[$lastID]['Sections']['Featured']=array();
-    $newchannels[$lastID]['Sections']['Featured']['Name']='Featured';
-    $newchannels[$lastID]['Sections']['Featured']['Files']=array();
-    $newchannels[$lastID]['OpenPublish']=$openChannel;
-    $newchannels[$lastID]['Created']    =time();
-		
-		$this->layer->saveAll("channels", $newchannels, $handle);
-		$this->layer->unlockResource("channels");
-
-    return $lastID;
-  }*/
-
 	/**
 	 * store a single channel
 	 */
 	function saveChannel($channel) {
 
+		$this->layer->lockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
 		$channels = $this->layer->getAllLock("channels", $handle);
 
 		if ( ! isset($channel["ID"]) ) {	
@@ -506,12 +520,14 @@ class DataStore {
 				return false;		
 			}
 	
-			foreach ( $channels as $tmp ) {
-				if ( $tmp['ID'] > $lastID ) {
-					$lastID = $tmp['ID'];
+			if ( isset($channels) ) {
+				foreach ( $channels as $tmp ) {
+					if ( $tmp['ID'] > $lastID ) {
+						$lastID = $tmp['ID'];
+					}
 				}
 			}
-			
+
 			$channel["ID"] = $lastID + 1;
 		}
 
@@ -546,9 +562,9 @@ class DataStore {
 			$channel['Sections']['Featured']['Files']=array();
 		}
 	
-//		$this->layer->saveOne("channels", $channel, $channel["ID"]);
 		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 
+		$this->layer->unlockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
     return $channel["ID"];
 	}
 
@@ -567,11 +583,13 @@ class DataStore {
 	 * store the data for a single file
 	 */
   function store_file($newcontent, $id = "") {
+    $this->layer->lockResources( array("files", "channels", "section_files", "channel_files", "channel_options", "file_keywords", "file_people") );
 		if ( $id == "" ) {
 			$id = $newcontent["ID"];
 		}
-		////error_log("store file $id");
+
 		$this->layer->saveOne("files", $newcontent, $id);
+    $this->layer->unlockResources( array("files", "channels", "section_files", "channel_files", "channel_options", "file_keywords", "file_people") );
   }
 
   /**
@@ -579,6 +597,9 @@ class DataStore {
    * @returns true on success, false on failure
    */
   function deleteUser( $username ) {
+
+		$this->layer->lockResources( array("users") );
+
 		global $data_dir;
 		$users = $this->layer->getAllLock("users", $handle);
 
@@ -587,7 +608,7 @@ class DataStore {
 		}
 
 		$this->layer->deleteOne("users", $username, $handle);
-		$this->layer->unlockResource("users");
+		$this->layer->unlockResources( array("users") );
     return true;
   }
 
@@ -601,17 +622,16 @@ class DataStore {
     global $settings;
     global $data_dir;
 
-//error_log("addNewUser");
-
-    $contents = '';
     $username = trim(mb_strtolower( $username ));
 
 		if ( strlen($username) == 0 || $username == "" ) {
 				$error = "Please specify a username";
 				return false;		
 		}
+
+		$this->layer->lockResources( array("users", "newusers") );
 		
-//error_log("addNewUser - lock users");
+		$handle2 = NULL;
     $users = $this->layer->getAllLock("users", $handle2);
 
     if ( isset( $users[$username] ) ) {
@@ -633,7 +653,7 @@ class DataStore {
 			$isAdmin = true;
 		}
 	
-//error_log("addNewUser - lock newusers");
+		debug_message("addNewUser - lock newusers");
 		$newusers = $this->layer->getAllLock("newusers", $handle);
 	
 		if ( !isset($handle) ) {
@@ -643,24 +663,20 @@ class DataStore {
 				$error = $errstr;
 			}
 
-			$this->layer->unlockResource("newusers");
-			$this->layer->unlockResource("users");
+			$this->layer->unlockResources( array("users", "newusers") );
 			return false;
 		}
 
     $hashlink = $this->userHash( $username, $password, $email );
     $filehash = sha1( $username . $hashlink );
-    $newusers[$filehash]['Hash']   =hashpass( $username, $password );
-    $newusers[$filehash]['Email']  =$email;
+    $newusers[$filehash]['Hash'] = hashpass( $username, $password );
+    $newusers[$filehash]['Email'] = $email;
     $newusers[$filehash]['IsAdmin'] = isset($isAdmin) && $isAdmin == true ? 1 : 0;
-    $newusers[$filehash]['Created']=time();
+    $newusers[$filehash]['Created'] = time();
 
-//error_log("addNewUser - save newusers");
 		$result = $this->layer->saveOne("newusers", $newusers[$filehash], $filehash, $handle);
+		$this->layer->unlockResources( array("users", "newusers") );
 
-//error_log("addNewUser - unlock both");		
-		$this->layer->unlockResource("newusers");
-		$this->layer->unlockResource("users");
 		
 		// some sort of error, so stop processing
 		if ( $result == false ) {
@@ -691,7 +707,6 @@ class DataStore {
 			}
 		}
 	
-//error_log("addNewUser - DONE!");
 		return true;
   }
 	
@@ -723,15 +738,18 @@ class DataStore {
     global $settings;
     global $data_dir;	
 	
-    $contents = '';
+	
+		$handle = NULL;
+		$handle2 = NULL;
+
     $success = false;
 
 		$name = $username;
     $username = trim(mb_strtolower( $username ));
-
     $filehash = sha1( $username . $hashlink );
 
-//error_log("authNewUser - lock newusers");
+		$this->layer->lockResources( array("users", "newusers") );
+
 		$newusers = $this->layer->getAllLock("newusers", $handle);
 		if ( !isset($handle) || $handle == "" ) {
 			global $errstr;
@@ -740,8 +758,6 @@ class DataStore {
 		}
 
     if ( isset( $newusers[$filehash] ) ) {
-
-//error_log("authNewUser - lock users");
 			$users = $this->layer->getAllLock("users", $handle2);
 
 			if ( !isset($handle2) || $handle2 == "" ) {
@@ -781,8 +797,6 @@ class DataStore {
         $pending = true;
       }
 
-					    fseek($handle2, 0);
-
       $users[$username]['Hash']     =$newusers[$filehash]['Hash'];
       $users[$username]['Name']     =$name;
       $users[$username]['Email']    =$newusers[$filehash]['Email'];
@@ -801,17 +815,15 @@ class DataStore {
 			$success = false;
 		}
 
-//error_log("authNewUser - unlock users");
-		$this->layer->unlockResource("users");
+//		$this->layer->unlockResource("users");
+
 		if ( $success == true ) {
-//error_log("authNewUser - delete newusers");
 			$this->layer->deleteOne("newusers", $filehash, $handle);
 		}
-//error_log("authNewUser - unlock newusers");
-		$this->layer->unlockResource("newusers");
 
-//		$this->saveAll("newusers", $newusers, $handle);
-		
+//		$this->layer->unlockResource("newusers");
+		$this->layer->unlockResources( array("users", "newusers") );
+
     return $success;
   }
 
@@ -839,7 +851,7 @@ class DataStore {
 			$result = true;
 		}
 		
-		$this->layer->unlockResource("users");
+		$this->layer->unlockResource( "users" );
 		return $result;
   }
 
@@ -853,7 +865,6 @@ class DataStore {
    */
   function updateUser( $username, $hash, $email, $canAdmin = false, $isPending = true ) {
 
-    $contents = '';
     global $data_dir;
 	
     $user = $this->layer->getOne("users", $username);
@@ -887,7 +898,66 @@ class DataStore {
     else {
       return $this->FlatBTAnnounce($info_hash, $event, $remote_addr, $port, $left, $numwant);
     }
+
+    switch ( $event ) {
+
+      /*    case "started":
+      $torrentfile = $this->getTorrentFromHash($info_hash);
+      $id = $this->getHashFromFilename($torrentfile);
+      $this->recordStartedDownload($id, true);
+    case "stopped":
+      */
+
+    case "completed":
+      $torrentfile = $this->getTorrentFromHash($info_hash);
+      $id = $this->getHashFromFilename($torrentfile);
+      $this->recordCompletedDownload($id);
+      break;
+      
+    default:
+      break;
+    }
   }
+
+  function recordStartedDownload($id, $is_torrent = false) {
+
+    error_log("START: $id");
+
+    if ( $is_torrent == true ) {
+      $key = "downloading";
+    }
+    else {
+      $key = "downloads";
+    }
+
+    $info = $this->layer->getOne("stats", $id, $handle);
+    if ( !isset($info[$key]) ) {
+      $info[$key] = 0;
+    }
+    $info[$key]++;
+    $this->layer->saveOne("stats", $info, $id, $handle);
+  }
+
+  function recordCompletedDownload($id) {
+    $info = $this->layer->getOne("stats", $id, $handle);
+
+    if ( !isset($info["downloads"]) ) {
+      $info["downloads"] = 0;
+    }
+    if ( !isset($info["downloading"]) ) {
+      $info["downloading"] = 0;;
+    }
+
+    $info["downloads"]++;
+    $info["downloading"]--;
+
+    if ( $info["downloading"] < 0 ) {
+      $info["downloading"] = 0;
+    }
+
+    $this->layer->saveOne("stats", $info, $id, $handle);
+  }
+
 
 	function FlatBTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
 
@@ -946,19 +1016,19 @@ class DataStore {
 
 		$handle = fopen( $data_dir . '/' . $info_hash, "rb+" );
 		flock( $handle, LOCK_EX );
-		$peer_num = intval( filesize( 'data/' . $info_hash ) / 7 );
+		$peer_num = intval( filesize( $data_dir . '/' . $info_hash ) / 7 );
 
 		if ( $peer_num > 0 ) {
 			$data = fread( $handle, $peer_num * 7 );
 		}
 		else {
-			$data='';
+			$data = '';
 		}
 
 		$peer = array();
 		$updated = false;
 
-		//Update the peer
+		// Update the peer
 		for ( $i=0; $i < $peer_num; $i++ ) {
 
 			if ( ( $peer_ip . $peer_port ) == substr( $data, $i * 7 + 1, 6 ) ) {
@@ -1009,11 +1079,11 @@ class DataStore {
 		fclose( $handle );
 		clearstatcache();
 
-		$o='';
+		$o = '';
 
 		// Fill $o with a list of peers
 		if ( $event == 'stopped' || $numwant === 0 ) {
-			$o='';
+			$o = '';
 		}
 		else {
 			if ( $peer_num > 50 ) {
@@ -1030,10 +1100,12 @@ class DataStore {
 			}
 		}
 
-    if ($peer_num <= 3)
+    if ($peer_num <= 3) {
       $interval = '30';
-    else
+    }
+    else {
       $interval = '300';
+    }
 
 		return 'd8:intervali'.$interval.'e5:peers' . strlen( $o ) . ':' . $o . 'e';
 	}
@@ -1058,13 +1130,13 @@ class DataStore {
     }
 
     if ( $event == 'stopped' ) {
-      mysql_query ( "DELETE FROM " . $this->layer->prefix . "peers WHERE info_hash='" . mysql_escape_string(
-										$info_hash ) . "' AND ip='"
-		    . mysql_escape_string( $peer_ip ) . "' AND port='" . mysql_escape_string( $peer_port )
-		    . "'" );
+      do_query ( "DELETE FROM " . $this->layer->prefix . "peers 
+                  WHERE info_hash='" . mysql_escape_string($info_hash ) . "' 
+                  AND ip='" . mysql_escape_string( $peer_ip ) . "' 
+                  AND port='" . mysql_escape_string( $peer_port ) . "'" );
 		}
     else {
-      mysql_query ( "REPLACE INTO " . $this->layer->prefix . "peers (info_hash,ip,port,seeder,time) VALUES ('"
+      do_query ( "REPLACE INTO " . $this->layer->prefix . "peers (info_hash,ip,port,seeder,time) VALUES ('"
 		    . mysql_escape_string( $info_hash )
 		    . "', '" . mysql_escape_string( $peer_ip )
 		    . "','" . mysql_escape_string( $peer_port ) . "','" . mysql_escape_string( $seeder )
@@ -1074,20 +1146,22 @@ class DataStore {
     $peer_num = 0;
 
 
-    mysql_query( "DELETE FROM " . $this->layer->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
+    do_query( "DELETE FROM " . $this->layer->prefix . "peers 
+               WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
 
     $o = '';
 
-    //Fill $o with a list of peers
+    // Fill $o with a list of peers
     if ( $event == 'stopped' || $numwant === 0 ) {
-      $o='';
+      $o = '';
     }
     else {
-      $result=mysql_query( "SELECT CONCAT(ip,port) as out FROM " . $this->layer->prefix . "peers WHERE info_hash='"
-			   . mysql_escape_string( $info_hash )
-			   . "' ORDER BY RAND() LIMIT 50" );
+      $result = do_query( "SELECT CONCAT(ip,port) as out 
+                         FROM " . $this->layer->prefix . "peers 
+                         WHERE info_hash='" . mysql_escape_string( $info_hash ) . "' 
+                         ORDER BY RAND() LIMIT 50" );
 
-      while ( $row=mysql_fetch_array( $result ) ) {
+      while ( $row = mysql_fetch_array( $result ) ) {
 				$peer_num++;
 				$o .= $row[0];
       }
@@ -1115,15 +1189,15 @@ class DataStore {
 		$incomplete = 0;
 
     if ( $this->layer->type() == "MySQL" ) {
-      mysql_query( "DELETE FROM " . $this->layer->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
+      do_query( "DELETE FROM " . $this->layer->prefix . "peers WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
       
-      $query = mysql_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+      $query = do_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
                            mysql_escape_string($info_hash) . "'" );
       
       $row = mysql_fetch_array($query);
       $total = $row[0];
       
-      $query = mysql_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+      $query = do_query("SELECT COUNT(*) FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
                            mysql_escape_string( $info_hash ) . "' AND seeder = 1" );
       
       $row = mysql_fetch_array($query);
@@ -1147,12 +1221,12 @@ class DataStore {
         $size = filesize(  $data_dir . '/' . $info_hash );
         
         if ( $size > 0 ) {
-          $x=fread( $handle, $size );
+          $x = fread( $handle, $size );
           flock( $handle, LOCK_UN );
           fclose ( $handle );
           $no_peers = intval( strlen( $x ) / 7 );
 
-          for ( $j=0; $j < $no_peers; $j++ ) {
+          for ( $j = 0; $j < $no_peers; $j++ ) {
             $t_peer_seed = join( '', unpack( "C", substr( $x, $j * 7, 1 ) ) );
             
             if ( $t_peer_seed >= 128 ) {
@@ -1212,7 +1286,7 @@ class DataStore {
 	function getHashFromTorrent( $filename ) {
 
     if ( $this->layer->type() == "MySQL" ) {
-      $result = mysql_query( "SELECT info_hash from " . $this->layer->prefix . "torrents 
+      $result = do_query( "SELECT info_hash from " . $this->layer->prefix . "torrents 
                                WHERE filename = '" . mysql_escape_string($filename) . "'" );
 
       $tmp = mysql_fetch_array( $result );
@@ -1230,7 +1304,7 @@ class DataStore {
 	function getTorrentFromHash($hash) {
 
 		$torrents = $this->getTorrentList();
-		
+
 		foreach($torrents as $t) {
 				$tmp = $this->getTorrent( $t );
 				if ( isset($tmp["info"]["name"]) && $hash == $tmp["sha1"] ) {
@@ -1248,7 +1322,7 @@ class DataStore {
 
     if ( $this->layer->type() == "MySQL" ) {
       $list = array();
-      $result = mysql_query( "SELECT filename from " . $this->layer->prefix . "torrents" );
+      $result = do_query( "SELECT filename from " . $this->layer->prefix . "torrents" );
       
       while ( $row = mysql_fetch_array( $result ) ) {
         $list[]=$row[0];
@@ -1311,7 +1385,7 @@ class DataStore {
   function getRawTorrent( $filename ) {
 
     if ( $this->layer->type() == "MySQL" ) {
-      $result = mysql_query( "SELECT raw_data FROM " . $this->layer->prefix . "torrents 
+      $result = do_query( "SELECT raw_data FROM " . $this->layer->prefix . "torrents 
                               WHERE filename='" . 
                              mysql_escape_string($filename ) . "'" );
       
@@ -1348,7 +1422,7 @@ class DataStore {
   function torrentExists( $info_hash ) {
 
     if ( $this->layer->type() == "MySQL" ) {
-      $result =mysql_query( "SELECT COUNT(*) FROM " . 
+      $result =do_query( "SELECT COUNT(*) FROM " . 
                             $this->layer->prefix . "torrents WHERE info_hash='" . 
                             mysql_escape_string( $info_hash ) . "'" );
       $row=mysql_fetch_row( $result );
@@ -1373,7 +1447,7 @@ class DataStore {
       $peers=array();
 
       $now   =time();
-      $result=mysql_query(
+      $result=do_query(
                           "SELECT ip, port, UNIX_TIMESTAMP(time) AS time,	 if (seeder,'seeder','leecher') AS what FROM " . 
                           $this->layer->prefix . "peers WHERE info_hash = '" . mysql_escape_string( $info_hash )
                           . "'" );
@@ -1460,19 +1534,19 @@ class DataStore {
 
     global $data_dir;
 
-    //error_log("isValidAuthHash");
+    debug_message("isValidAuthHash");
 
 		if ( file_exists( $data_dir . '/hash' ) ) {
 
-      //error_log("isValidAuthHash - check for hash");
+      debug_message("isValidAuthHash - check for hash");
     
 			$hashes = bdecode( file_get_contents( $data_dir . '/hash' ) );
      // foreach($hashes as $h => $t) {
-     //   //error_log("AuthHash: $h $t");
+     //   debug_message("AuthHash: $h $t");
      // }
 
-      //error_log("AuthHash: check for $username $hash - " . sha1($username . $hash) );
-      //error_log("AuthHash: " . $hashes[sha1( $username . $hash )]);
+      debug_message("AuthHash: check for $username $hash - " . sha1($username . $hash) );
+      debug_message("AuthHash: " . $hashes[sha1( $username . $hash )]);
 
 			return ( isset( $hashes[sha1( $username . $hash )] ) && 
 							( $hashes[sha1( $username . $hash )] > ( time() - 3600 ) ) 
@@ -1488,42 +1562,9 @@ class DataStore {
 	 * note - we also cleanup old hashes in this function
 	 */
   function getAuthHash( $username, $passhash ) {
-
     $hash = md5( $username . microtime() . rand() . $passhash );
     $this->addAuthHash($username, $hash);
     return $hash;
-
-    /*    global $data_dir;
-
-    $contents = '';
-
-    $handle = fopen(  $data_dir . '/hash', "ab+" );
-    fseek( $handle, 0 );
-    flock( $handle, LOCK_EX );
-
-    while ( !feof( $handle ) ) {
-      $contents .= fread( $handle, 8192 );
-    }
-
-    $hashes = bdecode( $contents );
-
-    if ( ! is_array( $hashes ) )
-      $hashes = array();
-
-    $hashes[sha1( $username . $hash )] = time();
-
-	  $this->clearOldAuthHashes($hashes);
-
-    ftruncate( $handle, 0 );
-    fseek( $handle, 0 );
-    fwrite( $handle, bencode( $hashes ) );
-
-    fclose ( $handle );
-    return $hash;
-    */
-
-    //    $hash = md5( $username . microtime() . rand() . $passhash );
-    //    return $this->addAuthHash($username, $hash);
   }
 
   function addAuthHash( $username, $hash ) {
@@ -1656,16 +1697,16 @@ class DataStore {
     global $data_dir;
     global $torrents_dir;
     
-    //error_log("addTorrentToTracker");
+    debug_message("addTorrentToTracker");
 
     $rawTorrent = file_get_contents(  "$torrents_dir/$torrent" );
     
     if ( !file_exists( "$torrents_dir/$torrent" ) ) {
-      //error_log("addTorrentToTracker: torrent doesn't exist!");
+      debug_message("addTorrentToTracker: torrent doesn't exist!");
       return false;
     }
     else {
-      //error_log("addTorrentToTracker: get hash");
+      debug_message("addTorrentToTracker: get hash");
       
       chmod( "$torrents_dir/$torrent", 0777);
       
@@ -1681,7 +1722,7 @@ class DataStore {
     
     if ( $this->layer->type() == "MySQL" ) {
 
-      //error_log("addtorrent: here");
+      debug_message("addtorrent: here");
 
       $data = bdecode( $rawTorrent );
       
@@ -1690,7 +1731,7 @@ class DataStore {
 											'" . mysql_escape_string( $data['sha1'] ) . "',
 											'" . mysql_escape_string( $torrent ) . "',
 											'" . mysql_escape_string( $rawTorrent ) . "')";
-      mysql_query ( $sql );
+      do_query ( $sql );
       
     }
     
@@ -1712,16 +1753,16 @@ class DataStore {
 		
 		if ( $this->layer->type() == "MySQL" ) {
 
-			$result = mysql_query( "SELECT info_hash FROM " . $this->layer->prefix . "torrents WHERE filename='" . 
+			$result = do_query( "SELECT info_hash FROM " . $this->layer->prefix . "torrents WHERE filename='" . 
 				mysql_escape_string($torrent ) . "'" );
 	
 			if ( mysql_num_rows( $result ) > 0 ) {
 				$row = mysql_fetch_row( $result );
 				$info_hash=$row[0];
 	
-				mysql_query ( "DELETE FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
+				do_query ( "DELETE FROM " . $this->layer->prefix . "peers WHERE info_hash='" . 
 					mysql_escape_string( $info_hash ) . "'" );
-				mysql_query ( "DELETE FROM " . $this->layer->prefix . "torrents WHERE info_hash='" . 
+				do_query ( "DELETE FROM " . $this->layer->prefix . "torrents WHERE info_hash='" . 
 					mysql_escape_string( $info_hash ) . "'" );
 			}
 		}
@@ -1859,9 +1900,7 @@ EOD;
   }
 
 
-
-
-	/**
+  /**
 	 * try and setup our Mac/PC helper files, and return true/false according to our success
 	 */
 	function setupHelpers() {
@@ -1975,6 +2014,8 @@ function PostDeleteFile($id) {
 		makeChannelRss($channelID, false);
 	}
 
+	makeChannelRss("ALL", false);
+
 }
 
 function FlatGetChannelHook(&$c) {
@@ -1984,7 +2025,7 @@ function FlatGetChannelHook(&$c) {
 	}
 	if ( isset($c["Desc"]) ) {
 		$c["Description"] = $c["Desc"];
-		unset($c["Desc"]);
+    unset($c["Desc"]);
 	}
 }
 
@@ -1993,6 +2034,7 @@ function FileHook(&$f) {
 		$f["Description"] = $f["Desc"];
 		unset($f["Desc"]);
 	}
+
 }
 
 function MySQLFileHook(&$f) {
@@ -2008,8 +2050,11 @@ function MySQLFileHook(&$f) {
 	
 	// get keywords
 	$keys = $store->layer->getByKey("file_keywords", $f["ID"]);
-	foreach( $keys as $k ) {
-		$f["Keywords"][] = array( $k["word"] );
+
+	foreach( $keys as $num => $k ) {
+    if ( trim($k["word"]) != "" ) {
+      $f["Keywords"][] = trim($k["word"]);
+    }
 	}
 
 	// get people
@@ -2035,7 +2080,7 @@ function MySQLGetChannelHook(&$c) {
 	$sf_sql = $qarr["select"];
 
 	$sql = str_replace("%key", $c["ID"], $option_sql);
-	$result = mysql_query( $sql );
+	$result = do_query( $sql );
 
 	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
 		$c["Options"] = array();
@@ -2045,7 +2090,7 @@ function MySQLGetChannelHook(&$c) {
 	}	
 
 	$sql = str_replace("%key", $c["ID"], $section_sql);
-	$result = mysql_query( $sql );
+	$result = do_query( $sql );
 
 	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
 		$c["Sections"][ $row["Name"] ]["Name"] = $row["Name"];
@@ -2055,7 +2100,7 @@ function MySQLGetChannelHook(&$c) {
 		$sql = "SELECT * FROM " . $store->layer->prefix . "section_files WHERE 
 			channel_id = '" . $c["ID"] . "' AND 
 			Name = '" . mysql_escape_string( $row["Name"] ) . "'";
-		$result2 = mysql_query( $sql );
+		$result2 = do_query( $sql );
 		while ( $row2 = mysql_fetch_array( $result2, MYSQL_ASSOC ) ) {
 			$c["Sections"][ $row["Name"] ]["Files"][] = $row2["hash"];
 		} // while ($row2)
@@ -2063,7 +2108,7 @@ function MySQLGetChannelHook(&$c) {
 
 	$sql = "SELECT * FROM " . $store->layer->prefix . "channel_files WHERE 
 		channel_id = '" . $c["ID"] . "'";
-	$result2 = mysql_query( $sql );
+	$result2 = do_query( $sql );
 
 	$c["Files"] = array();
 	while ( $row2 = mysql_fetch_array( $result2, MYSQL_ASSOC ) ) {
@@ -2085,8 +2130,8 @@ function MySQLPreSaveChannelHook(&$channel) {
 	}
 
 	if ( $do_query == true ) {
-		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
-		mysql_query($sql);
+		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE channel_id = '" . $channel["ID"] ."' AND hash NOT IN (" . implode(",", $tmp) . ")";
+		do_query($sql);
 	}
 
 	$sect_temp = array();
@@ -2108,7 +2153,7 @@ function MySQLPreSaveChannelHook(&$channel) {
 				"section_files WHERE hash NOT IN (" . implode(",", $tmp) . ")
 				AND channel_id = '" . $channel["ID"] . "' AND
 					Name = '" . mysql_escape_string($s["Name"]) . "'";
-			mysql_query( $sql );
+			do_query( $sql );
 		}
 	}	
 
@@ -2116,36 +2161,36 @@ function MySQLPreSaveChannelHook(&$channel) {
 	$sql = "DELETE FROM " . $store->layer->prefix . 
 		"section_files WHERE channel_id = '" . $channel["ID"] . "' AND
 		Name NOT IN (" . implode(",", $sect_tmp) . ")";
-	mysql_query( $sql );
+	do_query( $sql );
 	
 	$sql = "DELETE FROM " . $store->layer->prefix . 
 		"channel_sections WHERE channel_id = '" . $channel["ID"] . "' AND
 		Name NOT IN (" . implode(",", $sect_tmp) . ")";
-	mysql_query( $sql );
+	do_query( $sql );
 
 	
 	// clear out old section files
 	$tmp = array();
 	foreach( $channel["Files"] as $f ) {
-//		$tmp[] = "'" . mysql_escape_string($f) . "'";
 		$tmp[] = "'" . mysql_escape_string($f[0]) . "'";
 	}
 
-	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE hash NOT IN (" . implode(",", $tmp) . ")";
-	mysql_query( $sql );
+	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files 
+          WHERE channel_id = '" . $channel["ID"] . "' 
+          AND hash NOT IN (" . implode(",", $tmp) . ")";
+	do_query( $sql );
 }
 
 function MySQLSaveChannelHook(&$channel) {
 
 	global $store;
 
-	// store channel files
 	foreach( $channel["Files"] as $f ) {
 		$sql = "REPLACE INTO " . $store->layer->prefix . "channel_files 
 			SET channel_id = " . $channel["ID"] . ", 
 			hash = '" . mysql_escape_string($f["0"]) . "', 
 			thetime = '" . mysql_escape_string($f["1"]) . "'";
-		mysql_query( $sql );
+		do_query( $sql );
 	}
 
 	// store options
@@ -2155,7 +2200,7 @@ function MySQLSaveChannelHook(&$channel) {
 	$channel["Options"]["ID"] = $channel["ID"];
 	$tmp = $store->layer->prepareForMySQL($channel["Options"]);
 	$sql = str_replace("%vals", $tmp, $query);
-	mysql_query( $sql );
+	do_query( $sql );
 
 	$qarr = $store->layer->getTableQueries("channel_sections");
 	$query = $qarr["insert"];
@@ -2168,7 +2213,7 @@ function MySQLSaveChannelHook(&$channel) {
 		$data = "channel_id = '" . $channel["ID"] . "', 
 			Name = '" . mysql_escape_string($s["Name"]) . "'";
 		$sql = str_replace("%vals", $data, $query);
-		mysql_query( $sql );
+		do_query( $sql );
 
 		// store section files
 		foreach($s["Files"] as $f) {
@@ -2177,23 +2222,23 @@ function MySQLSaveChannelHook(&$channel) {
 				hash = '" . mysql_escape_string($f) . "'";
 
 			$sql = str_replace("%vals", $data, $sf_sql);
-			mysql_query( $sql );
+			do_query( $sql );
 		}
 	}	
 }
 
 function MySQLDeleteChannelHook($id) {
 	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE channel_id = $id";
-	mysql_query($sql);
+	do_query($sql);
 
 	$sql = "DELETE FROM " . $store->layer->prefix . "section_files WHERE channel_id = $id";
-	mysql_query($sql);
+	do_query($sql);
 
 	$sql = "DELETE FROM " . $store->layer->prefix . "channel_sections WHERE channel_id = $id";
-	mysql_query($sql);
+	do_query($sql);
 
 	$sql = "DELETE FROM " . $store->layer->prefix . "channel_options WHERE channel_id = $id";
-	mysql_query($sql);
+	do_query($sql);
 }
 
 function MySQLGetDonationHook(&$d) {
@@ -2204,15 +2249,119 @@ function MySQLGetDonationHook(&$d) {
 	$sql = $qarr["select"];
 
 	$sql = str_replace("%key", $d["id"], $sql);
-	$result = mysql_query( $sql );
+	$result = do_query( $sql );
 
   $d["Files"] = array();
-	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
-    $d["Files"][$row["hash"]] = 1;
-	}	
+  if ( $result ) {
+    while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+      $d["Files"][$row["hash"]] = 1;
+    }	
+  }
 
 	return $d;
 }
+
+
+function MySQLPreSaveFileHook(&$f) {
+
+  //
+	// clear out old keywords
+  //
+	$tmp = array();
+	$do_query = false;
+
+	foreach( $f["Keywords"] as $num => $kw ) {
+		$tmp[] = "'" . mysql_escape_string($kw) . "'";
+		$do_query = true;
+	}
+
+	if ( $do_query == true ) {
+    global $store;
+		$sql = "DELETE FROM " . $store->layer->prefix . "file_keywords 
+            WHERE ID = '" . $f["ID"] ."' AND 
+            word NOT IN (" . implode(",", $tmp) . ")";
+		do_query($sql);
+	}
+
+
+  //
+  // delete any people that were removed
+  //
+	$tmp = array();
+	$do_query = false;
+
+	foreach( $f["People"] as $num => $p ) {
+		$tmp[] = "'" . mysql_escape_string($p['0']) . "'";
+		$do_query = true;
+	}
+
+	if ( $do_query == true ) {
+		$sql = "DELETE FROM " . $store->layer->prefix . "file_people
+            WHERE ID = '" . $f["ID"] ."' AND 
+            name NOT IN (" . implode(",", $tmp) . ")";
+		do_query($sql);
+	}
+
+
+}
+
+
+function MySQLSaveFileHook(&$f) {
+  global $store;
+		
+  $qarr = $store->layer->getTableQueries("file_people");
+  $people_sql = $qarr["insert"];
+		
+  $qarr = $store->layer->getTableQueries("file_keywords");
+  $kw_sql = $qarr["insert"];
+		
+  // desc is a reserved word in SQL, so lets not be using that
+  if ( isset($f["Desc"]) ) {
+    $f["Description"] = $f["Desc"];
+    unset($f["Desc"]);
+  }
+  
+  /*  $data = $store->layer->prepareForMySQL($f);
+      
+  $sql = str_replace("%vals", $data, $query);
+  do_query( $sql );
+  */
+  
+  foreach($f["People"] as $p) {
+    $tmp["Name"] = trim($p[0]);
+    $tmp["Role"] = trim($p[1]);
+    $tmp["ID"] = $f["ID"];
+    
+    if ( $tmp["Name"] != "" ) {
+      $data = $store->layer->prepareForMySQL($tmp);
+      $sql = str_replace("%vals", $data, $people_sql);
+      do_query( $sql );
+    }
+  }
+
+  foreach($f["Keywords"] as $num => $kw) {
+    $kw = trim($kw);
+    if ( $kw != "" ) {
+      $sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (id, word) 
+								VALUES ('" . mysql_escape_string($f["ID"]) . "', 
+								'" . mysql_escape_string($kw) . "')";
+    
+    
+      do_query( $sql );
+    }
+  } 
+
+  foreach($f["post_channels"] as $num => $channel_id) {
+    $sql = "REPLACE INTO " . $store->layer->prefix . "channel_files (channel_id, hash, thetime) 
+								VALUES ('" . mysql_escape_string($channel_id) . "', 
+								'" . mysql_escape_string($f["ID"]) . "',
+								'" . mysql_escape_string($f["Publishdate"]) . ")";
+    
+    do_query( $sql );   
+  }
+
+} // MySQLSaveFileHook
+
 
 /*
  * Local variables:
