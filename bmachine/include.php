@@ -1206,11 +1206,57 @@ function comp($a, $b) {
  * @returns formatted string
  */
 function encode($s) {
+  $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
+
+  // this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
+  // and fixes the problem of htmlspecialchars replacing & with &amp and breaking character entities
+  //	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
+
+  // strip non-ascii characters
+  $s = trim($s,"\x7f..\xff\x0..\x1f");
+  //print "$s<br>";
+
+  $s = preg_replace(
+		    "/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", 
+		    //		  htmlentities(
+		    strip_tags(//$s,
+			       //utf8_decode($s),
+			       html_entity_decode($s),
+			       "<b><strong><i><em><ul><li><ol>"
+			       )
+		    //			       )
+		    );
+  
+  return $s;
+}
+
+/*function encode($s) {
+  print "$s<br>";
+  $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
+  print $s . "<br>";
+
 	// this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
 	// and fixes the problem of htmlspecialchars replacing & with &amp and breaking character entities
   //	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
-  return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", htmlentities(strip_tags(html_entity_decode($s), "<b><strong><i><em><ul><li><ol>")));
+
+  // string non-ascii characters
+  $s = trim($s,"\x7f..\xff\x0..\x1f");
+  $s = preg_replace(
+                    "/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", 
+                      htmlentities(
+                                   strip_tags(
+                                              utf8_decode($s),
+                                              //html_entity_decode($s),
+                                              "<b><strong><i><em><ul><li><ol>"
+                                              )
+                                   )
+                      );
+  
+  print "$s<br>";
+  return $s;
+
 }
+*/
 
 /**
  * try and figure out the size of the given file
@@ -1951,6 +1997,28 @@ function do_query($sql) {
 //  debug_message($sql);
 //  print("$sql<br>");
   return mysql_query($sql);
+}
+
+function list_themes() {
+	global $themes_dir;
+	$themes = dir($themes_dir);
+	$choices = array();
+
+  // load in a list of themes
+	while(($themestr = $themes->read()) !== false) {	
+		if ( $themestr != "." && $themestr != ".." && $themestr != ".svn") {
+			$choices[$themestr]["id"] = $themestr;
+			if ( file_exists($themes_dir . "/" . $themestr . "/description.txt") ) {
+				$choices[$themestr]["description"] = file_get_contents($themes_dir . "/" . $themestr . "/description.txt");
+			}
+			if ( file_exists($themes_dir . "/" . $themestr . "/icon.gif") ) {
+				$choices[$themestr]["icon"] = $themes_dir . "/" . $themestr . "/icon.gif";
+			}
+		}
+	} // while
+
+  return $choices;
+
 }
 
 /*
