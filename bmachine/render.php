@@ -34,7 +34,7 @@ if ( !function_exists("render_channel_page") ) {
       theme_channel_bar($channel) .
       '</div>';
     
-    $out .= tags_for_files($files, $channel["Files"]);
+    $out .= tags_for_files($files, $channel["Files"], $channel);
     
     front_header($channel["Name"], 
 		 $channel["ID"], 
@@ -53,8 +53,10 @@ if ( !function_exists("render_detail_page") ) {
     front_header($channel["Name"], $channel["ID"], $channel["CSSURL"], rss_link($channel["ID"]) );
     
     $out = theme_channel_header($channel, false) .
-      theme_detail_video_wrapper( $channel, $file, theme_detail_page($file, $channel) ) .
-      theme_channel_footer($channel);
+      theme_channel_bar($channel) .
+      theme_detail_video_wrapper( $channel, $file, theme_detail_page($file, $channel) );
+    //.
+    //  theme_channel_footer($channel);
 
     theme_page_wrapper(
 		       theme_detail_wrapper(

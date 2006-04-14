@@ -50,7 +50,7 @@ function theme_channel_footer($channel) {
 	$link = channel_link($channel["ID"]);
   $count = count($channel["Files"]);
 
-  $out = "
+  /*  $out = "
  				<div class=\"box\">
   					<div class=\"box-bi\">
    						<div class=\"box-bt\"><div></div></div>
@@ -59,7 +59,8 @@ function theme_channel_footer($channel) {
 				</div>
 			</div>
   ";
-
+  */
+  /*
 	$out = '
 	<div class="box">
 		<div class="box-bi">
@@ -70,7 +71,14 @@ function theme_channel_footer($channel) {
 			<div class="box-bb"><div></div></div>
 		</div>
 	</div>';
-	
+	*/
+
+	$out = '
+	<div class="nav">
+			<p><a href="' . $link . '">Next ' . $count . '&gt;&gt;</a></p>
+	</div>
+  ';
+
 	return $out;
 }
 		
@@ -621,6 +629,9 @@ if ( ! function_exists("theme_detail_page") ) {
 			</div>
 		</div>";
 
+      $link = channel_link($channel["ID"]);
+    $out .= theme_box_wrapper("<p><a href=\"$link\">&lt;&lt; All Files in This Channel</a></p>");
+
 		return $out;
 	}
 }
@@ -752,6 +763,20 @@ if ( ! function_exists("section_header") ) {
 		<div class=\"video_section\">
 			<h3 class=\"section_name\">" . $section["Name"] . "</h3>";
 	}
+}
+
+if ( ! function_exists("theme_box_wrapper") ) {
+  function theme_box_wrapper($content) {
+    return '
+    <div class="box">
+			<div class="box-bi">
+				<div class="box-bt"><div></div></div>' .
+        $content .
+    '<div class="box-bb"><div></div></div>
+			</div>
+		</div>';
+
+  }
 }
 
 if ( ! function_exists("theme_video_list") ) {
@@ -1011,9 +1036,8 @@ if ( !function_exists("theme_channel_summary_wrapper") ) {
      " . theme_channel_bar($channel) . 
 			"<!--/HEADER-->
 			<!--VIDEOS-->
-		$content
+		" . theme_box_wrapper($content . $footer) . "
 			<!--/VIDEOS-->
-    $footer
 		</div>";
 	}
 	
@@ -1074,8 +1098,8 @@ if ( !function_exists("theme_channel_bar") ) {
 	function theme_channel_bar($channel) {
 
 		$links = subscribe_links($channel["ID"]);
-		$channel_link = channel_link($channel["ID"]);
-		$count = count($channel["Files"]);
+		//$channel_link = channel_link($channel["ID"]);
+		//$count = count($channel["Files"]);
 
 		$out = <<<EOF
 				<!--BOX-->
@@ -1240,7 +1264,7 @@ if ( ! function_exists("theme_file_thumbnail") ) {
 if ( ! function_exists("theme_embed_video") ) {
 	function theme_embed_video($file, $channel, $class = "reflect") {		
 		$url = $file['URL'];
-		$out = "<embed src=\"$url\" width=\"250\" height=\"250\"></embed>";
+		$out = "<embed src=\"$url\" width=\"250\" height=\"250\" scale=\"aspect\"></embed>";
 		return $out;
 	}
 }
