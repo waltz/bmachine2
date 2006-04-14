@@ -266,7 +266,7 @@ function theme_video_list($display_files) {
 	}
 }
 
-function tags_for_files($files) {
+function tags_for_files($files, $channel_files, $channel) {
 ?>
 <div class="box">
 	<div class="box-bi">
