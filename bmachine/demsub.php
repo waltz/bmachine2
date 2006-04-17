@@ -56,24 +56,21 @@ front_header($channel["Name"], $channelID, $channel["CSSURL"]);
 	<div class="channel-avatar"><img src="<?php echo $icon; ?>" alt="" /></div>
 	<h1><?php echo $channel["Name"]; ?></h1>
 		
-<p><strong>Subscribe to this channel in Democracy Player</strong></p>
+<p><strong>How to subscribe to this channel in Democracy Player</strong></p>
 
 <p>
-First, copy this link into your clipboard:
+&nbsp;
+<br />
+1. Copy this link into your clipboard: <?php print rss_link($channelID); ?>
 </p>
 <p>
-<?php print rss_link($channelID); ?>
+2. Open Democracy Player and click the 'add channel' button on the bottom left side of the window. Paste in the URL (press control-v) and then click OK.
 </p>
 <p>
-Then, open Democracy Player and click the 'add channel' button on the bottom left side of the window. Paste 
-in the URL (press control-v) and then click OK.
-</p>
-<p>
-<strong>How to Get Democracy Player</strong>
-</p>
-<p>
-Democracy Player is a desktop application for watching internet TV channels. It's free and 
-open-source: <a href="http://www.getdemocracy.com">Download Democracy Player</a>. 
+&nbsp;
+<br />
+<strong>Don't have Democracy Player?</strong><br />Democracy Player is a desktop application for watching internet TV channels. It's free and 
+open-source.  Download it here: <a style="color: white;" href="http://www.getdemocracy.com">Download Democracy Player</a>. 
 </p>
 
 </div>
