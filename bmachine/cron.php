@@ -9,22 +9,7 @@
  */
 include_once "include.php";
 
-$files = $store->getAllFiles();
-foreach ($files as $filehash => $file) {
+global $seeder;
+$seeder->seedFiles();
 
-	if (is_local_torrent($file["URL"]) ) {
-	
-		//
-		// make sure this torrent is running (in case the server has crashed, etc
-		//
-		$torrentfile = local_filename($file["URL"]);
-		$torrenthash = $store->getHashFromTorrent($torrentfile);
-		$restarted = !$seeder->confirmSeederRunning($torrenthash, $torrentfile);
-		
-		if ( isset($_GET["debug"]) && $restarted ) {
-			print "restarted $torrentfile\n";
-		}
-	
-	}
-}
 ?>
