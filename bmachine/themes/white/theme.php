@@ -9,15 +9,52 @@
 function theme_channel_summary_wrapper($channel, $content) {
   $title = $channel["Name"];
   $library_url = channel_link($channel["ID"]);
-  
+  $footer = theme_channel_footer($channel);
+
   return "
 		<!--CHANNEL-->
 		<div class=\"channel\"  style=\"clear:left;\">
  	    <h1><a href=\"$library_url\">$title</a></h1>
 			$content
+      $footer
 		</div>";
 		
 }
+
+function theme_channel_bar($channel) {
+  return "";
+}
+
+
+function theme_channel_wrapper($content, $channel) {
+  $footer = theme_channel_footer($channel);
+  return $content . $footer;
+}
+
+function theme_channel_footer($channel) {
+	$link = channel_link($channel["ID"]);
+  $count = count($channel["Files"]);
+
+  $links = subscribe_links($channel["ID"]);
+
+  $out = "
+ 				<div class=\"box\">
+  					<div class=\"box-bi\">
+   						<div class=\"box-bt\"><div></div></div>
+				<!--BOX-->
+				<div class=\"channel-subscribe\">
+					$links
+				</div>
+			<!--/BOX-->
+					<p><a href=\"$link\">Full Channel ($count)  >></a></p>
+
+					<div class=\"box-bb\"><div></div></div>
+				</div>
+			</div>
+  ";
+  return $out;
+}
+
 
 function theme_video_list($display_files, $channel, $internal = true) {
   $out = "";
@@ -54,7 +91,6 @@ function theme_display_internal_video($filehash, $file) {
   $out = "
 				<!--VIDEO-->
 				<div class=\"video\">";
-
 	$url = detail_link($channel["ID"], $filehash);
 
   if ( isset($channel['Options']['Thumbnail']) && $channel['Options']['Thumbnail'] == 1) {
@@ -72,8 +108,8 @@ function theme_display_internal_video($filehash, $file) {
   if ( isset($channel['Options']['Published']) && $channel['Options']['Published'] == 1 ) {
 		
 		$out .= "<h2>";
-
-		if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {
+    print_r($file);
+		if ($file["ReleaseYear"] && $file["ReleaseMonth"] && $file["ReleaseDay"]) {
 			$out .= file_release_date($file);		 
 		}
 	

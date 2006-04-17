@@ -26,7 +26,7 @@ if ( ! function_exists("theme_index_wrapper") ) {
 	}
 }
 if ( ! function_exists("theme_channel_wrapper") ) {
-	function theme_channel_wrapper($content) {
+	function theme_channel_wrapper($content, $channel) {
 		return $content;
 	}
 }
@@ -46,6 +46,7 @@ if ( ! function_exists("theme_detail_video_wrapper") ) {
 	}
 }
 
+if ( ! function_exists("theme_channel_footer") ) {
 function theme_channel_footer($channel) {
 	$link = channel_link($channel["ID"]);
   $count = count($channel["Files"]);
@@ -80,6 +81,7 @@ function theme_channel_footer($channel) {
   ';
 
 	return $out;
+}
 }
 		
 /**
@@ -501,7 +503,6 @@ if ( ! function_exists("theme_display_frontpage_video") ) {
 
 if ( ! function_exists("theme_detail_page") ) {
 	function theme_detail_page($file, $channel) {
-
 		$out = '<!--VIDEO-->
 		<div class="video">';
 
@@ -524,7 +525,7 @@ if ( ! function_exists("theme_detail_page") ) {
 		}
 
 		$out .= "<h2>";
-		if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {
+		if ($file["ReleaseYear"] && $file["ReleaseMonth"] && $file["ReleaseDay"]) {
 			$out .=  file_release_date($file);
 		}		
 		if ( isset($file['Creator']) && $file['Creator'] != "") {
@@ -1098,8 +1099,6 @@ if ( !function_exists("theme_channel_bar") ) {
 	function theme_channel_bar($channel) {
 
 		$links = subscribe_links($channel["ID"]);
-		//$channel_link = channel_link($channel["ID"]);
-		//$count = count($channel["Files"]);
 
 		$out = <<<EOF
 				<!--BOX-->

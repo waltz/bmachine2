@@ -378,7 +378,7 @@ function render_channel_page($channel, $files) {
       theme_channel_bar($channel) .
       '</div>';
     
-    $out .= tags_for_files($files, $channel["Files"]);
+    $out .= tags_for_files($files, $channel["Files"], $channel);
     
     front_header(site_title(), 
 		 $channel["ID"], 
@@ -488,7 +488,7 @@ function oldrender_channel_page($channel, $files) {
 		theme_video_list($display_files, $channel);
 	} // if ( files )
 	
-  tags_for_files($channel_files, $channel);
+  tags_for_files($files, $channel_files, $channel);
 	front_footer($channelID);
 }
 

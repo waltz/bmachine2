@@ -41,7 +41,7 @@ if ( !function_exists("render_channel_page") ) {
 		 $channel["CSSURL"], 
 		 rss_link($channel["ID"]) );
     
-    print theme_channel_wrapper($out);
+    print theme_channel_wrapper($out, $channel);
     
     front_footer($channel["ID"]);
   }
@@ -55,8 +55,6 @@ if ( !function_exists("render_detail_page") ) {
     $out = theme_channel_header($channel, false) .
       theme_channel_bar($channel) .
       theme_detail_video_wrapper( $channel, $file, theme_detail_page($file, $channel) );
-    //.
-    //  theme_channel_footer($channel);
 
     theme_page_wrapper(
 		       theme_detail_wrapper(
@@ -64,7 +62,7 @@ if ( !function_exists("render_detail_page") ) {
 					    )
 		       );
 				
-    front_footer($_GET["c"]);
+    front_footer($channel["ID"]);
   }
 }
 ?>
