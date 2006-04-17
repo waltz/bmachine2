@@ -16,6 +16,7 @@ if ( !isset($_GET["i"]) ) {
 
 $channelID = $_GET["i"];
 $forceLoad = isset($_GET["force"]) ? true : false;
+$noHeaders = isset($_GET["noheaders"]) ? true : false;
 
 $channels = $store->getAllChannels();
 if ( !isset($channels[$channelID]) ) {
@@ -26,9 +27,13 @@ if ( !isset($channels[$channelID]) ) {
 
 $channel = $channels[$channelID];
 
-header('Content-Type: application/rss+xml; charset=utf-8');
-header('Content-Disposition: inline; filename="' . $channelID . '.rss"');
-
+if ( $noHeaders == true ) {
+  header('Content-Type: application/xml');
+}
+else {
+  header('Content-Type: application/rss+xml; charset=utf-8');
+  header('Content-Disposition: inline; filename="' . $channelID . '.rss"');
+}
 
 if ( isset($channel['RequireLogin']) && $channel['RequireLogin'] == 1 ) {
   // fix bug #1229059 Can view passworded feeds without password
