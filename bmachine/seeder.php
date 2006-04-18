@@ -778,7 +778,7 @@ EOD;
 			
 			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --minport $minport --maxport $maxport --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>&1";
 			
-//      debug_message($command);
+      error_log($command);
 
 			$old_error_level = error_reporting(0);
 			passthru($command);
@@ -792,10 +792,81 @@ EOD;
 			$result = false;
 		}
 
-		flock($fp,LOCK_UN);
+		flock($fp, LOCK_UN);
 		fclose($fp);
 		return $result;
 	
+	}   
+
+  function seedFiles() {
+    global $store;
+    $files = $store->getAllFiles();
+    foreach ($files as $filehash => $file) {
+
+      if (is_local_torrent($file["URL"]) ) {
+    
+        //
+        // make sure this torrent is running (in case the server has crashed, etc
+        //
+        $torrentfile = local_filename($file["URL"]);
+        $torrenthash = $store->getHashFromTorrent($torrentfile);
+        $restarted = !$seeder->confirmSeederRunning($torrenthash, $torrentfile);
+
+        if ( isset($_GET["debug"]) && $restarted ) {
+          print "restarted $torrentfile\n";
+        } // if
+
+      } // if local torrent
+
+    } // foreach
+
+  } // seedFiles
+
+
+	/**
+	 * create a torrent using the specified file which should be in the data directory
+	 */
+	function createTorrent($datafile, $unlink_original = false) {
+
+		global $data_dir;
+		global $torrents_dir;
+
+		$fp = fopen("$data_dir/spawnlock", "wb");
+		flock($fp, LOCK_EX);    
+
+    $torrentfile = basename($datafile) . ".torrent";
+		$torrentfile = "$torrents_dir/$torrentfile";
+    @unlink($torrentfile);
+
+    global $data_dir;
+    $save_in = $data_dir . "/seedfiles/";
+
+    if ( ! file_exists($save_in . basename($datafile) ) ) {
+      error_log("copy $datafile to $save_in" . basename($datafile) );
+      $result = copy( $datafile, $save_in . basename($datafile) );
+
+      if ( $unlink_original == true ) {
+        @unlink($datafile);
+      }
+
+      $datafile = $save_in . basename($datafile);
+
+    }
+
+
+    $announce_url = get_base_url() . "announce.php";
+    $command = $this->python . " $data_dir/bt/btmaketorrent.py --target \"$torrentfile\" $announce_url $datafile 2>&1";
+    error_log($command);
+
+    $old_error_level = error_reporting(0);
+    passthru($command);
+    error_reporting($old_error_level);
+
+		flock($fp,LOCK_UN);
+		fclose($fp);
+
+    $result = file_exists($torrentfile);
+		return $result;
 	}   
 
 }
