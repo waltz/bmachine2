@@ -371,7 +371,8 @@ if ( count($choices) > 0 ) {
 ?>
 <div class="section_header">Theme</div>
 <p>Broadcast Machine comes with several themes to choose from.  Each one has its own distinct style.  You can
-also create your own theme by following <a href="">these instructions</a></p>
+also create your own theme by following 
+<a href="https://develop.participatoryculture.org/projects/democracy/wiki/BroadcastMachineThemes">these instructions</a></p>
 <p>
 Which theme would you like to use?
 <br />
