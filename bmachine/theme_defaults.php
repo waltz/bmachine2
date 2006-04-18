@@ -1262,7 +1262,7 @@ if ( ! function_exists("theme_file_thumbnail") ) {
 
 if ( ! function_exists("theme_embed_video") ) {
 	function theme_embed_video($file, $channel, $class = "reflect") {		
-		$url = $file['URL'];
+		$url = download_link($channel["ID"], $file["ID"]);
 		$out = "<embed src=\"$url\" width=\"250\" height=\"250\" scale=\"aspect\"></embed>";
 		return $out;
 	}
