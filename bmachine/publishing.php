@@ -213,11 +213,13 @@ function publish_file(&$file) {
   // if the user doesn't have upload access, then stop right here
   //
   //  requireUploadAccess();
+
+  set_file_defaults($file);
   
   global $store;
   global $errorstr;
   global $perm_level;
-  
+
   // make sure we mark any old channels as needing to be published - this way if
   // a user removes a file from a channel, that feed will be rebuilt
   if ( isset($file["ID"])) {
@@ -269,7 +271,7 @@ function publish_file(&$file) {
     }
     $file["ID"] = sha1($file["URL"] . $seed);
   }
-  
+
   //
   // this is set if the user is uploading a file using http upload
   //
@@ -378,7 +380,7 @@ function publish_file(&$file) {
       }
     }
   }
-  
+
   // check to see if this is a valid mime - if not we'll report the problem to the user
   // and give them a chance to ignore it or choose a different file
   if ( ! is_valid_mimetype($file["Mimetype"]) && 	
@@ -397,8 +399,7 @@ function publish_file(&$file) {
     return false;
     
   }
-  
-  
+
   //
   // we'll share this file if the checkbox was checked, and it happens to be
   // a local torrent file
@@ -419,8 +420,7 @@ function publish_file(&$file) {
       $store->setRSSNeedsPublish($channelID);
     }
   }
-  
-	
+
   if (!isset($file["Explicit"])) {
     $file["Explicit"] = 0;
   }
@@ -495,10 +495,12 @@ function publish_file(&$file) {
   // parse keywords
   //
   $keywords = array();
-  
-  foreach ($file['Keywords'] as $words) {
-    if (trim($words) != '') {
-      $keywords[] = encode(trim($words));
+
+  if ( isset($file["Keywords"]) ) {
+    foreach ($file['Keywords'] as $words) {
+      if (trim($words) != '') {
+	$keywords[] = encode(trim($words));
+      }
     }
   }
   $file['Keywords'] = $keywords;
@@ -507,22 +509,26 @@ function publish_file(&$file) {
   // parse people
   //
   $tmp = array();
-	
-  foreach ($file["People"] as $people_row) {
-    if (trim($people_row) != '') {
-      $tmp[] = explode(":", encode($people_row));
+  $people = array();	
+
+  if ( isset($file["People"]) ) {
+    foreach ($file["People"] as $people_row) {
+      if (trim($people_row) != '') {
+	$tmp[] = explode(":", encode($people_row));
+      }
+    }
+
+    foreach($tmp as $num => $p) {
+      if ( is_array($p) && count($p) == 2) {
+	$people[$num] = $p;
+      }
     }
   }
-  $people = array();
-  foreach($tmp as $num => $p) {
-    if ( is_array($p) && count($p) == 2) {
-      $people[$num] = $p;
-    }
-  }
+
   $file["People"] = $people;
   
 	
-  if ($file['Image'] == "http://") {
+  if ( !isset($file["Image"]) || $file['Image'] == "http://") {
     $file['Image'] = '';
   }
 
@@ -690,12 +696,16 @@ function publish_file(&$file) {
   if ( isset($file["post_channels"]) && count($file["post_channels"]) > 0 ) {
     foreach ($file["post_channels"] as $channelID) {
       
+      error_log("check channels for $channelID");
       if ($channelID != '') {
 	
 	//
 	// add the file to the channel
 	//
-	if (is_admin() || (isset($channels[$channelID]["OpenPublish"]) && $channels[$channelID]["OpenPublish"])) {
+	if ( is_admin() || (isset($channels[$channelID]["OpenPublish"]) && $channels[$channelID]["OpenPublish"])) {
+
+	  error_log("publish file to " . $channel["ID"]);
+
 	  if ( !isset($file['Publishdate']) || $file['Publishdate'] <= 1 ) {
 	    $file['Publishdate'] = time();
 	  }
