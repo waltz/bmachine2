@@ -14,6 +14,20 @@ if ( !function_exists("mb_substr") || !function_exists("mb_strtolower") ) {
 }
 
 
+/**
+ * writes data to the specified filename.  pretty basic function with some locking
+ * and not much else in terms of error detection, etc.
+ */
+if ( ! function_exists("file_put_contents") ) {
+  function file_put_contents($fname, $data) {
+    $handle = fopen($fname, "wb+");
+    flock( $handle, LOCK_EX );
+    fwrite($handle, $data);
+    fclose($handle);
+  }
+}
+
+
 //
 // mime-checking function
 // (see http://us4.php.net/mime_content_type)
