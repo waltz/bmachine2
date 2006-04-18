@@ -254,6 +254,92 @@ class SeedTest extends BMTestCase {
 		$this->assertWantedPattern("/This torrent is not authorized on this tracker/", "SeedText/TestAnnounceUnAuthedHash: expected announce to fail but it didn't");
 	}
 
+
+	function TestCreateTorrentFromURL() {
+
+    debug_message("SeedTest/TestCreateTorrentFromURL");
+
+    $this->StartSeeder();
+
+		$this->Logout();
+		$this->Login();
+
+    global $store;
+
+    //
+    // publish a torrent so we have something to seed
+    //
+
+    // generate the hash
+    $hash = $store->getAuthHash("unittest", hashpass("unittest", "unittest") );
+    
+    // now post our torrent to upload.php
+    $url = get_base_url() . "upload.php";
+    
+    $post = array();
+    $post["Username"] = "unittest";
+    $post["Hash"] = $hash;
+    
+    $upload = array();
+    $u1 = array();
+    $u1["key"] = "Torrent";
+    $u1["content"] = file_get_contents("tests/test.torrent");
+    $u1["filename"] = "test.torrent";
+    $u1["mimetype"] = "application/x-bittorrent";
+    $upload[] = $u1;
+
+    $this->post( $url, $post, $upload );
+    $this->assertResponse("200", "SeedTest/TestStart: didn't get 200 response");		
+
+    
+    $file = array();
+    $file['post_title'] = "unit test " . rand(0, 10000) . ": Torrent Upload";
+    $file['post_desc'] = "description";
+    $file['post_do_save'] = 1;
+    $file['post_file_url'] = $hash;
+    $file['post_mimetype'] = 'application/x-bittorrent';
+
+    $publish_url = get_base_url() . "publish.php";
+    $this->post( $publish_url, $file );
+
+
+    global $torrents_dir;
+    global $data_dir;
+    
+    $this->assertTrue( file_exists( $torrents_dir . '/test.torrent' ), "SeedTest/TestStart: torrent wasn't in torrent folder" );
+    $this->assertTrue( file_exists( $data_dir . '/' . $hash ), "SeedTest/TestStart: torrent hash missing" );
+    
+
+		global $store;	
+		global $seeder;
+		if ( $seeder->enabled() ) {
+
+			$files = $store->getAllFiles();
+
+      //      print "<pre>";
+      //print_r($files);
+      //print "</pre>";
+	
+			foreach ($files as $filehash => $f) {
+				if ( endsWith($f["URL"], ".torrent" ) ) {
+					$url = $f["URL"];
+					$torrentfile = local_filename($url);
+	
+          //          print "test seeding $torrentfile<br>";
+					$seeder->spawn($torrentfile);
+	
+					// update the file entry
+					$f['SharingEnabled'] = true;
+					$store->store_file($f, $filehash);
+				}
+			}
+		}
+		else {
+			print "Seeding not enabled, can't test it.<br>";			
+		}
+	}
+
+
 }
 
 
