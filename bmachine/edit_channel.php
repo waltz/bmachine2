@@ -164,6 +164,7 @@ foreach($channel['Sections'] as $section) {
 </ul>
 <br />
 
+<!--
 <div class="section_header">Visual Theme</div>
 <p><em>Select a style for your library page.</em></p>
 
@@ -174,6 +175,7 @@ Visual Theme:<br/>
 <li><input type="radio" name="post_css" value=""<?php if ($channel['CSSURL'] != "default.css") print(" checked=\"true\""); ?>> Custom CSS file.  Enter URL: <br />&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" size="22" name="post_css_custom" onFocus="document.display_options.post_css[1].checked = true;" value="<?php if ($channel['CSSURL'] != "default.css") echo $channel['CSSURL']; ?>" /></li>
 </ul>
 <br />
+-->
 
 <div class="section_header">Other Settings</div>
 <ul>
