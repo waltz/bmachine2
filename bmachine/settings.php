@@ -365,24 +365,9 @@ this by logging into your server and entering the following commands:
 <br />
 
 <?php
-	global $themes_dir;
-	$themes = dir($themes_dir);
-	$choices = array();
+$choices = list_themes();
 
-  // load in a list of themes
-	while(($themestr = $themes->read()) !== false) {	
-		if ( $themestr != "." && $themestr != ".." ) {
-			$choices[$themestr]["id"] = $themestr;
-			if ( file_exists($themes_dir . "/" . $themestr . "/description.txt") ) {
-				$choices[$themestr]["description"] = file_get_contents($themes_dir . "/" . $themestr . "/description.txt");
-			}
-			if ( file_exists($themes_dir . "/" . $themestr . "/icon.gif") ) {
-				$choices[$themestr]["icon"] = $themes_dir . "/" . $themestr . "/icon.gif";
-			}
-		}
-	} // while
-
-	if ( count($choices) > 0 ) {
+if ( count($choices) > 0 ) {
 ?>
 <div class="section_header">Theme</div>
 <p>Broadcast Machine comes with several themes to choose from.  Each one has its own distinct style.  You can
@@ -403,7 +388,7 @@ Which theme would you like to use?
 			}
       print "</li>\n";
 		}		
-	}
+}
 ?>
 </ul>
 </p>
