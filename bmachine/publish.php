@@ -103,7 +103,7 @@ function pick_publish_method() {
 	<div id="poststuff">
 
 		<div class="page_name">
-			 <h2>Publish</h2>
+			 <h2>Publish a File</h2>
 			 <div class="help_pop_link">
 					<a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/publish_popup.php')">
 		<img src="images/help_button.gif" alt="help"/></a>
@@ -113,17 +113,19 @@ function pick_publish_method() {
 		<div class="section">
 			<h3>How would you like to publish this file?</h3>
 			
-			<p>1. <a href="publish.php?method=upload">Upload the file directly</a>. Servers sometimes have a limit on 
+			<p><strong><a href="publish.php?method=upload">Upload the file directly</a></strong><br />Servers sometimes have a limit on 
 			the maximum size of an uploaded file. For files larger than 2 or 3 megabytes, we generally recommend either 
 			posting a torrent or using an FTP program and then linking to the file. The maximum upload size on this 
 			server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>.</p>
 			
-			<p>2. <a href="publish.php?method=link">Link to the file</a>. Use this option for files that are already on a 
+			<p><strong><a href="publish.php?method=link">Link to the file</a></strong><br /> Use this option for files that are already on a 
 			server. Just enter the link to the file you want to publish.</p>
 			
-			<p>3. <a href="publish.php?method=torrent">Post a torrent</a>. When you share a file with a torrent, you can reduce 
-			or eliminate bandwidth costs. To post a torrent, you first need to have Broadcast Machine Helper. Download it 
-			now: Windows | Mac. 
+			<p><strong><a href="publish.php?method=torrent">Post a torrent</a></strong><br /> When you share a file with a torrent, you can reduce 
+			or eliminate bandwidth costs. To post a torrent, you first need to have Broadcast Machine Helper. 
+      Download it now: 
+        <a href="download.php?type=exe">Windows</a> | 
+        <a href="download.php?type=mac">Mac</a>. 
 			<a target="_blank" href="http://www.getdemocracy.com/broadcast/help/torrent_posting.php">Learn more</a>. </p>
 		</div>
 	</div>
@@ -456,7 +458,7 @@ function submit_force() {
 <div id="poststuff">
 
 <div class="page_name">
-   <h2>Publish</h2>
+   <h2>Publish a File</h2>
    <div class="help_pop_link">
       <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/publish_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
@@ -518,7 +520,7 @@ if ( isset($method) ) {
 global $seeder;
 
 if ( 
-		! $seeder->enabled() || ! is_local_torrent($file["URL"])
+		! $seeder->enabled() || ! ($_GET["method"] == "torrent" || is_local_torrent($file["URL"]) )
 		) echo 'style="display:none;"' ?> id="server_sharing">
 <fieldset>
 	<input type=checkbox name="SharingEnabled" value="1" 
@@ -538,12 +540,14 @@ if (
 	<h3>Upload a File</h3>
 	<div id="upload_file">
 	<input type="file" name="post_file_upload" value="Choose File" /><br />
-	<strong>Please Note:</strong> Uploading files with your browser can take several minutes or longer, 
+	<p style="font-size: 11px; margin-bottom: 0px; padding-bottom: 0px;">
+	<strong>Note:</strong> Uploading files with your browser can take several minutes or longer, 
 	depending on the file size.  The file upload will begin when you click "Publish".  Please be patient 
 	and do not touch the browser while your file is uploading.  Also be aware that servers sometimes have 
 	a limit on the maximum size of an uploaded file.  For files larger than 2 or 3 megabytes, we generally 
-	recommend either posting a torrent or using an FTP program and then linking to the file.<br />
-	The maximum upload size on this server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>
+	recommend either posting a torrent or using an FTP program and then linking to the file.<br /><br />
+	The maximum upload size of this server is <strong><?php echo ini_get("upload_max_filesize"); ?></strong>.
+	</p>
 	</div>
 <?php
 	} // else if method == upload
@@ -553,7 +557,7 @@ if (
 	<input type="hidden" name="post_file_upload" value="" class="hidden"  />
 	<input type="hidden" name="post_use_upload" class="hidden" value="0" />
 	<div id="specify_url">
-		<h3>Specify URL:</h3>
+		<h3>URL of the file:</h3>
 		<input type="text" name="URL" size="60" value="<?php echo $file["URL"]; ?>" />
 	</div>
 <?php
