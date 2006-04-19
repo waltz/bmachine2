@@ -256,10 +256,10 @@ function get_base_url() {
   //return $settings['base_url'];
   //}
   if ( isset($_SERVER['HTTP_HOST']) ) {
-  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
   } 
   else {
-  	$url = "/" . dirname($_SERVER['PHP_SELF']);
+  	$url = "/" . dirname($_SERVER['SCRIPT_NAME']);
   }
 
   // make sure the url doesnt have multiple slashes on the end (bug # 1211743)
