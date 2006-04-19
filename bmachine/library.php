@@ -15,10 +15,13 @@ $files = $store->getAllFiles();
 // processing here in case our rewrite rules choke
 if ( !isset($_GET["i"]) ) {
 	$params = split("/", $_SERVER['REQUEST_URI']);
-	if ( count($params) == 4 ) {
-		$_GET["i"] = $params[3];
-	}
+  if ( $params[count($params) - 1] != "library" ) {
+		$_GET["i"] = $params[count($params) - 1];
+  }
+
+  $_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
 }
+
 
 //
 // don't show anything here if we don't have a channel to display

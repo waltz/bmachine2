@@ -23,11 +23,12 @@ if ( !isset($_GET["type"]) ) {
 if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
 	$params = split("/", $_SERVER['REQUEST_URI']);
 
-	if ( count($params) == 5 ) {
-		$_GET["c"] = $params[3];
-		$_GET["i"] = $params[4];
+  //	if ( count($params) == 5 ) {
+		$_GET["c"] = $params[ count($params) - 2 ];
+		$_GET["i"] = $params[ count($params) - 1 ];
     $_GET["type"]= "direct";
-	}
+    $_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
+    //	}
 }
 
 //
@@ -85,7 +86,6 @@ if ( ! is_admin() ) {
 		header("HTTP/1.0 404 Not Found");
 		print("Couldn't find your file");
 		exit;
-//		die("Wrong channel for this file!");
 	}
 
 }
@@ -119,7 +119,7 @@ $filename = local_filename($file["URL"]);
 // special handling for sending our helper installer files.  someday this will be broken out
 // into its own file
 //
-if (isset($_GET["type"]) && $_GET["type"] != "direct" ) {
+if (isset($_GET["type"]) && ($_GET["type"] != "direct"  && $_GET["type"] != "helper") ) {
 	send_helper($_GET["type"], $file);
 } 
 
@@ -137,15 +137,17 @@ if ( is_local_file($file["URL"]) &&
 	
 	// if we have the actual filename stored for this file, then send it instead of the hash
 	if ( isset($file['FileName']) && $file['FileName'] != '' ) {
-	  header('Content-Disposition: attachment; filename="' . urlencode($file['FileName']) . '"');	
-	}
-	else {
-	  header('Content-Disposition: attachment; filename="' . urlencode($filename) . '"');
-	}
+    $tmpname = $file["FileName"];
+  }
+  else {
+    $tmpname = $filename;
+  }
 
+  header('Content-Disposition: attachment; filename="' . urlencode($tmpname) . '"');	
   header('Content-length: ' . filesize('./torrents/' . $filename));
   echo file_get_contents( './torrents/' . $filename );
 
+  // make a note of this download for stat purposes
   $store->recordStartedDownload($file["ID"], is_local_torrent($file["URL"]) );
   exit;
 }
@@ -157,7 +159,6 @@ if ( !is_local_file($file["URL"] ) ) {
   exit;
 }
 
-
 if ( is_local_torrent($file["URL"]) ) { 
   $onload = "javascript:sendTorrent();";
 }
@@ -168,8 +169,8 @@ else {
 //header("Content-type: text/html; charset=utf-8");
 front_header($file["Title"] . ": Download",
 	     $_GET["c"],
-	     $channel["CSSURL"], 
-	     get_base_url() . "rss.php?i=" . $_GET["c"],
+	     $channel["CSSURL"],
+       rss_link( $_GET["c"] ),
 	     $onload);
 
 draw_detect_scripts();
