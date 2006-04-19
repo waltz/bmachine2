@@ -289,6 +289,26 @@ class DataStore {
 		return $out;
 	}
 
+  function filesForChannel($channel) {
+    global $store;
+    if ( is_array($channel) && isset($channel["ID"]) ) {
+      $channel_id = $channel["ID"];
+    }
+    else {
+      $channel_id = $channel;
+      $channel = $store->getChannel($channel_id);
+    }
+
+    $files = $store->getFiles();
+
+    $out = array();
+    foreach($channel["Files"] as $id) {
+      $out[$id[0]] = $files[$id[0]];
+		}
+
+    return $out;
+  }
+
 	/**
 	 * remove the file from the specified channel
 	 */
@@ -590,6 +610,7 @@ class DataStore {
 
 		$this->layer->saveOne("files", $newcontent, $id);
     $this->layer->unlockResources( array("files", "channels", "section_files", "channel_files", "channel_options", "file_keywords", "file_people") );
+    return $id;
   }
 
   /**
@@ -1817,65 +1838,7 @@ class DataStore {
    * display a message to help the user do whatever is required to setup BM
    */
   function setupHelpMessage() {
-    $output = <<<EOD
-      <div class="wrap">
-      <h2 class="page_name">One Final Step...</h2>
-      <div class="section">
-
-      <p>You need to create the data directories for Broadcast Machine.</p>
-      <p><em>Once you've completed these steps, reload this page to continue.</em></p>
-
-<div class="section_header">If you use graphical FTP</div>
-
-<p>Create folders in your Broadcast Machine directory named "torrents", "data", "publish", "thumbnails" and "text".  
-Then select each folder, view its permissions, and make sure all the checkboxes (readable, writable, 
-executable) are checked.</p>
-
-<div class="section_header">If you use command line FTP</div>
-
-<p>Log in and type the following:</p>
-<pre>
-EOD;
-#'
-
-	$output.="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
-	$output	.=<<<EOD
-
-mkdir data
-mkdir torrents
-mkdir publish
-mkdir text
-mkdir thumbnails
-chmod 777 data
-chmod 777 torrents
-chmod 777 publish
-chmod 777 text
-chmod 777 thumbnails
-</pre>
-
-<p><em>Once you've completed these steps, reload this page to continue.</em></p>
-<div class="section_header">If you want Broadcast Machine to do it for you:</div>
-<p>Specify your FTP username and password here, and Broadcast Machine will FTP into your server, 
-create the directories and set the permissions for you. You need to know the 'root' address for 
-your Broadcast Machine FTP address, which could be something like "public_html/bm/" or "httdocs/bm"
-</p>
-<p>This might take a few minutes, please be patient.</p>
-
-<form method="POST" action="set_perms.php">
-     username: <input type="text" name="username" size="10" /><br />
-     password: <input type="password" name="password" size="10" /><br />
-     ftp root: <input type="text" name="ftproot" size="50" /><br />
-     <input type="submit" value="Set Perms" />
-</form>
-
-<br />
-<p>Note: giving the directories "777" permissions will allow anyone on the server to full access those directories. If you share a server with others, they may be able to tamper with you Broadcast Machine data files if you use these settings. There may be other settings more appropriate for your server. <b>Please, contact your system administrator if you have any questions about permissions.</b></p>
-
-</div>
-</div>
-EOD;
-#'
-    print $output;
+    include_once "setup_help.php";
   }
 
   function setupHelperMessage() {
