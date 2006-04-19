@@ -58,7 +58,7 @@ to do any required maintenance.
 	$perms = check_permissions();
 
 
-	if ( $perms || $folders ) {
+	if ( $perms !== true || $folders !== true ) {
 ?>
 
 <h4 style="color: #c00">Setup Problem!</h4>
