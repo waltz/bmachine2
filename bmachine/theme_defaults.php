@@ -26,7 +26,7 @@ if ( ! function_exists("theme_index_wrapper") ) {
 	}
 }
 if ( ! function_exists("theme_channel_wrapper") ) {
-	function theme_channel_wrapper($content, $channel) {
+	function theme_channel_wrapper($content, $channel = NULL) {
 		return $content;
 	}
 }
@@ -297,7 +297,7 @@ function theme_file_keywords($file, $channel) {
 			if ( is_array($keyword) ) {
 				$keyword = $keyword[0];
 			}
-			$out .= "<a href=\"library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
+			$out .= "<a href=\"" . get_base_url() . "library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
 		}  
 		$out .= "</p>";
 	}
@@ -376,7 +376,7 @@ function theme_download_links($channel, $file) {
 	$url = download_link($channel["ID"], $filehash);
 
 	if ( is_local_torrent($file["URL"]) ) {
-		$ezurl = download_link($channel["ID"], $filehash, true);
+		$ezurl = download_link($channel["ID"], $filehash, true) . "&amp;type=helper";
 		$out[] = theme_torrent_display($file, $channel);
 		$out[] = "<a href=\"$url\" class=\"link-download\">Torrent File</a>";
 		$out[] = "<a href=\"$ezurl\" class=\"link-download\">Easy Downloader</a>";
@@ -806,7 +806,7 @@ if ( !function_exists("theme_file_tags") ) {
 					$keyword = $keyword[0];
 				}
 				
-				$out .= "<a href=\"library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
+				$out .= "<a href=\"" . get_base_url() . "library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
 			}  
 			$out .= "</p>";
 			return $out;
@@ -855,7 +855,7 @@ if ( ! function_exists("tags_for_files") ) {
 EOF;
 	
 			foreach ($keywords as $words => $count) {
-				$out .= "<a href=\"library.php?i=" . $channelID . "&amp;kw=" . urlencode($words) . "\">" . $words . "</a> (" . $count . ") ";
+				$out .= "<a href=\"" . get_base_url() . "library.php?i=" . $channelID . "&amp;kw=" . urlencode($words) . "\">" . $words . "</a> (" . $count . ") ";
 				$i++;
 			
 				if ($i == 8) {

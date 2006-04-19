@@ -22,7 +22,7 @@ function render_channel_page($channel, $files, $keyword = NULL) {
 
 function render_detail_page($file, $channel) {
 
-	front_header($channel["Name"], $channel["ID"], $channel["CSSURL"], get_base_url() . "rss.php?i=" . $channel["ID"]);		
+	front_header($channel["Name"], $channel["ID"], $channel["CSSURL"], rss_link($channel["ID"]) );
 	
 	$out = theme_detail_video_wrapper( $channel, $file, theme_detail_page($file, $channel) );
 
@@ -83,7 +83,11 @@ function theme_detail_page($file, $channel) {
     }
 
 
-
+    $links = theme_download_links($channel, $file);
+    foreach($links as $l) {
+      $out .= $l . " ";
+    }
+    /*
 	// if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
 	$url = download_link($channel["ID"], $_GET["i"]);
 
@@ -99,7 +103,7 @@ function theme_detail_page($file, $channel) {
 		$out .= "
              <a href=\"$url\" class=\"link-download\">Direct Download</a>
     ";
-	}
+	}*/
 	
 	$out .= "</div>
 		<div class=\"video_info\">";
@@ -146,6 +150,10 @@ function theme_detail_page($file, $channel) {
 	$out .= theme_file_section("", $items);
 
 	$items = array();
+  $items = theme_download_links($channel, $file);
+  
+
+  /*
 	// if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
 	$url = download_link($channel["ID"], $_GET["i"]);
 	if ( is_local_torrent($file["URL"]) ) {
@@ -156,7 +164,7 @@ function theme_detail_page($file, $channel) {
 	// otherwise, just a direct link
 	else {
 		$items[] = "<a href=\"$url\" class=\"link-download\">Direct Download</a>";
-	}
+	}*/
 
 	$out .= theme_file_section("Download", $items);
 
@@ -363,7 +371,7 @@ function front_header($pagename = "", $channelID = "", $stylesheet = "default.cs
 	<div id=\"library_title\">" . $pagename . "</div>\n");
 
 	if ( $channelID ) {
-		$rsslink = '<a href="rss.php?i=' . $channelID . '"><img src="' . get_base_url() . 'images/rss_button.gif" alt="rss feed" border="0" /></a>';
+		$rsslink = '<a href="' . rss_link($channelID) . '"><img src="' . get_base_url() . 'images/rss_button.gif" alt="rss feed" border="0" /></a>';
 		print("<div id=\"rss_feed\">$rsslink</div>\n");
 	}
 
@@ -495,6 +503,15 @@ function theme_display_video($filehash, $file, $channel, $show_internal_view = t
   $out .= "<a href=\"$url\">more...</a>\n";
 
 	$out .= "</div>";
+
+  $items = theme_download_links($channel, $file);
+  $out .= "<div class=\"dl_links\">";
+  foreach($items as $l) {
+    $out .= "$l ";
+  }
+  $out .= "</div>\n";
+
+  /*
   // if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
 	$url = download_link($channel["ID"], $filehash);
 	$ezurl = download_link($channel["ID"], $filehash, true);
@@ -506,7 +523,7 @@ function theme_display_video($filehash, $file, $channel, $show_internal_view = t
   // otherwise, just a direct link
   else {
     $out .= "\n<div class=\"dl_links\"><a href=\"download.php?c=" . $channel["ID"] . "&amp;i=" . $filehash  . "\">download</a></div>\n";
-  }
+  }*/
 
 	$out .= "</li>\n";
 	return $out;

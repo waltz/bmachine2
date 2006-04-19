@@ -78,7 +78,7 @@
 	<div id=\"library_title\">" . $pagename . "</div>\n");
 
 	if ( $channelID ) {
-		$rsslink = '<a href="rss.php?i=' . $channelID . '"><img src="images/rss_button.gif" alt="rss feed" border="0" /></a>';
+		$rsslink = rss_link($channelID);
 		print("<div id=\"rss_feed\">$rsslink</div>\n");
 	}
 
