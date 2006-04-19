@@ -157,7 +157,10 @@ class ServerSideSeeder {
 	 * try and extract a copy of python
 	 */
 	function unzipPython() {
-		return $this->unzipFile("python.zip");
+    if ( file_exists("python.zip") ) {
+  		return $this->unzipFile("python.zip");
+    }
+    return false;
 	}
 
 	/**
