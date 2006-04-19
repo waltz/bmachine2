@@ -1,0 +1,63 @@
+<div class="wrap">
+<h2 class="page_name">One Final Step...</h2>
+<div class="section">
+
+<p>Before you can use Broadcast Machine, we need to create a few directories.  There are several ways to do this listed below.</p>
+<p><em>Once you've completed these steps, reload this page to continue.</em></p>
+
+<div class="section_header">If you want Broadcast Machine to do it for you:</div>
+<p>Specify your FTP username and password here, and Broadcast Machine will FTP into your server, 
+create the directories and set the permissions for you. You need to know the 'root' address for 
+your Broadcast Machine FTP address, which could be something like "public_html/bm/" or "httpdocs/bm".
+This information was probably provided to you by your hosting provider.
+</p>
+<p>This might take a few minutes, please be patient.</p>
+
+<?php
+$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+?>
+<form method="POST" action="set_perms.php">
+     FTP username: <input type="text" name="username" size="10" /><br />
+     FTP password: <input type="password" name="password" size="10" /><br />
+     Website Folder: <input type="text" name="ftproot" value="<?php print $path; ?>" size="50" /><br />
+     <input type="submit" value="Set Permissions" />
+</form>
+
+<div class="section_header">If you use graphical FTP</div>
+
+<p>Create folders in your Broadcast Machine directory named "torrents", "data", "publish", "thumbnails" and "text".  
+Then select each folder, view its permissions, and make sure all the checkboxes (readable, writable, 
+executable) are checked.</p>
+
+<div class="section_header">If you use command line FTP, or if you have shell access to your server</div>
+
+<p>Log in and type the following:</p>
+<pre>cd 
+
+<?php
+print $path;
+?>
+
+mkdir data
+mkdir torrents
+mkdir publish
+mkdir text
+mkdir thumbnails
+chmod 777 data
+chmod 777 torrents
+chmod 777 publish
+chmod 777 text
+chmod 777 thumbnails
+</pre>
+
+<p><em>Once you've completed these steps, reload this page to continue.</em></p>
+
+<br />
+<p>
+Note: giving the directories "777" permissions will allow anyone on the server to full access those directories. If you share a server with others, they may be able to tamper with you Broadcast Machine data files if you use these settings. There may be other settings more appropriate for your server. 
+
+<b>Please, contact your system administrator if you have any questions about permissions.</b>
+</p>
+
+</div>
+</div>

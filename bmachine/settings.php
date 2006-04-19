@@ -349,12 +349,14 @@ chmod 777 .htaccess";
 <br />
 <br />
 
-In order to use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  You can do 
-this by logging into your server and entering the following commands:
+<p>
+In order to use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  Broadcast Machine
+can <a href="generate_htaccess.php">do this for you</a>, or, you can log into your server and enter the following commands:
 <?php
 	print "<pre>$output</pre>";
 }
 ?>
+</p>
 
 <br />
 <?php

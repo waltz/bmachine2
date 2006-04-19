@@ -252,10 +252,9 @@ function get_base_url() {
 
   global $settings;
 
-	if ( isset($settings) && $settings['base_url'] != '' ) {
-		return $settings['base_url'];
-	}
-
+	//if ( isset($settings) && $settings['base_url'] != '' ) {
+  //return $settings['base_url'];
+  //}
   if ( isset($_SERVER['HTTP_HOST']) ) {
   	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
   } 
@@ -637,7 +636,7 @@ function can_upload() {
  */
 function site_title() {
   global $settings;
-  return isset($settings['title']) ? $settings['title'] : 'Site Title';
+  return isset($settings['title']) && $settings['title'] != "" ? $settings['title'] : 'Broadcast Machine';
 }
 
 /**
@@ -831,6 +830,7 @@ function check_folders() {
     return $error;
   }
 
+  return true;
 }
 
 /**
@@ -919,6 +919,8 @@ function check_permissions() {
     return $error;
   }
 
+  return true;
+
 }
 
 
@@ -934,14 +936,14 @@ function draw_detect_scripts() {
 function hasBlogTorrent() {
 <?php
   //Detects IE with the client installed
-	if (substr_count($_SERVER['HTTP_ACCEPT'],'application/x-blogtorrent')>0) {
+	if ( substr_count($_SERVER['HTTP_ACCEPT'], 'application/x-blogtorrent') > 0 ) {
 	  echo "return true;\n";
 	} 
 	else {
 ?>
 
 		//Detects Mozilla browser with the client installed
-		for (count=0;count<window.navigator.plugins.length;count++) {
+		for ( count = 0; count < window.navigator.plugins.length; count++ ) {
 			if (window.navigator.plugins[count].name.substring(0,12) == "Blog Torrent") {
 				return true;
 			}
@@ -1226,37 +1228,13 @@ function encode($s) {
 			       )
 		    //			       )
 		    );
+
+  // Encode any & not followed by something that looks like
+  // an entity, numeric or otherwise.
+  $s = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', '&amp;', $s);
   
   return $s;
 }
-
-/*function encode($s) {
-  print "$s<br>";
-  $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
-  print $s . "<br>";
-
-	// this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
-	// and fixes the problem of htmlspecialchars replacing & with &amp and breaking character entities
-  //	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
-
-  // string non-ascii characters
-  $s = trim($s,"\x7f..\xff\x0..\x1f");
-  $s = preg_replace(
-                    "/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", 
-                      htmlentities(
-                                   strip_tags(
-                                              utf8_decode($s),
-                                              //html_entity_decode($s),
-                                              "<b><strong><i><em><ul><li><ol>"
-                                              )
-                                   )
-                      );
-  
-  print "$s<br>";
-  return $s;
-
-}
-*/
 
 /**
  * try and figure out the size of the given file
@@ -1885,8 +1863,7 @@ function download_link($channel_id, $hash, $force_no_rewrite = false) {
 	else {
 		$url = get_base_url() . "download.php?c=" . $channel_id . "&amp;i=" . $hash . "&amp;e=$ext";
 	}
-	
-	//debug_message($url);
+
 	return $url;
 }
 
@@ -1987,6 +1964,77 @@ EOF;
 	flock( $f, LOCK_UN );
 	fclose($f);
   return true;
+}
+
+
+function generate_htaccess_text($on = true) {
+
+	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
+
+	$rules = <<<EOF
+###
+### MOD REWRITE RULES (DO NOT EDIT)
+###
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase $base
+RewriteRule ^rss/([0-9]+) rss.php?i=$1 [QSA]
+RewriteRule ^library/([0-9]+) library.php?i=$1 [QSA]
+RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
+RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
+</IfModule>
+EOF;
+
+
+  $file = "";
+  if ( file_exists(".htaccess") ) {
+    $file = file_get_contents(".htaccess");
+  }
+
+	if ( $on == true ) {
+		if ( stristr( $file, "### MOD REWRITE RULES (DO NOT EDIT)" ) === false ) {
+			$file .= $rules;	
+		}
+	}
+	else {
+		if ( stristr( $file, "### MOD REWRITE RULES (DO NOT EDIT)" ) !== false ) {
+			str_replace( $rules, "", $file );	
+		}
+	}
+
+  return $file;
+
+}
+
+function mod_rewrite_active() {
+  $file = "";
+  if ( file_exists(".htaccess") ) {
+    $file = file_get_contents(".htaccess");
+  }
+
+  if ( stristr( $file, "### MOD REWRITE RULES (DO NOT EDIT)" ) === false ) {
+    return false;
+	}
+
+  return true;
+}
+
+/**
+ * test mod_rewrite URLs and see if they work.  if not, we will disable them elsewhere
+ */
+function test_mod_rewrite() {
+  if ( mod_rewrite_active() == false ) {
+    return false;
+  } 
+
+  $url = get_base_url() . "library/1";
+	$headers = @get_headers($url, 1);
+
+	if ( isset($headers) && isset($headers[0]) && stristr($headers[0], "200 OK") > 0 ) {
+		return true;
+	}
+
+  return false;
 }
 
 function debug_message($str) {

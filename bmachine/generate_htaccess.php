@@ -3,7 +3,37 @@
  * create and upload a .htaccess file using FTP
  * @package Broadcast Machine
  */
+require_once("include.php");
 
+if (!is_admin()) {
+	header('Location: ' . get_base_url() . 'admin.php');
+	exit;
+}
+
+
+if ( !isset($_POST["username"]) ) {
+  bm_header();
+?>
+
+Enter your FTP information into the form below:
+
+<?php
+$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+?>
+<p>
+<form method="POST" action="generate_htaccess.php">
+     FTP username: <input type="text" name="username" size="10" /><br />
+     FTP password: <input type="password" name="password" size="10" /><br />
+     Website Folder: <input type="text" name="ftproot" value="<?php print $path; ?>" size="50" /><br />
+     <input type="submit" value="Go" />
+</form>
+</p>
+
+<p>
+<?php
+   bm_footer();
+   exit;
+   }
 
 global $skip_setup;
 $skip_setup = 1;
@@ -11,15 +41,10 @@ $skip_setup = 1;
 require_once("include.php");
 require_once("ftp.php");
 
-//$hostname = "jerkvision.com";
 $hostname = "localhost";
-//$username = $_POST["username"];
-//$password = $_POST["password"];
-//$pwd = $_POST["ftproot"];
-$username = "colin";
-$password = "webwrkr1";
-$pwd = "/home/colin/public_html/bm/";
-
+$username = $_POST["username"];
+$password = $_POST["password"];
+$pwd = $_POST["ftproot"];
 
 // generate a list of potential webroots
 $folders = array_reverse( explode("/", $pwd) );
@@ -43,6 +68,7 @@ if( $ftp->connect() ) {
   $ftp->is_ok();
   
   if ( ! $ftp->login($username, $password) ) {
+    bm_header();
   ?>
     <h3>Oops!</h3>
 	<p>Looks like there was a problem with the login information you specified.  Please
@@ -50,6 +76,7 @@ if( $ftp->connect() ) {
 	to set your permissions.</p>
 	
   <?php
+     bm_footer();   
      exit;
     }
 	
@@ -90,7 +117,19 @@ if( $ftp->connect() ) {
     //$ftp->chmod("$pwd/index.php", "777");    
     //ob_flush();
 
-    //header('Location: ' . get_base_url() . 'index.php');
+
+    // now that the file is written to the system, lets see if it actually works
+    global $settings;
+    global $store;
+    if ( test_mod_rewrite() == true ) {
+      $settings["use_mod_rewrite"] = true;
+    }
+    else {
+      $settings["use_mod_rewrite"] = false;
+    }
+    $result = $store->saveSettings($settings);
+
+    header('Location: ' . get_base_url() . 'settings.php');
 	
   }
   else {

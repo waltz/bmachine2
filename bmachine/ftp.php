@@ -125,9 +125,9 @@ class FTP {
    */
   function chmod($path, $newperm)
   {
-    print "calling chmod<br>";
+    //print "calling chmod<br>";
     $this->sock_write("SITE CHMOD $newperm $path");
-    print "calling chmod - sent<br>";
+    //print "calling chmod - sent<br>";
     return $this->check_reply("250");
   }
 
@@ -189,18 +189,18 @@ class FTP {
   
   function is_ok()
   {
-    print "is_ok: sock_read<br>";
+    //print "is_ok: sock_read<br>";
     $this->message = $this->sock_read();
-    print "is_ok: sock_read done: " . $this->message . "<br>";
+    //print "is_ok: sock_read done: " . $this->message . "<br>";
     
     if($this->message == "" || preg_match('/^5/',$this->message) )
       {
-	print "bad response<br>";
+	//print "bad response<br>";
 	return 0;
       }
     else
       {
-	print "good response<br>";
+	//print "good response<br>";
 	return 1;
       }
   }
@@ -213,7 +213,7 @@ class FTP {
   {
     if($s == "")
       {
-	echo "<-- cowardly refusing to write nothing -->";
+	//echo "<-- cowardly refusing to write nothing -->";
       }
     else
       {
@@ -296,9 +296,9 @@ class FTP {
 	      }
 	      fclose($fp);
 	      fclose($this->data_sock);
-	      print "here<br>";
+	      //print "here<br>";
 	      if($this->check_reply("226")) {
-		print "good upload!<br>";
+		//print "good upload!<br>";
 		return 1;
 	      }
 	      return 1;
@@ -439,7 +439,7 @@ class FTP {
       $str = ">> PASS ********";
     }
     
-    echo "$str<br>\n";
+    //echo "$str<br>\n";
   }
   
   /**
