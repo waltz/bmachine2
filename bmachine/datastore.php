@@ -2314,13 +2314,15 @@ function MySQLSaveFileHook(&$f) {
     }
   } 
 
-  foreach($f["post_channels"] as $num => $channel_id) {
-    $sql = "REPLACE INTO " . $store->layer->prefix . "channel_files (channel_id, hash, thetime) 
+  if ( isset($f["post_channels"]) ) {
+    foreach($f["post_channels"] as $num => $channel_id) {
+      $sql = "REPLACE INTO " . $store->layer->prefix . "channel_files (channel_id, hash, thetime) 
 								VALUES ('" . mysql_escape_string($channel_id) . "', 
 								'" . mysql_escape_string($f["ID"]) . "',
 								'" . mysql_escape_string($f["Publishdate"]) . ")";
     
-    do_query( $sql );   
+      do_query( $sql );   
+    }
   }
 
 } // MySQLSaveFileHook
