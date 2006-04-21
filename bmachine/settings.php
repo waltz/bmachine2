@@ -239,7 +239,7 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
    </div>
 </div>
 
-<div class="section">
+<div class="section settings_page">
 <?php
 if ( count($_POST) > 0 ) {
   if ( $result == true ) {
@@ -252,18 +252,17 @@ if ( count($_POST) > 0 ) {
 }
 ?>
 
-<form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1" enctype="multipart/form-data" >
-<input type="submit" value="Save Settings >>" />
-
+<form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1">
+<input type="submit" value="Save Changes to Settings >>" />
+<br /><br />
 <div class="section_header">Website Information</div>
-<p>Please enter a title and description for your installation of Broadcast Machine:</p>
-<p>Title: <input type="textbox" name="title" value="<?php echo isset($settings['title']) ? $settings['title'] : ''; ?>" /></p>
-<p>Description:<br />
-<textarea name="description" wrap="soft" rows="5" cols="35">
-<?php echo isset($settings['description'])?$settings['description']:''; ?>
-</textarea>
-</p>
+<p>The title and description of your installation of Broadcast Machine:</p>
+<dt>Title:</dt> <dd><input type="textbox" name="title" value="<?php echo isset($settings['title']) ? $settings['title'] : ''; ?>" /></dd>
 
+<dt>Description:</dt>
+<dd><textarea name="description" wrap="soft" rows="5" cols="35">
+<?php echo isset($settings['description'])?$settings['description']:''; ?>
+</textarea></dd>
 
 <fieldset><div class="the_legend">Site Image: </div>
 <p>This is a thumbnail which will appear on every page.  Please try and make the size about 48x48 pixels.</p>
@@ -324,13 +323,13 @@ else {
 		print(" checked=\"true\"");
 	}
 
-?>/> Show a list of all channels and the 3 most recent files in each.</li>
+?>/> Show a list of all channels and the most recent files in each.</li>
 </ul>
 
 <br />
 
 
-<div class="section_header">Direct URLs</div>
+<div class="section_header">Direct URLs (iTunes Compatibility)</div>
 
 Enabling this setting makes your feeds compatible with iTunes and improves access for some search 
 engines.  It works by changing the way the Broadcast Machine links to files with a "mod_rewrite"  
@@ -356,7 +355,6 @@ can <a href="generate_htaccess.php">do this for you</a>, or, you can log into yo
 	print "<pre>$output</pre>";
 }
 ?>
-</p>
 
 <br />
 <?php
@@ -445,6 +443,8 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 </p>
 
 <div class="section_header">MySQL Settings</div>
+
+<p>Broadcast Machine can optionally use a MySQL database for increased performance. If you create a database for this purpose, enter the information below to activate MySQL support.</p>
 
 <p>Currently, this installation of Broadcast Machine Helper 
 <?php 

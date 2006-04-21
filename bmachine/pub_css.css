@@ -7,6 +7,18 @@ a:hover {
 	color: white;
 }
 
+
+a.action, a.action:visited {
+	color: red;
+}
+
+a.action:hover {
+background-color: red;
+color: white;
+}
+
+
+
 body	{
 	background: #fff;
 	color: #000;
@@ -296,7 +308,7 @@ legend {
 .section {
 	background-color: #E0E2ED;
 	background-color: #FFFFD1;
-	padding: 5px;
+	padding: 10px;
 	margin-bottom: 10px;
 }
 
@@ -311,6 +323,11 @@ legend {
 	color: #222;
 	font-weight: bold;
 	margin: 2px 0px 8px 0;
+}
+
+.settings_page .section_header {
+	border-top: 1px solid #C0C2CD;
+	padding-top: 10px;
 }
 
 #video_file {
@@ -397,35 +414,57 @@ h2, .page_name h2, h2.page_name {
 
 .channel_logo {
 	float: left;
-	margin: 0 2px 0px 0;
-	padding: 3px 3px 42px 3px;
+	margin: 0 0px 0px 0;
+	padding: 4px 10px 10px 0px;
+}
+
+
+.channel_logo img {
+
+width: 50px;
+
 }
 
 .channel_name {
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 18px;
 	display: inline;
 }
 
 .channel_publisher_name {
 	font-size: 16px;
 	display: inline;
+
 }
 
 .channel_description {
+padding: 5px 0 5px 0;
+margin-left: 60px;
+}
+
+.channel_url {
+margin-left: 60px;
 }
 
 .channel_stats {
 	padding: 3px;
-	border: 1px dotted #555;
-	margin: 2px 0 0 24px;
+	background-color: #eee;
+	margin: 2px 0 0 0px;
 }
 
 .edit_channel {
-	padding-left: 24px;
+	padding-left: 0px;
 }
 
+.edit_channel a, .edit_channel a:visited {
+	color: red;
+	font-size: 12px;
+}
 
+.edit_channel a:hover {
+background-color: red;
+color: white;
+}
 
 /* videos */
 .video_display {
@@ -461,12 +500,14 @@ h2, .page_name h2, h2.page_name {
 	float: right;
 	margin-left: 5px;
 	font-size: 12px;
-	border: 1px solid #f77;
+	border: 1px solid #ddd;
 }
 
 .edit_video {
 	text-align: right;
 }
+
+
 
 
 /* ------ DONATIONS -------- */
@@ -797,5 +838,21 @@ fieldset.options {
 
 fieldset.options legend {
 	font-size: 16px;
+}
+
+
+dt {
+  width: 160px;
+  margin: 4px 8px 0 0; 
+  padding: 0;
+  text-align: right;
+  white-space: nowrap;
+  float: left;
+  clear: left;
+  position: relative;
+}
+
+dd {
+  margin: 0 0 12px 0px;
 }
 

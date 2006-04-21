@@ -157,19 +157,19 @@ if ( is_admin() || $file["Publisher"] == $username ) {
 	print("<br/>");
 		if ( is_local_torrent($file["URL"]) ) {
 			print "
-			<a href=\"download.php?i=" . $filehash  . "&amp;type=torrent\">Torrent File</a> | 
-			<a href=\"download.php?i=" . $filehash  . "\">Easy Downloader</a> | 
+			<a href=\"download.php?i=" . $filehash  . "&amp;type=torrent\">Torrent File</a> - 
+			<a href=\"download.php?i=" . $filehash  . "\">Easy Downloader</a> - 
 			";
 		}
 		else {
 			print "
-			<a href=\"download.php?i=" . $filehash  . "\">Download</a> | 
+			<a href=\"download.php?i=" . $filehash  . "\">Download</a> - 
 			";
 		}
 
 	print ("
-		<a href=publish.php?i=" . $filehash  . ">Edit / View Details</a> | 
-		<a href=\"delete.php?i=" . $filehash  . "&t=v\" onClick=\"return confirm('Are you sure you want to delete this video?');\">Delete</a>");
+		<a class=\"action\" href=publish.php?i=" . $filehash  . ">Edit / View Details</a> - 
+		<a class=\"action\" href=\"delete.php?i=" . $filehash  . "&t=v\" onClick=\"return confirm('Are you sure you want to delete this video?');\">Delete</a>");
 
 }
 ?>

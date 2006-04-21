@@ -40,6 +40,10 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
       <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channels_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
+<p style="font-size: 13px; margin-top: 0px;">
+Files you publish are organized into channels.  People can see your channels on the web or by subscribing to the RSS feed for that channel.  You may want to submit the RSS feed to directories such as the <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Democracy Channel Guide</a>.</p>
+
+   
 </div>
 
 
@@ -84,9 +88,9 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 
 
 	<!-- 1225115 formatting change -->
-	 <div class="channel_url"><a href="<?php print rss_link($channel["ID"]); ?>">Subscription Link</a> - <a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a>
+	 <div class="channel_url"><a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a> - <a href="<?php rss_link($channel["ID"]); ?>">RSS Feed</a>
 
-	 <div class="channel_stats"><?php if ( isset($channel["Files"]) ) { echo count($channel["Files"]); } else { echo "0"; } ?> Files</div>
+	 <div class="channel_stats"><?php if ( isset($channel["Files"]) ) { echo count($channel["Files"]); } else { echo "0"; } ?> files on this channel</div>
 
 	 <div class="edit_channel"><a href="create_channel.php?i=<?php echo $channel["ID"];  ?>">Edit Channel Settings</a>
 
@@ -97,13 +101,13 @@ eval("page" + id + " = window.open(URL, '" + id + "','toolbar=0,scrollbars=1,loc
 
 	 ?>
 
-		 	| <a href="edit_channel.php?i=<?php echo $channel["ID"];  ?>">Edit Library Display</a>
+		 	- <a href="edit_channel.php?i=<?php echo $channel["ID"];  ?>">Edit Front Page Display</a>
 
 	<?php
 
 		}
 
-	?> | <a href="delete.php?t=c&amp;i=<?php echo $channel["ID"];  ?>" onClick="return confirm('Are you sure you want to delete this channel?');">Delete Channel</a></div>
+	?> - <a href="delete.php?t=c&amp;i=<?php echo $channel["ID"];  ?>" onClick="return confirm('Are you sure you want to delete this channel?');">Delete Channel</a></div>
 
 </div>
 

@@ -23,11 +23,12 @@ $path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
      <input type="submit" value="Set Permissions" />
 </form>
 
-<div class="section_header">If you use graphical FTP</div>
 
-<p>Create folders in your Broadcast Machine directory named "torrents", "data", "publish", "thumbnails" and "text".  
+<p><strong>With a typical FTP program:</strong> 
+Create folders in your Broadcast Machine directory named "torrents", "data", "publish", "thumbnails" and "text".  
 Then select each folder, view its permissions, and make sure all the checkboxes (readable, writable, 
-executable) are checked.</p>
+executable) are checked (should say 777 when correct). Reload this page to continue.</p>
+
 
 <div class="section_header">If you use command line FTP, or if you have shell access to your server</div>
 

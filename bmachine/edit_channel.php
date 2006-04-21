@@ -109,23 +109,23 @@ bm_header();
 <div class="wrap">
 
 <div class="page_name">
-   <h2><?php echo $channel['Name']; ?>: Edit Library Display</h2>
+   <h2><?php echo $channel['Name']; ?>: Edit Front Page</h2>
    <div class="help_pop_link">
       <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channel_popup.php')">
 <img src="images/help_button.gif" alt="help"/></a>
    </div>
 </div>
 
-A channel's library view is what gets displayed on the website for the channel.  This page lets you feature certain files from your channel and control the appearance of the library page.<Br />
+A channel's front page is what users will see on the website for the channel.  For each channel, you can choose to feature certain files from your channel and control the appearance of this page.<Br />
 
-<strong><a href="<?php echo $channel['LibraryURL']; ?>">>> View the <?php echo $channel['Name']; ?> Library >></a></strong>
+<strong><a href="<?php echo $channel['LibraryURL']; ?>">View the <?php echo $channel['Name']; ?> Front Page >></a></strong>
 
 <br />
 <br />
 
 <div id="edit_library_settings">
 <div class="section_header">Sections on the Front Page</div>
-<p><em>Click a section name to pick which files it will display.</em></p>
+<p><em>You can create special sections that feature certain videos (perhaps the best or most important ones).  Click on a section name below to pick which files will appear in that section.  If the section has no videos selected, it won't appear on the front page.</em></p>
 
 <?php
 
@@ -145,7 +145,7 @@ foreach($channel['Sections'] as $section) {
 
 <br />
 
-<div class="section_header">Display Options</div>
+<div class="section_header">Video Info</div>
 
 <form method="post" action="edit_channel.php?i=<?php echo $_GET["i"]; ?>" name="display_options" accept-charset="utf-8, iso-8859-1">
 <input type="hidden" name="post_options" value="1" class="hidden"/>
@@ -179,7 +179,7 @@ Visual Theme:<br/>
 
 <div class="section_header">Other Settings</div>
 <ul>
-<li><input type="checkbox" name="post_keywords"<?php if ($channel['Options']['Keywords'] == "1") print(" checked=\"true\""); ?>> Display Tags list in sidebar.</li>
+<li><input type="checkbox" name="post_keywords"<?php if ($channel['Options']['Keywords'] == "1") print(" checked=\"true\""); ?>> Display Tags list.</li>
 </ul>
 
 <p class="publish_button" style="clear: both;">
