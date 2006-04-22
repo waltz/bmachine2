@@ -119,6 +119,10 @@ if ( count($_POST) > 0 ) {
 
 	if ( $use_mod_rewrite != $settings["use_mod_rewrite"] ) {
 		$mod_write_result = write_mod_rewrite($use_mod_rewrite);
+    if ( $use_mod_rewrite == true && $mod_write_result == true && test_mod_rewrite() == false ) {
+      $mod_write_result = write_mod_rewrite(false);
+    }
+
 		$rewrite_rss = true;
 	}
 } 
@@ -338,6 +342,17 @@ clicking on links to files on your front page.  If the links work, then everythi
 fine.  <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/settings_popup.php')">More info >></a>
 
 <?php
+if ( mod_rewrite_active() == true  && test_mod_rewrite() == false )  {
+?>
+<p>
+<strong>
+Sorry, it looks like Direct URLs aren't working on your server.  Please contact your server administrator
+for assistance.
+</strong>
+</p>
+<?php
+}
+
 if ( is_writable('.htaccess') == false ) {
 
 	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );

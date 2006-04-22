@@ -2007,6 +2007,7 @@ EOF;
 }
 
 function mod_rewrite_active() {
+
   $file = "";
   if ( file_exists(".htaccess") ) {
     $file = file_get_contents(".htaccess");
@@ -2023,10 +2024,20 @@ function mod_rewrite_active() {
  * test mod_rewrite URLs and see if they work.  if not, we will disable them elsewhere
  */
 function test_mod_rewrite() {
+
   if ( mod_rewrite_active() == false ) {
     return false;
   } 
 
+  // apache_get_modules is a function which PHP can use if we're running as an apache module,
+  // and it returns (shockingly) a list of available modules - this is by far the easiest and
+  // best way to find out if mod_rewrite is on
+  if ( function_exists("apache_get_modules") ) {
+    $mods = apache_get_modules();
+    return in_array("mod_rewrite", $mods);
+  }
+
+  // in lieu of that, we will generate a URL and see if it works
   $url = get_base_url() . "library/1";
 	$headers = @get_headers($url, 1);
 

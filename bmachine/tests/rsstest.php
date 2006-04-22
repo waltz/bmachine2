@@ -86,6 +86,7 @@ class RSSTest extends BMTestCase {
       $details = str_replace("&gt;", ">", $details);
       $details = str_replace("&lt;", "<", $details);
       $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
+      //$this->assertWantedPattern('/Congratulations/i', $content );
     }
   }
 }
