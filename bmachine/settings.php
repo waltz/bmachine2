@@ -73,6 +73,24 @@ else {
 	$sharing_python = isset($settings['sharing_python'])?$settings['sharing_python']:'';
 }
 
+if (isset($_POST['minport'])) {
+	$minport = encode($_POST['minport']);
+} 
+else {
+	$minport = isset($settings['minport']) && $settings['minport'] != "" ? $settings['minport'] : '6881';
+}
+
+if (isset($_POST['maxport'])) {
+	$maxport = encode($_POST['maxport']);
+} 
+else {
+	$maxport = isset($settings['maxport']) && $settings['maxport'] != "" ? $settings['maxport'] : '6889';
+}
+
+if ( $maxport < $minport ) {
+  $maxport = $minport + 8;
+}
+
 if (isset($_POST['mysql_host'])) {
 	$mysql_host = $_POST['mysql_host'];
 } 
@@ -154,6 +172,9 @@ $newsettings['mysql_password'] = $mysql_password;
 $newsettings['mysql_prefix'] = $mysql_prefix;
 $newsettings['use_mod_rewrite'] = $use_mod_rewrite;
 
+
+$newsettings['minport'] = $minport;
+$newsettings['maxport'] = $maxport;
 
 // Stop seeding everything if sharing is turned off
 if ($settings['sharing_enable'] && !$newsettings['sharing_enable']) {
@@ -453,8 +474,20 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 		$settings['sharing_python'] = $seeder->findPython();
 	}
 ?>
-<input type="textbox" name="sharing_python" 
+<input type="text" name="sharing_python" 
 	value="<?php echo isset($settings['sharing_python'])?$settings['sharing_python']:''; ?>" />
+</p>
+
+<p>
+BitTorrent Ports:  If you are having trouble with server sharing, changing these values might 
+help, but you shouldn't change them unless you know what you are doing.  You can learn more about
+this <a href="http://btfaq.com/serve/cache/25.html">here</a>.<br />
+
+Min Port: <input type="text" name="minport" 
+	value="<?php echo isset($settings['minport'])?$settings['minport'] : '6881'; ?>" /><br />
+
+Max Port: <input type="text" name="maxport" 
+	value="<?php echo isset($settings['maxport'])?$settings['maxport'] : '6889'; ?>" /><br />
 </p>
 
 <div class="section_header">MySQL Settings</div>

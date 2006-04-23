@@ -39,11 +39,11 @@
 
 include_once "include.php";
 
-global $minport;
-global $maxport;
+//global $minport;
+//global $maxport;
 
-$minport = "6881";
-$maxport = "6999";
+//$minport = "6881";
+//$maxport = "6999";
 
 
 class ServerSideSeeder {
@@ -776,9 +776,16 @@ EOD;
 			$statusfile = $data_dir . "/" . $torrent["sha1"] . ".status";
 			$savein = $data_dir . "/seedfiles/";
 
-			global $minport;
-			global $maxport;
+			//global $minport;
+			//global $maxport;
+      global $settings;
+      $minport = isset($settings["minport"]) ? $settings["minport"] : 6881;
+      $maxport = isset($settings["maxport"]) ? $settings["maxport"] : 6889;
 			
+      if ( $maxport < $minport ) {
+        $maxport = $minport + 8;
+      }
+
 			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --minport $minport --maxport $maxport --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>&1";
 			
       error_log($command);
