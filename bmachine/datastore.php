@@ -1358,9 +1358,7 @@ class DataStore {
       
       $handle = opendir( $torrents_dir );
       while ( false !== ( $torrentfile=readdir( $handle )) ) {
-        if ( $torrentfile != '.' && 
-             $torrentfile != '..' && 
-             endsWith($torrentfile, ".torrent") ) {
+        if ( endsWith($torrentfile, ".torrent") ) {
           $list[] = $torrentfile;
           $times[] = $this->getTorrentDate( $torrentfile );
         } // if
