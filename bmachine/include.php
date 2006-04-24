@@ -1898,15 +1898,19 @@ function rss_link($channel_id = "ALL", $for_itunes = false) {
 	global $settings;
 	if ( isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
 		$url = get_base_url() . "rss/$channel_id";
-		if ( $for_itunes == true ) {
-		   $uparts = @parse_url($p_url);
-		   $scheme = array_key_exists('scheme', $uparts) ? $uparts['scheme'] : "http";
-       $url = str_replace($scheme, "itpc", $url);
-		}
 	}
 	else {
 		$url = get_base_url() . "rss.php?i=" . $channel_id;
 	}
+
+  // if this rss link is for itunes, replace our scheme with 'itpc'
+  // see - http://www.apple.com/itunes/podcasts/techspecs.html
+  if ( $for_itunes == true ) {
+    $uparts = @parse_url($p_url);
+		$scheme = array_key_exists('scheme', $uparts) ? $uparts['scheme'] : "http";
+    $url = str_replace($scheme, "itpc", $url);
+  }
+
 	
 	return $url;
 }
