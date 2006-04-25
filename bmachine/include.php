@@ -9,6 +9,9 @@
  * @package Broadcast Machine
  */
 
+global $log_level;
+$log_level = -1;
+
 //error_reporting(E_ALL);
 //ini_set('errors.display_errors', true);
 
@@ -2052,8 +2055,25 @@ function test_mod_rewrite() {
   return false;
 }
 
-function debug_message($str) {
-//  error_log($str);
+function debug_message($str, $level = 0) {
+  global $data_dir;
+  global $log_level;
+
+  if ( $level >= $log_level ) {
+    $logfile = "$data_dir/log.txt";
+    if ( 
+         ( !file_exists($logfile) && @touch($logfile) ) ||
+         is_writable($logfile) ) {
+      if ( filesize($logfile) > 100000 ) {
+        file_put_contents($logfile, "");
+      }
+      $str .= "\n";
+      error_log($str, 3, $logfile);
+    }
+    else {
+      error_log($str);
+    }
+  }
 }
 
 function do_query($sql) {
