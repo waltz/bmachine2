@@ -46,7 +46,7 @@ class BEncodedDataLayer {
     }
 
     if ( !file_exists(  $data_dir . '/.htaccess' ) ) {
-      $file=fopen(  $data_dir . '/.htaccess', 'wb' );
+      $file = fopen(  $data_dir . '/.htaccess', 'wb' );
       fwrite( $file, "deny from all\n" );
       fclose ( $file );
     }
@@ -89,8 +89,9 @@ class BEncodedDataLayer {
    * lock the requested resource
    */
   function lockResource($file) {
-
+    debug_message("lockResource: $file");
     if ( isset($this->_handles[$file]) ) {
+      debug_message("lockResource: $file already locked, return handle");      
       return $this->_handles[$file];
     }
 
@@ -115,9 +116,14 @@ class BEncodedDataLayer {
     if ( isset($this->_handles[$file]) ) {
       debug_message("unlock $file - " . $this->_handles[$file] );
       fflush($this->_handles[$file]);
+      flock($this->_handles[$file], LOCK_UN );
       fclose($this->_handles[$file]);
+
       unset($this->_handles[$file]);
       clearstatcache();
+    }
+    else {
+      debug_message("unlock $file - not locked");
     }
   }
   
@@ -375,7 +381,7 @@ debug_message("done with save");
                          'sharing_auto'          => false,
                          'sharing_python'        => '',
                          'sharing_actual_python' => '',
-												 'base_url'							 => ''
+			 'base_url'		 => ''
                          );
       
     }
@@ -406,9 +412,10 @@ debug_message("done with save");
       if ( !isset( $settings['base_url'] ) )
         $settings['base_url']='';
 
-			fflush ($handle);
+      fflush ($handle);
+      flock( $handle, LOCK_UN );
       fclose ( $handle );
-			clearstatcache();
+      clearstatcache();
     }
     
     return true;
@@ -432,9 +439,10 @@ debug_message("done with save");
     $settings  = $newsettings;
     fwrite( $handle, bencode( $settings ) );
 
-		fflush ($handle);
-		fclose ( $handle );
-		clearstatcache();
+    fflush ($handle);
+    flock( $handle, LOCK_UN );
+    fclose ( $handle );
+    clearstatcache();
 
     return true;
   }
