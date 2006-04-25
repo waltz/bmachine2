@@ -39,13 +39,6 @@
 
 include_once "include.php";
 
-//global $minport;
-//global $maxport;
-
-//$minport = "6881";
-//$maxport = "6999";
-
-
 class ServerSideSeeder {
 
   /**
@@ -335,19 +328,32 @@ EOD;
 		global $data_dir;
 	
 		$this->enabled = false;
+    debug_message("seeder->setup()");
 
 		// if we haven't tried installing the tracker yet, then
 		// go ahead and try - if it works, we'll automatically turn it
 		// on (global sharing is still off at this point)
-		if ( !file_exists($data_dir . '/bt') && $this->unzipBT() ) {
-			$settings["sharing_enable"] = true;
-			$store->saveSettings($settings);
+		if ( !file_exists("$data_dir/bt") ) {
+      debug_message("seeder: bt not installed yet, lets try");
+      if ( $this->unzipBT() ) {
+        debug_message("seeder: success!");
+			  $settings["sharing_enable"] = true;
+			  $store->saveSettings($settings);
+      }
+      else {
+        debug_message("seeder: error in unzipBT");
+        $this->problem = "unzipBT";
+        return false;
+      }
 		}
+
+    debug_message("seeder: bt code is installed");
 
 		//
 		// if we're not supposed to be running, then no point in setting things up
 		//
 		if (!$settings["sharing_enable"]) {
+      debug_message("seeder: seeder hasn't been enabled by user, exiting");
 			$this->problem = "disabled";
 			return false;
 		}
@@ -359,29 +365,34 @@ EOD;
 			( ! file_exists($data_dir . '/seedfiles') && ! mkdir($data_dir . '/seedfiles', $perm_level) ) ||
 			! is_writable($data_dir . '/seedfiles') 
 		) {
+      debug_message("seeder: couldnt create directories");
 			$this->problem = "mkdir";
 			return false;
 		}
 	
 	
 		// look to see if the tracker has been unzipped
-		if ( !file_exists($data_dir . '/bt') && !$this->unzipBT() ) {
+		/*if ( !file_exists($data_dir . '/bt') && !$this->unzipBT() ) {
 			$this->problem = "unzip";
 			return false;
-		}
+		}*/
 	
 		// do we have python?
 		$this->python = $this->findPython();
+    debug_message("seeder: python is " . $this->python);
 	
 		// if not, try and unzip it
 		if ( !$this->python ) {
+      debug_message("seeder: no python yet, try to unzip our copy");
       if ( !file_exists($data_dir . '/python') && !$this->unzipPython() ) {
+        debug_message("seeder: unzip failed");
 				$this->problem = "unzip";
 				return false;
 			}
 		
-			foreach ($this->supported_platforms as $platform) {
+			foreach ( $this->supported_platforms as $platform ) {
 				if ((!is_executable($data_dir . "/python/$platform/python")) && (!chmod($data_dir . "/python/$platform/python",0755))) {
+          debug_message("seeder: python permissions error");
 					$this->problem = "permissions";
 					return false;
 				}	
@@ -400,6 +411,7 @@ EOD;
 		
 		// at this point, if we have python, we're all set
 		if ($this->python != null) {
+      debug_message("seeder: should be all set");
 			$this->problem = "";
 			$this->enabled = true;
 			return true;
@@ -407,6 +419,7 @@ EOD;
 		
 		// otherwise, return false
 		else {
+      debug_message("seeder: still no python to use, failing");
 			$this->problem = "python";
 			return false;
 		}
@@ -788,7 +801,7 @@ EOD;
 
 			$command = $this->python . " $data_dir/bt/btdownloadbg.py \"$torrentfile\" --minport $minport --maxport $maxport --statusfile $statusfile --display_interval $update_interval --save_in $savein 2>&1";
 			
-      error_log($command);
+      debug_message($command);
 
 			$old_error_level = error_reporting(0);
 			passthru($command);
@@ -852,7 +865,7 @@ EOD;
     $save_in = $data_dir . "/seedfiles/";
 
     if ( ! file_exists($save_in . basename($datafile) ) ) {
-      error_log("copy $datafile to $save_in" . basename($datafile) );
+      debug_message("copy $datafile to $save_in" . basename($datafile) );
       $result = copy( $datafile, $save_in . basename($datafile) );
 
       if ( $unlink_original == true ) {
@@ -866,7 +879,7 @@ EOD;
 
     $announce_url = get_base_url() . "announce.php";
     $command = $this->python . " $data_dir/bt/btmaketorrent.py --target \"$torrentfile\" $announce_url $datafile 2>&1";
-    error_log($command);
+    debug_message($command);
 
     $old_error_level = error_reporting(0);
     passthru($command);
