@@ -8,7 +8,7 @@ require_once(SIMPLE_TEST . 'reporter.php');
 
 class DataStoreTest extends BMTestCase {
 
-  function DataStoreTest($email) {
+  function DataStoreTest($email = "") {
 
 		if ( $email != "" ) {
 			$this->email = $email;
@@ -100,11 +100,13 @@ class DataStoreTest extends BMTestCase {
     
     global $settings;
     global $store;
-
+    debug_message("1");
     $settings['AllowRegistration'] = true;
     $settings['RequireRegAuth'] = false;
+    debug_message("2");
     $result = $store->addNewUser( "unittest",  "unittest", $this->email, true, false, $error );
     $this->assertTrue($result, $error);
+    debug_message("3");
 
     $login_url = get_base_url() . "login.php";
     $this->get($login_url);

@@ -61,7 +61,7 @@ class XHTMLTest extends BMTestCase {
       
       if ( $my_channel_id != -1 ) {
 	$url = get_base_url() . "detail.php?c=" . $my_channel_id . "&amp;i=" . $filehash;
-	print "<!-- Testing -- $url --><br>";
+	//print "<!-- Testing -- $url --><br>";
 	$this->TestPage($url);
 	$this->assertWantedPattern("/This Page Is Valid XHTML 1.0 Transitional/", "XHTMLText/TestLibrary: index.php didn't pass!" );	
 	break;

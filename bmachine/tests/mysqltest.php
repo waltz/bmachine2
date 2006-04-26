@@ -6,6 +6,8 @@ require_once(SIMPLE_TEST . 'unit_tester.php');
 require_once(SIMPLE_TEST . 'web_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 
+include_once "bmtest.php";
+
 class MySQLTest extends BMTestCase {
 
 	var $prefix = null;

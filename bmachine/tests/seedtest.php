@@ -56,7 +56,7 @@ class SeedTest extends BMTestCase {
 		}
 		else {
       debug_message("Seeding not enabled, can't test it");
-			print "Seeding not enabled, can't test it.<br>";
+			//print "Seeding not enabled, can't test it.<br>";
 		}
 	}
 
@@ -69,7 +69,7 @@ class SeedTest extends BMTestCase {
 			$seeder->setup();
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+  //			print "Seeding not enabled, can't test it.<br>";			
 		}
 	}
 
@@ -154,7 +154,7 @@ class SeedTest extends BMTestCase {
 			}
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+			//print "Seeding not enabled, can't test it.<br>";			
 		}
 	}
 
@@ -187,7 +187,7 @@ class SeedTest extends BMTestCase {
 			}
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+			//print "Seeding not enabled, can't test it.<br>";			
 		}
 
 	}
@@ -221,7 +221,7 @@ class SeedTest extends BMTestCase {
 			}
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+			//print "Seeding not enabled, can't test it.<br>";			
 		}
 	}
 
@@ -335,7 +335,7 @@ class SeedTest extends BMTestCase {
 			}
 		}
 		else {
-			print "Seeding not enabled, can't test it.<br>";			
+			//print "Seeding not enabled, can't test it.<br>";			
 		}
 	}
 
