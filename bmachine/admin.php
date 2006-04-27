@@ -11,14 +11,14 @@ require_once("version.php");
 requireUserAccess();
 
 if ( ! is_admin() ) {
-	header("Location: " . get_base_url() );
-	exit;
+  header("Location: " . get_base_url() );
+  exit;
 }
 
 update_base_url();
 
 function mycomp($a, $b) {
-	return ($b["Created"] - $a["Created"]);
+  return ($b["Created"] - $a["Created"]);
 }
 
 global $store;
@@ -39,7 +39,8 @@ bm_header();
 <?php
 	// check to see if the datastore version is the same as the stated version of BM -
 	// if not, we will ask the user to upgrade
-	if ( get_datastore_version() < get_version() ) {
+
+	if ( get_datastore_version() < version_number() ) {
 ?>
 <h4 style="color: #c00">Time to Upgrade!</h4>
 <p>

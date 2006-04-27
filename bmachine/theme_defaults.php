@@ -739,17 +739,31 @@ if ( ! function_exists("theme_torrent_info") ) {
 }
 
 if ( ! function_exists("subscribe_links") ) {
-	function subscribe_links($id) {
+	function subscribe_links($id, $channel = NULL) {
 		$iTunes = rss_link($id, true);
 		$rss_link = rss_link($id);
+
+    if ( $channel == NULL ) {
+      global $store;
+      $channel = $store->getChannel($id);
+    }
 
 		$out = <<<EOF
 			<p><a href="javascript:toggleLayer('channel-subscribe-links-$id');">Subscribe</a></p>
 			<div id="channel-subscribe-links-$id" class="channel-subscribe-links">
 				<ul>
-					<li><a href="demsub.php?i=$id" class="link-dtv">Democracy</a></li>
-					<li><a href="$iTunes" class="link-itunes">iTunes</a></li>
-					<li><a href="$rss_link">RSS Feed</a></li>
+EOF;
+    if ( $channel['Options']['SubscribeOptions'] & 1 ) {
+      $out .= "<li><a href=\"$rss_link\">RSS Feed</a></li>\n";
+    }
+    if ( $channel['Options']['SubscribeOptions'] & 2 ) {
+			$out .= "<li><a href=\"demsub.php?i=$id\" class=\"link-dtv\">Democracy</a></li>\n";
+    }
+    if ( $channel['Options']['SubscribeOptions'] & 4 ) {
+			$out .= "<li><a href=\"$iTunes\" class=\"link-itunes\">iTunes</a></li>\n";
+    }
+
+    $out .= <<<EOF
 				</ul>
 			</div>
 EOF;

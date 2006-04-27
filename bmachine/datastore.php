@@ -644,16 +644,19 @@ class DataStore {
     global $data_dir;
 
     $username = trim(mb_strtolower( $username ));
-
+    debug_message("add $username");
 		if ( strlen($username) == 0 || $username == "" ) {
 				$error = "Please specify a username";
 				return false;		
 		}
 
+    debug_message("lock resources");
 		$this->layer->lockResources( array("users", "newusers") );
-		
+    debug_message("got em");
+
 		$handle2 = NULL;
     $users = $this->layer->getAllLock("users", $handle2);
+    debug_message("locked users");
 
     if ( isset( $users[$username] ) ) {
       $error = "That username already exists";

@@ -143,8 +143,11 @@ function get_upgrade_scripts($from, $to) {
   
     foreach( $data as $a ) {
       if ( $store->type() == "MySQL" && $a["type"] == "mysql" && $a["version"] > get_datastore_version() ) {
+        if ( !isset($store->prefix) ) {
+	  $store->prefix = "";
+        }
         $sql = str_replace("__", $store->prefix, $a["action"]);
-        print "Action: $sql<br>\n";
+        debug_message("Action: $sql");
         mysql_query ($sql);
       }	
     }

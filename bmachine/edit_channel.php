@@ -8,96 +8,102 @@
 require_once("include.php");
 
 if (!is_admin()) {
-	header('Location: ' . get_base_url() . 'admin.php');
-	exit;
+  header('Location: ' . get_base_url() . 'admin.php');
+  exit;
 }
 
 $channel = $store->getChannel($_GET["i"]);
 
 if ( !isset($channel) ) {
-	die("Couldn't find channel");
+  die("Couldn't find channel");
 }
 
 // delete a section for this channel
 if (isset($_GET['d'])) {
 
-	unset($channel['Sections'][$_GET["s"]]);
-	unset($_GET['s']);
-
-//	$channels[$_GET["i"]] = $channel;
-	$store->saveChannel($channel);
+  unset($channel['Sections'][$_GET["s"]]);
+  unset($_GET['s']);
+  $store->saveChannel($channel);
 }
 
 $do_update = false;
 
 if (isset($_POST['file_array'])) {
 
-	$do_update = true;
+  $do_update = true;
 
-	$file_array = explode(" ", $_POST['file_array']);
+  $file_array = explode(" ", $_POST['file_array']);
 
-	$section = $channel['Sections'][$_GET["s"]];
-	$section['Files'] = array();
+  $section = $channel['Sections'][$_GET["s"]];
+  $section['Files'] = array();
 
-	foreach ($file_array as $file) {
-		$section['Files'][] = $file;
-	}
+  foreach ($file_array as $file) {
+    $section['Files'][] = $file;
+  }
 
-	$channel['Sections'][$_GET["s"]] = $section;
+  $channel['Sections'][$_GET["s"]] = $section;
 
-	$store->saveChannel($channel);
+  $store->saveChannel($channel);
 }
 
 if (isset($_POST['post_section'])) {
 
-	$do_update = true;
+  $do_update = true;
 
-	$sections = $channel['Sections'];
-	$sections[$_POST['post_section']]['Name'] = $_POST['post_section'];
-	$sections[$_POST['post_section']]['Files'] = array();
+  $sections = $channel['Sections'];
+  $sections[$_POST['post_section']]['Name'] = $_POST['post_section'];
+  $sections[$_POST['post_section']]['Files'] = array();
 
-	$channel['Sections'] = $sections;
-//	$channels[$_GET["i"]] = $channel;
-
-	$store->saveChannel($channel);
+  $channel['Sections'] = $sections;
+  $store->saveChannel($channel);
 }
 
 
 
 if (isset($_POST['post_options'])) {
 
-	$do_update = true;
+  $do_update = true;
 
-	$channel['Options'] = array();
-	$channel['Options']['Thumbnail'] = isset($_POST['post_thumb']);
-	$channel['Options']['Title'] = isset($_POST['post_title']);
-	$channel['Options']['Creator'] = isset($_POST['post_creator']);
-	$channel['Options']['Description'] = isset($_POST['post_desc']);
-	$channel['Options']['Length'] = isset($_POST['post_length']);
-	$channel['Options']['Filesize'] = isset($_POST['post_filesize']);
-	$channel['Options']['Published'] = isset($_POST['post_published']);
-	$channel['Options']['Torrent'] = isset($_POST['post_torrent']);
-	$channel['Options']['URL'] = isset($_POST['post_url']);
-	$channel['Options']['Keywords'] = isset($_POST['post_keywords']);
+  $channel['Options'] = array();
+  $channel['Options']['Thumbnail'] = isset($_POST['post_thumb']);
+  $channel['Options']['Title'] = isset($_POST['post_title']);
+  $channel['Options']['Creator'] = isset($_POST['post_creator']);
+  $channel['Options']['Description'] = isset($_POST['post_desc']);
+  $channel['Options']['Length'] = isset($_POST['post_length']);
+  $channel['Options']['Filesize'] = isset($_POST['post_filesize']);
+  $channel['Options']['Published'] = isset($_POST['post_published']);
+  $channel['Options']['Torrent'] = isset($_POST['post_torrent']);
+  $channel['Options']['URL'] = isset($_POST['post_url']);
+  $channel['Options']['Keywords'] = isset($_POST['post_keywords']);
 
-	$css = $_POST['post_css'];
+  $subscription_values = 0;
 
-	if ($css == "") {
-		$css = $_POST['post_css_custom'];
-	}
+  if ( isset($_POST['post_sub_options']) ) {
+    foreach( $_POST['post_sub_options'] as $o ) {
+      $subscription_values |= $o;
+    }
+  }
 
-	if ($css == "") {
-		$css = "default.css";
-	}
+  $channel['Options']['SubscribeOptions'] = $subscription_values;
 
-	$channel['CSSURL'] = $css;
-	
-	$store->saveChannel($channel);
+  $css = $_POST['post_css'];
+
+  if ($css == "") {
+    $css = $_POST['post_css_custom'];
+  }
+
+  if ($css == "") {
+    $css = "default.css";
+  }
+  
+  $channel['CSSURL'] = $css;
+  
+  $store->saveChannel($channel);
 }
 
 if ( $do_update ) {
-	makeChannelRss($_GET["i"]);
- 	header('Location: ' . get_base_url() . "channels.php" );
+  makeChannelRss($_GET["i"]);
+  header('Location: ' . get_base_url() . "channels.php" );
 }
 
 
@@ -181,6 +187,15 @@ Visual Theme:<br/>
 <ul>
 <li><input type="checkbox" name="post_keywords"<?php if ($channel['Options']['Keywords'] == "1") print(" checked=\"true\""); ?>> Display Tags list.</li>
 </ul>
+
+<div class="section_header">Subscription Links</div>
+<p><em>Show subscription links for:</em></p>
+<ul>
+<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 1) print(" checked=\"true\""); ?> value="1"> RSS Feed</li>
+<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 2) print(" checked=\"true\""); ?> value="2"> Democracy</li>
+<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 4) print(" checked=\"true\""); ?> value="4"> iTunes</li>
+</ul>
+
 
 <p class="publish_button" style="clear: both;">
 <input type="submit" value="Save Changes" border=0 />

@@ -71,7 +71,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
     debug_message("MySQLDataLayer/init");
 
     global $data_dir;
-    if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != get_version() ) {
+    if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != version_number() ) {
 
       debug_message("init - create tables");
       $m = new MySQLLoader();
@@ -119,7 +119,8 @@ class MySQLDataLayer extends BEncodedDataLayer {
 				$m->addFlatFileDonations();
       }
 
-      set_datastore_version( get_version() );
+      get_upgrade_scripts( version_number(), get_datastore_version() );
+      set_datastore_version( version_number() );
     }
 
     return true;
@@ -505,6 +506,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
 					Title TINYINT NOT NULL DEFAULT 0,
 					Torrent TINYINT NOT NULL DEFAULT 0,
 					URL TINYINT NOT NULL DEFAULT 0,
+					SubscribeOptions TINYINT NOT NULL DEFAULT 7,
 					PRIMARY KEY (ID) )";
       break;
     case "channel_files":

@@ -1369,10 +1369,15 @@ function makeChannelRss($channelID, $use_cache = true) {
 			$channel['Description'] = '';
 		} 
 		$description = $channel['Description'];
-		$name = $channel['Name'];
+    if ( isset($channel['Name']) ) {
+      $name = $channel['Name'];
+    }
+    else {
+      $name = "";
+    }
 		
 		// only go through this if we actually have files to display
-		if ( is_array($channel["Files"]) ) {
+		if ( isset($channel["Files"]) && is_array($channel["Files"]) ) {
 			$channel_files = $channel["Files"];
 			usort($channel_files, "comp");
 		
