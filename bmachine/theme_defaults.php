@@ -518,7 +518,8 @@ if ( ! function_exists("theme_detail_page") ) {
     }
 
     $out .= '
-		<div class="video-info">';
+		<div class="video-info">
+    <div class=\"video-info-internal\">';
 		
 		if ( isset($file['Title']) && $file['Title'] != "") {
 			$out .= "<h1>" . $file["Title"] . "</h1>";
@@ -627,6 +628,7 @@ if ( ! function_exists("theme_detail_page") ) {
 		$out .= theme_file_section("Other Stuff", $items);
 
 		$out .= "
+        </div>
 			</div>
 		</div>";
 
@@ -950,11 +952,29 @@ if ( ! function_exists("theme_css") ) {
 
 if ( ! function_exists("theme_javascript") ) {
 	function theme_javascript() {
+    global $themes_dir;
+    $theme_includes = "$themes_dir/" . active_theme() . "/includes/";
+    if ( file_exists($theme_includes) ) {
+      $files = dir($theme_includes);
+
+      $out = "";
+
+      // load in a list of themes
+      while(($filestr = $files->read()) !== false) {	
+        if ( endsWith($filestr, ".js") ) {
+          $url = get_base_url() . $theme_includes . $filestr;
+          $out .= "<script type=\"text/javascript\" src=\"$url\"></script>\n";
+        }
+      }
+      return $out;
+    }
+
+    /*  
 		return '
 	<script type="text/javascript" src="' . get_base_url() . '/themes/default/includes/prototype.js"></script>
 	<script type="text/javascript" src="' . get_base_url() . '/themes/default/includes/reflection.js"></script>
 	<script type="text/javascript" src="' . get_base_url() . '/themes/default/includes/shide.js"></script>
-		';
+		';*/
 	}
 }
 
@@ -1263,10 +1283,10 @@ if ( ! function_exists("theme_file_thumbnail") ) {
 		}
 
 		$alt = encode($file["Title"]);
-		$out = "<img src=\"$fname\" width=\"150\" height=\"150\" style=\"border: 0\" alt=\"$alt\"";
+		$out = "<img src=\"$fname\" width=\"150\"  style=\"border: 0\" alt=\"$alt\"";
     // border=\"0\" 
 		if ( $class != "" ) {
-			$out .= " class=\"$class\"";
+      //			$out .= " class=\"$class\"";
 		}
 		$out .= " />";
 		return $out;
@@ -1277,7 +1297,8 @@ if ( ! function_exists("theme_file_thumbnail") ) {
 if ( ! function_exists("theme_embed_video") ) {
 	function theme_embed_video($file, $channel, $class = "reflect") {		
 		$url = download_link($channel["ID"], $file["ID"]);
-		$out = "<embed src=\"$url\" width=\"250\" height=\"250\" scale=\"aspect\"></embed>";
+    //<div id=\"video-embedded\">
+		$out = "<embed src=\"$url\" width=\"250\" scale=\"aspect\"></embed>";
 		return $out;
 	}
 }

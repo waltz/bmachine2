@@ -30,6 +30,12 @@ body {
 	font-weight: normal;	
 }
 
+
+#header h1 a {
+	text-decoration: none;
+	color: black;
+}
+
 #header h2 {
 	margin: 0px;
 	padding: 0px;
@@ -160,11 +166,18 @@ body {
 
 .video-tnail {
 	float: left;
-	width: 150px;
 }
 
 .video-info {
-	margin-left: 270px;
+	margin-left: 180px;
+}
+embed {
+	margin-right: 20px;
+}
+#video-embedded {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 20px;
 }
 
 .video-info h1 {

@@ -218,8 +218,8 @@ function theme_display_frontpage_video($channel, $filehash, $file, $right = fals
 	$out = "
 			<!--VIDEO-->
 			<div class=\"$class\">
-				<div class=\"video-tnail\">" .
-				theme_file_thumbnail($file, $channel, $class) . "</div>
+				<div class=\"video-tnail\"><a href=\"$url\">" .
+				theme_file_thumbnail($file, $channel, $class) . "</a></div>
 				<div class=\"video-info\">
 					<h1><a href=\"$url\" title=\"More info on ...\">$title</a></h1>
 					<h2>$date</h2>

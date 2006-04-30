@@ -102,6 +102,14 @@ if ( ! isset($data_dir) ) {
 }
 
 
+// subscribe options to offer
+// 1 - rss
+// 2 - democracy
+// 4 - iTunes
+define('DEFAULT_SUBSCRIBE_OPTIONS', 1|2);
+
+
+
 //
 // include files for legacy code, data storeage and file sharing
 //
@@ -183,8 +191,14 @@ $can_use_cookies = true;
 // initialize our theme
 //
 global $settings;
+global $themes_dir;
+
+if ( !isset($settings['theme']) && file_exists("$themes_dir/white") ) {
+  $settings['theme'] = "white";
+}
+
 if ( isset($settings['theme']) ) {
-	global $themes_dir;
+
 	$theme = $settings['theme'];
 	$theme_path = $themes_dir . "/" . $theme . "/theme.php";
 

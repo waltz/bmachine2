@@ -58,54 +58,10 @@ if (isset($_POST['post_section'])) {
   $store->saveChannel($channel);
 }
 
-
-
-if (isset($_POST['post_options'])) {
-
-  $do_update = true;
-
-  $channel['Options'] = array();
-  $channel['Options']['Thumbnail'] = isset($_POST['post_thumb']);
-  $channel['Options']['Title'] = isset($_POST['post_title']);
-  $channel['Options']['Creator'] = isset($_POST['post_creator']);
-  $channel['Options']['Description'] = isset($_POST['post_desc']);
-  $channel['Options']['Length'] = isset($_POST['post_length']);
-  $channel['Options']['Filesize'] = isset($_POST['post_filesize']);
-  $channel['Options']['Published'] = isset($_POST['post_published']);
-  $channel['Options']['Torrent'] = isset($_POST['post_torrent']);
-  $channel['Options']['URL'] = isset($_POST['post_url']);
-  $channel['Options']['Keywords'] = isset($_POST['post_keywords']);
-
-  $subscription_values = 0;
-
-  if ( isset($_POST['post_sub_options']) ) {
-    foreach( $_POST['post_sub_options'] as $o ) {
-      $subscription_values |= $o;
-    }
-  }
-
-  $channel['Options']['SubscribeOptions'] = $subscription_values;
-
-  $css = $_POST['post_css'];
-
-  if ($css == "") {
-    $css = $_POST['post_css_custom'];
-  }
-
-  if ($css == "") {
-    $css = "default.css";
-  }
-  
-  $channel['CSSURL'] = $css;
-  
-  $store->saveChannel($channel);
-}
-
 if ( $do_update ) {
   makeChannelRss($_GET["i"]);
   header('Location: ' . get_base_url() . "channels.php" );
 }
-
 
 $files = $store->getAllFiles();
 
@@ -150,51 +106,6 @@ foreach($channel['Sections'] as $section) {
 </div>
 
 <br />
-
-<div class="section_header">Video Info</div>
-
-<form method="post" action="edit_channel.php?i=<?php echo $_GET["i"]; ?>" name="display_options" accept-charset="utf-8, iso-8859-1">
-<input type="hidden" name="post_options" value="1" class="hidden"/>
-
-<p><em>Select attributes to show for each file. Applies to all sections.</em></p>
-<ul style="edit_library_options">
-<li><input type="checkbox" name="post_thumb"<?php if ($channel['Options']['Thumbnail']) print(" checked=\"true\""); ?>>Thumbnail</li>
-<li><input type="checkbox" name="post_title"<?php if ($channel['Options']['Title']) print(" checked=\"true\""); ?>>Title</li>
-<li><input type="checkbox" name="post_creator"<?php if ($channel['Options']['Creator']) print(" checked=\"true\""); ?>>Creator's Name</li>
-<li><input type="checkbox" name="post_desc"<?php if ($channel['Options']['Description']) print(" checked=\"true\""); ?>>Description</li>
-<li><input type="checkbox" name="post_length"<?php if ($channel['Options']['Length']) print(" checked=\"true\""); ?>>Play Length</li>
-<li><input type="checkbox" name="post_filesize"<?php if ($channel['Options']['Filesize']) print(" checked=\"true\""); ?>>File Size</li>
-<li><input type="checkbox" name="post_published"<?php if ($channel['Options']['Published']) print(" checked=\"true\""); ?>>Published Date</li>
-<li><input type="checkbox" name="post_torrent"<?php if ($channel['Options']['Torrent']) print(" checked=\"true\""); ?>>Torrent Stats</li>
-<li><input type="checkbox" name="post_url"<?php if ($channel['Options']['URL']) print(" checked=\"true\""); ?>>Associated URL</li>
-</ul>
-<br />
-
-<!--
-<div class="section_header">Visual Theme</div>
-<p><em>Select a style for your library page.</em></p>
-
-<ul style="edit_library_options">
-Visual Theme:<br/>
-
-<li><input type="radio" name="post_css" value="default.css"<?php if ($channel['CSSURL'] == "default.css") print(" checked=\"true\""); ?>> Default</li>
-<li><input type="radio" name="post_css" value=""<?php if ($channel['CSSURL'] != "default.css") print(" checked=\"true\""); ?>> Custom CSS file.  Enter URL: <br />&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" size="22" name="post_css_custom" onFocus="document.display_options.post_css[1].checked = true;" value="<?php if ($channel['CSSURL'] != "default.css") echo $channel['CSSURL']; ?>" /></li>
-</ul>
-<br />
--->
-
-<div class="section_header">Other Settings</div>
-<ul>
-<li><input type="checkbox" name="post_keywords"<?php if ($channel['Options']['Keywords'] == "1") print(" checked=\"true\""); ?>> Display Tags list.</li>
-</ul>
-
-<div class="section_header">Subscription Links</div>
-<p><em>Show subscription links for:</em></p>
-<ul>
-<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 1) print(" checked=\"true\""); ?> value="1"> RSS Feed</li>
-<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 2) print(" checked=\"true\""); ?> value="2"> Democracy</li>
-<li><input type="checkbox" name="post_sub_options[]"<?php if ($channel['Options']['SubscribeOptions'] & 4) print(" checked=\"true\""); ?> value="4"> iTunes</li>
-</ul>
 
 
 <p class="publish_button" style="clear: both;">

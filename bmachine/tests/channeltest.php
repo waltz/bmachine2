@@ -16,10 +16,10 @@ class ChannelTest extends BMTestCase {
 		$publish_url = get_base_url() . "create_channel.php";
 		
 		$channel = array();
-		$channel['post_title'] = "unit test - open to publishing" . rand(0, 10000);
-		$channel['post_description'] = "unit test - anyone can post to channel";
-		$channel['post_open'] = "1";
-		$channel['post_publisher'] = "unit tests, inc.";
+		$channel['Name'] = "unit test - open to publishing" . rand(0, 10000);
+		$channel['Description'] = "unit test - anyone can post to channel";
+		$channel['OpenPublish'] = "on";
+		$channel['Publisher'] = "unit tests, inc.";
 
 		$this->Login();		
 		$this->post( $publish_url, $channel );
@@ -28,8 +28,8 @@ class ChannelTest extends BMTestCase {
 
 		global $store;
 		$channels = $store->getAllChannels();
-		$got_it = $this->Find($channels, "Name", $channel['post_title']);
-		$this->assertTrue( $got_it, "ChannelTest/TestCreateOpenPublishPage: didn't create channel" . $channel["post_title"] );
+		$got_it = $this->Find($channels, "Name", $channel['Name']);
+		$this->assertTrue( $got_it, "ChannelTest/TestCreateOpenPublishPage: didn't create channel" . $channel["Name"] );
 	}
 
 	function TestCreatePage() {
@@ -39,10 +39,10 @@ class ChannelTest extends BMTestCase {
 		$publish_url = get_base_url() . "create_channel.php";
 		
 		$channel = array();
-		$channel['post_title'] = "unit test channel" . rand(0, 10000);
-		$channel['post_description'] = "unit test channel - description";
-		$channel['post_open'] = "1";
-		$channel['post_publisher'] = "unit tests, inc.";
+		$channel['Name'] = "unit test channel" . rand(0, 10000);
+		$channel['Description'] = "unit test channel - description";
+		$channel['OpenPublish'] = "on";
+		$channel['Publisher'] = "unit tests, inc.";
 
 		$this->Login();		
 		$this->post( $publish_url, $channel );
@@ -51,8 +51,8 @@ class ChannelTest extends BMTestCase {
 
 		global $store;
 		$channels = $store->getAllChannels();
-		$got_it = $this->Find($channels, "Name", $channel['post_title']);
-		$this->assertTrue( $got_it, "ChannelTest/TestCreatePage: didn't create channel" . $channel["post_title"] );
+		$got_it = $this->Find($channels, "Name", $channel['Name']);
+		$this->assertTrue( $got_it, "ChannelTest/TestCreatePage: didn't create channel" . $channel["Name"] );
 	}
 
 
@@ -63,10 +63,10 @@ class ChannelTest extends BMTestCase {
 		$publish_url = get_base_url() . "create_channel.php";
 		
 		$channel = array();
-		$channel['post_title'] = "unit test - require login to view" . rand(0, 10000);
-		$channel['post_description'] = "unit test - must be logged in to view a file";
-		$channel['post_open'] = "1";
-		$channel['post_publisher'] = "unit tests, inc.";
+		$channel['Name'] = "unit test - require login to view" . rand(0, 10000);
+		$channel['Description'] = "unit test - must be logged in to view a file";
+		$channel['RequireLogin'] = "on";
+		$channel['Publisher'] = "unit tests, inc.";
 
 		$this->Login();		
 		$this->post( $publish_url, $channel );
@@ -75,8 +75,8 @@ class ChannelTest extends BMTestCase {
 
 		global $store;
 		$channels = $store->getAllChannels();
-		$got_it = $this->Find($channels, "Name", $channel['post_title']);
-		$this->assertTrue( $got_it, "ChannelTest/TestCreateOpenPublishPage: didn't create channel" . $channel["post_title"] );
+		$got_it = $this->Find($channels, "Name", $channel['Name']);
+		$this->assertTrue( $got_it, "ChannelTest/TestCreateRequireLoginPage: didn't create channel" . $channel["Name"] );
 	}
 
 	function TestDelete() {

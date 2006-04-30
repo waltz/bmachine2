@@ -35,7 +35,11 @@ else {
       <a href="<?php print get_base_url(); ?>"><img src="<?php print site_image(); ?>" alt="" width="48" height="48" /></a>
     </div>
     <h1><a href="<?php print get_base_url(); ?>"><?php print site_title(); ?></a></h1>
-    <h2><?php print site_description(); ?></h2>
+    <?php 
+      if ( site_description() != "" ) {
+        print "<h2>" . site_description() . "</h2>";
+      }
+      ?>
   </div>
 </div>
 <!--/HEADER-->

@@ -385,8 +385,8 @@ chmod 777 .htaccess";
 <br />
 
 <p>
-In order to use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  Broadcast Machine
-can <a href="generate_htaccess.php">do this for you</a>, or, you can log into your server and enter the following commands:
+<strong>HTACCESS not editable</strong>
+Before you can  use this feature, you need to give Broadcast Machine access to the file '.htaccess'.  Broadcast Machine can <a href="generate_htaccess.php">do this for you</a>, or, you can log into your server and enter the following commands:
 <?php
 	print "<pre>$output</pre>";
 }
@@ -394,8 +394,10 @@ can <a href="generate_htaccess.php">do this for you</a>, or, you can log into yo
 
 <br />
 <?php
+if ( is_writable('.htaccess') == true ) {
    echo '<p><input type="checkbox" name="use_mod_rewrite" 
 	 	value="1" '.(isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] ? "checked=\"true\" ":"")." /> Enable Direct URLs</p>\n";
+}
 ?>
 
 <br />

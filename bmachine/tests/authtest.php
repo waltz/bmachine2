@@ -60,20 +60,20 @@ class AuthTest extends BMTestCase {
 		$publish_url = get_base_url() . "create_channel.php";
 		
 		$channel = array();
-		$channel['post_title'] = $this->_rand_channel;
-		$channel['post_description'] = "unit test - must be logged in to view a file";
-		$channel['post_open'] = "1";
-		$channel['post_publisher'] = "unit tests, inc.";
+		$channel['Name'] = $this->_rand_channel;
+		$channel['Description'] = "unit test - must be logged in to view a file";
+		$channel['OpenPublish'] = "on";
+		$channel['Publisher'] = "unit tests, inc.";
 
 		$this->Login();		
 		$this->post( $publish_url, $channel );
 
-		$this->assertResponse("200", "ChannelTest/TestCreateOpenPublishPage: didn't get 200 response");		
+		$this->assertResponse("200", "AuthTest/TestCreateOpenPublishPage: didn't get 200 response");		
 
 		global $store;
 		$channels = $store->getAllChannels();
-		$got_it = $this->Find($channels, "Name", $channel['post_title']);
-		$this->assertTrue( $got_it, "ChannelTest/TestCreateOpenPublishPage: didn't create channel" . $channel["post_title"] );
+		$got_it = $this->Find($channels, "Name", $channel['Name']);
+		$this->assertTrue( $got_it, "AuthTest/TestCreateOpenPublishPage: didn't create channel" . $channel["Name"] );
 	}
 
 }

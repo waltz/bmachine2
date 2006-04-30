@@ -512,6 +512,29 @@ class DataStore {
 	function deleteDonation($id) {
 		return $this->layer->deleteOne("donations", $id);
 	}
+  
+  /**
+   * create a new channel with default values
+   * @returns array structure with channel data
+   */
+  function newChannel() {
+    $channel = array();
+    $channel["Files"] = array();
+    $channel['Options']=array();
+    $channel['Options']['Thumbnail']=true;
+    $channel['Options']['Title']    =true;
+    $channel['Options']['Creator']  =false;
+    $channel['Options']['Description']     =false;
+    $channel['Options']['Length']   =false;
+    $channel['Options']['Published']=false;
+    $channel['Options']['Torrent']  =false;
+    $channel['Options']['URL']      =false;
+    $channel['Options']['Filesize'] =false;
+    $channel['Options']['Keywords'] =true;
+    $channel['Options']['SubscribeOptions'] = DEFAULT_SUBSCRIBE_OPTIONS;
+
+    return $channel;
+  }
 
   /**
    * add a new channel to our data files
@@ -551,11 +574,11 @@ class DataStore {
 			$channel["ID"] = $lastID + 1;
 		}
 
-		if ( !isset($channel['LibraryURL']) ) {
+		if ( !isset($channel['LibraryURL']) || $channel['LibraryURL'] == "" ) {
 		    $channel['LibraryURL'] = get_base_url() . "library.php?i=" . $channel["ID"];
 		}
 
-		if ( !isset($channel['CSSURL']) ) {
+		if ( !isset($channel['CSSURL']) || $channel['CSSURL'] == "" ) {
 		    $channel['CSSURL'] = "default.css";
 		}
 
@@ -574,6 +597,7 @@ class DataStore {
 			$channel['Options']['URL']      =false;
 			$channel['Options']['Filesize'] =false;
 			$channel['Options']['Keywords'] =true;
+			$channel['Options']['SubscribeOptions'] = DEFAULT_SUBSCRIBE_OPTIONS;
 		}
 		if ( !isset($channel['Sections']) ) {
 	    $channel['Sections']=array();

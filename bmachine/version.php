@@ -25,9 +25,8 @@ function characterHandler($parser, $text) {
 function get_datastore_version() {
   global $data_dir;
 
-  // 20 is the first version of the app that uses this xml file
   if ( ! file_exists( "$data_dir/version.xml") ) {
-    return 20;
+    return version_number();
   }
   $xml = file_get_contents("$data_dir/version.xml");
 
