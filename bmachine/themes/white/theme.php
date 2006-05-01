@@ -6,6 +6,35 @@
  * @package Broadcast Machine
  */
 
+function render_channel_page($channel, $files, $keyword = NULL) {
+
+  $out = '<div class="channel">' .
+    theme_channel_title($channel);
+  
+  if ( $keyword != NULL ) {
+    $out .= theme_channel_keyword_header($channel, $keyword);
+  }
+  
+  $out .= 
+    theme_channel_videos($channel, $files, $keyword) .
+    theme_channel_bar($channel) .
+    '</div>';
+
+  $tmp = tags_for_files($files, $channel["Files"], $channel, false);
+  $out .= theme_channel_footer($channel, $tmp);
+
+  
+  front_header($channel["Name"], 
+               $channel["ID"], 
+               $channel["CSSURL"], 
+               rss_link($channel["ID"]) );
+  
+  print theme_channel_wrapper($out, $channel, false);
+  
+  front_footer($channel["ID"]);
+}
+
+
 function theme_channel_summary_wrapper($channel, $content) {
   $title = $channel["Name"];
   $library_url = channel_link($channel["ID"]);
@@ -26,16 +55,26 @@ function theme_channel_bar($channel) {
 }
 
 
-function theme_channel_wrapper($content, $channel) {
-  $footer = theme_channel_footer($channel);
+function theme_channel_wrapper($content, $channel, $show_channel_link = true) {
+  if ( $show_channel_link ) {
+    $footer = theme_channel_footer($channel);
+  }
+  else {
+    $footer = "";
+  }
+
   return $content . $footer;
 }
 
-function theme_channel_footer($channel) {
+function theme_channel_footer($channel, $extra = "") {
 	$link = channel_link($channel["ID"]);
   $count = count($channel["Files"]);
 
   $links = subscribe_links($channel["ID"]);
+
+  if ( $extra == "" ) {
+    $extra = "<p><a href=\"$link\">Full Channel ($count) &gt;&gt;</a></p>";
+  }
 
   $out = "
  				<div class=\"box\">
@@ -46,8 +85,7 @@ function theme_channel_footer($channel) {
 					$links
 				</div>
 			<!--/BOX-->
-					<p><a href=\"$link\">Full Channel ($count)  >></a></p>
-
+        $extra
 					<div class=\"box-bb\"><div></div></div>
 				</div>
 			</div>

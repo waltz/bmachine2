@@ -211,6 +211,10 @@ if ( isset($settings['theme']) ) {
 require_once("theme_defaults.php");
 require_once("render.php");
 
+function isnotblank($x) {
+  return isset($x) && $x != "";
+}
+
 function active_theme() {
 	global $settings;
 	if ( isset($settings['theme']) ) {
@@ -662,7 +666,7 @@ function site_title() {
  */
 function site_description() {
   global $settings;
-  return isset($settings['description']) ? $settings['description'] : 'Site Description';
+  return isset($settings['description']) && $settings['description'] != "" ? $settings['description'] : '&nbsp;';
 }
 
 /**

@@ -41,7 +41,7 @@ if ( !function_exists("render_channel_page") ) {
 		 $channel["CSSURL"], 
 		 rss_link($channel["ID"]) );
     
-    print theme_channel_wrapper($out, $channel);
+    print theme_channel_wrapper($out, $channel, false);
     
     front_footer($channel["ID"]);
   }

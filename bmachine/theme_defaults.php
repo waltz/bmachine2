@@ -26,7 +26,7 @@ if ( ! function_exists("theme_index_wrapper") ) {
 	}
 }
 if ( ! function_exists("theme_channel_wrapper") ) {
-	function theme_channel_wrapper($content, $channel = NULL) {
+	function theme_channel_wrapper($content, $channel = NULL, $show_channel_link = true) {
 		return $content;
 	}
 }
@@ -258,185 +258,206 @@ if ( ! function_exists("theme_display_video") ) {
 	}
 }
 
+if ( ! function_exists("theme_video_thumb_section") ) {
+  function theme_video_thumb_section($file, $channel) {
+    $url = detail_link($channel["ID"], $file["ID"]);
 
-function theme_video_thumb_section($file, $channel) {
-	$url = detail_link($channel["ID"], $file["ID"]);
-
-	$out = "";	
-	if ( isset($channel['Options']['Thumbnail']) && $channel['Options']['Thumbnail'] == 1) {
-		$out .= "<div class=\"video-tnail\">
+    $out = "";	
+    if ( isset($channel['Options']['Thumbnail']) && $channel['Options']['Thumbnail'] == 1) {
+      $out .= "<div class=\"video-tnail\">
 			<a href=\"$url\">" . theme_file_thumbnail($file, $channel) . "</a>
 			</div>\n"; 
-	}
-	return $out;
+    }
+    return $out;
+  }
 }
 
-function theme_file_description($file, $full = false) {
-	if ( $full == true ) {
-		return "<p>" . $file["Description"] . "</p>\n";	
-	}
-	else {
-		return "<p>" . mb_substr($file["Description"], 0, 250) . "...</p>\n";
-	}
+if ( ! function_exists("theme_file_description") ) {
+  function theme_file_description($file, $full = false) {
+    if ( $full == true ) {
+      return "<p>" . $file["Description"] . "</p>\n";	
+    }
+    else {
+      return "<p>" . mb_substr($file["Description"], 0, 250) . "...</p>\n";
+    }
+  }
 }
 
-function theme_file_keywords($file, $channel) {
+if ( ! function_exists("theme_file_keywords") ) {
+  function theme_file_keywords($file, $channel) {
 
-	$out = "";
+    $out = "";
 
-	if ( isset($channel['Options']['Keywords']) && $channel['Options']['Keywords'] == 1 && $file["Keywords"] ) {
-		$out .= "<p><a class=\"link-tags\">Tags:</a>&nbsp;";
-		
-		$i = 0;
-
-		foreach ($file["Keywords"] as $keyword) {
-			if ($i > 0) {
-				$out .= ", ";
-			}
-			$i++;
-			if ( is_array($keyword) ) {
-				$keyword = $keyword[0];
-			}
-			$out .= "<a href=\"" . get_base_url() . "library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
-		}  
-		$out .= "</p>";
-	}
+    if ( isset($channel['Options']['Keywords']) && $channel['Options']['Keywords'] == 1 && $file["Keywords"] ) {
+      $out .= "<p><a class=\"link-tags\">Tags:</a>&nbsp;";
+      
+      $i = 0;
+      
+      foreach ($file["Keywords"] as $keyword) {
+        if ($i > 0) {
+          $out .= ", ";
+        }
+        $i++;
+        if ( is_array($keyword) ) {
+          $keyword = $keyword[0];
+        }
+        $out .= "<a href=\"" . get_base_url() . "library.php?i=" . $channel["ID"] . "&amp;kw=" . urlencode($keyword) . "\">" . $keyword . "</a>";
+      }  
+      $out .= "</p>";
+    }
 	 
-
-	return $out;
+    
+    return $out;
+  }
 }
 
-function theme_pretty_filesize($tmpurl) {
-	$size = get_filesize($tmpurl);
-	if ( $size ) {
-		$size /= 1024;
-		if ( $size < 1024 ) {
-			$size = sprintf("%0.0f KB", $size);
-		}
-		else {
-			$size /= 1024;
-			$size = sprintf("%0.0f MB", $size);
-		}
-	}
-	else {
-		$size = "???";
-	}
-	return $size;
+if ( ! function_exists("theme_pretty_filesize") ) {
+  function theme_pretty_filesize($tmpurl) {
+    $size = get_filesize($tmpurl);
+    if ( $size ) {
+      $size /= 1024;
+      if ( $size < 1024 ) {
+        $size = sprintf("%0.0f KB", $size);
+      }
+      else {
+        $size /= 1024;
+        $size = sprintf("%0.0f MB", $size);
+      }
+    }
+    else {
+      $size = "???";
+    }
+    return $size;
+  }
 }
 
 
-function theme_file_size($file, $channel) {
-	$out = "";
-	if ( isset($channel['Options']['Filesize']) && $channel['Options']['Filesize'] == 1 ) {
-		$size = theme_pretty_filesize($file["URL"]);
-		$out = "<a class=\"link-info\">Size: " . $size . "</a>";
-	}
-	return $out;
+if ( ! function_exists("theme_file_size") ) {
+  function theme_file_size($file, $channel) {
+    $out = "";
+    if ( isset($channel['Options']['Filesize']) && $channel['Options']['Filesize'] == 1 ) {
+      $size = theme_pretty_filesize($file["URL"]);
+      $out = "<a class=\"link-info\">Size: " . $size . "</a>";
+    }
+    return $out;
+  }
 }
 
-function theme_runtime($file, $channel) {
-	$out = "";
-	$runtime = runtime_string($file);
-	if ($runtime != "") {
-		$out = "<a class=\"link-duration\">" . $runtime . "</a>";
-	}
-	return $out;
+if ( ! function_exists("theme_runtime") ) {
+  function theme_runtime($file, $channel) {
+    $out = "";
+    $runtime = runtime_string($file);
+    if ($runtime != "") {
+      $out = "<a class=\"link-duration\">" . $runtime . "</a>";
+    }
+    return $out;
+  }
 }
 
-function theme_post_date($file, $channel) {
-	$out = "";
-	if ( isset($channel['Options']['Length']) && $channel['Options']['Length'] == 1) {
-		$out = "<a class=\"link-date\">Posted " . date("F j, Y", $file["Publishdate"]) . "</a>";
-	}
-	return $out;
+if ( ! function_exists("theme_post_date") ) {
+  function theme_post_date($file, $channel) {
+    $out = "";
+    if ( isset($channel['Options']['Length']) && $channel['Options']['Length'] == 1) {
+      $out = "<a class=\"link-date\">Posted " . date("F j, Y", $file["Publishdate"]) . "</a>";
+    }
+    return $out;
+  }
 }
 
-function theme_video_info_section_wrapper($content) {
-	$out = "<div class=\"video-info\">$content</div>";
-	return $out;
+if ( ! function_exists("theme_video_info_section_wrapper") ) {
+  function theme_video_info_section_wrapper($content) {
+    $out = "<div class=\"video-info\">$content</div>";
+    return $out;
+  }
 }
 
-function theme_torrent_display($file, $channel) {
-	$out = "";
-	if ( isset($channel['Options']['Torrent']) && $channel['Options']['Torrent'] == 1 && is_local_torrent($file["URL"]) ) {
-		$return_url = "detail.php?c=" . $channel["ID"] . "&amp;i=" . $file["ID"];
-		$out .= theme_torrent_info($file["URL"], $file["ID"], $return_url );
-	}
-	return $out;
+if ( ! function_exists("theme_torrent_display") ) {
+  function theme_torrent_display($file, $channel) {
+    $out = "";
+    if ( isset($channel['Options']['Torrent']) && $channel['Options']['Torrent'] == 1 && is_local_torrent($file["URL"]) ) {
+      $return_url = "detail.php?c=" . $channel["ID"] . "&amp;i=" . $file["ID"];
+      $out .= theme_torrent_info($file["URL"], $file["ID"], $return_url );
+    }
+    return $out;
+  }
 }
 
-function theme_download_links($channel, $file) {
-
-	$channelID = $channel["ID"];
-	$filehash = $file["ID"];
-
-	$out = array();
-
-	// if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
-	$url = download_link($channel["ID"], $filehash);
-
-	if ( is_local_torrent($file["URL"]) ) {
-		$ezurl = download_link($channel["ID"], $filehash, true) . "&amp;type=helper";
-		$out[] = theme_torrent_display($file, $channel);
-		$out[] = "<a href=\"$url\" class=\"link-download\">Torrent File</a>";
-		$out[] = "<a href=\"$ezurl\" class=\"link-download\">Easy Downloader</a>";
-	}
-
-	// otherwise, just a direct link
-	else {	
-		$out[] = "<a href=\"$url\" class=\"link-download\">Direct Download</a>";
-	}
-	return $out;
+if ( ! function_exists("theme_download_links") ) {
+  function theme_download_links($channel, $file) {
+    
+    $channelID = $channel["ID"];
+    $filehash = $file["ID"];
+    
+    $out = array();
+  
+    // if this is a torrent, provide two links - one to the torrent and one to Easy Downloader
+    $url = download_link($channel["ID"], $filehash);
+    
+    if ( is_local_torrent($file["URL"]) ) {
+      $ezurl = download_link($channel["ID"], $filehash, true) . "&amp;type=helper";
+      $out[] = theme_torrent_display($file, $channel);
+      $out[] = "<a href=\"$url\" class=\"link-download\">Torrent File</a>";
+      $out[] = "<a href=\"$ezurl\" class=\"link-download\">Easy Downloader</a>";
+    }
+    
+    // otherwise, just a direct link
+    else {	
+      $out[] = "<a href=\"$url\" class=\"link-download\">Direct Download</a>";
+    }
+    return $out;
+  }
 }
 
-function theme_video_info_section($file, $channel) {
-	$filehash = $file["ID"];
-	$url = detail_link($channel["ID"], $filehash);
-
-	$out = "";
-
-	if ( isset($channel['Options']['Title']) && $channel['Options']['Title'] == 1) {
-		$out .= "<h1><a href=\"$url\">" . encode($file["Title"]) . "</a></h1>\n";
-	}
-
-	if ( isset($channel['Options']['Published']) && $channel['Options']['Published'] == 1 ) {
-		
-		$out .= "<h2>";
-
-		if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {
-			$out .=  file_release_date($file);
-		}
+if ( ! function_exists("theme_video_info_section") ) {
+  function theme_video_info_section($file, $channel) {
+    $filehash = $file["ID"];
+    $url = detail_link($channel["ID"], $filehash);
+    
+    $out = "";
+    
+    if ( isset($channel['Options']['Title']) && $channel['Options']['Title'] == 1) {
+      $out .= "<h1><a href=\"$url\">" . encode($file["Title"]) . "</a></h1>\n";
+    }
+    
+    if ( isset($channel['Options']['Published']) && $channel['Options']['Published'] == 1 ) {
+      
+      $out .= "<h2>";
+      
+      if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {
+        $out .=  file_release_date($file);
+      }
+      
+      if (isset($channel['Options']['Creator']) && $channel['Options']['Creator'] == 1 && $file["Creator"]) {
+        $out .= "by <strong>" . $file["Creator"] . "</strong>\n";
+      }
+      
+      $out .= "</h2>";
+      
+    }
 	
-		if (isset($channel['Options']['Creator']) && $channel['Options']['Creator'] == 1 && $file["Creator"]) {
-			$out .= "by <strong>" . $file["Creator"] . "</strong>\n";
-		}
-		
-		$out .= "</h2>";
-
-	}
 	
-	
-	if ( isset($channel['Options']['Description']) && $channel['Options']['Description'] == 1 && $file["Description"] != "" ) {
-		$out .= "<p>" . theme_file_description($file) . "</p>\n";
-	}
-	$out .= theme_file_keywords($file, $channel);
-
-	$out .= "<ul>";
-	$out .= "<li>" . theme_file_size($file, $channel) . "</li>\n";
-	$out .= "<li>" . theme_runtime($file, $channel) . "</li>\n";
-	$out .= "<li>" . theme_post_date($file, $channel) . "</li>\n";
-	$out .= "</ul>";
-
-	$out .= "<h3>Download</h3>";
-	
-	$out .= "<ul>";
-	$links = theme_download_links($channel, $file);
-	foreach( $links as $l ) {
-		$out .= "<li>$l</li>\n";
-	}
-	$out .= "</ul>\n";
-
-	return theme_video_info_section_wrapper($out);
+    if ( isset($channel['Options']['Description']) && $channel['Options']['Description'] == 1 && $file["Description"] != "" ) {
+      $out .= "<p>" . theme_file_description($file) . "</p>\n";
+    }
+    $out .= theme_file_keywords($file, $channel);
+    
+    $out .= "<ul>";
+    $out .= "<li>" . theme_file_size($file, $channel) . "</li>\n";
+    $out .= "<li>" . theme_runtime($file, $channel) . "</li>\n";
+    $out .= "<li>" . theme_post_date($file, $channel) . "</li>\n";
+    $out .= "</ul>";
+    
+    $out .= "<h3>Download</h3>";
+    
+    $out .= "<ul>";
+    $links = theme_download_links($channel, $file);
+    foreach( $links as $l ) {
+      $out .= "<li>$l</li>\n";
+    }
+    $out .= "</ul>\n";
+    
+    return theme_video_info_section_wrapper($out);
+  }
 }
 
 if ( ! function_exists("theme_display_internal_video") ) {
@@ -756,7 +777,7 @@ if ( ! function_exists("subscribe_links") ) {
 				<ul>
 EOF;
     if ( $channel['Options']['SubscribeOptions'] & 1 ) {
-      $out .= "<li><a href=\"$rss_link\">RSS Feed</a></li>\n";
+      $out .= "<li><a href=\"$rss_link\" class=\"link-feed\">RSS Feed</a></li>\n";
     }
     if ( $channel['Options']['SubscribeOptions'] & 2 ) {
 			$out .= "<li><a href=\"demsub.php?i=$id\" class=\"link-dtv\">Democracy</a></li>\n";
@@ -831,7 +852,7 @@ if ( !function_exists("theme_file_tags") ) {
 }
 
 if ( ! function_exists("tags_for_files") ) {
-	function tags_for_files($files, $channel_files, $channel) {
+	function tags_for_files($files, $channel_files, $channel, $in_box = true) {
 	
     $channelID = $channel["ID"];
 
@@ -863,9 +884,6 @@ if ( ! function_exists("tags_for_files") ) {
 	
 		if ( count($keywords) > 0 ) {
 			$out = <<<EOF
-	<div class="box">
-		<div class="box-bi">
-			<div class="box-bt"><div></div></div>
 	<!-- show up 8 most popular tags -->
 	<p><a class="link-tags">Tags:</a>&nbsp;
 EOF;
@@ -878,13 +896,21 @@ EOF;
 					break;
 				}
 			}
+			$out .= "</p>";
 
-			$out .= <<<EOF
-			</p>
+
+      if ( $in_box == true ) {
+			$out = <<<EOF
+	<div class="box">
+		<div class="box-bi">
+			<div class="box-bt"><div></div></div>
+        $out
 			<div class="box-bb"><div></div></div>
 		</div>
 	</div>
 EOF;
+      }
+
 			return $out;
 		} // if
 	}
@@ -946,7 +972,14 @@ if ( ! function_exists("runtime_string") ) {
 
 if ( ! function_exists("theme_css") ) {
 	function theme_css() {
-		return "<link href=\"" . get_base_url() . "/themes/default/css/black.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+    global $themes_dir;
+    $theme_css = "$themes_dir/" . active_theme() . "/css/" . active_theme() . ".css";
+    if ( file_exists($theme_css) ) {
+      return "<link href=\"$theme_css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+    }
+    else {
+      return "<link href=\"" . get_base_url() . "/pub_css.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+    }
 	}
 }
 

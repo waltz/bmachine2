@@ -44,9 +44,14 @@ if (isset($_POST['Name'])) {
     }
   }
   
-    /*  if ( isset($_POST['post_use_auto']) && $_POST['post_use_auto'] == '1') {
-    //		$url = "";
-  } 
+  if ( isset($_POST['post_use_auto']) && $_POST['post_use_auto'] == '1') {
+    $channel["LibraryURL"] = "";
+  }
+  else if ( isset($_POST["LibraryURL"]) ) {
+    $channel["LibraryURL"] = $_POST["LibraryURL"];
+  }
+
+  /* 
   else if ( isset($_POST['LibraryURL']) ) {
     $url = $_POST['LibraryURL'];
   }*/
@@ -59,10 +64,6 @@ if (isset($_POST['Name'])) {
   $channel["Name"] = encode($_POST['Name']);
   $channel["Description"] = encode($_POST['Description']);
   
-  if ( isset($_POST["LibraryURL"]) ) {
-    $channel["LibraryURL"] = $_POST["LibraryURL"];
-  }
-
   if ( isset($_POST['Publisher']) ) {
     $channel["Publisher"] = encode($_POST['Publisher']);
   }
@@ -236,17 +237,27 @@ if ($channel["NotPublic"]) {
 
 <fieldset>
 <div class="the_legend">Channel Homepage (optional): </div><br /><input type="radio" name="post_use_auto" value="1" <?php
-if ($channel["LibraryURL"] == '') {
-	echo " checked=\"true\"";
+
+$library_url = "library.php?i=" . $channel["ID"];
+$use_auto = false;
+
+if (  stristr($channel['LibraryURL'], $library_url) ) {
+  $use_auto = true;
+  $channel["LibraryURL"] = "";
+  echo " checked=\"true\"";
 }
 ?>>Use Automatic Library or
 
 <input type="radio" name="post_use_auto" value="0" <?php
 
-if ($channel["LibraryURL"] != '') {
-	echo " checked=\"true\"";
+if ($use_auto == false) {
+  echo " checked=\"true\"";
 }
-?>>Use Custom Library at <input type="text" name="LibraryURL" size="38" value="<?php echo $channel["LibraryURL"]; ?>" id="title" onFocus="document.post.post_use_auto[1].checked = true;"/>
+?>> 
+Use Custom Library at <input 
+  type="text" 
+  name="LibraryURL" 
+  size="38" value="<?php echo $channel["LibraryURL"]; ?>" id="title" onFocus="document.post.post_use_auto[1].checked = true;"/>
 </fieldset>
 
 <div class="section_header">Video Info</div>

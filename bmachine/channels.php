@@ -88,7 +88,7 @@ Files you publish are organized into channels.  People can see your channels on 
 
 
 	<!-- 1225115 formatting change -->
-	 <div class="channel_url"><a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a> - <a href="<?php rss_link($channel["ID"]); ?>">RSS Feed</a>
+	 <div class="channel_url"><a href="<?php echo $channel["LibraryURL"];  ?>">Channel Front Page</a> - <a href="<?php print rss_link($channel["ID"]); ?>">RSS Feed</a>
 
 	 <div class="channel_stats"><?php if ( isset($channel["Files"]) ) { echo count($channel["Files"]); } else { echo "0"; } ?> files on this channel</div>
 
