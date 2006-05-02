@@ -855,6 +855,78 @@ function check_folders() {
 }
 
 /**
+ * @return array
+ * @param string $url
+ * @param int $format
+ * @desc Fetches all the headers
+ * @author cpurruc fh-landshut de
+ * @modified by dotpointer
+ * @modified by aeontech
+ * grabbed from http://us2.php.net/get_headers
+ */
+function bm_get_headers( $url, $format = 0 ) {
+  
+  // make sure we don't die on a bad URL here
+  $old_error_level = error_reporting(0);
+  
+  $url_info = parse_url($url);
+  //print_r($url_info);
+  
+  if ( $url_info["scheme"] != "http" ) {
+    return false;
+  }
+  
+  $port = isset($url_info['port']) ? $url_info['port'] : 80;
+  $fp = fsockopen($url_info['host'], $port, $errno, $errstr, 15);
+  
+  if($fp) {
+    $head = "HEAD ".@$url_info['path']."?".@$url_info['query']." HTTP/1.0\r\nHost: ".@$url_info['host']."\r\n\r\n";     
+    fputs($fp, $head);     
+    while(!feof($fp)) {
+      if($header=trim(fgets($fp, 1024))) {
+        if($format == 1) {
+          $key = array_shift(explode(':',$header));
+          // the first element is the http header type, such as HTTP 200 OK,
+          // it doesn't have a separate name, so we have to check for it.
+          if($key == $header) {
+            $headers[] = $header;
+          }
+          else {
+            // lowercase the key so we don't have to deal with any bizzare server responses
+            $headers[strtolower($key)]=substr($header,strlen($key)+2);
+          }
+          unset($key);
+        }
+        else {
+          $headers[] = $header;
+        }
+      }
+    }
+    
+    // if these headers included a redirect, then let's recurse down
+    // to the file the user would be sent to, and get its headers
+    if ( isset($headers["location"]) ) {
+      $redirect = $headers["location"];
+      
+      // make sure we have an absolute URL
+      if ( beginsWith($redirect, "http") == false ) {
+        $redirect = $url_info["scheme"] . "://" . $url_info["host"] . $redirect;
+      }
+      
+      return bm_get_headers($redirect, 1);
+    }
+    
+    error_reporting($old_error_level);
+    return $headers;
+  }
+  else {
+    error_reporting($old_error_level);
+    return false;
+  }
+}
+
+
+/**
  * do a web request to see if our data files are accessible, which is a bad security risk
  * but should only happen on non-Apache installs
  * @see http://www.securitytracker.com/alerts/2005/Jul/1014449.html
@@ -869,7 +941,7 @@ function check_access() {
 //	$files_url = $base . "$data_dir/files";
 //	$channels_url = $base . "$data_dir/channels";
 	
-	$headers = @get_headers($users_url, 1);
+	$headers = @bm_get_headers($users_url, 1);
 
 	if ( isset($headers) && isset($headers[0]) && stristr($headers[0], "200 OK") > 0 ) {
 		return true;
@@ -1649,7 +1721,7 @@ function endsWith( $str, $sub ) {
  * @returns length, and sets $errstr if something goes wrong - like a 404
  */
 function get_content_length( $file_url, &$errstr ) {
-	$headers = @get_headers($file_url, 1);
+	$headers = @bm_get_headers($file_url, 1);
 
 	if ( ! $headers || stristr($headers[0], "404") != 0 ) {
 		$errstr = "404";
@@ -2069,7 +2141,7 @@ function test_mod_rewrite() {
 
   // in lieu of that, we will generate a URL and see if it works
   $url = get_base_url() . "library/1";
-	$headers = @get_headers($url, 1);
+	$headers = @bm_get_headers($url, 1);
 
 	if ( isset($headers) && isset($headers[0]) && stristr($headers[0], "200 OK") > 0 ) {
 		return true;
@@ -2124,8 +2196,8 @@ function list_themes() {
 	} // while
 
   return $choices;
-
 }
+
 
 /*
  * Local variables:
