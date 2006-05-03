@@ -79,6 +79,10 @@ class MySQLDataLayer extends BEncodedDataLayer {
       if ( ! $this->tableExists("instance") ) {
 	do_query( $this->getTableDef("instance") );
       }
+
+      if ( ! $this->tableExists("stats") ) {
+	do_query( $this->getTableDef("stats") );
+      }
     
       if ( ! $this->tableExists("peers") ) {
 	do_query( $this->getTableDef("peers") );
@@ -462,6 +466,13 @@ class MySQLDataLayer extends BEncodedDataLayer {
 					time int not null,
 					PRIMARY KEY(id));";
       break;
+
+    case "stats":
+      $sql = "CREATE TABLE " . $this->prefix . "stats (
+					id char(40) NOT NULL,
+					downloads int not null default 0,
+					PRIMARY KEY(id));";
+      break;
     case "torrents":
       $sql = "CREATE TABLE " . $this->prefix . "torrents (
 					info_hash char(40) NOT NULL,
@@ -637,6 +648,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
 		   "update" => "UPDATE " . $this->prefix . "instance SET %vals WHERE id='%key'"
 		   );
       break;
+    case "stats":
+      return array(
+		   "all" => "SELECT * FROM " . $this->prefix . "stats",
+		   "select" => "SELECT * FROM " . $this->prefix . "stats WHERE id='%key'",
+		   "delete" => "DELETE FROM " . $this->prefix . "stats WHERE id='%key'",
+		   "insert" => "REPLACE INTO " . $this->prefix . "stats SET %vals",
+		   "update" => "UPDATE " . $this->prefix . "stats SET %vals WHERE id='%key'"
+		   );
+      break;
     case "torrents":
       return array(
 		   "all" => "SELECT * FROM " . $this->prefix . "torrents",
@@ -778,6 +798,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
   function getTableKey($name) {
     switch ($name) {
     case "instance":
+    case "stats":
       return "id";
       break;
     case "torrents":

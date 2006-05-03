@@ -985,13 +985,12 @@ class DataStore {
 
     switch ( $event ) {
 
-      /*    case "started":
+    case "started":
       $torrentfile = $this->getTorrentFromHash($info_hash);
       $id = $this->getHashFromFilename($torrentfile);
       $this->recordStartedDownload($id, true);
-    case "stopped":
-      */
-
+      break;
+      // case "stopped":
     case "completed":
       $torrentfile = $this->getTorrentFromHash($info_hash);
       $id = $this->getHashFromFilename($torrentfile);
@@ -1004,8 +1003,6 @@ class DataStore {
   }
 
   function recordStartedDownload($id, $is_torrent = false) {
-
-    error_log("START: $id");
 
     if ( $is_torrent == true ) {
       $key = "downloading";
@@ -1029,7 +1026,7 @@ class DataStore {
       $info["downloads"] = 0;
     }
     if ( !isset($info["downloading"]) ) {
-      $info["downloading"] = 0;;
+      $info["downloading"] = 0;
     }
 
     $info["downloads"]++;
@@ -1059,7 +1056,7 @@ class DataStore {
 		// see if this torrent should be server-shared, and if so, make sure it is running
 		$torrentfile = $this->getTorrentFromHash($info_hash);
 
-		if ( !file_exists( $data_dir . '/' . $info_hash ) ) {
+		if ( !file_exists( "$data_dir/$info_hash" ) ) {
 			$this->error = 'This torrent is not authorized on this tracker.';
 			return null;
 		}
@@ -1113,7 +1110,7 @@ class DataStore {
 		$updated = false;
 
 		// Update the peer
-		for ( $i=0; $i < $peer_num; $i++ ) {
+		for ( $i = 0; $i < $peer_num; $i++ ) {
 
 			if ( ( $peer_ip . $peer_port ) == substr( $data, $i * 7 + 1, 6 ) ) {
 

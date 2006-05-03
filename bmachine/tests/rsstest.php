@@ -57,7 +57,7 @@ class RSSTest extends BMTestCase {
 	
     foreach($channels as $channel) {
       makeChannelRss($channel["ID"]);
-      $this->assertTrue(file_exists("$rss_dir/" . $channel["ID"] . ".rss"), "Didn't generate " . $channel["ID"] . ".rss" );			
+      $this->assertTrue(file_exists("$rss_dir/" . $channel["ID"] . ".rss"), "Didn't generate " . $channel["ID"] . ".rss" );
     }
   }
 
@@ -69,25 +69,41 @@ class RSSTest extends BMTestCase {
     $channels = $store->getAllChannels();
     
     foreach($channels as $channel) {
-      $rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
-      $test_url = "http://www.feedvalidator.org/check.cgi?url=" . urlencode($rss_url);
 
-      $this->get($test_url);
+      if ( !isset($channel["RequireLogin"]) || $channel["RequireLogin"] == false ) {
 
-      $content = $this->_browser->getContent();
-      eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
-      //      preg_match('/<span class="message">(.*?)<\/span>/', $content, $errors);
-      //preg_match('/<span class="message">(.*?)<\/span>/', $content, $errors);
-      //print $content . "\n\n\n";
-      //      print_r($errors);
-      //$details = strip_tags($errors[4]);
-      $details = $errors[4];
-      $details = str_replace("&nbsp;", " ", $details);
-      $details = str_replace("&gt;", ">", $details);
-      $details = str_replace("&lt;", "<", $details);
-      $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
-      //$this->assertWantedPattern('/Congratulations/i', $content );
+	$rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
+	$test_url = "http://www.feedvalidator.org/check.cgi?url=" . urlencode($rss_url);
+
+	$this->get($test_url);
+
+	$content = $this->_browser->getContent();
+	eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
+
+	$details = $errors[4];
+	$details = str_replace("&nbsp;", " ", $details);
+	$details = str_replace("&gt;", ">", $details);
+	$details = str_replace("&lt;", "<", $details);
+	$this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
+      }
+
     }
   }
+
+  function TestRestrictedRSS() {
+    global $store;
+    $channels = $store->getAllChannels();
+    
+    foreach($channels as $channel) {
+
+      if ( isset($channel["RequireLogin"]) && $channel["RequireLogin"] == true ) {
+	$rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
+	$headers = @bm_get_headers($rss_url);
+	$this->assertTrue($headers[0] == "HTTP/1.1 401 Unauthorized", "Expected restricted RSS file, but it wasn't");
+      }
+    }
+
+  }
+
 }
 ?>

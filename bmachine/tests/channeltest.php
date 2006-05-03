@@ -104,6 +104,14 @@ class ChannelTest extends BMTestCase {
 	
 	}
 
+  function TestAddSection() {
+    
+  }
+
+  function TestDeleteSection() {
+
+  }
+
 }
 
 /*

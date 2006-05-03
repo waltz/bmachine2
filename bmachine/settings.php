@@ -463,21 +463,25 @@ once there are enough seeds available on the network.</p>
 
    echo $seeder->setupHelpMessage();
 
-   echo '<p><input type="checkbox" name="sharing_enable" value="1" '.($settings['sharing_enable'] ? "checked=\"true\" ":"")." /> Enable server sharing</p>\n";
+   echo '<p><input type="checkbox" name="sharing_enable" 
+             value="1" ' . ($settings['sharing_enable'] ? "checked=\"true\" " : "") ." /> Enable server sharing</p>\n";
 
-   echo '<p><input type="checkbox" name="sharing_auto" value="1" '.($settings['sharing_auto'] ? "checked=\"true\" ":"")." /> Automatically server share files</p>\n";
+   echo '<p><input type="checkbox" name="sharing_auto" 
+             value="1" ' . ($settings['sharing_auto'] ? "checked=\"true\" " : "") . " /> Automatically server share files</p>\n";
 
 ?>
 
 <p>Location of Python Interpreter<br />
 For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 <?php
-	if ( !isset($settings['sharing_python']) || $settings['sharing_python'] == "" ) {
-		$settings['sharing_python'] = $seeder->findPython();
-	}
+if ( !isset($settings['sharing_python']) || 
+     $settings['sharing_python'] == "" || 
+     $seeder->isValidPython($settings['sharing_python']) == false ) {
+  $settings['sharing_python'] = $seeder->findPython();
+}
 ?>
 <input type="text" name="sharing_python" 
-	value="<?php echo isset($settings['sharing_python'])?$settings['sharing_python']:''; ?>" />
+	value="<?php echo isset($settings['sharing_python']) ? $settings['sharing_python'] : ''; ?>" />
 </p>
 
 <p>
@@ -494,7 +498,9 @@ Max Port: <input type="text" name="maxport"
 
 <div class="section_header">MySQL Settings</div>
 
-<p>Broadcast Machine can optionally use a MySQL database for increased performance. If you create a database for this purpose, enter the information below to activate MySQL support.</p>
+<p>Broadcast Machine can optionally use a MySQL database for increased 
+performance. If you create a database for this purpose, enter the information 
+below to activate MySQL support.</p>
 
 <p>Currently, this installation of Broadcast Machine Helper 
 <?php 

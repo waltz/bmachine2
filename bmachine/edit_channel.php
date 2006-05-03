@@ -60,7 +60,7 @@ if (isset($_POST['post_section'])) {
 
 if ( $do_update ) {
   makeChannelRss($_GET["i"]);
-  header('Location: ' . get_base_url() . "channels.php" );
+  //header('Location: ' . get_base_url() . "channels.php" );
 }
 
 $files = $store->getAllFiles();

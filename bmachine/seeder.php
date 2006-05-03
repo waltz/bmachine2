@@ -156,6 +156,19 @@ class ServerSideSeeder {
     return false;
 	}
 
+  function validPython($version) {
+    preg_match('/Python (\d).(\d)(.(\d))?/', $version, $res);
+    if ( count($res) > 2 ) {
+      $major = $res[1];
+      $minor = $res[2];
+
+
+      return $major > 2 || $minor >= 3;
+    }
+
+    return false;
+  }
+
 	/**
 	 * Try and find a copy of python we can use to run the seeder
 	 *
@@ -169,9 +182,10 @@ class ServerSideSeeder {
 		
 		if (isset($settings["sharing_python"]) && strlen($settings["sharing_python"])) {
 
-			$version = exec($settings["sharing_python"]." -V 2>&1");
+			$version = @exec($settings["sharing_python"]." -V 2>&1");
 
-			if (preg_match('/^Python/',$version)) {
+			//if (preg_match('/^Python/',$version)) {
+			if ( $this->validPython($version) ) {
 				$settings["sharing_actual_python"] = $settings["sharing_python"];	
 				$store->saveSettings($settings);
 				return $settings["sharing_python"];
@@ -188,26 +202,34 @@ class ServerSideSeeder {
 
 		//
 		// otherwise, let's start out by trying to run a version already installed
-		// on the server
+		// on the server.  python tends to hold onto old copies with 'python' symlinked
+    // to the newest version, but sometimes it'll be linked to an older version, so
+    // we will iterate through several possible binaries until we find one which works
 		//
-		$version = exec("python -V 2>&1");
+    $pythons = array("python", "python2.4", "python2.3", "python2");
+
+    foreach($pythons as $p) {
+      $version = @exec("$p -V 2>&1");
 	
-		if (preg_match('/^Python/',$version)) {
-			$settings["sharing_actual_python"] = "python";
-			$store->saveSettings($settings);
-			return "python";
-		}
-	
+      //		if (preg_match('/^Python/',$version)) {
+      if ( $this->validPython($version) ) {
+        $settings["sharing_actual_python"] = $p;
+        $store->saveSettings($settings);
+        return $p;
+      }
+    }
+
 		//
 		// if that fails, try running our included version of python
 		//
 		$prefix = dirname($_SERVER['SCRIPT_FILENAME']);
 
 		foreach ($this->supported_platforms as $platform) {
-			$version = exec($prefix."/data/python/$platform/python -V 2>&1");
+			$version = exec("$prefix/data/python/$platform/python -V 2>&1");
 
-			if (preg_match('/^Python/',$version)) {
-				$settings["sharing_actual_python"] = "PYTHONHOME=$prefix/data/python/$platform PYTHONPATH=$prefix/data/python/$platform $prefix/data/python/$platform/python";
+			if (preg_match('/^Python/', $version)) {
+				$settings["sharing_actual_python"] = 
+          "PYTHONHOME=$prefix/data/python/$platform PYTHONPATH=$prefix/data/python/$platform $prefix/data/python/$platform/python";
 	
 				$store->saveSettings($settings);	
 				return $settings["sharing_actual_python"];
@@ -384,7 +406,7 @@ EOD;
 		// if not, try and unzip it
 		if ( !$this->python ) {
       debug_message("seeder: no python yet, try to unzip our copy");
-      if ( !file_exists($data_dir . '/python') && !$this->unzipPython() ) {
+      if ( !file_exists("$data_dir/python") && !$this->unzipPython() ) {
         debug_message("seeder: unzip failed");
 				$this->problem = "unzip";
 				return false;

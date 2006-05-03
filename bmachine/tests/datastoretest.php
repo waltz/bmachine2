@@ -334,6 +334,11 @@ class DataStoreTest extends BMTestCase {
 		$file['Title'] = "torrent test " . rand(0, 10000);
 		$file['Description'] = "torrent test description";
 	}
+
+  function TestInstanceID() {
+    
+  }
+
 }
 
 

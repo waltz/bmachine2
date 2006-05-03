@@ -1745,6 +1745,11 @@ function get_content_length( $file_url, &$errstr ) {
 function linkencode($p_url){
    $uparts = @parse_url($p_url);
 
+   if ( ! isset($uparts) || !is_array($uparts) ) {
+     return $p_url;
+   }
+
+
    $scheme = array_key_exists('scheme',$uparts) ? $uparts['scheme'] : "";
    $pass = array_key_exists('pass',$uparts) ? $uparts['pass']  : "";
    $user = array_key_exists('user',$uparts) ? $uparts['user']  : "";
