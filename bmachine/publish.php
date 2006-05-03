@@ -120,13 +120,29 @@ function pick_publish_method() {
 			
 			<p><strong><a href="publish.php?method=link">Link to the file</a></strong><br /> Use this option for files that are already on a 
 			server. Just enter the link to the file you want to publish.</p>
-			
-			<p><strong><a href="publish.php?method=torrent">Post a torrent</a></strong><br /> When you share a file with a torrent, you can reduce 
-			or eliminate bandwidth costs. To post a torrent, you first need to have Broadcast Machine Helper. 
-      Download it now: 
-        <a href="download.php?type=exe">Windows</a> | 
-        <a href="download.php?type=mac">Mac</a>. 
-			<a target="_blank" href="http://www.getdemocracy.com/broadcast/help/torrent_posting.php">Learn more</a>. </p>
+
+<script language="JavaScript" type="text/javascript" >
+<!--
+    isLinux = (navigator.userAgent.indexOf('Windows') <= 0) && (navigator.userAgent.indexOf('Mac') <= 0);
+
+    if ( isLinux ) {
+			document.writeln(' \
+      <p><strong>Post a torrent</strong><br /> Sorry, this feature only works on Windows and Mac machines.  If you want \
+      to post a torrent, you can create the torrent using a BitTorrent application, then upload it as a file.</p>');
+    }
+    else {
+			document.writeln(' \
+      <p><strong><a href="publish.php?method=torrent">Post a torrent</a></strong><br /> When you share a file with a torrent, you can reduce \
+			or eliminate bandwidth costs. To post a torrent, you first need to have Broadcast Machine Helper. \
+      Download it now: \
+        <a href="download.php?type=exe">Windows</a> | \
+        <a href="download.php?type=mac">Mac</a>. \
+			<a target="_blank" href="http://www.getdemocracy.com/broadcast/help/torrent_posting.php">Learn more</a>. </p>');
+
+    }
+-->
+</script>
+
 		</div>
 	</div>
 </div>
