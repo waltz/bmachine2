@@ -13,7 +13,7 @@ function get_content_type( $file_url, &$errstr ) {
   }
   else {
     $headers = @bm_get_headers($file_url, 1);
-
+    
     if ( ! $headers || stristr($headers[0], "404") != 0 ) {
 
       $errstr = "404";
@@ -29,46 +29,49 @@ function get_content_type( $file_url, &$errstr ) {
 }
 
 
+/**
+ * given a filename, try and figure out the mimetype from its extension
+ * @returns mimetype, or false if we didn't find a valid type
+ */
 function get_mime_from_extension($filename) {
 
-	$mimes = array(
-		'.mid' => 'audio/midi',
-		'.midi' => 'audio/midi',
-		'.mpga' => 'audio/mpeg',
-		'.mp2' => 'audio/mpeg',
-		'.mp3' => 'audio/mpeg',
-		'.m3u' => 'audio/x-mpegurl',
-		'.ram' => 'audio/x-pn-realaudio',
-		'.rm' => 'audio/x-pn-realaudio',
-		'.rpm' => 'audio/x-pn-realaudio-plugin',
-		'.ra' => 'audio/x-realaudio',
-		'.wav' => 'audio/x-wav',
-		'.mpeg' => 'video/mpeg',
-		'.mpg' => 'video/mpeg',
-		'.mpe' => 'video/mpeg',
-		'.qt' => 'video/quicktime',
-		'.mov' => 'video/quicktime',
-		'.mxu' => 'video/vnd.mpegurl',
-		'.avi' => 'video/x-msvideo',
-		'.m4p' => 'video/mp4v-es',
-		'.mp4' => 'video/mp4v-es',
-		'.wma' => 'audio/x-ms-wma',
-		'.asf' => 'video/x-ms-asf'
-	);
+  $mimes = array(
+		 '.mid' => 'audio/midi',
+		 '.midi' => 'audio/midi',
+		 '.mpga' => 'audio/mpeg',
+		 '.mp2' => 'audio/mpeg',
+		 '.mp3' => 'audio/mpeg',
+		 '.m3u' => 'audio/x-mpegurl',
+		 '.ram' => 'audio/x-pn-realaudio',
+		 '.rm' => 'audio/x-pn-realaudio',
+		 '.rpm' => 'audio/x-pn-realaudio-plugin',
+		 '.ra' => 'audio/x-realaudio',
+		 '.wav' => 'audio/x-wav',
+		 '.mpeg' => 'video/mpeg',
+		 '.mpg' => 'video/mpeg',
+		 '.mpe' => 'video/mpeg',
+		 '.qt' => 'video/quicktime',
+		 '.mov' => 'video/quicktime',
+		 '.mxu' => 'video/vnd.mpegurl',
+		 '.avi' => 'video/x-msvideo',
+		 '.m4p' => 'video/mp4v-es',
+		 '.mp4' => 'video/mp4v-es',
+		 '.wma' => 'audio/x-ms-wma',
+		 '.asf' => 'video/x-ms-asf',
+		 '.flv' => 'video/x-flv'
+		 );
 
-	$ext = substr($filename, strrpos($filename, '.')); // get the extension with a dot
-
-	if ( isset($mimes[strrchr($filename, '.')]) ) {
-		$mime = $mimes[strrchr($filename, '.')];
-		
-		if ( isset($mime) && $mime != "" ) {
-			return $mime;
-		}
-	}
-		
-	return false;
-
+  $ext = substr($filename, strrpos($filename, '.')); // get the extension with a dot
+  
+  if ( isset($mimes[strrchr($filename, '.')]) ) {
+    $mime = $mimes[strrchr($filename, '.')];
+    
+    if ( isset($mime) && $mime != "" ) {
+      return $mime;
+    }
+  }
+  
+  return false;
+  
 }
-
-
 ?>
