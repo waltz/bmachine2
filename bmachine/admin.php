@@ -127,6 +127,18 @@ security risk.  You should take steps to make sure that those files aren't downl
 
 <?php	
 	}	
+
+if ( $store->instanceCount() > 1 ) {
+?>
+<h4 style="color: #c00">Multiple Copies of Broadcast Machine?</h4>
+<p>It looks like you have multiple copies of Broadcast Machine that are using the same 
+database.  This is potentially bad and should be avoided.  If you are only running one
+copy of Broadcast Machine, you can ignore this message.
+</p>
+
+<?php
+}
+
 ?>
 
 

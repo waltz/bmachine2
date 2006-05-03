@@ -1,4 +1,6 @@
 <?php
+include_once "include.php";
+
 /**
  * try and figure out the content-type of the specified URL
  * @returns content-type, and sets $errstr if something goes wrong
@@ -10,7 +12,7 @@ function get_content_type( $file_url, &$errstr ) {
     return mime_content_type("torrents/" . $fname);
   }
   else {
-    $headers = @get_headers($file_url, 1);
+    $headers = @bm_get_headers($file_url, 1);
 
     if ( ! $headers || stristr($headers[0], "404") != 0 ) {
 

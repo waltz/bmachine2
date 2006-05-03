@@ -68,8 +68,6 @@ class DataStore {
         $this->is_setup = true;
       }
     }
-
-
 		
     debug_message("Register hooks");
 
@@ -95,6 +93,12 @@ class DataStore {
 			$this->layer->registerHook("channels", "pre-delete", "MySQLDeleteChannelHook");
 			$this->layer->registerHook("donations", "get", "MySQLGetDonationHook");
 		}
+
+    // record this instance in the database, so we can track if this db is being
+    // used in more than one place
+    if ( $this->is_setup == true ) {
+      $this->setInstanceID();
+    }
 	}
 	
 	/**
@@ -111,6 +115,38 @@ class DataStore {
   function type() {
     return $this->layer->type();
   }
+
+  /**
+   * generate a unique id for this instance of broadcast machine - we will use this to
+   * make sure that only one instance of BM is using a given MySQL db 
+   * @returns hashed id
+   */
+  function instanceID() {
+    $base = $_SERVER["SERVER_NAME"] . ":" . dirname($_SERVER['PHP_SELF']);
+    $hash = md5($base);
+    return $hash;
+  }
+
+  function setInstanceID() {
+
+    $instances = $this->layer->getAll("instance");
+    $now = time();
+
+    foreach ( $instances as $id => $x ) {
+			//Hash was created more than 1 hour ago
+      if ( $x < $now - 3600 ) {
+        unset ( $instances[$id] );
+			}
+    }
+
+    $instances[$this->instanceID()]["time"] = $now;
+		$this->layer->saveAll("instance", $instances);
+  }
+
+  function instanceCount() {
+    return count( $this->layer->getAll("instance") );
+  }
+
 
 	/**
 	 * save the settings info for this installation

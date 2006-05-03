@@ -9,7 +9,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
   /** a prefix which will be added to table names to prevent potential conflicts with other apps */
   var $prefix = '';
   var $good_setup = false;
-	var $locks = array();
+  var $locks = array();
 
   /**
    * setup our datastore object
@@ -71,52 +71,50 @@ class MySQLDataLayer extends BEncodedDataLayer {
     debug_message("MySQLDataLayer/init");
 
     global $data_dir;
-    if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() != version_number() ) {
+    if ( !file_exists($data_dir . "/version.xml") || get_datastore_version() < version_number() ) {
 
       debug_message("init - create tables");
       $m = new MySQLLoader();
+
+      if ( ! $this->tableExists("instance") ) {
+	do_query( $this->getTableDef("instance") );
+      }
     
       if ( ! $this->tableExists("peers") ) {
-//				debug_message("create peers");
-				do_query( $this->getTableDef("peers") );
+	do_query( $this->getTableDef("peers") );
       }
       
       if ( ! $this->tableExists("torrents") ) {
-//				debug_message("create torrents");
-				do_query( $this->getTableDef("torrents") );
-				$m->addFlatFileTorrents();
+	do_query( $this->getTableDef("torrents") );
+	$m->addFlatFileTorrents();
       }
       
       if ( ! $this->tableExists("newusers") ) {
-//				debug_message("create newusers/users");
-				do_query( $this->getTableDef("newusers") );
-				do_query( $this->getTableDef("users") );
-				$m->addFlatFileUsers();
+	do_query( $this->getTableDef("newusers") );
+	do_query( $this->getTableDef("users") );
+	$m->addFlatFileUsers();
       }
       
       if ( ! $this->tableExists("channels") ) {
-//				debug_message("create channels");
-				do_query( $this->getTableDef("channels") );
-				do_query( $this->getTableDef("channel_options") );
-				do_query( $this->getTableDef("channel_files") );
-				do_query( $this->getTableDef("channel_sections") );
-				do_query( $this->getTableDef("section_files") );				
-				$m->addFlatFileChannels();
+	do_query( $this->getTableDef("channels") );
+	do_query( $this->getTableDef("channel_options") );
+	do_query( $this->getTableDef("channel_files") );
+	do_query( $this->getTableDef("channel_sections") );
+	do_query( $this->getTableDef("section_files") );				
+	$m->addFlatFileChannels();
       }
       
       if ( ! $this->tableExists("files") ) {
-	//			debug_message("create files");
-				do_query( $this->getTableDef("files") );
-				do_query( $this->getTableDef("file_people") );
-				do_query( $this->getTableDef("file_keywords") );
-				$m->addFlatFileFiles();
+	do_query( $this->getTableDef("files") );
+	do_query( $this->getTableDef("file_people") );
+	do_query( $this->getTableDef("file_keywords") );
+	$m->addFlatFileFiles();
       }
       
       if ( ! $this->tableExists("donations") ) {
-//				debug_message("create donations");
-				do_query( $this->getTableDef("donations") );
-				do_query( $this->getTableDef("donation_files") );
-				$m->addFlatFileDonations();
+	do_query( $this->getTableDef("donations") );
+	do_query( $this->getTableDef("donation_files") );
+	$m->addFlatFileDonations();
       }
 
       get_upgrade_scripts( version_number(), get_datastore_version() );
@@ -216,20 +214,20 @@ class MySQLDataLayer extends BEncodedDataLayer {
     while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
       // handle any hooks that have been defined for this content-type
       if ( $hooks != null ) {
-				if ( $key == null ) {
-					$out[] = $hooks($row);
-				}
-				else {
-					$out[ $row[$key] ] = $hooks($row);
-				}
+	if ( $key == null ) {
+	  $out[] = $hooks($row);
+	}
+	else {
+	  $out[ $row[$key] ] = $hooks($row);
+	}
       }
       else {
-				if ( $key == null ) {
-					$out[] = $row;
-				}
-				else {
-					$out[ $row[$key] ] = $row;
-				}
+	if ( $key == null ) {
+	  $out[] = $row;
+	}
+	else {
+	  $out[ $row[$key] ] = $row;
+	}
       }
     }
 
@@ -458,6 +456,12 @@ class MySQLDataLayer extends BEncodedDataLayer {
    */
   function getTableDef($name) {
     switch($name) {
+    case "instance":
+      $sql = "CREATE TABLE " . $this->prefix . "instance (
+					id char(40) NOT NULL,
+					time int not null,
+					PRIMARY KEY(id));";
+      break;
     case "torrents":
       $sql = "CREATE TABLE " . $this->prefix . "torrents (
 					info_hash char(40) NOT NULL,
@@ -624,6 +628,15 @@ class MySQLDataLayer extends BEncodedDataLayer {
    */	
   function getTableQueries($name) {
     switch ($name) {
+    case "instance":
+      return array(
+		   "all" => "SELECT * FROM " . $this->prefix . "instance",
+		   "select" => "SELECT * FROM " . $this->prefix . "instance WHERE id='%key'",
+		   "delete" => "DELETE FROM " . $this->prefix . "instance WHERE id='%key'",
+		   "insert" => "REPLACE INTO " . $this->prefix . "instance SET %vals",
+		   "update" => "UPDATE " . $this->prefix . "instance SET %vals WHERE id='%key'"
+		   );
+      break;
     case "torrents":
       return array(
 		   "all" => "SELECT * FROM " . $this->prefix . "torrents",
@@ -764,6 +777,9 @@ class MySQLDataLayer extends BEncodedDataLayer {
    */
   function getTableKey($name) {
     switch ($name) {
+    case "instance":
+      return "id";
+      break;
     case "torrents":
       return "info_hash";
       break;
