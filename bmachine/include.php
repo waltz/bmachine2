@@ -108,6 +108,10 @@ if ( ! isset($data_dir) ) {
 // 4 - iTunes
 define('DEFAULT_SUBSCRIBE_OPTIONS', 1|2);
 
+//
+// what tags do we want to allow?
+//
+define('ALLOWED_TAGS', "<a><b><strong><i><em><ul><li><ol>");
 
 
 //
@@ -1317,7 +1321,7 @@ function encode($s) {
 		    strip_tags(//$s,
 			       //utf8_decode($s),
 			       html_entity_decode($s),
-			       "<b><strong><i><em><ul><li><ol>"
+             ALLOWED_TAGS
 			       )
 		    //			       )
 		    );
