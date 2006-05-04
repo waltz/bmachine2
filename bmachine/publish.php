@@ -142,7 +142,11 @@ function pick_publish_method() {
     }
 -->
 </script>
-
+<noscript>
+      <p><strong>Post a torrent</strong><br />Sorry, the Broadcast Machine Helper only works if you have Javascript 
+      enabled.  If you want to post a torrent, you can do so by uploading it or linking to it, otherwise, please turn on
+      Javascript in your browser.
+</noscript>
 		</div>
 	</div>
 </div>
