@@ -12,7 +12,7 @@ class EncodingTest extends BMTestCase {
 
   function EncodingTest() {
     $this->BMTestCase();
-    $this->textfiles = array("frenchtext.txt", "utftext.txt", "utftitle.txt");
+    $this->textfiles = array("frenchtext.txt", "utftext.txt", "utftitle.txt", "utf8demo.txt");
   }
 
   function EncodeAndDecode($file, $do_html = false, $do_strip = false ) {
