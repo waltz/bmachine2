@@ -1507,9 +1507,10 @@ function outputRSSFile($filename, $channelID, $name, $description, $link, $icon,
 
   global $store;
 
-	$sOut = '<?xml version="1.0" encoding="utf-8"?>';
+	$sOut = '';
 
 	$sOut .= <<<EOF
+<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" 
 	xmlns:media="http://search.yahoo.com/mrss" 
 	xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
@@ -2181,8 +2182,7 @@ function debug_message($str, $level = 0) {
 }
 
 function do_query($sql) {
-//  debug_message($sql);
-//  print("$sql<br>");
+  //debug_message($sql);
   return mysql_query($sql);
 }
 

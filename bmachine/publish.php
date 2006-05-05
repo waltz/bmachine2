@@ -44,16 +44,22 @@ Sorry, there are no publicly accessible channels for publishing content at this 
 	}
 }
 
-$file = $_POST;
+// http://bitchell.dyndns.org/~colin/bm/publish.php?method=link&Title=foo&post_channels[]=1&post_do_save=1&URL=http://www.nakedrabbit.com/enclosures/mermaid.m4v
+// allow for incoming parameters to be specified as part of our URL - should
+// make scripting/automating easier for people, and will make generating a
+// bookmarklet a lot easier
+// see: https://develop.participatoryculture.org/projects/democracy/ticket/1830
+// see: https://develop.participatoryculture.org/projects/democracy/ticket/558
+$file = array_merge($_GET, $_POST);
 
 if ( isset($file["post_do_save"]) ) {
 	set_file_defaults($file);
 
-  error_log("TRY PUBLISH: " . $file["Title"] );
+  debug_message("TRY PUBLISH: " . $file["Title"] );
 	$result = publish_file($file);
 
 	if ( $result ) {
-    error_log("TRY PUBLISH: success!");
+    debug_message("TRY PUBLISH: success!");
 		session_write_close();
 		header('Location: ' . get_base_url() . 'edit_videos.php' );
 		exit;
@@ -63,8 +69,8 @@ if ( isset($file["post_do_save"]) ) {
   global $errorstr;
   global $uploaded_file_url;
 
-  error_log("TRY: " . $file["URL"]);	
-  error_log("TRY AND SAVE - $errorstr - $uploaded_file_url");
+  debug_message("TRY: " . $file["URL"]);	
+  debug_message("TRY AND SAVE - $errorstr - $uploaded_file_url");
 
   if ( (!isset($file["URL"]) || $file["URL"] == "") && isset($uploaded_file_url) ) {
     $file["URL"] = $uploaded_file_url;
@@ -74,7 +80,7 @@ if ( isset($file["post_do_save"]) ) {
     $is_external = 0;
   }
 
-  error_log("TRY URL: $uploaded_file_url");
+  debug_message("TRY URL: $uploaded_file_url");
 
 
 } // if $_POST["post_do_save"]

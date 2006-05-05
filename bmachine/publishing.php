@@ -629,7 +629,8 @@ function publish_file(&$file) {
 		   "videos",
 		   "actual_fname",
 		   "mime_chooser",
-		   "mime_chooser_custom"
+		   "mime_chooser_custom",
+		   "method"
 		   );
 
   foreach($tmpvals as $tmp) {

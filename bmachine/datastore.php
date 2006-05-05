@@ -1227,6 +1227,7 @@ class DataStore {
     $peer_num = 0;
 
 
+    // delete old peers which are probably gone
     do_query( "DELETE FROM " . $this->layer->prefix . "peers 
                WHERE time < DATE_SUB(NOW(), INTERVAL 600 SECOND)");
 

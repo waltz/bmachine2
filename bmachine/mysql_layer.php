@@ -261,7 +261,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
       while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
 	// handle any hooks that have been defined for this content-type
 	if ( $hooks != null ) {
-	  debug_message("call $hooks");
+	  #debug_message("call $hooks");
 	  if ( $key == null ) {
 	    $out[] = $hooks($row);
 	  }
