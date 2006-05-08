@@ -189,7 +189,6 @@ class FTP {
   
   function is_ok()
   {
-    //print "is_ok: sock_read<br>";
     $this->message = $this->sock_read();
     //print "is_ok: sock_read done: " . $this->message . "<br>";
     
@@ -439,7 +438,7 @@ class FTP {
       $str = ">> PASS ********";
     }
     
-    //echo "$str<br>\n";
+    echo "$str<br>\n";
   }
   
   /**

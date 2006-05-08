@@ -11,15 +11,29 @@ $skip_setup = 1;
 require_once("include.php");
 require_once("ftp.php");
 
+//
+// only allow this code to be executed if the site hasn't been initialized yet
+//
 if ( check_permissions() != true && check_folders() != true ) {
 
+  bm_header("Setup Broadcast Machine");
+?>
+<div class="page_name">
+   <h2>Setup Broadcast Machine - FTP</h2>
+</div>
+
+<div class="section">
+
+<?php
   $hostname = "localhost";
   $username = $_POST["username"];
   $password = $_POST["password"];
   $pwd = $_POST["ftproot"];
 
 
+  //
   // generate a list of potential webroots
+  //
   $folders = array_reverse( explode("/", $pwd) );
   $webroots = array();
 
@@ -73,62 +87,64 @@ if ( check_permissions() != true && check_folders() != true ) {
     }
 		
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->mkd("data");	
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->mkd("torrents");	
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->mkd("publish");	
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->mkd("text");	
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->mkd("thumbnails");	
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->chmod("data", "0777");
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->chmod("torrents", "0777");
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->chmod("publish", "0777");
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->chmod("thumbnails", "0777");
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
     $ftp->chmod("text", "0777");
     $ftp->is_ok();
-    //ob_flush();
+    ob_flush();
 	
-    header('Location: ' . get_base_url() . 'index.php');
+    //    header('Location: ' . get_base_url() . 'index.php');
 	
   }
   else {
     print "Unable to connect!";
   }
-  
+?>  
+<br><br>
+<a href="admin.php">Continue</a> to make your first account.
+</div>
+
+<?php
+  bm_footer();
 }
 else {
   header('Location: ' . get_base_url() . 'index.php');
 }
-
-//print "<br><br>";
-//print "<a href=\"admin.php\">Continue</a>";
-
 
 ?>
