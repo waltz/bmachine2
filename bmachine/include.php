@@ -252,8 +252,7 @@ function get_version() {
 }
 
 /**
- * figure out the base url of this installation and update it in our settings.  we shouldn't be storing
- * the base url as an absolute anywhere - doing this makes the app extremely unportable
+ * figure out the base url of this installation and update it in our settings.
  */
 function update_base_url() {
   global $settings;
@@ -277,14 +276,17 @@ function get_base_url() {
 
   global $settings;
 
-	//if ( isset($settings) && $settings['base_url'] != '' ) {
-  //return $settings['base_url'];
-  //}
+	if ( isset($settings) && $settings['base_url'] != '' ) {
+    return $settings['base_url'];
+  }
+
   if ( isset($_SERVER['HTTP_HOST']) ) {
-  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+  	//$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
   } 
   else {
-  	$url = "/" . dirname($_SERVER['SCRIPT_NAME']);
+    //  	$url = "/" . dirname($_SERVER['SCRIPT_NAME']);
+  	$url = "/" . dirname($_SERVER['PHP_SELF']);
   }
 
   // make sure the url doesnt have multiple slashes on the end (bug # 1211743)

@@ -7,35 +7,39 @@ require_once(SIMPLE_TEST . 'web_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 require_once('bmtest.php');
 
-class XHTMLTest extends BMTestCase {
+class ModRewriteTest extends BMTestCase {
 
-  function XHTMLTest() {
+  function ModRewriteTest() {
     $this->BMTestCase();
   }
 
   function TestPage($url = "") {
     if ( $url != "" ) {
+      /*
       $this->get($url);
       $content = $this->getContent();
       
       $file = array();
       $file['fragment'] = $content;
+      */
+
+      $check_url = "http://validator.w3.org/check?url=$url";
+      $this->get($check_url);
+      //$this->post( $check_url, $file );
       
-      $check_url = "http://validator.w3.org/check";
-      $this->post( $check_url, $file );
-      
-      return $this->getContent();
+      /*return*/ $this->getContent();
     }
   }
 	
   function TestIndex() {
     $output = $this->TestPage(get_base_url() . "index.php");
-    $this->assertWantedPattern("/This Page Is Valid XHTML 1.0 Transitional/", "XHTMLText/TestIndex: index.php didn't pass!" );	
+    $this->assertWantedPattern("/This Page Is Valid XHTML/", $output );
+    //$this->assertWantedPattern("/This Page Is Valid XHTML/", "XHTMLText/TestIndex: index.php didn't pass!" );	
   }
 	
   function TestLibrary() {
     $this->TestPage(get_base_url() . "library.php?i=1");
-    $this->assertWantedPattern("/This Page Is Valid XHTML 1.0 Transitional/", "XHTMLText/TestLibrary: library.php didn't pass!" );	
+    $this->assertWantedPattern("/This Page Is Valid XHTML/", "XHTMLText/TestLibrary: library.php [1] didn't pass!" );	
   }
 	
   function TestDetail() {
@@ -61,9 +65,8 @@ class XHTMLTest extends BMTestCase {
       
       if ( $my_channel_id != -1 ) {
 	$url = get_base_url() . "detail.php?c=" . $my_channel_id . "&amp;i=" . $filehash;
-	//print "<!-- Testing -- $url --><br>";
 	$this->TestPage($url);
-	$this->assertWantedPattern("/This Page Is Valid XHTML 1.0 Transitional/", "XHTMLText/TestLibrary: index.php didn't pass!" );	
+	$this->assertWantedPattern("/This Page Is Valid/", "XHTMLText/TestDetail: $url didn't pass!" );	
 	break;
       }
     }

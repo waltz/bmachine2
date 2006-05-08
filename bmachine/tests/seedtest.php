@@ -73,22 +73,9 @@ class SeedTest extends BMTestCase {
 		}
 	}
 
-
-	function TestStart() {
-
-    debug_message("SeedTest/TestStart");
-
-    $this->StartSeeder();
-
-		$this->Logout();
-		$this->Login();
+  function publishTorrent() {
 
     global $store;
-    
-    //
-    // publish a torrent so we have something to seed
-    //
-
     // generate the hash
     $hash = $store->getAuthHash("unittest", hashpass("unittest", "unittest") );
     
@@ -112,15 +99,36 @@ class SeedTest extends BMTestCase {
 
     
     $file = array();
-    $file['post_title'] = "unit test " . rand(0, 10000) . ": Torrent Upload";
-    $file['post_desc'] = "description";
+    $file['Title'] = "unit test " . rand(0, 10000) . ": Torrent Upload";
+    $file['Description'] = "description";
     $file['post_do_save'] = 1;
-    $file['post_file_url'] = $hash;
-    $file['post_mimetype'] = 'application/x-bittorrent';
+    $file['URL'] = $hash;
+    $file['Mimetype'] = 'application/x-bittorrent';
 
     $publish_url = get_base_url() . "publish.php";
     $this->post( $publish_url, $file );
 
+    //return $hash;
+    $info_hash = $store->getHashFromTorrent( "test.torrent" );
+    return $info_hash;
+  }
+
+
+	function TestStart() {
+
+    debug_message("SeedTest/TestStart");
+
+    $this->StartSeeder();
+
+		$this->Logout();
+		$this->Login();
+
+    global $store;
+    
+    //
+    // publish a torrent so we have something to seed
+    //
+    $hash = $this->publishTorrent();
 
     global $torrents_dir;
     global $data_dir;
@@ -143,8 +151,6 @@ class SeedTest extends BMTestCase {
 				if ( endsWith($f["URL"], ".torrent" ) ) {
 					$url = $f["URL"];
 					$torrentfile = local_filename($url);
-	
-          //          print "test seeding $torrentfile<br>";
 					$seeder->spawn($torrentfile);
 	
 					// update the file entry
@@ -253,6 +259,20 @@ class SeedTest extends BMTestCase {
 		$this->get($announce_url);
 		$this->assertWantedPattern("/This torrent is not authorized on this tracker/", "SeedText/TestAnnounceUnAuthedHash: expected announce to fail but it didn't");
 	}
+
+
+  /*
+	function TestAnnounceWithIP() {
+
+    debug_message("SeedTest/TestAnnounceWithIP");
+    $hash = $this->publishTorrent();
+
+    print "**** $hash - " . strlen($hash) . "\n";
+
+		$announce_url = get_base_url() . "announce.php?info_hash=$hash&compact=1&ip=10.0.0.1";
+		$this->get($announce_url);
+		$this->assertWantedPattern("/Invalid info_hash/", "SeedText/TestAnnounceBadHash: expected announce to fail but it didn't");
+	}*/
 
 
 	function TestCreateTorrentFromURL() {

@@ -18,10 +18,8 @@ if ( !isset($_GET["i"]) ) {
   if ( $params[count($params) - 1] != "library" ) {
 		$_GET["i"] = $params[count($params) - 1];
   }
-
-  $_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
+  //$_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
 }
-
 
 //
 // don't show anything here if we don't have a channel to display

@@ -9,11 +9,8 @@ require_once("include.php");
 if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
 	$params = split("/", $_SERVER['REQUEST_URI']);
 
-  //	if ( count($params) == 5 ) {
-		$_GET["c"] = $params[ count($params) - 2 ];
-		$_GET["i"] = $params[ count($params) - 1 ];
-    //	}
-    $_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
+  $_GET["c"] = $params[ count($params) - 2 ];
+  $_GET["i"] = $params[ count($params) - 1 ];
 }
 
 
@@ -35,7 +32,7 @@ if ( !isset($channel) ) {
 }
 
 if ( ! $store->channelContainsFile($_GET["i"], $channel) ) {
-	die("Wrong channel for this file!");
+	die("No such file in this channel");
 }
 
 render_detail_page($file, $channel);

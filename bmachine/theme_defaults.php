@@ -449,13 +449,16 @@ if ( ! function_exists("theme_video_info_section") ) {
     
     $out .= "<h3>Download</h3>";
     
-    $out .= "<ul>";
+
     $links = theme_download_links($channel, $file);
-    foreach( $links as $l ) {
-      $out .= "<li>$l</li>\n";
+    if ( count($links) > 0 ) {
+      $out .= "<ul>";
+      foreach( $links as $l ) {
+        $out .= "<li>$l</li>\n";
+      }
+      $out .= "</ul>\n";
     }
-    $out .= "</ul>\n";
-    
+
     return theme_video_info_section_wrapper($out);
   }
 }
@@ -774,20 +777,24 @@ if ( ! function_exists("subscribe_links") ) {
 		$out = <<<EOF
 			<p><a href="javascript:toggleLayer('channel-subscribe-links-$id');">Subscribe</a></p>
 			<div id="channel-subscribe-links-$id" class="channel-subscribe-links">
-				<ul>
 EOF;
-    if ( $channel['Options']['SubscribeOptions'] & 1 ) {
-      $out .= "<li><a href=\"$rss_link\" class=\"link-feed\">RSS Feed</a></li>\n";
-    }
-    if ( $channel['Options']['SubscribeOptions'] & 2 ) {
-			$out .= "<li><a href=\"demsub.php?i=$id\" class=\"link-dtv\">Democracy</a></li>\n";
-    }
-    if ( $channel['Options']['SubscribeOptions'] & 4 ) {
-			$out .= "<li><a href=\"$iTunes\" class=\"link-itunes\">iTunes</a></li>\n";
+
+    if ( isset($channel['Options']['SubscribeOptions']) && $channel['Options']['SubscribeOptions'] != 0 ) {
+      $out .= "<ul>\n";
+
+      if ( $channel['Options']['SubscribeOptions'] & 1 ) {
+        $out .= "<li><a href=\"$rss_link\" class=\"link-feed\">RSS Feed</a></li>\n";
+      }
+      if ( $channel['Options']['SubscribeOptions'] & 2 ) {
+        $out .= "<li><a href=\"demsub.php?i=$id\" class=\"link-dtv\">Democracy</a></li>\n";
+      }
+      if ( $channel['Options']['SubscribeOptions'] & 4 ) {
+        $out .= "<li><a href=\"$iTunes\" class=\"link-itunes\">iTunes</a></li>\n";
+      }
+      $out .= "\n</ul>\n";
     }
 
     $out .= <<<EOF
-				</ul>
 			</div>
 EOF;
 
@@ -1217,11 +1224,14 @@ if ( !function_exists("theme_channel_videos") ) {
 				if (count($section["Files"]) > 0) {
 					$out .= section_header($section);
 		
-					$out .= "<ul>";			
-					foreach ($section["Files"] as $filehash) {
-						$out .= theme_display_video($filehash, $files[$filehash], $channel);
-					}
-					$out .= "</ul>
+          if ( count($section["Files"]) > 0 ) {
+            $out .= "<ul>";
+            foreach ($section["Files"] as $filehash) {
+              $out .= theme_display_video($filehash, $files[$filehash], $channel);
+            }
+            $out .= "</ul>";
+          }
+          $out .= "
 						<div class=\"spacer_left\">&nbsp;</div></div>";
 				} // if
 			

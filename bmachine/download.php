@@ -23,12 +23,10 @@ if ( !isset($_GET["type"]) ) {
 if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
 	$params = split("/", $_SERVER['REQUEST_URI']);
 
-  //	if ( count($params) == 5 ) {
-		$_GET["c"] = $params[ count($params) - 2 ];
-		$_GET["i"] = $params[ count($params) - 1 ];
-    $_GET["type"]= "direct";
-    $_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
-    //	}
+  $_GET["c"] = $params[ count($params) - 2 ];
+  $_GET["i"] = $params[ count($params) - 1 ];
+  $_GET["type"]= "direct";
+  //$_SERVER["PHP_SELF"] = $_SERVER["SCRIPT_NAME"];
 }
 
 //
