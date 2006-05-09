@@ -46,15 +46,11 @@ class BEncodedDataLayer {
     }
 
     if ( !file_exists(  $data_dir . '/.htaccess' ) ) {
-      $file = fopen(  $data_dir . '/.htaccess', 'wb' );
-      fwrite( $file, "deny from all\n" );
-      fclose ( $file );
+      write_deny_htaccess($data_dir);
     }
 
     if ( !file_exists( $torrents_dir . '/.htaccess' ) ) {
-      $file=fopen( $torrents_dir . '/.htaccess', 'wb' );
-      fwrite( $file, "deny from all\n" );
-      fclose ( $file );
+      write_deny_htaccess($torrents_dir);
     }
 
     error_reporting ( $old_error_level );

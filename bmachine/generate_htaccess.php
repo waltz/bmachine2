@@ -6,19 +6,25 @@
 require_once("include.php");
 
 if (!is_admin()) {
-	header('Location: ' . get_base_url() . 'admin.php');
-	exit;
+  header('Location: ' . get_base_url() . 'admin.php');
+  exit;
 }
 
+  bm_header("Setup Broadcast Machine");
+?>
+<div class="page_name">
+   <h2>Setup Broadcast Machine - Friendly URLs</h2>
+</div>
 
-if ( !isset($_POST["username"]) ) {
-  bm_header();
+<div class="section">
+<?php
+if ( !isset($_POST["password"]) ) {
 ?>
 
 Enter your FTP information into the form below:
 
 <?php
-$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PATH_TRANSLATED'] );
 ?>
 <p>
 <form method="POST" action="generate_htaccess.php">
@@ -31,9 +37,11 @@ $path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
 
 <p>
 <?php
-   bm_footer();
-   exit;
-   }
+bm_footer();
+print "</div>";
+exit;
+
+}
 
 global $skip_setup;
 $skip_setup = 1;
@@ -129,16 +137,19 @@ if( $ftp->connect() ) {
     }
     $result = $store->saveSettings($settings);
 
-    header('Location: ' . get_base_url() . 'settings.php');
+    bm_footer();
+?>
+
+<br><br>
+<a href="admin.php">Continue</a>
+</div>
+<?php
+    exit;
+    //header('Location: ' . get_base_url() . 'settings.php');
 	
   }
   else {
     print "Unable to connect!";
   }
-
-
-//print "<br><br>";
-//print "<a href=\"admin.php\">Continue</a>";
-
 
 ?>

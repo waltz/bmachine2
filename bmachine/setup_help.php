@@ -14,7 +14,8 @@ This information was probably provided to you by your hosting provider.
 <p>This might take a few minutes, please be patient.</p>
 
 <?php
-$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+//$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PATH_TRANSLATED'] );
 ?>
 <form method="POST" action="set_perms.php">
      FTP username: <input type="text" name="username" size="10" /><br />

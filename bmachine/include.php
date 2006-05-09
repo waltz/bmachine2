@@ -1968,7 +1968,15 @@ function download_link($channel_id, $hash, $force_no_rewrite = false) {
 	}
 
 	if ( $force_no_rewrite == false && isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
-		$url = get_base_url() . "download/$channel_id/$hash$ext";
+    if ( function_exists("apache_get_modules") ) {
+  		$url = get_base_url() . "download/$channel_id/$hash$ext";
+    }
+    else {
+      // we'll get here if we're running as PHP-CGI.  this is weird, but in that case,
+      // our mod_rewrite rule can't match the name of the php we want to rewrite to
+      // see: http://lists.evolt.org/archive/Week-of-Mon-20040426/158449.html
+  		$url = get_base_url() . "dl/$channel_id/$hash$ext";
+    }
 	}
 	else {
 		$url = get_base_url() . "download.php?c=" . $channel_id . "&amp;i=" . $hash . "&amp;e=$ext";
@@ -1982,7 +1990,15 @@ function detail_link($channel_id, $hash, $force_no_rewrite = false) {
 	global $settings;
 
 	if ( $force_no_rewrite == false &&  isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
-		$url = get_base_url() . "detail/$channel_id/" . $hash;
+    if ( function_exists("apache_get_modules") ) {
+  		$url = get_base_url() . "detail/$channel_id/" . $hash;
+    }
+    else {
+      // we'll get here if we're running as PHP-CGI.  this is weird, but in that case,
+      // our mod_rewrite rule can't match the name of the php we want to rewrite to
+      // see: http://lists.evolt.org/archive/Week-of-Mon-20040426/158449.html
+  		$url = get_base_url() . "video/$channel_id/" . $hash;
+    }
 	}
 	else {
 		$url = get_base_url() . "detail.php?c=" . $channel_id . "&amp;i=" . $hash;
@@ -1995,7 +2011,15 @@ function channel_link($channel_id, $force_no_rewrite = false) {
 	global $settings;
 
 	if ( $force_no_rewrite == false && isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
-		$url = get_base_url() . "library/$channel_id";
+    if ( function_exists("apache_get_modules") ) {
+    	$url = get_base_url() . "library/$channel_id";
+    }
+    else {
+      // we'll get here if we're running as PHP-CGI.  this is weird, but in that case,
+      // our mod_rewrite rule can't match the name of the php we want to rewrite to
+      // see: http://lists.evolt.org/archive/Week-of-Mon-20040426/158449.html
+    	$url = get_base_url() . "channel/$channel_id";
+    }
 	}
 	else {
 		$url = get_base_url() . "library.php?i=" . $channel_id;
@@ -2007,7 +2031,15 @@ function channel_link($channel_id, $force_no_rewrite = false) {
 function rss_link($channel_id = "ALL", $for_itunes = false) {
 	global $settings;
 	if ( isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
-		$url = get_base_url() . "rss/$channel_id";
+    if ( function_exists("apache_get_modules") ) {
+  		$url = get_base_url() . "rss/$channel_id";
+    }
+    else {
+      // we'll get here if we're running as PHP-CGI.  this is weird, but in that case,
+      // our mod_rewrite rule can't match the name of the php we want to rewrite to
+      // see: http://lists.evolt.org/archive/Week-of-Mon-20040426/158449.html
+  		$url = get_base_url() . "feed/$channel_id";
+    }
 	}
 	else {
 		$url = get_base_url() . "rss.php?i=" . $channel_id;
@@ -2029,7 +2061,8 @@ function write_mod_rewrite($on = true) {
 
 	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
 
-	$rules = <<<EOF
+  if ( function_exists("apache_get_modules") ) {
+  	$rules = <<<EOF
 ###
 ### MOD REWRITE RULES (DO NOT EDIT)
 ###
@@ -2042,7 +2075,23 @@ RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
 RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
 </IfModule>
 EOF;
+  }
+  else {
+  	$rules = <<<EOF
+###
+### MOD REWRITE RULES (DO NOT EDIT)
+###
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase $base
+RewriteRule ^feed/([0-9]+) rss.php?i=$1 [QSA]
+RewriteRule ^channel/([0-9]+) library.php?i=$1 [QSA]
+RewriteRule ^video/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
+RewriteRule ^dl/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
+</IfModule>
+EOF;
 
+  }
 
   $old_error_level = error_reporting(0);
 	$f = fopen(".htaccess", 'wb');
@@ -2085,7 +2134,8 @@ function generate_htaccess_text($on = true) {
 
 	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
 
-	$rules = <<<EOF
+  if ( function_exists("apache_get_modules") ) {
+  	$rules = <<<EOF
 ###
 ### MOD REWRITE RULES (DO NOT EDIT)
 ###
@@ -2098,7 +2148,22 @@ RewriteRule ^detail/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
 RewriteRule ^download/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
 </IfModule>
 EOF;
-
+  }
+  else {
+  	$rules = <<<EOF
+###
+### MOD REWRITE RULES (DO NOT EDIT)
+###
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase $base
+RewriteRule ^feed/([0-9]+) rss.php?i=$1 [QSA]
+RewriteRule ^channel/([0-9]+) library.php?i=$1 [QSA]
+RewriteRule ^video/([0-9]+)/(.*)$ detail.php?c=$1&i=$2 [QSA]
+RewriteRule ^dl/([0-9]+)/(.*)$ download.php?c=$1&i=$2&type=direct [QSA]		
+</IfModule>
+EOF;
+  }
 
   $file = "";
   if ( file_exists(".htaccess") ) {
@@ -2152,7 +2217,7 @@ function test_mod_rewrite() {
   }
 
   // in lieu of that, we will generate a URL and see if it works
-  $url = get_base_url() . "library/1";
+  $url = get_base_url() . "channel/1";
 	$headers = @bm_get_headers($url, 1);
 
 	if ( isset($headers) && isset($headers[0]) && stristr($headers[0], "200 OK") > 0 ) {
@@ -2207,6 +2272,26 @@ function list_themes() {
 	} // while
 
   return $choices;
+}
+
+/**
+ * write out our standard .htaccess file to deny access to a folder
+ * @returns true/false according to success
+ */
+function write_deny_htaccess($path) {
+
+  $file = fopen(  "$path/.htaccess", 'wb' );
+  if ( ! $file ) {
+    return false;
+  }
+
+  fwrite( $file, "deny from all\n" );
+  fclose ( $file );
+
+  global $perm_level;
+  chmod( "$path/.htaccess", $perm_level );
+
+  return true;
 }
 
 

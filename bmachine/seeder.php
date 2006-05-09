@@ -424,9 +424,7 @@ EOD;
 		// write out our .htaccess file to prevent direct access to seed files
 
 		if (!file_exists($data_dir . '/seedfiles/.htaccess')) {
-			$file = fopen($data_dir . '/seedfiles/.htaccess', 'wb');
-			fwrite($file,"deny from all\n");
-			fclose($file);
+      write_deny_htaccess("$data_dir/seedfiles");
 		}
 		
 		error_reporting($old_error_level);

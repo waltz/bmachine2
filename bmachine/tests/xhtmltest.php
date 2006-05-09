@@ -7,9 +7,9 @@ require_once(SIMPLE_TEST . 'web_tester.php');
 require_once(SIMPLE_TEST . 'reporter.php');
 require_once('bmtest.php');
 
-class ModRewriteTest extends BMTestCase {
+class XHTMLTest extends BMTestCase {
 
-  function ModRewriteTest() {
+  function XHTMLTest() {
     $this->BMTestCase();
   }
 

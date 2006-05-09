@@ -376,7 +376,8 @@ for assistance.
 
 if ( is_writable('.htaccess') == false ) {
 
-	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+//	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
+	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PATH_TRANSLATED'] );
   $output .= "
 touch .htaccess
 chmod 777 .htaccess";
