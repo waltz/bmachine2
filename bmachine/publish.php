@@ -500,7 +500,10 @@ if ( isset($errorstr) ) {
 	//
 	// CJM - make this much more annoying somehow so that users see it
 	//
-	if ( $errorstr == "404" ) {
+  if ( $errorstr == "NOFILE" ) {
+		$errorstr = "<div id=\"file_errors\"><strong>Error: Sorry, Broadcast Machine doesn't support file:// URLs</strong></div>";
+  }
+	else if ( $errorstr == "404" ) {
 		$errorstr = "<div id=\"file_errors\"><strong>Error: Sorry, it looks like your file isn't at the URL you specified.  <a href='javascript:submit_force();'>Click here</a> to save the file anyway.</strong></div>";
 	}
 	else if ( $errorstr == "SIZE" ) {

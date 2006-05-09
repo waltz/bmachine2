@@ -36,6 +36,27 @@ class PublishTest extends BMTestCase {
 		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertTrue( $got_it, "PublishTest/TestPublishURL: didn't find new file");
 	}
+	
+  /**
+   * publish a file:// url - this should give an error
+   */
+	function TestPublishFileURL() {
+
+		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+			
+		$file = array();
+		$file['URL'] = "file://funfiletest.mp3";
+		$file['Title'] = "FILE unit test " . rand(0, 10000);
+		$file['Description'] = "FILE desc";
+		$file['post_do_save'] = 1;
+	
+		$this->Login();		
+		$publish_url = get_base_url() . "publish.php";
+
+		$this->post( $publish_url, $file );
+		$this->assertResponse("200", "PublishTest/TestPublishFileURL: didn't get 200 response");		
+    $this->assertWantedPattern("/Sorry, Broadcast Machine doesn't support/i", "PublishTest/TestPublishFileURLdidn't get error about publishing a file://");
+	}
 
 
 

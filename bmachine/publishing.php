@@ -209,16 +209,24 @@ function set_file_defaults(&$file) {
  */
 function publish_file(&$file) {
 
-  //
-  // if the user doesn't have upload access, then stop right here
-  //
-  //  requireUploadAccess();
-
-  set_file_defaults($file);
-  
   global $store;
   global $errorstr;
   global $perm_level;
+
+  //
+  // if the user doesn't have upload access, then stop right here
+  //
+  requireUploadAccess();
+
+  set_file_defaults($file);
+
+  if ( beginsWith($file["URL"], "file://") ) {
+    $file["URL"] = "";
+    $_GET["method"] = "link";
+    $errorstr = "NOFILE";
+    return false;
+  }
+  
 
   // make sure we mark any old channels as needing to be published - this way if
   // a user removes a file from a channel, that feed will be rebuilt
