@@ -477,7 +477,7 @@ For example: <em>/usr/bin/python</em> (OS X and UNIX servers only):<br />
 <?php
 if ( !isset($settings['sharing_python']) || 
      $settings['sharing_python'] == "" || 
-     $seeder->isValidPython($settings['sharing_python']) == false ) {
+     $seeder->validPython($settings['sharing_python']) == false ) {
   $settings['sharing_python'] = $seeder->findPython();
 }
 ?>
