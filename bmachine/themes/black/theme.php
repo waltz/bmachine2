@@ -8,17 +8,24 @@
  */
 
 
-/**
- * display a footer for the front pages of the site
- */
-function bm_footer() {
+function render_index_page() {
+  global $store;
+  $channels = $store->getAllChannels();
+  $files = $store->getAllFiles();
+    
+  $out = array();
+  foreach ($channels as $channel) {
+    if ( ! isset($channel["NotPublic"]) || ! $channel["NotPublic"] || valid_user() ) {
+      $out[] = theme_channel_summary_wrapper($channel, 
+                                             theme_channel_summary($channel, $files, 4));
+    } // if
+  } // foreach
 
-	print("
-<div class=\"spacer\">&nbsp;</div>
-</body>
-</html>");
-
+  front_header( site_title() );
+  theme_page_wrapper( theme_index_wrapper( $out ) );
+  front_footer();
 }
+
 
 
 function display_internal_video($filehash, $file) {
@@ -244,252 +251,53 @@ function display_frontpage_video($filehash, $file) {
 
 	return $out;
 }
-/*
-function tag_header($tag, $channelID) {
-?>
-	<div class="nav" style="text-align:center;">
-	  <p><strong>Files tagged with &quot;<?php echo $tag; ?>&quot;</strong><br />
-    <a href="<?php print channel_link($channelID); ?>"><< All Files in This Channel</a></p>
-  </div>
-<?php
-}
-
-function section_header($section) {
-	print("
-	<div class=\"video_section\">
-		<h3 class=\"section_name\">" . $section["Name"] . "</h3>");
-}
-
-function theme_video_list($display_files) {
-	foreach ( $display_files as $filehash => $file ) {
-		display_video($filehash, $file);
-	}
-}
-
-function tags_for_files($files, $channel_files, $channel) {
-?>
-<div class="box">
-	<div class="box-bi">
-		<div class="box-bt"><div></div></div>
-<!-- show up 8 most popular tags -->
-<?php
-
-   $keywords = array();
-
-  foreach ($files as $filehash) {
-    
-    if ($filehash[1] <= time()) {
-
-      foreach ($files[$filehash[0]]["Keywords"] as $words) {
-
-        if ( is_array($words) ) {
-          $words = $words[0];
-        }
-				if (!array_key_exists($words,$keywords)) {	  
-					$keywords[$words] = 0;
-				}
-
-				$keywords[$words]++;
-
-      } // foreach
-
-    } // if
-
-  } // foreach
-
-  arsort($keywords);
-  reset($keywords);
-
-  $i = 0;
-
-	if ( count($keywords) > 0 ) {
-		print "<p><a class=\"link-tags\">Tags:</a>&nbsp;";
-
-		foreach ($keywords as $words => $count) {
-			print("<a href=\"library.php?i=" . $channelID . "&amp;kw=" . urlencode($words) . "\">" . $words . "</a> (" . $count . ") ");
-			$i++;
-		
-			if ($i == 8) {
-				break;
-			}
-		}
-		print "</p>\n";
-	}
-?>
-		<div class="box-bb"><div></div></div>
-	</div>
-</div>
-<?php
-}
-
-
-function links_for_footer() {
-	$links = array();
-
-	if (!(isset($_SESSION['user']) && is_array($_SESSION['user']))) {
-
-		global $settings;
-
-		$links[] = "<a href=\"login.php?f=1\">Login</a>";
-		if ( isset($settings['AllowRegistration']) && $settings['AllowRegistration'] == 1 ) {
-			$links[] = "<a href=\"newuser.php?f=1\">Register</a>";
-		}
-	} 
-	else {	
-		global $can_use_cookies;
-		if ( $can_use_cookies ) {
-			$links[] = '<a href="login.php?f=1&amp;logout=1">Logout</a>';
-		}
-		
-		if ( is_admin() ) {
-			$links[] = "<a href=\"admin.php\">Admin</a>";
-		}	
-	} // else
-
-	if (can_upload()) {
-		$links[] = "<a href=\"publish.php\">Post a File</a>";
-	}
-
-	print join($links, " | ");
-}
-
-function runtime_string($file) {
-	$runtime = "";
-	if ($file["RuntimeHours"] != "") {
-		$runtime .= $file["RuntimeHours"] . " hr. ";
-	}
-
-	if ($file["RuntimeMinutes"] != "") {
-		$runtime .= $file["RuntimeMinutes"] . " min. ";
-	}
-
-	if ($file["RuntimeSeconds"] != "") {
-		$runtime .= $file["RuntimeSeconds"] . " seconds ";
-	}
-	return $runtime;
-}
-*/
 
 
 function render_channel_page($channel, $files) {
-    $out = '<div class="channel">' .
-      theme_channel_title($channel) .
-      theme_channel_videos($channel) .
-      theme_channel_bar($channel) .
-      '</div>';
+
+  $icon = theme_channel_icon($channel);
+  $out = '<div class="channel">
+   	    <div class="channel-avatar">' . $icon . '</div>' .
+    theme_channel_title($channel) .
+    theme_channel_videos($channel) .
+    theme_channel_bar($channel) .
+    '</div>';
     
-    $out .= tags_for_files($files, $channel["Files"], $channel);
+  $out .= tags_for_files($files, $channel["Files"], $channel);
     
-    front_header(site_title(), 
-		 $channel["ID"], 
-		 $channel["CSSURL"], 
-		 rss_link($channel["ID"]) );
-    
-    print theme_channel_wrapper($out);
-    
-    front_footer($channel["ID"]);
+  front_header(site_title(), 
+               $channel["ID"], 
+               $channel["CSSURL"], 
+               rss_link($channel["ID"]) );
+  
+  print theme_channel_wrapper($out);
+  
+  front_footer($channel["ID"]);
+}
+
+function theme_channel_footer($channel) {
+  $link = channel_link($channel["ID"]);
+  $count = count($channel["Files"]);
+
+  // we display 4 files by default on the frontpage for this theme
+  $left = $count - 4;
+
+  if ( $left <= 0 ) {
+    $out = '
+	<div class="nav">
+			<p>&nbsp;</p>
+	</div>
+   ';
+  }
+  else {
+    $out = '
+	<div class="nav">
+			<p><a href="' . $link . '">Next ' . $left . '&gt;&gt;</a></p>
+	</div>
+    ';
   }
 
-function oldrender_channel_page($channel, $files) {
-	$channelID = $channel['ID'];
-
-	$channel_files = $channel["Files"];
-	usort($channel_files, "comp");
-	
-	if (!isset($channel['Icon']) || $channel['Icon'] == '') {
-		$icon = "t.gif";
-	} 
-	else {
-		$icon = $channel['Icon'];
-	}
-
-
-	front_header($channel["Name"], $channelID, $channel["CSSURL"], rss_link($_GET["i"]));
-?>
-	
-	<!--CHANNEL-->
-	<div class="channel">
-		
-		<!--HEADER-->
-		<div class="channel-avatar"><img src="<?php echo $icon; ?>" alt="" /></div>
-		<h1><?php echo $channel["Name"]; ?></h1>
-		<h2 style="font-size:125%; font-weight:normal; color:#999999;"><?php echo count($channel_files); ?> files in this channel</h2>
-		
-		<!--SUBSCRIBE PULLDOWN-->
-		<div class="channel-subscribe">
-			<?php print subscribe_links($channel["ID"]); ?>
-		</div>
-		<!--/SUBSCRIBE PULLDOWN-->
-		<!--/HEADER-->
-	
-	<?php
-		$show_tagged = false;
-		$show_all = true;
-		$show_sections = true;
-		$display_files = array();
-	
-		if ($channel['Options']['Keywords'] == true && isset($_GET['kw'])) {
-			$show_sections = false;
-			$show_all = false;
-			$show_tagged = true;
-	
-			if ( count($channel_files) > 0 ) {		
-				foreach ($channel_files as $filehash) {
-			
-					$filehash = $filehash[0];
-					$file = $files[$filehash];
-			
-					foreach ($file["Keywords"] as $words) {
-						if ($words == $_GET['kw']) {
-							$display_files[$filehash] = $file;
-						}
-					} // foreach $file
-			
-				} // foreach $channel_files
-	
-			} // if $channel_files
-	
-		} // if show keywords
-		else {
-			foreach ($channel_files as $filehash) {
-				$display_files[$filehash[0]] = $files[$filehash[0]];
-			}
-		}
-	
-	
-		if ( $show_tagged == true ) {
-			tag_header($_GET["kw"], $channelID);
-			theme_video_list($display_files);
-		}	 // if show tagged
-	?>
-	</div>
-	<!--/CHANNEL-->
-	
-	<?php
-	
-	if ( $show_sections == true ) {
-		foreach ($channel['Sections'] as $section) {
-		
-			if (count($section["Files"]) > 0) {
-				section_header($section);
-	
-				print "<ul>";			
-				foreach ($section["Files"] as $filehash) {
-					display_video($filehash, $files[$filehash]);
-				}
-				print("</ul>
-					<div class=\"spacer_left\">&nbsp;</div></div>");
-			} // if
-		
-		} // foreach section
-	}
-	
-	if ( $show_all == true && count($channel_files) > 0 ) {
-		theme_video_list($display_files, $channel);
-	} // if ( files )
-	
-  tags_for_files($files, $channel_files, $channel);
-	front_footer($channelID);
+  return $out;
 }
 
 

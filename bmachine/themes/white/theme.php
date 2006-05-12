@@ -8,8 +8,15 @@
 
 function render_channel_page($channel, $files, $keyword = NULL) {
 
-  $out = '<div class="channel">' .
+  $tmp = tags_for_files($files, $channel["Files"], $channel, false);
+
+  $icon = theme_channel_icon($channel);
+  $out = "<div class=\"channel\">
+			<div class=\"channel-avatar\">$icon</div>" .
     theme_channel_title($channel);
+
+  $out .= theme_channel_footer($channel, $tmp);
+
   
   if ( $keyword != NULL ) {
     $out .= theme_channel_keyword_header($channel, $keyword);
@@ -19,10 +26,6 @@ function render_channel_page($channel, $files, $keyword = NULL) {
     theme_channel_videos($channel, $files, $keyword) .
     theme_channel_bar($channel) .
     '</div>';
-
-  $tmp = tags_for_files($files, $channel["Files"], $channel, false);
-  $out .= theme_channel_footer($channel, $tmp);
-
   
   front_header($channel["Name"], 
                $channel["ID"], 
@@ -34,16 +37,39 @@ function render_channel_page($channel, $files, $keyword = NULL) {
   front_footer($channel["ID"]);
 }
 
+function render_detail_page($file, $channel) {
+  
+  front_header($channel["Name"], $channel["ID"], $channel["CSSURL"], rss_link($channel["ID"]) );
+  
+  $out = theme_channel_bar($channel) .
+    theme_detail_video_wrapper( $channel, $file, theme_detail_page($file, $channel) );
+  
+  theme_page_wrapper(
+                     theme_detail_wrapper(
+                                          $out
+                                          )
+                     );
+  
+  front_footer($channel["ID"]);
+}
+
 
 function theme_channel_summary_wrapper($channel, $content) {
   $title = $channel["Name"];
   $library_url = channel_link($channel["ID"]);
   $footer = theme_channel_footer($channel);
+  $icon = theme_channel_icon($channel);
 
   return "
 		<!--CHANNEL-->
 		<div class=\"channel\"  style=\"clear:left;\">
+			<div class=\"channel-avatar\">
+        <a href=\"$library_url\" title=\"View all files in this Channel\">$icon</a>
+      </div>
  	    <h1><a href=\"$library_url\">$title</a></h1>
+    </div>
+
+		<div class=\"channel\"  style=\"clear:left;\">
 			$content
       $footer
 		</div>";

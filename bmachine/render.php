@@ -21,7 +21,6 @@ if ( !function_exists("render_index_page") ) {
 
 if ( !function_exists("render_channel_page") ) {
   function render_channel_page($channel, $files, $keyword = NULL) {
-
     $out = '<div class="channel">' .
       theme_channel_title($channel);
 

@@ -17,15 +17,12 @@ if ( ! is_admin() ) {
 
 update_base_url();
 
-function mycomp($a, $b) {
-  return ($b["Created"] - $a["Created"]);
-}
-
 global $store;
 $users = $store->getAllUsers();
 $files = $store->getAllFiles();
 
 bm_header();
+
 ?>
 
 
@@ -37,10 +34,10 @@ bm_header();
 </div>
 
 <?php
-	// check to see if the datastore version is the same as the stated version of BM -
-	// if not, we will ask the user to upgrade
+// check to see if the datastore version is the same as the stated version of BM -
+// if not, we will ask the user to upgrade
 
-	if ( get_datastore_version() < version_number() ) {
+if ( get_datastore_version() < version_number() ) {
 ?>
 <h4 style="color: #c00">Time to Upgrade!</h4>
 <p>
@@ -49,17 +46,17 @@ to do any required maintenance.
 </p>
 
 <?php
-	}
+}
 
-	// do a check here to make sure we can write to the filesystem.  we
-	// could do this globally, on every single page, but for security reasons,
-	// this seems a little safer
+// do a check here to make sure we can write to the filesystem.  we
+// could do this globally, on every single page, but for security reasons,
+// this seems a little safer
 
-	$folders = check_folders();
-	$perms = check_permissions();
+$folders = check_folders();
+$perms = check_permissions();
 
 
-	if ( $perms !== true || $folders !== true ) {
+if ( $perms !== true || $folders !== true ) {
 ?>
 
 <h4 style="color: #c00">Setup Problem!</h4>
@@ -71,10 +68,10 @@ to do any required maintenance.
 
 <ul>
 <?php
-		foreach($folders as $error) {
-			print "<li>$error</li>\n";
-			$fixstr1 = "mkdir $error\n";
-		}
+foreach($folders as $error) {
+  print "<li>$error</li>\n";
+  $fixstr1 = "mkdir $error\n";
+}
 ?>
 </ul>
 <p>And 
@@ -86,10 +83,10 @@ edit the permissions for the following directories:</p>
 
 <ul>
 <?php
-		foreach($perms as $error) {
-			print "<li>$error</li>\n";
-			$fixstr2 = "chmod 777 $error\n";
-		}
+foreach($perms as $error) {
+  print "<li>$error</li>\n";
+  $fixstr2 = "chmod 777 $error\n";
+}
 ?>
 </ul>
 
@@ -104,10 +101,10 @@ You can fix this problem by connecting to your server using FTP, opening the fol
 print "cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] ) . "\n";
 
 if ( isset($fixstr1) ) {
-	print $fixstr1;
+  print $fixstr1;
 }
 if ( isset($fixstr2) ) {
-	print $fixstr2;
+  print $fixstr2;
 }
 
 ?>
@@ -115,9 +112,9 @@ if ( isset($fixstr2) ) {
 </p>
 
 <?php
-	}
+}
 
-	if ( check_access() ) {
+if ( check_access() ) {
 ?>
 
 <h4 style="color: #c00">Security Problem!</h4>
@@ -126,7 +123,7 @@ security risk.  You should take steps to make sure that those files aren't downl
 </p>
 
 <?php	
-	}	
+}	
 
 if ( $store->instanceCount() > 1 ) {
 ?>

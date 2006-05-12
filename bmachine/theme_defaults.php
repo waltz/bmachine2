@@ -47,41 +47,18 @@ if ( ! function_exists("theme_detail_video_wrapper") ) {
 }
 
 if ( ! function_exists("theme_channel_footer") ) {
-function theme_channel_footer($channel) {
-	$link = channel_link($channel["ID"]);
-  $count = count($channel["Files"]);
-
-  /*  $out = "
- 				<div class=\"box\">
-  					<div class=\"box-bi\">
-   						<div class=\"box-bt\"><div></div></div>
-					<p><a href=\"$link\">Full Channel ($count)  >></a></p>
-					<div class=\"box-bb\"><div></div></div>
-				</div>
-			</div>
-  ";
-  */
-  /*
-	$out = '
-	<div class="box">
-		<div class="box-bi">
-			<div class="box-bt"><div></div></div>
-			
-			<p><a href="' . $link . '">&lt;&lt; All Files in This Channel</a></p>
-	
-			<div class="box-bb"><div></div></div>
-		</div>
-	</div>';
-	*/
-
-	$out = '
+  function theme_channel_footer($channel) {
+    $link = channel_link($channel["ID"]);
+    $count = count($channel["Files"]);
+    
+    $out = '
 	<div class="nav">
 			<p><a href="' . $link . '">Next ' . $count . '&gt;&gt;</a></p>
 	</div>
   ';
 
-	return $out;
-}
+    return $out;
+  }
 }
 		
 /**
@@ -532,12 +509,12 @@ if ( ! function_exists("theme_detail_page") ) {
 
     if ( !is_local_torrent($file['URL']) && beginsWith($file["Mimetype"], "video/") ) {
       $out .= '
-   		<div class="video-tnail">' . theme_embed_video($file, $channel) . '</div>
+   		<div class="video-tnail internal">' . theme_embed_video($file, $channel) . '</div>
       ';
     }
     else {
       $out .= '
-   		<div class="video-tnail">' . theme_file_thumbnail($file, $channel) . '</div>
+   		<div class="video-tnail internal">' . theme_file_thumbnail($file, $channel) . '</div>
       ';
     }
 
@@ -982,7 +959,7 @@ if ( ! function_exists("theme_css") ) {
     global $themes_dir;
     $theme_css = "$themes_dir/" . active_theme() . "/css/" . active_theme() . ".css";
     if ( file_exists($theme_css) ) {
-      return "<link href=\"$theme_css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+      return "<link href=\"" .get_base_url() . "$theme_css\" rel=\"stylesheet\" type=\"text/css\" />\n";
     }
     else {
       return "<link href=\"" . get_base_url() . "/pub_css.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
@@ -1091,13 +1068,15 @@ EOF;
 }
 
 if ( !function_exists("theme_channel_summary_wrapper") ) {
-	function theme_channel_summary_wrapper($channel, $content) {
+	function theme_channel_summary_wrapper($channel, $content, $count = 2) {
 		$title = $channel["Name"];
 		$library_url = channel_link($channel["ID"]);
     $count = count($channel["Files"]);
 		$icon = theme_channel_icon($channel);
 
     $footer = theme_channel_footer($channel);
+    $total = count($channel["Files"]);
+    $left =  $total - $count;
 
 		return "
 		<!--CHANNEL-->
@@ -1107,7 +1086,7 @@ if ( !function_exists("theme_channel_summary_wrapper") ) {
         <a href=\"$library_url\" title=\"View all files in this Channel\">$icon</a>
       </div>
 			<h1><a href=\"$library_url\" title=\"View all files in this Channel\">$title</a></h1>
-			<h2 style=\"font-size:125%; font-weight:normal; color:#999999;\">" . count($channel["Files"]) . " files in this channel</h2>
+			<h2 style=\"font-size:125%; font-weight:normal; color:#999999;\">$total files in this channel</h2>
      " . theme_channel_bar($channel) . 
 			"<!--/HEADER-->
 			<!--VIDEOS-->
@@ -1119,7 +1098,7 @@ if ( !function_exists("theme_channel_summary_wrapper") ) {
 }
 
 if ( !function_exists("theme_channel_summary") ) {
-	function theme_channel_summary($channel, $files) {
+	function theme_channel_summary($channel, $files, $count = 2) {
 		$channel_files = $channel["Files"];
 		usort($channel_files, "comp");
 	
@@ -1151,8 +1130,13 @@ if ( !function_exists("theme_channel_summary") ) {
 	
 		} // if show keywords
 		else {
+      $tmp = 0;
 			foreach ($channel_files as $filehash) {
 				$display_files[$filehash[0]] = $files[$filehash[0]];
+        $tmp++;
+        if ( $tmp >= $count ) {
+          break;
+        }
 			}
 		}
 	
@@ -1198,13 +1182,14 @@ if ( !function_exists("theme_channel_keyword_header") ) {
 }
 
 if ( !function_exists("theme_channel_videos") ) {
+
 	function theme_channel_videos($channel, $files = NULL, $keyword = NULL) {
 
     if ( $files == NULL ) {
       global $store;
       $files = $store->getAllFiles();
     }
-	
+
 		$show_tagged = false;
 		$show_all = true;
 		$show_sections = true;
@@ -1225,6 +1210,9 @@ if ( !function_exists("theme_channel_videos") ) {
 					$out .= section_header($section);
 		
           if ( count($section["Files"]) > 0 ) {
+
+            uasort($section['Files'], "mycomp");
+
             $out .= "<ul>";
             foreach ($section["Files"] as $filehash) {
               $out .= theme_display_video($filehash, $files[$filehash], $channel);
@@ -1239,6 +1227,7 @@ if ( !function_exists("theme_channel_videos") ) {
 		}
 		
 		if ( $show_all == true && count($channel["Files"]) > 0 ) {
+      uasort($channel['Files'], "mycomp");
 			foreach ($channel["Files"] as $filehash) {
 				$display_files[$filehash[0]] = $files[$filehash[0]];
 			}
@@ -1279,7 +1268,7 @@ if ( ! function_exists("theme_channel_icon") ) {
 		}
 
     //  border=\"0\" 
-		return "<img src=\"$icon\" alt=\"\" />";
+		return "<img src=\"$icon\" alt=\"\" width=\"40\" height=\"40\" />";
 	}
 }
 

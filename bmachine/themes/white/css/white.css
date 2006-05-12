@@ -66,6 +66,15 @@ body {
 	padding: 30px 0px;
 }
 
+.channel-avatar {
+	float: left;
+	width: 45px;
+	height: 45px;
+	overflow: hidden;
+	margin: 0px 10px 10px 0px;
+}
+
+
 .channel-left {
 	float: left;
 	width: 48%;

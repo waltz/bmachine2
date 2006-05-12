@@ -215,6 +215,11 @@ if ( isset($settings['theme']) ) {
 require_once("theme_defaults.php");
 require_once("render.php");
 
+
+function mycomp($a, $b) {
+  return ($b["Created"] - $a["Created"]);
+}
+
 function isnotblank($x) {
   return isset($x) && $x != "";
 }

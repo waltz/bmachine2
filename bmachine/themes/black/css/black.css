@@ -358,9 +358,11 @@ body {
 }
 
 .video-info {
-	margin-left: 300px;
+	margin-left: 200px;
 }
-
+div.internal {
+	margin-right: 150px;
+}
 .video-info h1 {
 	margin: 0px 0px 10px 0px;
 	padding: 0px;

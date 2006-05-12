@@ -20,7 +20,7 @@ if ( !isset($_GET["type"]) ) {
 }
 
 // processing here in case our rewrite rules choke
-if ( !isset($_GET["i"]) && !isset($_GET["c"]) ) {
+if ( !isset($_GET["i"]) && !isset($_GET["c"]) && !isset($_GET["type"]) ) {
 	$params = split("/", $_SERVER['REQUEST_URI']);
 
   $_GET["c"] = $params[ count($params) - 2 ];

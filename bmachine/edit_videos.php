@@ -3,10 +3,10 @@
  * backend list of videos, with links to edit/delete/download
  * @package Broadcast Machine
  */
-
+/*
 function mycomp($a, $b) {
   return ($b["Created"] - $a["Created"]);
-}
+}*/
 
 function mycomp_title($a, $b) {
   return strcmp($a["Title"], $b["Title"]);

@@ -29,8 +29,9 @@ if (isset($_POST['Name'])) {
   if ( !isset($_POST['Icon']) ) {
     $_POST['Icon'] = "";
   }
-  
-  if (isset($_FILES["IconUpload"])) {
+  $channel["Icon"] = $_POST["Icon"];
+
+  if (isset($_FILES["IconUpload"]) && $_FILES["IconUpload"]["size"] > 0 ) {
     global $thumbs_dir;
     global $perm_level;
 
@@ -39,7 +40,7 @@ if (isset($_POST['Name'])) {
     }
     
     if ( move_uploaded_file($_FILES['IconUpload']['tmp_name'], "$thumbs_dir/" . $_FILES['IconUpload']['name'])) {
-      chmod("thumbnails/" . $_FILES['IconUpload']['name'], 0644);
+      chmod("$thumbs_dir/" . $_FILES['IconUpload']['name'], 0644);
       $channel["Icon"] = get_base_url() . "$thumbs_dir/" . $_FILES['IconUpload']['name'];
     }
   }
@@ -291,7 +292,9 @@ Use Custom Library at <input
 <ul>
 <li><input type="checkbox" name="SubscribeOptions[]"<?php if ($channel['Options']['SubscribeOptions'] & 1) print(" checked=\"true\""); ?> value="1"> RSS Feed</li>
 <li><input type="checkbox" name="SubscribeOptions[]"<?php if ($channel['Options']['SubscribeOptions'] & 2) print(" checked=\"true\""); ?> value="2"> Democracy</li>
-<li><input type="checkbox" name="SubscribeOptions[]"<?php if ($channel['Options']['SubscribeOptions'] & 4) print(" checked=\"true\""); ?> value="4"> iTunes</li>
+<li><input type="checkbox" 
+           name="SubscribeOptions[]"<?php if ($channel['Options']['SubscribeOptions'] & 4) print(" checked=\"true\""); ?> 
+           value="4"> iTunes (You must have direct URLs enabled in the <a href="settings.php">settings tab</a> for iTunes compatibility.)</li>
 </ul>
 </fieldset>
 
