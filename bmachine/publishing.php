@@ -169,6 +169,26 @@ function set_file_defaults(&$file) {
   
   if ( isset($file["People"]) && !is_array($file["People"]) ) {
     $file["People"] = explode("\n", $file["People"]);
+
+    //
+    // parse people
+    //
+    $tmp = array();
+    $people = array();	
+
+    foreach ($file["People"] as $people_row) {
+      if (trim($people_row) != '') {
+	$tmp[] = explode(":", encode($people_row));
+      }
+    }
+    
+    foreach($tmp as $num => $p) {
+      if ( is_array($p) && count($p) == 2) {
+	$people[$num] = $p;
+      }
+    }
+  
+    $file["People"] = $people;
   }
   else if ( !isset($file["People"]) ) {
     $file["People"] = array();
@@ -217,7 +237,6 @@ function publish_file(&$file) {
   // if the user doesn't have upload access, then stop right here
   //
   requireUploadAccess();
-
   set_file_defaults($file);
 
   if ( beginsWith($file["URL"], "file://") ) {
@@ -252,6 +271,11 @@ function publish_file(&$file) {
     $is_external = false;
   }
 
+  // if the user has changed the URL, let's check for a valid mime again
+  if ( isset($file["OldURL"]) && $file["OldURL"] != $file["URL"] ) {
+    $file['ignore_mime'] = 0;
+  }
+
   if ( isset($file["Mimetype"]) && $file["Mimetype"] == "application/x-bittorrent" ) {
     $got_mime_type = true;
   }
@@ -261,7 +285,7 @@ function publish_file(&$file) {
   else {
     $got_mime_type = false;
   }
-  
+
   
   // if this is a torrent posted with the helper, then we'll have a hash already
   
@@ -322,6 +346,7 @@ function publish_file(&$file) {
       $errorstr = "UPLOAD";
       return false;
     }
+
     
     if ( isset($_FILES["post_file_upload"]["type"]) && 
 	 $_FILES["post_file_upload"]["type"] != "" && 
@@ -353,9 +378,122 @@ function publish_file(&$file) {
 	}
       }
     }
+
+  }
+
+  if (!isset($file["Explicit"])) {
+    $file["Explicit"] = 0;
+  }
+
+  if ( ! isset($file["Excerpt"]) ) {
+    $file["Excerpt"] = 0;
+  }
+
+  if ( isset($file["Transcript"]) && check_url($file["Transcript"]) ) {
+    $file['Transcript'] = htmlentities($file["Transcript"]);
+  }
+  else {
+    $file['Transcript'] = "";
+  }
+  
+  global $text_dir;
+  global $perm_level;
+  
+  if (isset($_FILES["post_transcript_file"]) && $_FILES["post_transcript_file"]["size"] > 0) {
+    if (!file_exists($text_dir)) {
+      mkdir($text_dir, $perm_level);
+    }
+    
+    if (move_uploaded_file($_FILES['post_transcript_file']['tmp_name'], 
+			   "$text_dir/" . $file["ID"] . ".txt")) {
+      chmod("$text_dir/" . $file["ID"], $perm_level);
+      $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
+    }
+  }
+  else if (isset($file["post_transcript_text"]) && $file["post_transcript_text"] != "" ) {
+    if (!file_exists($text_dir)) {
+      mkdir($text_dir, $perm_level);
+    }
+    
+    $handle = fopen($text_dir . '/' . $file["ID"] . '.txt', "a+b");
+    fseek($handle,0);
+    flock($handle,LOCK_EX);
+    ftruncate($handle,0);
+    fseek($handle,0);
+    fwrite($handle, $file["post_transcript_text"]);
+    fclose($handle);
+    
+    $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
+  }
+  
+  //
+  // handle any thumbnail that the user posted
+  //
+
+  global $thumbs_dir;
+  global $perm_level;
+
+  if (isset($_FILES["Image_upload"])) {
+    if (!file_exists($thumbs_dir)) {
+      mkdir($thumbs_dir, $perm_level);
+    }
+    
+    $hashedname = unique_file_name($thumbs_dir, $_FILES['Image_upload']['name']);	
+    
+    if (
+	move_uploaded_file(
+			   $_FILES['Image_upload']['tmp_name'], 
+			   "$thumbs_dir/$hashedname" ) ) {
+      
+      chmod("$thumbs_dir/" . $hashedname, $perm_level);
+      $file['Image'] = get_base_url() . "$thumbs_dir/" . $hashedname;
+    }
     
   }
 
+  //
+  // parse keywords
+  //
+  $keywords = array();
+
+  if ( isset($file["Keywords"]) ) {
+    foreach ($file['Keywords'] as $words) {
+      if (trim($words) != '') {
+	$keywords[] = encode(trim($words));
+      }
+    }
+  }
+  $file['Keywords'] = $keywords;
+
+  /*
+  //
+  // parse people
+  //
+  $tmp = array();
+  $people = array();	
+
+  if ( isset($file["People"]) ) {
+    foreach ($file["People"] as $people_row) {
+      print $people_row;
+      if (trim($people_row) != '') {
+	$tmp[] = explode(":", encode($people_row));
+      }
+    }
+
+    foreach($tmp as $num => $p) {
+      if ( is_array($p) && count($p) == 2) {
+	$people[$num] = $p;
+      }
+    }
+  }
+
+  $file["People"] = $people;
+  */
+	
+  if ( !isset($file["Image"]) || $file['Image'] == "http://") {
+    $file['Image'] = '';
+  }
+    
   if ( $file["Mimetype"] == "" && $file['ignore_mime'] == 1 ) {
     $file["Mimetype"] = get_mime_from_extension($file["URL"]);
     $got_mime_type = true;
@@ -429,116 +567,6 @@ function publish_file(&$file) {
     }
   }
 
-  if (!isset($file["Explicit"])) {
-    $file["Explicit"] = 0;
-  }
-
-  if ( ! isset($file["Excerpt"]) ) {
-    $file["Excerpt"] = 0;
-  }
-
-  if ( isset($file["Transcript"]) && check_url($file["Transcript"]) ) {
-    $file['Transcript'] = htmlentities($file["Transcript"]);
-  }
-  else {
-    $file['Transcript'] = "";
-  }
-  
-  global $text_dir;
-  global $perm_level;
-  
-  if (isset($_FILES["post_transcript_file"]) && $_FILES["post_transcript_file"]["size"] > 0) {
-    if (!file_exists($text_dir)) {
-      mkdir($text_dir, $perm_level);
-    }
-    
-    if (move_uploaded_file($_FILES['post_transcript_file']['tmp_name'], 
-			   "$text_dir/" . $file["ID"] . ".txt")) {
-      chmod("$text_dir/" . $file["ID"], $perm_level);
-      $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
-    }
-  }
-  else if (isset($file["post_transcript_text"]) && $file["post_transcript_text"] != "" ) {
-    if (!file_exists($text_dir)) {
-      mkdir($text_dir, $perm_level);
-    }
-    
-    $handle = fopen($text_dir . '/' . $file["ID"] . '.txt', "a+b");
-    fseek($handle,0);
-    flock($handle,LOCK_EX);
-    ftruncate($handle,0);
-    fseek($handle,0);
-    fwrite($handle, $file["post_transcript_text"]);
-    fclose($handle);
-    
-    $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
-  }
-  
-  //
-  // handle any thumbnail that the user posted
-  //
-
-  global $thumbs_dir;
-  global $perm_level;
-  
-  if (isset($_FILES["Image_upload"])) {
-    if (!file_exists($thumbs_dir)) {
-      mkdir($thumbs_dir, $perm_level);
-    }
-    
-    $hashedname = unique_file_name($thumbs_dir, $_FILES['Image_upload']['name']);	
-    
-    if (
-	move_uploaded_file(
-			   $_FILES['Image_upload']['tmp_name'], 
-			   "$thumbs_dir/$hashedname" ) ) {
-      
-      chmod("$thumbs_dir/" . $hashedname, $perm_level);
-      $file['Image'] = get_base_url() . "$thumbs_dir/" . $hashedname;
-    }
-    
-  }
-
-  //
-  // parse keywords
-  //
-  $keywords = array();
-
-  if ( isset($file["Keywords"]) ) {
-    foreach ($file['Keywords'] as $words) {
-      if (trim($words) != '') {
-	$keywords[] = encode(trim($words));
-      }
-    }
-  }
-  $file['Keywords'] = $keywords;
-	
-  //
-  // parse people
-  //
-  $tmp = array();
-  $people = array();	
-
-  if ( isset($file["People"]) ) {
-    foreach ($file["People"] as $people_row) {
-      if (trim($people_row) != '') {
-	$tmp[] = explode(":", encode($people_row));
-      }
-    }
-
-    foreach($tmp as $num => $p) {
-      if ( is_array($p) && count($p) == 2) {
-	$people[$num] = $p;
-      }
-    }
-  }
-
-  $file["People"] = $people;
-  
-	
-  if ( !isset($file["Image"]) || $file['Image'] == "http://") {
-    $file['Image'] = '';
-  }
 
   //
   // lets figure out if we have a local file or a remote URL here.
@@ -638,13 +666,14 @@ function publish_file(&$file) {
 		   "actual_fname",
 		   "mime_chooser",
 		   "mime_chooser_custom",
-		   "method"
+		   "method",
+		   "OldURL"
 		   );
 
   foreach($tmpvals as $tmp) {
     unset($newcontent[$tmp]);	
   }
-  
+
   $store->store_file($newcontent, $file["ID"]);
 
   //

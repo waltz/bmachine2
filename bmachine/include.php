@@ -217,7 +217,14 @@ require_once("render.php");
 
 
 function mycomp($a, $b) {
-  return ($b["Created"] - $a["Created"]);
+  if ( isset($a["Created"]) && isset($b["Created"]) ) {
+    return ($b["Created"] - $a["Created"]);
+  }
+  else if ( isset($a[1]) && isset($b[1]) ) {
+    return ($b[1] - $a[1]);
+  }
+  
+  return $b - $a;
 }
 
 function isnotblank($x) {

@@ -187,7 +187,7 @@ bm_header();
 
 <fieldset>
    <div class="the_legend">Description:</div><br />
-   <textarea rows="4" cols="40" name="Description" id="content"><?php echo $channel["Description"]; ?></textarea>
+   <textarea rows="4" cols="40" name="Description" id="content"><?php echo isset($channel["Description"]) ? $channel["Description"] : ''; ?></textarea>
 </fieldset>
 
 
@@ -201,7 +201,7 @@ bm_header();
 
 <div id="specify_image" style="display:<?php
 
-if ($channel["Icon"] == "" || $channel["Icon"] == "http://") {
+if ( !isset($channel["Icon"]) || $channel["Icon"] == "" || $channel["Icon"] == "http://") {
 	echo "none";
 } 
 else {
@@ -209,31 +209,32 @@ else {
 }
 ?>;" >
 
-<input type="text" name="Icon" size="38" value="<?php echo $channel["Icon"]; ?>"/>
+<input type="text" name="Icon" size="38" value="<?php echo isset($channel["Icon"]) ? $channel["Icon"] : ''; ?>"/>
 </div>
 </fieldset>
 
 <fieldset><div class="the_legend">Allow Non-admins to Post: </div><input type="checkbox" name="OpenPublish" <?php
-if ($channel["OpenPublish"]) {
+if (isset($channel["NotPublic"] ) && $channel["NotPublic"] != false ) {
 	echo " checked=\"true\"";
 }
 ?>/></fieldset>
 
 <fieldset><div class="the_legend">Require Users to Login to View: </div><input type="checkbox" name="RequireLogin" <?php
-if ($channel["RequireLogin"]) {
+if (isset($channel["RequireLogin"]) && $channel["RequireLogin"] != false )  {
 	echo " checked=\"true\"";
 }
 ?>/></fieldset>
 
 <fieldset><div class="the_legend">Hide Channel From Public: </div>
 <input type="checkbox" name="NotPublic" <?php
-if ($channel["NotPublic"]) {
+if (isset($channel["NotPublic"] ) && $channel["NotPublic"] != false ) {
 	echo " checked=\"true\"";
 }
 ?>/></fieldset>
 
 <fieldset>
-<div class="the_legend">Publisher (optional): </div><br /><input type="text" name="Publisher" size="38" value="<?php echo $channel["Publisher"]; ?>" id="title" />
+<div class="the_legend">Publisher (optional): </div><br />
+<input type="text" name="Publisher" size="38" value="<?php echo isset($channel["Publisher"]) ? $channel["Publisher"] : ''; ?>" id="title" />
 </fieldset>
 
 <fieldset>

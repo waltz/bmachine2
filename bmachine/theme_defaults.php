@@ -397,7 +397,6 @@ if ( ! function_exists("theme_video_info_section") ) {
     }
     
     if ( isset($channel['Options']['Published']) && $channel['Options']['Published'] == 1 ) {
-      
       $out .= "<h2>";
       
       if ($file["ReleaseYear"] || $file["ReleaseMonth"] || $file["ReleaseDay"]) {

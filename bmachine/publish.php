@@ -9,7 +9,6 @@
 require_once("include.php");
 require_once("publishing.php");
 
-
 //
 // don't let the user access this page if they don't have the permission to upload
 //
@@ -53,6 +52,7 @@ Sorry, there are no publicly accessible channels for publishing content at this 
 $file = array_merge($_GET, $_POST);
 
 if ( isset($file["post_do_save"]) ) {
+
 	set_file_defaults($file);
 
   debug_message("TRY PUBLISH: " . $file["Title"] );
@@ -69,9 +69,6 @@ if ( isset($file["post_do_save"]) ) {
   global $errorstr;
   global $uploaded_file_url;
 
-  debug_message("TRY: " . $file["URL"]);	
-  debug_message("TRY AND SAVE - $errorstr - $uploaded_file_url");
-
   if ( (!isset($file["URL"]) || $file["URL"] == "") && isset($uploaded_file_url) ) {
     $file["URL"] = $uploaded_file_url;
     $is_external = 0;
@@ -79,9 +76,6 @@ if ( isset($file["post_do_save"]) ) {
   else if ( isset($uploaded_file_url) && $file["URL"] == $uploaded_file_url ) {
     $is_external = 0;
   }
-
-  debug_message("TRY URL: $uploaded_file_url");
-
 
 } // if $_POST["post_do_save"]
 
@@ -410,16 +404,16 @@ function do_submit(frm) {
 	if ( document.getElementById('people_table').rows.length > 2 ) {
 
 		for( i=0; i < frm.People_name.length; i++ ) {
-			if ( frm.People_name[i].value != '' && frm.People_role[i].value != '' &&
-           trim(frm.People_name[i].value) != '' && trim(frm.People_role[i].value) != '' ) {
-				frm.People.value += trim(frm.People_name[i].value) + ':' + trim(frm.People_role[i].value) + '\n';
+			if ( frm.People_name[i].value != '' && frm.People_role[i].value != '' ) {
+        //&& trim(frm.People_name[i].value) != '' && trim(frm.People_role[i].value) != '' 
+				frm.People.value += frm.People_name[i].value + ':' + frm.People_role[i].value + '\n';
 			}
 		}
 
 	} 
 	else {
-    if ( frm.People_name.value != '' && frm.People_role.value != '' &&
-          trim(frm.People_name.value) != null && trim(frm.People_role.value) != null ) {
+    if ( frm.People_name.value != '' && frm.People_role.value != '' ) {
+      // && trim(frm.People_name.value) != null && trim(frm.People_role.value) != null
 		  frm.People.value = frm.People_name.value + ':' + frm.People_role.value;
 	  }
 	}
@@ -497,9 +491,7 @@ global $errorstr;
 global $do_mime_check;
 
 if ( isset($errorstr) ) {
-	//
-	// CJM - make this much more annoying somehow so that users see it
-	//
+
   if ( $errorstr == "NOFILE" ) {
 		$errorstr = "<div id=\"file_errors\"><strong>Error: Sorry, Broadcast Machine doesn't support file:// URLs</strong></div>";
   }
@@ -585,6 +577,7 @@ if (
 ?>
 	<input type="hidden" name="post_file_upload" value="" class="hidden"  />
 	<input type="hidden" name="post_use_upload" class="hidden" value="0" />
+
 	<div id="specify_url">
 		<h3>URL of the file:</h3>
 		<input type="text" name="URL" size="60" value="<?php echo $file["URL"]; ?>" />
@@ -595,7 +588,7 @@ if (
 else {
 ?>
 
-
+<input type="hidden" name="OldURL" value="<?php echo $file["URL"]; ?>" class="hidden">
 <input type="hidden" name="URL" value="<?php echo $file["URL"]; ?>" class="hidden">
 <input type="hidden" name="post_file_upload" value="" class="hidden">
 <?php
@@ -636,6 +629,7 @@ else if ( is_local_file($file["URL"]) ) {
 else if ( $file["URL"] != "http://" ) {
 ?>
 <div style="color: #A00;">Linked to "<a href="<?php echo $file["URL"]; ?>"><?php echo $file["URL"]; ?></a>".<br /> </div>
+<input type="text" name="URL" size="60" value="<?php echo $file["URL"]; ?>" />
 <?php
 }
 ?>
@@ -801,7 +795,7 @@ else if ( $file["URL"] != "http://" ) {
 		foreach($donations as $id => $donation) {
 			if ( isset($donation["title"]) && isset($donation["text"]) ) {
 				print("<option value=" . $id);
-				if (isset($file["donation_id"]) && $file["donation_id"] == $file["ID"]) {
+				if (isset($file["donation_id"]) && $file["donation_id"] == $id ) {
 					print(" selected=\"true\"");
 				}
 				print(">" . $donation["title"] . "</option>");

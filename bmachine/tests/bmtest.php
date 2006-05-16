@@ -59,12 +59,13 @@ class BMTestCase extends WebTestCase {
 
 		foreach( $array as $f ) {
 			if ( $f[$key] == $value ) {
-				$got_it = true;
-				break;
+        return $f["ID"];
+				//$got_it = true;
+				//break;
 			}
 		}
 	
-		return $got_it;	
+		return false;
 	}
 
 	function getContent() {

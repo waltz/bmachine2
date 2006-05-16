@@ -22,19 +22,46 @@ class PublishTest extends BMTestCase {
 		$file['Title'] = "URL unit test " . rand(0, 10000);
 		$file['Description'] = "URL desc";
 		$file['post_do_save'] = 1;
+
+    $file['post_channels[]'] = 1;
+
+    // donation
+
+    // people/roles
+    $file['People'] = "person1:role1\nperson2:role2\n";
+    
+    // keywords
+    $file['Keywords'] = "kw1\nkw2\n";
 	
 		$this->Login();		
 		$publish_url = get_base_url() . "publish.php";
 
 		$this->post( $publish_url, $file );
-
-    //print "CODE: " . $this->_browser->getResponseCode() . "<br>";
 		$this->assertResponse("200", "PublishTest/TestPublishURL: didn't get 200 response");		
 	
 		global $store;
 		$files = $store->getAllFiles();
 		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertTrue( $got_it, "PublishTest/TestPublishURL: didn't find new file");
+
+		$this->assertTrue( $store->channelContainsFile($got_it, $store->getChannel(1) ), 
+                       "PublishTest/TestPublishURL: file not in channel");
+
+    $f = $store->getFile($got_it);
+		$this->assertTrue( count($f['People']) == 2, 
+                       "PublishTest/TestPublishURL: people not added?");
+
+    $p = $f['People'][0];
+		$this->assertTrue( $p[0] == "person1" && $p[1] == "role1",
+                       "PublishTest/TestPublishURL: person data wrong");
+
+		$this->assertTrue( count($f['Keywords']) == 2, 
+                       "PublishTest/TestPublishURL: keywords not added?");
+
+    $this->assertTrue( $f["Keywords"][0] == "kw1" && $f["Keywords"][1] == "kw2",
+                       "PublishTest/TestPublishURL: keywords not what we expected?");
+
+
 	}
 	
   /**
