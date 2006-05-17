@@ -493,7 +493,9 @@ function publish_file(&$file) {
   if ( !isset($file["Image"]) || $file['Image'] == "http://") {
     $file['Image'] = '';
   }
-    
+
+  $file['Image'] = prependHTTP($file['Image']);
+
   if ( $file["Mimetype"] == "" && $file['ignore_mime'] == 1 ) {
     $file["Mimetype"] = get_mime_from_extension($file["URL"]);
     $got_mime_type = true;
@@ -692,44 +694,46 @@ function publish_file(&$file) {
   // write out any channel info
   //
   $channels = $store->getAllChannels();
-  
-  foreach ($channels as $channel) {
-    if (is_admin() || ( isset($channel["OpenPublish"]) && $channel["OpenPublish"]) ) {
-      $keys = $channel['Files'];
+
+  if ( isset($channels) && is_array($channels) ) {
+    foreach ($channels as $channel) {
+      if (is_admin() || ( isset($channel["OpenPublish"]) && $channel["OpenPublish"]) ) {
+	$keys = $channel['Files'];
       
-      //
-      // first, unset any channels that this was published to
-      //
-      foreach ($keys as $key_id => $key) {
-	if ($key[0] == $file["ID"]) {
-	  $store->removeFileFromChannel($channel, $file["ID"], $key_id);
-	  unset($channel['Files'][$key_id]);
+	//
+	// first, unset any channels that this was published to
+	//
+	foreach ($keys as $key_id => $key) {
+	  if ($key[0] == $file["ID"]) {
+	    $store->removeFileFromChannel($channel, $file["ID"], $key_id);
+	    unset($channel['Files'][$key_id]);
+	  }
 	}
-      }
       
       
-      if ( isset($file["post_channels"]) && count($file["post_channels"]) > 0 &&
-	   in_array($channel['ID'], $file["post_channels"]) ) {
+	if ( isset($file["post_channels"]) && count($file["post_channels"]) > 0 &&
+	     in_array($channel['ID'], $file["post_channels"]) ) {
 	
-	$sections = array_keys($channel['Sections']);
+	  $sections = array_keys($channel['Sections']);
 	
-	foreach ($sections as $section) {
-	  $keys = array_keys($channel['Sections'][$section]['Files']);
+	  foreach ($sections as $section) {
+	    $keys = array_keys($channel['Sections'][$section]['Files']);
 	  
-	  foreach ($keys as $key) {
-	    $file = $channel['Sections'][$section]['Files'][$key];
-	    if ($file == $file["ID"]) {
-		    $store->removeFileFromChannelSection($channel, $section, $key);
-		    unset($channel['Sections'][$section]['Files'][$key]);
+	    foreach ($keys as $key) {
+	      $file = $channel['Sections'][$section]['Files'][$key];
+	      if ($file == $file["ID"]) {
+		$store->removeFileFromChannelSection($channel, $section, $key);
+		unset($channel['Sections'][$section]['Files'][$key]);
+	      }
 	    }
 	  }
 	}
+	
+	$channels[$channel['ID']] = $channel;
+      
       }
-      
-      $channels[$channel['ID']] = $channel;
-      
-    }
-  }
+    } // foreach
+  } // if
 
   if ( isset($file["post_channels"]) && count($file["post_channels"]) > 0 ) {
     foreach ($file["post_channels"] as $channelID) {

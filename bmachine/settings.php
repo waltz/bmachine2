@@ -56,11 +56,12 @@ if (isset($_FILES["image_upload"]) && $_FILES["image_upload"]["size"] > 0 ) {
 
 	if (move_uploaded_file($_FILES['image_upload']['tmp_name'], "$thumbs_dir/" . $_FILES['image_upload']['name'])) {
 		chmod("$thumbs_dir/" . $_FILES['image_upload']['name'], 0644);
-		$image = "$thumbs_dir/" . $_FILES['image_upload']['name'];
+		$image = get_base_url() . $thumbs_dir . "/" . $_FILES['image_upload']['name'];
 	}
+
 }
 else if (isset($_POST['image'])) {
-	$image = encode($_POST['image']);
+	$image = encode( prependHTTP( $_POST['image'] ) );
 } 
 else {
 	$image = isset($settings['image']) ? $settings['image'] : '';
@@ -277,7 +278,7 @@ if ( count($_POST) > 0 ) {
 }
 ?>
 
-<form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1">
+<form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1" enctype="multipart/form-data" >
 <input type="submit" value="Save Changes to Settings >>" />
 <br /><br />
 <div class="section_header">Website Information</div>
@@ -306,6 +307,13 @@ else {
 }
 ?>;" >
 <input type="text" name="image" size="38" value="<?php echo $image; ?>"/>
+<?php
+if ($image != "" && $image != "http://") {
+?>
+<img src="<?php print $image; ?>" width="48" height="48" />
+<?
+}
+?>
 </div>
 </fieldset>
 

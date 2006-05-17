@@ -228,17 +228,19 @@ class DataStore {
 		
 		$make_all = false;
 
-		foreach($rss as $r) {
-			if ( !isset($r["lastdate"]) || $r["lastdate"] <= $r["time"] ) {
-				$make_all = true;
+    if ( isset($rss) && is_array($rss) ) {
+      foreach($rss as $r) {
+        if ( !isset($r["lastdate"]) || $r["lastdate"] <= $r["time"] ) {
+          $make_all = true;
+          
+          debug_message("generateRSS: " . $r["channel"] );
 
-        debug_message("generateRSS: " . $r["channel"] );
-
-				makeChannelRss($r["channel"], false);
-				$r["lastdate"] = time();
-				$this->layer->saveOne("rss", $r, $r["channel"]);
-			}
-		}
+          makeChannelRss($r["channel"], false);
+          $r["lastdate"] = time();
+          $this->layer->saveOne("rss", $r, $r["channel"]);
+        }
+      }
+    }
 		
 		if ( $make_all == true ) {
 			makeChannelRss("ALL", false);
@@ -317,10 +319,12 @@ class DataStore {
 
 		$out = array();
 		$channels = $this->getAllChannels();
-		foreach($channels as $c ) {
-			if ( $this->channelContainsFile($filehash, $c) ) {
-				$out[] = $c["ID"];			
-			}
+    if ( isset($channels) && is_array($channels) ) {
+      foreach($channels as $c ) {
+        if ( $this->channelContainsFile($filehash, $c) ) {
+          $out[] = $c["ID"];			
+        }
+      }
 		}	
 		return $out;
 	}
@@ -599,7 +603,7 @@ class DataStore {
 				return false;		
 			}
 	
-			if ( isset($channels) ) {
+			if ( isset($channels) && is_array($channels) ) {
 				foreach ( $channels as $tmp ) {
 					if ( $tmp['ID'] > $lastID ) {
 						$lastID = $tmp['ID'];
@@ -693,6 +697,9 @@ class DataStore {
     return true;
   }
 
+  function unlockAll() {
+    $this->layer->unlockAll();
+  }
 
 
   /**

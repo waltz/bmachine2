@@ -652,9 +652,9 @@ function is_admin() {
  */
 function can_upload() {
   global $settings;
-	
+
 	// this is an admin user OR
-  return (is_admin() || 
+  $result = (is_admin() || 
 	  (
 			// the site has open channels AND
 	   $settings['HasOpenChannels'] && 
@@ -666,6 +666,8 @@ function can_upload() {
 			!$settings['UploadRegRequired'])
 	   )
 	  );
+  
+  return $result;
 }
 
 
@@ -710,7 +712,7 @@ function site_image() {
  */
 function setup_data_directories( $force = false ) {
 
-//  debug_message("setup_data_directories");
+  //print("setup_data_directories");
 
   global $store;
   global $seeder;
@@ -722,30 +724,30 @@ function setup_data_directories( $force = false ) {
     return $store;
   }
 
-//  debug_message("create new datastore");
+  //print("create new datastore");
   $store = new DataStore();
 	
 	if ( !isset($store) || $store->is_setup == false ) {
- //   debug_message("setup_data_directories - failed");
+    //print("setup_data_directories - failed");
 		return false;
 	}
 
- // debug_message("init datastore");
+  // print("init datastore");
 	$store->init();
- // debug_message("done with init");
+  //print("done with init");
 
   global $data_dir;
   if ( $store->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($store->getAllChannels()) <= 0  ) ) {
     $store->addNewChannel( "First Channel" );
   }
 
- // debug_message("start seeder");
+  // print("start seeder");
   $seeder = new ServerSideSeeder();
- // debug_message("start seeder 1");
+  //print("start seeder 1");
   $seeder->setup();
- // debug_message("start seeder done");
+  //print("start seeder done");
 
- // debug_message("setup_data_directories - worked");
+  // print("setup_data_directories - worked");
   return true;
 }
 
@@ -2306,6 +2308,13 @@ function write_deny_htaccess($path) {
   return true;
 }
 
+function prependHTTP ($str) {
+ if ( strpos($str, "http://") === false) {
+  return "http://".$str;
+ } else {
+  return $str;
+ }
+}
 
 /*
  * Local variables:

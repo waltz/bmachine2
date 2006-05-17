@@ -173,7 +173,6 @@ function theme_display_internal_video($filehash, $file) {
   if ( isset($channel['Options']['Published']) && $channel['Options']['Published'] == 1 ) {
 		
 		$out .= "<h2>";
-    print_r($file);
 		if ($file["ReleaseYear"] && $file["ReleaseMonth"] && $file["ReleaseDay"]) {
 			$out .= file_release_date($file);		 
 		}
