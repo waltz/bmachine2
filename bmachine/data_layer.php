@@ -81,6 +81,13 @@ class BEncodedDataLayer {
     }
   }
 
+  function unlockAll() {
+    foreach( $this->_handles as $file => $h ) {
+      $this->unlockResource($file);
+      clearstatcache();
+    }
+  }
+
   /**
    * lock the requested resource
    */
@@ -111,16 +118,19 @@ class BEncodedDataLayer {
   function unlockResource($file) {
     if ( isset($this->_handles[$file]) ) {
       debug_message("unlock $file - " . $this->_handles[$file] );
-      fflush($this->_handles[$file]);
-      flock($this->_handles[$file], LOCK_UN );
-      fclose($this->_handles[$file]);
-
+      $this->closeHandle($this->_handles[$file]);
       unset($this->_handles[$file]);
       clearstatcache();
     }
     else {
       debug_message("unlock $file - not locked");
     }
+  }
+
+  function closeHandle($h) {
+    fflush($h);
+    flock($h, LOCK_UN );
+    fclose($h);
   }
   
   /**
