@@ -92,6 +92,7 @@ function theme_channel_wrapper($content, $channel, $show_channel_link = true) {
   return $content . $footer;
 }
 
+
 function theme_channel_footer($channel, $extra = "") {
 	$link = channel_link($channel["ID"]);
   $count = count($channel["Files"]);
