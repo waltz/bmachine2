@@ -2308,10 +2308,15 @@ function write_deny_htaccess($path) {
   return true;
 }
 
+/**
+ * if we are missing a protocol, add http as a default.  courtesy of greg opperman
+ * @returns url with http if it was missing
+ */
 function prependHTTP ($str) {
- if ( strpos($str, "http://") === false) {
-  return "http://".$str;
- } else {
+ if ( strpos($str, "://") === false) {
+  return "http://" . $str;
+ } 
+ else {
   return $str;
  }
 }

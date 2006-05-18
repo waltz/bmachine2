@@ -122,5 +122,20 @@ class IncludeTest extends BMTestCase {
 
   }
  
+  function TestPrependHTTP() {
+    $urls = array(
+		  "http://www.yahoo.com/image.jpg",
+		  "ftp://www.yahoo.com/image.jpg",
+		  "gopher://www.yahoo.com/image.gif",
+		  "https://www.yahoo.com/image.png"
+		  );
+    foreach($urls as $url) {
+      $this->assertTrue( prependHTTP($url) == $url, "$url was prepended when it shouldn't have" );
+    }
+
+    $url = "www.yahoo.com/image.jpg";
+    $this->assertTrue( prependHTTP($url) == "http://$url", "$url wasn't prepended when it should have" );
+  }
+
 }
 ?>
