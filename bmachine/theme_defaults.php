@@ -404,7 +404,7 @@ if ( ! function_exists("theme_video_info_section") ) {
       }
       
       if (isset($channel['Options']['Creator']) && $channel['Options']['Creator'] == 1 && $file["Creator"]) {
-        $out .= "by <strong>" . $file["Creator"] . "</strong>\n";
+        $out .= " by <strong>" . $file["Creator"] . "</strong>\n";
       }
       
       $out .= "</h2>";
