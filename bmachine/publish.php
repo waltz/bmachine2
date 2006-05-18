@@ -757,23 +757,27 @@ else if ( $file["URL"] != "http://" ) {
 <div class="section optional">
 <div class="section_header">Optional: Additional Information</div>
 
+<?php
+	$files = $store->getAllFiles();
+
+  if ( count($files) > 0 ) {
+?>
 		<fieldset id="auto_fill">
 		<legend>Auto Fill</legend>
 		<div style="font-size: 12px; line-height: 15px;">Automatically fill in these information fields with info from a previously published video:</div>
 
-
 <SCRIPT LANGUAGE="JavaScript">
 <?php
-	$files = $store->getAllFiles();
-	if ( is_array($files) ) {
-		echo build_auto_fill($files);
-	}
+  	if ( is_array($files) ) {
+  		echo build_auto_fill($files);
+	  }
 ?>
 </script>
 <?php
-	if ( is_array($files) ) {
-		echo build_auto_select($files);
-	}
+   	if ( is_array($files) ) {
+ 		  echo build_auto_select($files);
+ 	  }
+  } // if ( count > 0 ) 
 ?>	
 		</fieldset>
 
