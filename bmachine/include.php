@@ -289,16 +289,18 @@ function get_base_url() {
   global $settings;
 
 	if ( isset($settings) && $settings['base_url'] != '' ) {
-    return $settings['base_url'];
+    //return $settings['base_url'];
+    $url = $settings['base_url'];
   }
-
-  if ( isset($_SERVER['HTTP_HOST']) ) {
-  	//$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
-  	$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-  } 
   else {
-    //  	$url = "/" . dirname($_SERVER['SCRIPT_NAME']);
-  	$url = "/" . dirname($_SERVER['PHP_SELF']);
+    if ( isset($_SERVER['HTTP_HOST']) ) {
+    	//$url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+  	  $url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+    }   
+    else {
+      //  	$url = "/" . dirname($_SERVER['SCRIPT_NAME']);
+    	$url = "/" . dirname($_SERVER['PHP_SELF']);
+    }
   }
 
   // make sure the url doesnt have multiple slashes on the end (bug # 1211743)
@@ -310,8 +312,9 @@ function get_base_url() {
   if ( $url{strlen($url)-1} != '/' ) {
     $url .= "/";
   }
-  
+
   return $url;
+
 }
 
 
