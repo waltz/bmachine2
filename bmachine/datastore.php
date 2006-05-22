@@ -132,11 +132,16 @@ class DataStore {
     $instances = $this->layer->getAll("instance");
     $now = time();
 
-    foreach ( $instances as $id => $x ) {
-			//Hash was created more than 1 hour ago
-      if ( $x < $now - 3600 ) {
-        unset ( $instances[$id] );
-			}
+    if ( is_array($instances) ) {
+      foreach ( $instances as $id => $x ) {
+        //Hash was created more than 1 hour ago
+        if ( $x < $now - 3600 ) {
+          unset ( $instances[$id] );
+        }
+      }
+    }
+    else {
+      $instances = array();
     }
 
     $instances[$this->instanceID()]["time"] = $now;
