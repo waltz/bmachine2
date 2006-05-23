@@ -12,8 +12,8 @@
 global $log_level;
 $log_level = -1;
 
-//error_reporting(E_ALL);
-//ini_set('errors.display_errors', true);
+error_reporting(E_ALL);
+ini_set('errors.display_errors', true);
 
 // you could also put this in a .htaccess file
 // php_flag session.use_trans_sid off
@@ -153,7 +153,7 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 }
 
 // send all content as utf-8
-header("Content-type: text/html; charset=UTF-8");
+//header("Content-type: text/html;charset=UTF-8");
 
 // if we don't have a user yet, then send off to the newuser page
 
@@ -1209,7 +1209,7 @@ function send_mac_installer( $tackon, $data=null ) {
   header("Content-disposition: attachment; filename=BlogTorrent.zip");
 	
   if (file_exists('macclient.obj')) {
-    $zip = unserialize( file_get_contents($data_dir . 'macclient.obj'));
+    $zip = unserialize( file_get_contents('macclient.obj'));
   }
   else {
     $zip = unserialize( file_get_contents($data_dir . '/macclient.obj'));
