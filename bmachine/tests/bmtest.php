@@ -11,6 +11,21 @@ class BMTestCase extends WebTestCase {
 	function BMTestCase() {
 		$this->WebTestCase();
 	}
+
+  function ClearOldData() {
+    global $store;
+    $store->unlockAll();
+    exec("rm -rf data");
+  }
+
+  function BackupData($name) {
+    exec("tar cvf tests/backups/$name.tar.gz data thumbnails text publish torrents");
+  }
+
+  function RestoreDataPoint($name) {
+    $this->ClearOldData();
+    exec("tar xvf tests/backups/$name.tar.gz -C . ");
+  }
 	
 	function Login() {
 
@@ -20,7 +35,7 @@ class BMTestCase extends WebTestCase {
 
 		// make sure we have a unittest user
 		$users = $store->getAllUsers();
-		
+
 		if ( !isset($users["unittest"]) ) {
 
 			$user = array();
@@ -37,11 +52,13 @@ class BMTestCase extends WebTestCase {
 			$store->saveUser($user);
 		}
 
+
 		global $usercookie;
 		global $hashcookie;
 
 		$this->setCookie($usercookie, "unittest");
 		$this->setCookie($hashcookie, hashpass("unittest", "unittest"));
+    $_SESSION['user'] = $users["unittest"];
 	}
 	
 	function Logout() {

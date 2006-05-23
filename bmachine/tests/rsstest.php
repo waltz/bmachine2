@@ -10,29 +10,35 @@ include_once("publishing.php");
 
 class RSSTest extends BMTestCase {
 
+  var $channel_id;
+
   function RSSTest() {
   }
 
-  function TestGenerateRSS() {
+  function BuildTestData() {
 
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-	
+
+    $this->ClearOldData();
+    setup_data_directories(false);
+
     global $store;
     global $rss_dir;
 
     $this->Login();
 
+    global $store;
     $channel_id = $store->addNewChannel( "Junky Channel" );
-    $channel = $store->getChannel($channel_id);
-    $channel["OpenPublish"] = 1;
-    $store->saveChannel($channel);
-	
+    print "CREATED CHANNEL: $channel_id\n";
+    $store->unlockAll();
+    clearstatcache();
+
     $file = array();
     set_file_defaults($file);
-    
+
     $file['URL'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
     $file['Title'] = "RSS File & Junk Test";
-    $file['Description'] = "URL desc";
+    $encodedtext = file_get_contents("tests/frenchtext.txt") . file_get_contents("tests/utf8demo.txt");
+    $file['Description'] = "URL desc & general notes\n" . $encodedtext;
     $file['donation_id'] = 1;
     $file['People'] = array(
 			    0 => "colin:did stuff & had fun",
@@ -41,56 +47,61 @@ class RSSTest extends BMTestCase {
     $file['Keywords'] = array(
 			      0 => 'kw1',
 			      1 => 'kw2');
-
-    $file['post_channels'] = array($channel_id);
     
-    assert( publish_file($file) );
+    $file['post_channels'] = array($channel_id);
 
-    $rss_url = get_base_url() . "rss.php?i=" . $channel_id . "&amp;force=1";
+    publish_file($file);
+    $this->channel_id = $channel_id;
+
+  }
+
+  function TestGenerateRSS() {
+
+    global $rss_dir;
+
+    $this->ClearOldData();
+    setup_data_directories(false);
+
+    $this->BuildTestData();
+
+    $rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&amp;force=1";
     $test_url = "http://www.feedvalidator.org/check.cgi?url=" . $rss_url;
     
     $this->get($test_url);
     $this->assertWantedPattern('/Congratulations/i', $rss_url);
 
 
-    $channels = $store->getAllChannels();
-	
-    foreach($channels as $channel) {
-      makeChannelRss($channel["ID"]);
-      $this->assertTrue(file_exists("$rss_dir/" . $channel["ID"] . ".rss"), "Didn't generate " . $channel["ID"] . ".rss" );
-    }
+    makeChannelRss($this->channel_id);
+    $this->assertTrue(file_exists("$rss_dir/" . $this->channel_id . ".rss"), "Didn't generate " . $this->channel_id . ".rss" );
   }
 
   function TestValidateRSS() {
 
-    $this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
-    
+    $this->ClearOldData();
+    setup_data_directories(false);
+    $this->BuildTestData();
+
     global $store;
-    $channels = $store->getAllChannels();
-    
-    foreach($channels as $channel) {
 
-      if ( !isset($channel["RequireLogin"]) || $channel["RequireLogin"] == false ) {
+    $rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&amp;force=1";
+    $test_url = "http://www.feedvalidator.org/check.cgi?url=" . $rss_url;
 
-	$rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
-	$test_url = "http://www.feedvalidator.org/check.cgi?url=" . urlencode($rss_url);
+    $this->get($test_url);
 
-	$this->get($test_url);
+    $content = $this->_browser->getContent();
+    eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
 
-	$content = $this->_browser->getContent();
-	eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
-
-	$details = $errors[4];
-	$details = str_replace("&nbsp;", " ", $details);
-	$details = str_replace("&gt;", ">", $details);
-	$details = str_replace("&lt;", "<", $details);
-	$this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
-      }
-
-    }
+    $details = $errors[4];
+    $details = str_replace("&nbsp;", " ", $details);
+    $details = str_replace("&gt;", ">", $details);
+    $details = str_replace("&lt;", "<", $details);
+    $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
   }
 
   function TestRestrictedRSS() {
+
+    $this->BuildTestData();
+
     global $store;
     $channels = $store->getAllChannels();
     

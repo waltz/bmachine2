@@ -201,8 +201,8 @@ function theme_detail_page($file, $channel) {
 	}
 
 	if ($file["LicenseName"] && isset($file["LicenseURL"])) {
-		$items[] = "<a rel=\"license\" href=\"" . $file["LicenseURL"] . "\" class=\"link-license\">" . $file["LicenseName"] . "</a>";
-		$out .= theme_cc_metadata($file);
+		$items[] = "Creative Commons License: <a rel=\"license\" href=\"" . $file["LicenseURL"] . "\" class=\"link-license\">" . $file["LicenseName"] . "</a>";
+		//$out .= theme_cc_metadata($file);
 	}
 
 	if ($file["Transcript"]) {

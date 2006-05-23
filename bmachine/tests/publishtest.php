@@ -27,13 +27,33 @@ class PublishTest extends BMTestCase {
 
     // donation
 
+		global $store;
+		$donations = $store->getAllDonations();
+	
+    // we don't encode this because the user can enter in html if they want, but we will do
+    // some formatting on display, and we'll make sure it's UTF-8 happy for now
+		$donation_text = "publishing donation text " . rand(0, 10000);
+		$donation_email = "email" . rand(0, 10000) . "@foo.net";
+		$donation_title = "random donation title " . rand(0, 10000);
+		$donationhash = md5( microtime() . rand() );
+		
+		$donations[$donationhash]["text"] = $donation_text;	
+		$donations[$donationhash]["email"] = $donation_email;	
+		$donations[$donationhash]["title"] = $donation_title;	
+
+		$store->saveDonations($donations);
+		$donations = 	$store->getAllDonations();
+		$this->assertTrue( isset($donations[$donationhash]), "PublishTest/TestPublishURL: save donation didn't work");
+
+    $file['donation_id'] = $donationhash;
+
     // people/roles
     $file['People'] = "person1:role1\nperson2:role2\n";
     
     // keywords
     $file['Keywords'] = "kw1\nkw2\n";
 	
-		$this->Login();		
+		$this->Login();
 		$publish_url = get_base_url() . "publish.php";
 
 		$this->post( $publish_url, $file );
@@ -60,6 +80,9 @@ class PublishTest extends BMTestCase {
 
     $this->assertTrue( $f["Keywords"][0] == "kw1" && $f["Keywords"][1] == "kw2",
                        "PublishTest/TestPublishURL: keywords not what we expected?");
+
+    $this->assertTrue( $f["donation_id"] == $donationhash,
+                       "PublishTest/TestPublishURL: didn't get donationhash?");
 
 
 	}

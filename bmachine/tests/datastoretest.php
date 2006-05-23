@@ -175,14 +175,14 @@ class DataStoreTest extends BMTestCase {
 		$store->getAllDonations();
   }
 
-  /*  function TestSaveDonations() {
+  function TestSaveDonations() {
 
 		global $store;
     debug_message("DataStoreTest/TestSaveDonations");
 		$donations = $store->getAllDonations();
 	
-		// we don't encode this because the user can enter in html if they want, but we will do
-		// some formatting on display, and we'll make sure it's UTF-8 happy for now
+    // we don't encode this because the user can enter in html if they want, but we will do
+    // some formatting on display, and we'll make sure it's UTF-8 happy for now
 		$donation_text = "random donation text " . rand(0, 10000);
 		$donation_email = "email" . rand(0, 10000) . "@foo.net";
 		$donation_title = "random donation title " . rand(0, 10000);
@@ -199,7 +199,7 @@ class DataStoreTest extends BMTestCase {
 
     debug_message("DataStoreTest/TestSaveDonations done");
   }
-	*/
+
 
 	function TestAddNewChannel() {
 		global $store;

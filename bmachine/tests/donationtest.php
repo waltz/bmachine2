@@ -62,7 +62,7 @@ class DonationTest extends BMTestCase {
 		
 				global $store;
 				$donations2 = $store->getAllDonations();
-//				$got_it = $this->Find($donations2, "id", $id);
+        //				$got_it = $this->Find($donations2, "id", $id);
 				
 				$this->assertTrue( isset($donations2[$id]), "DonationTest/TestEdit: donation edit didn't work");
 			}
