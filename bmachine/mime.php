@@ -58,7 +58,8 @@ function get_mime_from_extension($filename) {
 		 '.mp4' => 'video/mp4v-es',
 		 '.wma' => 'audio/x-ms-wma',
 		 '.asf' => 'video/x-ms-asf',
-		 '.flv' => 'video/x-flv'
+		 '.flv' => 'video/x-flv',
+		 '.m2v' => 'video/mpeg2-video'
 		 );
 
   $ext = substr($filename, strrpos($filename, '.')); // get the extension with a dot
