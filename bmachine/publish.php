@@ -775,7 +775,7 @@ else if ( $file["URL"] != "http://" ) {
 </script>
 <?php
    	if ( is_array($files) ) {
- 		  echo build_auto_select($files);
+ 		  echo build_auto_select($files, $file["ID"]);
  	  }
   } // if ( count > 0 ) 
 ?>	
@@ -1204,12 +1204,12 @@ Will be set to the time that you press 'publish'.
 <?php
 }
 
-function build_auto_select($files) {
+function build_auto_select($files, $id = "") {
 	global $store;
 
 	if ( is_array($files) && count($files) > 0 ) {
 		$out = '<select name="videos" onChange="autofill(this.options[this.selectedIndex].value);" >';
-		$out .= '<option value=""></option>';
+		$out .= "<option value=\"$id\"></option>\n";
 		foreach($files as $file["ID"] => $file) {
 			$out .= '<option value="' . $file["ID"] . '">' . $file["Title"] . '</option>';
 		}
@@ -1225,6 +1225,11 @@ function build_auto_fill($files) {
 	function autofill(id) {
 		clearPeople();
 		frm = document.getElementById("post");
+
+    if ( id == "" ) {
+     frm.reset();
+     addPeople();
+    }
 	';
 
 	foreach($files as $id => $file) {
