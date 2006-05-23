@@ -486,7 +486,6 @@ if ( ! function_exists("theme_display_frontpage_video") ) {
 		}
 					
 		if ( isset($channel['Options']['Title']) && $channel['Options']['Title'] == 1) {
-		
 				$out .= "
 			<div class=\"video-home-info\">
 				<h1><a href=\"$url\">" . encode($file["Title"]) . "</a></h1>
@@ -610,8 +609,8 @@ if ( ! function_exists("theme_detail_page") ) {
 		}
 
 		if ($file["LicenseName"] && isset($file["LicenseURL"])) {
-			$items[] = "<a rel=\"license\" href=\"" . $file["LicenseURL"] . "\" class=\"link-license\">" . $file["LicenseName"] . "</a>";
-			$out .= theme_cc_metadata($file);
+			$items[] = "Creative Commons License: <a rel=\"license\" href=\"" . $file["LicenseURL"] . "\" class=\"link-license\">" . $file["LicenseName"] . "</a>";
+			//$out .= theme_cc_metadata($file);
 		}
 
 		if ($file["Transcript"]) {
