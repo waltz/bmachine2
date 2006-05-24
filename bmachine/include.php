@@ -1366,13 +1366,15 @@ function encode($s) {
 		    );
 
   // Encode any & not followed by something that looks like
-  // an entity, numeric or otherwise.
+  // an entity, numeric or otherwise
   $s = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', '&amp;', $s);
   return $s;
 }
 
 function rss_encode($s) {
-  return htmlspecialchars(encode($s), ENT_QUOTES, "UTF-8");
+  $s = htmlspecialchars(html_entity_decode(encode($s)), ENT_QUOTES, "UTF-8");
+  //$s = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', '&amp;', $s);
+  return $s;
 }
 
 /**
@@ -1547,8 +1549,6 @@ function makeChannelRss($channelID, $use_cache = true) {
 
 function outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files ) {
 
-  include_once "utf8_to_ascii.php";
-
   global $store;
 
 	$sOut = '';
@@ -1562,9 +1562,11 @@ function outputRSSFile($filename, $channelID, $name, $description, $link, $icon,
 
 EOF;
 
+  $rss_link = rss_link($channelID);
+
 	$sOut .= "
-	<channel><title>" . encode($name) . "</title>
-			<description>" . encode($description) . "</description>
+	<channel><title>" . rss_encode($name) . "</title>
+			<description>" . rss_encode($description) . "</description>
 			<link>" . linkencode($link) . "</link>
 			<dtvmedia:libraryLink>" . linkencode($link) . "</dtvmedia:libraryLink>
 			<pubDate>" . date('r', time()) . "</pubDate>
@@ -1573,13 +1575,13 @@ EOF;
 				 rel=\"self\" 
 				 type=\"application/rss+xml\" 
 				 title=\"" . encode($name) . "\" 
-				 href=\"" . get_base_url() . "rss.php?i=$channelID\" 
+				 href=\"$rss_link\" 
 				 xmlns:atom=\"http://www.w3.org/2005/Atom\" />
 				 ";
 
 	foreach ($rss_files as $filehash => $data) {
 		$detail_link = detail_link($data["channelID"], $filehash);
-		$sOut .= '<item><title>' . encode($data['Title']) . '</title>
+		$sOut .= '<item><title>' . rss_encode($data['Title']) . '</title>
 				<link>' . $detail_link . '</link>
 				<guid isPermaLink="false">' . $filehash . '</guid>';
 				
@@ -1647,11 +1649,7 @@ EOF;
 			if ( isset($people[0]) && isset($people[1]) ) {
         $name = $people[0];
         $role = $people[1];
-/*				$role = str_replace("&", "&amp;", $people[1]);
-				$role = str_replace("&&amp;", "&amp;", $role);
-				$name = str_replace("&", "&amp;", $people[0]);
-				$name = str_replace("&&amp;", "&amp;", $name);*/
-				$sOut .= "<media:credit role=\"" . encode(mb_strtolower(trim($role))) . "\" scheme=\"urn:pculture-org:custom\">" .	encode(trim($name)) . "</media:credit>\n";
+				$sOut .= "<media:credit role=\"" . rss_encode(mb_strtolower(trim($role))) . "\" scheme=\"urn:pculture-org:custom\">" .	rss_encode(trim($name)) . "</media:credit>\n";
 			}
 		}
 
@@ -1663,7 +1661,7 @@ EOF;
 	if ( isset($icon) && $icon != "" ) {
 		$sOut .= "
 <image>
-<title>" . encode($name) . "</title>
+<title>" . rss_encode($name) . "</title>
 <url>" . linkencode($icon) . "</url>
 <link>" . linkencode($link) . "</link>
 </image>";
