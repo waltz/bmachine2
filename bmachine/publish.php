@@ -450,7 +450,7 @@ function submit_force() {
 <div class="wrap">
 <form name="post" action="publish.php" method="post" id="post" 
 		onLoad="this.reset();" onSubmit="return do_submit(this);" enctype="multipart/form-data" 
-		accept-charset="utf-8, iso-8859-1">
+		accept-charset="utf-8">
 
 	<input type="hidden" name="ignore_mime" class="hidden" value="<?php echo $file['ignore_mime']; ?>" />
 	<input type="hidden" name="post_do_save" class="hidden" value="1" />

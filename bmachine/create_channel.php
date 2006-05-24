@@ -167,7 +167,8 @@ bm_header();
 
 <div class="wrap">
 
-<form method="post" action="create_channel.php" name="post" enctype="multipart/form-data" accept-charset="utf-8, iso-8859-1">
+<form method="post" action="create_channel.php" name="post" enctype="multipart/form-data" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 <input type="hidden" name="ID" value="<?php echo $channel["ID"]; ?>" class="hidden"/>
 <div id="poststuff">
 <div class="page_name">

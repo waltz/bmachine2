@@ -550,7 +550,7 @@ EOF;
 	if ( count($channel_files) > 0 ) {
   	$out .= "<ul>";
 
-		usort($channel_files, "comp");
+		do_usort($channel_files, "comp");
 		$i=0;
 		
 		foreach ($channel_files as $file_arr) {

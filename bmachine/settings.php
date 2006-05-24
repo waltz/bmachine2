@@ -278,7 +278,8 @@ if ( count($_POST) > 0 ) {
 }
 ?>
 
-<form action="settings.php" method="POST" name="frm" accept-charset="utf-8, iso-8859-1" enctype="multipart/form-data" >
+<form action="settings.php" method="POST" name="frm" accept-charset="utf-8" enctype="multipart/form-data" >
+<!-- , iso-8859-1 -->
 <input type="submit" value="Save Changes to Settings >>" />
 <br /><br />
 <div class="section_header">Website Information</div>

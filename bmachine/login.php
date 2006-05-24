@@ -79,7 +79,8 @@ bm_header();
 	}
 ?>
 
-<form action="login.php" method="post" accept-charset="utf-8, iso-8859-1">
+<form action="login.php" method="post" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 <div class="login_field">
 <div class="login_label">Alias:</div> 
 <input type="text" size="20" tabindex="1" name="username" value="<?php echo $username; ?>" />

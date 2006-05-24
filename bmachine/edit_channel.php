@@ -100,7 +100,8 @@ foreach($channel['Sections'] as $section) {
 ?>
 
 <div class="sect_list">
-<form method="post" action="edit_channel.php?i=<?php echo $_GET["i"]; ?>" accept-charset="utf-8, iso-8859-1">
+<form method="post" action="edit_channel.php?i=<?php echo $_GET["i"]; ?>" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 <input type="text" name="post_section" size="20" value="" /> <input type="submit" value="Add Section" border="0" />
 </form>
 </div>
@@ -142,7 +143,8 @@ function section_manage(frm) {
 	method="post" 
 	action="edit_channel.php?i=<?php echo $_GET["i"]; ?>&s=<?php echo urlencode($_GET['s']); ?>" 
 	onSubmit="return section_manage(this);"
-	accept-charset="utf-8, iso-8859-1">
+	accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 
 <input type="hidden" name="file_array" value="" class="hidden">
 <input type="submit" value="Save Changes" class="hidden">

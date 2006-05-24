@@ -183,7 +183,8 @@ if ( $got_reg_user == false ) {
 <h2 class="page_name">Add User</h2>
 
 <div class="section">
-<form action="users.php" method="post" name="newuser" accept-charset="utf-8, iso-8859-1">
+<form action="users.php" method="post" name="newuser" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 
 <fieldset>
    <div class="the_legend">Email: </div><br /><input type="text" name="email" size="25" value=""/>
@@ -215,7 +216,8 @@ if ( $got_reg_user == false ) {
 </div>
 
 <div class="half_float">
-<form action="users.php" method="post" name="usersettings" accept-charset="utf-8, iso-8859-1">
+<form action="users.php" method="post" name="usersettings" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 <h2 class="page_name">User Settings</h2>
 <div class="section">
 

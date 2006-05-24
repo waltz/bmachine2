@@ -215,6 +215,23 @@ if ( isset($settings['theme']) ) {
 require_once("theme_defaults.php");
 require_once("render.php");
 
+/**
+ * wrapper function for uasort, we can apply logic here to skip sorting when
+ * using mysql, since we should let the database do sorting in that case
+ */
+function do_uasort(&$arr ) {
+  global $store;
+  if ( $store->type() == "flat file" ) {
+    uasort($arr, "mycomp");
+  }
+}
+
+function do_usort(&$arr ) {
+  global $store;
+  if ( $store->type() == "flat file" ) {
+    usort($arr, "comp");
+  }
+}
 
 function mycomp($a, $b) {
   if ( isset($a["Created"]) && isset($b["Created"]) ) {
@@ -226,6 +243,15 @@ function mycomp($a, $b) {
   
   return $b - $a;
 }
+
+
+/**
+ * simple comparison function for sorting arrays
+ */
+function comp($a, $b) {
+	return ($b[1] - $a[1]);
+}
+
 
 function isnotblank($x) {
   return isset($x) && $x != "";
@@ -1313,17 +1339,11 @@ function requireUserAccess($do_login = false) {
 }
 
 /**
- * simple comparison function for sorting arrays
- */
-function comp($a, $b) {
-	return ($b[1] - $a[1]);
-}
-
-/**
  * strip output of html and convert it to UTF-8
  * @returns formatted string
  */
 function encode($s) {
+  //$s = utf8_encode($s);
   $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
 
   // this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
@@ -1348,8 +1368,11 @@ function encode($s) {
   // Encode any & not followed by something that looks like
   // an entity, numeric or otherwise.
   $s = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', '&amp;', $s);
-  
   return $s;
+}
+
+function rss_encode($s) {
+  return htmlspecialchars(encode($s), ENT_QUOTES, "UTF-8");
 }
 
 /**
@@ -1492,7 +1515,7 @@ function makeChannelRss($channelID, $use_cache = true) {
 		// only go through this if we actually have files to display
 		if ( isset($channel["Files"]) && is_array($channel["Files"]) ) {
 			$channel_files = $channel["Files"];
-			usort($channel_files, "comp");
+			do_usort($channel_files, "comp");
 		
 			$files = $store->getAllFiles();
 		
@@ -1524,6 +1547,8 @@ function makeChannelRss($channelID, $use_cache = true) {
 
 function outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files ) {
 
+  include_once "utf8_to_ascii.php";
+
   global $store;
 
 	$sOut = '';
@@ -1531,7 +1556,7 @@ function outputRSSFile($filename, $channelID, $name, $description, $link, $icon,
 	$sOut .= <<<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" 
-	xmlns:media="http://search.yahoo.com/mrss" 
+	xmlns:media="http://search.yahoo.com/mrss/" 
 	xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
 	xmlns:dtvmedia="http://participatoryculture.org/RSSModules/dtv/1.0">
 
@@ -1571,7 +1596,7 @@ EOF;
 
 		// dont send a description flag if we don't have the data
 		if ( $data["Description"] ) {
-			$sOut .= '<description>' . encode($data['Description']) . "</description>\n";
+			$sOut .= '<description>' . rss_encode($data['Description']) . "</description>\n";
 		}
 
 		$tmpurl = $data["URL"];
@@ -1611,7 +1636,7 @@ EOF;
 
 	
 		// dont send if we dont have a thumbnail
-		if ( $data["Image"] ) {
+		if ( $data["Image"] && $data["Image"] != "http://" ) {
 			$tmp = linkencode($data["Image"]);
 			$tmp = str_replace("&", "&amp;", $tmp);
 			$tmp = str_replace("&&amp;", "&amp;", $tmp);

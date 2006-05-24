@@ -1098,7 +1098,7 @@ if ( !function_exists("theme_channel_summary_wrapper") ) {
 if ( !function_exists("theme_channel_summary") ) {
 	function theme_channel_summary($channel, $files, $count = 2) {
 		$channel_files = $channel["Files"];
-		usort($channel_files, "comp");
+		do_usort($channel_files);
 	
 		$show_tagged = false;
 		$show_all = true;
@@ -1209,7 +1209,8 @@ if ( !function_exists("theme_channel_videos") ) {
 		
           if ( count($section["Files"]) > 0 ) {
 
-            uasort($section['Files'], "mycomp");
+            //uasort($section['Files'], "mycomp");
+            do_uasort($section['Files']);
 
             $out .= "<ul>";
             foreach ($section["Files"] as $filehash) {
@@ -1225,7 +1226,8 @@ if ( !function_exists("theme_channel_videos") ) {
 		}
 		
 		if ( $show_all == true && count($channel["Files"]) > 0 ) {
-      uasort($channel['Files'], "mycomp");
+      //uasort($channel['Files'], "mycomp");
+      do_uasort($channel['Files']);
 			foreach ($channel["Files"] as $filehash) {
 				$display_files[$filehash[0]] = $files[$filehash[0]];
 			}

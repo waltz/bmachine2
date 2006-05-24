@@ -732,7 +732,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
       break;
     case "files":
       return array(
-		   "all" => "SELECT * FROM " . $this->prefix . "files",
+		   "all" => "SELECT * FROM " . $this->prefix . "files ORDER BY Created DESC",
 		   "select" => "SELECT * FROM " . $this->prefix . "files WHERE ID='%key'",
 		   "delete" => "DELETE FROM " . $this->prefix . "files WHERE ID='%key'",
 		   "insert" => "REPLACE INTO " . $this->prefix . "files SET %vals",

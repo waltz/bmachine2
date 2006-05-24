@@ -117,7 +117,8 @@ if (is_admin()) {
 
 <br/>
 
-<form action="user_edit.php" method="post" name="newuser" accept-charset="utf-8, iso-8859-1">
+<form action="user_edit.php" method="post" name="newuser" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 	<input type="hidden" name="hash" value="<?php echo $this_user["Hash"]; ?>" class="hidden" />
 
 <?php

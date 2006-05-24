@@ -143,7 +143,8 @@ else {
 if ( $show_form == true ) {
 ?>
 
-<form action="newuser.php" method="post" accept-charset="utf-8, iso-8859-1">
+<form action="newuser.php" method="post" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
   <input type="hidden" name="do_login" class="hidden" value="1" />
 <?php
 

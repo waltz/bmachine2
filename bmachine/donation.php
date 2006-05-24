@@ -104,7 +104,8 @@ bm_header();
 
 <div class="wrap">
 
-<form method="post" action="donation.php" id="post" name="post" enctype="multipart/form-data" accept-charset="utf-8, iso-8859-1" onSubmit="return do_submit(this);">
+<form method="post" action="donation.php" id="post" name="post" enctype="multipart/form-data" accept-charset="utf-8" onSubmit="return do_submit(this);">
+<!-- , iso-8859-1 -->
 <input type="hidden" name="id" value="<?php if ( isset($id) ) echo $id; ?>" class="hidden"/>
 
 <div id="poststuff">

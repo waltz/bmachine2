@@ -1,13 +1,8 @@
 <?php
 	global $settings;
 
-	header("Content-type: text/html; charset=utf-8");
+//	header("Content-type: text/html; charset=utf-8");
 	print '<?xml version="1.0" encoding="utf-8"?>';
-?>
-
-	global $settings;
-
-	header("Content-type: text/html; charset=utf-8");
 
 	$site = site_title();	
 	if ( $site != "" ) {

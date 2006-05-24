@@ -18,7 +18,7 @@ class RSSTest extends BMTestCase {
   function BuildTestData() {
 
 
-    $this->ClearOldData();
+    //$this->ClearOldData();
     setup_data_directories(false);
 
     global $store;
@@ -37,7 +37,7 @@ class RSSTest extends BMTestCase {
 
     $file['URL'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
     $file['Title'] = "RSS File & Junk Test";
-    $encodedtext = file_get_contents("tests/frenchtext.txt") . file_get_contents("tests/utf8demo.txt");
+    $encodedtext = file_get_contents("tests/utf8demo.txt"); // file_get_contents("tests/frenchtext.txt") . 
     $file['Description'] = "URL desc & general notes\n" . $encodedtext;
     $file['donation_id'] = 1;
     $file['People'] = array(
@@ -59,25 +59,23 @@ class RSSTest extends BMTestCase {
 
     global $rss_dir;
 
-    $this->ClearOldData();
+    //$this->ClearOldData();
     setup_data_directories(false);
 
     $this->BuildTestData();
 
-    $rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&amp;force=1";
-    $test_url = "http://www.feedvalidator.org/check.cgi?url=" . $rss_url;
+    //$rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&amp;force=1";
+    //$test_url = "http://www.feedvalidator.org/check.cgi?url=" . $rss_url;
     
-    $this->get($test_url);
-    $this->assertWantedPattern('/Congratulations/i', $rss_url);
-
+    //$this->get($test_url);
+    //$this->assertWantedPattern('/Congratulations/i', $rss_url);
 
     makeChannelRss($this->channel_id);
     $this->assertTrue(file_exists("$rss_dir/" . $this->channel_id . ".rss"), "Didn't generate " . $this->channel_id . ".rss" );
   }
 
   function TestValidateRSS() {
-
-    $this->ClearOldData();
+    //$this->ClearOldData();
     setup_data_directories(false);
     $this->BuildTestData();
 
@@ -98,6 +96,7 @@ class RSSTest extends BMTestCase {
     $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
   }
 
+  /*
   function TestRestrictedRSS() {
 
     $this->BuildTestData();
@@ -113,8 +112,7 @@ class RSSTest extends BMTestCase {
 	$this->assertTrue($headers[0] == "HTTP/1.1 401 Unauthorized", "Expected restricted RSS file, but it wasn't");
       }
     }
-
-  }
+  }*/
 
 }
 ?>

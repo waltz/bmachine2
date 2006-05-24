@@ -34,6 +34,7 @@ bm_header();
 </div>
 
 <?php
+
 // check to see if the datastore version is the same as the stated version of BM -
 // if not, we will ask the user to upgrade
 
@@ -269,7 +270,7 @@ if (is_admin()) {
 <IFRAME 
 	FRAMEBORDER=0 id="pcf_upgrade" height="85" width="100%" border="0" 
 	style="border: none; padding: 0; margin: 0;" 
-	SRC="http://www.participatoryculture.org/bm_updates/check.php?v=<?php echo urlencode(get_version()); ?>">
+	SRC="http://www.participatoryculture.org/bm_updates/check.php?v=<?php echo urlencode(get_version()); ?>&amp;vn=<?php echo version_number(); ?>">
 
 Support Broadcast Machine, donate to continued development!
 

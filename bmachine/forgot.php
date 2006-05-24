@@ -110,7 +110,8 @@ if ( isset($_GET["hash"]) ) {
 
 ?>
 
-<form action="forgot.php" method="post" name="newuser" accept-charset="utf-8, iso-8859-1">
+<form action="forgot.php" method="post" name="newuser" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 	<input type="hidden" class="hidden" name="username" value="<?php echo $foo[0]; ?>" />
 	<input type="hidden" name="hash" value="<?php echo $this_user["Hash"]; ?>" class="hidden" />
 	<input type="hidden" class="hidden" name="username" value="<?php echo $this_user["Name"]; ?>" />
@@ -156,7 +157,8 @@ if (isset($email)) {
 if (!$found) {
 ?>
 
-<form action="forgot.php" method="post" accept-charset="utf-8, iso-8859-1">
+<form action="forgot.php" method="post" accept-charset="utf-8">
+<!-- , iso-8859-1 -->
 <input type="hidden" name="f" value="1" class="hidden"/>
 
 <div class="login_field">
