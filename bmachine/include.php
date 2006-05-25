@@ -12,7 +12,7 @@
 global $log_level;
 $log_level = -1;
 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 ini_set('errors.display_errors', true);
 
 // you could also put this in a .htaccess file

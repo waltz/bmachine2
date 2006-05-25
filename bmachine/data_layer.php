@@ -255,22 +255,22 @@ class BEncodedDataLayer {
 	/**
 	 * save the data to the specified file, using the handle if provided
 	 */
-	function saveAll($file, $data, $handle = null) {
+  function saveAll($file, $data, $handle = null) {
 
     global $errorstr;
-
-		debug_message("saveAll: $file $handle - " . count($data) . " items");
-		if ( $handle == null ) {
-			$handle = $this->lockResource($file);
-			$hold_lock = false;
-		}
-		else {
-			$hold_lock = true;
-		}
-
+    
+    debug_message("saveAll: $file $handle - " . count($data) . " items");
+    if ( $handle == null ) {
+      $handle = $this->lockResource($file);
+      $hold_lock = false;
+    }
+    else {
+      $hold_lock = true;
+    }
+    
     if ( ! $handle ) {
-      $errorstr = "Couldn't open $data_dir/$file!";
-			debug_message($errorstr);
+      $errorstr = "Couldn't open $file!";
+      debug_message($errorstr);
       return false;
     }
     
@@ -279,81 +279,81 @@ class BEncodedDataLayer {
     fseek($handle,0);
     fwrite($handle,bencode($data));
 
-		// make sure the file is flushed out to the filesystem
-		fflush($handle);
+    // make sure the file is flushed out to the filesystem
+    fflush($handle);
 
-		if ( $hold_lock == false ) {
-			$this->unlockResource($file);
-		}
+    if ( $hold_lock == false ) {
+      $this->unlockResource($file);
+    }
 		
-		// make sure we aren't holding onto a cached copy
-		clearstatcache();
+    // make sure we aren't holding onto a cached copy
+    clearstatcache();
 
-		$hooks = $this->getHooks($file, "save");
+    $hooks = $this->getHooks($file, "save");
 
-		if ( $hooks != null ) {
-			foreach($data as $key => $row) {
-//				foreach ( $hooks as $h ) {
-					$hooks($out[ $row[$key] ]);
-//				}
-			}
-		}
-
+    if ( $hooks != null ) {
+      foreach($data as $key => $row) {
+	//				foreach ( $hooks as $h ) {
+	$hooks($out[ $row[$key] ]);
+	//				}
+      }
+    }
+    
     return true;
-	}
+  }
 	
-	function deleteOne($file, $hash, $handle = null) {
-debug_message("deleteOne $file $hash");	
-		if ( $handle == null ) {
-			$handle = $this->lockResource($file);
-			$hold_lock = false;
-		}
-		else {
-			$hold_lock = true;
-		}
-
-		if ( !$handle ) {
-			return false;
-		}
-debug_message("get pre-delete hooks");
-		$hooks = $this->getHooks($file, "pre-delete");
-
-		if ( $hooks != null ) {
-		  $hooks($hash, $handle);
-		}
-
-debug_message("done calling pre-delete hooks");
-
-		$all = $this->getAllLock($file, $handle, true);
-		unset($all[$hash]);
-debug_message("done with unset");
-		$result = $this->saveAll($file, $all, $handle);	
-debug_message("done with save");	
-		$hooks = $this->getHooks($file, "post-delete");
-
-		if ( $hooks != null ) {
-//			foreach ( $hooks as $h ) {
-			$hooks($hash);
-	//		}
-		}
-
-		if ( $hold_lock == false ) {
-			$this->unlockResource($file);
-		}
-		
-		return true;
-	}
+  function deleteOne($file, $hash, $handle = null) {
+    debug_message("deleteOne $file $hash");	
+    if ( $handle == null ) {
+      $handle = $this->lockResource($file);
+      $hold_lock = false;
+    }
+    else {
+      $hold_lock = true;
+    }
+    
+    if ( !$handle ) {
+      return false;
+    }
+    debug_message("get pre-delete hooks");
+    $hooks = $this->getHooks($file, "pre-delete");
+    
+    if ( $hooks != null ) {
+      $hooks($hash, $handle);
+    }
+    
+    debug_message("done calling pre-delete hooks");
+    
+    $all = $this->getAllLock($file, $handle, true);
+    unset($all[$hash]);
+    debug_message("done with unset");
+    $result = $this->saveAll($file, $all, $handle);	
+    debug_message("done with save");	
+    $hooks = $this->getHooks($file, "post-delete");
+    
+    if ( $hooks != null ) {
+      //			foreach ( $hooks as $h ) {
+      $hooks($hash);
+      //		}
+    }
+    
+    if ( $hold_lock == false ) {
+      $this->unlockResource($file);
+    }
+    
+    return true;
+  }
 	
-	function getHooks($file, $when = "get") {
-		if ( isset($this->_hooks[$file]) && isset($this->_hooks[$file][$when]) ) {
-			return $this->_hooks[$file][$when];
-		}
-		return null;
-	}
-	
-	function registerHook($file, $when, $fn) {
-		$this->_hooks[$file][$when] = $fn;
-	}
+  function getHooks($file, $when = "get") {
+    if ( isset($this->_hooks[$file]) && isset($this->_hooks[$file][$when]) ) {
+      return $this->_hooks[$file][$when];
+    }
+    return null;
+  }
+  
+  function registerHook($file, $when, $fn) {
+    $this->_hooks[$file][$when] = $fn;
+  }
 
   /**
    * check whether our settings exist or not
