@@ -65,7 +65,7 @@ function theme_detail_page($file, $channel) {
 	$out = '<!--VIDEO-->
   <div class="single_video">';
 
-    if ( !is_local_torrent($file['URL']) && beginsWith($file["Mimetype"], "video/") ) {
+  /*    if ( !is_local_torrent($file['URL']) && beginsWith($file["Mimetype"], "video/") ) {
       $out .= '
      <div class="embed_wrap">
    		<div class="embed">
@@ -73,14 +73,14 @@ function theme_detail_page($file, $channel) {
       </div>
       ';
     }
-    else {
+    else {*/
       $out .= '
       <div class="thumb_wrap">
             <div class="thumbnail">
             ' . theme_file_thumbnail($file, $channel) . '
             </div>
       ';
-    }
+      //  }
 
 
     $links = theme_download_links($channel, $file);

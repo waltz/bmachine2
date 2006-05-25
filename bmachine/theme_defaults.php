@@ -505,16 +505,16 @@ if ( ! function_exists("theme_detail_page") ) {
 		$out = '<!--VIDEO-->
 		<div class="video">';
 
-    if ( !is_local_torrent($file['URL']) && beginsWith($file["Mimetype"], "video/") ) {
+    /*    if ( !is_local_torrent($file['URL']) && beginsWith($file["Mimetype"], "video/") ) {
       $out .= '
    		<div class="video-tnail internal">' . theme_embed_video($file, $channel) . '</div>
       ';
     }
-    else {
+    else {*/
       $out .= '
    		<div class="video-tnail internal">' . theme_file_thumbnail($file, $channel) . '</div>
       ';
-    }
+      //}
 
     $out .= '
 		<div class="video-info">
