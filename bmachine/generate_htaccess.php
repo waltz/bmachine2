@@ -24,7 +24,7 @@ if ( !isset($_POST["password"]) ) {
 Enter your FTP information into the form below:
 
 <?php
-$path = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PATH_TRANSLATED'] );
+$path = guess_path_to_installation();
 ?>
 <p>
 <form method="POST" action="generate_htaccess.php">

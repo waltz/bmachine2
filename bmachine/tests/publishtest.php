@@ -12,13 +12,27 @@ class PublishTest extends BMTestCase {
 	function PublishTest() {
 		$this->BMTestCase();
 	}
+
+  function TestDownloadHelpers() {
+
+		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
+
+    $url = get_base_url() . "download.php?type=mac";
+    $headers = bm_get_headers($url, true);
+		$this->assertTrue($headers["content-disposition"] == "attachment; filename=BlogTorrent.zip", "PublishTest/TestUploadApps - bad mac uploader?");
+
+    $url = get_base_url() . "download.php?type=exe";
+    $headers = bm_get_headers($url, true);
+		$this->assertTrue($headers["content-disposition"] == "attachment; filename=\"Broadcast_Machine_Upload.exe\"", "PublishTest/TestUploadApps - bad pc uploader?");
+  }
+
 	
 	function TestPublishURL() {
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
 		$file = array();
-		$file['URL'] = "http://lovelylittlegirls.com/z/fluvial-origine_des_femmes.mp3";
+		$file['URL'] = "http://music.for-robots.com/files/blair/Hustler.mp3";
 		$file['Title'] = "URL unit test " . rand(0, 10000);
 		$file['Description'] = "URL desc";
 		$file['post_do_save'] = 1;

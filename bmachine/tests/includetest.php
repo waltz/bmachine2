@@ -137,7 +137,5 @@ class IncludeTest extends BMTestCase {
     $this->assertTrue( prependHTTP($url) == "http://$url", "$url wasn't prepended when it should have" );
   }
 
-
-
 }
 ?>

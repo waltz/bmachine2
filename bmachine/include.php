@@ -153,7 +153,7 @@ if ( !( isset($skip_setup) && $skip_setup == 1 ) ) {
 }
 
 // send all content as utf-8
-//header("Content-type: text/html;charset=UTF-8");
+header("Content-type: text/html;charset=UTF-8");
 
 // if we don't have a user yet, then send off to the newuser page
 
@@ -1343,7 +1343,6 @@ function requireUserAccess($do_login = false) {
  * @returns formatted string
  */
 function encode($s) {
-  //$s = utf8_encode($s);
   $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
 
   // this preg_replace is found on http://us2.php.net/manual/en/function.htmlspecialchars.php
@@ -1351,8 +1350,8 @@ function encode($s) {
   //	return preg_replace("/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", strip_tags($s, "<b><strong><i><em><ul><li><ol>"));
 
   // strip non-ascii characters
-  $s = trim($s,"\x7f..\xff\x0..\x1f");
-  //print "$s<br>";
+  //$s = trim($s,"\x7f..\xff\x0..\x1f");
+  //print "2 $s<br>";
 
   $s = preg_replace(
 		    "/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", 
@@ -2345,6 +2344,15 @@ function prependHTTP ($str) {
  else {
   return $str;
  }
+}
+
+/**
+ * try and predict what the path is to this installation, which is handy info when telling
+ * the user how to setup things or starting ftp setup.
+ */
+function guess_path_to_installation() {
+  $tmppath = ($_SERVER['PATH_TRANSLATED'] != "") ? $_SERVER['PATH_TRANSLATED'] :  $_SERVER['SCRIPT_FILENAME'];
+  return preg_replace( '|^(.*[\\/]).*$|', '\\1', $tmppath );
 }
 
 /*
