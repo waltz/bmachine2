@@ -48,6 +48,7 @@ if ( check_permissions() != true && check_folders() != true ) {
       $webroots[] = "/$chunk";
     }
   }
+  $webroots = array_reverse($webroots);
   
   $ftp = new FTP($hostname);
   
@@ -92,6 +93,10 @@ if ( check_permissions() != true && check_folders() != true ) {
     $ftp->mkd("data");	
     $ftp->is_ok();
     ob_flush();
+
+    $ftp->mkd("data/seedfiles");	
+    $ftp->is_ok();
+    ob_flush();
 	
     $ftp->mkd("torrents");	
     $ftp->is_ok();
@@ -108,24 +113,31 @@ if ( check_permissions() != true && check_folders() != true ) {
     $ftp->mkd("thumbnails");	
     $ftp->is_ok();
     ob_flush();
+
+
+    $permstr = FOLDER_PERM_LEVEL;
 	
-    $ftp->chmod("data", "0777");
+    $ftp->chmod("data", $permstr);
+    $ftp->is_ok();
+    ob_flush();
+
+    $ftp->chmod("data/seedfiles", $permstr);
     $ftp->is_ok();
     ob_flush();
 	
-    $ftp->chmod("torrents", "0777");
+    $ftp->chmod("torrents", $permstr);
     $ftp->is_ok();
     ob_flush();
 	
-    $ftp->chmod("publish", "0777");
+    $ftp->chmod("publish", $permstr);
     $ftp->is_ok();
     ob_flush();
 	
-    $ftp->chmod("thumbnails", "0777");
+    $ftp->chmod("thumbnails", $permstr);
     $ftp->is_ok();
     ob_flush();
 	
-    $ftp->chmod("text", "0777");
+    $ftp->chmod("text", $permstr);
     $ftp->is_ok();
     ob_flush();
 	
