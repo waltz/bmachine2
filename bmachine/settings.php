@@ -49,13 +49,10 @@ else {
 
 if (isset($_FILES["image_upload"]) && $_FILES["image_upload"]["size"] > 0 ) {
 	global $thumbs_dir;
-
-	if (!file_exists($thumbs_dir)) {
-		mkdir($thumbs_dir, $perm_level);
-	}
+  make_folder($thumbs_dir);
 
 	if (move_uploaded_file($_FILES['image_upload']['tmp_name'], "$thumbs_dir/" . $_FILES['image_upload']['name'])) {
-		chmod("$thumbs_dir/" . $_FILES['image_upload']['name'], 0644);
+		chmod("$thumbs_dir/" . $_FILES['image_upload']['name'], octdec(FILE_PERM_LEVEL) );
 		$image = get_base_url() . $thumbs_dir . "/" . $_FILES['image_upload']['name'];
 	}
 
@@ -384,12 +381,12 @@ for assistance.
 }
 
 if ( is_writable('.htaccess') == false ) {
+  $permstr = "" . FOLDER_PERM_LEVEL;
 
-//	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['SCRIPT_FILENAME'] );
 	$output ="cd " . preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PATH_TRANSLATED'] );
   $output .= "
 touch .htaccess
-chmod 777 .htaccess";
+chmod $permstr .htaccess";
 ?>
 <br />
 <br />
