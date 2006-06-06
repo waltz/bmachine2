@@ -50,7 +50,7 @@ class DataStore {
 				$this->layer = new BEncodedDataLayer();
 				if (!$this->layer->setup()) {
 					$this->is_setup = false;
-				}
+          }
 			}
       else {
         $this->is_setup = true;
@@ -227,11 +227,13 @@ class DataStore {
   }
 	
 
-	function generateRSS() {
+	/**
+     * call our RSS generation routines when needed
+     * @param: make_all - also make the all.rss file
+     */
+	function generateRSS($make_all = false) {
     debug_message("generateRSS");
 		$rss = $this->layer->getAll("rss");
-		
-		$make_all = false;
 
     if ( isset($rss) && is_array($rss) ) {
       foreach($rss as $r) {
@@ -586,7 +588,7 @@ class DataStore {
    * @returns id of the new channel on success, false on failure
    */
 	function addNewChannel( $channelname ) {
-		$channel = array();
+		$channel = $this->newChannel();
 		$channel["Name"] = $channelname;
 		return $this->saveChannel($channel);
 	}
@@ -594,9 +596,9 @@ class DataStore {
 	/**
 	 * store a single channel
 	 */
-	function saveChannel($channel) {
+	function saveChannel(&$channel) {
 
-		$this->layer->lockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
+    $this->layer->lockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
 		$channels = $this->layer->getAllLock("channels", $handle);
 
 		if ( ! isset($channel["ID"]) ) {	
@@ -628,7 +630,7 @@ class DataStore {
 		}
 
 		if ( !isset($channel['Files']) ) {
-	    $channel['Files']=array();
+	    $channel['Files'] = array();
 		}
 		if ( !isset($channel['Options']) ) {
 	    $channel['Options']=array();
@@ -650,10 +652,10 @@ class DataStore {
 			$channel['Sections']['Featured']['Name']='Featured';
 			$channel['Sections']['Featured']['Files']=array();
 		}
-	
-		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 
+		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 		$this->layer->unlockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
+
     return $channel["ID"];
 	}
 
@@ -728,6 +730,12 @@ class DataStore {
 
 		$handle2 = NULL;
     $users = $this->layer->getAllLock("users", $handle2);
+
+    if ( ! isset($users) || ! is_array($users) ) {
+      $error = "Couldn't load user data - please check your file permissions.";
+      return false;
+    }
+
     debug_message("locked users");
 
     if ( isset( $users[$username] ) ) {
@@ -1014,6 +1022,17 @@ class DataStore {
     }
   }
 
+  /**
+   * get the download stats for the given file
+   */
+  function downloadStats($id) {
+    $stats = $this->layer->getOne("stats", $id);
+    if ( !isset($stats["downloads"]) ) {
+      $stats["downloads"] = 0;
+    }
+    return $stats;
+  }
+
   function recordStartedDownload($id, $is_torrent = false) {
 
     if ( $is_torrent == true ) {
@@ -1023,6 +1042,7 @@ class DataStore {
       $key = "downloads";
     }
 
+    $handle = NULL;
     $info = $this->layer->getOne("stats", $id, $handle);
     if ( !isset($info[$key]) ) {
       $info[$key] = 0;
@@ -1032,6 +1052,7 @@ class DataStore {
   }
 
   function recordCompletedDownload($id) {
+    $handle = NULL;
     $info = $this->layer->getOne("stats", $id, $handle);
 
     if ( !isset($info["downloads"]) ) {
@@ -1784,7 +1805,6 @@ class DataStore {
 
     global $seeder;
     global $settings;
-    global $perm_level;
     
     global $data_dir;
     global $torrents_dir;
@@ -1800,7 +1820,7 @@ class DataStore {
     else {
       debug_message("addTorrentToTracker: get hash");
       
-      chmod( "$torrents_dir/$torrent", 0777);
+      chmod( "$torrents_dir/$torrent", octdec(FILE_PERM_LEVEL) );
       
       $info_hash = $this->getHashFromTorrent( $torrent );
 
@@ -1999,6 +2019,13 @@ function PreDeleteFile($id, $handle = NULL) {
 		$store->removeFileFromDonation($id, $donation_id);
 	}
 
+  // update any RSS files
+  if ( isset($file["post_channels"]) && count($file["post_channels"]) > 0 ) {
+    foreach ($file["post_channels"] as $channelID) {
+      $store->setRSSNeedsPublish($channelID);
+    }
+  }
+
 }
 
 function PostDeleteFile($id) {
@@ -2011,7 +2038,7 @@ function PostDeleteFile($id) {
 	$channels = $store->getAllChannels();
 	
 	// keep track of which RSS feeds need to be updated
-	$update_rss = array();
+	//$update_rss = array();
 
 	foreach ($channels as $channel) {
 		$keys = array_keys($channel['Files']);
@@ -2019,7 +2046,7 @@ function PostDeleteFile($id) {
 		foreach ($keys as $key) {
 			$file = $channel['Files'][$key];
 			if ($file[0] == $id) {
-				$update_rss[] = $channel['ID'];
+				//$update_rss[] = $channel['ID'];
 				unset($channel['Files'][$key]);
 			}
 		}
@@ -2044,12 +2071,8 @@ function PostDeleteFile($id) {
 		$store->saveChannel($channel);
 	}
 
-	foreach ($update_rss as $channelID) {
-		makeChannelRss($channelID, false);
-	}
-
-	makeChannelRss("ALL", false);
-
+  // generate any needed RSS files
+  $store->generateRSS(true);
 }
 
 function FlatGetChannelHook(&$c) {
@@ -2079,6 +2102,7 @@ function MySQLFileHook(&$f) {
 
 	$f["Keywords"] = array();
 	$f["People"] = array();
+	$f["post_channels"] = array();
 
 	global $store;
 	
@@ -2096,6 +2120,16 @@ function MySQLFileHook(&$f) {
 	foreach( $peeps as $p ) {
 		$f["People"][] = array( $p["name"], $p["role"] );
 	}
+
+  // get channels
+	$sql = "SELECT channel_id FROM " . $store->layer->prefix . "channel_files WHERE 
+		hash = '" . $f["ID"] . "'
+    ORDER BY thetime DESC";
+	$result = do_query( $sql );
+	while ( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) ) {
+		$f["post_channels"][] = $row["channel_id"];
+	}	
+
 
 	return $f;
 }
@@ -2131,9 +2165,13 @@ function MySQLGetChannelHook(&$c) {
 		$c["Sections"][ $row["Name"] ]["Files"] = array();
 
 		// section_files
-		$sql = "SELECT * FROM " . $store->layer->prefix . "section_files WHERE 
+		$sql = "SELECT * FROM " . $store->layer->prefix . "section_files sf
+      INNER JOIN  " . $store->layer->prefix . "files f ON sf.hash = f.ID
+      WHERE 
 			channel_id = '" . $c["ID"] . "' AND 
-			Name = '" . mysql_escape_string( $row["Name"] ) . "'";
+			Name = '" . mysql_escape_string( $row["Name"] ) . "'
+      order by f.Publishdate DESC
+      ";
 		$result2 = do_query( $sql );
 		while ( $row2 = mysql_fetch_array( $result2, MYSQL_ASSOC ) ) {
 			$c["Sections"][ $row["Name"] ]["Files"][] = $row2["hash"];
@@ -2141,7 +2179,8 @@ function MySQLGetChannelHook(&$c) {
 	} // while ($row)
 
 	$sql = "SELECT * FROM " . $store->layer->prefix . "channel_files WHERE 
-		channel_id = '" . $c["ID"] . "'";
+		channel_id = '" . $c["ID"] . "'
+    ORDER BY thetime DESC";
 	$result2 = do_query( $sql );
 
 	$c["Files"] = array();
@@ -2228,7 +2267,6 @@ function MySQLSaveChannelHook(&$channel) {
 	}
 
 	// store options
-//	$store->layer->saveOne("channel_options", $channel["Options"], $channel["ID"]);
 	$qarr = $store->layer->getTableQueries("channel_options");
 	$query = $qarr["insert"];
 	$channel["Options"]["ID"] = $channel["ID"];
