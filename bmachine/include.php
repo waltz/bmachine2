@@ -12,6 +12,13 @@
 global $log_level;
 $log_level = -1;
 
+//
+// globally set the permissions level, so someone can be more or less 
+// restrictive if they want
+// 
+define('FOLDER_PERM_LEVEL', "0777");
+define('FILE_PERM_LEVEL', "0644");
+
 //error_reporting(E_ALL);
 ini_set('errors.display_errors', true);
 
@@ -50,7 +57,6 @@ if ( get_magic_quotes_gpc( ) ) {
 	$_POST = array_map_recursive('stripslashes', $_POST);
 	$_COOKIE = array_map_recursive('stripslashes', $_COOKIE) ;
 	$_REQUEST = array_map_recursive('stripslashes', $_REQUEST);
-
 }
 
 
@@ -60,13 +66,6 @@ if ( get_magic_quotes_gpc( ) ) {
 //
 session_cache_limiter('none');
 session_start();
-
-//
-// globally set the permissions level, so someone can be more or less 
-// restrictive if they want
-// 
-global $perm_level;
-$perm_level = 0777;
 
 global $do_mime_check;
 $do_mime_check = true;
@@ -741,7 +740,7 @@ function site_image() {
  */
 function setup_data_directories( $force = false ) {
 
-  //print("setup_data_directories");
+  debug_message("setup_data_directories");
 
   global $store;
   global $seeder;
@@ -749,34 +748,33 @@ function setup_data_directories( $force = false ) {
   // if we've already setup our datastore, just return it
   // unless we want to force it to be re-created
   if ( $force == false && isset($store) && $store != null ) {
-//    debug_message("returning pre-existing datastore");
+    debug_message("returning pre-existing datastore");
     return $store;
   }
 
-  //print("create new datastore");
+  debug_message("create new datastore");
   $store = new DataStore();
 	
 	if ( !isset($store) || $store->is_setup == false ) {
-    //print("setup_data_directories - failed");
+    debug_message("setup_data_directories - failed");
 		return false;
 	}
 
-  // print("init datastore");
+  debug_message("init datastore");
 	$store->init();
-  //print("done with init");
+  debug_message("done with init");
 
   global $data_dir;
   if ( $store->type() == 'flat file' && ( !file_exists( $data_dir . '/channels') || count($store->getAllChannels()) <= 0  ) ) {
     $store->addNewChannel( "First Channel" );
   }
 
-  // print("start seeder");
+  debug_message("start seeder");
   $seeder = new ServerSideSeeder();
-  //print("start seeder 1");
   $seeder->setup();
-  //print("start seeder done");
+  debug_message("start seeder done");
 
-  // print("setup_data_directories - worked");
+  debug_message("setup_data_directories - worked");
   return true;
 }
 
@@ -833,7 +831,6 @@ function recursive_chmod($path, $filemode) {
  */
 function check_folders() {
 
-  global $perm_level;
   global $store;
 	
   if ( ! $store ) {
@@ -850,44 +847,44 @@ function check_folders() {
 
     $old_error_level = error_reporting(0);
     
-    if ( ! file_exists('text') && ! mkdir('text', $perm_level ) ) {
+    if ( ! file_exists('text') && ! mkdir('text', octdec(FOLDER_PERM_LEVEL) ) ) {
       $error[] = "text";
       $good_perms = false;
     }
     else {
-      recursive_chmod("text", $perm_level);
+      recursive_chmod("text", octdec(FILE_PERM_LEVEL));
     }
 
-    if (!file_exists('publish') && !mkdir('publish', $perm_level) ) {
+    if (!file_exists('publish') && !mkdir('publish', octdec(FOLDER_PERM_LEVEL)) ) {
       $error[] = "publish";
       $good_perms = false;
     }
     else {
-      recursive_chmod("publish", $perm_level);
+      recursive_chmod("publish", octdec(FILE_PERM_LEVEL));
     }
     
-    if (!file_exists( 'thumbnails') && ! mkdir( 'thumbnails', $perm_level) ) {
+    if (!file_exists( 'thumbnails') && ! mkdir( 'thumbnails', octdec(FOLDER_PERM_LEVEL)) ) {
       $error[] = "thumbnails";
       $good_perms = false;
     }
     else {
-      recursive_chmod("thumbnails", $perm_level);
+      recursive_chmod("thumbnails", octdec(FILE_PERM_LEVEL));
     }
     
-    if (!file_exists('data') && !mkdir('data', $perm_level)) {
+    if (!file_exists('data') && !mkdir('data', octdec(FOLDER_PERM_LEVEL))) {
       $error[] = "data";
       $good_perms = false;
     }
     else {
-      recursive_chmod("data", $perm_level);
+      recursive_chmod("data", octdec(FILE_PERM_LEVEL));
     }
     
-    if (!file_exists('torrents') && !mkdir('torrents', $perm_level)) {
+    if (!file_exists('torrents') && !mkdir('torrents', octdec(FOLDER_PERM_LEVEL))) {
       $error[] = "torrents";
       $good_perms = false;
     }
     else {
-      recursive_chmod("torrents", $perm_level);
+      recursive_chmod("torrents", octdec(FILE_PERM_LEVEL));
     }
 		
     error_reporting($old_error_level);
@@ -895,7 +892,7 @@ function check_folders() {
   else if ( $store->type() == "MySQL" ) {
     
   }
-	
+
   if ( $good_perms == false ) {
     return $error;
   }
@@ -1012,7 +1009,6 @@ function check_access() {
  */
 function check_permissions() {
 
-  global $perm_level;
   global $store;
 	
   if ( ! $store ) {
@@ -1423,7 +1419,6 @@ function get_filesize($tmpurl) {
 function makeChannelRss($channelID, $use_cache = true) {
 	
 	global $store;
-	global $perm_level;
 	global $rss_dir;
 	
 	if ( ! $channelID || $channelID == "" ) {
@@ -1434,8 +1429,8 @@ function makeChannelRss($channelID, $use_cache = true) {
 	// make sure we have our publish directories
 	//
 	if (!file_exists($rss_dir)) {
-		mkdir($rss_dir, $perm_level);
-		$use_cache = false;
+    make_folder($rss_dir);
+    $use_cache = false;
 	}
 	else {
 
@@ -1670,12 +1665,14 @@ EOF;
 	$sOut .= '</rss>';
 
 	global $rss_dir;
-	$handle = fopen($rss_dir . "/" . $filename, "a+b");
-	flock($handle,LOCK_EX);
-	fseek($handle,0);
-	ftruncate($handle,0);
-	fwrite($handle,$sOut);
-	fclose($handle);
+	$handle = @fopen($rss_dir . "/" . $filename, "a+b");
+  if ( $handle != false ) {
+  	flock($handle,LOCK_EX);
+    fseek($handle,0);
+  	ftruncate($handle,0);
+    fwrite($handle,$sOut);
+  	fclose($handle);
+  }
 }
 
 /**
@@ -2285,6 +2282,7 @@ function debug_message($str, $level = 0) {
       error_log($str);
     }
   }
+  //print "$str<br>\n";
 }
 
 function do_query($sql) {
@@ -2327,8 +2325,7 @@ function write_deny_htaccess($path) {
   fwrite( $file, "deny from all\n" );
   fclose ( $file );
 
-  global $perm_level;
-  chmod( "$path/.htaccess", $perm_level );
+  chmod( "$path/.htaccess", octdec(FOLDER_PERM_LEVEL) );
 
   return true;
 }
@@ -2353,6 +2350,13 @@ function prependHTTP ($str) {
 function guess_path_to_installation() {
   $tmppath = ($_SERVER['PATH_TRANSLATED'] != "") ? $_SERVER['PATH_TRANSLATED'] :  $_SERVER['SCRIPT_FILENAME'];
   return preg_replace( '|^(.*[\\/]).*$|', '\\1', $tmppath );
+}
+
+function make_folder($folder) {
+ if (!file_exists($folder)) {
+   return mkdir($folder, octdec(FOLDER_PERM_LEVEL));
+ }
+ return true;
 }
 
 /*
