@@ -151,10 +151,28 @@ class MySQLDataLayer extends BEncodedDataLayer {
     }
   }
 
+  
+  function unlockResource($file) {
+    debug_message("mysql unlockResource $file");
+    @do_query("UNLOCK TABLES");
+    if ( $this->dataInMySQL($file) == false || $this->good_setup == false ) {
+      return parent::unlockResource($file);
+    }
+    unset($this->_handles[$file]);
+    /*
+    if ( isset($this->_handles[$file]) ) {
+      print "unlock tables<br>";
+      $result = @do_query("UNLOCK TABLES");
+
+    }*/
+  }
+
   function unlockResources($list) {
     @do_query("UNLOCK TABLES");
+
     foreach($this->lockList($list) as $file) {
-      $this->unlockResource($file);
+      //parent::unlockResource($file);
+      unset($this->_handles[$file]);
     }
   }
 
@@ -177,21 +195,6 @@ class MySQLDataLayer extends BEncodedDataLayer {
     $handle = 1;
     $this->_handles[$file] = $handle;
     return $handle;
-  }
-  
-  function unlockResource($file) {
-    debug_message("mysql unlockResource $file");
-
-    if ( $this->dataInMySQL($file) == false || $this->good_setup == false ) {
-      return parent::unlockResource($file);
-    }
-
-    /*
-    if ( isset($this->_handles[$file]) ) {
-      print "unlock tables<br>";
-      $result = @do_query("UNLOCK TABLES");
-      unset($this->_handles[$file]);
-    }*/
   }
   
   
@@ -341,12 +344,11 @@ class MySQLDataLayer extends BEncodedDataLayer {
 
     $tmp = $this->prepareForMySQL($data);
     $sql = str_replace("%vals", $tmp, $query);
-    
+
     $result = do_query( $sql );
     if ( mysql_affected_rows() <= 0 ) {
       global $errstr;
       $errstr = mysql_error();
-      //      print "error on $sql - " . mysql_error() . "<br>";
       return false;
     }
     
@@ -572,7 +574,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
 					Transcript varchar(250) null,
 					URL varchar(250) not null,
 					Webpage varchar(250) null,
-					donation_id int null,
+					donation_id varchar(40) null,
 					ignore_mime tinyint not null default 0,
 					PRIMARY KEY(ID));";
     break;
@@ -695,8 +697,8 @@ class MySQLDataLayer extends BEncodedDataLayer {
       break;
     case "channel_files":
       return array(
-		   "all" => "SELECT * FROM " . $this->prefix . "channel_files",
-		   "select" => "SELECT * FROM " . $this->prefix . "channel_files WHERE channel_id='%key'",
+		   "all" => "SELECT * FROM " . $this->prefix . "channel_files ORDER BY thetime DESC",
+		   "select" => "SELECT * FROM " . $this->prefix . "channel_files WHERE channel_id='%key' ORDER BY thetime DESC",
 		   "delete" => "DELETE FROM " . $this->prefix . "channel_files WHERE channel_id='%key'",
 		   "delete_by_file" => "DELETE FROM " . $this->prefix . "channel_files WHERE hash='%key'",
 		   "insert" => "REPLACE INTO " . $this->prefix . "channel_files SET %vals",
@@ -724,7 +726,7 @@ class MySQLDataLayer extends BEncodedDataLayer {
     case "section_files":
       return array(
 		   "all" => "SELECT * FROM " . $this->prefix . "section_files",
-		   "select" => "SELECT * FROM " . $this->prefix . "section_files WHERE channel_id='%key'",
+		   "select" => "SELECT * FROM " . $this->prefix . "section_files WHERE channel_id='%key'  INNER JOIN files ON section_files.hash = files.ID order by files.Publishdate DESC",
 		   "delete" => "DELETE FROM " . $this->prefix . "section_files WHERE channel_id='%key'",
 		   "insert" => "REPLACE INTO " . $this->prefix . "section_files SET %vals",
 		   "update" => "UPDATE " . $this->prefix . "section_files SET %vals WHERE channel_id='%key'"
