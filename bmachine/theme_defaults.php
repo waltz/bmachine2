@@ -102,10 +102,7 @@ if ( ! function_exists("displayTorrentInfo") ) {
 if ( ! function_exists("theme_file_stats") ) {
   function theme_file_stats($id) {
     global $store;
-    $stats = $store->layer->getOne("stats", $id);
-    if ( !isset($stats["downloads"]) ) {
-      $stats["downloads"] = 0;
-    }
+    $stats = $store->downloadStats($id);
     return "Downloads: " . $stats["downloads"];
   }
 }
@@ -1130,10 +1127,12 @@ if ( !function_exists("theme_channel_summary") ) {
 		else {
       $tmp = 0;
 			foreach ($channel_files as $filehash) {
-				$display_files[$filehash[0]] = $files[$filehash[0]];
-        $tmp++;
-        if ( $tmp >= $count ) {
-          break;
+        if ( isset($files[$filehash[0]]) ) {
+          $display_files[$filehash[0]] = $files[$filehash[0]];
+          $tmp++;
+          if ( $tmp >= $count ) {
+            break;
+          }
         }
 			}
 		}
