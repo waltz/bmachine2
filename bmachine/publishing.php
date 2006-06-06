@@ -231,7 +231,6 @@ function publish_file(&$file) {
 
   global $store;
   global $errorstr;
-  global $perm_level;
 
   //
   // if the user doesn't have upload access, then stop right here
@@ -314,12 +313,9 @@ function publish_file(&$file) {
       $errorstr = "SIZE";
       return false;
     }
-    
+
     global $torrents_dir;
-    if (!file_exists($torrents_dir)) {
-      global $perm_level;
-      mkdir($torrents_dir, $perm_level);
-    }
+    make_folder($torrents_dir);
     
     // hold onto the actual name of the file
     global $actual_fname;
@@ -338,7 +334,7 @@ function publish_file(&$file) {
 			   $_FILES['post_file_upload']['tmp_name'], 
 			   "$torrents_dir/$fname" ) ) {
 
-      chmod("$torrents_dir/$fname", $perm_level);
+      chmod("$torrents_dir/$fname", octdec(FILE_PERM_LEVEL));
       $file["URL"] = get_base_url() . "$torrents_dir/$fname";
     }
     else {
@@ -397,23 +393,17 @@ function publish_file(&$file) {
   }
   
   global $text_dir;
-  global $perm_level;
+  make_folder($text_dir);
   
   if (isset($_FILES["post_transcript_file"]) && $_FILES["post_transcript_file"]["size"] > 0) {
-    if (!file_exists($text_dir)) {
-      mkdir($text_dir, $perm_level);
-    }
     
     if (move_uploaded_file($_FILES['post_transcript_file']['tmp_name'], 
 			   "$text_dir/" . $file["ID"] . ".txt")) {
-      chmod("$text_dir/" . $file["ID"], $perm_level);
+      chmod("$text_dir/" . $file["ID"], octdec(FILE_PERM_LEVEL));
       $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
     }
   }
   else if (isset($file["post_transcript_text"]) && $file["post_transcript_text"] != "" ) {
-    if (!file_exists($text_dir)) {
-      mkdir($text_dir, $perm_level);
-    }
     
     $handle = fopen($text_dir . '/' . $file["ID"] . '.txt', "a+b");
     fseek($handle,0);
@@ -431,12 +421,9 @@ function publish_file(&$file) {
   //
 
   global $thumbs_dir;
-  global $perm_level;
 
   if (isset($_FILES["Image_upload"])) {
-    if (!file_exists($thumbs_dir)) {
-      mkdir($thumbs_dir, $perm_level);
-    }
+    make_folder($thumbs_dir);
     
     $hashedname = unique_file_name($thumbs_dir, $_FILES['Image_upload']['name']);	
     
@@ -445,7 +432,7 @@ function publish_file(&$file) {
 			   $_FILES['Image_upload']['tmp_name'], 
 			   "$thumbs_dir/$hashedname" ) ) {
       
-      chmod("$thumbs_dir/" . $hashedname, $perm_level);
+      chmod("$thumbs_dir/" . $hashedname, octdec(FILE_PERM_LEVEL));
       $file['Image'] = get_base_url() . "$thumbs_dir/" . $hashedname;
     }
     
@@ -681,14 +668,15 @@ function publish_file(&$file) {
   //
   // add to the donation setup, if it exists
   //
-  if ( $old_donation_id != "" ) {
-    $store->removeFileFromDonation($file["ID"], $old_donation_id);
+  if ( $old_donation_id != $file["donation_id"] ) {
+    if ( $old_donation_id != "" ) {
+      $store->removeFileFromDonation($file["ID"], $old_donation_id);
+    }
+    
+    if ( $file['donation_id'] != "" ) {
+      $store->addFileToDonation($file["ID"], $file['donation_id']);
+    }
   }
-  
-  if ( $file['donation_id'] != "" ) {
-    $store->addFileToDonation($file["ID"], $file['donation_id']);
-  }
-  
   
   //
   // write out any channel info
