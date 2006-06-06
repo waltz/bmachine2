@@ -56,14 +56,13 @@ to do any required maintenance.
 $folders = check_folders();
 $perms = check_permissions();
 
-
 if ( $perms !== true || $folders !== true ) {
 ?>
 
 <h4 style="color: #c00">Setup Problem!</h4>
 <p>For Broadcast Machine to work correctly, you need to
 
-<?php if ( $folders ) {
+<?php if ( is_array($folders) ) {
 ?>
  create the following directories:</p>
 
@@ -84,9 +83,10 @@ edit the permissions for the following directories:</p>
 
 <ul>
 <?php
+$permstr = FOLDER_PERM_LEVEL;
 foreach($perms as $error) {
   print "<li>$error</li>\n";
-  $fixstr2 = "chmod 777 $error\n";
+  $fixstr2 = "chmod $permstr $error\n";
 }
 ?>
 </ul>
