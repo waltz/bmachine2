@@ -12,7 +12,6 @@ if ( ! is_admin() ) {
 }
 
 global $settings;
-global $perm_level;
 global $store;
 
 if (isset($_GET["i"])) {
@@ -32,15 +31,10 @@ if (isset($_POST['Name'])) {
   $channel["Icon"] = $_POST["Icon"];
 
   if (isset($_FILES["IconUpload"]) && $_FILES["IconUpload"]["size"] > 0 ) {
-    global $thumbs_dir;
-    global $perm_level;
-
-    if (!file_exists($thumbs_dir)) {
-      mkdir($thumbs_dir, $perm_level);
-    }
+    make_folder($thumbs_dir);
     
     if ( move_uploaded_file($_FILES['IconUpload']['tmp_name'], "$thumbs_dir/" . $_FILES['IconUpload']['name'])) {
-      chmod("$thumbs_dir/" . $_FILES['IconUpload']['name'], 0644);
+      chmod("$thumbs_dir/" . $_FILES['IconUpload']['name'], octdec(FILE_PERM_LEVEL) );
       $channel["Icon"] = get_base_url() . "$thumbs_dir/" . $_FILES['IconUpload']['name'];
     }
   }
