@@ -23,29 +23,27 @@ class BEncodedDataLayer {
    */
   function setup() {
 
-    global $perm_level;
     global $data_dir;
     global $torrents_dir;
 
     $old_error_level = error_reporting ( 0 );
 
-    if ( !file_exists($data_dir) ) {
-      if ( !mkdir( $data_dir, $perm_level ) ) {
-        return false;
-      }
+    if ( make_folder($data_dir) == false ) {
+      debug_message("$data_dir not writable, failing");
+      return false;
     }
-
-    if ( !file_exists($torrents_dir) ) {
-      if ( !mkdir( $torrents_dir, $perm_level ) ) {
-        return false;
-      }
-    }
-
-    if ( !is_writable( $data_dir ) || !is_writable( $torrents_dir ) ) {
+    if ( make_folder($torrents_dir) == false ) {
+      debug_message("$torrents_dir not writable, failing");
       return false;
     }
 
+    //if ( !is_writable( $data_dir ) || !is_writable( $torrents_dir ) ) {
+    //debug_message("$data_dir not writable, failing");
+    //return false;
+    //}
+
     if ( !file_exists(  $data_dir . '/.htaccess' ) ) {
+      debug_message("create .htaccess for data dir");
       write_deny_htaccess($data_dir);
     }
 
