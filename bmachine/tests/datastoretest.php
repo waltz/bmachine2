@@ -18,7 +18,6 @@ class DataStoreTest extends BMTestCase {
 		}
   }
 
-
   /**
    * test the global setup function
    */
@@ -200,19 +199,20 @@ class DataStoreTest extends BMTestCase {
     debug_message("DataStoreTest/TestSaveDonations done");
   }
 
-
 	function TestAddNewChannel() {
 		global $store;
 
+	  //$this->assertTrue(setup_data_directories(), "Couldn't setup data dirs");
     $channel_id = $store->addNewChannel( "Junky Channel" );
+    $this->assertTrue( $channel_id !== false, "DataStoreTest/TestAddNewChannel: didn't create channel");
 		$channel = $store->getChannel($channel_id);
-
+    
 		$this->assertTrue( isset($channel), "DataStoreTest/TestAddNewChannel: couldn't load channel" );
 		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", 
 			"DataStoreTest/TestAddNewChannel: didn't load channel data" );
 
 	}
-	
+
 	function TestStoreChannel() {
 		global $store;
 
@@ -270,18 +270,7 @@ class DataStoreTest extends BMTestCase {
 		$users = $store->getAllUsers();
 		$this->assertTrue(!isset($users["unittest"]), "DataStoreTest/TestDeleteUser: deleted user, but they still exist (2)");
 	}
-
-/*
-	function TestAddNewUser() {
-		global $store;
-		$username = "unittest" . rand(0, 10000);
-		$password = $username;
-		$email = "$username@foo.net";
-		
-		$this->assertTrue( $store->addNewUser($username, $password, $email, true, false, $error), "DataStoreTest/TestAddNewUser: couldn't add user: $error" );
-	
-	}*/
-	
+  
 	function TestAuthUser() {
     global $store;
 		global $settings;
@@ -337,6 +326,29 @@ class DataStoreTest extends BMTestCase {
 
   function TestInstanceID() {
     
+  }
+
+  function TestDownloadStats() {
+    global $store;
+    $stats = $store->downloadStats($this->id);
+    $tally = $stats["downloads"];
+
+    $store->recordStartedDownload($this->id);
+    $stats = $store->downloadStats($this->id);
+    $this->assertTrue( $stats["downloads"] == $tally + 1, "DataStoreTest/TestDownloadStats - didn't increment");
+
+    $tally = $stats["downloads"];
+    $store->recordStartedDownload($this->id);
+    $stats = $store->downloadStats($this->id);
+    $this->assertTrue( $stats["downloads"] == $tally + 1, "DataStoreTest/TestDownloadStats - didn't increment (2)");
+
+
+    $tally = $stats["downloads"];
+    //    $store->recordCompletedDownload($this->id);
+    $store->recordStartedDownload($this->id);
+    $stats = $store->downloadStats($this->id);
+    $this->assertTrue( $stats["downloads"] == $tally + 1, "DataStoreTest/TestDownloadStats - didn't increment (3)");
+
   }
 
 }

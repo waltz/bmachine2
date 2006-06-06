@@ -8,6 +8,9 @@ require_once(SIMPLE_TEST . 'reporter.php');
 
 class BMTestCase extends WebTestCase {
 
+  var $channel_id;
+  var $id;
+
 	function BMTestCase() {
 		$this->WebTestCase();
 	}
@@ -92,6 +95,48 @@ class BMTestCase extends WebTestCase {
 	function getResponseCode() {
 		return $this->_browser->getResponseCode();
 	}
+
+
+  function BuildTestData() {
+
+
+    //$this->ClearOldData();
+    setup_data_directories(false);
+
+    global $store;
+    global $rss_dir;
+
+    $this->Login();
+
+    global $store;
+    $channel_id = $store->addNewChannel( "Junky Channel" );
+    $store->unlockAll();
+    clearstatcache();
+
+    $file = array();
+
+    $file['URL'] = "http://blogfiles.wfmu.org/KF/2006/05/laughing_yogi.mpeg";
+    $file['Title'] = "RSS File & Junk Test";
+    $encodedtext = file_get_contents("tests/utf8demo.txt"); // file_get_contents("tests/frenchtext.txt") . 
+    $file['Description'] = "URL desc & general notes\n" . $encodedtext;
+    $file['donation_id'] = 1;
+    $file['People'] = array(
+			    0 => "colin:did stuff & had fun",
+			    1 => "colin2:did other stuff & slept a lot",
+    );
+    $file['Keywords'] = array(
+			      0 => 'kw1',
+			      1 => 'kw2');
+    
+    $file['post_channels'] = array($channel_id);
+    set_file_defaults($file);
+
+    global $errorstr;
+    $this->assertTrue( publish_file($file) == true, "didn't publish file: $errorstr");
+
+    $this->id = $file["ID"];
+    $this->channel_id = $channel_id;
+  }
 
 }
 
