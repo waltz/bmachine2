@@ -11,7 +11,6 @@ if ( ! is_admin() ) {
 
 global $store;
 global $settings;
-global $perm_level;
 
 //
 // code to delete a donation setup
