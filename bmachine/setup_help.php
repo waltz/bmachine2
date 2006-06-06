@@ -14,6 +14,8 @@ This information was probably provided to you by your hosting provider.
 <p>This might take a few minutes, please be patient.</p>
 
 <?php
+  $permstr = "" . FOLDER_PERM_LEVEL;
+
 $path = guess_path_to_installation();
 ?>
 <form method="POST" action="set_perms.php">
@@ -27,36 +29,37 @@ $path = guess_path_to_installation();
 <p><strong>With a typical FTP program:</strong> 
 Create folders in your Broadcast Machine directory named "torrents", "data", "publish", "thumbnails" and "text".  
 Then select each folder, view its permissions, and make sure all the checkboxes (readable, writable, 
-executable) are checked (should say 777 when correct). Reload this page to continue.</p>
+executable) are checked (should say <?php print $permstr; ?> when correct). Reload this page to continue.</p>
 
 
 <div class="section_header">If you use command line FTP, or if you have shell access to your server</div>
 
 <p>Log in and type the following:</p>
-<pre>cd 
-
-<?php
-print $path;
-?>
+<pre>cd <?php print $path; ?>
 
 mkdir data
 mkdir torrents
 mkdir publish
 mkdir text
 mkdir thumbnails
-chmod 777 data
-chmod 777 torrents
-chmod 777 publish
-chmod 777 text
-chmod 777 thumbnails
+chmod <?php echo $permstr; ?> data
+chmod <?php echo $permstr; ?> torrents
+chmod <?php echo $permstr; ?> publish
+chmod <?php echo $permstr; ?> text
+chmod <?php echo $permstr; ?> thumbnails
 </pre>
 
 <p><em>Once you've completed these steps, reload this page to continue.</em></p>
 
 <br />
 <p>
+<?php
+if ( FOLDER_PERM_LEVEL == 0777 || FOLDER_PERM_LEVEL == 777 ) {
+?>
 Note: giving the directories "777" permissions will allow anyone on the server to full access those directories. If you share a server with others, they may be able to tamper with you Broadcast Machine data files if you use these settings. There may be other settings more appropriate for your server. 
-
+<?php
+}
+?>
 <b>Please, contact your system administrator if you have any questions about permissions.</b>
 </p>
 

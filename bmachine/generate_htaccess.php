@@ -120,11 +120,10 @@ if( $ftp->connect() ) {
     $ftp->stor("/tmp/.htaccess", "$pwd/.htaccess");
     ob_flush();
     $ftp->is_ok();
-    $ftp->chmod("$pwd/.htaccess", "777");
-    $ftp->is_ok();
-    //$ftp->chmod("$pwd/index.php", "777");    
-    //ob_flush();
 
+    $permstr = FOLDER_PERM_LEVEL;
+    $ftp->chmod("$pwd/.htaccess", $permstr);
+    $ftp->is_ok();
 
     // now that the file is written to the system, lets see if it actually works
     global $settings;

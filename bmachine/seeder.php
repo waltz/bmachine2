@@ -255,13 +255,14 @@ class ServerSideSeeder {
 	
 	  		$output = "<p>Broadcast Machine Helper doesn't have permission to make the server sharing directory automatically. You need to make a writable directory named \"files\" in the data directory. On a typical web server, you might do this by connecting with your ftp client and typing the following commands:</p>\n";
 	
-			$output .= "<pre>\n";
-			$output .= "cd ".preg_replace('|^(.*[\\/]).*$|','\\1',$_SERVER['SCRIPT_FILENAME'])."data\n";
-			$output .= <<<EOD
+        $permstr = "" . FOLDER_PERM_LEVEL;
+        $output .= "<pre>\n";
+        $output .= "cd ".preg_replace('|^(.*[\\/]).*$|','\\1',$_SERVER['SCRIPT_FILENAME'])."data\n";
+        $output .= <<<EOD
 	
 	mkdir files
 	
-	chmod 777 files
+	chmod $permstr files
 	
 	</pre>
 	
@@ -346,7 +347,6 @@ EOD;
 
 		global $store;	
 		global $settings;
-		global $perm_level;
 		global $data_dir;
 	
 		$this->enabled = false;
@@ -383,10 +383,10 @@ EOD;
 		$old_error_level = error_reporting(0);
 	
 		// check to see if all our folders are made
-		if (
-			( ! file_exists($data_dir . '/seedfiles') && ! mkdir($data_dir . '/seedfiles', $perm_level) ) ||
-			! is_writable($data_dir . '/seedfiles') 
-		) {
+    make_folder($data_dir);
+    make_folder("$data_dir/seedfiles");
+
+		if ( ! is_writable($data_dir . '/seedfiles') ) {
       debug_message("seeder: couldnt create directories");
 			$this->problem = "mkdir";
 			return false;
