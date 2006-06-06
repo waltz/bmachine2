@@ -277,7 +277,7 @@ function theme_path() {
  * @returns install version number
  */
 function version_number() {
-	return 23;
+	return 24;
 }
 
 /**
