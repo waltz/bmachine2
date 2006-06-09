@@ -1,23 +1,5 @@
 <?php
 
-/*function seems_utf8($Str) {
- for ($i=0; $i<strlen($Str); $i++) {
-  if (ord($Str[$i]) < 0x80) continue; # 0bbbbbbb
-  elseif ((ord($Str[$i]) & 0xE0) == 0xC0) $n=1; # 110bbbbb
-  elseif ((ord($Str[$i]) & 0xF0) == 0xE0) $n=2; # 1110bbbb
-  elseif ((ord($Str[$i]) & 0xF8) == 0xF0) $n=3; # 11110bbb
-  elseif ((ord($Str[$i]) & 0xFC) == 0xF8) $n=4; # 111110bb
-  elseif ((ord($Str[$i]) & 0xFE) == 0xFC) $n=5; # 1111110b
-  else return false; # Does not match any model
-  for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
-   if ((++$i == strlen($Str)) || ((ord($Str[$i]) & 0xC0) != 0x80))
-   return false;
-  }
- }
- return true;
-}
-*/
-
 if ( !function_exists("mb_strtolower") ) {
 define("UC_LL",  0x00008000); /* Letter, Lowercase          */
 define("UC_LU", 0x00004000); /* Letter, Uppercase          */
@@ -2784,180 +2766,162 @@ $_uccase_map = array(
  * static int prop_lookup(unsigned long code, unsigned long n)
  */
 function prop_lookup($code, $n) {
-//	long l, r, m;
 
-global $_ucprop_offsets;
+  global $_ucprop_offsets;
 
-	/*
-	 * There is an extra node on the end of the offsets to allow this routine
-	 * to work right.  If the index is 0xffff, then there are no nodes for the
-	 * property.
-	 */
-	if (( $l = $_ucprop_offsets[$n]) == 0xffff)
-		return 0;
-
-	/*
-	 * Locate the next offset that is not 0xffff.  The sentinel at the end of
-	 * the array is the max index value.
-	 */
-	 global $_ucprop_size;
-	for ( $m = 1; $n + $m < $_ucprop_size && $_ucprop_offsets[$n + $m] == 0xffff; $m++)
-		;
-
-	$r = $_ucprop_offsets[$n + $m] - 1;
-
-global $_ucprop_ranges;
-	while ($l <= $r) {
-		/*
-		 * Determine a "mid" point and adjust to make sure the mid point is at
-		 * the beginning of a range pair.
-		 */
-		$m = ($l + $r) >> 1;
-		$m -= ($m & 1);
-		if ($code > $_ucprop_ranges[$m + 1])
-			$l = $m + 2;
-		else if ($code < $_ucprop_ranges[$m])
-			$r = $m - 2;
-		else if ($code >= $_ucprop_ranges[$m] && $code <= $_ucprop_ranges[$m + 1])
-			return 1;
-	}
-	return 0;
+  /*
+   * There is an extra node on the end of the offsets to allow this routine
+   * to work right.  If the index is 0xffff, then there are no nodes for the
+   * property.
+   */
+  if (( $l = $_ucprop_offsets[$n]) == 0xffff)
+    return 0;
+  
+  /*
+   * Locate the next offset that is not 0xffff.  The sentinel at the end of
+   * the array is the max index value.
+   */
+  global $_ucprop_size;
+  for ( $m = 1; $n + $m < $_ucprop_size && $_ucprop_offsets[$n + $m] == 0xffff; $m++)
+    ;
+  
+  $r = $_ucprop_offsets[$n + $m] - 1;
+  
+  global $_ucprop_ranges;
+  while ($l <= $r) {
+    /*
+     * Determine a "mid" point and adjust to make sure the mid point is at
+     * the beginning of a range pair.
+     */
+    $m = ($l + $r) >> 1;
+    $m -= ($m & 1);
+    if ($code > $_ucprop_ranges[$m + 1])
+      $l = $m + 2;
+    else if ($code < $_ucprop_ranges[$m])
+      $r = $m - 2;
+    else if ($code >= $_ucprop_ranges[$m] && $code <= $_ucprop_ranges[$m + 1])
+      return 1;
+  }
+  return 0;
 }
 
 function php_unicode_is_upper($cc) {
-	return php_unicode_is_prop($cc, UC_LU, 0);
+  return php_unicode_is_prop($cc, UC_LU, 0);
 }
 
 function php_unicode_is_lower($cc) {
-	return php_unicode_is_prop($cc, UC_LL, 0);
+  return php_unicode_is_prop($cc, UC_LL, 0);
 }
 
 function php_unicode_is_prop($code, $mask1, $mask2) {
-//	$i;
-	global $masks32;
+  global $masks32;
 	
-	if ($mask1 == 0 && $mask2 == 0)
-		return 0;
+  if ($mask1 == 0 && $mask2 == 0)
+    return 0;
 
-	for ($i = 0; $mask1 && $i < 32; $i++) {
-		if (($mask1 & $masks32[$i]) && prop_lookup($code, $i))
-			return 1;
-	}
+  for ($i = 0; $mask1 && $i < 32; $i++) {
+    if (($mask1 & $masks32[$i]) && prop_lookup($code, $i))
+      return 1;
+  }
 
-global $_ucprop_size;
-	for ($i = 32; $mask2 && $i < $_ucprop_size; $i++) {
-		if (($mask2 & $masks32[$i & 31]) && prop_lookup($code, $i))
-			return 1;
-	}
-
-	return 0;
+  global $_ucprop_size;
+  for ($i = 32; $mask2 && $i < $_ucprop_size; $i++) {
+    if (($mask2 & $masks32[$i & 31]) && prop_lookup($code, $i))
+      return 1;
+  }
+  
+  return 0;
 }
 
 
 function php_unicode_tolower($code) {
-	//int field;
-	//long l, r;
+  if (php_unicode_is_lower($code))
+    return $code;
 
-	if (php_unicode_is_lower($code))
-		return $code;
+  global $_uccase_len, $_uccase_size;
 
-global $_uccase_len, $_uccase_size;
-
-	if (php_unicode_is_upper($code)) {
+  if (php_unicode_is_upper($code)) {
 		
-		 // The character is upper case.
-		$field = 1;
-		$l = 0;
-		$r = $_uccase_len[0] - 3;
-	} 
-	else {
-		 // The character is title case.
-		$field = 2;
-		$l = $_uccase_len[0] + $_uccase_len[1];
-		$r = $_uccase_size - 3;
-	}
-	return case_lookup($code, $l, $r, $field);
+    // The character is upper case.
+    $field = 1;
+    $l = 0;
+    $r = $_uccase_len[0] - 3;
+  } 
+  else {
+    // The character is title case.
+    $field = 2;
+    $l = $_uccase_len[0] + $_uccase_len[1];
+    $r = $_uccase_size - 3;
+  }
+  return case_lookup($code, $l, $r, $field);
 }
 
 function case_lookup($code, $l, $r, $field) {
-//	long m;
-
-	global $_uccase_map;
+  global $_uccase_map;
 	
-	 // Do the binary search.
-	while ($l <= $r) {
-		 //* Determine a "mid" point and adjust to make sure the mid point is at
-		 //* the beginning of a case mapping triple.
-		$m = ($l + $r) >> 1;
-		$m -= ($m % 3);
-		if ($code > $_uccase_map[$m])
-			$l = $m + 3;
-		else if ($code < $_uccase_map[$m])
-			$r = $m - 3;
-		else if ($code == $_uccase_map[$m])
-			return $_uccase_map[$m + $field];
-	}
-
-	return $code;
+  // Do the binary search.
+  while ($l <= $r) {
+    //* Determine a "mid" point and adjust to make sure the mid point is at
+    //* the beginning of a case mapping triple.
+    $m = ($l + $r) >> 1;
+    $m -= ($m % 3);
+    if ($code > $_uccase_map[$m])
+      $l = $m + 3;
+    else if ($code < $_uccase_map[$m])
+      $r = $m - 3;
+    else if ($code == $_uccase_map[$m])
+      return $_uccase_map[$m + $field];
+  }
+  
+  return $code;
 }
 
 function mb_strtolower($srcstr) {
-
-	$unicode = $srcstr;	
-	$unicode_ptr = $unicode;
-	
-	$unicode_len = strlen($unicode);
-
-	$out = "";
-	for ($i = 0; $i < $unicode_len; $i+=4) {
-		$tmp = substr($unicode_ptr, $i, 4);
-		$lower = php_unicode_tolower($tmp);
-		$out .= $lower;		
-	}
-
-	return $out;
+  include_once "utf.php";
+  return utf8_strtolower($srcstr);
 }
+
 } // if ( ! function exists )
 
 if ( !function_exists("mb_substr") ) {
 function mb_substr($str, $start = 0) {
 
-	if( func_num_args() >= 3 ) {
-		$end = func_get_arg(2);
-	} 
-	else {
-		$end = strlen($str) - $start;
-	}
-	
-	$chars = 0;
-	
-	$start_pos = -1;
-	$end_pos = strlen($str);
-	
-	$total = $end - $start;
-	
-	// if this doesn't look like UTF, then just parse like a normal string
-	if (!preg_match('/\&#[0-9]*;.*/i', $str)) {
-		 $rVal = substr($str, $start, $end);
-		 return $rVal;
-	}
-	
-	$stuff = split(' ', $str);
-
-	$output = "";
-	foreach($stuff as $wordstr) {
-
-		$chars += substr_count($wordstr, '&');
-		$output = $output . $wordstr;
-
-		if ($chars >= $total ) {
-			break;
-		}
-		
-		$output = $output . " ";
-	}			
-
-	return $output;
+  if( func_num_args() >= 3 ) {
+    $end = func_get_arg(2);
+  } 
+  else {
+    $end = strlen($str) - $start;
+  }
+  
+  $chars = 0;
+  
+  $start_pos = -1;
+  $end_pos = strlen($str);
+  
+  $total = $end - $start;
+  
+  // if this doesn't look like UTF, then just parse like a normal string
+  if (!preg_match('/\&#[0-9]*;.*/i', $str)) {
+    $rVal = substr($str, $start, $end);
+    return $rVal;
+  }
+  
+  $stuff = split(' ', $str);
+  
+  $output = "";
+  foreach($stuff as $wordstr) {
+    
+    $chars += substr_count($wordstr, '&');
+    $output = $output . $wordstr;
+    
+    if ($chars >= $total ) {
+      break;
+    }
+    
+    $output = $output . " ";
+  }			
+  
+  return $output;
 }
 } // if ( ! function exists )
 ?>

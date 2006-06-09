@@ -10,7 +10,7 @@
 
 // multibyte functions that we need for UTF stuff
 if ( !function_exists("mb_substr") || !function_exists("mb_strtolower") ) {
-	include_once("mb.php");
+  include_once("mb.php");
 }
 
 
