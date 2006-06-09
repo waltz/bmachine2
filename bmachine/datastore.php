@@ -309,11 +309,13 @@ class DataStore {
 	 * be publicly available
 	 */
 	function channelContainsFile($filehash, &$channel) {
-		$channel_files = $channel["Files"];
-	 	foreach($channel_files as $cf) {
-			if ( $cf[0] == $filehash ) {
-				return true;
-			}
+    if ( isset($channel["Files"]) && is_array($channel['Files']) ) {
+      $channel_files = $channel["Files"];
+      foreach($channel_files as $cf) {
+        if ( $cf[0] == $filehash ) {
+          return true;
+        }
+      }
 		}
 		
 		return false;
@@ -566,21 +568,70 @@ class DataStore {
    */
   function newChannel() {
     $channel = array();
-    $channel["Files"] = array();
-    $channel['Options']=array();
-    $channel['Options']['Thumbnail']=true;
-    $channel['Options']['Title']    =true;
-    $channel['Options']['Creator']  =false;
-    $channel['Options']['Description']     =false;
-    $channel['Options']['Length']   =false;
-    $channel['Options']['Published']=false;
-    $channel['Options']['Torrent']  =false;
-    $channel['Options']['URL']      =false;
-    $channel['Options']['Filesize'] =false;
-    $channel['Options']['Keywords'] =true;
-    $channel['Options']['SubscribeOptions'] = DEFAULT_SUBSCRIBE_OPTIONS;
+    $this->setChannelDefaults($channel);
+    return $channel;
+  }
+
+  /**
+   * set some default values for a channel
+   */
+  function setChannelDefaults(&$channel) {
+
+    $defaults = array(
+                      "Files" => array(),
+                      "Options" => array(),
+                      "Sections" => array(),
+                      "Icon" => "",
+                      "Name" => "",
+                      "Description" => "",
+                      "Publisher" => "",
+                      'NotPublic' => false,
+                      "OpenPublish" => false,
+                      "RequireLogin" => false,
+                      "CSSURL" => "default.css"
+                      );
+
+    
+    foreach ( $defaults as $key => $value ) {
+      if ( !array_key_exists($key, $channel) ) {
+        $channel[$key] = $value;
+      }
+    }
+
+
+    if ( $channel["Icon"] == "http://" ) {
+      $channel["Icon"] = "";
+    }
+
+		if ( !isset($channel['Sections']['Featured']) ) {
+			$channel['Sections']['Featured'] = array();
+			$channel['Sections']['Featured']['Name'] = 'Featured';
+			$channel['Sections']['Featured']['Files'] = array();
+		}
+
+
+    $option_defaults = array (
+                       "Thumbnail" => true,
+                       "Title" =>    true,
+                       "Creator" =>  false,
+                       "Description" => false,
+                       "Length" =>   false,
+                       "Published" =>false,
+                       "Torrent" =>  false,
+                       "URL" =>      false,
+                       "Filesize" => false,
+                       "Keywords" => true,
+                       "SubscribeOptions" => DEFAULT_SUBSCRIBE_OPTIONS
+    );
+
+    foreach ( $option_defaults as $key => $value ) {
+      if ( !array_key_exists($key, $channel["Options"]) ) {
+        $channel['Options'][$key] = $value;
+      }
+    }
 
     return $channel;
+
   }
 
   /**
@@ -597,6 +648,9 @@ class DataStore {
 	 * store a single channel
 	 */
 	function saveChannel(&$channel) {
+
+    $this->setChannelDefaults($channel);
+
 
     $this->layer->lockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
 		$channels = $this->layer->getAllLock("channels", $handle);
@@ -625,7 +679,7 @@ class DataStore {
 		    $channel['LibraryURL'] = get_base_url() . "library.php?i=" . $channel["ID"];
 		}
 
-		if ( !isset($channel['CSSURL']) || $channel['CSSURL'] == "" ) {
+    /*		if ( !isset($channel['CSSURL']) || $channel['CSSURL'] == "" ) {
 		    $channel['CSSURL'] = "default.css";
 		}
 
@@ -645,13 +699,7 @@ class DataStore {
 			$channel['Options']['Filesize'] =false;
 			$channel['Options']['Keywords'] =true;
 			$channel['Options']['SubscribeOptions'] = DEFAULT_SUBSCRIBE_OPTIONS;
-		}
-		if ( !isset($channel['Sections']) ) {
-	    $channel['Sections']=array();
-			$channel['Sections']['Featured']=array();
-			$channel['Sections']['Featured']['Name']='Featured';
-			$channel['Sections']['Featured']['Files']=array();
-		}
+		}*/
 
 		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 		$this->layer->unlockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
@@ -1129,6 +1177,12 @@ class DataStore {
 		$time = pack( "C", $time );
 
 		$handle = fopen( $data_dir . '/' . $info_hash, "rb+" );
+
+		if ( ! $handle ) {
+			$this->error = 'There was an error while loading that data for this torrent';
+			return null;
+		}
+
 		flock( $handle, LOCK_EX );
 		$peer_num = intval( filesize( $data_dir . '/' . $info_hash ) / 7 );
 
