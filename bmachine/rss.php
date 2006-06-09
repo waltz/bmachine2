@@ -26,6 +26,20 @@ if ( !isset($channels[$channelID]) ) {
 
 $channel = $channels[$channelID];
 
+if ( isset($channel['RequireLogin']) && $channel['RequireLogin'] == 1 ) {
+  // fix bug #1229059 Can view passworded feeds without password
+  do_http_auth();
+}
+
+
+global $rss_dir;
+$rss_file = "$rss_dir/" . $channelID . ".rss";
+
+if ( !file_exists($rss_file) || $forceLoad == true ) {
+  makeChannelRss($channelID);
+}
+
+
 if ( $noHeaders == true ) {
   header('Content-Type: application/xml');
 }
@@ -34,14 +48,13 @@ else {
   header('Content-Disposition: inline; filename="' . $channelID . '.rss"');
 }
 
-if ( isset($channel['RequireLogin']) && $channel['RequireLogin'] == 1 ) {
-  // fix bug #1229059 Can view passworded feeds without password
-  do_http_auth();
-}
+$filedate = gmdate("D, d M Y H:i:s", filemtime($rss_file)) . " GMT";
 
-if ( $forceLoad == true ) {
-  makeChannelRSS($channelID, false);
-}
+// see if the file has been modified or not.  if not, this function
+// will return a 304 code and exit processing
+doConditionalGet($filedate);
 
-displayChannelRSS($channelID);
+// otherwise, return the file
+print( file_get_contents($rss_file));
+
 ?>

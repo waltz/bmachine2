@@ -564,7 +564,7 @@ function login($username,$password,&$error, $set_cookies = true) {
 function do_http_auth() {
 
 	if ( ! isset($_SESSION['user']) ) {
-		
+
 		// check if the current loading of the page is the first loading
 		// after a logout:
 		if ( isset($_SESSION['logout']) ) {
@@ -574,13 +574,6 @@ function do_http_auth() {
 		if (! isset($_SESSION['realm'])) {
 		   $_SESSION['realm'] = site_title();
 		}
-		
-		// check if a user has already logged in before:
-		if (isset($_SESSION['user'])) {
-		   unset($_SESSION['login']);
-		   return true;
-		}
-		
 
 		//
 		// check if a user just entered a username and password:
@@ -1641,8 +1634,8 @@ EOF;
 
 		foreach ($data["People"] as $people) {
 			if ( isset($people[0]) && isset($people[1]) ) {
-        $name = $people[0];
-        $role = $people[1];
+        $name = mb_strtolower($people[0]);
+        $role = mb_strtolower($people[1]);
 				$sOut .= "<media:credit role=\"" . rss_encode(mb_strtolower(trim($role))) . "\" scheme=\"urn:pculture-org:custom\">" .	rss_encode(trim($name)) . "</media:credit>\n";
 			}
 		}
@@ -1717,7 +1710,7 @@ function doConditionalGet($timestamp) {
 /**
  * display the RSS for the specified channel
  */
-function displayChannelRSS($channelID) {
+/*function displayChannelRSS($channelID) {
 
 	global $rss_dir;
 	$rss_file = "$rss_dir/" . $channelID . ".rss";
@@ -1736,7 +1729,7 @@ function displayChannelRSS($channelID) {
 
 	// otherwise, return the file
 	print( file_get_contents($rss_file));
-}
+}*/
 
 /**
  * check $str to see if it begins with $sub

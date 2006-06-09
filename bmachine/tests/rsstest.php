@@ -73,24 +73,28 @@ class RSSTest extends BMTestCase {
   }
 
 
-
-  /*
   function TestRestrictedRSS() {
 
+    $this->Logout();
     $this->BuildTestData();
 
     global $store;
-    $channels = $store->getAllChannels();
-    
-    foreach($channels as $channel) {
+    $c = $store->getChannel($this->channel_id);
+    $c["RequireLogin"] = true;
+    $store->saveChannel($c);
 
-      if ( isset($channel["RequireLogin"]) && $channel["RequireLogin"] == true ) {
-	$rss_url = get_base_url() . "rss.php?i=" . $channel["ID"] . "&amp;force=1";
-	$headers = @bm_get_headers($rss_url);
-	$this->assertTrue($headers[0] == "HTTP/1.1 401 Unauthorized", "Expected restricted RSS file, but it wasn't");
-      }
-    }
-  }*/
+    $rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&amp;force=1";
+    $headers = @bm_get_headers($rss_url);
+    $this->assertTrue( stristr($headers[0], "HTTP/1.1 401") !== false, "Expected restricted RSS file, but it wasn't");
+
+    $this->authenticate('unittest', 'unittest');
+    $this->get($rss_url);
+    $this->assertResponse(200);
+    //$headers = @bm_get_headers($rss_url);
+    //print_r($headers);
+    //$this->assertTrue( stristr($headers[0], "HTTP/1.1 401") === false, "Expected to get restricted RSS file, but didn't");
+
+  }
 
 }
 ?>
