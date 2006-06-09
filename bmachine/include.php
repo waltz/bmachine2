@@ -1543,7 +1543,7 @@ function outputRSSFile($filename, $channelID, $name, $description, $link, $icon,
 	$sOut .= <<<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" 
-	xmlns:media="http://search.yahoo.com/mrss/" 
+	xmlns:media="http://search.yahoo.com/mrss" 
 	xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
 	xmlns:dtvmedia="http://participatoryculture.org/RSSModules/dtv/1.0">
 
