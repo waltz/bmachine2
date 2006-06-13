@@ -2282,7 +2282,7 @@ function debug_message($str, $level = 0) {
     }
   }
 
-print "$str<br>\n";
+  //print "$str<br>\n";
 }
 
 function do_query($sql) {
