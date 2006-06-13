@@ -77,7 +77,7 @@ class DataStore {
 		//
 		
 		$this->layer->registerHook("files", "pre-delete", "PreDeleteFile");
-		$this->layer->registerHook("files", "post-delete", "PostDeleteFile");
+    $this->layer->registerHook("files", "post-delete", "PostDeleteFile");
 
 		if ( $this->layer->type() == "flat file" ) {
 			$this->layer->registerHook("files", "get", "FileHook");
@@ -194,6 +194,7 @@ class DataStore {
    */
   function getRSSPublishTime( $channel = "ALL" ) {
     debug_message("getRSSPublishTme $channel");
+
 		$f = $this->layer->getOne("rss", $channel);
     if ( count($f) > 0 && isset($f["lastdate"]) ) {
       return $f["lastdate"];
@@ -222,7 +223,6 @@ class DataStore {
 		$f = $this->layer->getOne( "rss", $channel );
 		$f["time"] = time();
 		$f["channel"] = $channel;
-    debug_message("setRSSNeedsPublish - save data");
 		$this->layer->saveOne("rss", $f, $channel);
   }
 	
@@ -232,23 +232,23 @@ class DataStore {
      * @param: make_all - also make the all.rss file
      */
 	function generateRSS($make_all = false) {
-    $rss = $this->layer->getAllLock("rss", $handle);
 
+    $rss = $this->layer->getAll("rss");
+    
     if ( isset($rss) && is_array($rss) ) {
-      foreach($rss as $r) {
+      foreach($rss as $id => $r) {
         if ( !isset($r["lastdate"]) || $r["lastdate"] <= $r["time"] ) {
           $make_all = true;
           makeChannelRss($r["channel"], false);
-          
-          $r["lastdate"] = time();
-          //          $this->layer->saveOne("rss", $r, $r["channel"]);
+          $rss[$id]["lastdate"] = time();
         }
       }
     }
 		
 		if ( $make_all == true ) {
-			makeChannelRss("ALL", false);
+      makeChannelRss("ALL", false);
 		}
+    
 
     $this->layer->saveAll("rss", $rss);
 
@@ -276,7 +276,9 @@ class DataStore {
 	 * @returns true if successful, false on error and sets global $errstr
 	 */
 	function DeleteFile($id) {
-		return $this->layer->deleteOne("files", $id);
+		$result = $this->layer->deleteOne("files", $id);
+    $this->generateRSS(true);
+    return $result;
 	} // DeleteFile
 	
 
@@ -2122,7 +2124,7 @@ function PostDeleteFile($id) {
 	}
 
   // generate any needed RSS files
-  $store->generateRSS(true);
+
 }
 
 function FlatGetChannelHook(&$c) {
