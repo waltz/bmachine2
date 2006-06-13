@@ -2281,7 +2281,8 @@ function debug_message($str, $level = 0) {
       error_log($str);
     }
   }
-  //print "$str<br>\n";
+
+print "$str<br>\n";
 }
 
 function do_query($sql) {
@@ -2361,9 +2362,12 @@ function perms_for($level) {
 function make_folder($folder) {
  if (!file_exists($folder)) {
    $old_umask = umask(0);
-   @mkdir($folder, perms_for(FOLDER_PERM_LEVEL) );
+   $result = @mkdir($folder, perms_for(FOLDER_PERM_LEVEL) );
    umask($old_umask);
+
+   return $result;
  }
+
  return true;
 }
 
