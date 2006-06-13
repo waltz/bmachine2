@@ -1425,7 +1425,7 @@ function makeChannelRss($channelID, $use_cache = true) {
     make_folder($rss_dir);
     $use_cache = false;
 	}
-	else {
+	else if ( $use_cache == true ) {
 
 		$rss_publish_time = 0;
 		if ( file_exists("$rss_dir/" . $channelID . ".rss") ) {
@@ -1470,7 +1470,7 @@ function makeChannelRss($channelID, $use_cache = true) {
 		$channels = $store->getAllChannels();
 
 		foreach($files as $filehash => $data) {
-			if ($data["Publishdate"] <= time()) {
+			if (isset($data["Publishdate"]) && $data["Publishdate"] <= time()) {
 				foreach($channels as $c) {
 					if ( $store->channelContainsFile($filehash, $c) ) {
 						$data["channelID"] = $c["ID"];
@@ -1482,7 +1482,13 @@ function makeChannelRss($channelID, $use_cache = true) {
 	} // if all
 	else {
 		$channel = $store->getChannel($channelID);
-		$link = $channel['LibraryURL'];
+    if ( isset($channel['LibraryURL']) ) {
+      $link = $channel['LibraryURL'];
+    }
+    else {
+      $link = channel_link($channelID);
+    }
+
 		if ( isset($channel['Icon']) ) {
 			$icon = $channel['Icon'];
 		}
