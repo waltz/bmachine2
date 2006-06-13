@@ -1104,29 +1104,33 @@ class MySQLLoader {
       
       $sql = str_replace("%vals", $data, $query);
       do_query( $sql );
-      
-      foreach($f["People"] as $p) {
-	if ( is_array($p) && count($p) == 2 ) {
-	  $tmp["Name"] = trim($p[0]);
-	  $tmp["Role"] = trim($p[1]);
-	  $tmp["ID"] = $f["ID"];
+
+      if ( isset($f["People"]) ) {
+	foreach($f["People"] as $p) {
+	  if ( is_array($p) && count($p) == 2 ) {
+	    $tmp["Name"] = trim($p[0]);
+	    $tmp["Role"] = trim($p[1]);
+	    $tmp["ID"] = $f["ID"];
 	
-	  if ( $tmp["Name"] != "" ) {
-	    $data = $store->layer->prepareForMySQL($tmp);
-	    $sql = str_replace("%vals", $data, $people_sql);
-	    do_query( $sql );
+	    if ( $tmp["Name"] != "" ) {
+	      $data = $store->layer->prepareForMySQL($tmp);
+	      $sql = str_replace("%vals", $data, $people_sql);
+	      do_query( $sql );
+	    }
 	  }
 	}
       }
       
-      foreach($f["Keywords"] as $kw) {
-	$kw = trim($kw);
-	$sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (id, word) 
+      if ( isset($f["Keywords"]) ) {
+	foreach($f["Keywords"] as $kw) {
+	  $kw = trim($kw);
+	  $sql = "REPLACE INTO " . $store->layer->prefix . "file_keywords (id, word) 
 								VALUES ('" . mysql_escape_string($f["ID"]) . "', 
 								'" . mysql_escape_string($kw) . "')";
 
 
-	do_query( $sql );
+	  do_query( $sql );
+	}
       }
       
     }	
