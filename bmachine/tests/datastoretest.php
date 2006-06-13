@@ -121,6 +121,7 @@ class DataStoreTest extends BMTestCase {
 	/**
 	 * test our user-loading function
 	 */
+
   function TestGetUsers() {
 
     debug_message("DataStoreTest/TestGetUsers");
@@ -130,44 +131,31 @@ class DataStoreTest extends BMTestCase {
     $this->assertTrue( is_array($store->getAllUsers())  );
   }
   
-
-	function TestDeleteChannel() {
+  
+  
+  function TestDeleteChannel() {
 
     debug_message("DataStoreTest/TestDeleteChannel");
 		global $store;
-		
-		$channels = $store->getAllChannels();
-		
-		foreach ( $channels as $c ) {
-			if ( $c["Name"] == "unit test channel" ||
-				$c["Name"] == "unit test - open to publishing" ||
-				$c["Name"] == "unit test - require login to view" ) {
-
-				$count = count( $store->getAllChannels() );
-
-				$store->DeleteChannel($c['ID']);
-				$this->assertTrue( count($store->getAllChannels()) + 1 == $count, "DataStoreTest/TestDeleteChannel: didnt delete channel: " . $c["Name"] );
-			}
-		}	
+    //$this->BuildTestData();		
+    $channel_id = $store->addNewChannel( "Channel Delete Test" );
+    $store->DeleteChannel($channel_id);
+    $this->assertTrue( $store->getChannel($channel_id) == array(), "DataStoreTest/TestDeleteFile: didnt delete channel" );
 	}
 
 
 	function TestDeleteFile() {
-
-    debug_message("DataStoreTest/TestDeleteFile");
 		global $store;	
-		$files = $store->getAllFiles();
-		
-		foreach ($files as $filehash => $f) {
-			if ( beginsWith($f["Title"], "unit test" ) ) {
-				$count = count($store->getAllFiles());
-				$store->DeleteFile($filehash);
-				$this->assertTrue( count($store->getAllFiles()) + 1 == $count, "DataStoreTest/TestDeleteFile: didnt delete file" . $f["Title"] );
-			}
-		}
-	
+    $file = array();
+    $file['URL'] = "http://blogfiles.wfmu.org/KF/2006/05/laughing_yogi.mpeg";
+    $file['Title'] = "File Deletion Test";
+    $file['ID'] = "DELETEME";
+    set_file_defaults($file);
+    $store->store_file($file);
+    $store->DeleteFile("DELETEME");
+    $this->assertTrue( $store->getFile("DELETEME") == array(), "DataStoreTest/TestDeleteFile: didnt delete file" );
 	}
-
+  
   function TestGetAllDonations() {
 		global $store;
     debug_message("DataStoreTest/TestGetAllDonations");
@@ -198,7 +186,7 @@ class DataStoreTest extends BMTestCase {
 
     debug_message("DataStoreTest/TestSaveDonations done");
   }
-
+  
 	function TestAddNewChannel() {
 		global $store;
 
@@ -210,7 +198,6 @@ class DataStoreTest extends BMTestCase {
 		$this->assertTrue( isset($channel), "DataStoreTest/TestAddNewChannel: couldn't load channel" );
 		$this->assertTrue( $channel['ID'] == $channel_id && $channel["Name"] == "Junky Channel", 
 			"DataStoreTest/TestAddNewChannel: didn't load channel data" );
-
 	}
 
 	function TestStoreChannel() {
@@ -270,7 +257,7 @@ class DataStoreTest extends BMTestCase {
 		$users = $store->getAllUsers();
 		$this->assertTrue(!isset($users["unittest"]), "DataStoreTest/TestDeleteUser: deleted user, but they still exist (2)");
 	}
-  
+    
 	function TestAuthUser() {
     global $store;
 		global $settings;

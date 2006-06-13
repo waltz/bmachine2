@@ -55,8 +55,9 @@
          */
         function invoke($method) {
             $this->_test_case->setUp();
-	    error_log($method);
+	    error_log(get_class($this->_test_case) . "/" . $method);
             $this->_test_case->$method();
+	    error_log(get_class($this->_test_case) . "/" . $method . " - done");
             $this->_test_case->tearDown();
         }
     }

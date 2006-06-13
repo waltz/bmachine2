@@ -14,11 +14,13 @@ class DonationTest extends BMTestCase {
 
 	function TestCreatePage() {
 
+
+		global $store;
     debug_message("DonationTest/TestCreatePage");
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 
 		$publish_url = get_base_url() . "donation.php";
-		
+
 		$donation = array();
 		$title = "donation unit test " . rand(0, 10000);
 		$donation['donation_title'] = $title;
@@ -29,7 +31,6 @@ class DonationTest extends BMTestCase {
 
 		$this->assertResponse("200", "EncodingTest/TestUTFDonation: didn't get 200 response");		
 
-		global $store;
 		$donations = $store->getAllDonations();
 		$got_it = $this->Find($donations, "title", encode($donation['donation_title']));
 

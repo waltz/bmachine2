@@ -17,7 +17,7 @@ $log_level = -1;
 // restrictive if they want
 // 
 define('FOLDER_PERM_LEVEL', "0777");
-define('FILE_PERM_LEVEL', "0644");
+define('FILE_PERM_LEVEL', "0777");
 
 //error_reporting(E_ALL);
 ini_set('errors.display_errors', true);
@@ -840,44 +840,44 @@ function check_folders() {
 
     $old_error_level = error_reporting(0);
     
-    if ( ! file_exists('text') && ! mkdir('text', octdec(FOLDER_PERM_LEVEL) ) ) {
+    if ( ! file_exists('text') && ! make_folder('text') ) {
       $error[] = "text";
       $good_perms = false;
     }
     else {
-      recursive_chmod("text", octdec(FILE_PERM_LEVEL));
+      recursive_chmod("text", perms_for(FILE_PERM_LEVEL) );
     }
 
-    if (!file_exists('publish') && !mkdir('publish', octdec(FOLDER_PERM_LEVEL)) ) {
+    if (!file_exists('publish') && ! make_folder('publish') ) {
       $error[] = "publish";
       $good_perms = false;
     }
     else {
-      recursive_chmod("publish", octdec(FILE_PERM_LEVEL));
+      recursive_chmod("publish", perms_for(FILE_PERM_LEVEL) );
     }
     
-    if (!file_exists( 'thumbnails') && ! mkdir( 'thumbnails', octdec(FOLDER_PERM_LEVEL)) ) {
+    if (!file_exists( 'thumbnails') && ! make_folder('thumbnails') ) {
       $error[] = "thumbnails";
       $good_perms = false;
     }
     else {
-      recursive_chmod("thumbnails", octdec(FILE_PERM_LEVEL));
+      recursive_chmod("thumbnails", perms_for(FILE_PERM_LEVEL) );
     }
     
-    if (!file_exists('data') && !mkdir('data', octdec(FOLDER_PERM_LEVEL))) {
+    if (!file_exists('data') && !make_folder('data') ) {
       $error[] = "data";
       $good_perms = false;
     }
     else {
-      recursive_chmod("data", octdec(FILE_PERM_LEVEL));
+      recursive_chmod("data", perms_for(FILE_PERM_LEVEL) );
     }
     
-    if (!file_exists('torrents') && !mkdir('torrents', octdec(FOLDER_PERM_LEVEL))) {
+    if (!file_exists('torrents') && !make_folder('torrents') ) {
       $error[] = "torrents";
       $good_perms = false;
     }
     else {
-      recursive_chmod("torrents", octdec(FILE_PERM_LEVEL));
+      recursive_chmod("torrents", perms_for(FILE_PERM_LEVEL) );
     }
 		
     error_reporting($old_error_level);
@@ -2318,7 +2318,7 @@ function write_deny_htaccess($path) {
   fwrite( $file, "deny from all\n" );
   fclose ( $file );
 
-  chmod( "$path/.htaccess", octdec(FOLDER_PERM_LEVEL) );
+  chmod( "$path/.htaccess", perms_for(FOLDER_PERM_LEVEL) );
 
   return true;
 }
@@ -2345,9 +2345,18 @@ function guess_path_to_installation() {
   return preg_replace( '|^(.*[\\/]).*$|', '\\1', $tmppath );
 }
 
+function perms_for($level) {
+  if ( is_string($level) ) {
+    return octdec($level);
+  }
+  return $level;
+}
+
 function make_folder($folder) {
  if (!file_exists($folder)) {
-   return mkdir($folder, octdec(FOLDER_PERM_LEVEL));
+   $old_umask = umask(0);
+   @mkdir($folder, perms_for(FOLDER_PERM_LEVEL) );
+   umask($old_umask);
  }
  return true;
 }

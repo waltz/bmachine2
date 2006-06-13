@@ -137,5 +137,19 @@ class IncludeTest extends BMTestCase {
     $this->assertTrue( prependHTTP($url) == "http://$url", "$url wasn't prepended when it should have" );
   }
 
+  function TestFolderCreation() {
+
+    $this->assertTrue( perms_for("0777") == 0777 );
+    $this->assertTrue( perms_for("0644") == 0644 );
+    $this->assertTrue( perms_for(0777) == 0777 );
+    $this->assertTrue( perms_for(0644) == 0644 );
+
+    if ( file_exists("/tmp/testmake") ) {
+      rmdir("/tmp/testmake");
+    }
+    make_folder("/tmp/testmake");
+    $this->assertTrue( substr(sprintf('%o', fileperms('/tmp/testmake')), -4) == FOLDER_PERM_LEVEL );
+  }
+
 }
 ?>

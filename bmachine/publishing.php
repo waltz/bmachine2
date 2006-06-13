@@ -146,6 +146,7 @@ function set_file_defaults(&$file) {
 		    "People" => array(),
 		    'Created' => time(),
 		    'Publishdate' => time(),
+		    'donation_id' => ""
 		    );
   
   foreach($defaults as $key => $value) {
@@ -227,7 +228,7 @@ function set_file_defaults(&$file) {
 /**
  * publish a file from POST input
  */
-function publish_file(&$file) {
+function publish_file(&$file, $check_access = true) {
 
   global $store;
   global $errorstr;
@@ -235,7 +236,9 @@ function publish_file(&$file) {
   //
   // if the user doesn't have upload access, then stop right here
   //
-  requireUploadAccess();
+  if ( $check_access == true ) {
+    requireUploadAccess();
+  }
   set_file_defaults($file);
 
   if ( beginsWith($file["URL"], "file://") ) {
@@ -334,7 +337,7 @@ function publish_file(&$file) {
 			   $_FILES['post_file_upload']['tmp_name'], 
 			   "$torrents_dir/$fname" ) ) {
 
-      chmod("$torrents_dir/$fname", octdec(FILE_PERM_LEVEL));
+      chmod("$torrents_dir/$fname", perms_for(FILE_PERM_LEVEL) );
       $file["URL"] = get_base_url() . "$torrents_dir/$fname";
     }
     else {
@@ -399,7 +402,7 @@ function publish_file(&$file) {
     
     if (move_uploaded_file($_FILES['post_transcript_file']['tmp_name'], 
 			   "$text_dir/" . $file["ID"] . ".txt")) {
-      chmod("$text_dir/" . $file["ID"], octdec(FILE_PERM_LEVEL));
+      chmod("$text_dir/" . $file["ID"], perms_for(FILE_PERM_LEVEL) );
       $file['Transcript'] = get_base_url() . "$text_dir/" . $file["ID"] . ".txt";
     }
   }
@@ -432,7 +435,7 @@ function publish_file(&$file) {
 			   $_FILES['Image_upload']['tmp_name'], 
 			   "$thumbs_dir/$hashedname" ) ) {
       
-      chmod("$thumbs_dir/" . $hashedname, octdec(FILE_PERM_LEVEL));
+      chmod("$thumbs_dir/" . $hashedname, perms_for(FILE_PERM_LEVEL) );
       $file['Image'] = get_base_url() . "$thumbs_dir/" . $hashedname;
     }
     

@@ -12,7 +12,7 @@ class PublishTest extends BMTestCase {
 	function PublishTest() {
 		$this->BMTestCase();
 	}
-
+  
   function TestDownloadHelpers() {
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
@@ -25,7 +25,7 @@ class PublishTest extends BMTestCase {
     $headers = bm_get_headers($url, true);
 		$this->assertTrue($headers["content-disposition"] == "attachment; filename=\"Broadcast_Machine_Upload.exe\"", "PublishTest/TestUploadApps - bad pc uploader?");
   }
-
+  
 	
 	function TestPublishURL() {
 
@@ -57,8 +57,8 @@ class PublishTest extends BMTestCase {
 
 		$store->saveDonations($donations);
 		$donations = 	$store->getAllDonations();
-		$this->assertTrue( isset($donations[$donationhash]), "PublishTest/TestPublishURL: save donation didn't work");
 
+		$this->assertTrue( isset($donations[$donationhash]), "PublishTest/TestPublishURL: save donation didn't work");
     $file['donation_id'] = $donationhash;
 
     // people/roles
@@ -104,7 +104,7 @@ class PublishTest extends BMTestCase {
   /**
    * publish a file:// url - this should give an error
    */
-	function TestPublishFileURL() {
+  function TestPublishFileURL() {
 
 		$this->assertTrue(setup_data_directories(false), "Couldn't setup data dirs");
 			
@@ -121,8 +121,6 @@ class PublishTest extends BMTestCase {
 		$this->assertResponse("200", "PublishTest/TestPublishFileURL: didn't get 200 response");		
     $this->assertWantedPattern("/Sorry, Broadcast Machine doesn't support/i", "PublishTest/TestPublishFileURLdidn't get error about publishing a file://");
 	}
-
-
 
 	function TestPublishURLWithSpaces() {
 

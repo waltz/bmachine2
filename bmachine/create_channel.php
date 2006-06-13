@@ -34,7 +34,7 @@ if (isset($_POST['Name'])) {
     make_folder($thumbs_dir);
     
     if ( move_uploaded_file($_FILES['IconUpload']['tmp_name'], "$thumbs_dir/" . $_FILES['IconUpload']['name'])) {
-      chmod("$thumbs_dir/" . $_FILES['IconUpload']['name'], octdec(FILE_PERM_LEVEL) );
+      chmod("$thumbs_dir/" . $_FILES['IconUpload']['name'], perms_for(FILE_PERM_LEVEL) );
       $channel["Icon"] = get_base_url() . "$thumbs_dir/" . $_FILES['IconUpload']['name'];
     }
   }

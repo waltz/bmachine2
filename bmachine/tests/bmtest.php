@@ -77,11 +77,18 @@ class BMTestCase extends WebTestCase {
 
 		$got_it = false;
 
-		foreach( $array as $f ) {
-			if ( $f[$key] == $value ) {
-        return $f["ID"];
-				//$got_it = true;
-				//break;
+		foreach( $array as $id => $f ) {
+			if ( $f[$key] == $value || $id == $value ) {
+        if ( isset($f["ID"]) ) {
+          return $f["ID"];
+        }
+        else if ( isset($f["id"]) ) {
+          return $f["id"];
+        }
+        else if ( isset($id) ) {
+          return $id;
+        }
+
 			}
 		}
 	
@@ -99,30 +106,26 @@ class BMTestCase extends WebTestCase {
 
   function BuildTestData() {
 
-
-    //$this->ClearOldData();
-    setup_data_directories(false);
-
-    global $store;
-    global $rss_dir;
+    //setup_data_directories(false);
 
     $this->Login();
 
     global $store;
     $channel_id = $store->addNewChannel( "Junky Channel" );
+    $this->assertTrue( $channel_id > 0 , "didn't create channel");
     $store->unlockAll();
-    clearstatcache();
 
     $file = array();
 
     $file['URL'] = "http://blogfiles.wfmu.org/KF/2006/05/laughing_yogi.mpeg";
-    $file['Title'] = "RSS File & Junk Test";
+    $file['Title'] = "File & Junk Test";
     $encodedtext = file_get_contents("tests/utf8demo.txt"); // file_get_contents("tests/frenchtext.txt") . 
     $file['Description'] = "URL desc & general notes\n" . $encodedtext;
     $file['donation_id'] = 1;
     $file['People'] = array(
 			    0 => "colin:did stuff & had fun",
 			    1 => "colin2:did other stuff & slept a lot",
+          2 => "Uppercase:not allowed in rss"
     );
     $file['Keywords'] = array(
 			      0 => 'kw1',

@@ -52,7 +52,7 @@ if (isset($_FILES["image_upload"]) && $_FILES["image_upload"]["size"] > 0 ) {
   make_folder($thumbs_dir);
 
 	if (move_uploaded_file($_FILES['image_upload']['tmp_name'], "$thumbs_dir/" . $_FILES['image_upload']['name'])) {
-		chmod("$thumbs_dir/" . $_FILES['image_upload']['name'], octdec(FILE_PERM_LEVEL) );
+		chmod("$thumbs_dir/" . $_FILES['image_upload']['name'], perms_for(FILE_PERM_LEVEL) );
 		$image = get_base_url() . $thumbs_dir . "/" . $_FILES['image_upload']['name'];
 	}
 

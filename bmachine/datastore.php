@@ -232,19 +232,16 @@ class DataStore {
      * @param: make_all - also make the all.rss file
      */
 	function generateRSS($make_all = false) {
-    debug_message("generateRSS");
-		$rss = $this->layer->getAll("rss");
+    $rss = $this->layer->getAllLock("rss", $handle);
 
     if ( isset($rss) && is_array($rss) ) {
       foreach($rss as $r) {
         if ( !isset($r["lastdate"]) || $r["lastdate"] <= $r["time"] ) {
           $make_all = true;
-          
-          debug_message("generateRSS: " . $r["channel"] );
-
           makeChannelRss($r["channel"], false);
+          
           $r["lastdate"] = time();
-          $this->layer->saveOne("rss", $r, $r["channel"]);
+          //          $this->layer->saveOne("rss", $r, $r["channel"]);
         }
       }
     }
@@ -252,6 +249,9 @@ class DataStore {
 		if ( $make_all == true ) {
 			makeChannelRss("ALL", false);
 		}
+
+    $this->layer->saveAll("rss", $rss);
+
 	}
 	
   /**
@@ -541,9 +541,9 @@ class DataStore {
    */
   function saveDonation($newcontent, $id) {
 		debug_message("store donation $id");
-    $this->layer->lockResources("donations");
-		return $this->layer->saveOne("donations", $newcontent, $id);
+		$result = $this->layer->saveOne("donations", $newcontent, $id);
     $this->layer->unlockResources("donations");
+    return $result;
   }
 
   /**
@@ -1874,7 +1874,7 @@ class DataStore {
     else {
       debug_message("addTorrentToTracker: get hash");
       
-      chmod( "$torrents_dir/$torrent", octdec(FILE_PERM_LEVEL) );
+      chmod( "$torrents_dir/$torrent", perms_for(FILE_PERM_LEVEL) );
       
       $info_hash = $this->getHashFromTorrent( $torrent );
 
@@ -2086,21 +2086,17 @@ function PostDeleteFile($id) {
 
 	global $store;
 
-	//
+  //
 	// update our channels data
 	//
 	$channels = $store->getAllChannels();
 	
-	// keep track of which RSS feeds need to be updated
-	//$update_rss = array();
-
 	foreach ($channels as $channel) {
 		$keys = array_keys($channel['Files']);
 
 		foreach ($keys as $key) {
 			$file = $channel['Files'][$key];
 			if ($file[0] == $id) {
-				//$update_rss[] = $channel['ID'];
 				unset($channel['Files'][$key]);
 			}
 		}
@@ -2354,6 +2350,8 @@ function MySQLSaveChannelHook(&$channel) {
 }
 
 function MySQLDeleteChannelHook($id) {
+  global $store;
+
 	$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE channel_id = $id";
 	do_query($sql);
 
@@ -2384,11 +2382,16 @@ function MySQLGetDonationHook(&$d) {
     }	
   }
 
+  //  $d["ID"] = $d["id"];
+  //  unset($d["id"]);
+
 	return $d;
 }
 
 
 function MySQLPreSaveFileHook(&$f) {
+
+  global $store;
 
   //
 	// clear out old keywords
