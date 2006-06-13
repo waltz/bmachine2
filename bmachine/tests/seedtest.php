@@ -108,7 +108,7 @@ class SeedTest extends BMTestCase {
     $publish_url = get_base_url() . "publish.php";
     $this->post( $publish_url, $file );
 
-    //return $hash;
+
     $info_hash = $store->getHashFromTorrent( "test.torrent" );
     return $info_hash;
   }
@@ -175,22 +175,19 @@ class SeedTest extends BMTestCase {
 
 		global $store;	
 		global $seeder;
-		
-		if ( $seeder->enabled() ) {
-			$files = $store->getAllFiles();
 
-			foreach ($files as $filehash => $f) {
-				if ( endsWith($f["URL"], ".torrent" ) ) {
-					$url = $f["URL"];
-					$torrentfile = local_filename($url);
+    $hash = $this->publishTorrent();	
 	
-					$seeder->pause($torrentfile);
+		if ( $seeder->enabled() ) {
+      $f = $store->getFile($hash);
+      $url = $f["URL"];
+      $torrentfile = local_filename($url);
 	
-					// update the file entry
-					$f['SharingEnabled'] = true;
-					$store->store_file($f, $filehash);
-				}
-			}
+      $seeder->pause($torrentfile);
+	
+      // update the file entry
+      $f['SharingEnabled'] = true;
+      $store->store_file($f, $hash);
 		}
 		else {
 			//print "Seeding not enabled, can't test it.<br>";			
@@ -202,6 +199,7 @@ class SeedTest extends BMTestCase {
 
     debug_message("SeedTest/TestStop");
 
+
     $this->StartSeeder();
 
 		$this->Logout();
@@ -210,25 +208,25 @@ class SeedTest extends BMTestCase {
 		global $store;	
 		global $seeder;
 
+    $hash = $this->publishTorrent();	
+	
 		if ( $seeder->enabled() ) {
-			$files = $store->getAllFiles();
+      $f = $store->getFile($hash);
+      if ( isset($f["URL"]) ) {
+        $url = $f["URL"];
+        $torrentfile = local_filename($url);
 	
-			foreach ($files as $filehash => $f) {
-				if ( endsWith($f["URL"], ".torrent" ) ) {
-					$url = $f["URL"];
-					$torrentfile = local_filename($url);
+        $seeder->stop($torrentfile);
 	
-					$seeder->stop($torrentfile);
-	
-					// update the file entry
-					$f['SharingEnabled'] = false;
-					$store->store_file($f, $filehash);
-				}
-			}
+        // update the file entry
+        $f['SharingEnabled'] = false;
+        $store->store_file($f, $hash);
+      }
 		}
 		else {
 			//print "Seeding not enabled, can't test it.<br>";			
 		}
+
 	}
 
 	function TestAnnounceNoCompact() {
@@ -274,7 +272,7 @@ class SeedTest extends BMTestCase {
 		$this->assertWantedPattern("/Invalid info_hash/", "SeedText/TestAnnounceBadHash: expected announce to fail but it didn't");
 	}*/
 
-
+  /*  
 	function TestCreateTorrentFromURL() {
 
     debug_message("SeedTest/TestCreateTorrentFromURL");
@@ -357,7 +355,7 @@ class SeedTest extends BMTestCase {
 		else {
 			//print "Seeding not enabled, can't test it.<br>";			
 		}
-	}
+	}*/
 
 
 }

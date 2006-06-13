@@ -143,7 +143,7 @@ class DataStoreTest extends BMTestCase {
     $this->assertTrue( $store->getChannel($channel_id) == array(), "DataStoreTest/TestDeleteFile: didnt delete channel" );
 	}
 
-
+  
 	function TestDeleteFile() {
 		global $store;	
     $file = array();

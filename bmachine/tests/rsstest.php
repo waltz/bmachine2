@@ -13,6 +13,22 @@ class RSSTest extends BMTestCase {
   function RSSTest() {
   }
 
+  function TestRSSChecks() {
+    setup_data_directories(false);
+    global $store;
+    $time1 = time();
+    $store->setRSSPublishTime( 100, $time1 );
+    $time2 = $store->getRSSPublishTime(100);
+    $this->assertTrue($time2 == $time1);
+
+    sleep(2);
+
+    $store->setRSSNeedsPublish( 100 );
+    $rss = $store->layer->getAll("rss");
+    $time3 = $rss[100]["time"];
+    $this->assertTrue($time3 > $time2);
+  }
+
   function TestGenerateRSS() {
 
     global $rss_dir;
@@ -40,17 +56,9 @@ class RSSTest extends BMTestCase {
 
     $content = $this->_browser->getContent();
     error_log("got content");
-    //eregi("^(.*)(<[ \\n\\r\\t]*ul(>|[^>]*>))(.*)(<[ \\n\\r\\t]*/[ \\n\\r\\t]*ul(>|[^>]*>))(.*)$", $content, $errors);
-    error_log("parsed!");
-
-    /*$details = $errors[4];
-    $details = str_replace("&nbsp;", " ", $details);
-    $details = str_replace("&gt;", ">", $details);
-    $details = str_replace("&lt;", "<", $details);
-    $this->assertWantedPattern('/Congratulations/i', $rss_url . $details );*/
+    //$this->assertWantedPattern('/Congratulations/i', $rss_url . $details );
     error_log("done");
   }
-
 
   /**
    * test our logic for if/when to rebuild rss
@@ -62,9 +70,10 @@ class RSSTest extends BMTestCase {
     $now = time();
     sleep(2);
     $this->BuildTestData();
-    $this->assertTrue( $now < $store->getRSSPublishTime($this->channel_id), "rss wasn't rebuilt after new file added?");
 
-    # re-publish and see if rss is rebuilt
+    $this->assertTrue( $now < $store->getRSSPublishTime($this->channel_id), "rss $this->channel_id wasn't rebuilt after new file added?");
+
+    // re-publish and see if rss is rebuilt
     $file = $store->getFile($this->id);
 
     $now = time();
@@ -88,8 +97,6 @@ class RSSTest extends BMTestCase {
     $c = $store->getChannel($this->channel_id);
     $c["RequireLogin"] = true;
     $store->saveChannel($c);
-
-    print_r( $store->getChannel($this->channel_id) );
 
     $rss_url = get_base_url() . "rss.php?i=" . $this->channel_id . "&force=1";
     $headers = @bm_get_headers($rss_url);

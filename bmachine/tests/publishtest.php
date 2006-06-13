@@ -42,7 +42,7 @@ class PublishTest extends BMTestCase {
     // donation
 
 		global $store;
-		$donations = $store->getAllDonations();
+    $donations = $store->getAllDonations();
 	
     // we don't encode this because the user can enter in html if they want, but we will do
     // some formatting on display, and we'll make sure it's UTF-8 happy for now
@@ -57,9 +57,9 @@ class PublishTest extends BMTestCase {
 
 		$store->saveDonations($donations);
 		$donations = 	$store->getAllDonations();
-
 		$this->assertTrue( isset($donations[$donationhash]), "PublishTest/TestPublishURL: save donation didn't work");
     $file['donation_id'] = $donationhash;
+    
 
     // people/roles
     $file['People'] = "person1:role1\nperson2:role2\n";
@@ -73,31 +73,31 @@ class PublishTest extends BMTestCase {
 		$this->post( $publish_url, $file );
 		$this->assertResponse("200", "PublishTest/TestPublishURL: didn't get 200 response");		
 	
-		global $store;
 		$files = $store->getAllFiles();
 		$got_it = $this->Find($files, "Title", encode($file['Title']));
 		$this->assertTrue( $got_it, "PublishTest/TestPublishURL: didn't find new file");
 
-		$this->assertTrue( $store->channelContainsFile($got_it, $store->getChannel(1) ), 
-                       "PublishTest/TestPublishURL: file not in channel");
+    if ( $got_it ) {
+      $this->assertTrue( $store->channelContainsFile($got_it, $store->getChannel(1) ), 
+                         "PublishTest/TestPublishURL: file not in channel");
 
-    $f = $store->getFile($got_it);
-		$this->assertTrue( count($f['People']) == 2, 
-                       "PublishTest/TestPublishURL: people not added?");
+      $f = $store->getFile($got_it);
+      $this->assertTrue( count($f['People']) == 2, 
+                         "PublishTest/TestPublishURL: people not added?");
 
-    $p = $f['People'][0];
-		$this->assertTrue( $p[0] == "person1" && $p[1] == "role1",
-                       "PublishTest/TestPublishURL: person data wrong");
+      $p = $f['People'][0];
+      $this->assertTrue( $p[0] == "person1" && $p[1] == "role1",
+                         "PublishTest/TestPublishURL: person data wrong");
 
-		$this->assertTrue( count($f['Keywords']) == 2, 
-                       "PublishTest/TestPublishURL: keywords not added?");
+      $this->assertTrue( count($f['Keywords']) == 2, 
+                         "PublishTest/TestPublishURL: keywords not added?");
 
-    $this->assertTrue( $f["Keywords"][0] == "kw1" && $f["Keywords"][1] == "kw2",
-                       "PublishTest/TestPublishURL: keywords not what we expected?");
+      $this->assertTrue( $f["Keywords"][0] == "kw1" && $f["Keywords"][1] == "kw2",
+                         "PublishTest/TestPublishURL: keywords not what we expected?");
 
-    $this->assertTrue( $f["donation_id"] == $donationhash,
-                       "PublishTest/TestPublishURL: didn't get donationhash?");
-
+      $this->assertTrue( $f["donation_id"] == $donationhash,
+                         "PublishTest/TestPublishURL: didn't get donationhash?");
+    }
 
 	}
 	
