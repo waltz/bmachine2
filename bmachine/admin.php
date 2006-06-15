@@ -2,7 +2,7 @@
 /**
  * 'dashboard' page for the backend of the site
  *
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

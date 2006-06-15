@@ -4,7 +4,7 @@
  *
  * this page handles the creation of new files, editing old files, etc.  it has
  * logic to handle torrents, URLs, file uploads, and so on.
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 require_once("include.php");
 require_once("publishing.php");

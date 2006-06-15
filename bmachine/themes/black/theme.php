@@ -4,7 +4,7 @@
  * Broadcast Machine theme file
  *
  * An assortment of functions that control display of information in BM.
- * @package Broadcast Machine
+ * @package BMThemes
  */
 
 

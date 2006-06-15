@@ -1,7 +1,7 @@
 <?php
 /**
  * set folder permissions using FTP
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

@@ -3,7 +3,7 @@
  * user creation page
  *
  * users access this page to create their account
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 global $NEW_USER;

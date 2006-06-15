@@ -1,7 +1,7 @@
 <?php
 /**
  * load and display an RSS feed for the specified channel
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

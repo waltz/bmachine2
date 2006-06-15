@@ -5,7 +5,7 @@
  * there's logic here to handle torrents, local files, external URLs, and also
  * making sure that the user has permission to get the file, and starting an
  * auth request if they don't.
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

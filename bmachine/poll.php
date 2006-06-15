@@ -3,7 +3,7 @@
  * polling page which gets called from the publish page when the user is
  * uploading a torrent
  *
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 $hash = $_GET["i"];

@@ -5,7 +5,7 @@
  * this page handles display the login form, and then calling the right functions to
  * log the user in.  it also handles logging the user out, checking to make sure they
  * have been authorized, etc.
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

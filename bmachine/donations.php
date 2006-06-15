@@ -1,7 +1,7 @@
 <?php
 /**
  * donations setup page
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

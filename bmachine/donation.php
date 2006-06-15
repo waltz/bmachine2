@@ -1,7 +1,7 @@
 <?php
 /**
  * donation setup creation/edit page
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 require_once("include.php");
 

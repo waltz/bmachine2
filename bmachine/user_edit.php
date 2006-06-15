@@ -1,7 +1,7 @@
 <?php
 /**
  * page for editing a user
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

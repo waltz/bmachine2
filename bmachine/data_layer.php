@@ -1,18 +1,52 @@
 <?php
+/**
+ * data layer class defined here
+ * @package BroadcastMachine
+ */
+
+
+/**
+ * data layer for use in accessing a bencoded set of data files
+ * @access public
+ * @package BroadcastMachine
+ */
 class BEncodedDataLayer {
 
+  /**
+   * hang onto handles when a file is locked
+   * @var array
+   */
   var $_handles;
+
+  /**
+   * hooks that get called when data is loaded/saved/deleted.  this system
+   * is pretty crude right now and could be fleshed out a lot.
+   * @var array
+   */
   var $_hooks;
-  
+
+  /**
+   * default constructor
+   */
   function BEncodedDataLayer() {
     $this->_handles = array();
     $this->_hooks = array();
   }
-  
+
+  /**
+   * return the type of data layer
+   * @returns type of data layer as a string
+   */
   function type() {
     return "flat file";
   }
   
+  /**
+   * initialize the data layer.  returns true on success or false on failure.
+   * this class is hardcoded to return true but other classes which inherit might
+   * override this.
+   * @returns true/false on success/failure
+   */
   function init() {
     return true;
   }
@@ -37,11 +71,6 @@ class BEncodedDataLayer {
       return false;
     }
 
-    //if ( !is_writable( $data_dir ) || !is_writable( $torrents_dir ) ) {
-    //debug_message("$data_dir not writable, failing");
-    //return false;
-    //}
-
     if ( !file_exists(  $data_dir . '/.htaccess' ) ) {
       debug_message("create .htaccess for data dir");
       write_deny_htaccess($data_dir);
@@ -56,6 +85,12 @@ class BEncodedDataLayer {
     return $this->loadSettings();
   }
 
+  /**
+   * take an incoming list of datafiles, either as an array or a comma-separated list,
+   * and turn it into an array
+   * @param array|string $list list of files to lock
+   * @returns array of files to lock
+   */
   function lockList($list) {
     if ( ! is_array($list) ) {
       $list = explode(",", $list);
@@ -67,32 +102,43 @@ class BEncodedDataLayer {
     return $out;
   }
 
+  /**
+   * lock the specified files
+   * @param array|string $list list of files to lock
+   */
   function lockResources($list) {
     foreach($this->lockList($list) as $file) {
       $this->lockResource($file);
     }
   }
 
+  /**
+   * unlock the specified files
+   * @param array|string $list list of files to unlock
+   */
   function unlockResources($list) {
     foreach($this->lockList($list) as $file) {
       $this->unlockResource($file);
     }
   }
 
+  /**
+   * unlock anything that is currently locked
+   */
   function unlockAll() {
     foreach( $this->_handles as $file => $h ) {
       $this->unlockResource($file);
-      clearstatcache();
+      //clearstatcache();
     }
   }
 
   /**
    * lock the requested resource
+   * @param string $file file to lock
+   * @returns the handle if the file was locked, false if there was a problem
    */
   function lockResource($file) {
-    debug_message("lockResource: $file");
     if ( isset($this->_handles[$file]) ) {
-      debug_message("lockResource: $file already locked, return handle");      
       return $this->_handles[$file];
     }
 
@@ -106,25 +152,29 @@ class BEncodedDataLayer {
     if ( isset($handle) && $handle != false ) {
       flock( $handle, LOCK_EX );
       $this->_handles[$file] = $handle;
-      debug_message("lock $file - $handle");
       return $handle;
     }
     
     return false;
   }
   
+
+  /**
+   * unlock the specified file
+   * @param string $file file to unlock
+   */
   function unlockResource($file) {
     if ( isset($this->_handles[$file]) ) {
-      debug_message("unlock $file - " . $this->_handles[$file] );
       $this->closeHandle($this->_handles[$file]);
       unset($this->_handles[$file]);
-      clearstatcache();
-    }
-    else {
-      debug_message("unlock $file - not locked");
+      //clearstatcache();
     }
   }
 
+  /**
+   * close out the specified handle, flushing any remaining data in the process
+   * @param handle $h handle to close
+   */
   function closeHandle($h) {
     fflush($h);
     flock($h, LOCK_UN );
@@ -134,6 +184,7 @@ class BEncodedDataLayer {
   /**
    * get a single item from the specified file
    * returns the item if it exists, null otherwise
+   * @param string $file file to lock
    */
   function getOne($file, $id, $handle = null) {
     debug_message("getOne $file $id $handle");
@@ -151,13 +202,23 @@ class BEncodedDataLayer {
     return null;	
   }
 
+  /**
+   * get all data from the specified file.  don't hold a lock
+   * @param string $file file to load
+   * @return array data from file
+   */
   function getAll($file) {
     $handle = null;
     return $this->getAllLock($file, $handle, false);
   }
 	
   /**
-   * get all data from the specified file.
+   * get all data from the specified file.  maintain a lock on the file if get_lock is true.
+   *
+   * @param string $file file to load
+   * @param handle $handle handle for file.  if null, and $get_lock is true, this will be set on completion
+   * @param boolean $get_lock hold the lock or not?
+   * @return array of data
    */
   function getAllLock($file, &$handle, $get_lock = true ) {
     
@@ -217,6 +278,11 @@ class BEncodedDataLayer {
   
   /**
    * save a single item to the specified file, using $hash as the id
+   * @param string $file file to save
+   * @param array $data array of data for a single item
+   * @pararm string $hash the ID of this item
+   * @param handle $handle handle for file
+   * @return true/false on success
    */
   function saveOne($file, $data, $hash, $handle = null) {
     
@@ -241,18 +307,23 @@ class BEncodedDataLayer {
     
     $hooks = $this->getHooks($file, "save");
     
+    // call any 'save' hooks for this data type
     if ( $hooks != null ) {
-//      foreach ( $hooks as $h ) {
-				$hooks( $all[$hash] );
-//      }
+      //      foreach ( $hooks as $h ) {
+      $hooks( $all[$hash] );
+      //      }
     }
     
     return $result;
   }
   
-	/**
-	 * save the data to the specified file, using the handle if provided
-	 */
+  /**
+   * save the data to the specified file, using the handle if provided
+   * @param string $file file to save
+   * @param array $data array of all data elements to save
+   * @param handle $handle handle for file
+   * @return true/false on success
+   */
   function saveAll($file, $data, $handle = null) {
 
     global $errorstr;
@@ -289,6 +360,7 @@ class BEncodedDataLayer {
 
     $hooks = $this->getHooks($file, "save");
 
+    // call any hooks
     if ( $hooks != null ) {
       foreach($data as $key => $row) {
 	//				foreach ( $hooks as $h ) {
@@ -299,7 +371,15 @@ class BEncodedDataLayer {
     
     return true;
   }
+
 	
+  /**
+   * delete a single item from the file
+   * @param string $file file
+   * @param string $hash id of the item
+   * @param handle $handle handle for file
+   * @return true/false on success
+   */
   function deleteOne($file, $hash, $handle = null) {
     debug_message("deleteOne $file $hash");	
     if ( $handle == null ) {
@@ -342,6 +422,13 @@ class BEncodedDataLayer {
     return true;
   }
 	
+
+  /**
+   * return any hooks for the specified datatype
+   * @param string $file data type
+   * @param string $when which type of hook we are looking for
+   * @return string name of hook, or null if none exists
+   */
   function getHooks($file, $when = "get") {
     if ( isset($this->_hooks[$file]) && isset($this->_hooks[$file][$when]) ) {
       return $this->_hooks[$file][$when];
@@ -349,6 +436,13 @@ class BEncodedDataLayer {
     return null;
   }
   
+
+  /**
+   * register a hook
+   * @param string $file data type
+   * @param string $when which type of hook this is
+   * @param string name of hook
+   */
   function registerHook($file, $when, $fn) {
     $this->_hooks[$file][$when] = $fn;
   }

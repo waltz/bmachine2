@@ -1,7 +1,7 @@
 <?php
 /**
  * channel editing page
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

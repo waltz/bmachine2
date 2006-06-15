@@ -1,7 +1,7 @@
 <?php
 /**
  * file detail display
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 require_once("include.php");
 

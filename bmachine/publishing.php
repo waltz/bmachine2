@@ -3,7 +3,7 @@
  * library of publishing-related functions
  *
  * pretty much exclusively called from publish.php
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

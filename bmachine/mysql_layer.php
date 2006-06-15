@@ -4,6 +4,14 @@ require_once("version.php");
 
 global $data_dir;
 
+/**
+ * data layer for use in accessing data from MySQL.
+ *
+ * this class inherits from our flat file data layer, and has some logic to pass
+ * calls along to the flat layer when needed.  For example, any data types that aren't
+ * defined in MySQL can still be accessed as flat files using this layer.
+ * @package BroadcastMachine
+ */
 class MySQLDataLayer extends BEncodedDataLayer {
 
   /** a prefix which will be added to table names to prevent potential conflicts with other apps */

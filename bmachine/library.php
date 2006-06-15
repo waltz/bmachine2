@@ -4,7 +4,7 @@
  * channel display page
  *
  * this page handles the frontend display of the files within a channel
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

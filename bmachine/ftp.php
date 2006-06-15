@@ -8,18 +8,6 @@
  * vist http://www.raditha.com/ for updates.
  */
 
- /*
-  * This version of the ftp class works only with unix/linux ftp servers using
-  * PASV mode. Active mode support and compatibility with IIS servers would be
-  * added at a later date.
-  *
-  * This class does have any dependencies and you do not need to compile php 
-  * with FTP support.
-  *
-  * I will be delighted to hear about how you have made use of this class but i 
-  * have no interest in hearing about your configuration woes :-)
-  *
-  */
   
 DEFINE (FPERM,0);
 DEFINE (FINODE,1);
@@ -31,6 +19,18 @@ DEFINE (FDAY,7);
 DEFINE (FTIME,7);
 DEFINE (FNAME,8);
 
+/**
+ * This version of the ftp class works only with unix/linux ftp servers using
+ * PASV mode. Active mode support and compatibility with IIS servers would be
+ * added at a later date.
+ *
+ * This class does have any dependencies and you do not need to compile php 
+ * with FTP support.
+ *
+ * I will be delighted to hear about how you have made use of this class but i 
+ * have no interest in hearing about your configuration woes :-)
+ *
+ */
 class FTP {
 
   var $host;

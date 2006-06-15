@@ -1,10 +1,8 @@
 <?php
 
 /**
- * channel display page
- *
- * this page handles the frontend display of the files within a channel
- * @package Broadcast Machine
+ * display a page on how to subscribe to this channel in democracy
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

@@ -6,20 +6,31 @@
  * this file includes all sorts of useful functions.  It's called from just about every page,
  * so it also handles several global tasks, such as turning off magic quotes, setting some global
  * variables, checking to make sure we are configured properly, etc.
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
-global $log_level;
-$log_level = -1;
+/**
+ * set a log level.  calls to debug_message specifying a level lower than this will not be logged
+ */
+define('LOG_LEVEL', 100);
 
-//
-// globally set the permissions level, so someone can be more or less 
-// restrictive if they want
-// 
+/**
+ * globally set the permissions level for folders, so someone can be more or less restrictive if they want.
+ * we will probably want 0777 since the user and the apache user will presumably be in different groups.
+ */
 define('FOLDER_PERM_LEVEL', "0777");
+
+/**
+ * globally set the permissions level for files, so someone can be more or less restrictive if they want.
+ * these files will be created by apache, so the only way to make sure the user can also manage them is
+ * to make them 0777, although we can get away with something more restrictive if we choose here.
+ */
 define('FILE_PERM_LEVEL', "0777");
 
 //error_reporting(E_ALL);
+/**
+ * make sure that we display errors
+ */
 ini_set('errors.display_errors', true);
 
 // you could also put this in a .htaccess file
@@ -37,10 +48,10 @@ ini_set('url_rewriter.tags', '');
 set_magic_quotes_runtime(0);
 
 
-//
-// if magic quotes on then get rid of them
-// see: http://us3.php.net/get_magic_quotes_gpc
-//
+/**
+ * if magic quotes on then get rid of them
+ * see: http://us3.php.net/get_magic_quotes_gpc
+ */
 if ( get_magic_quotes_gpc( ) ) {
 	if ( ! function_exists('array_map_recursive') ) {
 		 function array_map_recursive($function, $data) {
@@ -101,24 +112,27 @@ if ( ! isset($data_dir) ) {
 }
 
 
-// subscribe options to offer
-// 1 - rss
-// 2 - democracy
-// 4 - iTunes
+/**
+ * subscribe options to offer
+ * 1 - rss
+ * 2 - democracy
+ * 4 - iTunes
+ */
 define('DEFAULT_SUBSCRIBE_OPTIONS', 1|2);
 
-//
-// what tags do we want to allow?
-//
+/**
+ * what tags do we want to allow?
+ */
 define('ALLOWED_TAGS', "<a><b><strong><i><em><ul><li><ol>");
 
 
-//
-// include files for legacy code, data storeage and file sharing
-//
+/*
+ * include files for legacy code, data storage and file sharing
+ */
 require_once("legacylib.php");
 require_once("datastore.php");
 require_once("seeder.php");
+
 
 global $store;
 
@@ -217,6 +231,7 @@ require_once("render.php");
 /**
  * wrapper function for uasort, we can apply logic here to skip sorting when
  * using mysql, since we should let the database do sorting in that case
+ * @param array $arr array to sort
  */
 function do_uasort(&$arr ) {
   global $store;
@@ -225,6 +240,12 @@ function do_uasort(&$arr ) {
   }
 }
 
+
+/**
+ * wrapper function for usort, we can apply logic here to skip sorting when
+ * using mysql, since we should let the database do sorting in that case
+ * @param array $arr array to sort
+ */
 function do_usort(&$arr ) {
   global $store;
   if ( $store->type() == "flat file" ) {
@@ -232,6 +253,10 @@ function do_usort(&$arr ) {
   }
 }
 
+
+/**
+ * comparison function for sorting
+ */
 function mycomp($a, $b) {
   if ( isset($a["Created"]) && isset($b["Created"]) ) {
     return ($b["Created"] - $a["Created"]);
@@ -252,10 +277,10 @@ function comp($a, $b) {
 }
 
 
-function isnotblank($x) {
-  return isset($x) && $x != "";
-}
-
+/**
+ * figure out what the active theme is and return is, or null if there is none
+ * @return string name of the theme
+ */
 function active_theme() {
 	global $settings;
 	if ( isset($settings['theme']) ) {
@@ -265,6 +290,11 @@ function active_theme() {
 	return NULL;
 }
 
+
+/**
+ * figure out the path to the current theme
+ * @return string path of the theme
+ */
 function theme_path() {
 	global $settings;
 	global $themes_dir;
@@ -274,7 +304,7 @@ function theme_path() {
 
 /**
  * return the version number of this install
- * @returns install version number
+ * @returns integer install version number
  */
 function version_number() {
 	return 24;
@@ -282,7 +312,7 @@ function version_number() {
 
 /**
  * return a string with the version of this installation
- * @returns string string with the version of this installation
+ * @returns string string version of this installation
  */
 function get_version() {
   return 'Release ' . version_number();
@@ -307,7 +337,7 @@ function update_base_url() {
 /**
  * Returns the base url of this tracker
  *
- * @returns the base url of this tracker - we could probably be a lot smarter about this
+ * @returns string the base url of this tracker - we could probably be a lot smarter about this
  */
 function get_base_url() {
 
@@ -348,7 +378,8 @@ function get_base_url() {
  * Decodes a bEncoded string into a PHP structure
  *
  * @see http://www.monduna.com/bt/faq.html#TERM_13
- * @returns array of data
+ * @param string $info raw bencoded string
+ * @returns array bedcoded array of data
  */
 function bdecode($info) {
 	$pos = 0;
@@ -418,6 +449,7 @@ function bdecode_next($info,& $pos) {
  * bEncodes a PHP structure
  *
  * turns a php array into a bencoded string so we can write it to disk
+ * @param array $struct array of data
  * @returns string
  */
 function bencode($struct) {
@@ -446,7 +478,7 @@ function bencode($struct) {
 /**
  * Returns the name of the current user
  *
- * @returns name of the current user
+ * @returns string name of the current user
  */
 function get_username() {
 
@@ -462,7 +494,7 @@ function get_username() {
 /**
  * return a hash of the user's password
  *
- * @returns password hash, or a blank string if no one is logged in
+ * @returns string password hash, or a blank string if no one is logged in
  */
 function get_passhash() {
   if (isset($_SESSION['user'])) {
@@ -478,7 +510,7 @@ function get_passhash() {
 /**
  * generate a hash of the given username and password
  *
- * @returns generated hash
+ * @returns string generated hash
  */
 function hashpass($username,$password) {
   return(sha1($username.$password."downhillb==31337"));
@@ -487,9 +519,9 @@ function hashpass($username,$password) {
 /**
  * log the user in
  *
- * @returns true and sets $_SESSION['user'] on success, false on error
+ * @returns boolean true and sets $_SESSION['user'] on success, false on error
  */
-function login($username,$password,&$error, $set_cookies = true) {
+function login($username, $password, &$error, $set_cookies = true) {
 	global $store;
 
 	if ( ! $username || ! $password ) {
@@ -526,7 +558,7 @@ function login($username,$password,&$error, $set_cookies = true) {
 /**
  * logout the user
  *
- * @returns true always
+ * @returns boolean true always
  */
  function logout() {
 
@@ -559,7 +591,7 @@ function login($username,$password,&$error, $set_cookies = true) {
  *
  * we do http auth when the user isn't already logged in and hits a download that requires
  * authorization - this works in browsers and programs such as DTV which don't use cookies
- * @returns true if logged in, exists processing otherwise (if user hits cancel in login process)
+ * @returns boolean true if logged in, exists processing otherwise (if user hits cancel in login process)
  */
 function do_http_auth() {
 
@@ -624,7 +656,6 @@ function do_http_auth() {
 		header("WWW-Authenticate: Basic realm=\"{$_SESSION['realm']}\"");
 		header("HTTP/1.0 401 Unauthorized");
 		echo "You need to log in before you can access this page.";
-//		return false;
 		exit;
 	}
 	else {
@@ -638,7 +669,7 @@ function do_http_auth() {
  *
  * make sure that the user's session information hasn't been somehow spoofed,
  * that they haven't been deleted, the password changed, etc, etc.
- * @returns true if valid, false otherwise
+ * @returns boolean true if valid, false otherwise
  */
 function valid_user() {
 
@@ -659,7 +690,7 @@ function valid_user() {
 
 /**
  * return true if the user has admin privileges, false otherwise
- * @returns true if the user is admin, otherwise false
+ * @returns boolean true if the user is admin, otherwise false
  */
 function is_admin() {
   return (isset($_SESSION['user']) && $_SESSION['user'] && 
@@ -669,7 +700,7 @@ function is_admin() {
 
 /**
  * return true if the user has upload privileges, false otherwise
- * @returns true if the user is allowed to upload, false otherwise
+ * @returns boolean true if the user is allowed to upload, false otherwise
  */
 function can_upload() {
   global $settings;
@@ -694,7 +725,7 @@ function can_upload() {
 
 /**
  * return the title of the site, if it has been specified
- * @returns title of site, or a blank string if it hasn't been specified
+ * @returns string title of site, or a blank string if it hasn't been specified
  */
 function site_title() {
   global $settings;
@@ -703,7 +734,7 @@ function site_title() {
 
 /**
  * return the description of the site, if it has been specified
- * @returns description of site, or a blank string if it hasn't been specified
+ * @returns string description of site, or a blank string if it hasn't been specified
  */
 function site_description() {
   global $settings;
@@ -712,7 +743,7 @@ function site_description() {
 
 /**
  * return the site image/icon, if it has been specified
- * @returns site image/icon, if it has been specified, t.gif if not
+ * @returns string site image/icon, if it has been specified, t.gif if not
  */
 function site_image() {
   global $settings;
@@ -729,7 +760,7 @@ function site_image() {
  * setupHelpMessage to get the user to do whatever needs doing
  * to finalize our setup.  finally, once the data system is built, start the
  * seeder and call the setup function for that as well.
- * @returns true if everything worked, otherwise exits processing
+ * @returns boolean true if everything worked, otherwise exits processing
  */
 function setup_data_directories( $force = false ) {
 
@@ -771,6 +802,10 @@ function setup_data_directories( $force = false ) {
   return true;
 }
 
+/**
+ * call the datastore's setupHelpers method and return the result.  called at initialization
+ * @return boolean result of setupHelpers call
+ */
 function setup_helper_apps() {
 	global $store;
 	return $store->setupHelpers();
@@ -782,24 +817,26 @@ function setup_helper_apps() {
  *
  * recursive chmod which we can run when the include.php file is loaded,
  * so that we can make sure that all our files have the right permissions.
- * @deprecated when BM is out of beta, we'll probably toss this.
- * @returns true if it worked, false if it failed
+ * @todo - think about tossing this, we were using it only when having a lot of permissions issues early in development
+ * @param string $path path to chmod
+ * @param octal $filemode mode to set
+ * @returns boolean true if it worked, false if it failed
  */
 function recursive_chmod($path, $filemode) {
 
   if (!is_dir($path))
     return chmod($path, $filemode);
-
+  
   $dh = opendir($path);
   while ($file = readdir($dh)) {
     if($file != '.' && $file != '..') {
       $fullpath = $path.'/'.$file;
       if(!is_dir($fullpath)) {
-	if (!chmod($fullpath, $filemode))
-	  return FALSE;
+        if (!chmod($fullpath, $filemode))
+          return FALSE;
       } else {
-	if (!recursive_chmod($fullpath, $filemode))
-	  return FALSE;
+        if (!recursive_chmod($fullpath, $filemode))
+          return FALSE;
       }
     }
   }
@@ -820,7 +857,7 @@ function recursive_chmod($path, $filemode) {
  * we can call this to make sure that the filesystem hasn't been mucked with, etc.  this
  * function calls recursive_chmod to try and fix permissions issues.  right now, if this is
  * a mySQL install of BM, this function doesn't do anything.
- * @returns error string if something went wrong, nothing if everything is fine
+ * @returns string error if something went wrong, nothing if everything is fine
  */
 function check_folders() {
 
@@ -894,14 +931,11 @@ function check_folders() {
 }
 
 /**
- * @return array
- * @param string $url
- * @param int $format
- * @desc Fetches all the headers
- * @author cpurruc fh-landshut de
- * @modified by dotpointer
- * @modified by aeontech
- * grabbed from http://us2.php.net/get_headers
+ * fetch the headers for the specified URL
+ * @see http://us2.php.net/get_headers
+ * @return array|boolean array of data on success, false on failure
+ * @param string $url url to check
+ * @param integer $format, if 1, turn into an associative array of key->value, otherwise just return an array of lines
  */
 function bm_get_headers( $url, $format = 0 ) {
   
@@ -966,10 +1000,10 @@ function bm_get_headers( $url, $format = 0 ) {
 
 
 /**
- * do a web request to see if our data files are accessible, which is a bad security risk
- * but should only happen on non-Apache installs
+ * do a web request to see if our data files are accessible, which is a potential security risk
+ * but should only happen on non-Apache installs or when apache has turned off .htaccess processing
  * @see http://www.securitytracker.com/alerts/2005/Jul/1014449.html
- * @returns true if the files are accessible, false if not
+ * @returns boolean true if the files are accessible, false if not
  */
 function check_access() {
 
@@ -998,7 +1032,7 @@ function check_access() {
  * we can call this to make sure that the filesystem hasn't been mucked with, etc.  this
  * function doesn't try and fix any problems.  if this is a mySQL install of BM, this function 
  * doesn't do anything.
- * @returns error string if something went wrong, nothing if everything is fine
+ * @returns string error string if something went wrong, nothing if everything is fine
  */
 function check_permissions() {
 
@@ -1171,7 +1205,7 @@ function packint32($int) {
  *
  * Sends an installer to the browser with file $tackon on the end
  * if data is not null, sends data, only uses $tackon for the name
- * @returns nothing, echoed straight to client
+ * @returns void nothing, echoed straight to client
  */
 function send_installer( $tackon, $data = null ) {
 	
@@ -1215,7 +1249,7 @@ function send_installer( $tackon, $data = null ) {
  * if data is not null, sends data, only uses $tackon for the name
  * @returns nothing, echoes straight to browser
  */
-function send_mac_installer( $tackon, $data=null ) {
+function send_mac_installer( $tackon, $data = null ) {
 
   global $store;
 	global $data_dir;
@@ -1247,7 +1281,7 @@ function send_mac_installer( $tackon, $data=null ) {
  * Sends a mac uploader with file $tackon on the end
  *
  * if data is not null, sends data, only uses $tackon for the name
- * @returns nothing, echoes straight to browser
+ * @returns void nothing, echoes straight to browser
  */
 function send_mac_uploader($tackon,$data=null) {
 
@@ -1279,7 +1313,7 @@ function send_mac_uploader($tackon,$data=null) {
 
 /**
  * determine if we allow new users to register
- * @returns true if users can register, false otherwise
+ * @returns boolean true if users can register, false otherwise
  */
 function allowAddNewUser() {
 	global $settings;
@@ -1289,7 +1323,7 @@ function allowAddNewUser() {
 /**
  * this function can be called for sections of the website that require user access.
  * if they aren't logged in, they'll be sent to the login page.
- * NOTE - we could just show the login form, then reload the requested page, which makes a lot more sense
+ * @note - we could just show the login form, then reload the requested page, which makes a lot more sense
  */
 function requireUserAccess($do_login = false) {
 
@@ -1329,7 +1363,7 @@ function requireUserAccess($do_login = false) {
 
 /**
  * strip output of html and convert it to UTF-8
- * @returns formatted string
+ * @returns string formatted, encoded string
  */
 function encode($s) {
   $s = preg_replace('!((?:[0-9\.]0|[1-9]|\d[\'"])\ ?)x(\ ?\d)!', '$1&#215;$2', $s);
@@ -1359,15 +1393,20 @@ function encode($s) {
   return $s;
 }
 
+/**
+ * encode the incoming string, and also make sure any html special chars are stripped
+ * @param string $s string to process
+ * @return string
+ */
 function rss_encode($s) {
   $s = htmlspecialchars(html_entity_decode(encode($s)), ENT_QUOTES, "UTF-8");
-  //$s = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', '&amp;', $s);
   return $s;
 }
 
 /**
  * try and figure out the size of the given file
- * @returns filesize
+ * @param string $tmpurl url of the file
+ * @returns integer filesize
  */
 function get_filesize($tmpurl) {
 	//
@@ -1408,6 +1447,8 @@ function get_filesize($tmpurl) {
 
 /**
  * generate RSS for the given channel
+ * @param integer $channelID id of the channel
+ * @param boolean $use_cache if true, check to see if the file actually needs to be rebuilt.  if false, force a rebuild
  */
 function makeChannelRss($channelID, $use_cache = true) {
 	
@@ -1540,6 +1581,9 @@ function makeChannelRss($channelID, $use_cache = true) {
 	outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files );
 }
 
+/**
+ * output an rss file
+ */
 function outputRSSFile($filename, $channelID, $name, $description, $link, $icon, $rss_files ) {
 
   global $store;
@@ -1642,11 +1686,14 @@ EOF;
 			if ( isset($people[0]) && isset($people[1]) ) {
         $name = mb_strtolower($people[0]);
         $role = mb_strtolower($people[1]);
-				$sOut .= "<media:credit role=\"" . rss_encode(mb_strtolower(trim($role))) . "\" scheme=\"urn:pculture-org:custom\">" .	rss_encode(trim($name)) . "</media:credit>\n";
+				$sOut .= '<media:credit 
+                   role="' . rss_encode(mb_strtolower(trim($role))) . '" 
+                   scheme="urn:pculture-org:custom">' .	rss_encode(trim($name)) . '</media:credit>
+                 ';
 			}
 		}
 
-		$sOut .= "</item>\n";
+ 		$sOut .= "</item>\n";
 	
 	} // foreach
 
@@ -1714,32 +1761,8 @@ function doConditionalGet($timestamp) {
 }
 
 /**
- * display the RSS for the specified channel
- */
-/*function displayChannelRSS($channelID) {
-
-	global $rss_dir;
-	$rss_file = "$rss_dir/" . $channelID . ".rss";
-
-//	if ( !file_exists($rssfile) || filemtime("include.php") > filemtime($rssfile) ) {
-	if ( !file_exists($rss_file) ) {
-		makeChannelRss($channelID);
-	}
-
-	$filedate = gmdate("D, d M Y H:i:s", filemtime($rss_file)) . " GMT";
-//	$last_modified = substr(date('r', $filedate), 0, -5).'GMT';
- 
- 	// see if the file has been modified or not.  if not, this function
- 	// will return a 304 code and exit processing
- 	doConditionalGet($filedate);
-
-	// otherwise, return the file
-	print( file_get_contents($rss_file));
-}*/
-
-/**
  * check $str to see if it begins with $sub
- * @returns true/false
+ * @returns boolean true/false
  */
 function beginsWith( $str, $sub ) {
 	$str = mb_strtolower($str);
@@ -1749,7 +1772,7 @@ function beginsWith( $str, $sub ) {
 
 /**
  * check $str to see if it ends with $sub
- * @returns true/false
+ * @returns boolean true/false
  */
 function endsWith( $str, $sub ) {
 	$str = mb_strtolower($str);
@@ -1760,7 +1783,7 @@ function endsWith( $str, $sub ) {
 
 /**
  * try and figure out the length of the specified URL
- * @returns length, and sets $errstr if something goes wrong - like a 404
+ * @returns integer length, and sets $errstr if something goes wrong - like a 404
  */
 function get_content_length( $file_url, &$errstr ) {
 	$headers = @bm_get_headers($file_url, 1);
@@ -1782,7 +1805,7 @@ function get_content_length( $file_url, &$errstr ) {
 /** 
  * encode a URL so that browsers can handle it properly
  * @see http://us4.php.net/manual/en/function.rawurlencode.php comments
- * @returns url
+ * @returns string url
  */
 function linkencode($p_url){
    $uparts = @parse_url($p_url);
@@ -1855,7 +1878,7 @@ function linkencode($p_url){
 
 /**
  * determine if this is a local file or an external URL we are dealing with
- * @returns true/false
+ * @returns boolean true/false
  */
 function is_local_file($url) {
 
@@ -1868,16 +1891,10 @@ function is_local_file($url) {
 
 	return false;
 }
-/*
-function local_file_path($url) {
-	$fname = basename($url);
-	
-}*/
 
 /**
- * figure out if this is a .torrent file located within the control of BM.  
- * if so, we can share it
- * @returns true/false
+ * figure out if this is a .torrent file located within the control of BM.  if so, we can share it
+ * @returns boolean true/false
  */
 function is_local_torrent($url) {
 
@@ -1890,9 +1907,8 @@ function is_local_torrent($url) {
 
 
 /**
- * figure out the name of a local file, given it's URL - basically, the URL stripped
- * of host information.
- * @returns local filename
+ * figure out the name of a local file, given it's URL - basically, the URL stripped of host information.
+ * @returns string local filename, false if it's not local
  */
 function local_filename($url) {
 
@@ -1911,7 +1927,7 @@ function local_filename($url) {
  *
  * if there was an error and this is a server with a POSIX library, we'll
  * also set the global $errstr variable with a string describing the error.
- * @returns true if deleted, false if not
+ * @returns boolean true if deleted, false if not
  */
 function unlink_file($file) {
 	if ( !file_exists($file) ) {
@@ -1931,28 +1947,9 @@ function unlink_file($file) {
 
 }
 
-function html_encode_utf8($s) {
-	$len = strlen($s);
-	$x = 0;
-	$result = "";
-	while ($x<$len) {
-		if (ord($s[$x])<128) {	
-			$result .= $s[$x];
-		} else if (ord($s[$x]) < 224) {
-			$result .= "&#" . bindec(substr(decbin(ord($s[$x])),3) . substr(decbin(ord($s[$x+1])),2)) . ";";
-			$x = $x + 1;
-		} else if (ord($s[$x] < 239)) {
-			$result .= "&#" . bindec(substr(decbin(ord($s[$x])),4) . substr(decbin(ord($s[$x+1])),2) . substr(decbin(ord($s[$x+2])), 2)) . ";";
-			$x = $x + 2;
-		}
-		$x++;
-	}
-	return $result;
-}
-
 /**
  * check to see if the given pid is running
- * @returns true/false
+ * @returns boolean true/false
  */
 function is_process_running($p) {
 	$p = trim($p);
@@ -1963,6 +1960,7 @@ function is_process_running($p) {
 
 /**
  * try to figure out the extension of this file
+ * @return string extension of the file
  */
 function get_extension_from_url($tmpurl) {
 
@@ -1991,6 +1989,13 @@ function get_extension_from_url($tmpurl) {
 	return "";
 }
 
+/**
+ * generate a download link according to if we are using mod_rewrite or not
+ * @param integer $channel_id channel id
+ * @param string $hash the filehash
+ * @param boolean $force_no_rewrite if true, definitely don't return a friendly URL
+ * @return string a URL for downloading the file
+ */
 function download_link($channel_id, $hash, $force_no_rewrite = false) {
 	global $settings;
 	global $store;
@@ -2021,6 +2026,14 @@ function download_link($channel_id, $hash, $force_no_rewrite = false) {
 }
 
 
+
+/**
+ * generate a detail link according to if we are using mod_rewrite or not
+ * @param integer $channel_id channel id
+ * @param string $hash the filehash
+ * @param boolean $force_no_rewrite if true, definitely don't return a friendly URL
+ * @return string a URL for the file detail page
+ */
 function detail_link($channel_id, $hash, $force_no_rewrite = false) {
 	global $settings;
 
@@ -2042,6 +2055,13 @@ function detail_link($channel_id, $hash, $force_no_rewrite = false) {
 	return $url;
 }
 
+
+/**
+ * generate a channel page link according to if we are using mod_rewrite or not
+ * @param integer $channel_id channel id
+ * @param boolean $force_no_rewrite if true, definitely don't return a friendly URL
+ * @return string a URL for the channel page
+ */
 function channel_link($channel_id, $force_no_rewrite = false) {
 	global $settings;
 
@@ -2063,6 +2083,13 @@ function channel_link($channel_id, $force_no_rewrite = false) {
 	return $url;
 }
 
+
+/**
+ * generate an rss link according to if we are using mod_rewrite or not
+ * @param integer $channel_id channel id
+ * @param boolean $for_itunes if true, return a link with itpc:// instead of http://
+ * @return string a URL for the RSS feed
+ */
 function rss_link($channel_id = "ALL", $for_itunes = false) {
 	global $settings;
 	if ( isset($settings['use_mod_rewrite']) && $settings['use_mod_rewrite'] == true ) {
@@ -2092,6 +2119,9 @@ function rss_link($channel_id = "ALL", $for_itunes = false) {
 	return $url;
 }
 
+/**
+ * write out our .htaccess file with mod_rewrite either turned on or off
+ */
 function write_mod_rewrite($on = true) {
 
 	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
@@ -2165,6 +2195,9 @@ EOF;
 }
 
 
+/**
+ * generate the text of our .htaccess file
+ */
 function generate_htaccess_text($on = true) {
 
 	$base = preg_replace( '|^(.*[\\/]).*$|', '\\1', $_SERVER['PHP_SELF'] );
@@ -2220,6 +2253,10 @@ EOF;
 
 }
 
+/**
+ * try and figure out if we have outputted a .htaccess file, and if mod_rewrite
+ * rules were added
+ */
 function mod_rewrite_active() {
 
   $file = "";
@@ -2235,7 +2272,10 @@ function mod_rewrite_active() {
 }
 
 /**
- * test mod_rewrite URLs and see if they work.  if not, we will disable them elsewhere
+ * test mod_rewrite URLs and see if they work.  if not, we will disable them elsewhere.
+ * we try and figure this out by first calling apache_get_modules if possible, which returns
+ * a list of enabled apache modules. if that function doesn't exist, we try grabbing a friendly
+ * URL to see if it works
  */
 function test_mod_rewrite() {
 
@@ -2262,11 +2302,13 @@ function test_mod_rewrite() {
   return false;
 }
 
+/**
+ * output a debug message if the level is set higher than LOG_LEVEL
+ */
 function debug_message($str, $level = 0) {
   global $data_dir;
-  global $log_level;
 
-  if ( $level >= $log_level ) {
+  if ( $level >= LOG_LEVEL ) {
     $logfile = "$data_dir/log.txt";
     if ( 
          ( !file_exists($logfile) && @touch($logfile) ) ||
@@ -2281,15 +2323,19 @@ function debug_message($str, $level = 0) {
       error_log($str);
     }
   }
-
-  //print "$str<br>\n";
 }
 
+/**
+ * do a mysql query.  simple wrapper in case we want to log the queries, etc
+ */
 function do_query($sql) {
   //debug_message($sql);
   return mysql_query($sql);
 }
 
+/**
+ * return a list of themese that have been uploaded to BMs themes directory
+ */
 function list_themes() {
 	global $themes_dir;
 	$themes = dir($themes_dir);
@@ -2352,6 +2398,10 @@ function guess_path_to_installation() {
   return preg_replace( '|^(.*[\\/]).*$|', '\\1', $tmppath );
 }
 
+/**
+ * return an octal value representing a permissions setting.  we use this to translate from string -> octal
+ * @return octal perms setting
+ */
 function perms_for($level) {
   if ( is_string($level) ) {
     return octdec($level);
@@ -2359,6 +2409,10 @@ function perms_for($level) {
   return $level;
 }
 
+/**
+ * make a folder with the specified settings
+ * @return boolean true/false on success/failure
+ */
 function make_folder($folder) {
  if (!file_exists($folder)) {
    $old_umask = umask(0);

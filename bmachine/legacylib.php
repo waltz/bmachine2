@@ -5,7 +5,7 @@
  * provides support for older versions of PHP
  * Original version by: Greg Retkowski <greg-at-rage.net>
  * Licensed under the terms of the GNU GPL
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 // multibyte functions that we need for UTF stuff

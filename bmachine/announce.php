@@ -5,7 +5,7 @@
  * FBT2 - Flippy's BitTorrent Tracker v2 (GPL)
  * flippy `at` ameritech `dot` net
  * @see http://www.torrentz.com/fbt.html
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

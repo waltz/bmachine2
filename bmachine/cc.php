@@ -1,7 +1,7 @@
 <?php
 /**
  * Creative Commons license picker
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 	$license_url = $_GET["license_url"];

@@ -1,7 +1,7 @@
 <?php
 /**
  * Channel creation page
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

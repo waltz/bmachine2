@@ -1,40 +1,36 @@
 <?php 
-        
-/** datastore.php
- * classes for handling storing/accessing data
- * This file is part of BlogTorrent http://www.blogtorrent.com/
- * nassar 'at' downhillbattle 'dot' org
- * Licensed under the terms of the GNU GPL 
- * 
- * Stores data in a flat file database
- * Tracker info is stored in binary format using 7 bytes per client
- * in the following format:
- * [Seeder: 1 bit][Time: 7bits][IP: 4 bytes][Port: 2 bytes]
- * 
- * User info is stored in a bencoded file
- * @package Broadcast Machine
- */
 
 include_once "zipfile.php";
 include_once "data_layer.php";
 include_once "mysql_layer.php";
 
-global $data_dir;
-global $thumbs_dir;
-global $torrents_dir;
-global $publish_dir;
-global $rss_dir;
-global $text_dir;
-
+/** 
+ * A class for handling storing/accessing data which is stored
+ * as bencoded files.
+ * 
+ * Tracker info is stored in binary format using 7 bytes per client
+ * in the following format:
+ * [Seeder: 1 bit][Time: 7bits][IP: 4 bytes][Port: 2 bytes]
+ *
+ * Licensed under the terms of the GNU GPL 
+ * 
+ * @author nassar 'at' downhillbattle 'dot' org
+ * @package BroadcastMachine
+ */
 class DataStore {
 
+  /** @var string holds onto any error that happens */
   var $error;
+
+  /** @var object the data layer we use to access data */
 	var $layer;
+
+  /** @var boolean true/false if the datastore is successfully enabled */
 	var $is_setup;
 
 	/**
 	 * constructor
-	 * force_flat - if true, don't even try and use the MySQL layer - we can use this
+	 * @param boolean $force_flat - if true, don't even try and use the MySQL layer - we can use this
 	 * to have two layers and transfer data between them.
 	 */
 	function DataStore($force_flat = false) {
@@ -47,10 +43,10 @@ class DataStore {
 	
 			if (!$this->layer->setup()) {
         debug_message("couldn't attach to mysql");
-				$this->layer = new BEncodedDataLayer();
+        /*				$this->layer = new BEncodedDataLayer();
 				if (!$this->layer->setup()) {
 					$this->is_setup = false;
-          }
+          }*/
 			}
       else {
         $this->is_setup = true;
@@ -102,7 +98,7 @@ class DataStore {
 	}
 	
 	/**
-	 * initialization
+	 * initialization function - make sure the data layer is initialized
 	 */
 	function init() {
 		$this->layer->init();
@@ -110,7 +106,7 @@ class DataStore {
 
   /**
    * return the type of file store object
-   * @returns type of object as a string
+   * @return string type of object
    */
   function type() {
     return $this->layer->type();
@@ -119,7 +115,7 @@ class DataStore {
   /**
    * generate a unique id for this instance of broadcast machine - we will use this to
    * make sure that only one instance of BM is using a given MySQL db 
-   * @returns hashed id
+   * @return string hashed id
    */
   function instanceID() {
     $base = $_SERVER["SERVER_NAME"] . ":" . dirname($_SERVER['PHP_SELF']);
@@ -127,6 +123,9 @@ class DataStore {
     return $hash;
   }
 
+  /**
+   * save a unique id for this instance of broadcast machine
+   */
   function setInstanceID() {
 
     $instances = $this->layer->getAll("instance");
@@ -148,6 +147,12 @@ class DataStore {
 		$this->layer->saveAll("instance", $instances);
   }
 
+  /**
+   * return the number of instances - if this is greater than one, then it's
+   * possible we have two copies of BM accessing one set of data, which could
+   * present problems
+   * @return integer count of instances
+   */
   function instanceCount() {
     return count( $this->layer->getAll("instance") );
   }
@@ -155,6 +160,7 @@ class DataStore {
 
 	/**
 	 * save the settings info for this installation
+   * @param array $s array of settings info
 	 */
 	function saveSettings($s) {
 		return $this->layer->saveSettings($s);
@@ -162,6 +168,7 @@ class DataStore {
 
 	/**
 	 * load the settings info for this installation
+   * @return array array of settings info
 	 */
 	function loadSettings() {
 		return $this->layer->loadSettings();
@@ -169,7 +176,7 @@ class DataStore {
 
   /**
    * get all of our files
-   * @returns array of files
+   * @return array files
    */
   function getAllFiles() {
 		debug_message("getAllFiles");
@@ -178,7 +185,9 @@ class DataStore {
 
   /**
    * given a hash, return its file
-   * @returns file array
+   * @param @string $hash the id of the file
+   * @param @object $handle if we have a lock on the file data, we can pass it as a parameter
+   * @return array file information as an array
    */
   function getFile( $hash, $handle = null ) {
 		$f = $this->layer->getOne("files", $hash, $handle);
@@ -190,7 +199,8 @@ class DataStore {
 
   /**
    * given a channel ID, figure out when RSS was last generated
-   * @returns file array
+   * @param string $channel which channel to get RSS info for
+   * @return integer time the rss file was published
    */
   function getRSSPublishTime( $channel = "ALL" ) {
     debug_message("getRSSPublishTme $channel");
@@ -203,7 +213,9 @@ class DataStore {
   }
 
 	/**
-	 * store the data for a single file
+	 * set the RSS publish time for the specified file
+   * @param string $channel which channel to save info for
+   * @param integer $time the publish time
 	 */
   function setRSSPublishTime( $channel = "ALL", $time = -1 ) {
     debug_message("setRSSPublishTme $channel $time");
@@ -216,7 +228,8 @@ class DataStore {
   }
 
 	/**
-	 * store the data for a single file
+	 * specify that this channel needs a refreshed rss feed by setting its time value
+   * @param string $channel which channel to save info for   
 	 */
   function setRSSNeedsPublish( $channel = "ALL" ) {
     debug_message("setRSSNeedsPublish $channel");
@@ -228,9 +241,10 @@ class DataStore {
 	
 
 	/**
-     * call our RSS generation routines when needed
-     * @param: make_all - also make the all.rss file
-     */
+   * call our RSS generation routines for any channels which
+   * need an updated feed
+   * @param boolean $make_all - also make the all.rss file
+   */
 	function generateRSS($make_all = false) {
 
     $rss = $this->layer->getAll("rss");
@@ -256,6 +270,8 @@ class DataStore {
 	
   /**
    * given a filename, try and figure out what its hash is
+   * @param string $fname - name of the file
+   * @return string hash of the file, or null if it wasn't found
    */
 	function getHashFromFilename($fname) {
 	
@@ -273,7 +289,8 @@ class DataStore {
 
 	/**
 	 * delete the specified file
-	 * @returns true if successful, false on error and sets global $errstr
+   * @param string $id - id of the file
+	 * @return boolean true if successful, false on error and sets global $errstr
 	 */
 	function DeleteFile($id) {
 		$result = $this->layer->deleteOne("files", $id);
@@ -284,7 +301,8 @@ class DataStore {
 
 	/**
 	 * delete the specified channel
-	 * @returns true if successful, false on error and sets global $errstr
+   * @param integer $id - id of the channel
+	 * @return boolean true if successful, false on error and sets global $errstr
 	 */
 	function DeleteChannel($id) {
 		return $this->layer->deleteOne("channels", $id);
@@ -292,7 +310,7 @@ class DataStore {
 	
   /**
    * get an array of all of our channels
-   * @returns array of channels
+   * @return array channels array
    */
   function getAllChannels() {
 		return $this->layer->getAll("channels");
@@ -300,6 +318,8 @@ class DataStore {
 
 	/**
 	 * return the data for the specified channel
+   * @param integer $id - id of the channel
+	 * @return array array of channel data
 	 */	
 	function getChannel($id) {
 		return $this->layer->getOne("channels", $id);
@@ -309,6 +329,9 @@ class DataStore {
 	 * determine if the given file is actually published to the given channel.  this prevents
 	 * hackers from doing simple tricks like changing the channel ID to get to a file which shouldn't
 	 * be publicly available
+   * @param string $filehash the hash of the file
+   * @param array $channel channel data array
+   * @return boolean success/failure
 	 */
 	function channelContainsFile($filehash, &$channel) {
     if ( isset($channel["Files"]) && is_array($channel['Files']) ) {
@@ -325,6 +348,8 @@ class DataStore {
 
 	/**
 	 * return an array of channel IDs that contain this file
+   * @param string $filehash the hash of the file
+   * @return array array of channel IDs which hold this file
 	 */
 	function channelsForFile($filehash) {
 
@@ -340,6 +365,12 @@ class DataStore {
 		return $out;
 	}
 
+
+	/**
+	 * return an array of files for the specified channel
+   * @param integer|array $channel either the channel ID or the channel's data array
+   * @return array array of files in the specified channel
+	 */
   function filesForChannel($channel) {
     global $store;
     if ( is_array($channel) && isset($channel["ID"]) ) {
@@ -362,6 +393,10 @@ class DataStore {
 
 	/**
 	 * remove the file from the specified channel
+   * @param array $channel the channel's data array
+   * @param string $key id of the file
+   * @param integer $index index of the file in the channels list of files
+   * @todo cleanup the custom mysql code here
 	 */
 	function removeFileFromChannel($channel, $key, $index = -1) {
 
@@ -401,6 +436,9 @@ class DataStore {
 
 	/**
 	 * remove the file from the specified channel_section
+   * @param array $channel the channel's data array
+   * @param string $section name of the section
+   * @param string $key id of the file
 	 */
 	function removeFileFromChannelSection($channel, $section, $key) {
 		$this->layer->lockResources( array("channels", "channel_sections") );
@@ -417,7 +455,7 @@ class DataStore {
 
   /**
    * get an array of all of our donation links
-   * @returns array of donation links
+   * @return array donation links
    */
   function getAllDonations() {
 		return $this->layer->getAll("donations");
@@ -425,7 +463,8 @@ class DataStore {
 
   /**
    * get the given donation by id
-   * @returns array of donation data
+   * @param string $id id of donation
+   * @return array of donation data
    */
   function getDonation($id) {
 		return $this->layer->getOne("donations", $id);
@@ -433,6 +472,9 @@ class DataStore {
 
   /**
    * remove the specified file from the given donation setup
+   * @param string $id id of file
+   * @param string $donation_id id of donation
+   * @todo cleanup the custom mysql code here
    */
 	function removeFileFromDonation($id, $donation_id) {
 		$this->layer->lockResources( array("donations", "donation_files") );
@@ -456,6 +498,9 @@ class DataStore {
 	
   /**
    * add the specified file to the given donation setup
+   * @param string $id id of file
+   * @param string $donation_id id of donation
+   * @todo cleanup the custom mysql code here
    */
 	function addFileToDonation($id, $donation_id) {
 		$this->layer->lockResources( array("donations", "donation_files") );
@@ -485,7 +530,7 @@ class DataStore {
 
   /**
    * get an array of user data
-   * @returns user data
+   * @return array user data
    */
   function getAllUsers() {
 
@@ -527,7 +572,8 @@ class DataStore {
 
   /**
    * get a user
-   * @returns array of userdata
+   * @param string $username name of the user
+   * @return array of userdata
    */
   function getUser($username) {
 		$tmp = $this->layer->getOne("users", $username);
@@ -539,7 +585,9 @@ class DataStore {
 
   /**
    * Save a single donation record
-   * @returns true on success, false on failure
+   * @param array $newcontent data for the donation
+   * @param string $id unique id of the donation
+   * @return boolean true on success, false on failure
    */
   function saveDonation($newcontent, $id) {
 		debug_message("store donation $id");
@@ -550,7 +598,8 @@ class DataStore {
 
   /**
    * Saves our donations data
-   * @returns true on success, false on failure
+   * @param array $donations array of all donation info
+   * @return boolean true on success, false on failure
    */
   function saveDonations( $donations ) {
 		$this->layer->saveAll("donations", $donations);
@@ -559,6 +608,8 @@ class DataStore {
 	
 	/**
 	 * delete a single donation record
+   * @param string $id unique id of the donation
+   * @return boolean true on success, false on failure
 	 */
 	function deleteDonation($id) {
 		return $this->layer->deleteOne("donations", $id);
@@ -566,7 +617,7 @@ class DataStore {
   
   /**
    * create a new channel with default values
-   * @returns array structure with channel data
+   * @return array structure with channel data
    */
   function newChannel() {
     $channel = array();
@@ -576,6 +627,8 @@ class DataStore {
 
   /**
    * set some default values for a channel
+   * @param array reference to a channel array
+   * @return array array of channel data - also updates the incoming reference
    */
   function setChannelDefaults(&$channel) {
 
@@ -638,7 +691,8 @@ class DataStore {
 
   /**
    * add a new channel to our data files
-   * @returns id of the new channel on success, false on failure
+   * @param string $channelname name of the new channel
+   * @return integer|boolean id of the new channel on success, false on failure
    */
 	function addNewChannel( $channelname ) {
 		$channel = $this->newChannel();
@@ -648,6 +702,8 @@ class DataStore {
 
 	/**
 	 * store a single channel
+   * @param array channel data
+   * @return integer|boolean id of new channel, or false if creating it failed
 	 */
 	function saveChannel(&$channel) {
 
@@ -681,28 +737,6 @@ class DataStore {
 		    $channel['LibraryURL'] = get_base_url() . "library.php?i=" . $channel["ID"];
 		}
 
-    /*		if ( !isset($channel['CSSURL']) || $channel['CSSURL'] == "" ) {
-		    $channel['CSSURL'] = "default.css";
-		}
-
-		if ( !isset($channel['Files']) ) {
-	    $channel['Files'] = array();
-		}
-		if ( !isset($channel['Options']) ) {
-	    $channel['Options']=array();
-			$channel['Options']['Thumbnail']=true;
-			$channel['Options']['Title']    =true;
-			$channel['Options']['Creator']  =false;
-			$channel['Options']['Description']     =false;
-			$channel['Options']['Length']   =false;
-			$channel['Options']['Published']=false;
-			$channel['Options']['Torrent']  =false;
-			$channel['Options']['URL']      =false;
-			$channel['Options']['Filesize'] =false;
-			$channel['Options']['Keywords'] =true;
-			$channel['Options']['SubscribeOptions'] = DEFAULT_SUBSCRIBE_OPTIONS;
-		}*/
-
 		$this->layer->saveOne("channels", $channel, $channel["ID"], $handle);
 		$this->layer->unlockResources( array("channels", "channel_sections", "channel_files", "channel_options", "section_files") );
 
@@ -712,6 +746,7 @@ class DataStore {
  
   /**
    * given an array of files, write it to the filesystem
+   * @param array $newcontent array of all file data
    */
   function store_files($newcontent) {
 		$this->layer->saveAll("files", $newcontent);
@@ -722,6 +757,9 @@ class DataStore {
 
 	/**
 	 * store the data for a single file
+   * @param array $newcontent array of data for a single file
+   * @param string $id id of the file.  if not specified, use the "ID" reference in the $newcontent array
+   * @return string id of the file
 	 */
   function store_file($newcontent, $id = "") {
     $this->layer->lockResources( array("files", "channels", "section_files", "channel_files", "channel_options", "file_keywords", "file_people") );
@@ -736,7 +774,8 @@ class DataStore {
 
   /**
    * delete a user
-   * @returns true on success, false on failure
+   * @param string $username name of the user
+   * @return boolean true on success, false on failure
    */
   function deleteUser( $username ) {
 
@@ -754,6 +793,9 @@ class DataStore {
     return true;
   }
 
+  /**
+   * unlock any data elements which are currently locked
+   */
   function unlockAll() {
     $this->layer->unlockAll();
   }
@@ -761,7 +803,7 @@ class DataStore {
 
   /**
    * add a new user
-   * @returns true on success, false on failure
+   * @return boolean true on success, false on failure
    */
   function addNewUser( $username, $password, $email, $isAdmin = false, $isFront = false, &$error) {
     global $settings;
@@ -866,6 +908,7 @@ class DataStore {
 	
 	/**
 	 * save a user
+   * @param array $u user data
 	 */
 	function saveUser( $u ) {
 		if ( ! isset($u["Username"]) ) {
@@ -876,7 +919,7 @@ class DataStore {
 
 	/**
 	 * generate a user hash and return it
-	 * @returns string
+	 * @return string
 	 */
 	function userHash( $username, $password, $email ) {
 		$username = trim(mb_strtolower( $username ));
@@ -885,7 +928,7 @@ class DataStore {
 
   /**
    * authorize a user for access to the website
-   * @returns true on success, false on failure
+   * @return boolean true on success, false on failure
    */
   function authNewUser( $hashlink, $username ) {
 	
@@ -983,9 +1026,7 @@ class DataStore {
 
   /**
    * rename a user
-   *
-   * NOTE - make sure this doesn't screw up any of our other data
-   * @returns true on success, false on failure
+   * @return boolean true on success, false on failure
    */
   function renameUser( $oldname, $newname ) {
 
@@ -1013,9 +1054,7 @@ class DataStore {
 
   /**
    * update user data
-   *
-   * NOTE - make sure this doesn't screw up any of our other data
-   * @returns true on success, false on failure
+   * @return boolean true on success, false on failure
    */
   function updateUser( $username, $hash, $email, $canAdmin = false, $isPending = true ) {
 
@@ -1042,7 +1081,7 @@ class DataStore {
    * perform a BitTorrent announce
 	 *
 	 * this gets called periodically from a BT client to update the server on its status
-   * @returns data to be passed back to the client or NULL on error
+   * @return string data to be passed back to the client or NULL on error
    */
 	function BTAnnounce( $info_hash, $event, $remote_addr, $port, $left, $numwant ) {
 
@@ -1074,6 +1113,8 @@ class DataStore {
 
   /**
    * get the download stats for the given file
+   * @param string $id ID of the file
+   * @return array file download stats
    */
   function downloadStats($id) {
     $stats = $this->layer->getOne("stats", $id);
@@ -1083,6 +1124,13 @@ class DataStore {
     return $stats;
   }
 
+  /**
+   * record that a download was started
+   * @param string $id ID of the file
+   * @param boolean $is_torrent is this file a torrent?  if so, we will record the start of 
+   * the download.  if not, we'll record that the download was completed, since we won't know
+   * when it ends.
+   */
   function recordStartedDownload($id, $is_torrent = false) {
 
     if ( $is_torrent == true ) {
@@ -1101,6 +1149,11 @@ class DataStore {
     $this->layer->saveOne("stats", $info, $id, $handle);
   }
 
+
+  /**
+   * record that a torrent download was completed
+   * @param string $id ID of the file
+   */
   function recordCompletedDownload($id) {
     $handle = NULL;
     $info = $this->layer->getOne("stats", $id, $handle);
@@ -1352,6 +1405,7 @@ class DataStore {
 
 	/**
 	 * get the stats for the given torrent
+   * @param string $info_hash hash of the torrent
 	 * @return array of stats
 	 */
   function getStat( $info_hash ) {
@@ -1452,7 +1506,9 @@ class DataStore {
 	}
 		
 	/**
-	 * figure out what the hash is for the given filename
+	 * figure out what the hash is for the given torrent
+   * @param string $filename name of the file
+   * @return string hash of the torrent
 	 */
 	function getHashFromTorrent( $filename ) {
 
@@ -1471,6 +1527,8 @@ class DataStore {
 
 	/** 
 	 * given a torrent's hash, figure out what torrent it is
+   * @param string $hash hash of the torrent
+   * @return string name of the torrent, or null if not found
 	 */
 	function getTorrentFromHash($hash) {
 
@@ -1488,6 +1546,8 @@ class DataStore {
 
 	/**
 	 * get a list of torrents that are currently in the system
+   * @return array list of torrents
+   * @todo cleanup mysql code
 	 */
 	function getTorrentList() {
 
@@ -1525,6 +1585,8 @@ class DataStore {
 
 	/**
 	 * get the torrent data for the specified file
+   * @param string $filename name of the torrent file
+   * @return array decoded torrent data
 	 */
   function getTorrent( $filename ) {
     return bdecode( $this->getRawTorrent( $filename ) );
@@ -1532,7 +1594,9 @@ class DataStore {
 	
 	/**
 	 * save a torrent to the filesystem
-   * todo - add mysql code here
+   * @param string $filename name of the torrent file
+   * @param array $data array of data for torrent
+   * @todo add mysql code here
 	 */
 	function saveTorrent( $filename, $data ) {
 		global $torrents_dir;
@@ -1543,13 +1607,15 @@ class DataStore {
     flock($handle, LOCK_EX);
     ftruncate($handle,0);
     fseek($handle,0);
-    fwrite($handle,bencode($data));
+    fwrite($handle, bencode($data));
     fclose($handle);		
 	}
 
 
 	/**
 	 * get the raw torrent file
+   * @param string $filename name of the torrent
+   * @return data raw data for the torrent - ie, the actual torrent file contents
 	 */
   function getRawTorrent( $filename ) {
 
@@ -1579,6 +1645,8 @@ class DataStore {
 
 	/** 
 	 * figure out the creation date of the torrent
+   * @param string $filename name of the torrent file
+   * @return integer creation timestamp of the torrent
 	 */
   function getTorrentDate( $filename ) {
     global $torrents_dir;
@@ -1587,6 +1655,8 @@ class DataStore {
 
 	/**
 	 * does the specified torrent exist?
+   * @param string $info_hash hash of the torrent
+   * @return boolean true/false if the torrent exists
 	 */
   function torrentExists( $info_hash ) {
 
@@ -1607,8 +1677,9 @@ class DataStore {
   /**
    * load a list of peers from the filesystem, for the given hash.  if prune is true,
    * peers that we haven't heard from in 30 minutes get removed from the list
-   *
-   * @returns list of peers for a torrent
+   * @param string $info_hash hash of the torrent
+   * @param boolean $prune true/false according to if we want to prune out old peers or not
+   * @return array list of peers for a torrent
    */
   function getTorrentDetails( $info_hash, $prune = true ) {
 
@@ -1697,7 +1768,9 @@ class DataStore {
 
 	/**
 	 * determine if the given hash is a valid one for posting torrent
-	 * @returns true/false
+   * @param string $username name of the user
+   * @param string $hash of the torrent
+	 * @return boolean true/false
 	 */
   function isValidAuthHash( $username, $hash ) {
 
@@ -1710,12 +1783,9 @@ class DataStore {
       debug_message("isValidAuthHash - check for hash");
     
 			$hashes = bdecode( file_get_contents( $data_dir . '/hash' ) );
-     // foreach($hashes as $h => $t) {
-     //   debug_message("AuthHash: $h $t");
-     // }
 
-      debug_message("AuthHash: check for $username $hash - " . sha1($username . $hash) );
-      debug_message("AuthHash: " . $hashes[sha1( $username . $hash )]);
+      //debug_message("AuthHash: check for $username $hash - " . sha1($username . $hash) );
+      //debug_message("AuthHash: " . $hashes[sha1( $username . $hash )]);
 
 			return ( isset( $hashes[sha1( $username . $hash )] ) && 
 							( $hashes[sha1( $username . $hash )] > ( time() - 3600 ) ) 
@@ -1727,8 +1797,10 @@ class DataStore {
 
 	/**
 	 * generate a hash for the given user/password-hash.  will be sent along with a torrent being posted
-	 *
-	 * note - we also cleanup old hashes in this function
+	 * @param string $username name of the user
+   * @param string $passhash user's password hash
+	 * @note - we also cleanup old hashes in this function
+   * @return string auth hash for the user
 	 */
   function getAuthHash( $username, $passhash ) {
     $hash = md5( $username . microtime() . rand() . $passhash );
@@ -1736,6 +1808,13 @@ class DataStore {
     return $hash;
   }
 
+
+	/**
+	 * store the auth hash for the specified user
+	 * @param string $username name of the user
+   * @param string $hash authhash for the user
+   * @return string hash
+	 */
   function addAuthHash( $username, $hash ) {
     global $data_dir;
 
@@ -1807,8 +1886,8 @@ class DataStore {
 
 
 	/**
-	 * iterate through an array of auth hashes and clear out any that are more than
-	 * an hour old
+	 * iterate through an array of auth hashes and clear out any that are older than an hour
+   * @param array list of hashes
 	 */ 
   function clearOldAuthHashes( &$hashes ) {
 
@@ -1856,6 +1935,7 @@ class DataStore {
 
   /**
    * add a torrent to the tracker
+   * @param string $torrent name of the torrent file
    */
   function addTorrentToTracker( $torrent ) {
 
@@ -1911,6 +1991,7 @@ class DataStore {
 
 	/**
 	 * delete the given torrent from the filesystem
+   * @param string $torrent name of the torrent file
 	 */	
   function deleteTorrent( $torrent ) {
     global $seeder;
@@ -2044,6 +2125,11 @@ EOD;
  *  DATASTORE HOOKS
  *****************************************************************/
 
+/**
+ * hook which gets called before a file is deleted to handle some housekeeping tasks
+ * @param string $id id of the file
+ * @param object $handle if the files store is locked, this will be the handle
+ */
 function PreDeleteFile($id, $handle = NULL) {
 	global $store;
 
@@ -2084,6 +2170,11 @@ function PreDeleteFile($id, $handle = NULL) {
 
 }
 
+
+/**
+ * hook which gets called after a file is deleted to handle some housekeeping tasks
+ * @param string $id id of the file
+ */
 function PostDeleteFile($id) {
 
 	global $store;
@@ -2127,6 +2218,11 @@ function PostDeleteFile($id) {
 
 }
 
+
+/**
+ * hook which gets called when using the flat-file data later and loading a channel
+ * @param array $c channel data
+ */
 function FlatGetChannelHook(&$c) {
 	if ( isset($c["Options"]["Desc"]) ) {
 		$c["Options"]["Description"] = $c["Options"]["Desc"];
@@ -2138,7 +2234,13 @@ function FlatGetChannelHook(&$c) {
 	}
 }
 
+
+/**
+ * hook which gets called when loading a file
+ * @param array $f file data
+ */
 function FileHook(&$f) {
+  // if this is old data using the old 'Desc' key, rename it to description
 	if ( isset($f["Desc"]) ) {
 		$f["Description"] = $f["Desc"];
 		unset($f["Desc"]);
@@ -2146,6 +2248,10 @@ function FileHook(&$f) {
 
 }
 
+/**
+ * MySQL hook which gets called when loading a file
+ * @param array $f file data
+ */
 function MySQLFileHook(&$f) {
 	if ( isset($f["Desc"]) ) {
 		$f["Description"] = $f["Desc"];
@@ -2186,6 +2292,11 @@ function MySQLFileHook(&$f) {
 	return $f;
 }
 
+
+/**
+ * MySQL hook which gets called when loading a channel
+ * @param array $c channel data
+ */
 function MySQLGetChannelHook(&$c) {
 
 	global $store;
@@ -2243,6 +2354,11 @@ function MySQLGetChannelHook(&$c) {
 	return $c;
 }
 
+
+/**
+ * MySQL hook which gets called before saving a channel to do some housekeeping
+ * @param array $channel channel data
+ */
 function MySQLPreSaveChannelHook(&$channel) {
 	global $store;
 
@@ -2255,7 +2371,9 @@ function MySQLPreSaveChannelHook(&$channel) {
 	}
 
 	if ( $do_query == true ) {
-		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files WHERE channel_id = '" . $channel["ID"] ."' AND hash NOT IN (" . implode(",", $tmp) . ")";
+		$sql = "DELETE FROM " . $store->layer->prefix . "channel_files 
+            WHERE channel_id = '" . $channel["ID"] ."' 
+            AND hash NOT IN (" . implode(",", $tmp) . ")";
 		do_query($sql);
 	}
 
@@ -2306,6 +2424,11 @@ function MySQLPreSaveChannelHook(&$channel) {
 	do_query( $sql );
 }
 
+
+/**
+ * MySQL hook which gets called after saving a channel to do some housekeeping
+ * @param array $channel channel data
+ */
 function MySQLSaveChannelHook(&$channel) {
 
 	global $store;
@@ -2351,6 +2474,11 @@ function MySQLSaveChannelHook(&$channel) {
 	}	
 }
 
+
+/**
+ * MySQL hook which gets called when deleting a channel
+ * @param integer $id ID of the channel
+ */
 function MySQLDeleteChannelHook($id) {
   global $store;
 
@@ -2367,6 +2495,11 @@ function MySQLDeleteChannelHook($id) {
 	do_query($sql);
 }
 
+
+/**
+ * MySQL hook which gets called when loading donation data
+ * @param array $d donation data array
+ */
 function MySQLGetDonationHook(&$d) {
 
 	global $store;
@@ -2391,6 +2524,10 @@ function MySQLGetDonationHook(&$d) {
 }
 
 
+/**
+ * MySQL hook which gets called before saving a file
+ * @param array $f file data array
+ */
 function MySQLPreSaveFileHook(&$f) {
 
   global $store;
@@ -2437,6 +2574,10 @@ function MySQLPreSaveFileHook(&$f) {
 }
 
 
+/**
+ * MySQL hook which gets called when saving a file
+ * @param array $f file data
+ */
 function MySQLSaveFileHook(&$f) {
   global $store;
 		

@@ -1,7 +1,7 @@
 <?php
 /**
  * handles deleting channels and files
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

@@ -1,9 +1,10 @@
 <?php
 /**
  * Channel Display page
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
+/** include our main function library */
 require_once("include.php");
 
 if (!is_admin()) {
@@ -14,8 +15,6 @@ if (!is_admin()) {
 $channels = $store->getAllChannels();
 bm_header();
 ?>
-
-
 
 <SCRIPT LANGUAGE="JavaScript">
 <!-- Idea by:  Nic Wolfe (Nic@TimelapseProductions.com) -->

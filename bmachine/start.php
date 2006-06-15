@@ -4,7 +4,7 @@
  *
  * this starts the process of getting the files (if needed) and then
  * becoming a peer/seeder
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

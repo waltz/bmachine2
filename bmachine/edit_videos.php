@@ -1,7 +1,7 @@
 <?php
 /**
  * backend list of videos, with links to edit/delete/download
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 /*
 function mycomp($a, $b) {

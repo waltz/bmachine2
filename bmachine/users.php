@@ -1,7 +1,7 @@
 <?php
 /**
  * page to list/manage users
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

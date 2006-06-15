@@ -1,13 +1,17 @@
 <?php
-/**
- *
- * DEPRECATED - THIS CODE ISN'T BEING CALLED ANYMORE - LOOK AT mysql_layer.php
- * for calls that access MySQL
- *
- */
+
 
 global $data_dir;
 
+
+/**
+ * class for accessing mysql data
+ *
+ * DEPRECATED - THIS CODE ISN'T BEING CALLED ANYMORE - LOOK AT mysql_layer.php
+ * for calls that access MySQL
+ * @deprecated see mysql_layer.php instead
+ * @see MySQLDataLayer
+ */
 class MYSqlStore extends FlatFileStore {
 
   /** a prefix which will be added to table names to prevent potential conflicts with other apps */

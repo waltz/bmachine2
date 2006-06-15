@@ -1,7 +1,7 @@
 <?php
 /**
  * create and upload a .htaccess file using FTP
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 require_once("include.php");
 

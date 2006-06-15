@@ -1,7 +1,7 @@
 <?php
 /**
  * pause a server-shared torrent
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 

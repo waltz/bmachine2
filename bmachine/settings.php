@@ -1,7 +1,7 @@
 <?php
 /**
  * admin page for managing settings
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

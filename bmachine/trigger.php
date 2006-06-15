@@ -1,7 +1,7 @@
 <?php
 /**
  * trigger the Broadcast Machine torrent helper when doing an upload
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

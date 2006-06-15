@@ -2,7 +2,7 @@
 /**
  * page that handles sending users a link to regenerate their password if
  * they have forgotten it.
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");

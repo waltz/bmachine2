@@ -1,7 +1,7 @@
 <?php
 /**
  * take in information about a new torrent, and post it to our data files
- * @package Broadcast Machine
+ * @package BroadcastMachine
  */
 
 require_once("include.php");
