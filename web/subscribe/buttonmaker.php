@@ -76,6 +76,19 @@ $SubscribeLink = getSubscribeLink($URLList);
 <script src="/js/effects.js" type="text/javascript"></script>
 <script src="/js/mailinglist.js" type="text/javascript"></script>
 
+<script language="javascript">
+
+function showIndicator()
+{
+  Element.show('buttons_spinner');
+}
+
+function hideIndicator()
+{
+  Element.hide('buttons_spinner');
+}
+
+</script>
 	
 </head>
 	
@@ -102,7 +115,7 @@ color: #111;
 height: 191px;
 }
 
-#what_is h4, #install_info h4 {
+h4 {
 font-size: 18px;
 margin: 8px 0px 5px 0;
 padding: 0;
@@ -125,6 +138,14 @@ float: left;
 float: right;
 width: 500px;
 padding-top: 3px;
+}
+
+.button {
+width: 320px;
+float: left;
+padding-bottom: 15px;
+padding-top: 5px;
+
 }
 
 </style>
@@ -170,99 +191,49 @@ padding-top: 3px;
 	<!--/USERNAV-->
 	
 </div>	<!--/HEADER-->	
+
+
 	<!--CONTENT BLOCK-->
   <div class="content" style="padding:0px;">
 	
 
-<br />
-
-<div id="channel_list">
-<h3>now subscribing to:</h3>
 
 
-<div id="channels">
-<?php
-foreach ($URLList as $url) {
-print "".htmlentities($url)."<br />";
-}
-?>
-</div>
-
-<br style="clear: both;" />
-
-</div>
-
-
-
-
-<div id="install_info">
-
-<script language="JavaScript">
-	<!--
-function getfile(file, spawnpage)
-{
-  var browser = (window.navigator.userAgent.indexOf("SV1") != -1);
-  window.open(file,'downloading','toolbar=0,location=no,directories=0,status=0, scrollbars=no,resizable=0,width=1,height=1,top=0,left=0');
-  window.focus(); 
-  location.href = spawnpage;
-}
-
- if (navigator.appVersion.indexOf("Win")!=-1)
-		{
-   if ( window.navigator.userAgent.indexOf("MSIE") != -1 ) {
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.2.exe\', \'/downloads/windows.php\');">Version 0.8.2 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
-   }
-   else {
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="/downloads/windows.php">Version 0.8.4.1 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
-   }
-
-		}
-	else if (navigator.appVersion.indexOf("Mac")!=-1)
-		{
-		document.write('<h4>If you don\'t have Democracy Player, download it now:</h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="/downloads/osx.php">Version 0.8.4.1 for Mac OS X</a></div><div id="other_versions">Other versions: <a href="/downloads">Windows</a> - <a href="/downloads">Linux</a></div></div><h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>');
-		}
-	else if (navigator.appVersion.indexOf("X11")!=-1)
-		{
-		document.write('<h4>If you don\'t have Democracy Player, download it now:</h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="downloads/#linux">Version 0.8.4.1 for Linux</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Windows</a></div></div><h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>');
-		}
-	else
-		{	
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.2.exe\', \'/downloads/windows.php\');">Version 0.8.2 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
-		}
-	//-->
-</script>
-</div>
-</p>
-
-
-</div>
-
-<div id="what_is">
-
-<div id="screenshot">
-
-<img src="http://www.getdemocracy.com/images/layout/apple-screen-intro.png" alt="Democracy Player">
-
-</div>
-
-<h4>What is Democracy Player?</h4>
+<Br />
+<h4>Democracy 1-Click Subscribe Button Maker</h4>
 
 <p>
-Democracy Player is a free desktop application for watching internet TV.  You can subscribe to thousands of free internet TV channels, including any video podcast, video blog, or video RSS feed.
+Create buttons or a text link to subscribe your users to your video RSS feeds. 
 </p>
 
 <p>
-Features: easy to use, supports BitTorrent, watch fullscreen, free and open-source.  Democracy Player is developed by the Participatory Culture Foundation, a non-profit organization.
+Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:
+<ul>
+<li>
+<strong>You can make a button for a single RSS feed or multiple feeds.</strong>  If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.
+</li>
+<li>
+<strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong>  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)
+</li>
+</ul>
+
+<Br />
+<p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line.</strong><Br />
+
+
+<form name="button_form" action="ajax_generate_buttons.php" method="post" onsubmit="showIndicator(); Element.hide('generated_buttons'); new Ajax.Updater('generated_buttons', 'ajax_generate_buttons.php', {asynchronous:true, evalScripts:true, onComplete:function(request){Effect.SlideDown('generated_buttons'); hideIndicator()}, parameters:Form.serialize(this)}); return false;">
+
+<textarea cols="45" id="urls" name="urls" rows="5"></textarea>
+<br /><br />
+<input name="commit" type="submit" value="Make My Buttons &gt;&gt;" />
+<img alt="Indicator" class="spinner" height="5" id="buttons_spinner" src="/images/layout/indicator.gif" style="display: none; vertical-align: middle" width="21" />
+</form>
+
 </p>
 
-<p>
-To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepage</a>.</p>
+<div id="generated_buttons">
 
 </div>
-
-<p style="clear: both; margin-top: 25px;">
-<strong>1-click subscribe not working?</strong> If you already have Democracy Player, but it didn't open up and subscribe you to these channels when you came to this page, <a href="<?php echo $SubscribeLink; ?>">click here</a> to download the auto-subscribe file and then double-click it.
-</p>
 
 
 	<!--FOOTER-->
@@ -339,7 +310,8 @@ To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepag
 	
 	</div>
 
-
+</div>
 </div> <!-- close container -->
+
 
 </body>
