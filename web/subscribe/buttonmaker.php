@@ -78,16 +78,75 @@ $SubscribeLink = getSubscribeLink($URLList);
 
 <script language="javascript">
 
-function showIndicator()
+var originalButtonsHTML;
+
+function saveOriginalButtonsHTML()
 {
-  Element.show('buttons_spinner');
+  originalButtonsHTML = document.getElementById('generated_buttons').innerHTML;
 }
 
-function hideIndicator()
+function generateButtons()
 {
-  Element.hide('buttons_spinner');
-}
+  var buttonHTML = '';
+  var i;
+  var errorString = '';
+  var urlInput;
+  var urls;
+  var subscriptionUrl = "http://subscribe.getdemocracy.com/?";
+  
+  // add new buttons here
+  // add url to button img
+  // (make sure to add comma to current last img)
+  var buttons = new Array(
+    'http://getdemocracy.com/buttons/img/88x31-02.jpg',
+    'http://getdemocracy.com/buttons/img/88x31-02.jpg',
+    'http://FireAnt.tv/files/images/sub_fireant.gif',
+    'http://mefeedia.com/images/itunesmac.gif'
+  );
+  
+  document.getElementById('generated_buttons').innerHTML = originalButtonsHTML;
+  
+  
+  urlInput = document.getElementById('urls').value;
 
+  if (urlInput == null || urlInput == '')
+  {
+    errorString = "You need to enter at least one valid URL.  Please try again in the above field.";
+  }
+  else
+  {
+    urls = urlInput.split('\n');
+
+    for (i = 1; i <= urls.length; i++)
+    {
+      subscriptionUrl += "url" + i + "=" + escape(urls[(i - 1)]);
+
+      if (i != urls.length)
+      {
+        subscriptionUrl += "&";
+      }
+    }
+  }
+  
+  
+  for (i=0; i < buttons.length; i++)
+  {
+    buttonHTML += '<div class="button"><div class="image"><img src="' + buttons[i] +
+      '" alt="" /></div><div class="code"><textarea name="code" cols="38" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
+  }
+  
+  document.getElementById('subscription_url_link').innerHTML = 
+    '<a href="' + subscriptionUrl + '">' + subscriptionUrl + '</a>';
+  document.getElementById('buttons').innerHTML = buttonHTML;
+  
+  if (errorString != null && errorString != '')
+  {
+    document.getElementById('generated_buttons').innerHTML = 
+   '<p><strong>Error!</strong></p><p>' + errorString + '</p>';
+  }
+  
+  Effect.SlideDown('generated_buttons')
+}
 </script>
 	
 </head>
@@ -153,7 +212,7 @@ padding-top: 5px;
 	
 </head>
 
-<body>
+<body onLoad="saveOriginalButtonsHTML();">
 
 <!--CONTAINER-->
 <div id="container">
@@ -219,19 +278,20 @@ Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key wa
 
 <Br />
 <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line.</strong><Br />
-
-
-<form name="button_form" action="ajax_generate_buttons.php" method="post" onsubmit="showIndicator(); Element.hide('generated_buttons'); new Ajax.Updater('generated_buttons', 'ajax_generate_buttons.php', {asynchronous:true, evalScripts:true, onComplete:function(request){Effect.SlideDown('generated_buttons'); hideIndicator()}, parameters:Form.serialize(this)}); return false;">
-
 <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
 <br /><br />
-<input name="commit" type="submit" value="Make My Buttons &gt;&gt;" />
-<img alt="Indicator" class="spinner" height="5" id="buttons_spinner" src="/images/layout/indicator.gif" style="display: none; vertical-align: middle" width="21" />
-</form>
-
+<input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
 </p>
 
-<div id="generated_buttons">
+<div id="generated_buttons" style="display: none;">
+
+  <p><strong>Step 2. Pick the button you want to use and paste the code into your site.</strong></p>
+
+  <p>Subscribe URL: <span id="subscription_url_link"></span></p>
+
+  <div id="buttons">
+
+  </div>
 
 </div>
 
