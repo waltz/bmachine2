@@ -34,17 +34,18 @@ function getLink ($base, $urls) {
 
 // Returns a link to the page that generates OPML for this list of URLs
 function getSubscribeLink($urls) {
-  $base = '/subscribe-test2/opml.php';
+  $base = 'opml.php';
   return getLink ($base, $urls);
 }
 
 function getInstallerLink($urls) {
-  $base = '/subscribe-test2/installer.php';
+  $base = 'installer.php';
   return getLink ($base, $urls);
 }
 
 $URLList = getURLList();
 $SubscribeLink = getSubscribeLink($URLList);
+$InstallerLink = getInstallerLink($URLList);
 
 ?>
 
@@ -203,13 +204,7 @@ function getfile(file, spawnpage)
 
  if (navigator.appVersion.indexOf("Win")!=-1)
 		{
-   if ( window.navigator.userAgent.indexOf("MSIE") != -1 ) {
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.2.exe\', \'/downloads/windows.php\');">Version 0.8.2 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
-   }
-   else {
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="/downloads/windows.php">Version 0.8.4.1 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
-   }
-
+		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div class="download-button"><a href="<?= $InstallerLink ?>">Version 0.8.4.1 for Windows</a></div><div id="other_versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div></div>');
 		}
 	else if (navigator.appVersion.indexOf("Mac")!=-1)
 		{
