@@ -6,22 +6,16 @@ if (get_magic_quotes_gpc()) {
 }
 
 // Returns an array of URLs passed on the command line
-// Should either be in the form http://thisserver/thisdir/url or
-// http://thisserver/thisdir/?url1=url1&url2=url2&url3=url3
+// Should be in the form thisscript.php?url1=url1&url2=url2&url3=url3
+
 function getURLList() {
-  $base = '/subscribe-test2/';
-  $url = substr($_SERVER['REQUEST_URI'],strlen($base));
-  if ($url[0] != '?') {
-    return array($url);
-  } else {
-    $urls = array();
-    $count = 1;
-    while (isset($_GET['url'.$count])) {
-      $urls[] = $_GET['url'.$count];
-      $count++;
-    }
-    return $urls;
+  $urls = array();
+  $count = 1;
+  while (isset($_GET['url'.$count])) {
+    $urls[] = $_GET['url'.$count];
+    $count++;
   }
+  return $urls;
 }
 
 function getLink ($base, $urls) {

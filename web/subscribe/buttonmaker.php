@@ -1,62 +1,3 @@
-<?php
-
-// I hate PHP
-if (get_magic_quotes_gpc()) {
-   $_GET    = array_map('stripslashes', $_GET);
-}
-
-// Returns an array of URLs passed on the command line
-// Should either be in the form http://thisserver/thisdir/url or
-// http://thisserver/thisdir/?url1=url1&url2=url2&url3=url3
-function getURLList() {
-  $base = '/subscribe-test2/';
-  $url = substr($_SERVER['REQUEST_URI'],strlen($base));
-  if ($url[0] != '?') {
-    return array($url);
-  } else {
-    $urls = array();
-    $count = 1;
-    while (isset($_GET['url'.$count])) {
-      $urls[] = $_GET['url'.$count];
-      $count++;
-    }
-    return $urls;
-  }
-}
-
-function getLink ($base, $urls) {
-  
-  $out = $base;
-  $link = '?';
-  $count = 1;
-
-  foreach ($urls as $url) {
-    $out .= $link.'url'.$count.'='.urlencode($url);
-    $link = '&amp;';
-    $count++;
-  }
-  return $out;
-}
-
-// Returns a link to the page that generates OPML for this list of URLs
-function getSubscribeLink($urls) {
-  $base = '/subscribe-test2/opml.php';
-  return getLink ($base, $urls);
-}
-
-function getInstallerLink($urls) {
-  $base = '/subscribe-test2/installer.php';
-  return getLink ($base, $urls);
-}
-
-$URLList = getURLList();
-$SubscribeLink = getSubscribeLink($URLList);
-
-?>
-
-
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -92,7 +33,7 @@ function generateButtons()
   var errorString = '';
   var urlInput;
   var urls;
-  var subscriptionUrl = "http://subscribe.getdemocracy.com/?";
+  var subscriptionUrl = "http://subscribe.getdemocracy.com/subscribe.php?";
   
   // add new buttons here
   // add url to button img
