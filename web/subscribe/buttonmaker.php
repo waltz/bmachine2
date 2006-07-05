@@ -39,10 +39,14 @@ function generateButtons()
   // add url to button img
   // (make sure to add comma to current last img)
   var buttons = new Array(
-    'http://getdemocracy.com/buttons/img/88x31-02.jpg',
-    'http://getdemocracy.com/buttons/img/88x31-02.jpg',
-    'http://FireAnt.tv/files/images/sub_fireant.gif',
-    'http://mefeedia.com/images/itunesmac.gif'
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-01.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-02.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-08.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-09.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-15.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-16.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-10.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-14.gif'
   );
   
   document.getElementById('generated_buttons').innerHTML = originalButtonsHTML;
