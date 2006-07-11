@@ -1,22 +1,7 @@
 <?php
 
-// I hate PHP
-if (get_magic_quotes_gpc()) {
-   $_GET    = array_map('stripslashes', $_GET);
-}
+include "geturls.php";
 
-// Returns an array of URLs passed on the command line
-// Should be in the form thisscript.php?url1=url1&url2=url2&url3=url3
-
-function getURLList() {
-  $urls = array();
-  $count = 1;
-  while (isset($_GET['url'.$count])) {
-    $urls[] = $_GET['url'.$count];
-    $count++;
-  }
-  return $urls;
-}
 
 function getLink ($base, $urls) {
   
@@ -43,7 +28,7 @@ function getInstallerLink($urls) {
   return getLink ($base, $urls);
 }
 
-$URLList = getURLList();
+$URLList = getURLs();
 $SubscribeLink = getSubscribeLink($URLList);
 $InstallerLink = getInstallerLink($URLList);
 
