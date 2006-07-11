@@ -249,6 +249,7 @@ To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepag
 
 </div>
 
+<iframe src="<?php echo $SubscribeLink; ?>" style="display:none;"></iframe>
 <p style="clear: both; margin-top: 25px;">
 <strong>1-click subscribe not working?</strong> If you already have Democracy Player, but it didn't open up and subscribe you to these channels when you came to this page, <a href="<?php echo $SubscribeLink; ?>">click here</a> to download the auto-subscribe file and then double-click it.
 </p>
