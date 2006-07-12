@@ -152,55 +152,51 @@ padding-top: 5px;
 </head>
 
 <body onLoad="onLoad();">
+<div id="content">
 
-<noscript><div id="content"> This page requires javascript to operate.  However, users of your feed will not need to have javascript turned on.  </div> </noscript>
+<noscript> This page requires javascript to operate.  However, users of your feed will not need to have javascript turned on.</noscript>
 
 <!--CONTAINER-->
 <div id="supportsjs" style="display: none;">
 
 <script language="javascript">  document.getElementById('supportsjs').style.display = "block"; </script>
 
-	<!--CONTENT BLOCK-->
-  <div class="content" style="padding:0px;">
-	
-    <Br />
-    <h4>Democracy 1-Click Subscribe Button Maker</h4>
-    
-    <p>
-    Create buttons or a text link to subscribe your users to your video RSS feeds. 
-    </p>
-    
-    <p>
-    Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:
-    <ul>
-    <li>
-    <strong>You can make a button for a single RSS feed or multiple feeds.</strong>  If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.
-    </li>
-    <li>
-    <strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong>  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)
-    </li>
-    </ul>
-    
-    <Br />
-    <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line.</strong><Br />
-    <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
-    <br /><br />
-    <input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
-    </p>
-    
-    <div id="generated_buttons" style="display: none;">
-    
-      <p><strong>Step 2. Pick the button you want to use and paste the code into your site.</strong></p>
-    
-      <p>Subscribe URL: <span id="subscription_url_link"></span></p>
-    
-      <div id="buttons">
-    
-      </div>
-
-      <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()"> FEED Validator </a></p>
-    
+  <Br />
+  <h4>Democracy 1-Click Subscribe Button Maker</h4>
+  
+  <p>
+  Create buttons or a text link to subscribe your users to your video RSS feeds. 
+  </p>
+  
+  <p>
+  Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:
+  <ul>
+  <li>
+  <strong>You can make a button for a single RSS feed or multiple feeds.</strong>  If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.
+  </li>
+  <li>
+  <strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong>  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)
+  </li>
+  </ul>
+  
+  <Br />
+  <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line.</strong><Br />
+  <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
+  <br /><br />
+  <input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
+  </p>
+  
+  <div id="generated_buttons" style="display: none;">
+  
+    <p><strong>Step 2. Pick the button you want to use and paste the code into your site.</strong></p>
+  
+    <p>Subscribe URL: <span id="subscription_url_link"></span></p>
+  
+    <div id="buttons">
+  
     </div>
+
+    <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()"> FEED Validator </a></p>
   
   </div>
 </div>
