@@ -200,5 +200,6 @@ padding-top: 5px;
   
   </div>
 </div>
+</div>
 
 <?php include "include/end.php" ?>
