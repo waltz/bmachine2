@@ -11,23 +11,6 @@ Version 1.0
 /* STRUCTURAL ELEMENTS
 ---------------------------------------------------------------------------------------------------- */
 
-body {
-	background: #FFFFFF;
-	margin: 0px;
-}
-
-#container {
-	position: absolute;
-	width: 750px;
-	left: 50%;
-	margin-left: -375px;
-}
-
-#header {
-	height: 58px;
-	margin-bottom: 30px;
-}
-
 #countdown {
 	margin-bottom: 30px;
 }
@@ -146,22 +129,6 @@ body {
 /* STYLES
 ---------------------------------------------------------------------------------------------------- */
 
-body {
-	font: 13px "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-	color: #000000;
-	text-decoration: none;
-}
-
-.content p a:link, .content p a:visited, .content p a:active, li a:link, li a:visited, li a:active {
-	font-weight: bold;
-	color: #0A81BF;
-	text-decoration: underline;	
-}
-
-.content p a:hover, li a:hover {
-	text-decoration: none;	
-}
-
 a.internal:link, a.internal:visited, a.internal:active {
 	font-weight: bold;
 	color: #BF0A3E;
@@ -172,17 +139,6 @@ a.internal:hover {
 	text-decoration: none;	
 }
 
-ul {
-	margin: 0px 0px 20px 20px;
-	padding: 0px;
-	list-style: none;
-}
-
-li {
-	margin: 0px 0px 5px;
-	padding: 0px;
-}
-
 form {
 	margin: 0px;
 	padding: 0px;
@@ -190,63 +146,6 @@ form {
 
 img {
 	border: 0px;
-}
-
-.clearer {
-	clear: both;
-	margin: 0px;
-	padding: 0px;
-	line-height: 0px;
-}
-
-.content h1 {
-	font-size: 225%;
-	font-weight: normal;
-	text-decoration: none;
-	margin: 0px;
-	padding: 0px;
-}
-
-.content h2 {
-	font-size: 170%;
-	font-weight: normal;
-	text-decoration: none;
-	color: #FFFFFF;
-	margin: 0px 0px 10px;
-	padding: 6px 0px 0px 10px;
-	background: url(../img/layout/bg-press-heading.gif) repeat-x left top;
-	height: 40px;
-}
-
-.content h3 {
-	font-size: 175%;
-	font-weight: normal;
-	text-decoration: none;	
-	color: #98C66A;
-	margin: 0px;
-	padding: 0px;
-}
-
-.content-heading {
-	font-size: 175%;
-	font-weight: normal;
-	text-decoration: none;	
-	color: #98C66A;
-}
-
-.content p {
-	margin: 0px 0px 20px;
-	padding: 0px;
-	line-height: 18px;
-}
-
-#press-releases {
-	width: 250px;
-	float: right;
-	margin: 40px 0px 10px 10px;
-	background: #FFFDED;
-	padding: 10px 10px 0px 15px;
-	border: 1px solid #F5ECA4;
 }
 
 textarea {

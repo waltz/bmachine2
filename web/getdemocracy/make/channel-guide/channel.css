@@ -1,0 +1,59 @@
+body {
+font-family: verdana, sans-serif;
+font-size: 13px;
+margin: 0 0 0 0;
+padding: 23px 0 0 0px;
+background-color: #fff;
+line-height: 1.4em;
+border-top: 3px solid #2E4175;
+color: #222;
+background: url(../images/mini_pcf_title.gif) top left no-repeat;
+}
+
+a {
+color: #00A;
+}
+
+a:visited {
+color: #339;
+}
+
+p {
+margin: 0 0 10px 0;
+padding: 0;
+}
+
+#rap {
+margin: 0 auto 0 auto;
+width: 550px;
+padding: 16px 35px 25px 35px;
+background-color: white;
+text-align: justify;
+}
+
+#name {
+color: #999;
+}
+
+h2 {
+font-size: 22px;
+color: #A5312E;
+font-family: Georgia, "Times New Roman", Times, serif;
+font-weight: normal;
+padding: 20px 0 8px 0;
+margin: 0;
+}
+
+
+h3 {
+font-size: 17px;
+color: #2E4175;
+font-weight: normal;
+font-family: Georgia, "Times New Roman", Times, serif;
+padding: 6px 0 1px 0;
+margin: 0;
+}
+
+h3 a, h3 a:visited {
+color: #2E4175;
+}

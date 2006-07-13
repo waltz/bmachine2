@@ -1,109 +1,87 @@
-<?php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> <head>
 
-include "/data/getdemocracy/site-live/include/start.php";
+<title>Democracy: Internet TV</title>
 
-print<<<END
+<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
 
-		<div id="content-2col">
-			<div id="content-left-2col">
-			<div id="sub-main-2col">
-				<h2>Contact PCF</h2>
-			</div>
+</head>
 
-			<div style="float: right; padding: 0px 8px 8px 8px; width: 120px; margin-top: -4px;"><a
-			href="http://www.ci.worcester.ma.us/"><img src="http://www.getdemocracy.com/contact/city_seal.png" /></a></div>
+<body>
 
-			<p>The Participatory Culture Foundation develops Democracy.  We are based in Worcester, MA USA, but
-			some of our staff live in other parts of the world, including Canada and France.</p>
+<!--CONTAINER--> <div id="container">
 
-			<p>For questions about Democracy Player or Broadcast Machine, please use the <a
-			href="http://www.getdemocracy.com/help/">Help page</a>.  Other inquiries: </p>
+<!--HEADER--> <?php include("/data/getdemocracy/site-live/includes/header.php"); ?> <!--/HEADER-->
 
-			<h5 style="float: left; width: 120px; font-weight: bold;margin:0;font-size:15px">press inquiries:</h5> <p style="margin-left:
-			120px; text-align: left;"><a
-			href="http://www.getdemocracy.com/press">Press Page</a></p>
+<!--CONTENT BLOCK--> <div class="content">
 
-			<h5 style="float: left; width: 120px; font-weight: bold;margin:0;font-size:15px">our website:</h5> <p style="margin-left:
-			120px; text-align: left;"><a
-			href="http://www.participatoryculture.org">participatoryculture.org</a></p>
+<div class="left">
 
-			<h5 style="float: left; width: 120px; font-weight: bold;margin:0;font-size:15px">our address:</h5> <p style="margin-left:
-			120px; text-align: left;">Participatory Culture Foundation<br />126
-			Eastern Ave<br />Worcester,
-			MA, USA 01605</p>
-
-			<div class="column4"> <h5>email:</h5> <p><a
-			href="mailto:feedback@pculture.org">feedback[at]pculture.org</a></p> </div>
-
-			<div class="column4"> <h5>phone:</h5> <p>508-756-7496</p> </div>
-
-			<div class="column4"> <h5>fax:</h5> <p>508-519-0490</p> </div>
+<div style="margin-left:5px;">
 
 
-			</div>
-			<div id="content-right-2col">
-				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/help/">About the Platform</a>
-						<ul>
-							<li><a href="http://getdemocracy.com/news">News / Blog</a></li>
-							<li><a href="http://getdemocracy.com/press">Press</a></li>
-							<li><a href="http://getdemocracy.com/contact">Contact</a></li>
-							<li><a href="http://getdemocracy.com/store">Store</a></li>
-							<li><a href="http://getdemocracy.com/jobs">Jobs</a></li>
-							<li><a href="https://secure.democracyinaction.org/dia/organizations/pcf/shop/custom.jsp?donate_page_KEY=1283&t=Democracy.dwt">Donate</a></li>
-						</ul>
-					</li>
-				</ul>
-				<div id="lower-sidebar">
-				<h6>Stay up to Date</h6>
-					<p>Things are moving fast. Check out our blog and signup for email notifications below (we won't share your email address with anyone and we only send occasional, important announcements).</p>
+<div id="page_title"> <h1>Contact PCF</h1> </div>
 
-					<h6>Viewers: Sign-up</h6>
-					<p>Be the first to know about new versions of the Democracy player:
-					<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
-						<input type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
-						<input type=hidden name="makeconfirmed" value="1"/>
-						<input type="hidden" name="htmlemail" value="1" />
-						<input type="hidden" name="list[4]" value="signup" />
-						<input type="hidden" name="listname[4]" value="Viewers" />
-						<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
-					</form>
-					</p>
-					<p><a href="http://getdemocracy.com/watch">Watch TV page >></a></p>
+<div style="float: right; padding: 0px 8px 8px 8px; width: 120px; margin-top: -4px;"><a
+href="http://www.ci.worcester.ma.us/"><img src="city_seal.png" /></a></div>
 
-					<h6>Videomakers / Publishers</h6>
-					<p>Get updates about Broadcast Machine and channel creation:
-					<form action="http://participatoryculture.org/lists/?p=subscribe&id=2" method="post" name="subscribeform">
-						<input type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
-						<input type=hidden name="makeconfirmed" value="1"/>
-						<input type="hidden" name="htmlemail" value="1" />
-						<input type="hidden" name="list[2]" value="signup" />
-						<input type="hidden" name="listname[2]" value="Creators" />
-						<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
-					</form>
-					</p>
-					<p><a href="http://getdemocracy.com/make">Make TV page >></a></p>
+<p>The Participatory Culture Foundation develops Democracy.  We are based in Worcester, MA USA, but
+some of our staff live in other parts of the world, including Canada and France.</p>
 
-					<h6>Translators</h6>
-					<p>DTV and Broadcast Machine will soon support translations.  Signup if you'd like to help:
-					<form action="http://participatoryculture.org/lists/?p=subscribe&id=3" method="post" name="subscribeform">
-						<input type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
-						<input type=hidden name="makeconfirmed" value="1"/>
-						<input type="hidden" name="htmlemail" value="1" />
-						<input type="hidden" name="list[3]" value="signup" />
-						<input type="hidden" name="listname[3]" value="Developers" />
-						<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
-					</form>
-						</p>
-				</div>
+<p>For questions about Democracy Player or Broadcast Machine, please use the <a
+href="http://www.getdemocracy.com/help/">Help page</a>.  Other inquiries: </p>
 
-				</div>
-			</div>
-			<div class="clearer"></div>
-		</div>
+<h2 style="float: left; width: 120px; font-weight: bold;">press inquiries:</h2> <p style="margin-left:
+120px; text-align: left;"><a
+href="http://www.getdemocracy.com/press">Press Page</a></p>
 
-END;
+<h2 style="float: left; width: 120px; font-weight: bold;">our website:</h2> <p style="margin-left:
+120px; text-align: left;"><a
+href="http://www.participatoryculture.org">participatoryculture.org</a></p>
 
-include "/data/getdemocracy/site-live/include/end.php";
 
-?>
+
+
+<h2 style="float: left; width: 120px; font-weight: bold;">our address:</h2> <p style="margin-left:
+120px; text-align: left;">Participatory Culture Foundation<br />126 
+Eastern Ave<br />Worcester,
+MA, USA 01605</p>
+
+
+<div class="column3"> <h2>email:</h2> <p><a
+href="mailto:feedback@pculture.org">feedback[at]pculture.org</a></p> </div>
+
+<div class="column3"> <h2>phone:</h2> <p>508-756-7496</p> </div>
+
+<div class="column3"> <h2>fax:</h2> <p>508-519-0490</p> </div>
+
+</div>
+
+
+</div>
+
+
+<!--SIDEBAR--> <div id="sidebar" class="sidebar">
+
+
+
+<ul class="sidebar-nav">
+
+<?php include("/data/getdemocracy/site-live/includes/about-links.php"); ?>
+
+</ul>
+
+
+
+
+<?php include("/data/getdemocracy/site-live/includes/sidebar-newsletters.php"); ?>
+
+</div> <!--/ SIDEBAR-->
+
+</div> <!--/CONTENT BLOCK-->
+
+<!--FOOTER--> <?php include("/data/getdemocracy/site-live/includes/footer.php"); ?> <!--/FOOTER-->
+
+</div> <!--/CONTAINER-->
+
+</body> </html>

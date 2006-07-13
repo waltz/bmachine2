@@ -10,6 +10,7 @@ print<<<END
 		<title>Democracy - Internet TV Platform - Free and Open Source</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="/stylesheets/main.css" type="text/css" media="screen" />
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://getdemocracy.com/news/feed">
 	</head>
 
 	<body>
@@ -18,11 +19,11 @@ print<<<END
 				<h1><a href="http://getdemocracy.com">Democracy - Internet TV Platform - Free and Open Source</a></h1>
 				<ul id="nav-main">
 					<li><a href="/downloads">Downloads</a></li>
-					<li><a href="http://forums.getdemocracy.com">Forums</a></li>
+					<li><a href="http://forum.getdemocracy.com">Forums</a></li>
 					<li><a href="/donate">Donate</a></li>
 					<li><a href="/help">Help</a></li>
 					<li><a href="/about">About</a></li>
-					<li><a href="/new">Blog</a></li>
+					<li><a href="/news">Blog</a><a href="/news/feed/"><img src='/images/feed-white.gif' border="0" /></a></li>
 				</ul>
 			</div>
 			<ul id="nav-sub">

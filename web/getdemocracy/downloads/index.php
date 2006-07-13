@@ -11,9 +11,15 @@ print<<<END
 			</div>
 
 			<div id="downloadarea-sub">
-				<div id="download-button-sub"><a href="osx.php">Version 0.8.4.1 for Mac OS X</a></div>
-				<div id="download-versions-sub">Other versions: <a href="windows.php">Windows</a> - <a href="#">Linux Developer Alpha</a></div>
+
+
+END;
+
+include "/data/getdemocracy/site-live/include/download-button.php" ;
+
+print<<<END
 			</div>
+
 			<div id="downloads">
 			<p><strong>Windows and Mac Versions</strong></p>
 

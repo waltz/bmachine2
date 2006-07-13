@@ -23,16 +23,17 @@ print<<<END
 		</div>
 		<div id="sub-channels">
 			<h2>500 Channels Waiting for You</h2>
-			<p class="subhead">There are more than 300 channels in the Channel Guide that is built-in to Democracy. They're as interesting and diverse as the
+			<p class="subhead">There are more than 500 channels in the Channel Guide that is built-in to Democracy. They're as interesting and diverse as the
 			internet itself. You can subscribe to any of them for free with a single click. Here are a few examples:</p>
 			<ul>
-				<li id="channel1"><img src="/images/frederator.png" border="4" bordercolor="#EEEEEE" />
+				<li id="channel1"><img src="/images/frederator.png" border="4" height=157 width=235 />
 				<h5><a href="http://http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
-				<li id="channel2"><img src="/images/lady_sovereign.jpg" border="4" bordercolor="#EEEEEE" />
+				<li id="channel2"><img src="/images/lady_sovereign.jpg" border="4" height=157 width=235 />
 				<h5><a href="http://telemusicvision.com/">Telemusicvision</a></h5></li>
-				<li id="channel3"><img src="/images/media_that_matters.png" border="4" bordercolor="#EEEEEE" />
+				<li id="channel3"><img src="/images/media_that_matters.png" border="4" height=157 width=235 />
 				<h5><a href="http://mediathatmattersfest.org">Media That Matters</a></h5></li>
 			</ul>
+			<br style="clear: both;" />
 		</div>
 		<div id="content">
 			<div id="content-left">

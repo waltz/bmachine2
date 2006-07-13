@@ -15,15 +15,8 @@ print<<<END
 			<p>Broadcast Machine is software you install on your website to easily publish video files and create internet TV channels (video blogs, video podcasts, video RSS feeds). Broadcast Machine gives you the option of using torrent technology to reduce or eliminate bandwidth costs, even when you are posting high quality video to thousands of people.  It's free, open source software, and is designed for easy installation.</p>
 								<p>Broadcast Machine features an intuitive interface, integrated torrent creation, and flexible channel management.  It also creates a browsable archive of videos on your website. Broadcast Machine is the perfect publishing tool for making channels that work with <a href="http://www.getdemocracy.com">Democracy Player</a>.</p>
 			<h4>Download and Install</h4>
-				<div id="downloadarea-sub">
-END;
 
-include("/data/getdemocracy/site-live/include/download-button.php");
-
-print<<<END
-					<div id="download-versions-sub">Other versions: <a href="#">Windows</a> - <a href="#">Linux Developer Alpha</a></div>
-				</div>
-			<p><strong><a href="http://www.getdemocracy.com/make/channel-guide/installation_instructions.php">Installation Instructions</a></strong><br /><a href="http://www.getdemocracy.com/broadcast/help/">Help / Documentation</a> - <a href="http://www.getdemocracy.com/make/channel-guide/">Tutorial</a> - <a href="https://develop.participatoryculture.org/projects/democracy/wiki/BroadcastMachineThemes">How to Customize a Theme</a></p>
+			<p><strong><a href="bm.zip">Broadcast Machine (Version 23)</a></strong> - <strong><a href="http://www.getdemocracy.com/make/channel-guide/installation_instructions.php">Installation Instructions</a></strong><br /><a href="http://www.getdemocracy.com/broadcast/help/">Help / Documentation</a> - <a href="http://www.getdemocracy.com/make/channel-guide/">Tutorial</a> - <a href="https://develop.participatoryculture.org/projects/democracy/wiki/BroadcastMachineThemes">How to Customize a Theme</a></p>
 
 			<h4>Installs easily.</h4>
 				<ul>
