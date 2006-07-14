@@ -1,6 +1,6 @@
 <?php
 
-include "include/start.php";
+include "/data/getdemocracy/site-live/include/start.php";
 
 print<<<END
 
@@ -68,6 +68,6 @@ print<<<END
 
 END;
 
-include "include/end.php";
+include "/data/getdemocracy/site-live/include/end.php";
 
 ?>

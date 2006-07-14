@@ -36,7 +36,7 @@ print<<<END
 			<p>If you already have a content management system on your website that will let users post videos, you can generate <a href="/help/feeds.php">compatible RSS feeds</a> to give everyone a channel.</p>
 
 			<h4>Who's making channels?</h4>
-			<p><a href="channel_examples.php">Meet some of the people and organizations</a> using Democracy, everyone from video bloggers to teachers, from public-interest media to independent musicians.</p>
+			<p><a href="channel-examples.php">Meet some of the people and organizations</a> using Democracy, everyone from video bloggers to teachers, from public-interest media to independent musicians.</p>
 
 			<h4>Help, FAQ, and Forums</h4>
 			<p>There's a lot of different ways to make and troubleshoot your channels. Try our <a href="/help">Help Center</a>, <a href="/help/faq">FAQ</a>, and <a href="http://forum.getdemocracy.com">Support Forums</a>.</p>
