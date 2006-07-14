@@ -86,12 +86,16 @@ function generateButtons()
 
   }
   
-  
+  buttonHTML+='<div id="content-left">';
   for (i=0; i < buttons.length; i++)
   {
     buttonHTML += '<div id="button"><div class="image"><img src="' + buttons[i] +
       '" alt="" /></div><div class="code"><textarea name="code" cols="38" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
+    if (i == Math.floor((buttons.length - 1) / 2)) {
+      buttonHTML+='</div><div id="content-right">';
+    }
   }
+  buttonHTML+='</div><br clear="all" />'; 
   
   if (errorString != null && errorString != '') {
     document.getElementById('generated_buttons').innerHTML = 
@@ -231,9 +235,9 @@ padding-top: 5px;
     <div id="buttons">
   
     </div>
-  
     <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()">Feed Validator</a></p>
   </div>
+
   <!--/Generated Buttons-->
 
 <!--/js-->
@@ -241,5 +245,4 @@ padding-top: 5px;
 
 <!--/CONTAINER-->
 </div>
-
 <?php include "include/end.php" ?>
