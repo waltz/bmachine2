@@ -1,24 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-
-<title>Democracy - Internet TV Platform - Free and Open Source</title>
-
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
+<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
 	
-</head>
-
-<body>
-
-<!--CONTAINER-->
-<div id="container">
-
-	<!--HEADER-->
-	<?php include("/data/getdemocracy/site-live/includes/header.php"); ?>
-	<!--/HEADER-->
-	
-	<!--CONTENT BLOCK-->
-  <div class="content" style="padding:0px;">
+<!--CONTENT BLOCK-->
+<div id="content">
+<div id="content-1col">
 	
 		<div id="page_title">
 		<h1>Page Not Found</h1>
@@ -35,7 +19,8 @@
 	
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
+	<?php include("/data/getdemocracy/site-live/include/end.php"); 
+?>	
 	<!--/FOOTER-->
 
 </div>
