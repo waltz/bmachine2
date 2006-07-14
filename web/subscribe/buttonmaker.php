@@ -1,6 +1,22 @@
-<?php include "include/start.php" ?>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
+<title>Democracy - Internet TV Platform - Free and Open Source</title>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" type="image/ico" href="http://getdemocracy.com/favicon.ico" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://getdemocracy.com/news/feed" />
+
+<script src="/js/prototype.js" type="text/javascript"></script>
+<script src="/js/scriptaculous.js" type="text/javascript"></script>
+<script src="/js/effects.js" type="text/javascript"></script>
+<script src="/js/mailinglist.js" type="text/javascript"></script>
+
 
 <script language="javascript">
 
@@ -73,7 +89,7 @@ function generateButtons()
   
   for (i=0; i < buttons.length; i++)
   {
-    buttonHTML += '<div class="button"><div class="image"><img src="' + buttons[i] +
+    buttonHTML += '<div id="button"><div class="image"><img src="' + buttons[i] +
       '" alt="" /></div><div class="code"><textarea name="code" cols="38" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
   }
   
@@ -152,40 +168,60 @@ padding-top: 5px;
 </head>
 
 <body onLoad="onLoad();">
-<div id="content">
+<!--HEADER-->
+	<div id="header">
+	
 
-<noscript> This page requires javascript to operate.  However, users of your feed will not need to have javascript turned on.</noscript>
+	<div id="header-top">
+		<h1><a href="http://getdemocracy.com"><span></span>Democracy: Internet TV</a></h1>
+
+		<ul id="nav-main">
+			<li><a href="http://getdemocracy.com/help">Help</a></li>
+			<li><a href="http://getdemocracy.com/downloads">Downloads</a></li>
+			<li><a href="http://getdemocracy.com/donate">Donate</a></li>
+
+			<li><a href="http://getdemocracy.com/about">About</a></li>
+			<li><a href="http://getdemocracy.com/news">Blog</a><a href="http://getdemocracy.com/news/feed" class="feed">&nbsp;</a></li>		
+		</ul>
+	</div>
+	
+	
+		<ul id="nav-sub">
+			<li id="nav-watch"><a href="http://getdemocracy.com/watch"></a></li>
+			<li id="nav-make"><a href="http://getdemocracy.com/make"></a></li>
+			<li id="nav-code"><a style="margin-right: 0;" href="http://getdemocracy.com/code"></a></li>
+		</ul>
+
+	
+	</div>	<!--/HEADER-->
 
 <!--CONTAINER-->
+<div id="content">
+<noscript> This page requires javascript to operate.  However, users of your feed will not need to have javascript turned on.</noscript>
+
+<!--js-->
 <div id="supportsjs" style="display: none;">
 
 <script language="javascript">  document.getElementById('supportsjs').style.display = "block"; </script>
 
-  <Br />
+  <br />
   <h4>Democracy 1-Click Subscribe Button Maker</h4>
   
-  <p>
-  Create buttons or a text link to subscribe your users to your video RSS feeds. 
-  </p>
+  <p>Create buttons or a text link to subscribe your users to your video RSS feeds.</p>
   
-  <p>
-  Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:
+  <p>Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:</p>
   <ul>
-  <li>
-  <strong>You can make a button for a single RSS feed or multiple feeds.</strong>  If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.
-  </li>
-  <li>
-  <strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong>  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)
-  </li>
+  	<li><strong>You can make a button for a single RSS feed or multiple feeds.</strong><br/>If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.</li>
+  	<li><strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong><br />  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)</li>
   </ul>
   
-  <Br />
-  <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line.</strong><Br />
+  <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line:</strong><br />
   <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
   <br /><br />
   <input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
   </p>
-  
+
+  <!--Generated Buttons-->
   <div id="generated_buttons" style="display: none;">
   
     <p><strong>Step 2. Pick the button you want to use and paste the code into your site.</strong></p>
@@ -195,11 +231,15 @@ padding-top: 5px;
     <div id="buttons">
   
     </div>
-
-    <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()"> FEED Validator </a></p>
   
+    <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()">Feed Validator</a></p>
   </div>
+  <!--/Generated Buttons-->
+
+<!--/js-->
 </div>
+
+<!--/CONTAINER-->
 </div>
 
 <?php include "include/end.php" ?>
