@@ -55,7 +55,13 @@ print<<<END
 		<p>The Democracy platform is a project of the <a href="http://participatoryculture.org">Participatory Culture Foundation</a></p>
 		<div class="clearer"></div>
 		</div>
-
+		
+		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+		_uacct = "UA-163840-3";
+		urchinTracker();
+		</script>
 	</body>
 
 </html>

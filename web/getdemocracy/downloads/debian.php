@@ -1,7 +1,8 @@
 <?php include("/data/getdemocracy/site-live/include/start.php"); ?>
 
 <!--CONTENT BLOCK-->
-<div class="content">
+<div id="content">
+<div id="content-1col">
 
 			<!--<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color:
 #444;"><strong>Democracy Player is downloading...</strong>-->
@@ -29,9 +30,8 @@ You can also install it temporarily by downloading these two files:
 
 
   </div>
-  <!--/CONTENT BLOCK-->
 
 	<!--FOOTER-->
 	<?php include("/data/getdemocracy/site-live/include/end.php"); ?>
 	<!--/FOOTER-->
-
+</div>

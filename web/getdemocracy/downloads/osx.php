@@ -14,18 +14,15 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
 
 <body>
 
-<!--CONTAINER-->
-<div id="container">
+<div id="content">
 
 
 	<!--CONTENT BLOCK-->
-  <div class="content">
+  <div class="content-1col">
 
 			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player for OS X is downloading...</strong>
 
-						<p style="text-align:center; font-size: 12px;">If your download didn't
-start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">click
-here</a>.<br />To play Windows Media files, <a href="http://www.flip4mac.com/wmv_download.htm">get this free plugin.</a></p>
+						<p style="text-align:center; font-size: 12px;">If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">click here</a>.<br />To play Windows Media files, <a href="http://www.flip4mac.com/wmv_download.htm">get this free plugin.</a></p>
 
 			</div>
 
@@ -50,7 +47,6 @@ here</a>.<br />To play Windows Media files, <a href="http://www.flip4mac.com/wmv
 	<!--/FOOTER-->
 
 </div>
-<!--/CONTAINER-->
 
 </body>
 </html>

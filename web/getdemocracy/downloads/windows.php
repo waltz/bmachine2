@@ -13,12 +13,9 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe">
 
 <body>
 
-<!--CONTAINER-->
-<div id="container">
-
-	<!--CONTENT BLOCK-->
-  <div class="content">
-
+  <!--CONTENT BLOCK-->
+  <div id="content">
+  <div id="content-1col">
 
 
 						<div class="big" style="margin:20px 0px 15px 8px; text-align:center;
@@ -50,7 +47,7 @@ Player</a>.</strong>
 	<!--/FOOTER-->
 
 </div>
-<!--/CONTAINER-->
+
 
 </body>
 </html>

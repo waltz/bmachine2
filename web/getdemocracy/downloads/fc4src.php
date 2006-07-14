@@ -14,11 +14,9 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc4/Democracy-0.8.4-1
 
 <body>
 
-<!--CONTAINER-->
-<div id="container">
-
 	<!--CONTENT BLOCK-->
-  <div class="content">
+	<div id="content">
+	<div id="content-1col">
 
 			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player is downloading...</strong>
 

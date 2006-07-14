@@ -11,12 +11,9 @@
 
 <body>
 
-<!--CONTAINER-->
-<div id="container">
-
-
 	<!--CONTENT BLOCK-->
-  <div class="content">
+	<div id="content">
+	<dive id="content-1col">
 
 			<!--<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color:
 #444;"><strong>Democracy Player is downloading...</strong>-->
