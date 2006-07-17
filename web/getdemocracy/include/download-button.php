@@ -1,3 +1,4 @@
+<?php include "/data/getdemocracy/site-live/include/version.php"; ?>
 <script language="JavaScript">
 	<!--
 function getfile(file, spawnpage)
@@ -11,24 +12,24 @@ function getfile(file, spawnpage)
  if (navigator.appVersion.indexOf("Win")!=-1)
 		{
    if ( window.navigator.userAgent.indexOf("MSIE") != -1 ) {
-		document.write('<div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe\', \'/downloads/windows.php\');">Version 0.8.4.1 for Windows</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
+		document.write('<div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe\', \'/downloads/windows.php\');">Version <?php print $dtv_version; ?> for Windows</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
    }
    else {
-		document.write('<div id="download-button"><a href="/downloads/windows.php">Version 0.8.4.1 for Windows</a></div><div id="download-versions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
+		document.write('<div id="download-button"><a href="/downloads/windows.php">Version <?php print $dtv_version; ?> for Windows</a></div><div id="download-versions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
    }
 
 		}
 	else if (navigator.appVersion.indexOf("Mac")!=-1)
 		{
-		document.write('<div id="download-button"><a href="/downloads/osx.php">Version 0.8.4.1 for Mac OS X</a></div><div id="download-versions">Other versions: <a href="/downloads">Windows</a> - <a href="/downloads">Linux</a></div>	');
+		document.write('<div id="download-button"><a href="/downloads/osx.php">Version <?php print $dtv_version; ?> for Mac OS X</a></div><div id="download-versions">Other versions: <a href="/downloads">Windows</a> - <a href="/downloads">Linux</a></div>	');
 		}
 	else if (navigator.appVersion.indexOf("X11")!=-1)
 		{
-		document.write('<div id="download-button"><a href="downloads/#linux">Version 0.8.4.1 for Linux</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Windows</a></div>');
+		document.write('<div id="download-button"><a href="downloads/#linux">Version <?php print $dtv_version; ?> for Linux</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Windows</a></div>');
 		}
 	else
 		{
-		document.write('<div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe\', \'/downloads/windows.php\');">Version 0.8.4.1 for Windows</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
+		document.write('<div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe\', \'/downloads/windows.php\');">Version <?php print $dtv_version; ?> for Windows</a></div><div id="download-versions">Other versions: <a href="/downloads">Mac OSX</a> - <a href="/downloads">Linux</a></div>');
 		}
 	//-->
 </script>

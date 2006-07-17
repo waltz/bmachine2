@@ -1,6 +1,7 @@
 <?php
 
 include "/data/getdemocracy/site-live/include/start.php";
+include "/data/getdemocracy/site-live/include/version.php";
 
 print<<<END
 
@@ -26,13 +27,25 @@ print<<<END
 							<div class="column3" style="width:220px; margin-right:20px;">
 								<a href="osx.php" title="Download Democracy Player for Mac OS X"><img src="http://getdemocracy.com/downloads/images/os-apple.gif" alt="" /></a>
 								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X">Mac OS X</a></h2>
-								<p>Version: 0.8.4.1 (Beta)<br />
+								<p>Version: 
+END;
+
+print $dtv_version;
+
+print<<<END
+								(Beta)<br />
 									<span class="small">Requires: OS X 10.3+ and QuickTime 7, 256MB RAM Suggested.</span></p>
 							</div>
 							<div class="column3" style="width:220px; margin-right:20px;">
 								<a href="windows.php" title="Download Democracy Player for Windows XP"><img src="http://getdemocracy.com/downloads/images/os-windows.gif" alt="" /></a>
 								<h2><a href="windows.php" title="Download Democracy Player for Windows XP">Windows XP</a></h2>
-								<p>Version: 0.8.4.1 (Beta)<br />
+								<p>Version: 
+END;
+
+print $dtv_version;
+
+print<<<END
+							(Beta)<br />
 									<span class="small">Requires: Windows XP or 2000, 128MB RAM (256MB Recommended).<br /><br />Note: should work on Windows 95/98/ME with DirectX 3.0 or later, but not officially supported.</span></p>
 							</div>
 
@@ -46,7 +59,13 @@ print<<<END
 							<div class="column3" style="width:150px; margin-right: 20px;">
 								<img src="http://getdemocracy.com/downloads/images/os-ubuntu.gif" alt="" />
 								<h2><a href="ubuntu.php">Ubuntu</a></h2>
-								<p>Version: 0.8.4.1 (Beta)<br />
+								<p>Version: 
+END;
+
+print $dtv_version;
+
+print<<<END
+								(Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
@@ -54,7 +73,13 @@ print<<<END
 							<div class="column3" style="width:150px; margin-right:20px;">
 								<img src="http://getdemocracy.com/downloads/images/os-debian.gif" alt="" />
 								<h2><a href="debian.php">Debian</a></h2>
-								<p>Version: 0.8.4.1 (Beta)<br />
+								<p>Version: 
+END;
+
+print $dtv_version;
+
+print<<<END
+								(Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
@@ -62,7 +87,13 @@ print<<<END
 							<div class="column3" style="width:150px; margin:0px;">
 								<img src="http://getdemocracy.com/downloads/images/os-fedora.gif" alt="" />
 								<h2>Fedora</h2>
-								<p>Version: 0.8.4.1 (Beta)<br />
+								<p>Version: 
+END;
+
+print $dtv_version;
+
+print<<<END
+								(Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 								<Br /><Br />
 								<strong>Fedora Core 5 Binaries:</strong><br />

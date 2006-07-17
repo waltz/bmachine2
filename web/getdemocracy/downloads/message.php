@@ -1,5 +1,5 @@
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We will be adding lots of new features in the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
+			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We will be adding lots of new features in the next release, version 0.8.5.</strong><br />Sign-up to get notified when we release it:</p>
 
 
 			<div id="post-download-form">
