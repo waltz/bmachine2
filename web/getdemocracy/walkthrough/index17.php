@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?> <!--/HEADER-->
+<?php include("../include/start.php"); ?> <!--/HEADER-->
 
 <!--CONTENT BLOCK--> <div id="content">
 
@@ -6,7 +6,7 @@
 
 <div id="content-1col">
 	<h1>Search for Videos</h1>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/17.search.png" />
+	<img src="<?=  ?>/images/windows-walk-screens/17.search.png" />
 	<br /> <p> There are three ways to search for videos in Democracy Player. First there's the Channel Guide: you can search for
 	channels you like in the Channel guide, just go to the search field and type in a keyword for
 	channels you want to watch. To find videos that are available on channels you already have, use the
@@ -17,7 +17,7 @@
 <div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -32,4 +32,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

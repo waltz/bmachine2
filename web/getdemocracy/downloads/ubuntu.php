@@ -4,7 +4,7 @@
 
 <title>Democracy: Internet TV</title>
 
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+<?php include("../include/start.php"); ?>
 
 
 </head>
@@ -31,7 +31,7 @@
 			<div class="post-download-box">
 
 
-			<?php include("/data/getdemocracy/site-live/downloads/message.php"); ?>
+			<?php include("../downloads/message.php"); ?>
 
 
 			</div>
@@ -41,7 +41,7 @@
   <!--/CONTENT BLOCK-->
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/include/end.php"); ?>
+	<?php include("../include/end.php"); ?>
 	<!--/FOOTER-->
 
 </div>

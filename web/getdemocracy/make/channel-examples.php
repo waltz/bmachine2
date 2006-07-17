@@ -1,9 +1,4 @@
-<?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
-
+<?php include "../include/start.php"; ?>
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
@@ -50,13 +45,13 @@ print<<<END
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/make">Make TV</a
+					<li><a href="<?= $base ?>/make">Make TV</a
 						<ul>
-							<li><a href="http://www.getdemocracy.com/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
-							<li><a href="http://getdemocracy.com/broadcast">Broadcast Machine</a></li>
-							<li><a href="http://getdemocracy.com/make/channel-guide">Make a Channel</a></li>
+							<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
+							<li><a href="<?= $base ?>/broadcast">Broadcast Machine</a></li>
+							<li><a href="<?= $base ?>/make/channel-guide">Make a Channel</a></li>
 							<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
-							<li><a href="http://getdemocracy.com/make/channel_examples.php">Examples of channels</a></li>
+							<li><a href="<?= $base ?>/make/channel-examples.php">Examples of channels</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -65,9 +60,4 @@ print<<<END
 			</div>
 			<div class="clearer"></div>
 		</div>
-
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

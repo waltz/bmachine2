@@ -15,7 +15,7 @@
 
 				
 
-	<?php include("/data/getdemocracy/site-live/includes/sidebar-newsletters.php"); ?>	
+	<?php include("../../../../includes/sidebar-newsletters.php"); ?>	
 	
 	<!--<h3>Deli.cio.us</h3>
 	<ul>

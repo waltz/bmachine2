@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?> <!--/HEADER-->
+<?php include("../include/start.php"); ?> <!--/HEADER-->
 
 <!--CONTENT BLOCK--> <div id="content">
 
@@ -6,7 +6,7 @@
 
 <div id="content-1col">
 	<h1>Inside a Channel</h1>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/08.channelview.png" />
+	<img src="<?=  ?>/images/windows-walk-screens/08.channelview.png" />
 	<br /> <p>Click on one of your subscriptions on the left sidebar; Democracy Player player
 	shows what is available to download and watch on this channel in the main window. When the
 	publisher of a channel has new videos available for download, a blue circle appears near the
@@ -16,7 +16,7 @@
 <div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -31,4 +31,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

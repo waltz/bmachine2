@@ -1,10 +1,10 @@
- <?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+ <?php include("../include/start.php"); ?>
 
 <!--CONTENT BLOCK--> <div id="content">
 
 <div id="content-1col">
 	<h1>Democracy Player - Walkthrough</h1><br>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/03.sidebar.jpg" />
+	<img src="<?=  ?>/images/windows-walk-screens/03.sidebar.jpg" />
 	<br /> <p> Democracy Player is a powerful TV viewer that downloads, manages and plays the latest videos on your computer. There's no need to squint-- the Democracy Player can play the
 	highest quality videos in full-screen, and will play them one after the other, just lean back and enjoy.</p>
 
@@ -13,7 +13,7 @@
 	<div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -27,4 +27,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

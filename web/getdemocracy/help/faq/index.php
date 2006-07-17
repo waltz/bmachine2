@@ -1,8 +1,7 @@
 <?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
+include "../../include/base.php";
+include "../../include/start.php";
+?>
 
 		<div id="content-2col">
 			<div id="content-left-2col">
@@ -18,7 +17,7 @@ print<<<END
 
 							<p>For technical questions, please check out the rest of this FAQ and our user forums, and if your question is still unanswered, then feel free to e-mail us at <strong>feedback(at)pculture.org</strong>.</p>
 
-							<p>Press, please see our <a href="http://getdemocracy.com/press">Press Page</a>.</p>
+							<p>Press, please see our <a href="<?= $base ?>/press">Press Page</a>.</p>
 
 							<p>We love hearing general feedback -- for example, features that you'd like to see in Democracy player, or suggestions for the user interface. Write us an e-mail anytime at feedback(at)pculture.org.</p>
 
@@ -30,7 +29,7 @@ print<<<END
 
 			<h6><a name="02-0"></a>What is Democracy player?</h6>
 
-							<p>Democracy player is a free application that turns your computer into an internet TV video player. You can <a href="http://www.getdemocracy.com">download it here</a> for Windows, Mac, or Linux. This release is still a beta version, which means that there are some bugs, but we're moving quickly to fix them and will be releasing bug fixes on a regular basis.</p>
+							<p>Democracy player is a free application that turns your computer into an internet TV video player. You can <a href="<?= $base ?>/">download it here</a> for Windows, Mac, or Linux. This release is still a beta version, which means that there are some bugs, but we're moving quickly to fix them and will be releasing bug fixes on a regular basis.</p>
 
 							<h6><a name="02-02"></a><a name="requirements"></a>What are the system requirements to run Democracy player?</h6>
 
@@ -282,8 +281,4 @@ print<<<END
 			<div class="clearer"></div>
 		</div>
 
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../../include/end.php"; ?>

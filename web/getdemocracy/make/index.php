@@ -1,9 +1,7 @@
 <?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
-
+include "../include/base.php";
+include "../include/start.php";
+?>
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
@@ -21,7 +19,7 @@ print<<<END
 			</p>
 
 			<h5>On your own website:</h5>
-			<p>You can use our <a href="http://www.getdemocracy.com/broadcast/">Broadcast Machine</a> software to create channels and publish videos as easily as posting to your blog. Quickly upload files, create torrents, add metadata, and donation links. Broadcast Machine gives you the most control of any option but needs to be installed on a website. <a href="/broadcast">Get Broadcast Machine</a> and check out our <a href="channel-guide/">Step by Step Guide</a>.</p>
+			<p>You can use our <a href="<?= $base ?>/broadcast/">Broadcast Machine</a> software to create channels and publish videos as easily as posting to your blog. Quickly upload files, create torrents, add metadata, and donation links. Broadcast Machine gives you the most control of any option but needs to be installed on a website. <a href="<?= $base ?>/broadcast">Get Broadcast Machine</a> and check out our <a href="channel-guide/">Step by Step Guide</a>.</p>
 
 			<h5>On your blog:</h5>
 			<p>If you have a blog you can use free hosting at Archive.org to add videos to your text and photo blogging. <a href="http://www.archive.org">Learn More</a></p>
@@ -33,24 +31,24 @@ print<<<END
 			<p>With <a href="http://www.videobomb.com">Video Bomb</a> you can link to ('bomb') interesting videos that you find on the web and it will pull them into a channel-- it's easy. Video Bomb does not provide hosting, so the videos need to be available online somewhere first.</p>
 
 			<h5>On your website with your existing CMS:</h5>
-			<p>If you already have a content management system on your website that will let users post videos, you can generate <a href="/help/feeds.php">compatible RSS feeds</a> to give everyone a channel.</p>
+			<p>If you already have a content management system on your website that will let users post videos, you can generate <a href="<?= $base ?>/help/feeds.php">compatible RSS feeds</a> to give everyone a channel.</p>
 
 			<h4>Who's making channels?</h4>
 			<p><a href="channel-examples.php">Meet some of the people and organizations</a> using Democracy, everyone from video bloggers to teachers, from public-interest media to independent musicians.</p>
 
 			<h4>Help, FAQ, and Forums</h4>
-			<p>There's a lot of different ways to make and troubleshoot your channels. Try our <a href="/help">Help Center</a>, <a href="/help/faq">FAQ</a>, and <a href="http://forum.getdemocracy.com">Support Forums</a>.</p>
+			<p>There's a lot of different ways to make and troubleshoot your channels. Try our <a href="<?= $base ?>/help">Help Center</a>, <a href="<?= $base ?>/help/faq">FAQ</a>, and <a href="http://forum.getdemocracy.com">Support Forums</a>.</p>
 
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/make">Make TV</a>
+					<li><a href="<?= $base ?>/make">Make TV</a>
 						<ul>
-							<li><a href="http://www.getdemocracy.com/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
-							<li><a href="http://getdemocracy.com/broadcast">Broadcast Machine</a></li>
-							<li><a href="http://getdemocracy.com/make/channel-guide">Make a Channel</a></li>
+							<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
+							<li><a href="<?= $base ?>/broadcast">Broadcast Machine</a></li>
+							<li><a href="<?= $base ?>/make/channel-guide">Make a Channel</a></li>
 							<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
-							<li><a href="http://getdemocracy.com/make/channel_examples.php">Examples of channels</a></li>
+							<li><a href="<?= $base ?>/make/channel-examples.php">Examples of channels</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -66,34 +64,30 @@ print<<<END
 					<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
 				</form></p>
 				<h6>Get Help</h6>
-				<p>Having problems making a channel, using Broadcast Machine, or anything else? Try our <a href="/help/faq">FAQ</a>, documentation or <a href="http://forum.getdemocracy.com">support forum</a>:</p>
+				<p>Having problems making a channel, using Broadcast Machine, or anything else? Try our <a href="<?= $base ?>/help/faq">FAQ</a>, documentation or <a href="http://forum.getdemocracy.com">support forum</a>:</p>
 				<h6>Broadcast Machine</h6>
 							  <script language="JavaScript">
 									<!--
 									if (navigator.appVersion.indexOf("Win")!=-1)
 										{
-										document.write('<a href="/broadcast/"><img src="http://getdemocracy.com/images/layout/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
+										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
 										}
 									else if (navigator.appVersion.indexOf("Mac")!=-1)
 										{
-										document.write('<a href="/broadcast/"><img src="http://getdemocracy.com/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
+										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
 										}
 									else
 										{
-										document.write('<a href="/broadcast/"><img src="http://getdemocracy.com/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
+										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
 										}
 									//-->
 									</script>
 
-							  <p><a href="/broadcast/">Broadcast Machine</a> is software you install on your website to create Democracy-style channels.</p>
+							  <p><a href="<?= $base ?>/broadcast/">Broadcast Machine</a> is software you install on your website to create Democracy-style channels.</p>
 				</div>
 
 				</div>
 			</div>
 			<div class="clearer"></div>
 		</div>
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

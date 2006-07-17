@@ -1,3 +1,4 @@
+<?php include ("base.php"); ?>
 
 			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We will be adding lots of new features in the next release, version 0.8.5.</strong><br />Sign-up to get notified when we release it:</p>
 
@@ -20,7 +21,7 @@
 
 
 <div style="padding-top: 10px; margin-top: 5px;">
-Get more news at the <a href="http://getdemocracy.com/news">Democracy Blog</a><a style="text-decoration: none;" href="http://getdemocracy.com/news/feed" class="feed">&nbsp;</a>
+Get more news at the <a href="<?= $base ?>/news">Democracy Blog</a><a style="text-decoration: none;" href="<?= $base ?>/news/feed" class="feed">&nbsp;</a>
 </div>
 
 
@@ -42,16 +43,16 @@ While you're downloading Democracy Player, check out Video Bomb, our video shari
 
 
 		<ul>
-			<li><a href="http://getdemocracy.com/donate">Make a donation</a>.  If you believe in this project, we need your support.</li>
+			<li><a href="<?= $base ?>/donate">Make a donation</a>.  If you believe in this project, we need your support.</li>
 
-			<li> <a href="http://www.getdemocracy.com/tellafriend/">Tell a Friend</a> - Send someone a note about why you think the Democracy platform is important.
+			<li> <a href="<?= $base ?>/tellafriend/">Tell a Friend</a> - Send someone a note about why you think the Democracy platform is important.
 </li>
 
-			<li><a href="http://getdemocracy.com/store">Get a  t-shirt</a>.  For $15 you can get one of these comfortable, great looking shirts, and support the project too.</li>
-			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="http://getdemocracy.com/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_washington_cp.jpg" /></a></p>
+			<li><a href="<?= $base ?>/store">Get a  t-shirt</a>.  For $15 you can get one of these comfortable, great looking shirts, and support the project too.</li>
+			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_washington_cp.jpg" /></a></p>
 
 
-			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="http://getdemocracy.com/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_democ_cp.jpg" /></a></p>
+			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_democ_cp.jpg" /></a></p>
 
 <p style="clear: both;">&nbsp;</p>
 

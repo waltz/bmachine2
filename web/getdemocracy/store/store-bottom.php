@@ -1,10 +1,1 @@
-		
-  </div>
-  <!--/CONTENT BLOCK-->
-
-	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
-	<!--/FOOTER-->
-
-</div>
-<!--/CONTAINER-->
+<?php include("../include/end.php"); ?>

@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+<?php include("../include/start.php"); ?>
 
 <!--CONTENT BLOCK--> <div id="content">
 
@@ -6,7 +6,7 @@
 
 <div id="content-1col">
 	<h1>New Videos</h1>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/14.newvideos.png" />
+	<img src="<?=  ?>/images/windows-walk-screens/14.newvideos.png" />
 	<br /> <p> The "New Videos" channel makes Democracy Player into a simple TV-viewing application.
 	Whenever a new video is downloaded to your computer, it is added to this list. You can browse and
 	manually pick certain videos to watch from the list. Click the video at the top and all new videos will play in order, one after the
@@ -17,7 +17,7 @@
 <div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -32,4 +32,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

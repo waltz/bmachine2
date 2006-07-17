@@ -1,9 +1,10 @@
 <?php
 
-include "/data/getdemocracy/site-live/include/start.php";
-include "/data/getdemocracy/site-live/include/version.php";
+include "../include/base.php";
+include "../include/start.php";
+include "../include/version.php";
 
-print<<<END
+?>
 
 		<div id="content-2col">
 			<div id="content-left-2col">
@@ -14,38 +15,22 @@ print<<<END
 			<div id="downloadarea-sub">
 
 
-END;
-
-include "/data/getdemocracy/site-live/include/download-button.php" ;
-
-print<<<END
+<?php include "../include/download-button.php" ; ?>
 			</div>
 
 			<div id="downloads">
 			<p><strong>Windows and Mac Versions</strong></p>
 
 							<div class="column3" style="width:220px; margin-right:20px;">
-								<a href="osx.php" title="Download Democracy Player for Mac OS X"><img src="http://getdemocracy.com/downloads/images/os-apple.gif" alt="" /></a>
+								<a href="osx.php" title="Download Democracy Player for Mac OS X"><img src="<?= $base ?>/downloads/images/os-apple.gif" alt="" /></a>
 								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X">Mac OS X</a></h2>
-								<p>Version: 
-END;
-
-print $dtv_version;
-
-print<<<END
-								(Beta)<br />
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
 									<span class="small">Requires: OS X 10.3+ and QuickTime 7, 256MB RAM Suggested.</span></p>
 							</div>
 							<div class="column3" style="width:220px; margin-right:20px;">
-								<a href="windows.php" title="Download Democracy Player for Windows XP"><img src="http://getdemocracy.com/downloads/images/os-windows.gif" alt="" /></a>
+								<a href="windows.php" title="Download Democracy Player for Windows XP"><img src="<?= $base ?>/downloads/images/os-windows.gif" alt="" /></a>
 								<h2><a href="windows.php" title="Download Democracy Player for Windows XP">Windows XP</a></h2>
-								<p>Version: 
-END;
-
-print $dtv_version;
-
-print<<<END
-							(Beta)<br />
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
 									<span class="small">Requires: Windows XP or 2000, 128MB RAM (256MB Recommended).<br /><br />Note: should work on Windows 95/98/ME with DirectX 3.0 or later, but not officially supported.</span></p>
 							</div>
 
@@ -57,43 +42,25 @@ print<<<END
 
 
 							<div class="column3" style="width:150px; margin-right: 20px;">
-								<img src="http://getdemocracy.com/downloads/images/os-ubuntu.gif" alt="" />
+								<img src="<?= $base ?>/downloads/images/os-ubuntu.gif" alt="" />
 								<h2><a href="ubuntu.php">Ubuntu</a></h2>
-								<p>Version: 
-END;
-
-print $dtv_version;
-
-print<<<END
-								(Beta)<br />
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
 
 							<div class="column3" style="width:150px; margin-right:20px;">
-								<img src="http://getdemocracy.com/downloads/images/os-debian.gif" alt="" />
+								<img src="<?= $base ?>/downloads/images/os-debian.gif" alt="" />
 								<h2><a href="debian.php">Debian</a></h2>
-								<p>Version: 
-END;
-
-print $dtv_version;
-
-print<<<END
-								(Beta)<br />
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
 
 							<div class="column3" style="width:150px; margin:0px;">
-								<img src="http://getdemocracy.com/downloads/images/os-fedora.gif" alt="" />
+								<img src="<?= $base ?>/downloads/images/os-fedora.gif" alt="" />
 								<h2>Fedora</h2>
-								<p>Version: 
-END;
-
-print $dtv_version;
-
-print<<<END
-								(Beta)<br />
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 								<Br /><Br />
 								<strong>Fedora Core 5 Binaries:</strong><br />
@@ -117,11 +84,11 @@ print<<<END
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/watch">Watch TV</a>
+					<li><a href="<?= $base ?>/watch">Watch TV</a>
 						<ul>
-							<li><a href="http://getdemocracy.com/downloads">Download Player</a></li>
-							<li><a href="http://getdemocracy.com/walkthrough">Screenshots</a></li>
-							<li><a href="http://getdemocracy.com/walkthrough">Walkthrough</a></li>
+							<li><a href="<?= $base ?>/downloads">Download Player</a></li>
+							<li><a href="<?= $base ?>/walkthrough">Screenshots</a></li>
+							<li><a href="<?= $base ?>/walkthrough">Walkthrough</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -139,7 +106,7 @@ print<<<END
 					<input type="hidden" name="listname[4]" value="Viewers" />
 					<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
 				</form>
-				<a href="http://getdemocracy.com/watch">Watch TV page >></a></p>
+				<a href="<?= $base ?>/watch">Watch TV page >></a></p>
 
 				<h6>Videomakers / Publishers</h6>
 				<p>Get updates about Broadcast Machine and channel creation:
@@ -151,7 +118,7 @@ print<<<END
 					<input type="hidden" name="listname[2]" value="Creators" />
 					<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
 				</form>
-				<a href="http://getdemocracy.com/make">Make TV page >></a></p>
+				<a href="<?= $base ?>/make">Make TV page >></a></p>
 
 				<h6>Translators</h6>
 				<p>DTV and Broadcast Machine will soon support translations.  Signup if you'd like to help:
@@ -172,8 +139,4 @@ print<<<END
 			<div class="clearer"></div>
 		</div>
 
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

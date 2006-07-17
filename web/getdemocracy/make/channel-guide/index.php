@@ -1,14 +1,13 @@
 <?php
-
-include "include/start.php";
-
-print<<<END
+include "../../include/base.php";
+include "../../include/start.php";
+?>
 
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				<h2>Creating Video Channels: An Overview</h2>
-				<p>Our publishing tool <a href="/bm/">Broadcast Machine</a> lets you publish video channels on your website with virtually zero bandwidth costs.  Broadcast Machine is open source, and completely free.  If you have video content, you can start a channel almost instantly-- it's as simple as installing blogging software on your website (actually, it's simpler than most blogging programs).</p>
+				<p>Our publishing tool <a href="<?= $base ?>/broadcast/">Broadcast Machine</a> lets you publish video channels on your website with virtually zero bandwidth costs.  Broadcast Machine is open source, and completely free.  If you have video content, you can start a channel almost instantly-- it's as simple as installing blogging software on your website (actually, it's simpler than most blogging programs).</p>
 				<div class="subhead" style="padding:10px">
 				<h3><a href="install_publisher.php">1. Install Broadcast Machine on Your Site</a></h3>
 
@@ -63,13 +62,13 @@ print<<<END
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/make">Make TV</a
+					<li><a href="<?= $base ?>/make">Make TV</a
 						<ul>
-							<li><a href="http://www.getdemocracy.com/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
-							<li><a href="http://getdemocracy.com/broadcast">Broadcast Machine</a></li>
-							<li><a href="http://getdemocracy.com/make/channel-guide">Make a Channel</a></li>
+							<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
+							<li><a href="<?= $base ?>/broadcast">Broadcast Machine</a></li>
+							<li><a href="<?= $base ?>/make/channel-guide">Make a Channel</a></li>
 							<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
-							<li><a href="http://getdemocracy.com/make/channel_examples.php">Examples of channels</a></li>
+							<li><a href="<?= $base ?>/make/channel-examples.php">Examples of channels</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -79,8 +78,4 @@ print<<<END
 			<div class="clearer"></div>
 		</div>
 
-END;
-
-include "include/end.php";
-
-?>
+<?php include "../../include/end.php"; ?>

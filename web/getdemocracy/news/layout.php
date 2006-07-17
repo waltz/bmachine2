@@ -4,7 +4,7 @@
 
 <title>Democracy: Internet TV</title>
 
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
+<?php include("../includes/head.php"); ?>
 	
 </head>
 
@@ -14,7 +14,7 @@
 <div id="container">
 
 	<!--HEADER-->
-	<?php include("/data/getdemocracy/site-live/includes/header.php"); ?>
+	<?php include("../includes/header.php"); ?>
 	<!--/HEADER-->
 		
 	<!--CONTENT BLOCK-->
@@ -115,7 +115,7 @@
 				<input name="submit" type="button" value="Search News" />
 			</form>
 			
-			<?php include("/data/getdemocracy/site-live/includes/sidebar-newsletters.php"); ?>	
+			<?php include("../includes/sidebar-newsletters.php"); ?>	
 			
 			<h3>Deli.cio.us</h3>
 			<ul>
@@ -141,7 +141,7 @@
   <!--/CONTENT BLOCK-->
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
+	<?php include("../includes/footer.php"); ?>	
 	<!--/FOOTER-->
 
 </div>

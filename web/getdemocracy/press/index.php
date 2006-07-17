@@ -1,9 +1,4 @@
-<?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
-
+<?php include "../include/start.php"; ?>
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
@@ -325,13 +320,13 @@ print<<<END
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/about">About the Platform</a>
+					<li><a href="<?= $base ?>/about">About the Platform</a>
 						<ul>
-							<li><a href="http://getdemocracy.com/news">News / Blog</a></li>
-							<li><a href="http://getdemocracy.com/press">Press</a></li>
-							<li><a href="http://getdemocracy.com/contact">Contact</a></li>
-							<li><a href="http://getdemocracy.com/store">Store</a></li>
-							<li><a href="http://getdemocracy.com/jobs">Jobs</a></li>
+							<li><a href="<?= $base ?>/news">News / Blog</a></li>
+							<li><a href="<?= $base ?>/press">Press</a></li>
+							<li><a href="<?= $base ?>/contact">Contact</a></li>
+							<li><a href="<?= $base ?>/store">Store</a></li>
+							<li><a href="<?= $base ?>/jobs">Jobs</a></li>
 							<li><a href="https://secure.democracyinaction.org/dia/organizations/pcf/shop/custom.jsp?donate_page_KEY=1283&t=Democracy.dwt">Donate</a></li>
 						</ul>
 					</li>
@@ -375,9 +370,4 @@ print<<<END
 			</div>
 			<div class="clearer"></div>
 		</div>
-
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?> <!--/HEADER-->
+<?php include("../include/start.php"); ?> <!--/HEADER-->
 
 <!--CONTENT BLOCK--> <div id="content">
 
@@ -6,7 +6,7 @@
 
 <div id="content-1col">
 	<h1>Democracy Player</h1>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/22.submission.png" />
+	<img src="<?=  ?>/images/windows-walk-screens/22.submission.png" />
 	<br /> <p> Every Democracy Player user will be able to see your channel in the Channel Guide once
 	you submit it to the Channel Guide. Simply, create a user account and add your channel's
 	information. Your channel will show up in the New Channels section of the Channel Guide and if it's
@@ -15,7 +15,7 @@
 <div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -30,4 +30,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

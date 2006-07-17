@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+<?php include("include/start.php"); ?>
 	
 <!--CONTENT BLOCK-->
 <div id="content">
@@ -10,7 +10,7 @@
 		
 		<p style="font-size: 16px;">The page you are attempting to load does not exist.  Perhaps you were following an old link. If this an mistake on our part, let us know and we'll fix it: feedback(at)pculture.org</p>
 		
-		<p style="font-size: 16px;"><a href="http://www.getdemocracy.com">Back to front page >></a></p>
+		<p style="font-size: 16px;"><a href="<?= $base ?>/">Back to front page >></a></p>
 
 		
   </div>
@@ -19,8 +19,7 @@
 	
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/include/end.php"); 
-?>	
+	<?php include("include/end.php");?>	
 	<!--/FOOTER-->
 
 </div>

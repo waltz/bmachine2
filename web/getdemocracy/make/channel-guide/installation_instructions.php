@@ -1,31 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<?php
+include ("../../include/base.php");
+include ("../../include/start.php");
+?>
 
-<title>Democracy - Internet TV Platform - Free and Open Source</title>
-
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
-	
-</head>
-
-<body>
-
-<!--CONTAINER-->
-<div id="container">
-
-	<!--HEADER-->
-	<?php include("/data/getdemocracy/site-live/includes/header.php"); ?>
-	<!--/HEADER-->
-	
-	<!--CONTENT BLOCK-->
-  <div class="content" style="padding:0px;">
+<div id="content">
 	
 
 <h2>Installing Broadcast Machine</h2>
 
 <p>
 <ul>
-<li><a href="/broadcast/bm.zip">Download Broadcast Machine</a> and open 
+<li><a href="<?= $base ?>/broadcast/bm.zip">Download Broadcast Machine</a> and open 
 the zip file.</li>
 <li>Copy the folder "bm" to the public_html directory on your website.</li>
 <li>Point your browser to www.yourwebsite.com/bm</li>
@@ -47,18 +32,7 @@ We'll be making a more complete tour for new users soon.  In the meantime, here 
 
 <p><a href="index.php"><< Back</a></p>
 
-
   </div>
   <!--/CONTENT BLOCK-->
-	
-	
 
-	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
-	<!--/FOOTER-->
-
-</div>
-<!--/CONTAINER-->
-
-</body>
-</html>
+<?php include ("../../include/end.php"); ?>

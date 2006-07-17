@@ -1,9 +1,4 @@
-<?php
-
-include ("/data/getdemocracy/site-live/include/start.php");
-
-print<<<END
-
+<?php include ("include/start.php"); ?>
 		<div id="main">
 			<div id="callout">
 				<h2>Democracy Player. Your internet television has arrived.</h2>
@@ -13,20 +8,19 @@ print<<<END
 					</p>
 					<p id="description"><strong>Stop squinting at tiny web video.</strong> Instead, download and watch all the best internet TV shows in one powerful application: any video RSS feed, video podcast, video blog, or BitTorrent file. Fullscreen, high resolution, 100% free and open source. New channels arrive daily in the built-in Channel Guide.</p>
 					<div id="downloadarea">
-						<div id="download-aux"><a href="/watch">Features</a> - <a href="/walkthrough">Screenshots</a></div>
-END;
+						<div id="download-aux"><a href="<?= $base ?>/watch">Features</a> - <a href="<?= $base ?>/walkthrough">Screenshots</a></div>
+<?php
 
-include("/data/getdemocracy/site-live/include/download-button.php");
+include("include/download-button.php");
 
-print<<<END
-
+?>
 					</div>
 				</div>
-END;
+<?php
 
-include("/data/getdemocracy/site-live/include/screenshot.php");
+include("include/screenshot.php");
 
-print<<<END
+?>
 			</div>
 		</div>
 		<div id="subcallout">
@@ -35,11 +29,11 @@ print<<<END
 				<p id="subdesc">When you launch Democracy Player, you'll see the Channel Guide. New channels arrive every day and
 				you can subscribe with a single-click. <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your channel</a>-- the Guide is open to everyone. A few examples of channels you'll find in the Guide:</p>
 				<ul>
-					<li id="channel1"><img id="channels" src="/images/frederator.png" height=157 width=235 border="4" />
+					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.png" height=157 width=235 border="4" />
 					<h5>Channel Frederator (<a href="http://www.channelfrederator.com/">website</a>) </h5></li>
-					<li id="channel2"><img id="channels" src="/images/lady_sovereign.jpg" border="4" height=157 width=235 />
+					<li id="channel2"><img id="channels" src="<?= $base ?>/images/lady_sovereign.jpg" border="4" height=157 width=235 />
 					<h5>Telemusicvision <a href="http://telemusicvision.com/">(website)</a></h5></li>
-					<li id="channel3"><img id="channels" src="/images/media_that_matters.png" border="4" height=157 width=235 />
+					<li id="channel3"><img id="channels" src="<?= $base ?>/images/media_that_matters.png" border="4" height=157 width=235 />
 					<h5>Media That Matters (<a href="http://mediathatmattersfest.org">website</a>)</h5></li>
 				</ul>
 				<div class="clearer"></div>
@@ -49,8 +43,8 @@ print<<<END
 			<h3>The Democracy Internet Television Platform</h3>
 			<p>We are working to build the internet TV tools possible to ensure that people are <span class="hl">in control of their own media</span>. In addition to the player and the Channel Guide, our platform has two other components.</p>
 			<div id="otherplat-left">
-				<a href="/broadcast"><img src="images/img_broadcastmachine.gif" border="0" /></a>
-				<a href="/broadcast" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br /> <a href="/broadcast">Learn More >></a>
+				<a href="<?= $base ?>/broadcast"><img src="images/img_broadcastmachine.gif" border="0" /></a>
+				<a href="<?= $base ?>/broadcast" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br /> <a href="<?= $base ?>/broadcast">Learn More >></a>
 			</div>
 			<div id="otherplat-right">
 				<a href="http://videobomb.com"><img src="images/img_videobomb.gif" border="0" /></a>
@@ -81,7 +75,7 @@ print<<<END
 			at different speeds-- clear out your daily news videos right away and keep videos from your favorite band forever!</p>
 
 			<h5>Start Watching</h5>
-			<p>Download Democracy Player above or <a href="/walkthrough">see screenshots and take a feature by feature tour >></a></p>
+			<p>Download Democracy Player above or <a href="<?= $base ?>/walkthrough">see screenshots and take a feature by feature tour >></a></p>
 			</div>
 			<div id="content-right">
 				<p id="content-quote">"I'm pleased to support the Democracy platform, because it will enable, for the first time, a large-scale Internet video
@@ -90,14 +84,14 @@ print<<<END
 				<p id="support-democracy">
 				<strong>How to Support Democracy</strong>
 				<img src="images/img_supportdemocracy.gif" /><br />
-				<a href="/buttons">Promote Democracy: Put Up a Button</a>
+				<a href="<?= $base ?>/buttons">Promote Democracy: Put Up a Button</a>
 				</p>
-				<div id="storeimage"><a href="/store"><img src="images/img_democracystore.gif" border="0" /></a></div>
+				<div id="storeimage"><a href="<?= $base ?>/store"><img src="images/img_democracystore.gif" border="0" /></a></div>
 				<div id="workonsoftware"><h4>Work on the Software</h4>
 				<p>The Democracy Player is free and open-source (GPL). Bringing in more volunteers is a big priority. We need web developers for Broadcast Machine,
 				python developers for Democracy Player, and web designers to make the player's rendered HTML interface even more stylish. We also need testers to
-				keep up with nightly builds and file bug reports. Can you commit some time to a great cause? <a href="/code">Learn more about the code</a> or <a href="/contact">contact us</a>. Know somebody
-				who builds software or websites for a living and is always looking for a cool project? <a href="/tellafriend">Tell them about us</a>.</p>
+				keep up with nightly builds and file bug reports. Can you commit some time to a great cause? <a href="<?= $base ?>/code">Learn more about the code</a> or <a href="<?= $base ?>/contact">contact us</a>. Know somebody
+				who builds software or websites for a living and is always looking for a cool project? <a href="<?= $base ?>/tellafriend">Tell them about us</a>.</p>
 				</div>
 			</div>
 			<div class="clearer"></div>
@@ -106,12 +100,9 @@ print<<<END
 				<h4>We Need Your Help</h4>
 				<p>As we continue to improve and refine Democracy Player, on the way to version 1.0, we need your help to continue our work. Give us a chance to convince
 				you that our project is worth donating to.</p>
-				<a href="/donate">Learn More >></a>
+				<a href="<?= $base ?>/donate">Learn More >></a>
 				<div class="clearer"></div>
 			</div>
 		</div>
-END;
 
-include ("/data/getdemocracy/site-live/include/end.php");
-
-?>
+<?php include ("include/end.php"); ?>

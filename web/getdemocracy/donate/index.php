@@ -1,12 +1,10 @@
 <?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
-
+include ("../include/base.php");
+include ("../include/start.php");
+?>
 		<div id="content">
 			<div id="content-1col">
-				<img src="/images/img_roadtolarge.jpg" />
+				<img src="<?= $base ?>/images/img_roadtolarge.jpg" />
 				<h4>Help Us Build an Independent Internet TV System</h4>
 				<p>We think it is crucial that there be a strong, open platform for people to watch, share, and broadcast video to each other. Democracy can be that technology-- we are open-source, not-for-profit, and 100% focused on supporting viewers and creators. The internet creates the best opportunity ever for independent broadcasting that everyone can participate in. But developing world-class software takes time and money.</p>
 
@@ -24,8 +22,8 @@ print<<<END
 				<input type="hidden" name="item_name" value="Donation to Democracy Platform">
 				<input type="hidden" name="item_number" value="111">
 				<input type="hidden" name="no_shipping" value="1">
-				<input type="hidden" name="return" value="http://www.getdemocracy.com">
-				<input type="hidden" name="cancel_return" value="http://www.getdemocracy.com/donate">
+				<input type="hidden" name="return" value="<?= $base ?>/">
+				<input type="hidden" name="cancel_return" value="<?= $base ?>/donate">
 				<input type="hidden" name="no_note" value="1">
 				<input type="hidden" name="currency_code" value="USD">
 				<input type="hidden" name="tax" value="0">
@@ -454,10 +452,10 @@ print<<<END
 				<option value="12" >2012</option>
 				</select>
 				</dd>
-				    <input type="hidden" name="eligibility" value="1"/>
+				    <input type="hidden" name="eligibility" value="1" />
 				<input type="hidden" name="redirect" value="thankYou.jsp?donate_page_KEY=1283&donation_KEY=[[donation_KEY]]&recurring_donation_KEY=[[recurring_donation_KEY]]">
 				<input type="hidden" name="email_trigger_KEYS" value="0,974">
-				<input type="hidden" name="errorPage" value="error.jsp?t="/>
+				<input type="hidden" name="errorPage" value="error.jsp?t=" />
 				<input type="hidden" name="organization_KEY" value="1042">
 				<input type="hidden" name="Transaction_Type" value="Donation">
 				<input type="hidden" name="Tracking_Code" value="">
@@ -474,7 +472,7 @@ print<<<END
 				<script src=https://seal.verisign.com/getseal?host_name=secure.democracyinaction.org&size=S&use_flash=YES&use_transparent=YES></script>
 				</div>
 				<dd>
-				<input style="font-size:20px;" type="submit" name="submit" id="submit" value="Submit Donation >>"/>
+				<input style="font-size:20px;" type="submit" name="submit" id="submit" value="Submit Donation >>" />
 				</dd>
 				<dt>
 				&nbsp;
@@ -665,17 +663,17 @@ print<<<END
 				  </td>
 				</tr>
 				    </table>
-				  <input type="hidden" name="eligibility" value="1"/>
+				  <input type="hidden" name="eligibility" value="1" />
 				<input type="hidden" name="redirect" value="thankYou.jsp?donate_page_KEY=1454&donation_KEY=[[donation_KEY]]&recurring_donation_KEY=[[recurring_donation_KEY]]">
 					<input type="hidden" name="trigger" value="On Donation">
-				<input type="hidden" name="errorPage" value=""/>
+				<input type="hidden" name="errorPage" value="" />
 				</td></tr></table>
 				<input type="hidden" name="organization_KEY" value="1042">
 				<input type="hidden" name="Transaction_Type" value="Donation">
 				</td></tr></table>
 				<input type="hidden" name="Tracking_Code" value="">
 				<p align=center>
-				<input type="submit" name="submit" id="submit" value="Submit"/>
+				<input type="submit" name="submit" id="submit" value="Submit" />
 				<br /><i>Note: Only click this button once, otherwise your donation may be processed twice</i>
 				<br />
 				Participatory Culture Foundation has partnered with a third-party provider to facilitate your online credit card transaction.
@@ -684,9 +682,4 @@ print<<<END
 			<div class="clearer"></div>
 			</div>
 		</div>-->
-
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

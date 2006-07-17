@@ -4,7 +4,7 @@
 
 <title>Democracy: Internet TV</title>
 
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
+<?php include("../includes/head.php"); ?>
 	
 </head>
 

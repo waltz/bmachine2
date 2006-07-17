@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?> <!--/HEADER-->
+<?php include("../include/start.php"); ?> <!--/HEADER-->
 
 <!--CONTENT BLOCK--> <div id="content">
 
@@ -6,14 +6,14 @@
 
 <div id="content-1col">
 	<h1>Advanced and Intuitive</h1>
-	<img src="http://www.getdemocracy.com/images/windows-walk-screens/02.fullfeature.png" />
+	<img src="<?=  ?>/images/windows-walk-screens/02.fullfeature.png" />
 	<br />
 	<p> Democracy has flexible functionality for those who want to do more with
 	their internet TV. You can select individual videos to download, you can set channels to get new videos automatically, or you can set them to get everything on the channel, past and future.</p>
 <div id="walkthrough-sub">
 		<div id="wt-sub-left">
 		<div id="downloadarea-sub">
-			<?php include("/data/getdemocracy/site-live/include/download-button.php"); ?>
+			<?php include("../include/download-button.php"); ?>
 		</div>
 		</div>
 
@@ -28,4 +28,4 @@
 </div>
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/include/end.php"); ?> <!--/FOOTER-->
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

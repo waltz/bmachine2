@@ -1,15 +1,13 @@
 <?php
-
-include "/data/getdemocracy/site-live/include/start.php";
-
-print<<<END
-
+include "../include/base.php";
+include "../include/start.php";
+?>
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				<h2>Code</h2>
 				<p class="subhead">The Democracy platform is free and open source (GPL), built by a great group of developers who are dedicated to making mainstream media open and democratic.</p>
-				<p style="color: red;">Now Hiring: <a href="/jobs">Software Developer</a></p>
+				<p style="color: red;">Now Hiring: <a href="<?= $base ?>/jobs">Software Developer</a></p>
 				<p>The Democracy player is our central development project. The majority of the code is cross platform Python with platform specific frontends for Windows, OS X, and GTK/X11. The core of the GUI is written in cross platform HTML, but we strive for a native look and feel on each platform. We leverage free software projects wherever we can -- VLC, Xine, Bit Torrent, and Mozilla just to name a few.</p>
 
 				<p>There are still many parts of development left to do and we can use all the help we can get. There are lots of ways you can pitch in-- report bugs, perform quality testing, submit patches, give feedback to the team, and share your ideas on how to make Democracy better.</p>
@@ -20,7 +18,7 @@ print<<<END
 			Democracy community, the best way to get involved is to join in on the conversation.  Here are a
 			few things to look over before you get started.</p>
 
-			<p>Find answers in our <a href="http://getdemocracy.com/help/faq">FAQ</a> - If you have a question,
+			<p>Find answers in our <a href="<?= $base ?>/help/faq">FAQ</a> - If you have a question,
 			check here because it may have been answered.<p> <p>Sign up on the <A
 			href="http://sourceforge.net/mail/?group_id=136141">Mailing List</a>-- The mailing list is a great
 			way to ask and answer questions and keep up with development.</p>
@@ -59,12 +57,12 @@ print<<<END
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="http://getdemocracy.com/code">Code</a>
+					<li><a href="<?= $base ?>/code">Code</a>
 						<ul>
 							<li><a href="http://develop.participatoryculture.org/">Developer Center</a></li>
 								<li><a href="https://develop.participatoryculture.org/projects/dtv/browser/trunk/tv/">Source Code</a></li>
 								<li><a href="https://develop.participatoryculture.org/projects/dtv/report">Bug Tracker</a></li>
-								<!-- <li><a href="http://getdemocracy.com/">Mailing Lists</a></li> -->
+								<!-- <li><a href="<?= $base ?>/">Mailing Lists</a></li> -->
 							</ul>
 						</li>
 				</ul>
@@ -80,7 +78,7 @@ print<<<END
 				<form
 				action="http://participatoryculture.org/lists/?p=subscribe&id=5" method="post"
 				name="subscribeform"> <input type="text" class="emailbox" name="email" value="email address"
-				size="20" onfocus='this.value=""' /> <input type=hidden name="makeconfirmed" value="1"/> <input
+				size="20" onfocus='this.value=""' /> <input type=hidden name="makeconfirmed" value="1" /> <input
 				type="hidden" name="htmlemail" value="1" /> <input type="hidden" name="list[5]" value="signup" />
 				<input type="hidden" name="listname[5]" value="Developers" /> <input type="submit" id="emailsubmit"
 				name="subscribe" value="Subscribe" onClick="return checkform();" /> </form>
@@ -102,9 +100,4 @@ print<<<END
 			</div>
 			<div class="clearer"></div>
 		</div>
-
-END;
-
-include "/data/getdemocracy/site-live/include/end.php";
-
-?>
+<?php include "../include/end.php"; ?>

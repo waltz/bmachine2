@@ -4,7 +4,7 @@
 
 <title>Democracy: Internet TV</title>
 
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+<?php include("../include/start.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
 URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
@@ -33,7 +33,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
 			<div class="post-download-box">
 
 
-			<?php include("/data/getdemocracy/site-live/downloads/message.php"); ?>
+			<?php include("../downloads/message.php"); ?>
 
 
 			</div>
@@ -43,7 +43,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
   <!--/CONTENT BLOCK-->
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/include/end.php"); ?>
+	<?php include("../include/end.php"); ?>
 	<!--/FOOTER-->
 
 </div>

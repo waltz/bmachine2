@@ -1,27 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<?php include("../include/start.php"); ?>
 
-<title>Democracy: Internet TV</title>
+<iframe src="http://www.vgkids.com/cgi-bin/ccp51/cp-app.cgi?pg=cat&ref=pcf&affl=pcf" style="width:99%; height:550px; border:none;">
+</iframe>
 
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
-	
-</head>
-
-<FRAMESET>
-
-
-
-
-	
-
-
-	
-<FRAME src="http://www.vgkids.com/cgi-bin/ccp51/cp-app.cgi?pg=cat&ref=pcf&affl=pcf">	
-
-	
-
-
-
-</FRAMESET>
-</html>
+<?php include("../include/end.php"); ?>

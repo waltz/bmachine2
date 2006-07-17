@@ -61,7 +61,7 @@ a:hover {
 
 #header {
 	width:100%;
-	background:#ccc url('/images/bgr_header.gif') repeat-x;
+	background:#ccc url('../images/bgr_header.gif') repeat-x;
 	height:147px;
 }
 	#header-top {
@@ -74,7 +74,7 @@ a:hover {
 #main {
 	width:100%;
 	height:409px;	
-	background:#ede8d6 url('/images/bgr_callout.gif') repeat-x;
+	background:#ede8d6 url('../images/bgr_callout.gif') repeat-x;
 }	
 	#callout {
 		width:785px;
@@ -169,14 +169,14 @@ a:hover {
 	
 	
 #subcallout	{
-	background:#f8f8f8 url('/images/bgr_subarea.gif') 0 100% no-repeat;
+	background:#f8f8f8 url('../images/bgr_subarea.gif') 0 100% no-repeat;
 	width:780px;
 	margin:-4px auto 0 auto;
 	display:block;
 	padding:0 0 15px;
 }
 	#subcontent {
-		background:url('/images/bgr_topshadow.gif') 0 0 no-repeat;
+		background:url('../images/bgr_topshadow.gif') 0 0 no-repeat;
 		padding:15px 15px 0 15px;
 	}
 
@@ -676,22 +676,22 @@ ul#nav-sub {
 		height:60px;
 	}
 	#nav-watch a {
-		background:url('/images/btn_watch.gif') -1px 0 no-repeat;
+		background:url('../images/btn_watch.gif') -1px 0 no-repeat;
 	}
 	#nav-watch a:hover {
-		background:url('/images/btn_watch.gif') -1px -61px no-repeat;
+		background:url('../images/btn_watch.gif') -1px -61px no-repeat;
 	}
 	#nav-make a {
-		background:url('/images/btn_make.gif') -1px 0 no-repeat;
+		background:url('../images/btn_make.gif') -1px 0 no-repeat;
 	}
 	#nav-make a:hover {
-		background:url('/images/btn_make.gif') -1px -61px no-repeat;
+		background:url('../images/btn_make.gif') -1px -61px no-repeat;
 	}
 	#nav-code a {
-		background:url('/images/btn_code.gif') -1px 0 no-repeat;
+		background:url('../images/btn_code.gif') -1px 0 no-repeat;
 	}
 	#nav-code a:hover {
-		background:url('/images/btn_code.gif') -1px -61px no-repeat;
+		background:url('../images/btn_code.gif') -1px -61px no-repeat;
 	}
 
 #subcontent ul,#sub-channels ul {

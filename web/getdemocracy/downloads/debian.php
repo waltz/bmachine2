@@ -1,4 +1,4 @@
-<?php include("/data/getdemocracy/site-live/include/start.php"); ?>
+<?php include("../include/start.php"); ?>
 
 <!--CONTENT BLOCK-->
 <div id="content">
@@ -23,7 +23,7 @@ You can also install it temporarily by downloading these two files:
 			<div class="post-download-box">
 
 
-			<?php include("/data/getdemocracy/site-live/downloads/message.php"); ?>
+			<?php include("../downloads/message.php"); ?>
 
 
 			</div>
@@ -32,6 +32,6 @@ You can also install it temporarily by downloading these two files:
   </div>
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/include/end.php"); ?>
+	<?php include("../include/end.php"); ?>
 	<!--/FOOTER-->
 </div>

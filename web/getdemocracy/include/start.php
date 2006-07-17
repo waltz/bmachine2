@@ -1,7 +1,4 @@
-<?php
-
-print<<<END
-
+<?php include ("base.php"); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -9,29 +6,26 @@ print<<<END
 	<head>
 		<title>Democracy - Internet TV Platform - Free and Open Source</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="/stylesheets/main.css" type="text/css" media="screen" />
-		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://getdemocracy.com/news/feed">
+		<link rel="stylesheet" href="<?= $base ?>/stylesheets/main.css" type="text/css" media="screen" />
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?= $base ?>/news/feed">
 	</head>
 
 	<body>
 		<div id="header">
 			<div id="header-top">
-				<h1><a href="http://getdemocracy.com">Democracy - Internet TV Platform - Free and Open Source</a></h1>
+				<h1><a href="<?= $base ?>/">Democracy - Internet TV Platform - Free and Open Source</a></h1>
 				<ul id="nav-main">
-					<li><a href="/downloads">Downloads</a></li>
+					<li><a href="<?= $base ?>/downloads">Downloads</a></li>
 					<li><a href="http://forum.getdemocracy.com">Forums</a></li>
-					<li><a href="/donate">Donate</a></li>
-					<li><a href="/help">Help</a></li>
-					<li><a href="/about">About</a></li>
-					<li><a href="/news">Blog</a><a href="/news/feed/"><img src='/images/feed-white.gif' border="0" /></a></li>
+					<li><a href="<?= $base ?>/donate">Donate</a></li>
+					<li><a href="<?= $base ?>/help">Help</a></li>
+					<li><a href="<?= $base ?>/about">About</a></li>
+					<li><a href="<?= $base ?>/news">Blog</a><a href="<?= $base ?>/news/feed/"><img src='<?= $base ?>/images/feed-white.gif' border="0" /></a></li>
 				</ul>
 			</div>
 			<ul id="nav-sub">
-				<li id="nav-watch"><a href="/watch">Watch TV - Get Democracy player and explore internet TV</a></li>
-				<li id="nav-make"><a href="/make">Make TV - Turn your videos into an Internet TV channel</a></li>
-				<li id="nav-code"><a href="/code">Code - Get under the hood. 100% open-source, GPL</a></li>
+				<li id="nav-watch"><a href="<?= $base ?>/watch">Watch TV - Get Democracy player and explore internet TV</a></li>
+				<li id="nav-make"><a href="<?= $base ?>/make">Make TV - Turn your videos into an Internet TV channel</a></li>
+				<li id="nav-code"><a href="<?= $base ?>/code">Code - Get under the hood. 100% open-source, GPL</a></li>
 			</ul>
 		</div>
-END;
-
-?>

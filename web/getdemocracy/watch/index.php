@@ -1,8 +1,7 @@
 <?php
-
-include ("/data/getdemocracy/site-live/include/start.php");
-
-print<<<END
+include ("../include/base.php");
+include ("../include/start.php");
+?>
 
 		<div id="sub-main">
 			<h2>Watch Internet TV with Democracy Player</h2>
@@ -12,11 +11,11 @@ print<<<END
 		</div>
 		<div id="steps">
 			<ul>
-				<li><img src="/images/img_subscribechannels.png" /><strong>1. Subscribe to Channels</strong><br />
+				<li><img src="<?= $base ?>/images/img_subscribechannels.png" /><strong>1. Subscribe to Channels</strong><br />
 				Democracy has a built-in Channel Guide, an open catalog of hundreds of free channels. Subscribe to any channel with a single click.</li>
-				<li><img src="/images/img_downloadvideos.png" /><strong>2. Download from Channels</strong><br />
+				<li><img src="<?= $base ?>/images/img_downloadvideos.png" /><strong>2. Download from Channels</strong><br />
 				After you subscribe to a channel, pick videos to download individually or set the channel to automatically get new stuff as it comes out (like a Tivo).</li>
-				<li><img src="/images/img_watchvideo.png" /><strong>3. Watch Videos</strong><br />
+				<li><img src="<?= $base ?>/images/img_watchvideo.png" /><strong>3. Watch Videos</strong><br />
 				Lean back and watch your new videos in full screen at your convenience. Democracy plays lots of video formats.</li>
 			</ul>
 			<div class="clearer"></div>
@@ -26,11 +25,11 @@ print<<<END
 			<p class="subhead">There are more than 500 channels in the Channel Guide that is built-in to Democracy. They're as interesting and diverse as the
 			internet itself. You can subscribe to any of them for free with a single click. Here are a few examples:</p>
 			<ul>
-				<li id="channel1"><img src="/images/frederator.png" border="4" height=157 width=235 />
+				<li id="channel1"><img src="<?= $base ?>/images/frederator.png" border="4" height=157 width=235 />
 				<h5><a href="http://http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
-				<li id="channel2"><img src="/images/lady_sovereign.jpg" border="4" height=157 width=235 />
+				<li id="channel2"><img src="<?= $base ?>/images/lady_sovereign.jpg" border="4" height=157 width=235 />
 				<h5><a href="http://telemusicvision.com/">Telemusicvision</a></h5></li>
-				<li id="channel3"><img src="/images/media_that_matters.png" border="4" height=157 width=235 />
+				<li id="channel3"><img src="<?= $base ?>/images/media_that_matters.png" border="4" height=157 width=235 />
 				<h5><a href="http://mediathatmattersfest.org">Media That Matters</a></h5></li>
 			</ul>
 			<br style="clear: both;" />
@@ -41,11 +40,7 @@ print<<<END
 			<p class="subhead2"><strong>Stop Reading and Start Watching!</strong> Ready to try internet TV?  It's a lot more fun to watch it than it is to read about it.</p>
 
 				<div id="downloadarea-sub">
-END;
-
-include("/data/getdemocracy/site-live/include/download-button.php");
-
-print<<<END
+<?php include("../include/download-button.php"); ?>
 				</div>
 
 			</div>
@@ -68,8 +63,4 @@ print<<<END
 			</div>
 			<div class="clearer"></div>
 		</div>
-END;
-
-include ("/data/getdemocracy/site-live/include/end.php");
-
-?>
+<?php include ("../include/end.php"); ?>

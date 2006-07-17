@@ -4,7 +4,7 @@
 
 <title>Democracy - Internet TV Platform - Free and Open Source</title>
 
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
+<?php include("../includes/head.php"); ?>
 	
 </head>
 
@@ -14,7 +14,7 @@
 <div id="container">
 
 	<!--HEADER-->
-	<?php include("/data/getdemocracy/site-live/includes/header.php"); ?>
+	<?php include("../includes/header.php"); ?>
 	<!--/HEADER-->
 	
 	<!--CONTENT BLOCK-->
@@ -39,10 +39,10 @@
 					<p style="margin-bottom: 15px;"><strong>Features:</strong> Democracy Player is a new kind of browser for watching videos-- grab webpages with video and video RSS feeds (including podcasts, video blogs, and BitTorrent feeds), and watch them full screen, one after the other. It's free and open source.</p>
 
 
-					<?php include("/data/getdemocracy/site-live/includes/download-button.php"); ?>
+					<?php include("../includes/download-button.php"); ?>
 					
 					
-					<p style="clear: both; padding-top: 8px; padding-bottom: 10px;" id="jobs_announce"><a href="/jobs">Hiring: Software Developer, Art Director</a></p>
+					<p style="clear: both; padding-top: 8px; padding-bottom: 10px;" id="jobs_announce"><a href="<?= $base ?>/jobs">Hiring: Software Developer, Art Director</a></p>
 					
 				</div>
 				
@@ -197,7 +197,7 @@
 
 <div class="help_section">
 
-<a href="http://www.getdemocracy.com/store"><img src="/images/layout/democracy_store.gif" alt="democracy store" /></a>
+<a href="http://www.getdemocracy.com/store"><img src="<?= $base ?>/images/layout/democracy_store.gif" alt="democracy store" /></a>
 
 </div>
 
@@ -295,7 +295,7 @@ Download Democracy Player above or <a href="http://www.getdemocracy.com/walkthro
 	
 
 	<!--FOOTER-->
-	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
+	<?php include("../includes/footer.php"); ?>	
 	<!--/FOOTER-->
 
 </div>

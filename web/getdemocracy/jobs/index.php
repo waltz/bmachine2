@@ -1,19 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"> <head>
-
-<title>Democracy: Internet TV</title>
-
-<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
-
-</head>
-
-<body>
-
-<!--CONTAINER--> <div id="container">
-
-<!--HEADER--> <?php include("/data/getdemocracy/site-live/includes/header.php"); ?> <!--/HEADER-->
-
-<!--CONTENT BLOCK--> <div class="content">
+<?php include("../include/start.php"); ?>
+<!--CONTENT BLOCK--> <div id="content">
 
 <div class="left">
 
@@ -58,35 +44,13 @@ development process. Most of our code is in dynamic languages like Python and Ru
 
 <p>For more about the Participatory Culture Foundation:<br /><br />
 <strong><a href="http://participatoryculture.org/">PCF Homepage</a><br />
-<a href="http://getdemocracy.com/news/">News and Blog</a><br />
+<a href="<?= $base ?>/news/">News and Blog</a><br />
 </strong>
 
 
 </div>
 </div>
 
-
-<!--SIDEBAR--> <div id="sidebar" class="sidebar">
-
-
-
-<ul class="sidebar-nav">
-
-<?php include("/data/getdemocracy/site-live/includes/about-links.php"); ?>
-
-</ul>
-
-
-
-
-<?php include("/data/getdemocracy/site-live/includes/sidebar-newsletters.php"); ?>
-
-</div> <!--/ SIDEBAR-->
-
 </div> <!--/CONTENT BLOCK-->
 
-<!--FOOTER--> <?php include("/data/getdemocracy/site-live/includes/footer.php"); ?> <!--/FOOTER-->
-
-</div> <!--/CONTAINER-->
-
-</body> </html>
+<!--FOOTER--> <?php include("../include/end.php"); ?> <!--/FOOTER-->

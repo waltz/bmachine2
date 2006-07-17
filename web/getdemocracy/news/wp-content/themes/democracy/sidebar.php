@@ -15,7 +15,7 @@
 
 				
 
-	<?php include("/data/getdemocracy/site-live/includes/sidebar-newsletters.php"); ?>	
+	<?php include("../../../../includes/sidebar-newsletters.php"); ?>	
 	
 
 </div>
