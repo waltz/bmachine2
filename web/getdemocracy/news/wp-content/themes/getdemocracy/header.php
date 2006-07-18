@@ -4,7 +4,7 @@
 
 <title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 
-<?php include("../../../../includes/head.php"); ?>
+<?php include("/data/getdemocracy/site-live/includes/head.php"); ?>
 
 <meta name="generator" content="WordPress <?php bloginfo('version'); ?>" />
 
@@ -25,7 +25,7 @@
 <div id="container">
 
 	<!--HEADER-->
-	<?php include("../../../../includes/header.php"); ?>
+	<?php include("/data/getdemocracy/site-live/includes/header.php"); ?>
 	<!--/HEADER-->
 		
 	<!--CONTENT BLOCK-->

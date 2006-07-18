@@ -1,5 +1,5 @@
 	<!--FOOTER-->
-	<?php include("../../../../includes/footer.php"); ?>	
+	<?php include("/data/getdemocracy/site-live/includes/footer.php"); ?>	
 	<!--/FOOTER-->
 
 </div>

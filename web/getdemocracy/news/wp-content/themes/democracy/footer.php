@@ -1,4 +1,4 @@
 	<!--FOOTER-->
-	<?php include("../../../../include/end.php"); ?>	
+	<?php include("/data/getdemocracy/site-live/include/end.php"); ?>	
 	<!--/FOOTER-->
 

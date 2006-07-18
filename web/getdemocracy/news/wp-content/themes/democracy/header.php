@@ -4,7 +4,7 @@
 
 <title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 
-<?php include("../../../../include/wphead.php"); ?>
+<?php include("/data/getdemocracy/site-live/include/wphead.php"); ?>
 
 <meta name="generator" content="WordPress <?php bloginfo('version'); ?>" />
 
@@ -21,7 +21,7 @@
 
 <body>
 <!--HEADER-->
-<?php include("../../../../include/wpheader.php"); ?>
+<?php include("/data/getdemocracy/site-live/include/wpheader.php"); ?>
 
 <!--/HEADER-->
 
