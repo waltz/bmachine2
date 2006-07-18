@@ -18,7 +18,7 @@ include ("../include/start.php");
 				<li>We think it's a problem that a small number of corporations control mass media.</li>
 				<li>We think free, open-source, open standards internet TV is our best shot at a solution.</li>
 			</ul>
-			<p>The front page of our website, <a href="http://www.participatoryculture.org">participatoryculture.org</a>, gives a more complete overview of what we're working on and why.  Also, you can read our <a href="<?= $base ?>/news">blog</a>, and check out our <a href="<?php $base ?>/press">press page</a>, or <a href="<?php $base ?>/contact">contact us</a> directly.</p>
+			<p>The front page of our website, <a href="http://www.participatoryculture.org">participatoryculture.org</a>, gives a more complete overview of what we're working on and why.  Also, you can read our <a href="<?= $base ?>/news">blog</a>, and check out our <a href="<?= $base ?>/press">press page</a>, or <a href="<?= $base ?>/contact">contact us</a> directly.</p>
 
 								<p>For more information, please feel free to download and share widely this <a href="about_Democracy_1page.pdf">one-page summary</a> of the Participatory Culture Foundation and the Democracy platform. It's also available in a <a href="about_Democracy_8page.pdf">detailed summary</a> <em>(8-page .pdf, 2.6 MB)</em> that features illustrations of the Democracy platform, information about PCF's diverse partner organizations, and examples of the public-interest potential of open internet TV.</p>
 
@@ -93,6 +93,13 @@ include ("../include/start.php");
 											<h2>Luc Heinrich</h2>
 											<p><strong>Software Developer</strong></p>
 											<p>Luc Heinrich, a Democracy player programmer, lives in Paris with his wife and daughter. <br />Contact: <a href="mailto:luc@pculture.org">luc[at]pculture.org</a></p>
+										</div>
+										<div class="column2">
+											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/clahey.jpg" alt="" /></div>
+											<h2>Chris Lahey</h2>
+											<p><strong>Software Developer</strong></p>
+											<p>Chris lives in Cambridge. <br />
+											Contact: <a href="mailto:clahey@clahey.net">clahey[at]clahey.net</a></p>
 										</div>
 									</div>
 
