@@ -16,8 +16,8 @@ function getOPML() {
 <opml version="2.0">
 	<head>
 		<title>Democracy Subscriptions</title>
-		<dateCreated><?php print $dateString;?></dateCreated>
-		<dateModified><?php print $dateString;?></dateModified>
+		<dateCreated>$dateString;</dateCreated>
+		<dateModified>$dateString;</dateModified>
 	</head>
 	<body>
 

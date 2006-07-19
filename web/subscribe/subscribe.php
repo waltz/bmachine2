@@ -1,7 +1,9 @@
 <?php
 
 include "geturls.php";
-
+$base = 'http://subscribe.getdemocracy.com/';
+// HACK $base should be in some include file, but I don't have the time to 
+// make it work right now
 
 function getLink ($base, $urls) {
   
@@ -19,8 +21,13 @@ function getLink ($base, $urls) {
 
 // Returns a link to the page that generates OPML for this list of URLs
 function getSubscribeLink($urls) {
-  $base = 'opml.php';
-  return getLink ($base, $urls);
+  global $base;
+  $link = getLink ('opml.php', $urls);
+  if(strpos(strtolower(getenv("HTTP_USER_AGENT")), 'safari') == FALSE) {
+    return $link;
+  } else {
+    return "democracy:{$base}{$link}";
+  }
 }
 
 function getInstallerLink($urls) {
