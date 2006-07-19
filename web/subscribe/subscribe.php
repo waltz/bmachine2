@@ -175,7 +175,7 @@ function getfile(file, spawnpage)
   location.href = spawnpage;
 }
 
- if (navigator.appVersion.indexOf("Win")!=-1)
+if (navigator.appVersion.indexOf("Win")!=-1)
 		{
 		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="<?= $InstallerLink ?>">Version 0.8.4.1 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
 		}
@@ -193,6 +193,19 @@ function getfile(file, spawnpage)
 		}
 	//-->
 </script>
+
+
+<noscript>
+        <h4>If you don't have Democracy Player, download it now:</h4>
+        <div style="padding-top: 10px; align:center;">
+	<strong>Version 0.8.5:</strong>
+        <a href="http://www.getdemocracy.com/downloads/windows.php">Windows</a> | 
+        <a href="http://www.getdemocracy.com/downloads/osx.php">Mac OSX</a> |
+        <a href="http://www.getdemocracy.com/downloads/#linux">Linux</a>
+        </div>
+        <h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>
+</noscript>
+
 </div>
 </p>
 
