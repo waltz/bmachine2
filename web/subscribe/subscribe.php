@@ -232,7 +232,25 @@ To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepag
 
 </div>
 
+<?php
+//Hack to bypass iframe on protocol based platforms
+if (strpos($SubscribeLink,"democracy:")!==0) {
+
+?>
 <iframe src="<?php echo $SubscribeLink; ?>" style="display:none;"></iframe>
+<?php
+	
+} else {
+
+?>
+<script language="JavaScript"><!--
+document.location.href = "<?php echo $SubscribeLink; ?>";
+--></script>
+<?php
+	
+}
+
+?>
 <p style="clear: both; margin-top: 25px;">
 <strong>1-click subscribe not working?</strong> If you already have Democracy Player, but it didn't open up and subscribe you to these channels when you came to this page, <a href="<?php echo $SubscribeLink; ?>">click here</a> to download the auto-subscribe file and then double-click it.
 </p>

@@ -38,6 +38,18 @@ function validate()
   }
 }
 
+function validateurls() {
+	// FIXME: this is still incomplete
+  for (i = 0; i <urls.length; i++) {
+    if (urls[i]) {
+	if (urls[i].indexOf("http://") > 0 || urls[i].indexOf("https://") > 0) {
+		return false;
+	}
+	return true;
+    }
+  }
+}
+
 function generateButtons()
 {
   var buttonHTML = '';
@@ -76,12 +88,16 @@ function generateButtons()
     {
       if (urls[i])
 	{
-	  if (j != 1)
-	    {
-	      subscriptionUrl += "&";
-	    }
-	  subscriptionUrl += "url" + j + "=" + escape(urls[i]);
-	  j ++;
+	  if (validateurls()) {
+		  if (j != 1)
+		    {
+		      subscriptionUrl += "&";
+		    }
+		  subscriptionUrl += "url" + j + "=" + escape(urls[i]);
+		  j ++;
+	  } else {
+	    document.write('One or more of your urls were not well formed. Please <a href="http://subscribe.getdemocracy.com">go back</a> and check your urls.');
+	  }
 	}
     }
 
