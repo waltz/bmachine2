@@ -50,14 +50,15 @@ function generateButtons()
   // add url to button img
   // (make sure to add comma to current last img)
   var buttons = new Array(
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-14.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-01.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-02.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-08.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-09.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-15.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-16.gif',
-    'http://www.getdemocracy.com/buttons/img/subscribe-btn-10.gif',
-    'http://www.getdemocracy.com/buttons/img/subscribe-btn-14.gif'
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-10.gif'
+
   );
   
   
@@ -89,8 +90,8 @@ function generateButtons()
   buttonHTML+='<div id="content-left">';
   for (i=0; i < buttons.length; i++)
   {
-    buttonHTML += '<div id="button"><div class="image"><img src="' + buttons[i] +
-      '" alt="" /></div><div class="code"><textarea name="code" cols="38" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
+    buttonHTML += '<div class="button"><div class="image"><img src="' + buttons[i] +
+      '" alt="" /></div><div class="code"><textarea name="code" cols="40" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
     if (i == Math.floor((buttons.length - 1) / 2)) {
       buttonHTML+='</div><div id="content-right">';
     }
@@ -164,7 +165,20 @@ width: 320px;
 float: left;
 padding-bottom: 15px;
 padding-top: 5px;
+height: 125px;
+}
 
+.button .image {
+height: 52px;
+padding-left: 4px;
+}
+
+.button .image img {
+vertical-align: bottom;
+}
+
+.code textarea {
+border: 1px solid #999;
 }
 
 </style>
@@ -221,8 +235,9 @@ padding-top: 5px;
   
   <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line:</strong><br />
   <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
-  <br /><br />
+  <br />
   <input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
+  <Br />
   </p>
 
   <!--Generated Buttons-->
