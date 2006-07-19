@@ -87,16 +87,18 @@ function generateButtons()
 
   }
   
-  buttonHTML+='<div id="content-left">';
+  buttonHTML+='<form name="buttoncode"><div id="content-left">';
   for (i=0; i < buttons.length; i++)
   {
     buttonHTML += '<div class="button"><div class="image"><img src="' + buttons[i] +
-      '" alt="" /></div><div class="code"><textarea name="code" cols="40" rows="4" style="background-color: #EEEEEE;"><a href="' + subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
+      '" alt="" /></div><div class="code"><textarea name="btn' + i + 
+      '" onClick="document.buttoncode.btn' + i + '.select();" cols="40" rows="4" style="background-color:#EEEEEE;"><a href="' + 
+	subscriptionUrl + '" title="Democracy: Internet TV"><img src="'+ buttons[i] + '" alt="Democracy: Internet TV" border="0" /></a></textarea></div></div>';
     if (i == Math.floor((buttons.length - 1) / 2)) {
       buttonHTML+='</div><div id="content-right">';
     }
   }
-  buttonHTML+='</div><br clear="all" />'; 
+  buttonHTML+='</div></form><br clear="all" />'; 
   
   if (errorString != null && errorString != '') {
     document.getElementById('generated_buttons').innerHTML = 
