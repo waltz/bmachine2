@@ -53,7 +53,7 @@ $InstallerLink = getInstallerLink($URLList);
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-<link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+<link href="http://www.getdemocracy.com/stylesheets/main.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" type="image/ico" href="http://getdemocracy.com/favicon.ico" />
 
 <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://getdemocracy.com/news/feed" />
@@ -81,12 +81,13 @@ padding-top: 15px;
 
 #what_is {
 clear: both;
-margin-top: 12px;
+margin-top: 18px;
 padding: 8px;
 border: 4px solid #ddffdd;
 background-color: #f6fcf6;
 color: #111;
-height: 191px;
+font-size: 14px;
+
 }
 
 #what_is h4, #install_info h4 {
@@ -99,6 +100,15 @@ padding: 0;
 float: left;
 width: 280px;
 }
+
+iframe {
+border: none;
+}
+
+h3 {
+font-size: 18px;
+}
+
 
 #channel_list h3 {
 color: #d00;
@@ -150,7 +160,7 @@ padding-top: 3px;
 
 <!--CONTENT BLOCK-->
 <div id="content">
-<div id="content-1col">	
+
 
 <div id="channel_list">
 	<h3>now subscribing to:</h3>
@@ -177,33 +187,32 @@ function getfile(file, spawnpage)
 
 if (navigator.appVersion.indexOf("Win")!=-1)
 		{
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="<?= $InstallerLink ?>">Version 0.8.4.1 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
+		document.write('<h3>Don\'t have Democracy Player installed? Download it now with the channels above included.</strong></h3><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="<?= $InstallerLink ?>">Version 0.8.4.1 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
 		}
 	else if (navigator.appVersion.indexOf("Mac")!=-1)
 		{
-		document.write('<h4>If you don\'t have Democracy Player, download it now:</h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="http://getdemocracy.com/downloads/osx.php">Version 0.8.4.1 for Mac OS X</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Windows</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div><h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>');
+		document.write('<h3>Don\'t have Democracy Player installed? Download it now, then click here: <a href="<?= $SubscribeLink ?>">subscribe</a>.</h3><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="http://getdemocracy.com/downloads/osx.php">Version 0.8.4.1 for Mac OS X</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Windows</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
 		}
 	else if (navigator.appVersion.indexOf("X11")!=-1)
 		{
-		document.write('<h4>If you don\'t have Democracy Player, download it now:</h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="http://getdemocracy.com/downloads/#linux">Version 0.8.4.1 for Linux</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Windows</a></div></div><h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>');
+		document.write('<h4>Don\'t have Democracy Player installed? Download it now, then click here: <a href="<?= $SubscribeLink ?>">subscribe</a>.</h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="http://getdemocracy.com/downloads/#linux">Version 0.8.4.1 for Linux</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Windows</a></div></div>');
 		}
 	else
 		{	
-		document.write('<h4>If you don\'t have Democracy Player, download it now with the channels above included.</strong></h4><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.2.exe\', \'/downloads/windows.php\');">Version 0.8.2 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
+		document.write('<h3>Don\'t have Democracy Player installed? Download it now with the channels above included.</strong></h3><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.2.exe\', \'/downloads/windows.php\');">Version 0.8.2 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
 		}
 	//-->
 </script>
 
 
 <noscript>
-        <h4>If you don't have Democracy Player, download it now:</h4>
+        <h3>Don't have Democracy Player installed? Download it now, then click here: <a href="<?= $SubscribeLink ?>">Subscribe</a>.</h3>
         <div style="padding-top: 10px; align:center;">
 	<strong>Version 0.8.5:</strong>
         <a href="http://www.getdemocracy.com/downloads/windows.php">Windows</a> | 
         <a href="http://www.getdemocracy.com/downloads/osx.php">Mac OSX</a> |
         <a href="http://www.getdemocracy.com/downloads/#linux">Linux</a>
         </div>
-        <h4>Then, click this link: <a href="<?= $SubscribeLink ?>">Subscribe</a></h4>
 </noscript>
 
 </div>
@@ -213,11 +222,11 @@ if (navigator.appVersion.indexOf("Win")!=-1)
 
 <div id="screenshot">
 
-<img src="../images/apple-screen-intro.png" alt="Democracy Player">
+<img src="http://subscribe.getdemocracy.com/images/apple-screen-intro.png" alt="Democracy Player">
 
 </div>
 
-<h4>What is Democracy Player?</h4>
+<h5>What is Democracy Player?</h5>
 
 <p>
 Democracy Player is a free desktop application for watching internet TV.  You can subscribe to thousands of free internet TV channels, including any video podcast, video blog, or video RSS feed.
@@ -228,13 +237,14 @@ Features: easy to use, supports BitTorrent, watch fullscreen, free and open-sour
 </p>
 
 <p>
-To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepage</a>.</p>
+To learn more, <a href="http://www.getdemocracy.com">visit the Democracy homepage</a>.
+</p>
 
 </div>
 
 <iframe src="<?php echo $SubscribeLink; ?>" style="position:absolute;x:-500px;width:1px;height:1px;"></iframe>
 <p style="clear: both; margin-top: 25px;">
-<strong>1-click subscribe not working?</strong> If you already have Democracy Player, but it didn't open up and subscribe you to these channels when you came to this page, <a href="<?php echo $SubscribeLink; ?>">click here</a> to download the auto-subscribe file and then double-click it.
+<strong>1-click subscribe not working?</strong> If you already have Democracy Player installed, but it didn't open up and subscribe you to these channels when you came to this page, <a href="<?php echo $SubscribeLink; ?>">click here</a> to download the Democracy subscribe file and then double-click it.<br />&nbsp;
 </p>
 
 

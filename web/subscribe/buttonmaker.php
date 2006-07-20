@@ -7,7 +7,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-<link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+<link href="http://www.getdemocracy.com/stylesheets/main.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" type="image/ico" href="http://getdemocracy.com/favicon.ico" />
 
 <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://getdemocracy.com/news/feed" />
@@ -65,10 +65,9 @@ function generateButtons()
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-02.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-08.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-09.gif',
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-10.gif',
     'http://www.getdemocracy.com/buttons/img/subscribe-btn-15.gif',
-    'http://www.getdemocracy.com/buttons/img/subscribe-btn-16.gif',
-    'http://www.getdemocracy.com/buttons/img/subscribe-btn-10.gif'
-
+    'http://www.getdemocracy.com/buttons/img/subscribe-btn-16.gif'
   );
   
   
@@ -174,7 +173,7 @@ padding-top: 3px;
 .button {
 width: 320px;
 float: left;
-padding-bottom: 15px;
+padding-bottom: 25px;
 padding-top: 5px;
 height: 125px;
 }
@@ -188,8 +187,28 @@ padding-left: 4px;
 vertical-align: bottom;
 }
 
+textarea {
+font-size: 14px;
+}
+
+input {
+font-size: 17px;
+}
+
 .code textarea {
 border: 1px solid #999;
+font-size: 11px;
+}
+
+h5 {
+color: #990000;
+}
+
+.maker {
+
+background-color: #ffd;
+padding: 15px;
+
 }
 
 </style>
@@ -234,18 +253,32 @@ border: 1px solid #999;
 <script language="javascript">  document.getElementById('supportsjs').style.display = "block"; </script>
 
   <br />
-  <h4>Democracy 1-Click Subscribe Button Maker</h4>
+  <h3>Democracy 1-Click Subscribe Button Maker</h3>
   
-  <p>Create buttons or a text link to subscribe your users to your video RSS feeds.</p>
+  <p>This page helps you create buttons (and a text link) that subscribe people to your video RSS feeds in Democracy Player.  By posting these buttons, you can instantly share your favorite channels with your friends and family.  Just make a button below and then paste the code into a website, blog, or email.</p>
   
-  <p>Our 1-Click Subscribe system goes beyond typical subscribe buttons in two key ways:</p>
+ 
+ <h5>Why Use 1-Click Buttons for Your Videos?</h5>
+ 
+ <p>
+ If you have a video RSS feed, then you already understand the benefits of video RSS compared to a website: when your viewers are subscribed, they receive new videos automatically, rather than having to remember to check your website.  1-Click buttons are the easiest way to get your viewers subscribed and Democracy Player provides the best viewing experience for your content. 
+ </p>
+
+  <p>For example: if I have a blog, I can create and post a button that will allow my readers to subscribe to my favorite internet TV channels. Or if my organization publishes a video RSS feed, I can post a button on our website and members who don't have the Democracy Player will be able to automatically download a version of the player that's pre-subscribed to our channel(s). Democracy is yours to share. Let us know if you've posted a button on your site! Write us anytime at info@pculture.org.
+ </p>
+
+ 
+  <h5>Democracy 1-Click Subscribe Goes Beyond Typical Subscribe Buttons.</h5>
   <ul>
-  	<li><strong>You can make a button for a single RSS feed or multiple feeds.</strong><br/>If you publish multiple video feeds, or if you want to recommend a bunch of feeds that you like, you can subscribe people to a whole batch of feeds in one fell swoop.</li>
-  	<li><strong>If a Windows user doesn't have Democracy Player installed, they can download the software with your channels pre-subscribed.</strong><br />  It's like your own branded version of the player that comes with your content. (We don't have the pre-subscribed installer available for Mac or Linux yet, but the subscribe buttons work for people who have the player installed and when they click on the button, they will get a link to download the application if they don't have it already.)</li>
+  	<li><strong>You can make a button for a single RSS feed or multiple feeds.</strong><br/>If you publish multiple video feeds, you can subscribe people to a whole batch of feeds in one fell swoop.    If you want to recommend a bunch of feeds that you like, even if you don't publish them, you can quickly make a link and blog it-- your own 'Top 10 List' of internet TV shows.<Br />&nbsp;</li>
+  	<li><strong>If a Windows user doesn't have Democracy Player installed, they can download it with your channels pre-subscribed.</strong><br />  It's your own branded version of Democracy Player.  Share your favorite channels with your community -- even if they don't already have Democracy Player. 	
+  	(Note: this feature is not yet available for Mac or Linux.  However, 1-Click subscribe buttons work for people who have Democracy Player already and people who don't have the app will get a link to download it.)</li>
   </ul>
   
-  <p><strong>Step 1. Paste in the URLs of your video RSS feeds, one per line:</strong><br />
-  <textarea cols="45" id="urls" name="urls" rows="5"></textarea>
+  
+<div class="maker">
+  <h5>STEP 1: Paste in URLs for video RSS feeds-- one per line.</h5>
+  <textarea cols="65" id="urls" name="urls" rows="5"></textarea>
   <br />
   <input name="commit" type="submit" value="Make My Buttons &gt;&gt;" onClick="generateButtons(); return false;"/>
   <Br />
@@ -253,21 +286,26 @@ border: 1px solid #999;
 
   <!--Generated Buttons-->
   <div id="generated_buttons" style="display: none;">
+  &nbsp;<br />
+    <h5>STEP 2: Pick a button and paste the code into your site.</h5>
   
-    <p><strong>Step 2. Pick the button you want to use and paste the code into your site.</strong></p>
-  
-    <p>Subscribe URL: <span id="subscription_url_link"></span></p>
+    <p>Text link: <span id="subscription_url_link"></span><Br />&nbsp;</p>
   
     <div id="buttons">
   
     </div>
-    <p>We suggest you validate your feeds (opens in new windows): <a href="javascript:validate()">Feed Validator</a></p>
+    <p>Find out if these feeds are valid RSS (opens in new windows): <a href="javascript:validate()">Validate These Feeds</a></p>
   </div>
 
   <!--/Generated Buttons-->
 
 <!--/js-->
 </div>
+
+
+</div> <!-- maker -->
+
+
 
 <!--/CONTAINER-->
 </div>
