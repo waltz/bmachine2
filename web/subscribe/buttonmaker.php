@@ -253,7 +253,7 @@ padding: 15px;
 <script language="javascript">  document.getElementById('supportsjs').style.display = "block"; </script>
 
   <br />
-  <h3>Democracy 1-Click Subscribe Button Maker</h3>
+  <h3>Democracy 1-Click Subscribe Button Maker <span style="color: #ccc;">Beta</span></h3>
   
   <p>This page helps you create buttons (and a text link) that subscribe people to your video RSS feeds in Democracy Player.  By posting these buttons, you can instantly share your favorite channels with your friends and family.  Just make a button below and then paste the code into a website, blog, or email.</p>
   
