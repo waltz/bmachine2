@@ -1,6 +1,6 @@
 <?php include ("base.php"); ?>
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We will be adding lots of new features in the next release, version 0.8.5.</strong><br />Sign-up to get notified when we release it:</p>
+			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We are adding lots of new features in the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
 
 
 			<div id="post-download-form">
@@ -21,6 +21,7 @@
 
 
 <div style="padding-top: 10px; margin-top: 5px;">
+<strong>Now Hiring:</strong> <a href="/jobs">Programmer and Art Director</a><br /><Br />
 Get more news at the <a href="<?= $base ?>/news">Democracy Blog</a><a style="text-decoration: none;" href="<?= $base ?>/news/feed" class="feed">&nbsp;</a>
 </div>
 
@@ -31,7 +32,7 @@ Get more news at the <a href="<?= $base ?>/news">Democracy Blog</a><a style="tex
 <a href="http://www.videobomb.com"><img src="images/abomb.png" alt="a bomb" /></a>
 </div>
 
-While you're downloading Democracy Player, check out Video Bomb, our video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Video Bomb >></a>
+While you're downloading, check out Video Bomb, our video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Video Bomb >></a>
 </div>
 
 
