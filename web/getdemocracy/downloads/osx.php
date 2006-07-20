@@ -6,10 +6,6 @@
 
 <?php include("../include/start.php"); ?>
 
-<meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
-
-
 </head>
 
 <body>
@@ -18,28 +14,16 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">
 
 
 	<!--CONTENT BLOCK-->
-  <div class="content-1col">
 
-			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player for OS X is downloading...</strong>
 
-						<p style="text-align:center; font-size: 12px;">If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.4.1.dmg">click here</a>.<br />To play Windows Media files, <a href="http://www.flip4mac.com/wmv_download.htm">get this free plugin.</a></p>
-
+			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><h3>Choose your download:</h3>
+				<p style="text-align:center; font-size: 20px;"><a href="osx-ppc.php">Democracy for PPC Mac</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="osx-intel.php">Democracy for Intel Mac</a></p>
+				
+				<p><strong>Not sure which one to pick?</strong>  If you bought your Mac before February 2006, you almost certainly have a PPC Mac.  If you bought a Mac recently and have an iMac, MacBook or MacBook Pro or a MacMini, you probably have an Intel Mac.  Hopefully, we'll offer a 'Universal Binary' soon and won't need to offer separate versions.</p>
 			</div>
 
 
 
-
-
-			<div class="post-download-box">
-
-
-			<?php include("../downloads/message.php"); ?>
-
-
-			</div>
-
-
-  </div>
   <!--/CONTENT BLOCK-->
 
 	<!--FOOTER-->

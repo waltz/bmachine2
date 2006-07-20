@@ -7,7 +7,7 @@
 <?php include("../include/start.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe">
+URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.5.exe">
 
 </head>
 
@@ -20,7 +20,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe">
 
 						<div class="big" style="margin:20px 0px 15px 8px; text-align:center;
 color: #444;"><strong>If your download didn't start, <a
-href="http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.4.1.exe">click here to download Democracy
+href="http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.5.exe">click here to download Democracy
 Player</a>.</strong>
 
 			</div>

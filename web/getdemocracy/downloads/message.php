@@ -1,4 +1,4 @@
-<?php include ("base.php"); ?>
+<?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
 			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We are adding lots of new features in the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
 

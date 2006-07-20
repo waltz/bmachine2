@@ -45,6 +45,7 @@ include "../include/version.php";
 								<img src="<?= $base ?>/downloads/images/os-ubuntu.gif" alt="" />
 								<h2><a href="ubuntu.php">Ubuntu</a></h2>
 								<p>Version: <?= $dtv_version ?> (Beta)<br />
+								(Coming Soon)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
@@ -71,7 +72,7 @@ include "../include/version.php";
 								<strong>Fedora Core 4 Binaries:</strong><Br />
 								<a href="fc4std.php">Standard</a><br />
 								<a href="fc4dbg.php">Debugging</a><Br />
-								<a href="fc4src.php">Source</a><Br /><Br />
+								<!--<a href="fc4src.php">Source</a><Br /><Br />-->
 							</div>
 							<div class="clearer"></div>
 						</div>
