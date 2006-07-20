@@ -38,16 +38,14 @@ function validate()
   }
 }
 
+// FIXME: we can test more than this
 function validateurls() {
-	// FIXME: this is still incomplete
-  for (i = 0; i <urls.length; i++) {
-    if (urls[i]) {
-	if (urls[i].indexOf("http://") > 0 || urls[i].indexOf("https://") > 0) {
-		return false;
-	}
-	return true;
-    }
-  }
+ for (i=0; i < urls.length; i++) {
+   if (urls[i].substring(0,7) != 'http://' &&
+       urls[i].substring(0,8) != 'https://')
+     return 'There was a problem with one or more of your urls: <br /><blockquote>' + urls[i] + '</blockquote>Please only submit http:// or https:// urls<br />';
+ }
+ return null;
 }
 
 function generateButtons()
@@ -83,24 +81,19 @@ function generateButtons()
   else
   {
     urls = urlInput.split(/\s+/);
-
+    errorString = validateurls();
     for (i = 0, j = 1; i < urls.length; i++)
     {
       if (urls[i])
-	{
-	  if (validateurls()) {
-		  if (j != 1)
+      {
+	  	  if (j != 1)
 		    {
 		      subscriptionUrl += "&";
 		    }
 		  subscriptionUrl += "url" + j + "=" + escape(urls[i]);
 		  j ++;
-	  } else {
-	    document.write('One or more of your urls were not well formed. Please <a href="http://subscribe.getdemocracy.com">go back</a> and check your urls.');
-	  }
-	}
-    }
-
+       }
+     }
   }
   
   buttonHTML+='<form name="buttoncode"><div id="content-left">';
