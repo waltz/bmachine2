@@ -7,9 +7,11 @@
 			<!--<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color:
 #444;"><strong>Democracy Player is downloading...</strong>-->
 
-						<p style="text-align:center; font-size: 14px;">You can download
-Democracy using the command <code>apt-get install democracyplayer</code> in your terminal window.<br />
-If this does not work, it means that Democracy hasn't quite made it to the repository yet.</p>
+						<p style="text-align:center; font-size: 14px;">Democracy Player is part of the Debian repository for testing and unstable (etch and sid).  You can get the latest version of democracy
+Democracy using these commands in a terminal window:</p>
+<pre style="text-align: left;">apt-get update
+apt-get install democracyplayer
+</pre> 
 
 			</div>
 
