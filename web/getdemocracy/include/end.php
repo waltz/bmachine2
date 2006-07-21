@@ -12,11 +12,13 @@
 			<li>
 				<a href="<?= $base ?>/make">Make TV</a>
 					<ul>
-						<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ - Channel Possibilities</a></li>
+						<li><a href="http://subscribe.getdemocracy.com/">1-Click Subscribe Buttons</li>
 						<li><a href="<?= $base ?>/broadcast">Broadcast Machine</a></li>
+						<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ: Channel Possibilities</a></li>
 						<li><a href="<?= $base ?>/make/channel-guide">Make a Channel</a></li>
-						<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
 						<li><a href="<?= $base ?>/make/channel-examples.php">Examples of channels</a></li>
+						<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
+
 					</ul>
 			</li>
 			<li>

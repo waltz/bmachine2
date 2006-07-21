@@ -41,6 +41,11 @@ include "../include/start.php";
 
 			</div>
 			<div id="content-right-2col">
+			
+			<h3>Have a video RSS Feed? Make a button!</h3>
+			
+			<p>If you have a video RSS feed, you can make a 1-Click subscribe button that will give people your feed with a single click.  <a href="http://subscribe.getdemocracy.com/">Learn more and make a button >></a>.</p>
+			
 				<ul class="sidebar-nav">
 					<li><a href="<?= $base ?>/make">Make TV</a>
 						<ul>
