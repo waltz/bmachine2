@@ -39,7 +39,7 @@ function validate()
 }
 
 // FIXME: we can test more than this
-function validateurls() {
+function validateurls(urls) {
  for (i=0; i < urls.length; i++) {
    if (urls[i].substring(0,7) != 'http://' &&
        urls[i].substring(0,8) != 'https://')
@@ -79,8 +79,9 @@ function generateButtons()
   }
   else
   {
+    urlInput = urlInput.replace(/^\s+/g, '').replace(/\s+$/g,'');
     urls = urlInput.split(/\s+/);
-    errorString = validateurls();
+    errorString = validateurls(urls);
     for (i = 0, j = 1; i < urls.length; i++)
     {
       if (urls[i])
