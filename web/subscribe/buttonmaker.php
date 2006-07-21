@@ -27,8 +27,6 @@ function onLoad()
   originalButtonsHTML = document.getElementById('generated_buttons').innerHTML;
 }
 
-var urls;
-
 function validate()
 {
   for (i = 0; i < urls.length; i++) {
@@ -39,7 +37,7 @@ function validate()
 }
 
 // FIXME: we can test more than this
-function validateurls(urls) {
+function validateurls() {
  for (i=0; i < urls.length; i++) {
    if (urls[i].substring(0,7) != 'http://' &&
        urls[i].substring(0,8) != 'https://')
@@ -81,7 +79,7 @@ function generateButtons()
   {
     urlInput = urlInput.replace(/^\s+/g, '').replace(/\s+$/g,'');
     urls = urlInput.split(/\s+/);
-    errorString = validateurls(urls);
+    errorString = validateurls();
     for (i = 0, j = 1; i < urls.length; i++)
     {
       if (urls[i])
