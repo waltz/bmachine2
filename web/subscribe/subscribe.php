@@ -176,7 +176,7 @@ padding-top: 3px;
 <div id="install_info">
 
 <script language="JavaScript">
-	<!--
+<!--
 function getfile(file, spawnpage)
 {
   var browser = (window.navigator.userAgent.indexOf("SV1") != -1);
@@ -201,6 +201,7 @@ if (navigator.appVersion.indexOf("Win")!=-1)
 		{	
 		document.write('<h3>Don\'t have Democracy Player installed? Download it now with the channels above included.</strong></h3><div style="padding-left: 230px; padding-top: 10px;"><div id="download-button"><a href="javascript:getfile(\'http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.5.exe\', \'/downloads/windows.php\');">Version 0.8.5 for Windows</a></div><div id="download-versions">Other versions: <a href="http://getdemocracy.com/downloads">Mac OSX</a> - <a href="http://getdemocracy.com/downloads">Linux</a></div></div>');
 		}
+-->
 </script>
 
 
