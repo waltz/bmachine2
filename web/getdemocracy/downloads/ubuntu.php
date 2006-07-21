@@ -19,8 +19,8 @@
 #444;"><strong>Democracy Player is downloading...</strong>-->
 
 						<p style="text-align:center; font-size: 14px;">You can also install democracy on Ubuntu Dapper Drake using these two files:<BR>
-<a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer-data_0.8.4.1-1_all.deb">data package</a>,
-<a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer_0.8.4.1-1_i386.deb">player package</a>.</p>
+<a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer-data_0.8.5-1ubuntu_all.deb">data 
+package</a>,<a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer_0.8.5-1ubuntu_i386.deb">player package</a>.</p>
 
 			</div>
 

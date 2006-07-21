@@ -45,7 +45,6 @@ include "../include/version.php";
 								<img src="<?= $base ?>/downloads/images/os-ubuntu.gif" alt="" />
 								<h2><a href="ubuntu.php">Ubuntu</a></h2>
 								<p>Version: <?= $dtv_version ?> (Beta)<br />
-								(Coming Soon)<br />
 								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
