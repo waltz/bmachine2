@@ -75,7 +75,7 @@ include "../include/start.php";
 									<!--
 									if (navigator.appVersion.indexOf("Win")!=-1)
 										{
-										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
+										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
 										}
 									else if (navigator.appVersion.indexOf("Mac")!=-1)
 										{
