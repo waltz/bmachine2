@@ -216,31 +216,8 @@ padding: 15px;
 
 <body onLoad="onLoad();">
 <!--HEADER-->
-	<div id="header">
-	
-
-	<div id="header-top">
-		<h1><a href="http://getdemocracy.com"><span></span>Democracy: Internet TV</a></h1>
-
-		<ul id="nav-main">
-			<li><a href="http://getdemocracy.com/help">Help</a></li>
-			<li><a href="http://getdemocracy.com/downloads">Downloads</a></li>
-			<li><a href="http://getdemocracy.com/donate">Donate</a></li>
-
-			<li><a href="http://getdemocracy.com/about">About</a></li>
-			<li><a href="http://getdemocracy.com/news">Blog</a><a href="http://getdemocracy.com/news/feed" class="feed">&nbsp;</a></li>		
-		</ul>
-	</div>
-	
-	
-		<ul id="nav-sub">
-			<li id="nav-watch"><a href="http://getdemocracy.com/watch"></a></li>
-			<li id="nav-make"><a href="http://getdemocracy.com/make"></a></li>
-			<li id="nav-code"><a style="margin-right: 0;" href="http://getdemocracy.com/code"></a></li>
-		</ul>
-
-	
-	</div>	<!--/HEADER-->
+<?php include($base."include/wpheader.php"); ?>
+<!--/HEADER-->
 
 <!--CONTAINER-->
 <div id="content">
