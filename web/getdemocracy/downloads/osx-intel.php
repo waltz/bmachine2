@@ -7,7 +7,7 @@
 <?php include("../include/start.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5-intel.dmg">
+URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-intel.dmg">
 
 
 </head>
@@ -22,7 +22,8 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5-intel.d
 
 			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player for OS X is downloading...</strong>
 
-				<p style="text-align:center; font-size: 12px;">If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5-intel.dmg">click here</a>.</p>
+				<p style="text-align:center; font-size: 12px;">If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-intel.dmg">click 
+here</a>.</p>
 
 			</div>
 
