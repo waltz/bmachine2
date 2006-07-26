@@ -81,7 +81,8 @@
 				</ul>
 				<div id="lower-sidebar">
 				<h6>Convinced that you should add Democracy Player to your arsenal? </h6>
-				<h6><a href="<?= $base ?>/downloads/">Download it Now</a></h6>
+				<h6><a href="<?= $base ?>/downloads/">Download Democracy Player</a></h6>
+				<br />
 				</div>
 							
 				</div>
