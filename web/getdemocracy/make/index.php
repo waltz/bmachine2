@@ -8,14 +8,18 @@ include "../include/start.php";
 				<p class="subhead">Videomakers and publishers: you can use the Democracy internet TV platform to get your videos out to thousands of people. We have tools that make it simple and can even help you share high resolution video without high bandwidth costs.</p>
 			</div>
 
-			<h4>Here's how it goes down</h4>
+			<h4>Get Your Videos to the World</h4>
 			<p>
 			<ol>
 				<li>Get your videos ready: <a href="http://www.current.tv/studio/survivalguide/?section=compression">here's a helpful guide</a>.</li>
-				<li>Make a channel: details below.</li>
+				<li>Make a channel: details and options below.</li>
+				<li>Create a 1-Click subscribe button with the <a href="http://subscribe.getdemocracy.com/">Button Maker</a></li>
 				<li>Submit your channel to our Channel Guide: <a href="https://channelguide.participatoryculture.org/?q=submitchannel">submit here</a>.</li>
 			</ol>
 			</p>
+
+
+			<h4>Ways to Make a Channel</h4>
 
 			<h5>On your own website:</h5>
 			<p>You can use our <a href="<?= $base ?>/broadcast/">Broadcast Machine</a> software to create channels and publish videos as easily as posting to your blog. Quickly upload files, create torrents, add metadata, and donation links. Broadcast Machine gives you the most control of any option but needs to be installed on a website. <a href="<?= $base ?>/broadcast">Get Broadcast Machine</a> and check out our <a href="channel-guide/">Step by Step Guide</a>.</p>
@@ -41,7 +45,7 @@ include "../include/start.php";
 			</div>
 			<div id="content-right-2col">
 			
-			<h3>Have a video RSS Feed? Make a button!</h3>
+			<h3>Have a video RSS Feed? Make a button! <img src="http://www.getdemocracy.com/buttons/img/subscribe-btn-14.gif" alt="1-click button example" /></h3>
 			
 			<p>If you have a video RSS feed, you can make a 1-Click subscribe button that will give people your feed with a single click.  <a href="http://subscribe.getdemocracy.com/">Learn more and make a button >></a>.</p>
 			
@@ -82,7 +86,7 @@ include "../include/start.php";
 										}
 									else
 										{
-										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
+										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
 										}
 									//-->
 									</script>
