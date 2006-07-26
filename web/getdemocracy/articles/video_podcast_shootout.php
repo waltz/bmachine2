@@ -50,10 +50,21 @@
 			<p>iTunes and Democracy Player both let users click on a button on a website to subscribe to a feed.  However, <a href="http://subscribe.getdemocracy.com/">Democracy Player's 1-Click System</a> goes beyond iTunes' in two ways.  First, publishers can create 1-click subscribe buttons for batches of channels, not just a single channel.  That means that if you publish more than 1 channel, you can subscribe users to everything you've got with a single click.  Even better, Windows users that don't have Democracy Player installed already can download a version of the player that comes with your channels instead of the standard default channels.  It's like your own branded version of Democracy Player.</p>
 			
 			<h4>Openness</h4>
-			<p>Democracy Player is free, open-source software, built by a non-profit organization.  Being open means that anyone can view the source-code for the program and change it if they want to make something that works differently.   In addition, Democracy Player does a better job of implementing RSS standards.</p>
+			<p>Democracy Player is free, open-source software, built by a non-profit organization.  Being open means that anyone can view the source-code for the program and change it if they want to make something that works differently.   In addition, Democracy Player does an excellent job of implementing RSS standards.  iTunes is closed-source software.</p>
 			
 			<h4>Linux</h4>
 			<p>Democracy Player runs on Linux.  There is no iTunes for Linux.</p>
+
+
+<h4>Conclusion</h4>
+<p>
+Clearly, we think Democracy Player is a better video player and video RSS reader than iTunes-- after all, if we didn't think so, why would we be building it?  But we aren't writing this article to criticize iTunes (I'm actually listening to iTunes right now), we're just very proud of the video experience that Democracy Player offers.  
+</p>
+
+<p>
+We hope this article has convinced you that it's worth trying Democracy Player for internet video.  If so, go <a href="http://www.getdemocracy.com">Download Democracy Player</a>.  There are some amazing internet TV channels out there, and ultimately the content is what this is all about.
+</p>
+
 
 			</div>
 			<div id="content-right-2col-art">
