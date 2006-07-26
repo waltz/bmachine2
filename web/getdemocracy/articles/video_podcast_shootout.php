@@ -65,7 +65,7 @@
 							<li><strong>FOR LINUX USERS</strong><br />You can't run iTunes on Linux, but you can run Democracy Player.</li>
 
 							<li><strong>FOR ALL USERS</strong>
-							<br /><br />
+							<br />
 							• Democracy Player was built specifically for video RSS.  The interface is easier to use and more intuitive. 
 <br /><br />
 							• Democracy Player supports BitTorrent feeds and works as a standalone BitTorrent client.  iTunes does neither.
