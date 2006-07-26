@@ -17,22 +17,22 @@
 			
 			<p><strong>On Mac</strong>, both iTunes and Democracy Player use Quicktime as a built-in playback engine and therefore they both play the same video formats.  As on Windows, Democracy lets you launch a video externally if the Quicktime engine can't play it.</p>
 
-			<h4>Video File Interface</h4>
-			<p>I think it's fair to say that the video interface on iTunes was a little bit tacked on.  iTunes is definitely an audio player at heart.  Video podcasts appear along with audio podcasts in the podcast tab.  The interface there is no nonsense and works very well for syncing with an iPod.  However, it doesn't work well for browsing videos on a feed-- descriptions are limited in length and there are no thumbnails for the videos.  That said, the iTunes Videos tab is simple, elegant, and very functional.  iTunes also generates thumbnails for each video that you have, which Democracy Player doesn't do.</p>
+			<h4>Browsing Video Channels</h4>
+			<p>I think it's fair to say that the video interface on iTunes was a little bit tacked on.  iTunes is definitely an audio player at heart.  Video podcasts appear along with audio podcasts in the podcast tab.  The interface there is no nonsense and works very well for syncing with an iPod.  However, it doesn't work well for browsing videos on a feed-- descriptions are limited in length and there are no thumbnails for the videos.  That said, the iTunes 'Videos' tab is simple, elegant, and very functional.  iTunes also generates thumbnails for each video that you have, which Democracy Player doesn't do.</p>
 			
 			<p>Democracy Player was built from the ground up to download videos feeds and play videos. The screenshots below compare browsing a video channel with iTunes and with Democracy Player.</p>
 
 			<img src="<?= $base ?>/images/itunesdemocscreen.jpg" />
 			<div class="screendesc">Browsing a channel in iTunes and in Democracy</div>
-
+&nbsp;<br />
 
 			<h4>Video Playback and Fullscreen</h4>
 			<p>Video playback on Democracy Player is typical of video players-- controls appear below the video that you are watching.  The videos play in the large main window of the screen.  Democracy Player plays video fullscreen.  It has beautiful fullscreen controls on Mac and pretty decent fullscreen controls on Windows and Linux.</p>
 
 			<img src="<?= $base ?>/images/fullscreen_screen.jpg" />
 			<div class="screendesc">Democracy fullscreen controls</div>
-			
-			<p>In terms of usability, iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where cover art appears.  If you click on this box, the video pops up into a window that looks like the window for watching Quicktime on a webpage.  You have play, pause, and frame forward, frame back controls.  But no fast forward, rewind, or skip to the previous / next video control.  If you play a video and click the fullscreen button rather than the image of the video, it begins to play fullscreen.  However, this fullscreen mode lacks any playback controls-- you can't fast forward, rewind, pause, etc.  If you press the spacebar to pause the video, you exit fullscreen mode, which feels a little jarring to me.  I actually would not be surprised if all of this changes in a future version of iTunes (perhaps when Apple announces their movie store?).</p>
+			<Br />
+			<p>In terms of usability, iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where album cover art usually appears.  If you click on this box, the video pops up into a window that looks like the window for watching Quicktime on a webpage.  You have play, pause, and frame forward, frame back controls.  But no fast forward, rewind, or skip to the previous / next video control.  If you play a video and click the fullscreen button rather than the image of the video, it begins to play fullscreen.  However, this fullscreen mode lacks any playback controls-- you can't fast forward, rewind, pause, etc.  If you press the spacebar to pause the video, you exit fullscreen mode, which feels a little jarring to me.  I actually would not be surprised if all of this changes in a future version of iTunes (perhaps when Apple announces their movie store?).</p>
 			
 <p>Overall, I believe Democracy Player offers a video playback experience that is superior to iTunes in many ways.  It matches Quicktime Pro for fullscreen playback, while providing the benefits of being able to work with lots of videos at once without switching back to the file manager.  And unlike Quicktime Pro, it's free.</p>
 			
@@ -80,9 +80,11 @@
 					</li>	
 				</ul>
 				<div id="lower-sidebar">
-				<h6>Convinced that you should add Democracy Player to your arsenal? </h6>
-				<h6><a href="<?= $base ?>/downloads/">Download Democracy Player</a></h6>
-				<br />
+				<h6>Convinced yet?</h6>
+				<strong>If so, add Democracy Player to your arsenal.</strong><br />
+				<h6><a style="font-size: 17px; color: #090;" href="<?= $base ?>/downloads/">Download Democracy Player</a></h6>
+				<span style="color: #999; font-size: 11px;">Free and Open Source<br />for Windows, Mac, and Linux</span>
+				<br />				<br />
 				</div>
 							
 				</div>
