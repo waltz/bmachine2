@@ -1,8 +1,6 @@
 <?php
 
-include "../include/base.php";
 include "../include/start.php";
-include "../include/version.php";
 
 ?>
 

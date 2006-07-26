@@ -1,5 +1,4 @@
 <?php
-include "../../include/base.php";
 include "../../include/start.php";
 ?>
 
@@ -171,7 +170,8 @@ include "../../include/start.php";
 
 			<h6><a name="05-01"></a>What is Broadcast Machine? Where can I find user support for Broadcast Machine and making channels?</h6>
 
-							<p><a href="http://participatoryculture.org/broadcast">Broadcast Machine</a> is our open source publishing software for videos. It's a bit like blogging software for video. It walks you through making a Democracy player-compatible internet TV channel out of your videos. To use Broadcast Machine you need to have a website on which to install it (it's server-side software written in PHP). But even if you don't have a website on which to install Broadcast Machine, you can still create your own internet TV channel that plays in Democracy using our free website <a href="http://videobomb.com/index/faq">Videobomb.com</a>.</p>
+							<p><a href="<?= $base ?>/broadcast">Broadcast 
+Machine</a> is our open source publishing software for videos. It's a bit like blogging software for video. It walks you through making a Democracy player-compatible internet TV channel out of your videos. To use Broadcast Machine you need to have a website on which to install it (it's server-side software written in PHP). But even if you don't have a website on which to install Broadcast Machine, you can still create your own internet TV channel that plays in Democracy using our free website <a href="http://videobomb.com/index/faq">Videobomb.com</a>.</p>
 
 							<p>Broadcast Machine allows anyone to publish video affordably using BitTorrent or HTTP, or by linking to a file anywhere on the web, with an easy, blogging-like interface. You can find out more about Broadcast Machine and upload the tool to your website <a ahref="http://participatoryculture.org/broadcast/">here</a>, and please see our Broadcast Machine <a href="http://participatoryculture.org/broadcast/help/">help FAQ</a>. For additional help, please e-mail: feedback(at)pculture.org.</p>
 
@@ -179,7 +179,7 @@ include "../../include/start.php";
 							<h2>MAKING A CHANNEL</h2>
 							<h6><a name="05-02"></a>What is an internet TV channel and how can I make one?</h6>
 
-							<p>An internet TV channel is an RSS feed with video enclosures. An easy way to create a channel is to use our free video publishing software, <a href="../../../help/faq/broadcast">Broadcast Machine</a>, which is designed to dovetail with Democracy player. Broadcast Machine allows anyone to publish video affordably using BitTorrent or HTTP, with an easy, blogging-like interface. Broadcast Machine is software for websites, so you'll need your own web server on which to install it.</p>
+							<p>An internet TV channel is an RSS feed with video enclosures. An easy way to create a channel is to use our free video publishing software, <a href="<?= $base ?>/broadcast">Broadcast Machine</a>, which is designed to dovetail with Democracy player. Broadcast Machine allows anyone to publish video affordably using BitTorrent or HTTP, with an easy, blogging-like interface. Broadcast Machine is software for websites, so you'll need your own web server on which to install it.</p>
 
 							<p>Another way to create an internet TV channel is to use our free website <a href="http://videobomb.com/">Videobomb.com</a> -- you can submit links to video located anywhere on the web, as well as re-publish other videos anywhere you find them, and anyone can subscribe to your channel (RSS feed) to view in the Democracy Player.</p>
 
@@ -189,8 +189,7 @@ include "../../include/start.php";
 
 							<h2>SUBMITTING A CHANNEL</h2>
 							<h6><a name="05-03"></a>How do I submit a channel to the Channel Guide?</h6>
-
-							<p>We're proud to offer open submissions to our Channel Guide, and Democracy player will play most video RSS feeds out there already. Channels can be RSS feeds with video links in them or webpages with links to videos. We encourage everyone to submit their channel to the Guide and we hope to grow it into a fascinating but welcoming labyrinth of internet TV offerings. We accept most channels, barring highly offensive or adult content. For more information, please read our <a href="http://participatoryculture.org/terms/">Terms of Use</a>. So by all means, come on in...</p>
+							<p>We're proud to offer open submissions to our Channel Guide, and Democracy player will play most video RSS feeds out there already. Channels can be RSS feeds with video links in them or webpages with links to videos. We encourage everyone to submit their channel to the Guide and we hope to grow it into a fascinating but welcoming labyrinth of internet TV offerings. We accept most channels, barring highly offensive or adult content. For more information, please read our <a href="<?= $base ?>/terms/">Terms of Use</a>. So by all means, come on in...</p>
 
 							<p>First, thanks for submitting your channel and including your voice in the growing mass medium of internet TV.</p>
 
@@ -211,7 +210,7 @@ include "../../include/start.php";
 
 							<h6><a name="05-05"></a>I submitted a channel to the Guide, and it hasn't shown up yet.</h6>
 
-							<p>It's likely that your channel is in the moderation queue, where it will be tested and reviewed by someone from the Participatory Culture team or a trusted volunteer. We test all new channels for a couple of things: first, that it meets the PCF <a href="http://participatoryculture.org/terms/">Terms of Use</a>; second, that the requirements outlined above are met -- basically, that videos play, and hopefully that thumbnails are plentiful.</p>
+							<p>It's likely that your channel is in the moderation queue, where it will be tested and reviewed by someone from the Participatory Culture team or a trusted volunteer. We test all new channels for a couple of things: first, that it meets the PCF <a href="<?= $base ?>/terms/">Terms of Use</a>; second, that the requirements outlined above are met -- basically, that videos play, and hopefully that thumbnails are plentiful.</p>
 
 							<p>If your channel is ready to publish in Democracy player, it will likely be added to the guide in less than 24 hours. Otherwise, we'll be in touch to let you know what needs to be fixed.</p>
 

@@ -1,5 +1,4 @@
 <?php include "../include/start.php"; ?>
-<?php include "../include/base.php"; ?>
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">

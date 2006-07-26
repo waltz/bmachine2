@@ -1,5 +1,4 @@
 <?php
-include "../include/base.php";
 include "../include/start.php";
 ?>
 
