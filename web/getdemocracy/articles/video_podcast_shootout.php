@@ -23,7 +23,7 @@
 			<p>Democracy Player was built from the ground up to download videos feeds and play videos. The screenshots below compare browsing a video channel with iTunes and with Democracy Player.</p>
 
 			<img src="<?= $base ?>/images/itunesdemocscreen.jpg" />
-			<div class="screendesc">Browsing a channel in iTunes and in Democracy</div>
+			<div class="screendesc">Browsing a video channel in iTunes (top) and in Democracy (bottom).</div>
 &nbsp;<br />
 
 			<h4>Video Playback and Fullscreen</h4>
