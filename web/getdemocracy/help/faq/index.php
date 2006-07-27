@@ -183,7 +183,7 @@ Machine</a> is our open source publishing software for videos. It's a bit like b
 
 							<p>Another way to create an internet TV channel is to use our free website <a href="http://videobomb.com/">Videobomb.com</a> -- you can submit links to video located anywhere on the web, as well as re-publish other videos anywhere you find them, and anyone can subscribe to your channel (RSS feed) to view in the Democracy Player.</p>
 
-							<p>If you have already have an RSS feed and you'd like to make it Democracy player-compatible, <a href="/help/feeds.php">click here for more info</a> on Democracy's open RSS standard.</p>
+							<p>If you have already have an RSS feed and you'd like to make it Democracy player-compatible, <a href="<?= $base ?>/help/feeds.php">click here for more info</a> on Democracy's open RSS standard.</p>
 
 							<p>If you'd like to publish a Democracy player channel from your free webpage (e.g., Blogspot pages), please visit <a href="http://freevlog.org/">FreeVlog</a> for step-by-step tutorials on how to get an RSS feed with video enclosures using entirely free services. On Freevlog you can follow along with QuickTime movie tutorials or read .pdf transcripts of the steps involved, no extensive tech expertise necessary.</p>
 
@@ -195,7 +195,7 @@ Machine</a> is our open source publishing software for videos. It's a bit like b
 
 							<h6>We recommend that channels:</h6>
 							<ul>
-								<li>Have a Democracy player-compatible video RSS feed. Please consult our <a href="/help/feeds.php">ideal RSS format</a> for more info -- it's RSS 2.0 with media extensions.</li>
+								<li>Have a Democracy player-compatible video RSS feed. Please consult our <a href="<?= $base ?>/help/feeds.php">ideal RSS format</a> for more info -- it's RSS 2.0 with media extensions.</li>
 								<li>Have videos in a Democracy player-compatible format. Anything that plays in VLC will play in the Windows beta version of Democracy, and anything that will play in QuickTime v. 7 will play in the Mac version of Democracy player.</li>
 								<li>Have an associated image for the channel that will display in the Guide. The preferred dimensions for the channel image are 360px by 240px, and it should be less than 40kb. Channel images tend to look best when they have the name of the channel in the image itself. If you don't have an image, we recommend you take a screenshot of one of your videos -- but you may need to reduce the image size.</li>
 								<li>We recommend -- but do not require -- that each video in your channel have an associated thumbnail image. These thumbnails can be any size you like, but generally don't need to be bigger than 200px by 133px. Thumbnails make a much, much nicer viewing experience for the user, so please try to make sure your channel's thumbnails are coming through in your feed.</li>
