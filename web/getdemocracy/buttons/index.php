@@ -1,7 +1,7 @@
 <?php include("../include/start.php"); ?>
 
 	<div id="content"><!--CONTENT BLOCK-->
-  <div id="content-1col">
+	<div id="content-1col">
 
 		<div id="page_title">
 			<h1>Democracy Buttons</h1>
