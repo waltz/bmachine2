@@ -6,11 +6,10 @@
 				<p class="subhead">The Participatory Culture Foundation is a new non-profit organization based in Worcester, Massachusetts. Our mission is to create tools for broader, deeper engagement with culture and politics. We're working to ensure that the new mass medium of internet TV is open and independent, just like blogging and podcasting.</p>
 			</div>
 
-			<h4>Press Contacts</h4>
-				<p>Holmes Wilson, Co-Director<br />
-				mobile: 508-963-5645, hw|at|pculture|dot|org</p>
+			<h4>Press Contact</h4>
 				<p>Nicholas Reville, Co-Director<br />
-				mobile: 508-963-7832, npr|at|pculture|dot|org</p>
+				mobile: 508-963-7832<br />
+				email: npr|at|pculture|dot|org</p>
 
 			<h4>Selected Press &amp; Blog Coverage</h4>
 			<p><em>Want to see the future of Net video? Download the open source Democracy Player from the Participatory Culture Foundation, a renegade nonprofit code shop. The app lets you subscribe to RSS channels, download in the background via BitTorrent, and view most video formats in full-screen resolution. (The companion site, Video Bomb, offers RSS feeds for tons of clips.) With Democracy, a well-stocked BitTorrent tracker, and a little RSS fu, who needs a TiVo?</em><br />
