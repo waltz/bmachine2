@@ -80,7 +80,7 @@ And don't forget to try Video Bomb, the video sharing site that integrates with 
 
 
 <div class="pd_box">
-<h3 class="pd_box_top">3. Support the Platform</h3>
+<h3 class="pd_box_top">3. Help Democracy Grow</h3>
 
 <div class="pd_box_inside">
 
