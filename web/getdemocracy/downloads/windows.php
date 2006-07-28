@@ -4,7 +4,7 @@
 
 <title>Democracy: Internet TV</title>
 
-<?php include("../include/start.php"); ?>
+<?php include("../include/wphead.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
 URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.5.exe">
@@ -12,6 +12,8 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.8.5.exe">
 </head>
 
 <body>
+
+<?php include("../include/wpheader.php"); ?>
 
   <!--CONTENT BLOCK-->
   <div id="content">
