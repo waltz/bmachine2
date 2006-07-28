@@ -1,9 +1,11 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We are adding lots of new features in the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
 
 
 			<div id="post-download-form">
+
+			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're adding lots of new features for the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
+
 
 			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
 				<input style="font-size: 17px;" type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
@@ -20,48 +22,86 @@
 			</div>
 
 
-<div style="padding-top: 10px; margin-top: 5px;">
-<strong>Now Hiring:</strong> <a href="/jobs">Programmer and Art Director</a><br /><Br />
-Get more news at the <a href="<?= $base ?>/news">Democracy Blog</a><a style="text-decoration: none;" href="<?= $base ?>/news/feed" class="feed">&nbsp;</a>
-</div>
 
 
-<div style="font-size: 18px; color: #090; line-height: 28px; border-top: 1px solid #ccc; padding-top: 10px; margin-top: 15px;">
+<div class="pd_box">
+<h3 class="pd_box_top">1. Get Started Using Democracy</h3>
+
+
+<div class="pd_box_inside">
+
+<ul>
+
+<li>First time using Democracy?  <a href="http://www.getdemocracy.com/walkthrough">Follow the Walkthrough</a></li>
+
+<li>Compare Democracy vs. iTunes: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout</a></li>
+
+
+</ul>
+
+
+<div style="padding: 10px 5px 5px 5px; font-size: 16px; border-top: 1px solid #ccc;">
 
 <div style="float:left; width: 80px;">
 <a href="http://www.videobomb.com"><img src="images/abomb.png" alt="a bomb" /></a>
 </div>
+And don't forget to try Video Bomb, the video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Go to Video Bomb >></a>
 
-While you're downloading, check out Video Bomb, our video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Video Bomb >></a>
+<br /><br />
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="pd_box">
+<h3 class="pd_box_top">2. Learn More</h3>
+
+<div class="pd_box_inside">
+
+<ul>
+
+<li>Get news and updates at the <a href="<?= $base ?>/news">Democracy: Internet TV Blog</a>&nbsp;&nbsp;<a style="color: #ff7209; font-size: 18px;" href="<?= $base ?>/news/feed" class="feed">rss</a></li>
+
+<li>Do you have a video RSS feed?  Publicize it! <a href="">Make a 1-Click Subscribe Button</a></li>
+
+<li>Hiring: <a href="/jobs">Programmer and Art Director</a></li>
+
+</ul>
+
+
+</div>
+
 </div>
 
 
 
 
+<div class="pd_box">
+<h3 class="pd_box_top">3. Support the Platform</h3>
 
-			<div style="border-top: 1px solid #ccc; padding-top: 10px; margin-top: 5px;">
-
-
+<div class="pd_box_inside">
 
 		<ul>
-			<li><a href="<?= $base ?>/donate">Make a donation</a>.  If you believe in this project, we need your support.</li>
+			<li><a href="<?= $base ?>/donate">Make a donation</a> -  If you believe in this project, we need your support.</li>
 
-			<li> <a href="<?= $base ?>/tellafriend/">Tell a Friend</a> - Send someone a note about why you think the Democracy platform is important.
+			<li> <a href="<?= $base ?>/tellafriend/">Tell a Friend</a> - Tell a friend why you think Democracy is important.
 </li>
 
-			<li><a href="<?= $base ?>/store">Get a  t-shirt</a>.  For $15 you can get one of these comfortable, great looking shirts, and support the project too.</li>
+			<li><a href="<?= $base ?>/store">Get a  t-shirt</a> -  For $15 you can get an awesome shirt and support the project too.</li>
 			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_washington_cp.jpg" /></a></p>
 
 
 			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_democ_cp.jpg" /></a></p>
 
-<p style="clear: both;">&nbsp;</p>
+<p style="clear: both; height: 3px;">&nbsp;</p>
 
 			 </ul>
 
 
-
-<div style="padding: 5px; font-size: 16px; border: 1px solid #ccc; height: 205px;">
+<div style="padding: 5px; font-size: 16px; border-top: 1px solid #ccc; height: 205px;">
 
 	<div style="float: left; margin-right: 10px;">
 	<a href="/donate/"><img src="/images/road_to_10_350.jpg" alt="donate to democracy" /></a>
@@ -75,6 +115,18 @@ While you're downloading, check out Video Bomb, our video sharing site that inte
 
 
 	</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 
 </div>
 

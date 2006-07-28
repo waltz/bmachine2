@@ -52,6 +52,10 @@ a:hover {
 	font-size:11px;
 }
 
+img {
+border: none;
+}
+
 /* END TYPOGRAPHY, COLORS, AND OTHER STYLING */
 /* ----------------------------------------- */
 
@@ -992,7 +996,42 @@ label {
 }
 
 
+/* ------------------- */
+/* MESSAGE SECTION - FORGIVE ME FOR DUMPING THIS AT THE END */
 
+
+#post-download-form {
+text-align: center;
+background-color: #ffd;
+padding: 5px;
+}
+
+.pd_box {
+border: 3px solid #aea;
+margin: 12px 0 0px 0;
+}
+
+.pd_box li {
+padding: 0px 0 10px 0;
+font-size: 18px;
+
+margin: 0 0 0 15px;
+}
+
+.pd_box ul {
+margin: 0;
+padding: 0 0 0 42px;
+}
+.pd_box_top {
+background-color: #e5ffe5;
+padding: 3px 3px 3px 6px;
+margin: 0;
+color: #444;
+}
+
+.pd_box_inside {
+padding: 10px;
+}
 
 /* END MISC ELEMENTS */
 /* ----------------- */
