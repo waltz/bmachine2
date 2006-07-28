@@ -22,7 +22,9 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.d
 
 			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player for OS X is downloading...</strong>
 
-						<p style="text-align:center; font-size: 12px;">If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.dmg">click here</a>.<br />To play Windows Media files, <a href="http://www.flip4mac.com/wmv_download.htm">get this free plugin.</a></p>
+						<p style="text-align:center; font-size: 12px;">
+						To watch Windows Media videos in Democracy, <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">get this free plugin.</a><br /><br />
+						If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.dmg">click here</a>.</p>
 
 			</div>
 
