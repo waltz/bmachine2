@@ -210,6 +210,21 @@ padding: 15px;
 
 }
 
+#users {
+width: 255px;
+border: 3px solid #afa;
+background-color: #f4fff4;
+padding: 4px 10px 8px 10px;
+float: right;
+margin: 20px 0 15px 15px;
+font-size: 13px;
+}
+
+#users a {
+font-size: 16px;
+}
+
+
 </style>
 	
 </head>
@@ -231,10 +246,31 @@ padding: 15px;
   <br />
   <h3>Democracy 1-Click Subscribe Button Maker <span style="color: #ccc;">Beta</span></h3>
   
+  
+  <div id="users">
+  <div style="font-size: 15px; text-align: center; font-weight: bold; margin-bottom: 15px;">Some Sites Using 1-Click Buttons</div>
+  
+<a href="http://www.bestweekever.tv/">VH1's Best Week Ever</a><br />in the sidebar
+<br /><br />
+<a href="http://island94.org/">Island 94</a><br />in the sidebar
+<br /><br />
+<a href="http://www.twit.tv/mb">This Week in Tech - Mac Break</a><br />in the drop down menu 
+<br /><br />
+<a href="http://high-flow.com/blog/?p=22">High Flow Hip-Hop</a><br />in the blog post
+<br /><br />
+<a href="http://www.crushtv.com/blog/">Crush TV</a><br />in the sidebar<br />
+
+</p>
+
+    </div>
+  
   <p>This page helps you create buttons (and a text link) that subscribe people to your video RSS feeds in Democracy Player.  By posting these buttons, you can instantly share your favorite channels with your friends and family.  Just make a button below and then paste the code into a website, blog, or email.</p>
   
  
  <h5>Why Use 1-Click Buttons for Your Videos?</h5>
+ 
+ 
+ <div style="text-align: center; font-size: 12px; float: right; width: 140px; padding: 12px; margin: 10px; background-color: #eee;"><img src="http://www.getdemocracy.com/buttons/img/subscribe-btn-14.gif" /><br /><br /><img src="http://www.getdemocracy.com/buttons/img/subscribe-btn-02.gif" /><br /><br />1-click button examples</div>
  
  <p>
  If you have a video RSS feed, then you already understand the benefits of video RSS compared to a website: when your viewers are subscribed, they receive new videos automatically, rather than having to remember to check your website.  1-Click buttons are the easiest way to get your viewers subscribed and Democracy Player provides the best viewing experience for your content. 
@@ -270,7 +306,7 @@ padding: 15px;
     <div id="buttons">
   
     </div>
-    <p>Find out if these feeds are valid RSS (opens in new windows): <a href="javascript:validate()">Validate These Feeds</a></p>
+    <p>Check if these feeds are valid RSS (opens in new windows): <a href="javascript:validate()">Validate These Feeds</a></p>
   </div>
 
   <!--/Generated Buttons-->
