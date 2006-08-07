@@ -7,7 +7,7 @@
 <?php include("../include/wphead.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.dmg">
+URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.3-ppc.dmg">
 
 
 </head>
@@ -26,7 +26,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.d
 
 						<p style="text-align:center; font-size: 12px;">
 						To watch Windows Media videos in Democracy, <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">get this free plugin.</a><br /><br />
-						If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.2-ppc.dmg">click here</a>.</p>
+						If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.8.5.3-ppc.dmg">click here</a>.</p>
 
 			</div>
 

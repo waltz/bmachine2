@@ -1,1 +1,1 @@
-<?php $dtv_version = "0.8.5" ?>
+<?php $dtv_version = "0.8.5.3" ?>
