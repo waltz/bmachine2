@@ -123,15 +123,7 @@ include "../include/start.php";
 				<a href="<?= $base ?>/make">Make TV page >></a></p>
 
 				<h6>Translators</h6>
-				<p>DTV and Broadcast Machine will soon support translations.  Signup if you'd like to help:
-				<form action="http://participatoryculture.org/lists/?p=subscribe&id=3" method="post" name="subscribeform">
-					<input type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
-					<input type=hidden name="makeconfirmed" value="1"/>
-					<input type="hidden" name="htmlemail" value="1" />
-					<input type="hidden" name="list[3]" value="signup" />
-					<input type="hidden" name="listname[3]" value="Developers" />
-					<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
-				</form>
+				<p>Democracy Player supports multiple languages-- we need your help!  <a href="https://launchpad.net/products/democracy/trunk/+pots/democracyplayer">Join the translation effort</a>.
 				</p>
 
 				</div>
