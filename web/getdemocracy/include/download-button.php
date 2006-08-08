@@ -29,7 +29,7 @@ function getfile(file, spawnpage)
 		}
 	else if (navigator.appVersion.indexOf("Mac")!=-1)
 		{
-		document.write('<div id="download-button"><a href="<?= $osxurl ?>">Version <?= $dtv_version; ?> for Mac OS X</a></div><div id="download-versions">Other versions: <a href="<?= $winurl ?>">Windows</a> - <a href="<?= $linurl ?>">Linux</a></div>	');
+		document.write('<div id="download-button"><a href="<?= $osxurl ?>">Version <?= $dtv_version; ?> - Universal Binary - Mac OS X</a></div><div id="download-versions">Other versions: <a href="<?= $winurl ?>">Windows</a> - <a href="<?= $linurl ?>">Linux</a></div>	');
 		}
 	else if (navigator.appVersion.indexOf("X11")!=-1)
 		{
