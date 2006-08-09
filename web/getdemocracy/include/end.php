@@ -27,21 +27,19 @@
 						<li><a href="http://develop.participatoryculture.org/">Developer Center</a></li>
 						<li><a href="https://develop.participatoryculture.org/projects/dtv/browser/trunk/tv/">Source Code</a></li>
 						<li><a href="https://develop.participatoryculture.org/projects/dtv/report">Bug Tracker</a></li>
-						<!-- <li><a href="<?= $base ?>/">Mailing Lists</a></li> -->
+						<li><a href="https://launchpad.net/products/democracy/trunk/+pots/democracyplayer">Translations</a></li>
 					</ul>
 			</li>
 			<li>
-				<a href="<?= $base ?>/help/">Help and Forums</a>
+				<a href="<?= $base ?>/help/">Help Center</a>
 					<ul>
-						<!--<li><a href="<?= $base ?>/help">Viewer Help</a></li> -->
 						<li><a href="<?= $base ?>/help/faq#viewers">Viewer FAQ</a></li>
-						<!--<li><a href="<?= $base ?>/help">Creator Help</a></li> -->
 						<li><a href="<?= $base ?>/help/faq#creators">Creator FAQ</a></li>
 						<li><a href="http://forum.getdemocracy.com/">Discussion Forums</a></li>
 					</ul>
 			</li>
 			<li>
-				<a href="<?= $base ?>/about">About the Platform</a>
+				<a href="<?= $base ?>/about">About Democracy</a>
 					<ul>
 						<li><a href="<?= $base ?>/news">News / Blog</a></li>
 						<li><a href="<?= $base ?>/press">Press</a></li>
