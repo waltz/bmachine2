@@ -30,7 +30,7 @@ include "../include/start.php";
 			href="https://develop.participatoryculture.org/projects/dtv/wiki/DevelopmentDocs">Development
 			Documents</a></li> <li><a
 			href="https://develop.participatoryculture.org/projects/dtv/report/11">Bug List</a></li> <li><a
-			href="http://demotv.sourceforge.net/cvs-snapshots/">Nightly builds</a><br /> You can find the
+			href="http://participatoryculture.org/nightlies/">Nightly builds</a><br /> You can find the
 			latest Democracy build, but <strong>only download if you are ready to get pre-release (buggy)
 			versions</strong>.</li> </ul>
 

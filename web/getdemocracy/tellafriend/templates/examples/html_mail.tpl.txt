@@ -1,0 +1,35 @@
+To: {friend_email}
+From: {firstname} {lastname} <{sender_email}>
+Subject: Website recommendation by {firstname} {lastname}
+Content-Type: text/html
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>Website recommendation by {firstname} {lastname}</title>
+    <style type="text/css">
+    <!--
+      body {
+          font-family:Arial, Helvetica, sans-serif;
+          background-color:#A8DBEE;
+          color:#00007F;
+      }
+    -->
+   </style>
+  </head>
+  <body>
+    <p>{comment}</p>
+    <p><a href="{url}">{url}</a></p>
+    <p>{checkbox:newsletter}</p>
+    <p>{checkbox:information}</p>
+    <p>{radiobutton:salutation}</p>
+    <p>{select:Vote}</p>
+    <p>-----------------------------------------</p>
+    <p>This e-mail has been sent by {firstname} {lastname} ({sender_email}).</p>
+    <p>{env_user_agent}</p>
+    <p>{env_remote_address} ({env_remote_host})</p>
+    <p>{env_year}-{env_month}-{env_day} ({env_hour}:{env_minute}:{env_second})</p>
+
+  </body>
+</html>

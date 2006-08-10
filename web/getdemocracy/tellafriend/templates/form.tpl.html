@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Democracy: Internet TV</title>
+
+<include filename="../include/wphead.php">
+	
+</head>
+
+<body>
+
+<!--CONTAINER-->
+<div id="container">
+
+	<!--HEADER-->
+	<include filename="../include/wpheader.php">
+	<!--/HEADER-->
+			
+	<!--CONTENT BLOCK-->
+  <div id="content">	
+	
+		<div id="page_title">
+			<h1>Tell a Friend about Democracy</h1>
+		</div>
+		
+		<p class="big" style="padding:5px 10px;">"<em>Democracy Player is like Television and the Internet smashed together. You get ease of use and an accessible mass medium in one sweet download. Democracy Player is so simple that you could use it!</em>" -- <strong>Dean Jansen, Student</strong></p>
+				
+		<h2 style="text-align:center; margin:30px 0px 20px 0px;">If you like Democracy, now's the time to tell your friend or many friends about it. Your friends will appreciate being able to kick back and watch cool videos from the internet too. Enter their email addresses here (separated by commas) and we'll send them the link to
+download Democracy.</h2>
+		<!-- Display error messages (required fields etc.) -->
+		<LOOP NAME="message">							
+			<table border="0" cellspacing="3" cellpadding="0" width="100%;">
+				<tr>
+					<td align="right" valign="top" class="index"><span style="color:#FF0000;">{message}</span></td>
+					<td width="2%">&nbsp;</td>
+					<td width="65%" align="left" valign="top"><span style="color:#FF0000;">{fields}</span></td>
+				</tr>
+			</table>
+			<br />
+		</LOOP NAME="message">
+		
+		
+		<!-- Display data -->
+		<LOOP NAME="display_data">
+		
+					<table border="0" cellspacing="3" cellpadding="0" width="100%;">
+						<tr>
+							<td align="right" valign="top" class="index">{txt_firstname}&nbsp;</td>
+							<td width="2%">&nbsp;</td>
+							<td width="65%" align="left" valign="top">{firstname}</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" class="index">Your Email&nbsp;</td>
+							<td width="2%">&nbsp;</td>
+							<td width="65%" align="left" valign="top">{sender_email}</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" class="index">Friend's Emails&nbsp;</td>
+							<td width="2%">&nbsp;</td>
+							<td width="65%" align="left" valign="top">{multiple_friend_email_1} {multiple_friend_email_2} {multiple_friend_email_3}</td>
+						</tr>
+						<tr valign="top">
+							<td align="right" valign="top" class="index">{txt_comment}&nbsp;</td>
+							<td width="2%">&nbsp;</td>
+							<td width="65%" align="left" valign="top">{comment}</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%">&nbsp;</td>
+							<td width="65%" align="left" valign="top">&nbsp;</td>
+						</tr>
+			</table>
+		
+		</LOOP NAME="display_data">
+		
+		
+		<!-- Display form -->
+		<IF NAME="display_form">
+				<form action="./index.php" method="post">
+					<input type="hidden" name="required_fields" value="firstname, sender_email, multiple_friend_email_1, comment" />
+					<input type="hidden" name="email_fields" value="sender_email, multiple_friend_email_1" />
+					<input type="hidden" name="html_template" value="form.tpl.html" />
+					<input type="hidden" name="mail_template" value="mail.tpl.txt" />
+					<input type="hidden" name="redirect" value="{redirect}" />
+					<input type="hidden" name="thanks" value="./thanks.php" />
+		
+		
+					<table border="0" cellspacing="3" cellpadding="0" width="100%;">
+						
+						
+						<tr>
+							<td align="right">Your Email</td>
+							<td width="2%" align="left" valign="top">*</td>
+							<td width="65%"><input type="text" name="sender_email" value="{sender_email}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						
+						<tr>
+							<td align="right">{txt_firstname}</td>
+							<td width="2%" align="left" valign="top">*</td>
+							<td width="65%"><input type="text" name="firstname" value="{firstname}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						<!--
+						
+						<tr>
+							<td width="150" align="right">{txt_lastname}</td>
+							<td width="10">&nbsp;</td>
+							<td><input type="text" name="lastname" value="{lastname}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						-->
+						
+						
+						
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td rowspan="3" align="right" valign="top">Friends' Email:<br />
+						  <span class="small">(one address per line)</span></td>
+							<td width="2%" align="left" valign="top">*</td>
+							<td width="65%"><input type="text" name="multiple_friend_email_1" value="{multiple_friend_email_1}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						<tr>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%"><input type="text" name="multiple_friend_email_2" value="{multiple_friend_email_2}" size="35" style="width:250px;" /></td>
+						</tr>
+						<tr>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%"><input type="text" name="multiple_friend_email_3" value="{multiple_friend_email_3}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						<!--
+						<tr>
+							<td width="10">&nbsp;</td>
+							<td><input type="text" name="multiple_friend_email_4" value="{multiple_friend_email_4}" size="35" style="width:250px;" /></td>
+						</tr>
+						<tr>
+							<td width="10">&nbsp;</td>
+							<td><input type="text" name="multiple_friend_email_5" value="{multiple_friend_email_5}" size="35" style="width:250px;" /></td>
+						</tr>
+						<tr>
+							<td width="10">&nbsp;</td>
+							<td><input type="text" name="multiple_friend_email_6" value="{multiple_friend_email_6}" size="35" style="width:250px;" /></td>
+						</tr>
+						<tr>
+							<td width="10">&nbsp;</td>
+							<td><input type="text" name="multiple_friend_email_7" value="{multiple_friend_email_7}" size="35" style="width:250px;" /></td>
+						</tr>
+						
+						-->
+						
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top">Comment</td>
+							<td width="2%" align="left" valign="top">*</td>
+							<td width="65%"><textarea name="comment" cols="35" rows="6" wrap="virtuell" style="width:300px;">{comment}</textarea></td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top">Standard Message</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">Democracy is a free, new internet TV platform for watching and broadcasting video. It's open source software and is designed to make watching internet videos feel more like watching TV. You can take a look at some screenshots and learn more: <a href="http://www.getdemocracy.com">www.getdemocracy.com</a></td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">&nbsp;</td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top"><input name="multiple_friend_email_4" type="checkbox" id="multiple_friend_email_4" value="tellafriend@pculture.org" checked="checked" /></td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%"><label for="multiple_friend_email_4">You can use my message as a testimonial.</label></td>
+						</tr>
+						
+						<tr>
+							<td align="right" valign="top">&nbsp;</td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">&nbsp;</td>
+						</tr>
+							
+						<tr>
+							<td></td>
+							<td width="2%" align="left" valign="top">&nbsp;</td>
+							<td width="65%">
+								<input type="submit" name="mode_preview" value="{txt_preview}" />&nbsp;&nbsp;
+							<input type="submit" name="submit" value="{txt_submit}" />										</td>
+						</tr>
+					</table>
+				</form>
+		</IF NAME="display_form">					
+		
+  </div>
+  <!--/CONTENT BLOCK-->
+	
+	<div class="content" style="padding-top:30px;">
+		
+		<div class="left">
+			<h3>What friends have been telling each other</h3>
+			
+			<p><em>"I’ve discovered a terribly addictive program called [Democracy], which works a lot like a news aggregator for video blogs. Makes me want to dabble in video blogging…</em>" -- <strong><a href="http://www.frozennorth.org/C2033738331/index.html">Frozen North</a></strong></p> 
+			
+			<p>"<em>DTV is a Video RSS reader. A friend demonstrated it to me a couple of days ago, and I was in complete awe. They need to build it into TV sets.</em>" -- <strong><a href="http://www.webmercial.dk/streamblog/?p=4">StreamBlog</a></strong></p> 
+		</div>
+		
+		<div id="sidebar">
+			<p>It's great to hear all the buzz -- if you like using and talking about Democracy, everyone wins. Internet TV is off to a great start. If you haven't tried out Democracy, <a href="/downloads">download it here</a>.</p>
+		</div>
+		
+	</div>
+
+	<!--FOOTER-->
+	<include filename="../include/end.php">
+	<!--/FOOTER-->
+
+</div>
+<!--/CONTAINER-->
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+To: {friend_email}
+From: {firstname} {lastname} <{sender_email}>
+Subject: Website recommendation by {firstname} {lastname}
+
+{all_content}

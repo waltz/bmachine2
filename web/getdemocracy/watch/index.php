@@ -25,7 +25,7 @@ include ("../include/start.php");
 			internet itself. You can subscribe to any of them for free with a single click. Here are a few examples:</p>
 			<ul>
 				<li id="channel1"><img src="<?= $base ?>/images/frederator.png" border="4" height=157 width=235 />
-				<h5><a href="http://http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
+				<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
 				<li id="channel2"><img src="<?= $base ?>/images/lady_sovereign.jpg" border="4" height=157 width=235 />
 				<h5><a href="http://telemusicvision.com/">Telemusicvision</a></h5></li>
 				<li id="channel3"><img src="<?= $base ?>/images/media_that_matters.png" border="4" height=157 width=235 />

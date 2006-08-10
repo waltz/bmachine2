@@ -1,0 +1,19 @@
+To: "{multiple_friend_name_?}" <{multiple_friend_email_?}>
+From: "{firstname} {lastname}" <{sender_email}>
+Subject: Website recommendation by {firstname} {lastname}
+
+{comment}
+
+
+{url}
+
+-----------------------------------------
+This e-mail has been sent by {firstname} {lastname} ({sender_email}).
+
+
+{env_user_agent}
+
+{env_remote_address} ({env_remote_host})
+
+{env_year}-{env_month}-{env_day} ({env_hour}:{env_minute}:{env_second})
+

@@ -1,0 +1,165 @@
+<!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{txt_content_direction}">
+<head>
+  <title>{txt_script_name} {txt_script_version}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset={txt_charset}" />
+
+<style type="text/css">
+<!--
+  body {
+      font-family:Tahoma,Helvetica,Geneva,Sans-serif,sans-serif;
+  }
+
+
+  p, td, br, form, div, span, blockquote {
+      font-family:Tahoma,Helvetica,Geneva,Sans-serif,sans-serif;
+      font-size:9pt;
+  }
+
+
+  .index {
+      font-weight:bold;
+  }
+
+
+  #poweredby {
+      text-align:center;
+  }
+-->
+</style>
+
+  </head>
+
+  <body>
+    <h4>{txt_script_name}</h4>
+
+      <p>{txt_welcome_text}</p>
+
+
+      <!-- Display error messages (required fields etc.) -->
+      <LOOP NAME="message">
+        <blockquote style="color:#FF5F00;">
+          <p style="font-weight:bold;">{message}</p>
+          <blockquote>{fields}</blockquote>
+        </blockquote>
+      </LOOP NAME="message">
+
+
+      <!-- Display data -->
+      <LOOP NAME="display_data">
+
+            <table border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td class="index">{txt_firstname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{firstname}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_lastname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{lastname}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_sender_email}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{sender_email}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_friend_email}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{friend_email}</td>
+              </tr>
+              <tr valign="top">
+                <td class="index">{txt_comment}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{comment}</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+      </LOOP NAME="display_data">
+
+
+      <!-- Display form -->
+      <IF NAME="display_form">
+          <form action="./index.php" method="post">
+            <input type="hidden" name="required_fields" value="firstname, sender_email, friend_email" />
+            <input type="hidden" name="email_fields" value="sender_email, friend_email" />
+            <input type="hidden" name="html_template" value="error_messages_form.tpl.html" />
+            <input type="hidden" name="mail_template" value="mail.tpl.txt" />
+            <input type="hidden" name="redirect" value="{redirect}" />    
+
+
+            <table border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+
+                  <p>{txt_send_referer}</p>
+
+                  <p><a href="{url}">{url}</a></p>
+
+                  <br />
+
+                </td>
+              </tr>
+              <tr>
+                <td>{error:firstname={txt_firstname}||=<span style="color:#FF0000;">{txt_firstname}</span>}*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                  {required:firstname=<span style="color:#FF0000;">{txt_required_firstname}</span><br />}
+                  <input type="text" name="firstname" value="{firstname}" size="35" style="width:350px;" />
+                </td>
+              </tr>
+              <tr>
+                <td>{txt_lastname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="lastname" value="{lastname}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{error:sender_email={txt_sender_email}||=<span style="color:#FF0000;">{txt_sender_email}</span>}*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                  {required:sender_email=<span style="color:#FF0000;">{txt_required_sender_email}</span><br />}
+                  {syntax:sender_email=<span style="color:#FF0000;">{txt_syntax_email}</span><br />}
+                  <input type="text" name="sender_email" value="{sender_email}" size="35" style="width:350px;" />
+                 </td>
+              </tr>
+              <tr>
+                <td>{error:sender_email={txt_friend_email}||=<span style="color:#FF0000;">{txt_friend_email}</span>}*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                  {required:friend_email=<span style="color:#FF0000;">{txt_required_friend_email}</span><br />}
+                  {syntax:friend_email=<span style="color:#FF0000;">{txt_syntax_email}</span><br />}
+                  <input type="text" name="friend_email" value="{friend_email}" size="35" style="width:350px;" />
+                 </td>
+              </tr>
+              <tr>
+                <td valign="top">{txt_comment}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><textarea name="comment" cols="35" rows="6" wrap="virtuell" style="width:350px;">{comment}</textarea></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&nbsp;</td>
+                <td>
+                  <input type="submit" name="mode_preview" value="{txt_preview}" />&nbsp;&nbsp;
+                  <input type="submit" name="submit" value="{txt_submit}" />
+                </td>
+              </tr>
+            </table>
+          </form>
+
+          <p>
+            * = {txt_mandatory_fields}
+          </p>
+      </IF NAME="display_form">
+
+  </body>
+</html>

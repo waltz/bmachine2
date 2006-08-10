@@ -1,0 +1,204 @@
+<!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{txt_content_direction}">
+<head>
+  <title>{txt_script_name} {txt_script_version}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset={txt_charset}" />
+
+<style type="text/css">
+<!--
+  body {
+      font-family:Tahoma,Helvetica,Geneva,Sans-serif,sans-serif;
+  }
+
+
+  p, td, br, form, div, span, blockquote {
+      font-family:Tahoma,Helvetica,Geneva,Sans-serif,sans-serif;
+      font-size:9pt;
+  }
+
+
+  .index {
+      font-weight:bold;
+  }
+
+
+  #poweredby {
+      text-align:center;
+  }
+-->
+</style>
+
+  </head>
+
+  <body>
+    <h4>{txt_script_name}</h4>
+
+      <p>{txt_welcome_text}</p>
+
+
+      <!-- Display error messages (required fields etc.) -->
+      <LOOP NAME="message">
+        <blockquote style="color:#FF5F00;">
+          <p style="font-weight:bold;">{message}</p>
+          <blockquote>{fields}</blockquote>
+        </blockquote>
+      </LOOP NAME="message">
+
+
+      <!-- Display data -->
+      <LOOP NAME="display_data">
+
+            <table border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td class="index">{txt_firstname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{firstname}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_lastname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{lastname}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_sender_email}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{sender_email}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_friend_email}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{multiple_friend_email_1}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_friend_email} 2&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{multiple_friend_email_2}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_friend_email} 3&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{multiple_friend_email_3}</td>
+              </tr>
+              <tr>
+                <td class="index">{txt_friend_email} 4&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{multiple_friend_email_4}</td>
+              </tr>
+              <tr valign="top">
+                <td class="index">{txt_comment}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>{comment}</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+      </LOOP NAME="display_data">
+
+
+      <!-- Display form -->
+      <IF NAME="display_form">
+          <form action="./index.php" method="post">
+            <input type="hidden" name="required_fields" value="firstname, sender_email, multiple_friend_email_1" />
+            <input type="hidden" name="email_fields" value="sender_email, multiple_friend_email_1" />
+            <input type="hidden" name="html_template" value="multiple_recipients_form.tpl.html" />
+            <input type="hidden" name="mail_template" value="multiple_recipients_mail.tpl.txt" />
+            <input type="hidden" name="redirect" value="{redirect}" />
+
+
+            <table border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+
+                  <p>{txt_send_referer}</p>
+
+                  <p><a href="{url}">{url}</a></p>
+
+                  <br />
+
+                </td>
+              </tr>
+              <tr>
+                <td>{txt_firstname}*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="firstname" value="{firstname}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_lastname}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="lastname" value="{lastname}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_sender_email}*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="sender_email" value="{sender_email}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_name} 1*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_name_1" value="{multiple_friend_name_1}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_email} 1*&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_email_1" value="{multiple_friend_email_1}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_name} 2&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_name_2" value="{multiple_friend_name_2}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_email} 2&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_email_2" value="{multiple_friend_email_2}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_name} 3&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_name_3" value="{multiple_friend_name_3}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_email} 3&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_email_3" value="{multiple_friend_email_3}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_name} 4&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_name_4" value="{multiple_friend_name_4}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_email} 4&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="multiple_friend_email_4" value="{multiple_friend_email_4}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td valign="top">{txt_comment}&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><textarea name="comment" cols="35" rows="6" wrap="virtuell" style="width:350px;">{comment}</textarea></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&nbsp;</td>
+                <td>
+                  <input type="submit" name="mode_preview" value="{txt_preview}" />&nbsp;&nbsp;
+                  <input type="submit" name="submit" value="{txt_submit}" />
+                </td>
+              </tr>
+            </table>
+          </form>
+
+          <p>
+            * = {txt_mandatory_fields}
+          </p>
+      </IF NAME="display_form">
+
+  </body>
+</html>

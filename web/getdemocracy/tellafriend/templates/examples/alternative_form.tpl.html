@@ -1,0 +1,108 @@
+<!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>{txt_script_name}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<style type="text/css">
+<!--
+  h4 {
+      font-family:Arial,Helvetica,Geneva,Sans-serif,sans-serif;
+      }
+
+  p, td, br, form, div, span, blockquote {
+      font-family:Arial,Helvetica,Geneva,Sans-serif,sans-serif;
+      font-size:9pt;
+      }
+
+  #poweredby {
+      text-align:center;
+  }
+-->
+</style>
+
+  </head>
+
+  <body>
+    <h4>{txt_script_name}</h4>
+
+      <p>{txt_welcome_text}</p>
+
+
+      <!-- Display error messages (required fields etc.) -->
+      <LOOP NAME="message">
+        <blockquote style="color:#FF5F00;">
+          <p style="font-weight:bold;">{message}</p>
+          <blockquote>{fields}</blockquote>
+        </blockquote>
+      </LOOP NAME="message">
+
+
+
+      <!-- Display form -->
+      <IF NAME="display_form">
+          <form action="./index.php" method="post">
+            <input type="hidden" name="required_fields" value="firstname, sender_email, friend_email" />
+            <input type="hidden" name="email_fields" value="sender_email, friend_email" />
+            <input type="hidden" name="html_template" value="alternative_form.tpl.html" />
+            <input type="hidden" name="mail_template" value="html_mail.tpl.txt" />
+            <input type="hidden" name="redirect" value="{redirect}" />
+
+
+            <table border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td></td>
+                <td>
+                  <p>{txt_send_referer}</p>
+
+                  <table cellspacing="0" cellpadding="3" border="0">
+                    <tr valign="top">
+                      <td><input type="radio" name="link" value="{redirect}" {check_referer} /></td>
+                      <td>{redirect}</td>
+                    </tr>
+                  </table>
+
+                  <p>{txt_send_homepage}</p>
+                  <table cellspacing="0" cellpadding="3" border="0">
+                    <tr>
+                      <td><input type="radio" name="link" value="{server}" {check_server} /></td>
+                      <td>{server}</td>
+                    </tr>
+                  </table>
+
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td>{txt_firstname}*&nbsp;</td>
+                <td><input type="text" name="firstname" value="{firstname}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_lastname}&nbsp;</td>
+                <td><input type="text" name="lastname" value="{lastname}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_sender_email}*&nbsp;</td>
+                <td><input type="text" name="sender_email" value="{sender_email}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr>
+                <td>{txt_friend_email}*&nbsp;</td>
+                <td><input type="text" name="friend_email" value="{friend_email}" size="35" style="width:350px;" /></td>
+              </tr>
+              <tr valign="top">
+                <td>{txt_comment}</td>
+                <td><textarea name="comment" cols="35" rows="6" wrap="virtuell" style="width:350px;">{comment}</textarea></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input type="submit" name="submit" value="{txt_submit}" /></td>
+              </tr>
+            </table>
+            <p>* = {txt_mandatory_fields}</p>
+
+          </form>
+      </IF NAME="display_form">
+
+  </body>
+</html>
