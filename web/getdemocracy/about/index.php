@@ -25,41 +25,66 @@ include ("../include/start.php");
 
 			<div class="staffcontent">
 
+
+
+
 										<div class="column2">
-											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/holmes.jpg" alt="" /></div>
-											<h2>Holmes Wilson</h2>
-											<p><strong>Co-Director</strong></p>
-											<p>Holmes Wilson is from Worcester, MA. He founded the Worcester Computer Co-op, an organization that uses free software and recycled computers to start computer labs in his city. He has a B.A. in Italian literature and speaks Italian. <br />Contact: <a href="mailto:holmes@pculture.org">holmes[at]pculture.org</a></p>
+
+									<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/amanda.jpg" alt="" /></div>
+											<h2>Amanda Ferris McKenzie</h2>
+											<p><strong>Testing and Outreach</strong></p>
+											<p>Amanda lives in Chicago.  She works on quality assurance for Democracy Player and does direct outreach to publishers.<br />Contact: <a href="mailto:afm@pculture.org">afm[at]pculture.org</a></p>
 										</div>
+									
 
-
-										<div class="column2">
-											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/tiffiniy.jpg" alt="" /></div>
-											<h2>Tiffiniy Cheng</h2>
-											<p><strong>Co-Director</strong></p>
-											<p>Tiffiniy Cheng is from Worcester, MA and has a BS in engineering and urban planning from the Cooper Union. She has worked in non-profit, urban planning, and public policy-oriented organizations in the past 3 years. She co-founded PCF in February 2005. Tiffiniy is a Co-Director of PCF. <br />Contact: <a href="mailto:tiffiniy@pculture.org">tiffiniy[at]pculture.org</a></p>
-										</div>
-
-
-									</div>
-
-								<div class="staffcontent" style="padding-top:10px;">
-
-										<div class="column2">
-											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/david.jpg" alt="" /></div>
+									
+				<!--	
+									
+									<div class="column2">
+									
+									
+									<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/david.jpg" alt="" /></div>
 											<h2>David Moore</h2>
 											<p><strong>Outreach and Fundraising</strong></p>
 											<p>David Moore is from Milwaukee, WI and received B.A. degrees in English and Philosophy from Brown University. Before joining PCF, he worked for a variety of non-profit and grassroots political organizations. David lives in Brooklyn. <br />Contact: <a href="mailto:david@pculture.org">david[at]pculture.org</a></p>
 										</div>
 
+-->
 
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/nicholas.jpg" alt="" /></div>
 											<h2>Nicholas Reville</h2>
-											<p><strong>Co-Director</strong></p>
+											<p><strong>Co-Founder, Executive Director</strong></p>
 											<p>Nicholas Reville is from Worcester, MA and has a B.A. in Public Policy from Brown University. He worked in a variety of political activism positions for several years before co-founding PCF.<br />Contact: <a href="mailto:nicholas@pculture.org">nicholas[at]pculture.org</a></p>
 										</div>
 								</div>
+
+
+
+
+
+								<div class="staffcontent" style="padding-top:10px;">
+
+										<div class="column2">
+											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/holmes.jpg" alt="" /></div>
+											<h2>Holmes Wilson</h2>
+											<p><strong>Co-Founder</strong></p>
+											<p>Holmes Wilson is from Worcester, MA. He founded the Worcester Computer Co-op, an organization that uses free software and recycled computers to start computer labs in his city. He has a B.A. in Italian literature and speaks Italian. <br />Contact: <a href="mailto:holmes@pculture.org">holmes[at]pculture.org</a></p>
+										</div>
+
+
+
+											
+
+										<div class="column2">
+											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/tiffiniy.jpg" alt="" /></div>
+											<h2>Tiffiniy Cheng</h2>
+											<p><strong>Co-Founder</strong></p>
+											<p>Tiffiniy Cheng is from Worcester, MA and has a BS in engineering and urban planning from the Cooper Union. She has worked in non-profit, urban planning, and public policy-oriented organizations in the past 3 years. She co-founded PCF in February 2005. Tiffiniy is a Co-Director of PCF. <br />Contact: <a href="mailto:tiffiniy@pculture.org">tiffiniy[at]pculture.org</a></p>
+										</div>
+
+
+									</div>
 
 
 									<div class="staffcontent" style="padding-top:10px;">
@@ -74,19 +99,14 @@ include ("../include/start.php");
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/nick.jpg" alt="" /></div>
 											<h2>Nick Nassar</h2>
-											<p><strong>Software Development Director</strong></p>
-											<p>Nick Nassar is the lead programmer of Democracy Player. He lives in Worcester, MA. <br />Contact: <a href="mailto:nick@pculture.org">nick[at]pculture.org</a></p>
+											<p><strong>Co-Founder, Lead Developer</strong></p>
+											<p>Nick Nassar codes Democracy Player and other projects. He lives in Worcester, MA. <br />Contact: <a href="mailto:nick@pculture.org">nick[at]pculture.org</a></p>
 										</div>
 
 									</div>
 
 									<div class="staffcontent" style="padding-top:10px;">
-										<!--<div class="column2">
-											<div class="contact-staff-tnail"><img src="images/staff/colin.jpg" alt="" /></div>
-											<h2>Colin Mitchell</h2>
-											<p><strong>Web App Developer</strong></p>
-											<p>Colin Mitchell is the lead programmer for Broadcast Machine and Videobomb.com. He lives in Montague, MA. <br />Contact: <a href="mailto:colin@pculture.org">colin[at]pculture.org</a></p>
-										</div>-->
+									
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/luc.jpg" alt="" /></div>
 											<h2>Luc Heinrich</h2>
@@ -115,7 +135,7 @@ include ("../include/start.php");
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/lundon-sidnhy.jpg" alt="" /></div>
 											<h2>Lundon and Sidnhy</h2>
-											<p><strong>Nieces, Rejected Icon Models</strong></p>
+											<p><strong>Nieces</strong></p>
 											<p>Lundon plays piano and is afraid of dogs.  Coined the term 'cheese lollipop' for string cheese.  Sidnhy started her comedy routine at age one and has only gotten funnier.</p>
 										</div>
 
