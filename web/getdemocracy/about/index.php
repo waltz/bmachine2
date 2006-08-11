@@ -80,7 +80,7 @@ include ("../include/start.php");
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/tiffiniy.jpg" alt="" /></div>
 											<h2>Tiffiniy Cheng</h2>
 											<p><strong>Co-Founder</strong></p>
-											<p>Tiffiniy Cheng is from Worcester, MA and has a BS in engineering and urban planning from the Cooper Union. She has worked in non-profit, urban planning, and public policy-oriented organizations in the past 3 years. She co-founded PCF in February 2005. Tiffiniy is a Co-Director of PCF. <br />Contact: <a href="mailto:tiffiniy@pculture.org">tiffiniy[at]pculture.org</a></p>
+											<p>Tiffiniy Cheng is from Worcester, MA and has a BS in engineering and urban planning from the Cooper Union. She has worked in non-profit, urban planning, and public policy-oriented organizations.<br />Contact: <a href="mailto:tiffiniy@pculture.org">tiffiniy[at]pculture.org</a></p>
 										</div>
 
 
