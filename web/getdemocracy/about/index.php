@@ -132,7 +132,8 @@ include ("../include/start.php");
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/dean.jpg" alt="" /></div>
 											<h2>Dean Jansen</h2>
 											<p><strong>Special Projects</strong></p>
-											<p>Dean is developing and writing an online book / tutorial about creating and publishing internet video.</p>
+											<p>Dean is developing and writing an online book / tutorial about creating and publishing internet video.<br />
+											Contact: <a href="mailto:dean@pculture.org">dean[at]pculture.org</a></p>
 										</div>
 
 
