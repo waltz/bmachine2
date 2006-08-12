@@ -125,12 +125,31 @@ include ("../include/start.php");
 
 
 									<div class="staffcontent" style="padding-top:10px;">
+
+
+
+										<div class="column2">
+											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/dean.jpg" alt="" /></div>
+											<h2>Dean Jansen</h2>
+											<p><strong>Special Projects</strong></p>
+											<p>Dean is developing and writing an online book / tutorial about creating and publishing internet video.</p>
+										</div>
+
+
+
+
+
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/meidailine.jpg" alt="" /></div>
 											<h2>Meidailine</h2>
 											<p><strong>Niece, Icon Model</strong></p>
 											<p>Enjoys ice cream and pizza on moonlit walks.  Currently attending preschool.</p>
 										</div>
+
+
+</div>
+
+									<div class="staffcontent" style="padding-top:10px;">
 
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/lundon-sidnhy.jpg" alt="" /></div>
