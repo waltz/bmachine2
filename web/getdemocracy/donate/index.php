@@ -452,7 +452,7 @@ include ("../include/start.php");
 				</select>
 				</dd>
 				    <input type="hidden" name="eligibility" value="1" />
-				<input type="hidden" name="redirect" value="thankYou.jsp?donate_page_KEY=1283&donation_KEY=[[donation_KEY]]&recurring_donation_KEY=[[recurring_donation_KEY]]">
+				<input type="hidden" name="redirect" value="http://democracyinaction.org/thankYou.jsp?donate_page_KEY=1283&donation_KEY=[[donation_KEY]]&recurring_donation_KEY=[[recurring_donation_KEY]]">
 				<input type="hidden" name="email_trigger_KEYS" value="0,974">
 				<input type="hidden" name="errorPage" value="error.jsp?t=" />
 				<input type="hidden" name="organization_KEY" value="1042">
