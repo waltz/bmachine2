@@ -1186,3 +1186,6 @@ small.commentmetadata a {
 #homelink {
 	margin: 0 0 10px 0;
 }
+	#homelink a {
+		text-decoration:none;
+	}
