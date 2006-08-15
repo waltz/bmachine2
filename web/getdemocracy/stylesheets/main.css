@@ -1171,3 +1171,8 @@ padding: 10px;
 small.commentmetadata a {
 	font-size:10px;
 }
+
+#page_title h2 {
+	font-size:25px;
+	margin:5px 0;
+}
