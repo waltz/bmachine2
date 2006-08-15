@@ -1145,15 +1145,15 @@ padding: 10px;
 	float:none;
 }
 
-#commentlist {
+.commentlist {
 	list-style:none;
 	margin:0;
 	padding:0;
 }
-	#commentlist li {
+	.commentlist li {
 		margin:0 0 5px 0;
 		padding:5px;
 	}
-	#commentlist .alt {
+	.commentlist .alt {
 		background:#eee;
 	}
