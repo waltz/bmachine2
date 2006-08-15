@@ -15,7 +15,7 @@
 						$orderby = 'date',
 						$order = 'DESC',
 						$offset = '0',
-						$date_format = '<div class="dateblock"><div class="datetop">M</div><div class="datebottom">d</div></div>',
+						$date_format = '\<\d\i\v \c\l\a\s\s\=\"\d\a\t\e\b\l\o\c\k\"\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\t\o\p\"\>M\<\/\d\i\v\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\b\o\t\t\o\m\"\>d\<\/\d\i\v\>\<\/\d\i\v\>',
 						$authors = '',
 						$include_passworded_posts = 'false');
 					?>	
@@ -54,7 +54,7 @@
 							$orderby = 'date',
 							$order = 'DESC',
 							$offset = '3',
-							$date_format = '<div class="dateblock"><div class="datetop">M</div><div class="datebottom">d</div></div>',
+							$date_format = '\<\d\i\v \c\l\a\s\s\=\"\d\a\t\e\b\l\o\c\k\"\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\t\o\p\"\>M\<\/\d\i\v\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\b\o\t\t\o\m\"\>d\<\/\d\i\v\>\<\/\d\i\v\>',
 							$authors = '',
 							$include_passworded_posts = 'false');
 						?>	
