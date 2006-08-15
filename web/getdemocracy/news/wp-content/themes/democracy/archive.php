@@ -25,7 +25,7 @@
 					<?php endif; ?>
 
 			<!--/NEWS & UPDATES-->
-
+			</div>
 		
 		<?php get_sidebar(); ?>
 		
