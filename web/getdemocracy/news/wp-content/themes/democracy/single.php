@@ -7,14 +7,12 @@
 
 			<!--NEWS & UPDATES-->
 
-					<h2><a href="http://www.getdemocracy.com/news/">Democracy Internet TV Blog</a>&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></h2>
-
-
+					<div id="rssfeedca">Democracy Internet TV Blog&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></div>
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					
+					<div class="dateblock"><div class="datetop"><?php the_time('M') ?></div><div class="datebottom"><?php the_time('d') ?></div></div>
 					<h2><?php the_title(); ?></h2>
-					<?php the_time('l, F jS, Y') ?> <span style="font-weight:normal;">at</span> <?php the_time() ?> <span style="font-weight:normal;">by</span> <?php the_author() ?><br /><br />
+					<div class="byaux">by</span> <?php the_author() ?></div>
 					
 					<?php the_content(__('(more...)')); ?>
 					
