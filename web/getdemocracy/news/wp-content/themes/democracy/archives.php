@@ -6,13 +6,19 @@ Template Name: Archives
 
 <?php get_header(); ?>	
 	
-		<div class="left">
+	<div id="content-2col">
+			<div id="content-left-2col">
+				
 			<!--NEWS & UPDATES-->
-			<div class="box box-mid box-left">
+			
+			<div id="rssfeedca">Democracy Internet TV Blog&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></div>
+			
+
 				<div id="page_title">
-					<h1>News &amp; Updates</h1>
+					<h2>News &amp; Updates</h2>
 				</div>
-				<div class="box-content">
+				
+
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
@@ -21,8 +27,8 @@ Template Name: Archives
 					<?php endwhile; else: ?>
 					<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 					<?php endif; ?>
-				</div>	
-			</div>
+
+			
 			<!--/NEWS & UPDATES-->
 		</div>
 		
@@ -30,5 +36,5 @@ Template Name: Archives
 		
   </div>
   <!--/CONTENT BLOCK-->
-
+<div class="clearer"></div>
 <?php get_footer(); ?>
