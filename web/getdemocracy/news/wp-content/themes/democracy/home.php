@@ -10,7 +10,7 @@
 					
 					<?php		c2c_get_recent_posts (
 						$num_posts = 6,
-						$format = "%post_date%<h2>%post_URL%</h2><div class=\"byaux\">by %post_author%</div>%post_content%\n<p><a href='%comments_url%'>Comments: %comments_count%</a></p>",
+						$format = "%post_date%<h2 class=\"posttitle\">%post_URL%</h2><div class=\"byaux\">by %post_author%</div>%post_content%\n<p><a href='%comments_url%'>Comments: %comments_count%</a></p>",
 						$categories = '',
 						$orderby = 'date',
 						$order = 'DESC',
@@ -44,7 +44,7 @@
 							$format = "							
 							<div class='column3'>
 									%post_date%
-								<h2>%post_URL%</h2>
+								<h2 class=\"posttitle\">%post_URL%</h2>
 							 <div class=\"byaux\">by %post_author%</div>
 								%post_excerpt%
 								<p><a href='#'>Continue reading >></a></p>

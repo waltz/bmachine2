@@ -1042,7 +1042,7 @@ padding: 10px;
 /* --------------- */
 /* WORDPRESS FIXES */
 
-#content-left-2col h2 {
+#content-left-2col h2.posttitle {
 	margin:-4px 0 0 55px;
 	padding:0;
 	font-size:25px;
