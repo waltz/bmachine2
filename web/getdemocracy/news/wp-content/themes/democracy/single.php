@@ -13,7 +13,7 @@
 					<div class="dateblock"><div class="datetop"><?php the_time('M') ?></div><div class="datebottom"><?php the_time('d') ?></div></div>
 					<h2 class="posttitle"><?php the_title(); ?></h2>
 					<div class="byaux">by</span> <?php the_author() ?></div>
-					<div class="commentline">
+					<div class="postline">
 					<?php the_content(__('(more...)')); ?>
 					</div>
 					<?php comments_template(); // Get wp-comments.php template ?>

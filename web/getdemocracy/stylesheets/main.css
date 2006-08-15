@@ -1126,10 +1126,11 @@ padding: 10px;
 }
 
 #commentform p {
-	margin: 0;
+	margin: 0 0 5px 0;
 	text-align:left;
 }
 
 #commentform label {
 	text-align:right;
+	width:100px;
 }
