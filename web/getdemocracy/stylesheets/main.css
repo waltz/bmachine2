@@ -1131,7 +1131,8 @@ padding: 10px;
 }
 
 #commentform small {
-	font-size:9px;
+	font-size:10px;
+	line-height:1em;
 }
 
 #commentform label {
