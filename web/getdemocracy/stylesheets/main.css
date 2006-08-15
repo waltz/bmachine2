@@ -1038,3 +1038,83 @@ padding: 10px;
 
 /* END MISC ELEMENTS */
 /* ----------------- */
+
+/* --------------- */
+/* WORDPRESS FIXES */
+
+#content-left-2col h2 {
+	margin:-4px 0 0 55px;
+	padding:0;
+	font-size:25px;
+	line-height:1em;
+}
+
+#rssfeedca {
+	margin:20px 0;
+	padding:5px;
+	font-size:22px;
+	font-weight:bold;
+	background:#FCFBEE;
+	text-align:center;
+	border:1px solid #E6E3C5;
+}
+
+.byaux {
+	font-size:12px;
+	padding:3px 0 0 0;
+	margin: 0 0 20px 55px;
+	font-weight:bold;
+}
+
+.dateblock {
+	display:block;
+	float:left;
+	width:47px;
+	height:49px;
+	background:url("images/date.png") no-repeat;
+	text-align:center;
+	margin:0 8px 0 0;
+	color:#172944;
+	padding:5px 0 0 0;
+}
+
+.datetop {
+	font:bold 13px Arial, Verdana;
+	text-transform:uppercase;
+	margin:0;
+	line-height:17px;
+}
+
+.datebottom {
+	font:bold 26px Arial, Verdana;
+	text-transform:uppercase;
+	margin:-1px 0 0 0;
+}
+
+.commentline {
+	border-bottom: 1px dotted #ccc;
+	padding: 0 0 15px 0;
+}
+
+#content-right-2col ul {
+	list-style:none;
+	margin:0 0 10px 0;
+	padding:0;
+}
+	#content-right-2col li {
+		padding:0;
+		margin:0 0 -2px 0;
+	}
+	#content-right-2col li a {
+		font-size:12px;
+	}
+
+#content-right-2col h2 {
+	margin:0;
+	font-size:18px;
+}
+
+#content-right-2col p {
+	margin:0 0 10px 0;
+	font-size:13px;
+}
