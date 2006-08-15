@@ -9,7 +9,7 @@
 			
 
 				<div id="page_title">
-					<h1>News &amp; Updates</h1>
+					<h2>News &amp; Updates</h2>
 				</div>
 
 					
