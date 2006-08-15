@@ -1071,7 +1071,7 @@ padding: 10px;
 	float:left;
 	width:47px;
 	height:49px;
-	background:url("../images/date.png") no-repeat;
+	background:url("http://getdemocracy.com/images/date.png") no-repeat;
 	text-align:center;
 	margin:0 8px 0 0;
 	color:#172944;
@@ -1117,4 +1117,13 @@ padding: 10px;
 #content-right-2col p {
 	margin:0 0 10px 0;
 	font-size:13px;
+}
+
+#commentform p {
+	margin: 0;
+	text-align:left;
+}
+
+#commentform label {
+	text-align:right;
 }
