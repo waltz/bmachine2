@@ -6,7 +6,7 @@
 			<!--NEWS & UPDATES-->
 			
 			<div id="rssfeedca">Democracy Internet TV Blog&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></div>
-			
+			<div id="homelink"><a href="/news/">&laquo; Home</a></div>
 
 				<div id="page_title">
 					<h2>News &amp; Updates</h2>
