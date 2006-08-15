@@ -1164,6 +1164,6 @@ padding: 10px;
 		border-bottom: 1px dotted #ddd;
 	}
 
-.commentmetadata a {
+small.commentmetadata a {
 	font-size:10px;
 }
