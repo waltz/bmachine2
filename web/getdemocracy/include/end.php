@@ -2,31 +2,31 @@
 <div id="footer">
 		<ul>
 			<li>
-				<a href="<?= $base ?>/watch">Watch TV</a>
+				<a href="<?= $base ?>/watch/">Watch TV</a>
 					<ul>
-						<li><a href="<?= $base ?>/downloads">Download Player</a></li>
-						<li><a href="<?= $base ?>/walkthrough">Screenshots</a></li>
-						<li><a href="<?= $base ?>/walkthrough">Walkthrough</a></li>
+						<li><a href="<?= $base ?>/downloads/">Download Player</a></li>
+						<li><a href="<?= $base ?>/walkthrough/">Screenshots</a></li>
+						<li><a href="<?= $base ?>/walkthrough/">Walkthrough</a></li>
 					</ul>
 			</li>
 			<li>
-				<a href="<?= $base ?>/make">Make TV</a>
+				<a href="<?= $base ?>/make/">Make TV</a>
 					<ul>
 						<li><a href="http://subscribe.getdemocracy.com/">1-Click Subscribe Buttons</li>
-						<li><a href="<?= $base ?>/broadcast">Broadcast Machine</a></li>
+						<li><a href="<?= $base ?>/broadcast/">Broadcast Machine</a></li>
 						<li><a href="<?= $base ?>/help/faq/index.php#05-02">FAQ: Channel Possibilities</a></li>
-						<li><a href="<?= $base ?>/make/channel-guide">Make a Channel</a></li>
+						<li><a href="<?= $base ?>/make/channel-guide/">Make a Channel</a></li>
 						<li><a href="<?= $base ?>/make/channel-examples.php">Examples of channels</a></li>
-						<li><a href="http://channelguide.participatoryculture.org">Channel Guide</a></li>
+						<li><a href="https://channelguide.participatoryculture.org">Channel Guide</a></li>
 
 					</ul>
 			</li>
 			<li>
-				<a href="<?= $base ?>/code">Code</a>
+				<a href="<?= $base ?>/code/">Code</a>
 					<ul>
-						<li><a href="http://develop.participatoryculture.org/">Developer Center</a></li>
-						<li><a href="https://develop.participatoryculture.org/projects/dtv/browser/trunk/tv/">Source Code</a></li>
-						<li><a href="https://develop.participatoryculture.org/projects/dtv/report">Bug Tracker</a></li>
+						<li><a href="https://develop.participatoryculture.org/projects/democracy/">Developer Center</a></li>
+						<li><a href="https://develop.participatoryculture.org/projects/democracy/browser/trunk/tv/">Source Code</a></li>
+						<li><a href="https://develop.participatoryculture.org/projects/democracy/report">Bug Tracker</a></li>
 						<li><a href="https://launchpad.net/products/democracy/trunk/+pots/democracyplayer">Translations</a></li>
 					</ul>
 			</li>
@@ -39,13 +39,13 @@
 					</ul>
 			</li>
 			<li>
-				<a href="<?= $base ?>/about">About Democracy</a>
+				<a href="<?= $base ?>/about/">About Democracy</a>
 					<ul>
-						<li><a href="<?= $base ?>/news">News / Blog</a></li>
-						<li><a href="<?= $base ?>/press">Press</a></li>
-						<li><a href="<?= $base ?>/contact">Contact</a></li>
-						<li><a href="<?= $base ?>/store">Store</a></li>
-						<li><a href="<?= $base ?>/jobs">Jobs</a></li>
+						<li><a href="<?= $base ?>/news/">News / Blog</a></li>
+						<li><a href="<?= $base ?>/press/">Press</a></li>
+						<li><a href="<?= $base ?>/contact/">Contact</a></li>
+						<li><a href="<?= $base ?>/store/">Store</a></li>
+						<li><a href="<?= $base ?>/jobs/">Jobs</a></li>
 						<li><a href="https://secure.democracyinaction.org/dia/organizations/pcf/shop/custom.jsp?donate_page_KEY=1283&t=Democracy.dwt">Donate</a></li>
 					</ul>
 			</li>

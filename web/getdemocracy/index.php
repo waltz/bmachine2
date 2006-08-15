@@ -8,7 +8,7 @@
 					</p>
 					<p id="description"><strong>Stop squinting at tiny web video.</strong> Instead, download and watch all the best internet TV shows in one powerful application: any video RSS feed, video podcast, video blog, or BitTorrent file. Fullscreen, high resolution, 100% free and open source. New channels arrive daily in the built-in Channel Guide.</p>
 					<div id="downloadarea">
-						<div id="download-aux"><a href="<?= $base ?>/watch">Features</a> - <a href="<?= $base ?>/walkthrough">Screenshots</a></div>
+						<div id="download-aux"><a href="<?= $base ?>/watch/">Features</a> - <a href="<?= $base ?>/walkthrough/">Screenshots</a></div>
 <?php
 
 include("include/download-button.php");
@@ -43,8 +43,8 @@ include("include/screenshot.php");
 			<h3>The Democracy Internet Television Platform</h3>
 			<p>We are working to build the internet TV tools possible to ensure that people are <span class="hl">in control of their own media</span>. In addition to the player and the Channel Guide, our platform has two other components.</p>
 			<div id="otherplat-left">
-				<a href="<?= $base ?>/broadcast"><img src="images/img_broadcastmachine.gif" border="0" /></a>
-				<a href="<?= $base ?>/broadcast" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br /> <a href="<?= $base ?>/broadcast">Learn More >></a>
+				<a href="<?= $base ?>/broadcast/"><img src="images/img_broadcastmachine.gif" border="0" /></a>
+				<a href="<?= $base ?>/broadcast/" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br /> <a href="<?= $base ?>/broadcast/">Learn More >></a>
 			</div>
 			<div id="otherplat-right">
 				<a href="http://videobomb.com"><img src="images/img_videobomb.gif" border="0" /></a>
@@ -75,7 +75,7 @@ include("include/screenshot.php");
 			at different speeds-- clear out your daily news videos right away and keep videos from your favorite band forever!</p>
 
 			<h5>Start Watching</h5>
-			<p>Download Democracy Player above or <a href="<?= $base ?>/walkthrough">see screenshots and take a feature by feature tour >></a></p>
+			<p>Download Democracy Player above or <a href="<?= $base ?>/walkthrough/">see screenshots and take a feature by feature tour >></a></p>
 			</div>
 			<div id="content-right">
 				<p id="content-quote">"I'm pleased to support the Democracy platform, because it will enable, for the first time, a large-scale Internet video
@@ -84,14 +84,14 @@ include("include/screenshot.php");
 				<p id="support-democracy">
 				<strong>How to Support Democracy</strong>
 				<img src="images/img_supportdemocracy.gif" /><br />
-				<a href="<?= $base ?>/buttons">Promote Democracy: Put Up a Button</a>
+				<a href="<?= $base ?>/buttons/">Promote Democracy: Put Up a Button</a>
 				</p>
-				<div id="storeimage"><a href="<?= $base ?>/store"><img src="images/img_democracystore.gif" border="0" /></a></div>
+				<div id="storeimage"><a href="<?= $base ?>/store/"><img src="images/img_democracystore.gif" border="0" /></a></div>
 				<div id="workonsoftware"><h4>Work on the Software</h4>
 				<p>The Democracy Player is free and open-source (GPL). Bringing in more volunteers is a big priority. We need web developers for Broadcast Machine,
 				python developers for Democracy Player, and web designers to make the player's rendered HTML interface even more stylish. We also need testers to
-				keep up with nightly builds and file bug reports. Can you commit some time to a great cause? <a href="<?= $base ?>/code">Learn more about the code</a> or <a href="<?= $base ?>/contact">contact us</a>. Know somebody
-				who builds software or websites for a living and is always looking for a cool project? <a href="<?= $base ?>/tellafriend">Tell them about us</a>.</p>
+				keep up with nightly builds and file bug reports. Can you commit some time to a great cause? <a href="<?= $base ?>/code/">Learn more about the code</a> or <a href="<?= $base ?>/contact/">contact us</a>. Know somebody
+				who builds software or websites for a living and is always looking for a cool project? <a href="<?= $base ?>/tellafriend/">Tell them about us</a>.</p>
 				</div>
 			</div>
 			<div class="clearer"></div>
@@ -100,7 +100,7 @@ include("include/screenshot.php");
 				<h4>We Need Your Help</h4>
 				<p>As we continue to improve and refine Democracy Player, on the way to version 1.0, we need your help to continue our work. Give us a chance to convince
 				you that our project is worth donating to.</p>
-				<a href="<?= $base ?>/donate">Learn More >></a>
+				<a href="<?= $base ?>/donate/">Learn More >></a>
 				<div class="clearer"></div>
 			</div>
 		</div>
