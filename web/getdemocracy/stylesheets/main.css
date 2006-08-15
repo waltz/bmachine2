@@ -1144,3 +1144,16 @@ padding: 10px;
 #commentform input {
 	float:none;
 }
+
+#commentlist {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+	#commentlist li {
+		margin:0 0 5px 0;
+		padding:5px;
+	}
+	#commentlist .alt {
+		background:#eee;
+	}
