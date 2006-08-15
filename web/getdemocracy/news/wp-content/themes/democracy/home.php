@@ -29,39 +29,8 @@
 					<?php endif; ?>
 
 			<!--/NEWS & UPDATES-->
-			
-			<!--OLDER ENTRIES-->
 
 			
-				<div class="box box-mid box-left">
-					<div class="header">
-						<h1>Older Entries</h1>				
-					</div>
-					<div class="box-content">
-					
-						<?php		c2c_get_recent_posts (
-							$num_posts = 3,
-							$format = "							
-							<div class='column3'>
-									%post_date%
-								<h2 class=\"posttitle\">%post_URL%</h2>
-							 <div class=\"byaux\">by %post_author%</div>
-								%post_excerpt%
-								<p><a href='#'>Continue reading >></a></p>
-							</div>
-							",
-							$categories = '',
-							$orderby = 'date',
-							$order = 'DESC',
-							$offset = '3',
-							$date_format = '\<\d\i\v \c\l\a\s\s\=\"\d\a\t\e\b\l\o\c\k\"\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\t\o\p\"\>M\<\/\d\i\v\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\b\o\t\t\o\m\"\>d\<\/\d\i\v\>\<\/\d\i\v\>',
-							$authors = '',
-							$include_passworded_posts = 'false');
-						?>	
-					</div>	
-				</div>
-
-
   </div>   <!--/left-->
 
 		
