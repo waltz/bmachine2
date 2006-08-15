@@ -1153,8 +1153,17 @@ padding: 10px;
 	.commentlist li {
 		margin:0 0 5px 0;
 		padding:10px 10px 0 10px;
+		font-size:14px;
+	}
+	.commentlist li p {
+		margin:0 0 8px 0;
+		font-size:12px;
 	}
 	.commentlist .alt {
 		background:#eee;
 		border-bottom: 1px dotted #ddd;
 	}
+
+.commentmetadata a {
+	font-size:10px;
+}
