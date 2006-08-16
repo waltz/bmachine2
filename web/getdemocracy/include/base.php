@@ -1,0 +1,6 @@
+<?php
+
+#$base = "/getdemocracy";
+$base = "";
+
+?>
