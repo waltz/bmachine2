@@ -15,7 +15,7 @@
 
 				
 
-	<?php include("/data/getdemocracy/site-live/include/sidebar-newsletters.php"); ?>	
+	<?php include("/data/getdemocracy/site-live/include/stayuptodate.php"); ?>	
 	
 
 </div>
