@@ -33,8 +33,8 @@
 			<li>
 				<a href="<?= $base ?>/help/">Help Center</a>
 					<ul>
-						<li><a href="<?= $base ?>/help/faq#viewers">Viewer FAQ</a></li>
-						<li><a href="<?= $base ?>/help/faq#creators">Creator FAQ</a></li>
+						<li><a href="<?= $base ?>/help/faq/#viewers">Viewer FAQ</a></li>
+						<li><a href="<?= $base ?>/help/faq/#creators">Creator FAQ</a></li>
 						<li><a href="http://forum.getdemocracy.com/">Discussion Forums</a></li>
 					</ul>
 			</li>
