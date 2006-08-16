@@ -19,7 +19,7 @@
 			- posted by Xeni Jardin, <a href="http://www.boingboing.net/2006/05/01/share_daywithoutanim.html">BoingBoing</a>, <strong>May 1, 2006</strong></p>
 
 			<p>"If they're able to deliver on their stated visions, your donation just may help trigger a profound grassroots technology-induced human evolution."<br />
-			- Chris Holland, <a href="http://www.theappleblog.com/2006/04/30/got-democracy/">The Apple Blog</a>, <strong>April 30, 2006</strong></p>
+			- Chris Holland, <a href="http://theappleblog.com/2006/04/30/got-democracy/">The Apple Blog</a>, <strong>April 30, 2006</strong></p>
 			<p>"Linux Version of Democracy Player Released"<br />
 			- <a href="http://linux.slashdot.org/article.pl?sid=06/04/27/2224208&from=rss">Slashdot</a> and <a href="http://digg.com/linux_unix/Linux_version_of_Democracy_Player_internet_TV_released">Digg</a>, <strong>April 27, 2006</strong></p>
 
@@ -65,7 +65,7 @@
 								- Andy Baio, <a href="http://waxy.org/links/">Waxy Links</a>, <strong>February 21, 2006</strong></p>
 
 			<p>"DTV for Windows released as Democracy: The long awaited, open-source Democracy platform..."<br />
-								- <a href="http://digg.com/links/DTV_for_Windows_released_as_Democracy">Digg.com</a>, <strong>February 21, 2006</strong></p>
+								- <a href="http://digg.com/tech_news/DTV_for_Windows_released_as_Democracy">Digg.com</a>, <strong>February 21, 2006</strong></p>
 
 				<p>"The video is surprisingly good, appearing in a large window (I'd say 5 inches by 4 inches) and the player integrates with video social networking site videobomb.com, so that users can 'bomb' videos to their connections."<br />
 								- Cynthia Brumfield, <a href="http://www.ipdemocracy.com/archives/2006/02/21/index.php#001173">IP Democracy</a>, <strong>February 21, 2006</strong></p>
@@ -83,7 +83,7 @@
 								- <a href="http://www.osdir.com/Article8225.phtml">OSDir.com</a>, <strong>January 20, 2006</strong></p>
 
 								<p><cite>But while the big names of broadcasting prepare to battle it out, a handful of nascent small-scale networks are also getting in on the act. One prototype network, temporarily called DTV, is using the same...</cite><br />
-								- <a href="http://www.newscientist.com/channel/info-tech/mg18825296.400.html;jsessionid=BCBAGCELDFHB">NewScientist.com</a>, <strong>December 12, 2005</strong></p>
+								- <a href="http://www.newscientisttech.com/article/mg18825296.400.html">NewScientist.com</a>, <strong>December 12, 2005</strong></p>
 
 								<p><cite>The nonprofit Participatory Culture Foundation wants to stake its place in the nascent Internet televsion space before big media can fence it in.</cite><br />
 								- <a href="http://redherring.com/Article.aspx?a=14463&hed=Democratizing+Internet+TV">"Democratizing Internet TV"</a>, <em>Red Herring</em>, <strong>November 14, 2005</strong></p>
@@ -96,7 +96,7 @@
 								- <a href="http://www.mediarights.org/news/2005/10/21/new_distribution_models_participatory_culture_launches_dtv">MediaRights News</a>, <strong>October 21, 2005</strong></p>
 
 								<p>"David Moore, from ParticipatoryCulture.org, was kind enough to address a few questions I had for him related to this post, comparing Internet TV and Video podcasts: <cite>With bittorrent, you don't need to be a huge broadcaster anymore to be able to reach millions of people... that's what makes internet TV such an exciting medium and such a level playing field.</cite>"<br />
-								- <a href="http://www.theappleblog.com/2005/09/15/apple-support-video-podcasting/#comments">The Apple Blog</a>, <strong>September 15, 2005</strong></p>
+								- <a href="http://theappleblog.com/2005/09/15/apple-support-video-podcasting/#comments">The Apple Blog</a>, <strong>September 15, 2005</strong></p>
 
 								<p>"That's wonderful!" -- Gabriel, Microbians<br />
 								- <a href="http://www.newstoday.com/ntb/ntb.php">NewsToday</a>, <strong>September 9, 2005</strong></p>
@@ -117,7 +117,7 @@
 								- <a href="http://www.downloadsquad.com/2005/08/26/dtv-beta-2-is-out-with-content-publisher-broadcast-machine/">Download Squad</a>, <strong>August 26, 2005</strong></p>
 
 								<p>"An organization called the Participatory Culture Foundation -- an offshoot of the peer-to-peer activist group Downhill Battle -- has launched the first beta version of its DTV software, an application that collects and distributes independent video online."<br />
-								- <a href="http://www.macnewsworld.com/story/tTMIA0qK000MOT/P2P-Aggregator-for-Indie-DTV-Launched-on-Macintosh.xhtml">MacNewsWorld</a> and <a href="http://www.ecommercetimes.com/story/OaLmbsBc0HCV4u/Get-Your-DTV-Via-Macintosh-P2P-Program.xhtml">E-Commerce Times</a>, <strong>August 18, 2005</strong></p>
+								- <a href="http://www.macnewsworld.com/">MacNewsWorld</a> and <a href="http://www.ecommercetimes.com/">E-Commerce Times</a>, <strong>August 18, 2005</strong></p>
 
 								<p>"This type of software might be covered in the '10 Things that Changed the World' specials in the next decade... DTV turns into a DIY TV hub or aggregator on your computer with easy archiving and viewing tools. It takes no more than five minutes to download the software. DTV has an intuitive interface and flexible folders for 'channel' management."<br />
 								- <a href="http://www.alternet.org/bloggers/kristina/24226/">AlterNet</a> blogger Kristina Rizga, <strong>August 17, 2005</strong></p>
@@ -129,7 +129,7 @@
 								- <a href="http://www.redherring.com/Article.aspx?a=13205&hed=Jumpstarting+the+TV+Web+Race">Red Herring</a>, <strong>August 17, 2005</strong></p>
 
 								<p><cite>The Participatory Culture Foundation last week launched its test version of "DTV" for Mac OS X (a Windows version is promised in a few weeks). Although it has a few bugs, the program gathers a bunch of links into one spot and delivers it to your screen, cable company-style.</cite><br />
-								- <a href="http://www.chicagotribune.com/technology/reviews/chi-0508150276aug16,1,4558777.column?coll=chi-technologyreviews-hed&ctrack=1&cset=true"><em>Chicago Tribune</em> (free reg. req.)</a>, <strong>August 16, 2005</strong></p>
+								- <a href="http://www.chicagotribune.com/"><em>Chicago Tribune</em> (free reg. req.)</a>, <strong>August 16, 2005</strong></p>
 
 								<p>"Downhill Battle -- an amazing, energetic, imaginative copyfighting nonprofit group -- has spun off something called the Participatory Culture Foundation with the aim of making DTV, an open source video publishing, aggregating and viewing tool: in other words, a TV killers."<br />
 								- <a href="http://www.boingboing.net/2005/08/15/dtv_an_open_source_v.html">BoingBoing</a>, <strong>August 14, 2005</strong></p>
@@ -138,7 +138,7 @@
 								- <a href="http://www.macworld.co.uk/news/index.cfm?NewsID=12315&Page=1&pagePos=13">MacWorld UK</a>, <strong>August 14, 2005</strong></p>
 
 								<p>"I've had a chance to check out both Broadcast Machine and DTV now, and you can safely color me impressed. BM is incredibly easy to install and use -- you can set up and be publishing in literally a few minutes' time. DTV has a nice, clean interface and is also dead easy to use."<br />
-								- <a href="http://socialsoftware.weblogsinc.com/entry/1234000583054119/">Social Software Weblog</a>, <strong>August 11, 2005</strong></p>
+								- <a href="http://socialsoftware.weblogsinc.com/2005/08/11/mac-users-check-out-dtv-the-open-source-internet-tv-player/">Social Software Weblog</a>, <strong>August 11, 2005</strong></p>
 
 								<p>"We at Ourmedia are big supporters of the efforts by Participatoryculture.org to create a free, open-source platform for Internet television."<br />
 								- <a href="http://www.newmediamusings.com/blog/2005/08/create_your_own.html">New Media Musings</a> by J.D. Lasica, <strong>August 10, 2005</strong></p>
@@ -177,7 +177,7 @@
 								- <a href="http://mikeandtanyanorton.com/2005/07/28/46/">Mike and Tanya Norton</a>, "Internet TV a Close Reality for Churches," <strong>July 28, 2005</strong></p>
 
 								<p>"Internet TV is almost here!" Submitted by <a href="http://digg.com/users/ManO-iGO">Man0-iGO</a> to Digg, "a technology news website that combines social bookmarking, blogging, RSS, and non-hierarchical editorial control."<br />
-								- <a href="http://digg.com/technology/Internet_TV_is_Almost_Here_">Digg</a>, <strong>July 28, 2005</strong></p>
+								- <a href="http://digg.com/tech_news/Internet_TV_is_Almost_Here_">Digg</a>, <strong>July 28, 2005</strong></p>
 
 								<p>"Put very simply this software has been designed to allow artists like you and I to broadcast high quality video to a global audience. Opening up the door for independent television producers and film makers to showcase their work over a highly accessible medium."<br />
 								- <a href="http://news.deviantart.com/article/18739/">deviantART</a>, <strong>July 21, 2005</strong></p>
@@ -191,7 +191,7 @@
 								<p><cite>The Participatory Culture Foundation, an organization that emerged from music activist group Downhill Battle, is providing an open-source platform for internet television. The mission of the nonprofit has a more political bent. The group wants "to create tools for broader, deeper engagement with culture and politics," according to its website. "The idea is that anyone should be able to publish video to thousands or millions of people at no cost because P2P technology makes that possible," said Nicholas Reville, one of the co-directors of the project. The group wants to "open up this video space in the way that the web opened up self-publishing for text or photographs."</cite><br />
 								- <a href="http://www.wired.com/news/digiwood/0,1412,68199,00.html?tw=wn_tophead_2">Wired News</a>, <strong>July 15, 2005</strong></p>
 
-								<p>Leading videoblogger <a href="stevegarfield.com">Steve Garfield</a> discusses Broadcast Machine around minute 21 of this interview, conducted live from MacWorld Boston 2005: "Broadcast Machine... is free software that allows you to host your videos using underlying bittorrent technology... everyone will be able to have their own channel." (Thanks Steve!)<br />
+								<p>Leading videoblogger <a href="http://stevegarfield.com">Steve Garfield</a> discusses Broadcast Machine around minute 21 of this interview, conducted live from MacWorld Boston 2005: "Broadcast Machine... is free software that allows you to host your videos using underlying bittorrent technology... everyone will be able to have their own channel." (Thanks Steve!)<br />
 								- <a href="http://www.digitalproductionbuzz.com/Archives/buzz_05_07_12.m4a">Digital Production Buzz</a>, <strong>July 12, 2005</strong></p>
 
 								<p><cite>Get ready for a new way to present your work. Peer-to-peer publishing with
@@ -234,8 +234,7 @@
 													<p>In his post "I
 													Believe: The Tools, They're Out There," Ernest Miller prominently mentions the Participatory
 													Culture Foundation as leading the charge for "progressive prescriptions" in social software.<br />
-													- <a href="http://www.corante.com/importance/archives/2005/06/10/
-													i_believe_the_tools_theyre_out_there.php">Corante, "The Importance Of..."</a>, <strong>June 10, 2005</strong></p>
+													- <a href="http://importance.corante.com/archives/2005/06/10/i_believe_the_tools_theyre_out_there.php">Corante, "The Importance Of..."</a>, <strong>June 10, 2005</strong></p>
 
 													<p>"I've been meaning to
 													talk about Broadcast Machine for a little while now... instead of needing to eat the bandwidth cost
@@ -243,14 +242,14 @@
 													affordably and, moreover, relatively easily via the Broadcast Machine software interface. It can
 													also be used to publish an aggregate channel of found video just as easily, so fans and editors can
 													re-publish content created by others."<br />
-													- <a href="http://socialsoftware.weblogsinc.com/entry/1234000327046357/">Social Software Weblog</a>, <strong>June 10, 2005</strong></p>
+													- <a href="http://socialsoftware.weblogsinc.com/2005/06/10/steve-garfield-interviews-broadcast-machines-holmes-wilson/">Social Software Weblog</a>, <strong>June 10, 2005</strong></p>
 
 													<p>"If podcasting can be described as
 													TiVo for audio, then the open-source Internet TV platform that the Participatory Culture Foundation
 													plans to release by late June might be described as TiVo for the Internet. (Via <a
 													href="http://www.newmediamusings.com/blog/2005/06/tivo_for_the_in.html"> New Media
 													Musings</a>.)"<br />
-													- <a href="http://socialsoftware.weblogsinc.com/entry/1234000327046357/">Unmediated</a>, <strong>June 8, 2005</strong></p>
+													- <a href="http://socialsoftware.weblogsinc.com/2005/06/10/steve-garfield-interviews-broadcast-machines-holmes-wilson/ ">Unmediated</a>, <strong>June 8, 2005</strong></p>
 
 													<p>Pioneering blogger
 													Zephyr Teachout writes about the release of Broadcast Machine.<br />
@@ -266,7 +265,7 @@
 													<p>"In this piece I
 													submitted to <a href="http://rocketboom.com/">Rocketboom</a>, I interview Holmes Wilson of the
 													Participatory Culture Foundation about his new release, Broadcast Machine. "<br />
-													- <a href="http://stevegarfield.blogs.com/videoblog/2005/06/holmes_wilson_i. html">Steve Garfield's Videoblog</a>, <strong>June 6, 2005</strong></p>
+													- <a href="http://stevegarfield.blogs.com/videoblog/2005/06/holmes_wilson_i.html">Steve Garfield's Videoblog</a>, <strong>June 6, 2005</strong></p>
 
 													<p><cite>Broadcast Machine and FireANT are the spearhead of a global effort by the open source movement to harness the distributed nature of the Internet to make citizen broadcasting a reality.  In doing so they've provided independent journalists and media activists with a powerful tool to challenge monopoly broadcasters everywhere and to produce  and distribute alternative views of events and issues.</cite><br />
 													- <a href="http://www.netnovinar.org/netnovinar/dsp_page.cfm?specialSection=FULL_TEXT&contentid=836">MediaCenter Sarajevo</a>, by Milverton Wallace, <strong>June 2005</strong></p>
@@ -289,7 +288,7 @@
 													<p>"For several years, I've been on the
 													search for a better way of publishing student video projects without killing our server space and
 													bandwidth... Combined with a host such as OurMedia, Broadcast Machine could be promising."<br />
-													- <a href="http://www.educationaltechnology.ca/couros/archives/000433.html">Couros Blog</a>, <strong>May 24, 2005</strong></p>
+													- <a href="http://www.educationaltechnology.ca/couros/"><!-->Couros Blog</a>, <strong>May 24, 2005</strong></p>
 
 													<p><em>Others focus on the prospect of outsiders' gaining access to your TV set, as bloggers have
 													invaded media on the Web. "Already there is more data downloaded for video over the Internet than
@@ -338,7 +337,7 @@
 
 									<p><strong><a href="http://digitalbicycle.org/">Digital Bicycle</a></strong> - This groundbreaking project is linking local access cable stations into a nationwide network using RSS and Bittorrent.  Our tools can give their participating stations a whole new audience online.</p>
 
-									<p><strong><a href="http://current.tv/">Current TV</a></strong> - a new cable TV network, founded by former Vice President Al Gore. Current will be using  DTV to publish video from citizen journalists and independent filmmakers.</p>
+									<p><strong><a href="http://www.current.tv/">Current TV</a></strong> - a new cable TV network, founded by former Vice President Al Gore. Current will be using  DTV to publish video from citizen journalists and independent filmmakers.</p>
 
 									<p><strong><a href="http://mediarights.org/">MediaRights</a></strong> - a community organization dedicated to maximizing the impact of social-issue documentaries and shorts, sponsor of the <a href="http://www.mediathatmattersfest.org/mtm05/">Media That Matters</a> film festival.</p>
 
