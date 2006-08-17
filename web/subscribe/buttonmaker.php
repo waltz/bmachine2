@@ -259,7 +259,7 @@ font-size: 16px;
 <a href="http://high-flow.com/blog/?p=22">High Flow Hip-Hop</a><br />in the blog post
 <br /><br />
 <a href="http://www.crushtv.com/blog/">Crush TV</a><br />in the sidebar<br /><br />
-<a href="http://http://www.rocketboom.com/vlog/">Rocketboom</a><br />linked under "Democracy"<br /><br />
+<a href="http://www.rocketboom.com/vlog/">Rocketboom</a><br />linked under "Democracy"<br /><br />
 
 </p>
 
