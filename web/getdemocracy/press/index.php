@@ -12,7 +12,7 @@
 				email: npr|at|pculture|dot|org</p>
 
 			<h4>Selected Press &amp; Blog Coverage</h4>
-			
+			<br />
 			<p>
 			"There's a new version of Democracy Player, the free and open source Internet TV program that can play any video format and that's as easy to use as a TV."
 			<br />
