@@ -12,6 +12,13 @@
 				email: npr|at|pculture|dot|org</p>
 
 			<h4>Selected Press &amp; Blog Coverage</h4>
+			
+			<p>
+			"There's a new version of Democracy Player, the free and open source Internet TV program that can play any video format and that's as easy to use as a TV."
+			<br />
+			- <a href="http://www.boingboing.net/2006/07/22/new_democracy_player.html">BoingBoing</a>, <strong>July 22, 2006</strong></p>
+			
+			
 			<p><em>Want to see the future of Net video? Download the open source Democracy Player from the Participatory Culture Foundation, a renegade nonprofit code shop. The app lets you subscribe to RSS channels, download in the background via BitTorrent, and view most video formats in full-screen resolution. (The companion site, Video Bomb, offers RSS feeds for tons of clips.) With Democracy, a well-stocked BitTorrent tracker, and a little RSS fu, who needs a TiVo?</em><br />
 			- <a href="http://www.wired.com/wired/archive/14.05/networks.html">Wired Magazine</a>, <strong>May 2006</strong></p>
 
