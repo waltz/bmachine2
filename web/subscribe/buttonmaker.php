@@ -260,7 +260,7 @@ font-size: 16px;
 <br /><br />
 <a href="http://www.crushtv.com/blog/">Crush TV</a><br />in the sidebar<br /><br />
 <a href="http://www.rocketboom.com/vlog/">Rocketboom</a><br />linked under "Democracy"<br /><br />
-
+<a href="http://www.gliving.tv/shows/">The G Living Network</a><br />in the sidebar<br />
 </p>
 
     </div>
