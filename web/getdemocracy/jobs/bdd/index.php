@@ -13,10 +13,10 @@ deeper engagement with culture and politics.  We're working to ensure that the n
 independent (just like blogging and podcasting) through the development and dissemination of our open source video platform, Democracy Player.  
 For more information on PCF and the Democracy video platform please visit: <a href="<?= $base ?>/press/">wwww.getdemocracy.com/press/</a></p>
 
-<p>Our software product is emerging from beta development and we are seeking new sources of revenue to sustain the organization’s operations and support our mission.</p>
+<p>Our software product is emerging from beta development and we are seeking new sources of revenue to sustain the organization's operations and support our mission.</p>
 
 <p><b>Responsibilities:</b><br />
-This position will manage Participatory Culture Foundation’s business development and actively develops new revenue streams.  PCF is based in Worcester, MA, but we have staff around the United States and the world and we will consider individuals who wish to work remotely.</p>
+This position will manage Participatory Culture Foundation's business development and actively develops new revenue streams.  PCF is based in Worcester, MA, but we have staff around the United States and the world and we will consider individuals who wish to work remotely.</p>
 
 <p><b>Business Development (60%)</b></p>
 <ul><li>Lead exploration and development of new revenue generating opportunities.</li>
