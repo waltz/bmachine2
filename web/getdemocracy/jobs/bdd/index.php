@@ -3,7 +3,7 @@
 
 <div class="left">
 
-<div style="margin-left:5px;">
+<div style="margin-left:5px; padding-top: 10px;">
 
 <h3>Participatory Culture Foundation</h3>
 <h3>Director of Business Development</h3>
