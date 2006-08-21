@@ -21,13 +21,14 @@ Participatory Culture Foundation</b></p>
 
 <p>"News video is rapidly moving online, and these tutorials will make it easier for people to create their own news on Internet TV," said Dean Jansen of the Participatory Culture Foundation. "We envision these tutorials being used by people from all backgrounds to create video about locally relevant community news, whether it is severe potholes on municipal roads or the need for a community daycare center."</p>
 
-<p>"This grant extends Knight Foundation’s support for citizen journalism by demystifying video blogging of news events," said Gary Kebbel, Knight Foundation journalism program officer.</p>
+<p>"This grant extends Knight Foundation's support for citizen journalism by demystifying video blogging of news events," said Gary Kebbel, Knight Foundation journalism program officer.</p>
 
 <p>Knight Foundation continues to increase its support of online journalism and citizen reporting to help communities identify their problems and tap their potential to seek solutions. This fall, the foundation plans to create a competition for proposals that use news and information in new ways to improve community life. "We want ideas that use electronic media to help improve the lives of individuals where they live and work," Kebbel said. </p>
 
-<p><b>PCF’s Democracy Video Player</b> builds on cutting-edge RSS feeds, the Firefox browser, and BitTorrent syndication technology to empower anyone to watch, share, broadcast and download video over the Internet. The Democracy Player enables higher digital resolution, full-screen video playback, continuous non-buffered play and an open standards environment free of adware or spyware -- a much more TV-like experience than traditional web video. (Download Democracy free at <b><a href="http://www.getdemocracy.com/">www.getdemocracy.com</a></b>.)</b>
+<p><b>PCF's Democracy Video Player</b> builds on cutting-edge RSS feeds, 
+the Firefox browser, and BitTorrent syndication technology to empower anyone to watch, share, broadcast and download video over the Internet. The Democracy Player enables higher digital resolution, full-screen video playback, continuous non-buffered play and an open standards environment free of adware or spyware -- a much more TV-like experience than traditional web video. (Download Democracy free at <b><a href="http://www.getdemocracy.com/">www.getdemocracy.com</a></b>.)</b>
 
-<p>The John S. and James L. Knight Foundation promotes excellence in journalism worldwide and invests in the vitality of communities where the Knight brothers owned newspapers. To see and hear stories of Knight’s transformational funding, visit <a href="http://www.knightfdn.org/annual/">www.knightfdn.org/annual/</a>.</p>
+<p>The John S. and James L. Knight Foundation promotes excellence in journalism worldwide and invests in the vitality of communities where the Knight brothers owned newspapers. To see and hear stories of Knight's transformational funding, visit <a href="http://www.knightfdn.org/annual/">www.knightfdn.org/annual/</a>.</p>
 
 
 </div>
