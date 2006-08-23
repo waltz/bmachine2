@@ -1,6 +1,8 @@
+
 <?php include ("include/start.php"); ?>
 		<div id="main">
 			<div id="callout">
+<br />
 				<h2>Democracy Player. Your internet television has arrived.</h2>
 				<div id="callout-left">
 					<p id="quote">"Want to see the future of Net video? Download the open source Democracy Player"<br />
