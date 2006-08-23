@@ -14,6 +14,54 @@
 <p>We want to fill the positions below as soon as possible.  If you're interested, please be in touch right away; we don't need fancy resumes, just good, clear info about what you've been up to.  Women and people of color are strongly encouraged to apply.</p>
 
 
+
+<h3>Director of Business Development</h3>
+
+<p>The Participatory Culture Foundation (PCF) is a non-profit organization with a mission to create tools for broader, 
+deeper engagement with culture and politics.  We're working to ensure that the new mass medium of internet TV is open and independent.  Our primary focus currently is the development and dissemination of our open source video platform, <a href="http://www.getdemocracy.com/">Democracy</a>.  
+
+<p>Democracy Player is emerging from beta development and we are seeking new sources of revenue to sustain the organization's operations and support our mission.</p>
+
+<p><b>Responsibilities:</b><br />
+The Director of Business Development will manage Participatory Culture Foundation's business development and actively develop new revenue streams.  PCF is based in Worcester, MA, but we have staff around the United States and the world and we are very open to individuals who wish to work remotely.</p>
+
+<p><b>Business Development (60%)</b></p>
+<ul><li>Lead exploration and development of new revenue generating opportunities.</li>
+	<li>Find and develop partnerships with content providers and search engines.</li>
+	<li>Manage the relationship between PCF and external partners.</li>
+	<li>Partner with development team to deliver new products.</li>
+	<li>Negotiate co-branded marketing opportunities.</li>
+	<li>Lead major contract negotiations.</li></ul>
+
+<p><b>Team leadership (20%)</b></p>
+<ul><li>Professional development of team members.</li>
+	<li>Reinforce the positioning of business development relative to other marketing.</li></ul>
+
+<p><b>Other (20%)</b></p>
+<ul><li>Regularly assess & communicate program performance.</li>
+	<li>Develop and manage a budget.</li>
+	<li>Other responsibilities as assigned.</li></ul>
+
+<p><b>Minimum Requirements:</b></p>
+<ul><li>Interpersonal savvy - relates well to everyone inside and outside PCF.</li>
+<li>3+ years relevant experience.</li>
+<li>Can build rapport and effective relationships.</li>
+<li>Informing - provides the information people need to do their job & feel good about being a member of the team.</li>
+<li>Negotiations - can negotiate skillfully in tough situation with both internal and external groups; can settle differences with a minimum of "noise."</li>
+<li>Motivating others - creates a climate in which people want to do their best; can motivate many kinds of direct reports.</li>
+<li>Drive for results - can be counted on to exceed goals; pushes self and others for results.</li>
+<li>Decision quality - makes good decisions based on a mixture of analysis, experience and judgment.</li></ul>
+
+<p>Please submit resume, references and salary expectations to:</p>
+
+<blockquote>Nicholas Reville<br />
+Executive Director<br />
+nicholas@pculture.org</blockquote>
+
+<p>Resumes must include salary expectations to be considered.  And please keep in mind that PCF is a non-profit organization. </p>
+
+
+
 <h3>Software Developer</h3>
 
 <p>
