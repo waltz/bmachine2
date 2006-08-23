@@ -67,7 +67,7 @@ And don't forget to try Video Bomb, the video sharing site that integrates with 
 
 <li>Do you have a video RSS feed?  Publicize it! <a href="http://subscribe.getdemocracy.com/">Make a 1-Click Subscribe Button</a></li>
 
-<li>Hiring: <a href="/jobs">Programmer and Art Director</a></li>
+<li>Hiring: <a href="/jobs">Business Development Director, Programmer, and Art Director</a></li>
 
 </ul>
 
