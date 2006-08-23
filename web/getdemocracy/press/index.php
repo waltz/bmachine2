@@ -11,6 +11,12 @@
 				mobile: 508-963-7832<br />
 				email: npr|at|pculture|dot|org</p>
 
+
+  <h4>Press Releases</h4>
+
+<p>				<strong>August 16, 2006<strong><br />
+<strong>Participatory Culture Foundation and Knight Foundation partner to Teach Video News Blogging</strong>
+The Participatory Culture Foundation is creating a step-by-step tutorial for citizen video journalism with a $50,000 grant from the John S. and James L. Knight Foundation.  <a href="http://www.getdemocracy.com/press/vlog/">Read the Full Release...</a></p>
 			<h4>Selected Press &amp; Blog Coverage</h4>
 			<br />
 			<p>
