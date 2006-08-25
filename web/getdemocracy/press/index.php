@@ -343,6 +343,8 @@ The Participatory Culture Foundation is creating a step-by-step tutorial for cit
 					</li>
 				</ul>
 				<div id="lower-sidebar">
+				<?php include("../include/email/press.php"); ?>
+				</div><div id="lower-sidebar">
 				<h6>PCF Partner Organizations</h6>
 					<p>This internet TV platform is free and open to everyone, big and small.  We're proud to be featuring channels from these early adopters, along with thousands more in the months to come.</p>
 
