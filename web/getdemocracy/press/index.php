@@ -11,6 +11,20 @@
 				mobile: 508-963-7832<br />
 				email: npr|at|pculture|dot|org</p>
 
+                        <h4>Get Press Updates</h4>
+
+			<p>If you'd like to receive occasional press releases and updates about the Democracy Platform, please sign up below:
+			<form action="http://participatoryculture.org/lists/?p=subscribe&id=15" method="post" name="subscribeform">
+		        <input type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
+		        <input type=hidden name="makeconfirmed" value="1"/>
+		        <input type="hidden" name="htmlemail" value="1" />
+		        <input type="hidden" name="list[15]" value="signup" />
+		        <input type="hidden" name="listname[15]" value="pressupdates" />
+		        <input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
+			</form>
+
+
+
 
   <h4>Press Releases</h4>
 
@@ -301,7 +315,7 @@ The Participatory Culture Foundation is creating a step-by-step tutorial for cit
 													<p>"For several years, I've been on the
 													search for a better way of publishing student video projects without killing our server space and
 													bandwidth... Combined with a host such as OurMedia, Broadcast Machine could be promising."<br />
-													- <a href="http://www.educationaltechnology.ca/couros/"><!-->Couros Blog</a>, <strong>May 24, 2005</strong></p>
+													- <a href="http://www.educationaltechnology.ca/couros/">Couros Blog</a>, <strong>May 24, 2005</strong></p>
 
 													<p><em>Others focus on the prospect of outsiders' gaining access to your TV set, as bloggers have
 													invaded media on the Web. "Already there is more data downloaded for video over the Internet than
@@ -343,8 +357,6 @@ The Participatory Culture Foundation is creating a step-by-step tutorial for cit
 					</li>
 				</ul>
 				<div id="lower-sidebar">
-				<?php include("../include/email/press.php"); ?>
-				</div><div id="lower-sidebar">
 				<h6>PCF Partner Organizations</h6>
 					<p>This internet TV platform is free and open to everyone, big and small.  We're proud to be featuring channels from these early adopters, along with thousands more in the months to come.</p>
 
@@ -378,6 +390,10 @@ The Participatory Culture Foundation is creating a step-by-step tutorial for cit
 
 													<p>Because DTV is built on open standards, DTV will be able to play most RSS feeds with video enclosures, so thousands of existing channels will be browsable in the built-in DTV channel guide -- and the standard is open to everyone.</p>
 				</div>
+
+                                <div id="lower-sidebar">
+                                <?php include("../include/email/press.php"); ?>
+                                </div>
 
 				</div>
 			</div>
