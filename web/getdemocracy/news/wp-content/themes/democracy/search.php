@@ -12,13 +12,12 @@
 				<h2>Search Results</h2>
 			</div>
 			
+			<div class="navigation">
+				<div class="alignleft"><?php next_posts_link('&laquo; Previous Entries') ?></div>
+				<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
+			</div>
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					
-					<div class="navigation">
-						<div class="alignleft"><?php next_posts_link('&laquo; Previous Entries') ?></div>
-						<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
-					</div>
 					
 					<div class="dateblock"><div class="datetop"><?php the_time('M') ?></div><div class="datebottom"><?php the_time('d') ?></div></div>
 					
