@@ -37,5 +37,5 @@
 		
   </div>
   <!--/CONTENT BLOCK-->
-
+<div class="clearer"></div>
 <?php get_footer(); ?>
