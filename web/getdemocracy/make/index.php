@@ -74,24 +74,8 @@ include "../include/start.php";
 				<h6>Get Help</h6>
 				<p>Having problems making a channel, using Broadcast Machine, or anything else? Try our <a href="<?= $base ?>/help/faq">FAQ</a>, documentation or <a href="http://forum.getdemocracy.com">support forum</a>:</p>
 				<h6>Broadcast Machine</h6>
-							  <script language="JavaScript">
-									<!--
-									if (navigator.appVersion.indexOf("Win")!=-1)
-										{
-										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
-										}
-									else if (navigator.appVersion.indexOf("Mac")!=-1)
-										{
-										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/layout/broadcastmachine-mac.jpg" alt="screenshot of publish page" /></a>');
-										}
-									else
-										{
-										document.write('<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>');
-										}
-									//-->
-									</script>
-
-							  <p><a href="<?= $base ?>/broadcast/">Broadcast Machine</a> is software you install on your website to create Democracy-style channels.</p>
+				<a href="<?= $base ?>/broadcast/"><img src="<?= $base ?>/images/broadcastmachine-windows.jpg" alt="screenshot of publish page" /></a>
+				  <p><a href="<?= $base ?>/broadcast/">Broadcast Machine</a> is software you install on your website to create Democracy-style channels.</p>
 				</div>
 
 				</div>
