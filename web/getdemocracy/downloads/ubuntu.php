@@ -15,15 +15,23 @@
 
 	<!--CONTENT BLOCK-->
 	<div id="content">
-	<dive id="content-1col">
+	<div class="content-1col">
 
 			<!--<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color:
 #444;"><strong>Democracy Player is downloading...</strong>-->
 
-						<p style="text-align:center; font-size: 14px;">You can also install democracy on Ubuntu Dapper Drake using these two files:<BR>
+						<p style="text-align:center; font-size: 14px;">You can install democracy on Ubuntu Dapper Drake using these two files:<BR>
 <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer-data_0.8.5-1ubuntu_all.deb">data 
 package</a>,<a href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/ubuntu/democracyplayer_0.8.5-1ubuntu_i386.deb">player package</a>.</p>
 
+<p style="text-align:left; font-size:14px;">Please note: To 
+successfully install Democracy, you'll need to make sure Ubuntu is up to 
+date. Make sure to update Ubuntu by using the system update manager, 
+found at the top-right of your screen:</p>
+<center><p style="height:96px; width:312px; border:1px solid gray; 
+padding:2px;">
+<img src="../images/ubuntu_update.png">
+</p></center>
 			</div>
 
 
