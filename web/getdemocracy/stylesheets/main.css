@@ -43,9 +43,11 @@ a:hover {
 }
 
 #subdesc {
-	font:normal 11px Verdana, Arial, sans-serif;
+	font:normal 12px Verdana, Arial, sans-serif;
 	color:#172629;
-	margin:2px 0 8px 0;
+	margin:0 0 8px 0;
+	float: left;
+	width: 160px;
 }
 
 #otherplat a.plathead {
@@ -173,15 +175,35 @@ border: none;
 	
 	
 #subcallout	{
-	background:#f8f8f8 url('../images/bgr_subarea.gif') 0 100% no-repeat;
+	background: url('../images/bgr_subareadouble.gif') 0 0 no-repeat;
 	width:780px;
-	margin:-4px auto 0 auto;
+	height: 179px;
+	margin:-5px auto 0 auto;
 	display:block;
-	padding:0 0 15px;
+	padding:0 0 15px 0;
 }
 	#subcontent {
-		background:url('../images/bgr_topshadow.gif') 0 0 no-repeat;
-		padding:15px 15px 0 15px;
+		padding: 8px 15px 0 15px;
+		float: left;
+		width: 355px;
+	}
+	#subnews {
+		width: 355px;
+		float: right;
+		padding: 8px 15px 0 15px;
+		color: #fff;
+		position: relative;
+	}
+	.newsrss {
+		background: url('../images/icn_rss.gif') no-repeat;
+		display: block;
+		width: 14px;
+		height: 14px;
+		overflow: hidden;
+		text-indent: -9999em;
+		position: absolute;
+		right: 20px;
+		top: 18px;
 	}
 
 	
@@ -574,14 +596,8 @@ h1 {
 }
 
 #subcallout h2 {
-	margin:0;
+	margin:0 0 5px 0;
 	padding:0;
-	display:block;
-	width:614px;
-	height:22px;
-	overflow:hidden;
-	text-indent:-9999em;
-	background:url('../images/hdr_channels.gif') no-repeat;
 }
 
 #sub-main h2, #sub-channels h2, #sub-main-2col h2, #content-1col h2 {
@@ -641,7 +657,7 @@ h6 {
 }
 
 #subcontent h5 {
-	margin:8px 0 0 0;
+	margin:2px 0 0 0;
 	font-size:14px;
 }
 
@@ -729,9 +745,11 @@ ul#nav-sub {
 	margin:0;
 	padding:0;
 	list-style:none;
+	float: right;
+	width: 175px;
 }
 	#subcontent li, #sub-channels li {
-		float:left;
+		float:right;
 	}
 	#subcontent #channel1, #sub-channels #channel1 {
 		margin-right:10px;
@@ -739,6 +757,30 @@ ul#nav-sub {
 	#subcontent #channel2, #sub-channels #channel2 {
 		margin-right:10px;
 	}
+	#subcontent li img {
+		border: 4px solid #e1e1e1;
+	}
+
+#subnews ul {
+	margin: 12px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+	#subnews li {
+		margin: 0 0 8px 0;
+		padding: 0 0 0 10px;
+		background: url('../images/icn_arrow.gif') 0 5px no-repeat;
+	}
+* html #subnews li {
+	background-position: 0 8px;
+}
+	#subnews li a {
+		color: #fff;
+		text-decoration: none;
+	}
+	#subnews li a:hover {
+		text-decoration: underline;	
+	}	
 		
 #sub-channels ul {
 	margin:10px 0 0 0;
