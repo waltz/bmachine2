@@ -183,14 +183,14 @@ border: none;
 	padding:0 0 15px 0;
 }
 	#subcontent {
-		padding: 5px 15px 0 15px;
+		padding: 7px 15px 0 15px;
 		float: left;
 		width: 355px;
 	}
 	#subnews {
 		width: 355px;
 		float: right;
-		padding: 5px 15px 0 15px;
+		padding: 7px 15px 0 15px;
 		color: #fff;
 		position: relative;
 	}
