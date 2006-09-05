@@ -29,10 +29,10 @@ include("include/screenshot.php");
 			<div id="subcontent">
 				<h2>600 Channels, All Free</h2>
 				<p id="subdesc">When you launch Democracy Player, you'll see the Channel Guide. New channels arrive every day and
-				you can subscribe with a single-click. <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your channel</a>-- the Guide is open to everyone. A few examples of channels you'll find in the Guide:</p>
+				you can subscribe with a single-click. <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your channel</a>-- the Guide is open to everyone.</p>
 				<ul>
-					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" height="171" width="114" />
-					<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
+					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
+					<h5><a href="http://www.channelfrederator.com/">Channel Frederator : one of the most popular channels.</a></h5></li>
 				</ul>
 			</div>
 			<div id="subnews">
@@ -43,6 +43,8 @@ include("include/screenshot.php");
 					<li><a href="<?= $base ?>/news/2006/09/try-out-democracy-player-09-rc0/">Help test Democracy Player 0.9</a></li>
 					<li><a href="<?= $base ?>/articles/video_podcast_shootout.php">Video Podcast Shootout: iTunes vs. Democracy Player</a></li>
 					<li><a href="<?= $base ?>/news/2006/08/democracy-now-fully-international/">Help Translate Democracy Player</a></li>
+				</ul>
+				<a href="<?= $base ?>/news/" class="morenews">More news...</a>
 			</div>
 			<div class="clearer"></div>
 		</div>

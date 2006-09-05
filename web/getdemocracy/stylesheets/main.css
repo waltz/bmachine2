@@ -205,6 +205,15 @@ border: none;
 		right: 20px;
 		top: 18px;
 	}
+	a.morenews {
+		float: right;
+		color: #fff;
+		font-size: 11px;
+		text-decoration: none;
+	}
+	a.morenews:hover {
+		text-decoration: underline;
+	}
 
 	
 #otherplat {
@@ -223,13 +232,13 @@ border: none;
 		float:left;
 		width:365px;
 		padding:10px 10px 0 0;
-		font-size:11px;
+		font-size:13px;
 	}
 	#otherplat-right {
 		float:right;
 		width:365px;
 		padding:10px 0 0;
-		font-size:11px;
+		font-size:13px;
 	}
 	#otherplat img {
 		float:left;
@@ -658,7 +667,7 @@ h6 {
 
 #subcontent h5 {
 	margin:2px 0 0 0;
-	font-size:14px;
+	font-size:13px;
 }
 
 
@@ -750,6 +759,7 @@ ul#nav-sub {
 }
 	#subcontent li, #sub-channels li {
 		float:right;
+		font-size: 11px;
 	}
 	#subcontent #channel1, #sub-channels #channel1 {
 		margin-right:10px;
