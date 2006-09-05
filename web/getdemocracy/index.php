@@ -32,7 +32,8 @@ include("include/screenshot.php");
 				you can subscribe with a single-click. <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your channel</a>-- the Guide is open to everyone.</p>
 				<ul>
 					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
-					<h5><a href="http://www.channelfrederator.com/">Channel Frederator : one of the most popular channels.</a></h5></li>
+						<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5>
+						One of the most popular channels.</li>
 				</ul>
 			</div>
 			<div id="subnews">
