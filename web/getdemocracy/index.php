@@ -27,19 +27,24 @@ include("include/screenshot.php");
 		</div>
 		<div id="subcallout">
 			<div id="subcontent">
-				<h2>Over 500 Free Channels in the Built-in Channel Guide</h2>
+				<h2>600 Channels, All Free</h2>
 				<p id="subdesc">When you launch Democracy Player, you'll see the Channel Guide. New channels arrive every day and
 				you can subscribe with a single-click. <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your channel</a>-- the Guide is open to everyone. A few examples of channels you'll find in the Guide:</p>
 				<ul>
-					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.png" height=157 width=235 border="4" />
-					<h5>Channel Frederator (<a href="http://www.channelfrederator.com/">website</a>) </h5></li>
-					<li id="channel2"><img id="channels" src="<?= $base ?>/images/lady_sovereign.jpg" border="4" height=157 width=235 />
-					<h5>Telemusicvision <a href="http://telemusicvision.com/">(website)</a></h5></li>
-					<li id="channel3"><img id="channels" src="<?= $base ?>/images/media_that_matters.png" border="4" height=157 width=235 />
-					<h5>Media That Matters (<a href="http://mediathatmattersfest.org">website</a>)</h5></li>
+					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" height="171" width="114" />
+					<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
 				</ul>
-				<div class="clearer"></div>
 			</div>
+			<div id="subnews">
+				<h2>Democracy News</h2>
+				<a href="<?= $base ?>/news/feed/" class="newsrss">RSS Feed</a>
+				<ul>
+					<li><a href="<?= $base ?>/news/2006/08/hiring-business-development-director/">Now Hiring: Business Development Director</a></li>
+					<li><a href="<?= $base ?>/news/2006/09/try-out-democracy-player-09-rc0/">Help test Democracy Player 0.9</a></li>
+					<li><a href="<?= $base ?>/articles/video_podcast_shootout.php">Video Podcast Shootout: iTunes vs. Democracy Player</a></li>
+					<li><a href="<?= $base ?>/news/2006/08/democracy-now-fully-international/">Help Translate Democracy Player</a></li>
+			</div>
+			<div class="clearer"></div>
 		</div>
 		<div id="otherplat">
 			<h3>The Democracy Internet Television Platform</h3>
