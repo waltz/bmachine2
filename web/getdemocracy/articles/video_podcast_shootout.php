@@ -82,16 +82,16 @@ CREATORS: If you're convinced that Democracy Player is the best way to present y
 
 							<li><strong>FOR ALL USERS</strong>
 							<br />
-							• Democracy Player was built specifically for video RSS.  The interface is easier to use and more intuitive. 
+							¥ Democracy Player was built specifically for video RSS.  The interface is easier to use and more intuitive. 
 <br /><br />
-							• Democracy Player supports BitTorrent feeds and works as a standalone BitTorrent client.  iTunes does neither.
+							¥ Democracy Player supports BitTorrent feeds and works as a standalone BitTorrent client.  iTunes does neither.
 <br /><br />
-							• iTunes lets you sync to video iPods, Democracy Player does not (coming soon, we hope).
+							¥ iTunes lets you sync to video iPods, Democracy Player does not (coming soon, we hope).
 <br /><br />
-							• Like a TiVo, Democracy Player helps you manage disk space automatically.
+							¥ Like a TiVo, Democracy Player helps you manage disk space automatically.
 <br /><br />
 
-							• Democracy Player's built-in Channel Guide lists more than 500 video channels, compared to only about 150 in iTunes' video podcast directory.  Democracy Player can play any feed that works with iTunes.  Most feeds that are in the iTunes directory are also in the Democracy Channel Guide.</li>
+							¥ Democracy Player's built-in Channel Guide lists more than 500 video channels, compared to only about 150 in iTunes' video podcast directory.  Democracy Player can play any feed that works with iTunes.  Most feeds that are in the iTunes directory are also in the Democracy Channel Guide.</li>
 						</ul>
 					</li>	
 				</ul>
