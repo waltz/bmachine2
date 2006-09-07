@@ -17,16 +17,16 @@ include "../include/start.php";
 			</div>
 
 			<div id="downloads">
-			<p><strong>WINDOWS AND MAC VERSIONS</strong></p>
+			<p><strong>OTHER VERSIONS:</strong></p>
 
-							<div class="column3" style="width:220px; margin-right:20px;">
+							<div class="column3" style="width:150px; margin-right:20px;">
 								<a href="osx.php" title="Download Democracy Player for Mac OS X"><img src="<?= $base ?>/downloads/images/os-apple.gif" alt="" /></a>
 								<h2>Mac OS X</h2>
-								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X"> Download Now</a></h2><p>Universal Binary - Version <?= $dtv_version ?> (beta)<br />
+								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X"> Download Now</a></h2><p>Version <?= $dtv_version ?> (beta)<br />
 								
 									<span class="small">Requires OS X 10.3+ and QuickTime 7</span></p>
 							</div>
-							<div class="column3" style="width:220px; margin-right:20px;">
+							<div class="column3" style="width:150px; margin-right:20px;">
 								<a href="windows.php" title="Download Democracy Player for Windows XP"><img src="<?= $base ?>/downloads/images/os-windows.gif" alt="" /></a>
 								<h2>Windows</h2>
 								<h2><a href="windows.php" title="Download Democracy Player for Windows XP">Download Now</a></h2>
@@ -34,11 +34,28 @@ include "../include/start.php";
 									<span class="small">Requires Windows XP / 2000<br />128MB RAM<br /><br />Note: should work on Windows 95/98/ME with DirectX 3.0 or later,<br />but not officially supported.</span></p>
 							</div>
 
+							<div class="column3" style="width:150px; margin:0px;">
+								<img src="<?= $base ?>/downloads/images/os-fedora.gif" alt="" />
+								<h2>Fedora</h2>
+								<p>Version: <?= $dtv_version ?> (Beta)<br />
+								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
+								<Br /><Br />
+								<strong>Fedora Core 5 Binaries:</strong><br />
+								<a href="fc5std.php">Download Standard</a><br />
+								<a href="fc5dbg.php">Download Debugging</a><Br />
+								<a href="fc5src.php">Download Source</a><Br /><Br />
+
+								<strong>Fedora Core 4 Binaries:</strong><Br />
+								<a href="fc4std.php">Download Standard</a><br />
+								<a href="fc4dbg.php">Download Debugging</a><Br />
+								<!--<a href="fc4src.php">Source</a><Br /><Br />-->
+							</div>
+
 
 			<br style="clear: both;" />				<br style="clear: both;" />
 
 
-							<p><a name="linux"></a><strong>LINUX VERSIONS</strong></p>
+							<!--<p><a name="linux"></a><strong>LINUX VERSIONS</strong></p>-->
 
 
 							<div class="column3" style="width:150px; margin-right: 20px;">
@@ -60,21 +77,14 @@ include "../include/start.php";
 
 
 							<div class="column3" style="width:150px; margin:0px;">
-								<img src="<?= $base ?>/downloads/images/os-fedora.gif" alt="" />
-								<h2>Fedora</h2>
+								<img src="<?= $base ?>/downloads/images/os-gentoo.png" alt="Gentoo Linux"/>
+								<h2>Gentoo</h2>
 								<p>Version: <?= $dtv_version ?> (Beta)<br />
-								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
-								<Br /><Br />
-								<strong>Fedora Core 5 Binaries:</strong><br />
-								<a href="fc5std.php">Download Standard</a><br />
-								<a href="fc5dbg.php">Download Debugging</a><Br />
-								<a href="fc5src.php">Download Source</a><Br /><Br />
-
-								<strong>Fedora Core 4 Binaries:</strong><Br />
-								<a href="fc4std.php">Download Standard</a><br />
-								<a href="fc4dbg.php">Download Debugging</a><Br />
-								<!--<a href="fc4src.php">Source</a><Br /><Br />-->
+								(Coming Soon)
+								<!--<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>-->
 							</div>
+
+							
 							<div class="clearer"></div>
 						</div>
 						<div style="background-color: #f3f3f3; padding: 4px; font-size: 11px;"><strong>Known Linux Bugs</strong> - There are 2 important known bugs on Linux: crash while playing H.264 videos and a focus control bug. <a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Learn More >></a> </div>
