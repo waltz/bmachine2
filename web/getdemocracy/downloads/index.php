@@ -87,7 +87,9 @@ include "../include/start.php";
 							
 							<div class="clearer"></div>
 						</div>
-						<div style="background-color: #f3f3f3; padding: 4px; font-size: 11px;"><strong>Known Linux Bugs</strong> - There are 2 important known bugs on Linux: crash while playing H.264 videos and a focus control bug. <a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Learn More >></a> </div>
+						<div 
+style="background-color: #f3f3f3; padding: 4px; font-size: 
+11px;"><strong>Known Linux Bug</strong> - Some versions of libxine cause a crash when playing H.264 videos. <a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Learn More</a> </div>
 			<h4>Democracy Player Source Code</h4>
 			<p>Developers - We recommend that developers use the <a href="https://develop.participatoryculture.org/projects/democracy/
 			">lastest code from subversion</a>, but
