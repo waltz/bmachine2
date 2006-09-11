@@ -9,7 +9,7 @@
 			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about new features in version 0.9</a> - Now hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 			</p>
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1.  <br />Sign-up to get notified:</strong></p>
+			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1. Sign-up to get notified:</strong></p>
 
 
 			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
@@ -18,7 +18,7 @@
 				<input type="hidden" name="htmlemail" value="1" />
 				<input type="hidden" name="list[4]" value="signup" />
 				<input type="hidden" name="listname[4]" value="Viewers" />
-				<input style="font-size: 17px;" type="submit" id="emailsubmit" name="subscribe" value="Notify Me" onClick="return checkform();" />
+				<input style="font-size: 17px;" type="submit" id="emailsubmit" name="subscribe" value="Tell Me When It's Ready" onClick="return checkform();" />
 			</form>
 
 			<p style="font-size:80%; color:#999999; text-align: center;">We won't share your address with anyone.</p>
@@ -26,6 +26,17 @@
 
 			</div>
 
+
+<div id="post-download-form">
+
+<center>
+<a href="http://www.getdemocracy.com/sheepsweek"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week"></a><br />
+<a href="http://www.getdemocracy.com/sheepsweek">Sheeps Week - taking internet TV to the next level - all this week
+</center>
+
+
+
+</div>
 
 
 
