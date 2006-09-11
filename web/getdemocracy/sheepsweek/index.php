@@ -35,7 +35,7 @@
 		<img style="float: left;" src="sheeps-tuesday.png" alt="monday" />
 		
 				
-		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">dude, you have to wait...</h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
 		Check back around 1 PM EST on Tuesday.<br />&nbsp;
 		</p>
