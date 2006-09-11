@@ -12,7 +12,7 @@
 		<p style="color: #666; padding-bottom: 0px;">
 		This week we're taking internet TV to the next level.	Each day we'll announce something new: a major new version of <a style="color: #666; font-weight: normal;" href="http://www.getdemocracy.com">Democracy Player</a>, new websites, new articles.  Every project is designed to either support internet video creators or to give viewers the best internet tv experience ever.  Why 'sheeps week'?  Because we have a weeks worth of stuff and this was the best pun on '<a style="color: #666; font-weight: normal;" href="http://www.slate.com/id/2095577/">sweeps week</a>' that we could think of.
 </p>		
-		<p style="text-align: right; "><a style="color: #555; font-weight: normal; href="http://www.getdemcoracy.com/news/">blog</a> - <a style="text-decoration: none;" href="http://getdemocracy.com/news/feed/"><img src="http://getdemocracy.com/images/feed-white.gif"></a> <a style="color: #555; font-weight: normal;" href="http://boomdock.local/~nicholaspreville/getdemocracy/news/feed/">RSS Feed</a>	
+		<p style="text-align: right; "><a style="color: #555; font-weight: normal;" href="http://www.getdemocracy.com/news/">blog</a> - <a style="text-decoration: none;" href="http://getdemocracy.com/news/feed/"><img src="http://getdemocracy.com/images/feed-white.gif"></a> <a style="color: #555; font-weight: normal;" href="http://boomdock.local/~nicholaspreville/getdemocracy/news/feed/">RSS Feed</a>	
 		</p>
 		
 
