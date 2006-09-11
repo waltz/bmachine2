@@ -987,7 +987,6 @@ text-align:left;
 /* END LISTS */
 /* --------- */
 
-
 /* ------------------- */
 /* BEGIN FORM ELEMENTS */
 
@@ -1241,3 +1240,17 @@ small.commentmetadata a {
 	#homelink a {
 		text-decoration:none;
 	}
+
+/* Feature table layout */
+#featurelist table td {
+	font-size:10px;
+	text-align:center;
+	background:#DDDDDD;
+}
+
+#featurelist table td.top { background: #FFFFFF; }
+#featurelist table td.head { background: #00A1B3; font-size:12px text-align:left;}
+#featurelist table td.yes { background: #cfc; width:64px;}
+#featurelist table td.no { background: #fcc; width:64px;}
+#featurelist table td.partial { background: #ffa; width:64px; }
+
