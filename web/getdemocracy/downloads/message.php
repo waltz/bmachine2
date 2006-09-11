@@ -4,7 +4,7 @@
 
 			<div id="post-download-form">
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're adding lots of new features for the next release, version 0.9.</strong><br />Sign-up to get notified when we release it:</p>
+			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're adding lots of new features for the next release, version 0.9.1.</strong><br />Sign-up to get notified when we release it:</p>
 
 
 			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">

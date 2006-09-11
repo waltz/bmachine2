@@ -47,8 +47,8 @@ include "../include/start.php";
 
 								<strong>Fedora Core 4 Binaries:</strong><Br />
 								<a href="fc4std.php">Download Standard</a><br />
-								<a href="fc4dbg.php">Download Debugging</a><Br />
-								<!--<a href="fc4src.php">Source</a><Br /><Br />-->
+								<!--<a href="fc4dbg.php">Download Debugging</a><Br />-->
+								<a href="fc4src.php">Source</a><Br /><Br />
 							</div>
 
 
