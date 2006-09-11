@@ -32,6 +32,10 @@
 
 <ul>
 
+
+<li>Watch Democracy in Action: <a href="http://screencastsonline.com/sco/h264/SCO0064-Democracy-640x360-h264.mov">Democracy Player Screencast</a></li>
+
+
 <li>First time using Democracy?  <a href="http://www.getdemocracy.com/walkthrough">Follow the Walkthrough</a></li>
 
 <li>Compare Democracy vs. iTunes: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout</a></li>
