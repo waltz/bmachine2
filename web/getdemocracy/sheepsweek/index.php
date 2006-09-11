@@ -22,7 +22,7 @@
 		<img style="float: left;" src="sheeps-monday.png" alt="monday" />
 		
 				
-		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;"> <!-- <a href="http://www.getdemocracy.com">Democracy Player 0.9 Released!</a> -->  Democracy Player 0.9 (check back in 10 minutes)</h2>
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;"><a href="http://www.getdemocracy.com">Democracy Player 0.9 Released!</a></h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
 		A major update to the best video RSS player in the world.  New features, new polish.
 		</p>
