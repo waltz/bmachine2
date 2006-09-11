@@ -85,7 +85,7 @@ include("include/screenshot.php");
 
 			<h4>Why We Make Democracy</h4>
 			<p>Our mission is to support video publishers and give viewers an internet video experience beyond any other product.  We hope to build a platform that will let anyone around the world watch and publish channels of high quality video.</p>
-			<p>We have two crucial advantages over traditional software development. First, being a non-profit organization means we focus on mission to support our users, not on a mission to create returns for investors.  Second, by making our software free and open-source, anyone can contribute to helping us build the best video application in the world.
+			<p>We have two crucial advantages over traditional software development. First, being a non-profit organization means we focus on a mission to support our users, not on a mission to create returns for investors.  Second, by making our software free and open-source, anyone can contribute to helping us build the best video application in the world.
 			</p>
 
 
