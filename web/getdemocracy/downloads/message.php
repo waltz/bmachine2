@@ -30,8 +30,8 @@
 <div id="post-download-form">
 
 <center>
-<a href="http://www.getdemocracy.com/sheepsweek"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week"></a><br />
-<a href="http://www.getdemocracy.com/sheepsweek">Sheeps Week - taking internet TV to the next level - all this week
+<a href="http://www.getdemocracy.com/sheepsweek"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week" /></a><br />
+Check it out: <a href="http://www.getdemocracy.com/sheepsweek">Sheeps Week - taking internet TV to the next level</a> - all this week
 </center>
 
 
