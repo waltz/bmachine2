@@ -41,6 +41,49 @@
 		</p>
 			
 		</div>
+		
+		
+		<div style="clear: both; position: relative; padding: 10px 0 20px 0; border-top: 1px solid #ddd;">
+	
+		<img style="float: left;" src="sheeps-wednesday.png" alt="wednesday" />
+		
+				
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<p style="padding: 5px 0 0 300px; margin: 0;">
+		Check back around 1pm EST on Wednesday...<br />&nbsp;
+		</p>
+			
+		</div>
+		
+		
+		<div style="clear: both; position: relative; padding: 10px 0 20px 0; border-top: 1px solid #ddd;">
+	
+		<img style="float: left;" src="sheeps-thursday.png" alt="wednesday" />
+		
+				
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<p style="padding: 5px 0 0 300px; margin: 0;">
+		Check back around 1pm EST on Thursday...<br />&nbsp;
+		</p>
+			
+		</div>
+		
+		
+				<div style="clear: both; position: relative; padding: 10px 0 20px 0; border-top: 1px solid #ddd;">
+	
+		<img style="float: left;" src="sheeps-friday.png" alt="wednesday" />
+		
+				
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<p style="padding: 5px 0 0 300px; margin: 0;">
+		Check back around 1pm EST on Friday...<br />&nbsp;
+		</p>
+			
+		</div>
+		
+		
+
+
 
 <div style="clear: both; position: relative; padding: 10px 0 20px 0; border-top: 1px solid #ddd;">
 &nbsp;
