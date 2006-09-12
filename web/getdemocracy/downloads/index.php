@@ -79,9 +79,9 @@ include "../include/start.php";
 							<div class="column3" style="width:150px; margin:0px;">
 								<img src="<?= $base ?>/downloads/images/os-gentoo.png" alt="Gentoo Linux"/>
 								<h2>Gentoo</h2>
+								<h2><a href="debian.php">Download Now</a></h2>
 								<p>Version: <?= $dtv_version ?> (Beta)<br />
-								(Coming Soon)
-								<!--<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>-->
+								<a href="https://develop.participatoryculture.org/projects/democracy/wiki/LinuxNotes">Install Notes</a>
 							</div>
 
 							
