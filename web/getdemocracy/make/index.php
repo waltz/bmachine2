@@ -24,11 +24,9 @@ include "../include/start.php";
 			<h5>On your own website:</h5>
 			<p>You can use our <a href="<?= $base ?>/broadcast/">Broadcast Machine</a> software to create channels and publish videos as easily as posting to your blog. Quickly upload files, create torrents, add metadata, and donation links. Broadcast Machine gives you the most control of any option but needs to be installed on a website. <a href="<?= $base ?>/broadcast">Get Broadcast Machine</a> and check out our <a href="channel-guide/">Step by Step Guide</a>.</p>
 
-			<h5>On your blog:</h5>
-			<p>If you have a blog you can use free hosting at Archive.org to add videos to your text and photo blogging. <a href="http://www.archive.org">Learn More</a></p>
+			<h5>On Blip.TV</h5>
+			<p><a href="http://www.blip.tv">Blip</a> is a free service that provides you with your own Democracy-compatible video blog.</p>
 
-			<h5>On Ourmedia:</h5>
-			<p>Ourmedia.org provides free video hosting and generates a channel for each user. <a href="http://www.ourmedia.org/user/register">Signup</a> and get the video publisher.</p>
 
 			<h5>On Video Bomb:</h5>
 			<p>With <a href="http://www.videobomb.com">Video Bomb</a> you can link to ('bomb') interesting videos that you find on the web and it will pull them into a channel-- it's easy. Video Bomb does not provide hosting, so the videos need to be available online somewhere first.</p>
