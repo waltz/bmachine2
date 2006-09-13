@@ -780,7 +780,6 @@ ul#nav-sub {
 		margin: 0 0 8px 0;
 		padding: 0 0 0 10px;
 		background: url('../images/icn_arrow.gif') 0 5px no-repeat;
-		font-size: 16px;
 	}
 * html #subnews li {
 	background-position: 0 8px;
@@ -788,6 +787,7 @@ ul#nav-sub {
 	#subnews li a {
 		color: #fff;
 		text-decoration: none;
+		font-size: 16px;
 	}
 	#subnews li a:hover {
 		text-decoration: underline;	
