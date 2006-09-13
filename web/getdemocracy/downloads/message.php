@@ -5,9 +5,7 @@
 			<div id="post-download-form">
 
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;>
-			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">See the new features in this version</a> - Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
-			</p>
+			
 
 			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1. Sign-up to get notified:</strong></p>
 
@@ -23,15 +21,21 @@
 
 			<p style="font-size:80%; color:#999999; text-align: center;">We won't share your address with anyone.</p>
 
+<br /><br />
 
+<p style="font-size: 18px; text-align: center;" text-align: center;>
+			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">See the new features in this version</a> - Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
+			</p>
+			
+			
 			</div>
 
 
 <div id="post-download-form">
 
 <center>
-<a href="http://www.getdemocracy.com/sheepsweek"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week" /></a><br />
-Check it out: <a href="http://www.getdemocracy.com/sheepsweek">Sheeps Week - taking internet TV to the next level</a> - all this week
+<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week" /></a><br />
+<a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
 </center>
 
 
