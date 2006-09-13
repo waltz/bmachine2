@@ -52,14 +52,14 @@ include("include/screenshot.php");
 		</div>
 		<div id="otherplat">
 			<h3>Democracy: A Platform, Not Just an Application</h3>
-			<p>We are working to build the internet TV tools possible to ensure that people are in control of their own media. In addition to the player and the Channel Guide, our platform has two other major components. <a href="http://www.participatoryculture.org/">Learn more about our platform >></a></p>
+			<p>We are working to build the internet TV tools possible to ensure that people are in control of their own media. In addition to the player and the Channel Guide, our platform has two other major components. <a href="http://www.participatoryculture.org/">Learn more >></a></p>
 			<div id="otherplat-left">
 				<a href="<?= $base ?>/broadcast/"><img src="images/img_broadcastmachine.gif" border="0" /></a>
-				<a href="<?= $base ?>/broadcast/" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br /> <a href="<?= $base ?>/broadcast/">Learn More >></a>
+				<a href="<?= $base ?>/broadcast/" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br />
 			</div>
 			<div id="otherplat-right">
 				<a href="http://videobomb.com"><img src="images/img_videobomb.gif" border="0" /></a>
-				<a href="http://videobomb.com" class="plathead">Video Bomb</a><br /> The best videos from everywhere on the web. *Bomb* your favorites to push them to the front page. You can now bomb via Democracy Player.<br /> <a href="http://videobomb.com">Go to Video Bomb >></a>
+				<a href="http://videobomb.com" class="plathead">Video Bomb</a><br /> The best videos from everywhere on the web. *Bomb* your favorites to push them to the front page. You can now bomb via Democracy Player.<br />
 			</div>
 			<div class="clearer"></div>
 		</div>
