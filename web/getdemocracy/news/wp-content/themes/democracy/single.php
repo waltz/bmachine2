@@ -15,7 +15,7 @@
 					<div class="byaux">by</span> <?php the_author() ?></div>
 					<div class="postline">
 					<?php the_content(__('(more...)')); ?>
-					<?php edit_post_link('====EDIT====', '', ''); ?>
+					<?php edit_post_link('====EDIT THIS POST====', '', ''); ?>
 					</div>
 					<?php comments_template(); // Get wp-comments.php template ?>
 
