@@ -297,7 +297,7 @@ border: none;
 	#content-1col p {
 		text-align:left;
 		margin:5px 0 20px 0;
-		font-size:14px;
+		font-size:13px;
 	}
 #content-2col {
 	margin:0 auto;
@@ -318,7 +318,7 @@ border: none;
 	}
 		#content-left p, #content-left-2col p {
 			margin:0 0 20px 0;
-			font-size:14px;
+			font-size:13px;
 		}
 	#content-right {
 		float:right;
@@ -780,6 +780,7 @@ ul#nav-sub {
 		margin: 0 0 8px 0;
 		padding: 0 0 0 10px;
 		background: url('../images/icn_arrow.gif') 0 5px no-repeat;
+		font-size: 16px;
 	}
 * html #subnews li {
 	background-position: 0 8px;
