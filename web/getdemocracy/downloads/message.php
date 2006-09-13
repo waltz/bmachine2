@@ -35,7 +35,7 @@
 
 <center>
 <a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/tcc.gif" alt="the channel channel" /></a><br />
-NEW! <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
+NEW! <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels<br /><br />
 </center>
 
 
