@@ -9,7 +9,7 @@
 
 					
 					<?php		c2c_get_recent_posts (
-						$num_posts = 6,
+						$num_posts = 8,
 						$format = "%post_date%<h2 class=\"posttitle\">%post_URL%</h2><div class=\"byaux\">by %post_author%</div>%post_content%\n<p class=\"commentline\"><a href='%comments_url%'>Comments: %comments_count%</a></p>",
 						$categories = '',
 						$orderby = 'date',
@@ -21,6 +21,8 @@
 					?>	
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					
+					<?php edit_post_link('Edit', '', ' | '); ?>
 					
 					<?php comments_template(); // Get wp-comments.php template ?>
 
