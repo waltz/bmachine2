@@ -48,9 +48,9 @@
 		<img style="float: left;" src="sheeps-wednesday.png" alt="wednesday" />
 		
 				
-		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;"><a href="http://www.promotevideofeed.com/">10 Ways to Promote a Video Feed</a> and <a href="http://www.makevideofeed.com/">How to Make a Video Feed</a></h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
-		Check back around 1pm EST on Wednesday...<br />&nbsp;
+		Keep it simple.  Get it done.<br />&nbsp;
 		</p>
 			
 		</div>
