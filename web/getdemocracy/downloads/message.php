@@ -34,8 +34,8 @@
 <div id="post-download-form">
 
 <center>
-<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/sheepssmall.png" alt="sheeps week" /></a><br />
-<a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
+<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/tcc.gif" alt="the channel channel" /></a><br />
+NEW! <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
 </center>
 
 
