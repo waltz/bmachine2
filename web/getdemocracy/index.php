@@ -31,7 +31,7 @@ include("include/screenshot.php");
 				<p id="subdesc">When you launch Democracy Player, you'll see the built-in Channel Guide. New channels arrive every day, and you can subscribe to any with a single-click.  The Guide is open to everyone: <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit a Video Feed</a></p>
 				<ul>
 					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
-						<a href="http://www.channelfrederator.com/">Channel Frederator</a> is a wonderful cartoon channel that comes installed with Democracy.</li>
+						<a href="http://www.channelfrederator.com/">Channel Frederator</a> is a great cartoon channel that comes with Democracy.</li>
 				</ul>
 			</div>
 			<div id="subnews">
