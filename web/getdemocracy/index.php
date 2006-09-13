@@ -41,7 +41,7 @@ include("include/screenshot.php");
 				<ul>
 					
 					<li><a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Democracy Player 0.9 Released!</a></li>
-					<li><a href="http://www.thechannelchannel.tv">The Channel Channel - 60 second previews of internet TV channels</a></li>
+					<li><a href="http://www.thechannelchannel.tv">The Channel Channel<br />60 second previews of internet TV channels</a></li>
 					
 					<li><a href="<?= $base ?>/news/2006/08/hiring-business-development-director/">Now Hiring: Business Development Director</a></li>
 					
