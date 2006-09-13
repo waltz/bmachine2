@@ -32,7 +32,7 @@ include("include/screenshot.php");
 				<ul>
 					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
 						<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5>
-						One of the most popular channels.</li>
+						A great cartoon channel.</li>
 				</ul>
 			</div>
 			<div id="subnews">
