@@ -1,34 +1,44 @@
 <?php get_header(); ?>	
 	
-		<div class="left">
+<div id="content-2col">
+			<div id="content-left-2col">
+
 			<!--NEWS & UPDATES-->
-			<div class="box box-mid box-left">
-				<div id="page_title">
-					<h1>Democracy Internet TV Blog</h1>
-				</div>
-				<div class="box-content">
+
+					<div id="rssfeedca">Democracy Internet TV Blog&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></div>
+
+					
+					<?php		c2c_get_recent_posts (
+						$num_posts = 8,
+						$format = "%post_date%<h2 class=\"posttitle\">%post_URL%</h2><div class=\"byaux\">by %post_author%</div>%post_content%\n<p class=\"commentline\"><a href='%comments_url%'>Comments: %comments_count%</a></p>",
+						$categories = '',
+						$orderby = 'date',
+						$order = 'DESC',
+						$offset = '0',
+						$date_format = '\<\d\i\v \c\l\a\s\s\=\"\d\a\t\e\b\l\o\c\k\"\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\t\o\p\"\>M\<\/\d\i\v\>\<\d\i\v\ \c\l\a\s\s\=\"\d\a\t\e\b\o\t\t\o\m\"\>d\<\/\d\i\v\>\<\/\d\i\v\>',
+						$authors = '',
+						$include_passworded_posts = 'false');
+					?>	
+					
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-					<h2>YO<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
-					<h3><?php the_time('l, F jS, Y') ?> <span style="font-weight:normal;">at</span> <?php the_time() ?> <span style="font-weight:normal;">by</span> <?php the_author() ?></h3>
 					
-					<?php the_content(__('(more...)')); ?>
-					
-									<p class="postmetadata"><?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
-					
-					
+					<?php comments_template(); // Get wp-comments.php template ?>
+
 					<?php endwhile; else: ?>
 					<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 					<?php endif; ?>
-				</div>	
-			</div>
+
 			<!--/NEWS & UPDATES-->
-		</div>
+
+			
+  </div>   <!--/left-->
+
 		
 		<?php get_sidebar(); ?>
 		
-  </div>
-  <!--/CONTENT BLOCK-->
 
+
+			<div class="clearer"></div>
 <?php get_footer(); ?>
