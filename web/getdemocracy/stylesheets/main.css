@@ -1118,7 +1118,7 @@ padding: 10px;
 .byaux {
 	font-size:12px;
 	padding:3px 0 0 0;
-	margin: 0 0 20px 55px;
+	margin: 0 0 30px 55px;
 	font-weight:bold;
 }
 
@@ -1129,7 +1129,7 @@ padding: 10px;
 	height:49px;
 	background:url("http://getdemocracy.com/images/date.png") no-repeat;
 	text-align:center;
-	margin:0 8px 10px 0;
+	margin:0 8px 0px 0;
 	color:#172944;
 	padding:5px 0 0 0;
 }
