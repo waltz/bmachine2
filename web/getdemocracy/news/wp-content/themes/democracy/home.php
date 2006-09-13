@@ -19,10 +19,10 @@
 						$authors = '',
 						$include_passworded_posts = 'false');
 					?>	
+					<?php edit_post_link('Edit', '', ' | '); ?>
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
-					<?php edit_post_link('Edit', '', ' | '); ?>
 					
 					<?php comments_template(); // Get wp-comments.php template ?>
 
