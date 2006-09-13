@@ -1103,7 +1103,8 @@ padding: 10px;
 	padding:0;
 	font-size:22px;
 	line-height:1em;
-}
+	font-family: 'Century Gothic', arial, sans-serif;
+	}
 
 #rssfeedca {
 	margin:20px 0 30px 0;

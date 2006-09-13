@@ -6,7 +6,7 @@
 
 
 			<p style="font-size: 18px; text-align: center;" text-align: center;>
-			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about new features in version 0.9</a> - Now hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
+			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">See the new features in this version</a> - Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 			</p>
 
 			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1. Sign-up to get notified:</strong></p>
