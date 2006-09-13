@@ -1106,7 +1106,7 @@ padding: 10px;
 }
 
 #rssfeedca {
-	margin:20px 0;
+	margin:20px 0 25px 0;
 	padding:5px;
 	font-size:22px;
 	font-weight:bold;
@@ -1129,7 +1129,7 @@ padding: 10px;
 	height:49px;
 	background:url("http://getdemocracy.com/images/date.png") no-repeat;
 	text-align:center;
-	margin:0 8px 0 0;
+	margin:0 8px 10px 0;
 	color:#172944;
 	padding:5px 0 0 0;
 }
