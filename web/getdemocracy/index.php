@@ -92,7 +92,7 @@ include("include/screenshot.php");
 
 
 <h4>Programmers: Help us Build</h4>
-				<p>Democracy Player is free and open-source (GPL). Can you commit some time to a great cause? <a href="<?= $base ?>/code/">Learn more about the project</a>, then join the mailing list.</p>
+				<p>Democracy Player is free and open-source (GPL). Can you commit some time to a great cause? <a href="<?= $base ?>/code/">Learn more about the project</a> and join the mailing list.</p>
 				
 				
 				
