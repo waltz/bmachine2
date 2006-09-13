@@ -590,6 +590,10 @@ h1 {
 	padding-top: 10px;
 }
 
+.content a {
+	font-weight: normal;
+}
+
 #downloads h2 {
 	margin:0;
 	font-size:18px;
