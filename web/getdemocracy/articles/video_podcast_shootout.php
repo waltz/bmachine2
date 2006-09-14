@@ -69,9 +69,9 @@ VIEWERS: We hope this article has convinced you that it's worth trying Democracy
 CREATORS: If you're convinced that Democracy Player is the best way to present your content, don't forget to <a href="http://subscribe.getdemocracy.com/">Make a 1-Click Subscribe Button</a> and <a href="http://channelguide.pculture.org/?q=submitchannel">Submit Your Channel to the Channel Guide</a>.
 </p>
 
-
-
 			</div>
+			
+			
 			<div id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
 					<li><strong>The Key Points</strong>

@@ -66,8 +66,9 @@
 <p>Advocates: video online has had a 2nd rate reputation with the tech elite.  It seems a little trashy and has tended to appeal to the lowest common denominator.  But that's changing.  Truly excellent video channels are popping-up.  Don't forget that television is the most important mass medium in our culture.  So when you talk about open-source, open-standards, Firefox, net-neutrality, xhtml/css, blogosphere and netroots, you should also be talking about video over RSS.  It's how the internet is supposed to work.</p>
 
 
-
 			</div>
+
+
 			<div id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
 					<li><strong>The Key Points</strong>
