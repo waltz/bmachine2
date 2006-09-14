@@ -4,7 +4,7 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				&nbsp;
-				<h2>Open Video Matters, RSS Can Get Us There</h2>
+				<h2>Open Video Matters, RSS Can Help</h2>
 				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
