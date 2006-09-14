@@ -69,7 +69,7 @@
 			</div>
 
 
-			<div id="content-right-2col-art">
+			<div style="width: 150px;" id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
 					<li><strong>The Key Points</strong>
 						<ul>
