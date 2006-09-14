@@ -205,6 +205,13 @@ border: none;
 		line-height: 1.1em;
 		font-size: 18px;
 	}
+
+	#subnews li a {
+			font-family: 'Century Gothic', 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+		line-height: 1.1em;
+		font-size: 18px;	
+	}
+
 	.newsrss {
 		background: url('../images/icn_rss.gif') no-repeat;
 		display: block;
