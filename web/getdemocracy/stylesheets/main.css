@@ -22,6 +22,23 @@ a:link, a:visited {
 	font-weight:bold;
 }
 
+h3 {
+	font-size:22px;
+	margin:0;
+}
+
+h4 {
+	margin:0 0 3px 0;
+	font-size:22px;
+	color:#1b2c49;
+	border-bottom:1px solid #ccc;
+	display:block;
+	background:#f5f5f5;
+	padding:2px 0 2px 5px;
+	text-align:left;
+}
+
+
 a:hover {
 	color:#0066CC;
 	font-weight:bold;
@@ -472,9 +489,9 @@ border: none;
 }
 
 #sub-main-2col h3 {
-	font-size:22px;
+	font-size:20px;
 	color:#363636;
-	margin:17px 0 8px 0;
+	margin:17px 0 12px 0;
 }
 
 #steps {
@@ -641,21 +658,6 @@ h1 {
 	text-align:left;
 }
 
-h3 {
-	font-size:25px;
-	margin:0;
-}
-
-h4 {
-	margin:0 0 3px 0;
-	font-size:22px;
-	color:#1b2c49;
-	border-bottom:1px solid #ccc;
-	display:block;
-	background:#f5f5f5;
-	padding:2px 0 2px 5px;
-	text-align:left;
-}
 
 #content-right-broad h4 {
 	margin:0;
@@ -849,7 +851,7 @@ ul#nav-sub {
 		float:left;
 		margin:0;
 		padding:0 0 3px 0;
-		margin:0 33px 0px 0;
+		margin:0 36px 0px 0;
 		font-size: 12px;
 
 	}

@@ -4,7 +4,7 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				&nbsp;
-				<h2>Open Video Matters, RSS Can Help</h2>
+				<h2>Openness Matters. RSS Can Help.<br />THE FUTURE OF ONLINE VIDEO</h2>
 				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
@@ -13,7 +13,7 @@
 
 <p>We are living at a moment of massive media convergence onto the internet.  Will television move online in an open and accessible way?  Or will it remain centralized, controlled by a few large corporations?  So far, things aren't looking good.</p>
 
-<h3>Part I: The Two Key Questions</h3>
+<h3>1: The Two Key Questions</h3>
 
 <p>This essay started as an email to Mike Hudack at Blip.tv.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that Blip should feature RSS subscribe buttons more prominently on their site and explicitly encourage their viewers to obtain content through RSS.  I would really love it if the would promote watching RSS with Democracy Player in particular, but any support for video RSS is good.  Good for the my organization (Participatory Culture Foundation) and, I believe, good for the future of media.  </p>
 
@@ -27,7 +27,7 @@
 
 <p>These are not entirely distinct questions, and that's a central message of this essay: if video online is mostly web-based (question 1), the biggest centralized services have huge advantages (question 2).  If that happens, many of the wonderful things that come from TV meeting the internet will evaporate. </p>
 
-<h3>Part II: Are We Moving in the Wrong Direction?</h3>
+<h3>2: Are We Moving in the Wrong Direction?</h3>
 
 <p>So far, the answers to both of these questions have gone mostly in what I believe is the 'wrong' direction: towards 2 huge centralized services (YouTube and Google Video) and towards browser-based viewing.  </p>
 
@@ -41,13 +41,13 @@
 
 <p>That network effect doesn't just endanger creators and viewers, it also will stifle competition.  Smaller video services that don't have YouTube's network effect will become backwaters.</p>
 
-<h3>Part III: Put Viewers at the Center, Not Companies</h3>
+<h3>3: Put Viewers at the Center, Not Companies</h3>
 
 <p>How do you avoid a world where YouTube is the arbiter of all video content?  You do it by centering the video experience around viewers rather than around big services.  That's not what the venture capitalists want, but blogs aren't what they wanted either (they wanted web portals).</p>
 
 <p>Putting viewers at the center means that everyone who wants to watch video has a homebase where they can access or pull together what they want to watch from any website or any service.  For miscellaneous videos, this means a search engine that gives results from any service and let's you watch what you find without jumping around from site to site.  </p>
 
-<p>For more serious videos-- things that are produced from a known source on a regular basis, like a TV show-- the homebase for video in an RSS aggregator.  The can be a desktop application (like the one we make) or a web-based aggregator.  The important part is that viewers can pull together video from anywhere on the web.</p>
+<p>For more serious videos-- things that are produced from a known source on a regular basis, like a TV show-- the homebase for video in an RSS aggregator.  The can be a desktop application (like the one we make) or a web-based aggregator.  The important is that viewers can pull together video from anywhere on the web.</p>
 
 <p>The separation of publishing services and viewing services is crucial: viewers could care less where the video is hosted, as long as they can watch it.  A separation leaves publishers free to choose the hosting service that fits them best.  If they like the elegant user interfaces of Blip or Vimeo, they go there. If they like the opportunity to earn money with Revver, they go there.  If they want to offer ultra-high resolution video, they might host torrents on MoveDigital.  Or maybe they want to control their videos even more closely and host them on their own site (as Rocketboom appears to do).  With RSS, publishers are in control.</p>
 
@@ -55,17 +55,23 @@
 
 <p>And really, it's not either / or.  Smaller hosting services and individual video creators can start pushing video RSS while still having a great user experience on the web.  </p>
 
-<h3>Part IV: How You Can Make the Future of Television Open and Awesome</h3>
+<h3>4: How You Can Make the Future of Television Open and Awesome</h3>
 
 <p>If you cringe at the thought of online video becoming a 'walled garden' like MySpace is or dial-up AOL was, you can change it.</p>
 
-<p>Viewers: try a video RSS application like Democracy Player or FireANT.  Both have BitTorrent support, can show high-resolution video, and have built-in video search.  This isn't just good medicine, it's honestly the best online video experience you can find.</p>
+<p><Strong>Viewers:</strong> try a video RSS application like Democracy Player or FireANT.  Both have BitTorrent support, can show high-resolution video, and have built-in video search.  This isn't just good medicine, it's honestly the best online video experience you can find.</p>
 
-<p>Creators: no matter where you host your content, encourage your users to subscribe to your video RSS feed.  That way, they don't have to remember to check your website, they'll get your stuff delivered right to their desktop-- you've got them for good.  Serious video creators need rss because it lets them connect directly with their audience.</p>
+<p><Strong>Creators:</strong> no matter where you host your content, encourage your users to subscribe to your video RSS feed.  That way, they don't have to remember to check your website, they'll get your stuff delivered right to their desktop-- you've got them for good.  Serious video creators need rss because it lets them connect directly with their audience.</p>
 
-<p>Hosting Companies: create RSS feeds for everything (users, tags, popular videos, etc).  Put RSS subscribe buttons prominently on every page and explain to your viewers what it means and why they would enjoy watching with a video application.</p>
+<p><Strong>Hosting Companies:</strong> create RSS feeds for everything (users, tags, popular videos, etc).  Put RSS subscribe buttons prominently on every page and explain to your viewers what it means and why they would enjoy watching with a video application.</p>
 
-<p>Advocates: video online has had a 2nd rate reputation with the tech elite.  It seems a little trashy and has tended to appeal to the lowest common denominator.  But that's changing.  Truly excellent video channels are popping-up.  Don't forget that television is the most important mass medium in our culture.  So when you talk about open-source, open-standards, Firefox, net-neutrality, xhtml/css, blogosphere and netroots, you should also be talking about video over RSS.  It's how the internet is supposed to work.</p>
+<p><Strong>Advocates:</strong> video online has had a 2nd rate reputation with the tech elite.  It seems a little trashy and has tended to appeal to the lowest common denominator.  But that's changing.  Truly excellent video channels are popping-up.  Don't forget that television is the most important mass medium in our culture-- when you talk about open-source, open-standards, Firefox, net-neutrality, xhtml/css, blogosphere and netroots, you should also be talking about video over RSS. </p>
+
+
+</p>&nbsp;</p>
+
+<p><span style="font-style: italic;">Nicholas Reville is Executive Director of the <a style="font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>, which makes the Democracy Platform.<Br /><Br />Contact: nicholas-at-pculture.org. For more, read the <a style="font-weight: normal;" href="/news/">Democracy Blog</a>.</span> 
+</p>
 
 
 			</div>
