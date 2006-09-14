@@ -8,6 +8,7 @@
 				
 
 <p>I want to convince you that if you care about open standards, open source, deep linking, and all the other things that make the internet wonderful, you should care about where video online is headed.  </p>
+</div>
 
 <p>We are living at a moment of massive media convergence onto the internet.  Will television move online in an open and accessible way?  Or will it remain centralized, controlled by a few large corporations?  So far, things aren't looking good.</p>
 
@@ -69,7 +70,7 @@
 			</div>
 
 
-			<div style="width: 150px;" id="content-right-2col-art">
+			<div id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
 					<li><strong>The Key Points</strong>
 						<ul>
