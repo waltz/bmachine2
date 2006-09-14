@@ -72,34 +72,12 @@
 
 			<div id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
-					<li><strong>The Key Points</strong>
-						<ul>
-							<li><br /><strong>FOR MAC USERS</strong><br />Democracy Player gives you fullscreen playback with beautiful playback controls, so you don't have to buy Quicktime Pro.</li>				
-							<li><strong>FOR WINDOWS USERS</strong><br />Democracy Player plays many more file formats that iTunes.</a></li>
-							<li><strong>FOR LINUX USERS</strong><br />You can't run iTunes on Linux, but you can run Democracy Player.</li>
-
-							<li><strong>FOR ALL USERS</strong>
-							<br />
-							Democracy Player was built specifically for video RSS.  The interface is easier to use and more intuitive. 
-<br /><br />
-							Democracy Player supports BitTorrent feeds and works as a standalone BitTorrent client.  iTunes does neither.
-<br /><br />
-							iTunes lets you sync to video iPods, Democracy Player does not (coming soon, we hope).
-<br /><br />
-							Like a TiVo, Democracy Player helps you manage disk space automatically.
-<br /><br />
-
-							Democracy Player's built-in Channel Guide lists more than 600 video channels, compared to only about 170 in iTunes' video podcast directory.  Democracy Player can play any feed that works with iTunes.  Most feeds that are in the iTunes directory are also in the Democracy Channel Guide.</li>
-						</ul>
-					</li>	
-				</ul>
-				<div id="lower-sidebar">
-				<h6>Convinced yet?</h6>
-				<strong>If so, add Democracy Player to your arsenal.</strong><br />
-				<h6><a style="font-size: 17px; color: #090;" href="<?= $base ?>/downloads/">Download Democracy Player</a></h6>
-				<span style="color: #999; font-size: 11px;">Free and Open Source<br />for Windows, Mac, and Linux</span>
-				<br />				<br />
-				</div>
+					<li><strong>More Articles</strong></li>
+					
+					<a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout: Democracy vs. iTunes</a>
+					
+				</ul>	
+					
 							
 				</div>
 			</div>
