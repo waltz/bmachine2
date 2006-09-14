@@ -51,7 +51,9 @@
 
 <p>All that said, I understand why services like Blip have been reluctant to push feeds.  Websites are the bread and butter of most internet companies and page views are next to godliness. Promoting your RSS feeds is counter-intuitive: why would you encourage users to leave your website?  You should, because small services can't and won't beat YouTube and Google and MySpace at the web game.  Those companies are too big, too well funded, and have hired too many talented people that will continue to improve their service.  You are better off getting your viewers to subscribe to your content while you have them.  In this way, video RSS lets hosting services innovate to attract publishers.</p>
 
-<p>But really, this is not an either / or choice.  Smaller hosting services and individual video creators can start pushing video RSS while still offering a great user experience on the web.  In the long run, however, video RSS will be the key to success for small and mid-sized hosting companies.</p>
+<p>This is not strictly an either / or choice.  Smaller hosting services and individual video creators can start pushing video RSS while still offering a great user experience on the web.  In the long run, however, video RSS will be the key to success for small and mid-sized hosting companies.</p>
+
+<p>Here's one more way to look at it: most viewers will go to YouTube if they are just looking for something to watch.  It makes sense-- YouTube has the most stuff.  So when you, a video hosting service, do happen to get a viewer on your site (because they followed a blog link or someone emailed them a video) you want to try to keep them connected, even if you don't expect them to spontaneously come back to your website.  Getting them to subscribe to a feed is the best way to do that.</p>
 
 <h3>4: How You Can Make the Future of Television Open and Awesome</h3>
 
