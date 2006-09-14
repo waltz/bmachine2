@@ -15,17 +15,15 @@
 
 <h3>1: The Two Key Questions</h3>
 
-<p>This essay started as an email to Mike Hudack at <a style="color: #222; font-weight: normal;" href="http://www.blip.tv">Blip.tv</a>.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that Blip should feature RSS subscribe buttons more prominently on their site and explicitly encourage their viewers to obtain content through RSS.  I would really love it if the would promote watching RSS with <a style="color: #222; font-weight: normal;" href="http://www.getdemocracy.com">Democracy Player</a> in particular, but any support for video RSS is good.  Good for my organization (<a style="color: #222; font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>) and, I believe, good for the future of media.  </p>
+<p>This essay started as an email to Mike Hudack at <a style="color: #222; font-weight: normal;" href="http://www.blip.tv">Blip.tv</a>.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that they should feature RSS subscribe buttons more prominently on their site and that they should explicitly encourage their viewers to watch videos via RSS feeds.  Of course, I would be especially pleased if Blip promoted watching RSS with <a style="color: #222; font-weight: normal;" href="http://www.getdemocracy.com">Democracy Player</a> (which is developed by my organization, the 	<a style="color: #222; font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>), but any support for video RSS is good.  Good for my organization and, I believe, good for the future of media.  </p>
 
-<p>As I was writing to Mike, I started to think that I should turn the letter into a public essay, and try to convince you all.  So here it is.</p>
+<p>As I was writing to Mike, I realized that there were a lot more people that I wanted to say this to, so I decided to turn the letter into a public essay.  I'll start with the two questions that I think will define the future of video online:</p>
 
-<p>I started the email with what I see as the two key questions about the future of online video:</p>
+<p><Strong>QUESTION 1:</strong> Will internet video viewing be primarily web-page based or will it be primarily RSS based?</p>
 
-<p>QUESTION 1: Will internet video viewing be primarily web-page based or will it be primarily RSS based?</p>
+<p><strong>QUESTION 2:</strong> Will internet video be centralized in huge services like YouTube or Google Video, or will it be more broadly distributed (like blogs and web pages are), with huge (youtube), big (blip), medium (rocketboom), and small (average video bloggers on their own site) players?</p>
 
-<p>QUESTION 2: Will internet video be centralized in huge services like YouTube or Google Video, or will it be more broadly distributed (like blogs and web pages are), with lots of huge (youtube), big (blip), medium (rocketboom), and small (average video bloggers on their own site) players?</p>
-
-<p>These are not entirely distinct questions, and that's a central message of this essay: if video online is mostly web-based (question 1), the biggest centralized services have huge advantages (question 2).  If that happens, many of the wonderful things that come from TV meeting the internet will evaporate. </p>
+<p>These are not entirely distinct questions, and that's a central message of this essay.  If video online is mostly web-based (question 1), the biggest centralized services have huge advantages (question 2).  If centralized services win, many of the wonderful things that come from TV meeting the internet will evaporate. </p>
 
 <h3>2: Are We Moving in the Wrong Direction?</h3>
 
