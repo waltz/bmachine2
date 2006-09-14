@@ -72,13 +72,18 @@
 
 			<div id="content-right-2col-art">
 				<ul class="sidebar-nav-art">
+					
 					<li><strong>More Articles</strong></li>
 					
+					<ul>
+					
+					<li>
 					<a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout: Democracy vs. iTunes</a>
+					</li>
 					
 				</ul>	
 					
-							
+			</ul>				
 				</div>
 			</div>
 			<div class="clearer"></div>
