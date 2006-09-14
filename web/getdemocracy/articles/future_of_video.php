@@ -4,7 +4,7 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				&nbsp;
-				<h2 style="font-size: 17px; margin: 0px 0 0 0; padding: 15px 0 0 0 ; line-height: 17px; color: #333;">THE FUTURE OF ONLINE VIDEO</h2><h2 style="margin: -25px 0 12px 0; padding: 0; line-height: 28px; font-size: 30px;"><Br />Openness Matters. RSS Can Help.</h2>
+				<h2 style="font-size: 17px; margin: 0px 0 0 0; padding: 15px 0 0 0 ; line-height: 17px; color: #333;">THE FUTURE OF ONLINE VIDEO</h2><h2 style="margin: -33px 0 12px 0; padding: 0; line-height: 35px; font-size: 30px;"><Br />Openness Matters. RSS Can Help.</h2>
 				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
