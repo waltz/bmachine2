@@ -12,7 +12,7 @@ include ("version.php");
 	<head>
 		<title>Democracy - Internet TV Platform - Free and Open Source</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="http://www.getdemocracy.com/stylesheets/main.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="<?= $base ?>/stylesheets/main.css" type="text/css" media="screen" />
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?= $base ?>/news/feed">
 	</head>
 
