@@ -26,7 +26,7 @@
 <div id="post-download-form">
 
 <p style="font-size: 18px; text-align: left; padding-left: 25px;">
-			<Strong>Latest Democracy News:</strong><Br /><br />
+			<Strong>Latest Democracy News <a style="color: #ff7209; font-size: 18px;" href="<?= $base ?>/news/feed" class="feed">rss</a></strong><Br /><br />
 			
 			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in Democracy Player 0.9.</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 <Br /><Br />
