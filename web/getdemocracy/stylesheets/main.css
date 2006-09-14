@@ -848,17 +848,23 @@ ul#nav-sub {
 	#footer ul li {
 		float:left;
 		margin:0;
-		padding:0 0 12px 0;
-		margin:0 25px 0px 0;
-		font-size: 14px;
-		font-weight: bold;
+		padding:0 0 3px 0;
+		margin:0 30px 0px 0;
+		font-size: 12px;
+
 	}
 	#footer ul ul {
 		padding: 6px 0 0 0;
 		margin:0;
 	}
+
 		#footer ul li a {
+	
+		}
+
+		#footer ul li li a {
 			color:#003366;
+			font-weight: normal;
 		}
 		#footer ul ul li {
 			float:none;
