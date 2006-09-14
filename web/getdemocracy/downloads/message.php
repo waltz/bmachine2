@@ -7,7 +7,7 @@
 
 			
 
-			<p style="font-size: 18px; text-align: center;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1. Sign-up to get notified:</strong></p>
+			<p style="font-size: 18px;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1.<br />Sign-up to get notified as soon as it's ready:</strong></p>
 
 
 			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
@@ -20,22 +20,24 @@
 			</form>
 
 			<p style="font-size:80%; color:#999999; text-align: center;">We won't share your address with anyone.</p>
-
-<br /><br />
-
-<p style="font-size: 18px; text-align: center;" text-align: center;>
-			<a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">See the new features in this version</a> - Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
-			</p>
-			
-			
 			</div>
 
 
 <div id="post-download-form">
 
+<p style="font-size: 18px; text-align: left; padding-left: 25px;">
+			<Strong>Some News:</strong><Br /><br />
+			
+			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in this version</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
+<Br /><Br />
+3. A New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
+<br /><br />
+4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
+			</p>
+
+
 <center>
-<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/tcc.gif" alt="the channel channel" /></a><br />
-NEW! <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels<br /><br />
+<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/tcc.gif" alt="the channel channel" /></a><br /><br />
 </center>
 
 
