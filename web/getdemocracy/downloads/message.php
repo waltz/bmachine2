@@ -32,15 +32,8 @@
 <Br /><Br />
 3. A New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
 <br /><br />
-4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 Second Previews of Internet TV Channels
+4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV channels.  Submit yours.
 			</p>
-
-
-<center>
-<a href="http://thechannelchannel.tv/"><img src="http://www.getdemocracy.com/news/blogging_images/tcc.gif" alt="the channel channel" /></a><br /><br />
-</center>
-
-
 
 </div>
 
