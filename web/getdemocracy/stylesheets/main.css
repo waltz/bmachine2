@@ -453,10 +453,6 @@ border: none;
 	}
 
 
-	#sub-main-2col h3 {
-	color: red;
-	margin: 30px 0 10px 0;
-}
 
 
 .byline {
@@ -478,7 +474,7 @@ border: none;
 #sub-main-2col h3 {
 	font-size:20px;
 	color:#363636;
-	margin:0 0 8px 0;
+	margin:15px 0 8px 0;
 }
 
 #steps {
