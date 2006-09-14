@@ -32,7 +32,7 @@
 <Br /><Br />
 3. A New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
 <br /><br />
-4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV shows.  Submit yours.
+4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV.  Submit yours.
 			</p>
 
 </div>
