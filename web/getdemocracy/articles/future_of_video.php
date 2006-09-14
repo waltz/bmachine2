@@ -57,7 +57,7 @@
 
 <h3>4: How You Can Make the Future of Television Open and Awesome</h3>
 
-<p>If you cringe at the thought of online video becoming a 'walled garden' like MySpace is or dial-up AOL was, you can change it.</p>
+<p>If you cringe at the thought of online video becoming a 'walled garden' like MySpace is or dial-up AOL was and YouTube wants to be, start pushing things in the right direction it.</p>
 
 <p><Strong>Viewers:</strong> try a video RSS application like Democracy Player or FireANT.  Both have BitTorrent support, can show high-resolution video, and have built-in video search.  This isn't just good medicine, it's honestly the best online video experience you can find.</p>
 
