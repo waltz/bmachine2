@@ -4,18 +4,18 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				&nbsp;
-				<h2>Openness Matters. RSS Can Help.<br />THE FUTURE OF ONLINE VIDEO</h2>
+				<h2 style="font-size: 17px; margin: 0; padding: 15px 0 0 0 ; line-height: 10px; color: #333;">THE FUTURE OF ONLINE VIDEO</h2><h2 style="margin: 0 0 12px 0; padding: 0; line-height: 16px; font-size: 30px;"><Br />Openness Matters. RSS Can Help.</h2>
 				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
 <p>I want to convince you that if you care about open standards, open source, deep linking, and all the other things that make the internet wonderful, you should care about where video online is headed.  </p>
 </div>
 
-<p>We are living at a moment of massive media convergence onto the internet.  Will television move online in an open and accessible way?  Or will it remain centralized, controlled by a few large corporations?  So far, things aren't looking good.</p>
+<p>We are living at a moment when media is converging rapidly onto the internet.  Will television move online in an open and accessible way?  Or will it remain centralized and controlled by a few large corporations?  So far, things aren't looking good.</p>
 
 <h3>1: The Two Key Questions</h3>
 
-<p>This essay started as an email to Mike Hudack at Blip.tv.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that Blip should feature RSS subscribe buttons more prominently on their site and explicitly encourage their viewers to obtain content through RSS.  I would really love it if the would promote watching RSS with Democracy Player in particular, but any support for video RSS is good.  Good for the my organization (Participatory Culture Foundation) and, I believe, good for the future of media.  </p>
+<p>This essay started as an email to Mike Hudack at <a style="color: #222; font-weight: normal;" href="http://www.blip.tv">Blip.tv</a>.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that Blip should feature RSS subscribe buttons more prominently on their site and explicitly encourage their viewers to obtain content through RSS.  I would really love it if the would promote watching RSS with <a style="color: #222; font-weight: normal;" href="http://www.getdemocracy.com">Democracy Player</a> in particular, but any support for video RSS is good.  Good for my organization (<a style="color: #222; font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>) and, I believe, good for the future of media.  </p>
 
 <p>As I was writing to Mike, I started to think that I should turn the letter into a public essay, and try to convince you all.  So here it is.</p>
 
