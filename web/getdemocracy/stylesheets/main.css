@@ -9,6 +9,10 @@ body {
 	color:#222;
 }
 
+p {
+	font-family: Verdana, Helvetica, sans-serif;
+}
+
 a:link, a:visited {
 	color:#003366;
 	font-weight:bold;
