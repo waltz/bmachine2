@@ -63,7 +63,7 @@
 				
 		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
-		Check back around 1pm EST on Thursday...<br />&nbsp;
+		Check back around 3pm EST on Thursday...<br />&nbsp;
 		</p>
 			
 		</div>
@@ -76,7 +76,7 @@
 				
 		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
-		Check back around 1pm EST on Friday...<br />&nbsp;
+		Check back around 2pm EST on Friday...<br />&nbsp;
 		</p>
 			
 		</div>
