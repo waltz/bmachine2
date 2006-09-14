@@ -7,7 +7,7 @@
 
 			
 
-			<p style="font-size: 18px;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1.<br />Sign-up to get notified as soon as it's ready:</strong></p>
+			<p style="font-size: 18px;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1.<br />Get notified as soon as it's ready:</strong></p>
 
 
 			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
@@ -26,7 +26,7 @@
 <div id="post-download-form">
 
 <p style="font-size: 18px; text-align: left; padding-left: 25px;">
-			<Strong>The Latest Democracy News:</strong><Br /><br />
+			<Strong>Latest Democracy News:</strong><Br /><br />
 			
 			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in Democracy Player 0.9.</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 <Br /><Br />
