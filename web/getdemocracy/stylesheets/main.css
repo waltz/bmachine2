@@ -453,8 +453,9 @@ border: none;
 	}
 
 .byline {
-	font-size:14px;
-	color:#777;
+	font-size:16px;
+	color:#555;
+	font-weight: normal;
 }
 
 #sub-main h2, #sub-channels h2, #sub-main-2col h2, #content-1col h2 {
