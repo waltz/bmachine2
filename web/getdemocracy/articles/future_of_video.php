@@ -11,7 +11,7 @@
 
 <p>We are living at a moment of massive media convergence onto the internet.  Will television move online in an open and accessible way?  Or will it remain centralized, controlled by a few large corporations?  So far, things aren't looking good.</p>
 
-<h2>Part I: The Two Key Questions</h2>
+<h3>Part I: The Two Key Questions</h3>
 
 <p>This essay started as an email to Mike Hudack at Blip.tv.  Blip is an excellent video blogging / video hosting service. My goal was to convince Mike that Blip should feature RSS subscribe buttons more prominently on their site and explicitly encourage their viewers to obtain content through RSS.  I would really love it if the would promote watching RSS with Democracy Player in particular, but any support for video RSS is good.  Good for the my organization (Participatory Culture Foundation) and, I believe, good for the future of media.  </p>
 
@@ -25,7 +25,7 @@
 
 <p>These are not entirely distinct questions, and that's a central message of this essay: if video online is mostly web-based (question 1), the biggest centralized services have huge advantages (question 2).  If that happens, many of the wonderful things that come from TV meeting the internet will evaporate. </p>
 
-<h2>Part II: Are We Moving in the Wrong Direction?</h2>
+<h3>Part II: Are We Moving in the Wrong Direction?</h3>
 
 <p>So far, the answers to both of these questions have gone mostly in what I believe is the 'wrong' direction: towards 2 huge centralized services (YouTube and Google Video) and towards browser-based viewing.  </p>
 
@@ -39,7 +39,7 @@
 
 <p>That network effect doesn't just endanger creators and viewers, it also will stifle competition.  Smaller video services that don't have YouTube's network effect will become backwaters.</p>
 
-<h2>Part III: Put Viewers at the Center, Not Companies</h2>
+<h3>Part III: Put Viewers at the Center, Not Companies</h3>
 
 <p>How do you avoid a world where YouTube is the arbiter of all video content?  You do it by centering the video experience around viewers rather than around big services.  That's not what the venture capitalists want, but blogs aren't what they wanted either (they wanted web portals).</p>
 
@@ -53,7 +53,7 @@
 
 <p>And really, it's not either / or.  Smaller hosting services and individual video creators can start pushing video RSS while still having a great user experience on the web.  </p>
 
-<h2>Part IV: How You Can Make the Future of Television Open and Awesome</h2>
+<h3>Part IV: How You Can Make the Future of Television Open and Awesome</h3>
 
 <p>If you cringe at the thought of online video becoming a 'walled garden' like MySpace is or dial-up AOL was, you can change it.</p>
 
