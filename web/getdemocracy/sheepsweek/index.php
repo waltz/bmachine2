@@ -61,9 +61,9 @@
 		<img style="float: left;" src="sheeps-thursday.png" alt="wednesday" />
 		
 				
-		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;"><a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video is Decentralized Video</a></h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
-		Check back around 3pm EST on Thursday...<br />&nbsp;
+		Why it's important that video online not end up in one company's hands.<br />&nbsp;
 		</p>
 			
 		</div>
