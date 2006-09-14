@@ -3,7 +3,8 @@
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
-				<h2>Video Needs to Work Like the Internet</h2>
+				&nbsp;
+				<h2>Open Video is Decentralized Video</h2>
 				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
@@ -71,19 +72,17 @@
 
 
 			<div id="content-right-2col-art">
+				
 				<ul class="sidebar-nav-art">
-					
-					<li><strong>More Articles</strong></li>
-					
-					<ul>
-					
-					<li>
-					<a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout: Democracy vs. iTunes</a>
-					</li>
-					
-				</ul>	
-					
-			</ul>				
+					<li><strong>More Articles</strong>
+						<ul>
+							<li><br /><a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout: Democracy vs. iTunes</a></li>				
+							
+						</ul>
+					</li>	
+				</ul>
+				
+				
 				</div>
 			</div>
 			<div class="clearer"></div>

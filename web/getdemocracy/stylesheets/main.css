@@ -469,7 +469,6 @@ border: none;
 	font-weight:bold;
 	text-align:left;
 	line-height:.9em;
-	color: green;
 }
 
 #sub-main-2col h3 {
@@ -917,7 +916,7 @@ ul#nav-sub {
 	float:right;
 	width:230px;
 	background:#FCFBEE;
-	margin:20px 0 20px 0;
+	margin:40px 0 20px 0;
 	padding:10px;
 	border-top:4px solid #EEEBC8;
 }
@@ -935,7 +934,7 @@ ul#nav-sub {
 	list-style:none;
 }
 
-	.sidebar-nav li li {
+	.sidebar-nav li li, .sidebar-nav a  {
 		font-size:13px;
 		padding:0 0 4px 0;
 	}
