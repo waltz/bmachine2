@@ -28,11 +28,11 @@
 <p style="font-size: 18px; text-align: left; padding-left: 25px;">
 			<Strong>The Latest Democracy News:</strong><Br /><br />
 			
-			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in this version</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
+			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in Democracy Player 0.9.</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 <Br /><Br />
 3. A New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
 <br /><br />
-4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV channels.  Submit yours.
+4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV shows.  Submit yours.
 			</p>
 
 </div>
