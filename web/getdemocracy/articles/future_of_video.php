@@ -4,7 +4,7 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				<h2>Video Needs to Work Like the Internet</h2>
-				<h3><span class="byline">by Nicholas Reville, September 14, 2006</span></h3>
+				<h6 class="byline">by Nicholas Reville, September 14, 2006</h6>
 				
 
 <p>I want to convince you that if you care about open standards, open source, deep linking, and all the other things that make the internet wonderful, you should care about where video online is headed.  </p>
