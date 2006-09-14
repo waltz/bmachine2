@@ -3,7 +3,7 @@
 		<div id="content-2col">
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
-				<h2>Why Video Needs to Work Like the Rest of the Internet</h2>
+				<h2>Video Needs to Work Like the Rest of the Internet</h2>
 				<h3><span class="byline">by Nicholas Reville</span></h3>
 				
 
