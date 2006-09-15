@@ -183,8 +183,8 @@ include ("../../include/start.php");
                         <td class="yes">Yes</td>
                         <td class="yes">Yes?</td>  <!-- Only externally -->
                         <td class="yes">Yes</td>
+                        <td class="yes">Yes</td>  
                         <td class="yes">Yes?</td>  <!-- I don't think so... -->
-                        <td class="yes">Yes</td>
                         <td class="no">No</td>
                         <td class="yes">Yes</td>  
                         <td class="no">No</td>
