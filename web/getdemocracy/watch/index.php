@@ -11,18 +11,18 @@ include ("../include/start.php");
 		<div id="steps">
 			<ul>
 				<li><img src="<?= $base ?>/images/img_subscribechannels.png" /><strong>1. Subscribe to Channels</strong><br />
-				Democracy has a built-in Channel Guide, an open catalog of hundreds of free channels. Subscribe to any channel with a single click.</li>
+				Democracy has a built-in Channel Guide.  It's an open catalog of hundreds of free channels. Subscribe to any channel with a single click.</li>
 				<li><img src="<?= $base ?>/images/img_downloadvideos.png" /><strong>2. Download from Channels</strong><br />
-				After you subscribe to a channel, pick videos to download individually or set the channel to automatically get new stuff as it comes out (like a Tivo).</li>
+				Pick videos to download or set the channel to automatically get new stuff as it comes out (like a Tivo).</li>
 				<li><img src="<?= $base ?>/images/img_watchvideo.png" /><strong>3. Watch Videos</strong><br />
-				Lean back and watch your new videos in full screen at your convenience. Democracy plays lots of video formats.</li>
+				Lean back and watch your new videos in standard mode or full screen. Democracy plays almost every video format.</li>
 			</ul>
 			<div class="clearer"></div>
 		</div>
 		<div id="sub-channels">
-			<h2>500 Channels Waiting for You</h2>
-			<p class="subhead">There are more than 500 channels in the Channel Guide that is built-in to Democracy. They're as interesting and diverse as the
-			internet itself. You can subscribe to any of them for free with a single click. Here are a few examples:</p>
+			<h2>Over 600 Channels Waiting for You</h2>
+			<p class="subhead">There are more than 600 channels in the Channel Guide that is built-in to Democracy and new ones are added every day. They're as interesting and diverse as the
+			internet itself. Subscribe to any of them for free with a single click. Here are a few examples.</p>
 			<ul>
 				<li id="channel1"><img src="<?= $base ?>/images/frederator.png" border="4" height=157 width=235 />
 				<h5><a href="http://www.channelfrederator.com/">Channel Frederator</a></h5></li>
@@ -36,7 +36,7 @@ include ("../include/start.php");
 		<div id="content">
 			<div id="content-left">
 			<h4>Download Democracy Player</h4>
-			<p class="subhead2"><strong>Stop Reading and Start Watching!</strong> Ready to try internet TV?  It's a lot more fun to watch it than it is to read about it.</p>
+			<p class="subhead2"><strong>Stop Reading and Start Watching!</strong> Ready to try internet TV?  It's a lot more fun to watch it than to read about it.</p>
 
 				<div id="downloadarea-sub">
 <?php include("../include/download-button.php"); ?>
@@ -46,18 +46,18 @@ include ("../include/start.php");
 			<div id="content-right">
 				<h4>More Features</h4>
 					<ul>
+						<li><h6>Search</h6>
+							Search YouTube, Google Video, and Yahoo Video for anything you could imagine.</li>
 						<li><h6>Auto-Download</h6>
 							Set your favorite channels to Auto-Download new videos as soon as they are available. You'll always have something new to watch.</li>
 						<li><h6>RSS is everywhere</h6>
 							Democracy can subscribe to any video RSS feed (video podcasts). Look for 'Subscribe' buttons on your favorite web sites.</li>
 						<li><h6>Seamless Bittorrent</h6>
-							Democracy seamlessly integrates Bittorrent and doesn't leech.</li>
+							Democracy seamlessly integrates Bittorrent and can work as a standalone BitTorrent client.</li>
 						<li><h6>Fullscreen</h6>
-							Lean back and watch fullscreen.</li>
-						<li><h6>New Items</h6>
-							A blue circle next to a channel means new videos are available for download. Green circles mean new videos are ready to watch.</li>
+							Lean back and watch fullscreen with beautiful controls.</li>
 						<li><h6>Manage Videos</h6>
-							My Collection lists all the videos you've downloaded and can be quickly searched.</li>
+							My Collection lists all the videos you've downloaded and can be quickly searched. Create playlists and folders to organize your videos and channels.</li>
 					</ul>
 			</div>
 			<div class="clearer"></div>
