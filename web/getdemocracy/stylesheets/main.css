@@ -10,7 +10,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, h7, h8, h9 {
-	font-family: 'Century Gothic', 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+	font-family: 'Century Gothic', 'Lucida Grande', "Trebuchet MS", Arial, Verdana, Helvetica, sans-serif;
 }
 
 p {
@@ -220,13 +220,13 @@ border: none;
 		padding: 7px 15px 0 15px;
 		color: #fff;
 		position: relative;
-		font-family: 'Century Gothic', 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+		font-family: 'Century Gothic', 'Lucida Grande', "Trebuchet MS", Arial, Verdana, Helvetica, sans-serif;
 		line-height: 1.1em;
 		font-size: 18px;
 	}
 
 	#subnews li a {
-			font-family: 'Century Gothic', 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+			font-family: 'Century Gothic', 'Lucida Grande', "Trebuchet MS", Arial, Verdana, Helvetica, sans-serif;
 		line-height: 1.1em;
 		font-size: 19px;	
 	}
@@ -1299,12 +1299,14 @@ small.commentmetadata a {
 #featurelist table td {
 	font-size:10px;
 	text-align:center;
-	background:#DDDDDD;
+	background:#000033;
+	color: white;
+	padding: 5px 3px 5px 3px;
 }
 
-#featurelist table td.top { background: #FFFFFF; }
-#featurelist table td.head { background: #00A1B3; font-size:12px text-align:left;}
-#featurelist table td.yes { background: #cfc; width:64px;}
-#featurelist table td.no { background: #fcc; width:64px;}
-#featurelist table td.partial { background: #ffa; width:64px; }
+#featurelist table td.top { background: #FFFFFF; color: black; }
+#featurelist table td.head { background: #eee; color: black; font-size:12px; font-weight: bold; text-align:center;}
+#featurelist table td.yes { background: #dfd; width:64px; color: black;}
+#featurelist table td.no { background: #fcc; width:64px; color: black;}
+#featurelist table td.partial { background: #ffa; width:64px; color: black; }
 

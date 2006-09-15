@@ -14,37 +14,39 @@ include ("../../include/start.php");
 			</tr>
 
 			<!--The platforms-->
-			<tr><td class="head">Features:</td>
+			<tr><td class="head">FEATURES</td>
                      <td class="head"><img src="images/winvista.png" /></td>
                      <td class="head"><img src="images/macosx.png" /></td>
 			<td class="head"><img src="images/linux.png" /></td>
                      <td class="head"><img src="images/winvista.png" /></td>
                      <td class="head"><img src="images/macosx.png" /></td>
-			<td class="head"><img src="images/linux.png" /></td>
+			<td class="head">no linux version</td>
                      <td class="head"><img src="images/winvista.png" /></td>
-                     <td class="head"><img src="images/macosx.png" /></td>
-			<td class="head"><img src="images/linux.png" /></td>
+                     <td class="head">no mac version</td>
+			<td class="head">no linux version</td>
                         </tr>
 
 			<!--Feature list-->
-			<tr><td>Video Content</td>
+	<!--		<tr><td>Video Content</td>
                         <td class="yes">Free</td>
                         <td class="yes">Free</td>
                         <td class="yes">Free</td>
-                        <td class="partial">iTunes Store</td>
-                        <td class="partial">iTunes Store</td>
+                        <td class="partial">iTunes + Podcasts</td>
+                        <td class="partial">iTunes + Podcasts</td>
                         <td class="no">No</td>
                         <td class="no">No</td>
                         <td class="no">No</td>
                         <td class="no">No</td>
                         </tr>
+
+-->
 
 			<tr><td>Fullscreen</td>
                         <td class="yes">Yes</td>
                         <td class="yes">Yes</td>
                         <td class="yes">Yes</td>
-                        <td class="partial">No Controls</td>
-                        <td class="partial">No Controls</td>
+                        <td class="yes">Yes</td>
+                        <td class="yes">Yes</td>
                         <td class="no">No</td>
                         <td class="yes">Yes</td>
                         <td class="no">No</td>
@@ -103,16 +105,16 @@ include ("../../include/start.php");
 
 			<!--Format list-->
 
-			<tr><td class="head">Supported Formats:</td>
+			<tr><td class="head">SUPPORTED FORMATS</td>
                      <td class="head"><img src="images/winvista.png" /></td>
                      <td class="head"><img src="images/macosx.png" /></td>
 			<td class="head"><img src="images/linux.png" /></td>
                      <td class="head"><img src="images/winvista.png" /></td>
                      <td class="head"><img src="images/macosx.png" /></td>
-			<td class="head"><img src="images/linux.png" /></td>
+			<td class="head">no linux version</td>
                      <td class="head"><img src="images/winvista.png" /></td>
-                     <td class="head"><img src="images/macosx.png" /></td>
-			<td class="head"><img src="images/linux.png" /></td>
+                     <td class="head">no mac version</td>
+			<td class="head">no linux version</td>
                     </tr>
 
 			<tr><td>MPEG</td>
