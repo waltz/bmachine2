@@ -28,10 +28,10 @@ include("include/screenshot.php");
 		<div id="subcallout">
 			<div id="subcontent">
 				<h2>600 Channels, All Free</h2>
-				<p id="subdesc">When you launch Democracy Player, you'll see the built-in Channel Guide. New channels arrive every day, and you can subscribe to any with a single-click.  The Guide is open to everyone: <a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit a Video Feed</a></p>
+				<p id="subdesc">When you launch Democracy Player, you'll see the built-in Channel Guide. New channels arrive every day, and you can subscribe to any with a single-click.  The Guide is open to everyone.<br /><a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your video feed.</a></p>
 				<ul>
 					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
-						<a href="http://www.channelfrederator.com/">Channel Frederator</a> comes installed with Democracy.</li>
+						<a style="font-weight: normal;" href="http://www.channelfrederator.com/">Channel Frederator</a> comes with Democracy.</li>
 				</ul>
 			</div>
 			<div id="subnews">
@@ -52,7 +52,7 @@ include("include/screenshot.php");
 		</div>
 		<div id="otherplat">
 			<h3>Democracy: A Platform, Not Just an Application</h3>
-			<p>We are working to build the internet TV tools possible to ensure that people are in control of their own media. In addition to the player and the Channel Guide, our platform has two other major components. <a href="http://www.participatoryculture.org/">Learn more >></a></p>
+			<p>We are working to build internet TV tools that put people in control of media. In addition to Democracy Player and the Channel Guide, the platform has two other major components. <a style="font-weight: normal;" href="http://www.participatoryculture.org/">Read more about our mission...</a></p>
 			<div id="otherplat-left">
 				<a href="<?= $base ?>/broadcast/"><img src="images/img_broadcastmachine.gif" border="0" /></a>
 				<a href="<?= $base ?>/broadcast/" class="plathead">Broadcast Machine</a><br />Free software for your website to publish videos into a channel and create a browsable web gallery. RSS, BitTorrent, and an easy to use interface. <br />
