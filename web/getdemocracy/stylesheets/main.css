@@ -1299,14 +1299,15 @@ small.commentmetadata a {
 #featurelist table td {
 	font-size:10px;
 	text-align:center;
-	background:#000033;
+	background:#333366;
 	color: white;
 	padding: 5px 3px 5px 3px;
+	font-weight: bold;
 }
 
-#featurelist table td.top { background: #FFFFFF; color: black; }
+#featurelist table td.top { background: #FFFFFF; color: black; font-weight: normal; }
 #featurelist table td.head { background: #eee; color: black; font-size:12px; font-weight: bold; text-align:center;}
-#featurelist table td.yes { background: #dfd; width:64px; color: black;}
-#featurelist table td.no { background: #fcc; width:64px; color: black;}
-#featurelist table td.partial { background: #ffa; width:64px; color: black; }
+#featurelist table td.yes { background: #dfd; width:64px; color: black; font-weight: normal;}
+#featurelist table td.no { background: #fcc; width:64px; color: black; font-weight: normal;}
+#featurelist table td.partial { background: #ffa; width:64px; color: black; font-weight: normal; }
 
