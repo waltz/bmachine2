@@ -74,9 +74,9 @@
 		<img style="float: left;" src="sheeps-friday.png" alt="wednesday" />
 		
 				
-		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">...</h2>
+		<h2 style="padding: 15px 0 0 300px; margin: 0; font-size: 23px;">Sorry, not this week...</h2>
 		<p style="padding: 5px 0 0 300px; margin: 0;">
-		Check back around 2pm EST on Friday...<br />&nbsp;
+		We didn't make it in time.  Check our blog next week...<br />&nbsp;
 		</p>
 			
 		</div>
@@ -88,8 +88,6 @@
 <div style="clear: both; position: relative; padding: 10px 0 20px 0; border-top: 1px solid #ddd;">
 &nbsp;
 </div>
-<br />
-<br />
 
 <p style="text-align: right; color: #555;">
 For more news, <a style="color: #555; font-weight: normal;" href="http://www.getdemocracy.com/news/">read our blog</a>.
