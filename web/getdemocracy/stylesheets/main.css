@@ -813,6 +813,9 @@ ul#nav-sub {
 	#sub-channels #channel2 {
 		margin-right:10px;
 	}
+	#sub-channels li img {
+		border: 4px solid #e1e1e1;
+	}
 
 #subnews ul {
 	margin: 12px 0 0 0;
