@@ -778,25 +778,40 @@ ul#nav-sub {
 		background:url('../images/btn_code.gif') -1px -61px no-repeat;
 	}
 
-#subcontent ul,#sub-channels ul {
+#subcontent ul {
 	margin:0;
 	padding:0;
 	list-style:none;
 	float: right;
 	width: 175px;
 }
-	#subcontent li, #sub-channels li {
+#sub-channels ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+	#subcontent li {
 		float:right;
 		font-size: 11px;
 	}
-	#subcontent #channel1, #sub-channels #channel1 {
+	#subcontent #channel1 {
 		margin-right:10px;
 	}
-	#subcontent #channel2, #sub-channels #channel2 {
+	#subcontent #channel2 {
 		margin-right:10px;
 	}
 	#subcontent li img {
 		border: 4px solid #e1e1e1;
+	}
+	
+	#sub-channels li {
+		float:left;
+	}
+	#sub-channels #channel1 {
+		margin-right:10px;
+	}
+	#sub-channels #channel2 {
+		margin-right:10px;
 	}
 
 #subnews ul {
