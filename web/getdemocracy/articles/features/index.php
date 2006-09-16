@@ -150,14 +150,14 @@ include ("../../include/start.php");
                         <td class="yes">Yes</td>
                         <td class="yes">Yes</td>
                         <td class="no">No</td>
-                        <td class="no">No?</td>  <!-- I think it can, maybe with a plugin -->
+                        <td class="no">No</td>  
                         <td class="no">No</td>
                         <td class="no">No</td>
                         </tr>
 
 			<tr><td>AVI (Xvid/DivX/etc)</td>
                         <td class="yes">Yes</td>
-                        <td class="yes">Yes?</td> <!-- Without Plugin?? -->
+                        <td class="yes">Yes</td> 
                         <td class="yes">Yes</td>
                         <td class="no">No</td>
                         <td class="no">No</td>
@@ -181,10 +181,10 @@ include ("../../include/start.php");
 
 			<tr><td>Flash (FLV)</td>
                         <td class="yes">Yes</td>
-                        <td class="yes">Yes?</td>  <!-- Only externally -->
+                        <td class="yes">Externally</td>  <!-- Only externally -->
                         <td class="yes">Yes</td>
                         <td class="yes">Yes</td>  
-                        <td class="yes">Yes?</td>  <!-- I don't think so... -->
+                        <td class="yes">Yes</td> 
                         <td class="no">No</td>
                         <td class="yes">Yes</td>  
                         <td class="no">No</td>
