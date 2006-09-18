@@ -19,10 +19,18 @@ p {
 	
 }
 
+a { 
+	font-weight: normal;
+}
+
 a:link, a:visited {
 	color:#003366;
-	font-weight:bold;
 }
+
+a:hover {
+	color:#0066CC;
+}
+
 
 h3 {
 	font-size:22px;
@@ -41,10 +49,6 @@ h4 {
 }
 
 
-a:hover {
-	color:#0066CC;
-	font-weight:bold;
-}
 
 #quote {
 	text-align:right;
@@ -450,9 +454,10 @@ border: none;
 	width:100%;
 	margin:0 auto 10px auto;
 }
-	.subhead {
+	.subhead, subhead a {
 		font-size:14px;
 		margin:0;
+
 	}
 	#sub-main-2col .subhead, p.subhead2 {
 		font-size:16px;
@@ -876,12 +881,12 @@ ul#nav-sub {
 		line-height: 15px;
 	}
 	#footer ul ul {
-		padding: 6px 0 0 0;
+		padding: 3px 0 0 0;
 		margin:0;
 	}
 
 		#footer ul li a {
-	
+			font-weight: bold;
 		}
 
 		#footer ul li li a {
