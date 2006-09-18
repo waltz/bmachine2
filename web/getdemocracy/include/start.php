@@ -18,7 +18,7 @@ include ("version.php");
 	</head>
 
 	<body>
-		<div id="banner_wrap">
+		<!--<div id="banner_wrap">
 		 <ul id="banner">
 		 <li class="banner_link"><a id="pcf" href="http://www.participatoryculture.org/"><span>Contact</span></a></li>
 		 <li class="banner_link"><a id="publicize" href="http://www.publicizevideofeed.com"><span>Related</span></a></li>
@@ -28,7 +28,7 @@ include ("version.php");
 		 <li id="banner_logo"><a href="http://www.getdemocracy.com/"><span>Democracy Internet TV</span></a></li>
 		 </ul>
 		</div>
-		<br class="clearer" />
+		<br class="clearer" />-->
 		<div id="header">
 			<div id="header-top">
 				<h1><a href="<?= $base ?>/">Democracy - Internet TV Platform - Free and Open Source</a></h1>
