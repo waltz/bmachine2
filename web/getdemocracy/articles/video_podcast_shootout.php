@@ -15,7 +15,7 @@
 			<h4>Video Formats</h4>
 			<p><strong>On Windows</strong>, Democracy Player can play almost all major video formats, except Real Video.  That includes Quicktime, MPEG, WMV, AVI, XVid, OGG, FLV, and many more.  In the rare case when Democracy Player can't play a video, it allows you to easily launch the file in a separate app (such as Real Player).  iTunes for Windows can't play Windows Media, XVid, most AVI, and others.</p>
 			
-			<p><strong>On Mac</strong>, both iTunes and Democracy Player use Quicktime as a built-in playback engine and therefore they both play the same video formats.  As on Windows, Democracy lets you launch a video externally if the Quicktime engine can't play it.</p>
+			<p><strong>On Mac</strong>, both iTunes and Democracy Player use Quicktime as a built-in playback engine and therefore they both play the same video formats.  As on Windows, Democracy lets you launch a video externally if the Quicktime engine can't play it.  Since Democracy on Mac comes with VLC, you are able to play nearly every popular format this way.</p>
 
 			<h4>Browsing Video Channels</h4>
 			<p>I think it's fair to say that the video interface on iTunes was a little bit tacked on.  iTunes is definitely an audio player at heart.  Video podcasts appear along with audio podcasts in the podcast tab.  The interface there is no nonsense and works very well for syncing with an iPod.  However, it doesn't work well for browsing videos on a feed-- descriptions are limited in length and there are no thumbnails for the videos.  That said, the iTunes 'Videos' tab is simple, elegant, and very functional.  iTunes also generates thumbnails for each video that you have, which Democracy Player doesn't do.</p>
@@ -27,12 +27,12 @@
 &nbsp;<br />
 
 			<h4>Video Playback and Fullscreen</h4>
-			<p>Video play on Democracy Player in the large main window of the screen, with playback controls below the video that you are watching.  Democracy Player also plays video fullscreen.  It has beautiful fullscreen controls on Mac and pretty good fullscreen controls on Windows and Linux.</p>
+			<p>Videos play on Democracy Player in the large main window of the screen, with playback controls below the video that you are watching.  Democracy Player also plays video fullscreen.  It has beautiful fullscreen controls on Mac and pretty good fullscreen controls on Windows and Linux.</p>
 
 			<img src="<?= $base ?>/images/fullscreen_screen.jpg" />
 			<div class="screendesc">Democracy fullscreen controls</div>
 			<Br />
-			<p>In terms of usability, iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where album cover art usually appears.  If you click on this box, the video pops up into a separate window.</p>
+			<p>iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where album cover art usually appears.  If you click on this box, the video pops up into a separate window.</p>
 			
 <p>I believe Democracy Player offers a video playback experience that is superior to iTunes in simplicity and ease of use.</p>
 			
