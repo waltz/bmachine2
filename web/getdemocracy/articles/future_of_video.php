@@ -70,10 +70,10 @@
 
 </p>&nbsp;</p>
 
-<p>Update: please see <a href="http://blog.blip.tv/blog/2006/09/16/openness-matters-rss-can-help/">Mike Hudack's response to this essay</a>.</p>
-
-<p><span style="font-style: italic;">Nicholas Reville is Executive Director of the <a style="font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>, which makes the Democracy Platform.<Br /><Br />Contact: nicholas-at-pculture.org. For more, read the <a style="font-weight: normal;" href="/news/">Democracy Blog</a>.</span> 
+<p><span style="font-style: italic;">Nicholas Reville is Executive Director of the <a style="font-weight: normal;" href="http://www.participatoryculture.org">Participatory Culture Foundation</a>, which makes the Democracy Platform.  Contact: nicholas-at-pculture.org. For more, read the <a style="font-weight: normal;" href="/news/">Democracy Blog</a>.</span> 
 </p>
+
+<p><strong>Update:</strong> please see <a href="http://blog.blip.tv/blog/2006/09/16/openness-matters-rss-can-help/">Mike Hudack's response to this essay</a>.</p>
 
 <p><!--Creative Commons License--><!-- <a rel="license" href="http://creativecommons.org/licenses/publicdomain/"><img alt="Creative Commons License" style="border-width: 0" src="http://creativecommons.org/images/public/norights-a.png"/></a><br/> -->This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/publicdomain/">Creative Commons Public Domain License</a>.  Please use it as you'd like, with or without attribution.<!--/Creative Commons License--><!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 	<Work rdf:about="">
