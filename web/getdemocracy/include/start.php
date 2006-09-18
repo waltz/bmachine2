@@ -13,10 +13,22 @@ include ("version.php");
 		<title>Democracy - Internet TV Platform - Free and Open Source</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="<?= $base ?>/stylesheets/main.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="http://getdemocracy.com/stylesheets/bar.css" type="text/css" media="screen" />
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?= $base ?>/news/feed">
 	</head>
 
 	<body>
+		<div id="banner_wrap">
+		 <ul id="banner">
+		 <li class="banner_link"><a id="pcf" href="http://www.participatoryculture.org/"><span>Contact</span></a></li>
+		 <li class="banner_link"><a id="publicize" href="http://www.publicizevideofeed.com"><span>Related</span></a></li>
+		 <li class="banner_link"><a id="channelchannel" href="http://thechannelchannel.tv/"><span>Channel Channel</span></a></li>
+		 <li class="banner_link"><a id="videobomb" href="http://www.videobomb.com/"><span>Video Bomb</span></a></li>
+		 <li class="activesite"><a id="getdemocracy" href="http://www.getdemocracy.com/"><span>Get Democracy</span></a></li>
+		 <li id="banner_logo"><a href="http://www.getdemocracy.com/"><span>Democracy Internet TV</span></a></li>
+		 </ul>
+		</div>
+		<br class="clearer" />
 		<div id="header">
 			<div id="header-top">
 				<h1><a href="<?= $base ?>/">Democracy - Internet TV Platform - Free and Open Source</a></h1>
