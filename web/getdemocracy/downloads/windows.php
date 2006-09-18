@@ -7,7 +7,7 @@
 <?php include("../include/wphead.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.9.0.exe">
+URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.9.0.1.exe">
 
 </head>
 
@@ -20,8 +20,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.9.0.exe">
   <div id="content-1col">
 
 
-						<div class="big" style="margin:20px 0px 15px 8px; text-align:center;
-color: #444;"><strong>If your download didn't start, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.9.0.exe">click here to download DemocracyPlayer</a>.</strong>
+						<div class="big" style="margin:20px 0px 15px 8px; text-align:center;color: #444;"><strong>If your download didn't start, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/win/Democracy-0.9.0.1.exe">click here to download DemocracyPlayer</a>.</strong>
 
 			</div>
 

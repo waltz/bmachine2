@@ -22,7 +22,7 @@ include "../include/start.php";
 							<div class="column3" style="width:150px; margin-right:20px;">
 								<a href="osx.php" title="Download Democracy Player for Mac OS X"><img src="<?= $base ?>/downloads/images/os-apple.gif" alt="" /></a>
 								<h2>Mac OS X</h2>
-								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X"> Download Now</a></h2><p>Version <?= $dtv_version ?> (beta)<br />
+								<h2><a href="osx.php" title="Download Democracy Player for Mac OS X"> Download Now</a></h2><p>Version <?= $dtv_version ?> (Beta)<br />
 								
 									<span class="small">Requires OS X 10.3+ and QuickTime 7</span></p>
 							</div>
