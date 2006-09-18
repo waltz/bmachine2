@@ -32,9 +32,9 @@
 			<img src="<?= $base ?>/images/fullscreen_screen.jpg" />
 			<div class="screendesc">Democracy fullscreen controls</div>
 			<Br />
-			<p>In terms of usability, iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where album cover art usually appears.  If you click on this box, the video pops up into a window that looks like the window for watching Quicktime on a webpage.  You have play, pause, and frame forward, frame back controls.  But no fast forward, rewind, or skip to the previous / next video control.  If you play a video in iTunes and click the fullscreen button rather than the image of the video, it begins to play fullscreen.  However, this fullscreen mode lacks any playback controls-- you can't fast forward, rewind, pause, etc.  If you press the spacebar to pause the video, you exit fullscreen mode, which feels a little jarring to me.  I actually would not be surprised if all of this changes in a future version of iTunes (perhaps when Apple announces their movie store?).</p>
+			<p>In terms of usability, iTunes video playback strikes me as a little bit odd.  When you play a video, it first appears in the tiny box in the lower left hand side of the interface, where album cover art usually appears.  If you click on this box, the video pops up into a separate window.</p>
 			
-<p>Overall, I believe Democracy Player offers a video playback experience that is superior to iTunes in many ways.  It matches Quicktime Pro for fullscreen playback, while providing the benefits of being able to work with lots of videos at once without switching back to the file manager.  And unlike Quicktime Pro, it's free.</p>
+<p>I believe Democracy Player offers a video playback experience that is superior to iTunes in simplicity and ease of use.</p>
 			
 			<h4>iPod Syncing</h4>
 			<p>Democracy Player does not currently sync to iPod, but we're working on adding that functionality in an upcoming version. Until then, for getting videos to your video iPod, iTunes has Democracy Player beat.</p>
@@ -76,10 +76,6 @@ CREATORS: If you're convinced that Democracy Player is the best way to present y
 				<ul class="sidebar-nav-art">
 					<li><strong>The Key Points</strong>
 						<ul>
-							<li><br /><strong>FOR MAC USERS</strong><br />Democracy Player gives you fullscreen playback with beautiful playback controls, so you don't have to buy Quicktime Pro.</li>				
-							<li><strong>FOR WINDOWS USERS</strong><br />Democracy Player plays many more file formats that iTunes.</a></li>
-							<li><strong>FOR LINUX USERS</strong><br />You can't run iTunes on Linux, but you can run Democracy Player.</li>
-
 							<li><strong>FOR ALL USERS</strong>
 							<br />
 							Democracy Player was built specifically for video RSS.  The interface is easier to use and more intuitive. 
@@ -91,7 +87,11 @@ CREATORS: If you're convinced that Democracy Player is the best way to present y
 							Like a TiVo, Democracy Player helps you manage disk space automatically.
 <br /><br />
 
-							Democracy Player's built-in Channel Guide lists more than 600 video channels, compared to only about 170 in iTunes' video podcast directory.  Democracy Player can play any feed that works with iTunes.  Most feeds that are in the iTunes directory are also in the Democracy Channel Guide.</li>
+							Democracy Player's built-in Channel Guide lists more than 600 video channels, compared to only about 170 in iTunes' video podcast directory.  Democracy Player can play any feed that works with iTunes.  Most feeds that are in the iTunes directory are also in the Democracy Channel Guide.</li>		
+							<li><strong>FOR WINDOWS USERS</strong><br />Democracy Player plays many more file formats that iTunes.</a></li>
+							<li><strong>FOR LINUX USERS</strong><br />You can't run iTunes on Linux, but you can run Democracy Player.</li>
+
+							
 						</ul>
 					</li>	
 				</ul>
