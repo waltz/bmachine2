@@ -1294,10 +1294,10 @@ small.commentmetadata a {
 }
 
 #homelink {
-	margin: -10px 0 15px 0;
+	margin: -20px 0 20px 0;
 }
 	#homelink a {
-		text-decoration:underline;
+	font-weight: bold;
 	}
 
 /* Feature table layout */

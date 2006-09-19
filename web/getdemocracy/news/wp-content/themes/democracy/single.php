@@ -8,7 +8,7 @@
 			<!--NEWS & UPDATES-->
 
 					<div id="rssfeedca">Democracy Internet TV Blog&nbsp;&nbsp;&nbsp;<a href="http://getdemocracy.com/news/feed" class="feed">RSS Feed</a></div>
-					<div id="homelink"><a href="/news/">&laquo; Home</a></div>
+					<div id="homelink"><a href="/news/">&laquo; Blog Home</a></div>
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					<div class="dateblock"><div class="datetop"><?php the_time('M') ?></div><div class="datebottom"><?php the_time('d') ?></div></div>
 					<h2 class="posttitle"><?php the_title(); ?></h2>
