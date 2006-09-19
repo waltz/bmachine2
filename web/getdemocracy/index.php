@@ -44,7 +44,7 @@ include("include/screenshot.php");
 					
 					<li><a href="<?= $base ?>/news/2006/08/hiring-business-development-director/">Now Hiring: Business Development Director</a></li>
 					
-					<li><a href="<?= $base ?>/articles/video_podcast_shootout.php">iTunes vs. Democracy Player</a></li>
+					<li><a href="<?= $base ?>/articles/future_of_video.php">The Future of Video: Openness Matters.</a></li>
 									</ul>
 				<a href="<?= $base ?>/news/" class="morenews">More news...</a>
 			</div>
