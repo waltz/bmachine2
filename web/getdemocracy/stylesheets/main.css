@@ -1298,6 +1298,7 @@ small.commentmetadata a {
 }
 	#homelink a {
 	font-weight: bold;
+	text-decoration: none;
 	}
 
 /* Feature table layout */
