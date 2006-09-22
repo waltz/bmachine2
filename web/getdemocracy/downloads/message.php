@@ -1,12 +1,14 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
 
-<p style="clear: both; border-top: 1px solid white; padding-top: 10px; font-size: 13px;"><strong>New features in this version:</strong> create playlists and folders, play Flash videos, search Google Video and Youtube, interface translated into 30 languages.  <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">And more</a>.
+<p style="clear: both; border-top: 1px solid white; padding-top: 10px; font-size: 13px;">
 
 
 			<div id="post-download-form">
 
-			<form style="display: inline; font-size: 14px;" action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
+			<form style="display: inline; font-size: 14px; text-align: left;" action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
+				<strong>New features in this version:</strong> create playlists and folders, play Flash videos, search Google Video and Youtube, interface translated into 30 languages.  <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">And more</a>.<Br /><Br />
+				
 				<span>You <strong>do not</strong> want to miss our next major upgrade.&nbsp;</span>
 				<input style="display: inline; font-size: 14px; vertical-align: middle;" type="text" class="emailbox" name="email" value="email address" size="15" onfocus='this.value=""' />
 				<input type=hidden name="makeconfirmed" value="1"/>

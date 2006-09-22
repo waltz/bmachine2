@@ -28,7 +28,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">
 						2. Mac Users: <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">this free plugin</a> will enable you to watch Windows Media videos in Democracy Player and Quicktime Player. 	
 			</div>
 
-			<span style="color: #494; font-size: 17px;">Democracy Player is downloading...</span><br /><span style="font-size: 14px;">OSX Universal Binary</span>
+			<span style="color: #494; font-size: 17px;">Democracy Player is downloading...</span><br /><span style="font-size: 14px;">Version 0.9.0.1 - OSX Universal Binary</span>
 			
 			</div>
 
