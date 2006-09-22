@@ -23,7 +23,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">
   <div class="content-1col">
 
 			<div style="margin:20px 0px 15px 0px;">
-				<div style="float: right; width: 400px; text-align:left; font-size: 12px; padding-top: 3px;">
+				<div style="padding: 5px; background-color: #f3f3f3; float: right; width: 400px; text-align:left; font-size: 12px; padding-top: 3px;">
 						1. If your download didn't start, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">click here</a>.<br /><br />
 						2. Mac Users: <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">this free plugin</a> will enable you to watch Windows Media videos in Democracy Player and Quicktime Player. 	
 			</div>
