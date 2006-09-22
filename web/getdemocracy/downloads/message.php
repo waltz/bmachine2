@@ -1,7 +1,7 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
 
-<p style="clear: both; border-top: 1px solid white; padding-top: 10px; font-site: 13px;"><strong>New features in this version:</strong> create playlists and folders, play Flash videos, search Google Video and Youtube, interface translated into 30 languages.  <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">And more</a>.
+<p style="clear: both; border-top: 1px solid white; padding-top: 10px; font-size: 13px;"><strong>New features in this version:</strong> create playlists and folders, play Flash videos, search Google Video and Youtube, interface translated into 30 languages.  <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">And more</a>.
 
 
 			<div id="post-download-form">
