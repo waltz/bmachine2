@@ -26,7 +26,7 @@
 <div style="padding: 10px 5px 5px 5px; font-size: 16px; border-top: 1px solid #ccc;">
 
 <div style="float:left; width: 80px;">
-<a href="http://www.videobomb.com"><img src="<?= $base ?>/images/abomb.png" alt="a bomb" /></a>
+<a href="http://www.videobomb.com"><img src="<?= $base ?>/downloads/images/abomb.png" alt="a bomb" /></a>
 </div>
 Don't forget to try Video Bomb, the video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Go to Video Bomb >></a>
 
