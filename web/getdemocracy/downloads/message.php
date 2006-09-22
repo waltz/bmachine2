@@ -1,9 +1,6 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
 
-<p style="clear: both; border-top: 1px solid white; padding-top: 10px; font-size: 13px;">
-
-
 			<div id="post-download-form">
 
 			<form style="display: inline; font-size: 14px; text-align: left;" action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
