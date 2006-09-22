@@ -7,7 +7,7 @@
 <?php include("../include/wphead.php"); ?>
 
 <meta http-equiv="Refresh" content="2;
-URL=http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc5/Democracy-0.9.0-1.src.rpm">
+URL=http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc5/Democracy-0.9.0.2-1.src.rpm">
 
 
 </head>
@@ -24,7 +24,7 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc5/Democracy-0.9.0-1
 
 						<p style="text-align:center; font-size: 12px;">If your download didn't
 start automatically, <a
-href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc5/Democracy-0.9.0-1.src.rpm">click here</a>.</p>
+href="http://ftp.osuosl.org/pub/pculture.org/democracy/linux/fc5/Democracy-0.9.0.2-1.src.rpm">click here</a>.</p>
 
 			</div>
 
