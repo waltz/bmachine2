@@ -1,5 +1,6 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
+<br  style="clear: both;" />
 
 			<div id="post-download-form">
 
