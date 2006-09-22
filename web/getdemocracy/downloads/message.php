@@ -1,142 +1,79 @@
 <?php include ("/data/getdemocracy/site-live/include/base.php"); ?>
 
 
+<p><strong>New features in this version:</strong> create playlists and folders, play Flash videos, search Google Video and Youtube, interface translated into 30 languages.  <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">And more</a>.
+
 
 			<div id="post-download-form">
 
-
-			
-
-			<p style="font-size: 18px;" text-align: center;><strong style="color: #34389A;">We're already working on the next release, version 0.9.1.<br />Get notified as soon as it's ready:</strong></p>
-
-
-			<form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
-				<input style="font-size: 17px;" type="text" class="emailbox" name="email" value="email address" size="20" onfocus='this.value=""' />
+			<form style="display: inline; font-size: 14px;" action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
+				<span>You <strong>do not</strong> want to miss our next major upgrade.&nbsp;</span>
+				<input style="display: inline; font-size: 14px; vertical-align: middle;" type="text" class="emailbox" name="email" value="email address" size="15" onfocus='this.value=""' />
 				<input type=hidden name="makeconfirmed" value="1"/>
 				<input type="hidden" name="htmlemail" value="1" />
 				<input type="hidden" name="list[4]" value="signup" />
 				<input type="hidden" name="listname[4]" value="Viewers" />
-				<input style="font-size: 17px;" type="submit" id="emailsubmit" name="subscribe" value="Tell Me When It's Ready" onClick="return checkform();" />
+				<input style="display: inline; font-size: 14px; vertical-align: middle;" type="submit" id="emailsubmit" name="subscribe" value="Tell Me When It's Ready >>" onClick="return checkform();" />
 			</form>
 
-			<p style="font-size:80%; color:#999999; text-align: center;">We won't share your address with anyone.</p>
+			<p style="font-size:80%; color:#999999; text-align: center; margin: 0; padding: 0;">We never share your address with anyone and we send only about one update per month.</p>
 			</div>
 
 
-<div id="post-download-form">
 
-<p style="font-size: 18px; text-align: left; padding-left: 25px;">
-			<Strong>Latest Democracy News <a style="color: #ff7209; font-size: 18px;" href="<?= $base ?>/news/feed" class="feed">rss</a></strong><Br /><br />
+<h3 class="choice_header">So... who are you?</h3>
+
+
+
+<div id="thechoice">
+
+<div class="message_pitch">
+<h4>I'm new to Democracy!</h4>
+<p>
+See screenshots and get a bunch of awesome channels installed.<br />
+<a href="<?= $base ?>/help/get-started/">Let's Get Started >></a>
+</p>
+</div>
+
+<div class="message_pitch message_pitch2">
+<h4>I'm already a Democracy user!</h4>
+<p>
+We don't just build kick-ass software.  We're a non-profit on a mission to make media better.  Help us.<br />
+<a href="<?= $base ?>/fight/">5 Ways to Spread the Love >></a>
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+<div id="post-download-form" style="clear: both;">
+
+<p style="font-size: 16px; text-align: left; padding-left: 25px;">
+			<Strong>News from the <a style="font-weight: bold; color: #000;" href="<?= $base ?>/news/feed" class="feed">Democracy Blog</a> <a style="color: #ff7209; font-size: 15px;" href="<?= $base ?>/news/feed" class="feed">rss</a></strong><Br />
 			
-			1. <a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Read about the new features in Democracy Player 0.9.</a><Br /><Br />2. Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
+<div style="padding: 0 0 10px 60px; text-align: left;">
+Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
 <Br /><Br />
-3. A New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
+New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
 <br /><br />
-4.  <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV.  Submit yours.
-			</p>
-
+New Project: <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV.  Submit yours.
 </div>
-
-
-
-<div class="pd_box">
-<h3 class="pd_box_top">1. Get Started Using Democracy</h3>
-
-
-<div class="pd_box_inside">
-
-<ul>
-
-
-<li>Watch Democracy in Action: <a href="http://screencastsonline.com/sco/h264/SCO0064-Democracy-640x360-h264.mov">Democracy Player Screencast</a></li>
-
-
-<li>First time using Democracy?  <a href="http://www.getdemocracy.com/walkthrough">Follow the Walkthrough</a></li>
-
-<li>Compare Democracy vs. iTunes: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Video Podcast Shootout</a></li>
-
-
-</ul>
-
-
-<div style="padding: 10px 5px 5px 5px; font-size: 16px; border-top: 1px solid #ccc;">
-
-<div style="float:left; width: 80px;">
-<a href="http://www.videobomb.com"><img src="images/abomb.png" alt="a bomb" /></a>
-</div>
-And don't forget to try Video Bomb, the video sharing site that integrates with Democracy Player.  <a href="http://www.videobomb.com">Go to Video Bomb >></a>
-
-<br /><br />
-</div>
-
-</div>
-
-
-</div>
-
-
-<div class="pd_box">
-<h3 class="pd_box_top">2. Learn More</h3>
-
-<div class="pd_box_inside">
-
-<ul>
-
-<li>Get news and updates at the <a href="<?= $base ?>/news">Democracy: Internet TV Blog</a>&nbsp;&nbsp;<a style="color: #ff7209; font-size: 18px;" href="<?= $base ?>/news/feed" class="feed">rss</a></li>
-
-<li>Do you have a video RSS feed?  Publicize it! <a href="http://subscribe.getdemocracy.com/">Make a 1-Click Subscribe Button</a></li>
-
-<li>Hiring: <a href="/jobs">Business Development Director, Programmer, and Art Director</a></li>
-
-</ul>
-
-
-</div>
+			
 
 </div>
 
 
 
 
-<div class="pd_box">
-<h3 class="pd_box_top">3. Help Democracy Grow</h3>
-
-<div class="pd_box_inside">
-
-		<ul>
-			<li><a href="<?= $base ?>/donate">Make a donation</a> -  If you believe in this project, we need your support.</li>
-
-			<li> <a href="<?= $base ?>/tellafriend/">Tell a Friend</a> - Tell a friend why you think Democracy is important.
-</li>
-
-			<li><a href="<?= $base ?>/store">Get a  t-shirt</a> -  For $15 you can get an awesome shirt and support the project too.</li>
-			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_washington_cp.jpg" /></a></p>
 
 
-			<p style="display: block; float: left; width: 350px; text-align: center;"><a href="<?= $base ?>/store" target="_blank"><img style="padding: 4px; border: 1px solid #ddd;" src="http://www.vgkids.com/ccp51/media/images/product_category/pcf_democ_cp.jpg" /></a></p>
 
-<p style="clear: both; height: 3px;">&nbsp;</p>
-
-			 </ul>
-
-
-<div style="padding: 5px; font-size: 16px; border-top: 1px solid #ccc; height: 205px;">
-
-	<div style="float: left; margin-right: 10px;">
-	<a href="/donate/"><img src="/images/road_to_10_350.jpg" alt="donate to democracy" /></a>
-	</div>
-
-	<h1 style="font-size: 20px; margin-bottom: 10px; color: #D50;">We Need Your Help</h1>
-
-	<p>As we continue to improve and refine Democracy Player, on the way to version 1.0, we need your help to continue our work.  Give us a chance to convince you that our project is worth donating to.</p>
-
-	<a style="font-size: 20px; text-decoration: underline;" href="/donate/">Learn More >></a>
-
-
-	</div>
 
 </div>
-
 
 </div>
 

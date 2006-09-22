@@ -22,17 +22,15 @@ URL=http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">
 	<!--CONTENT BLOCK-->
   <div class="content-1col">
 
-			<div class="big" style="margin:20px 0px 15px 8px; text-align:center; color: #444;"><strong>Democracy Player Universal Binary for OS X is downloading...</strong>
-
-						<p style="text-align:center; font-size: 12px;">
-						To watch Windows Media videos in Democracy, <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">get this free plugin.</a><br /><br />
-						If your download didn't start automatically, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">click here</a>.</p>
-
+			<div style="margin:20px 0px 15px 0px;">
+				<div style="float: right; width: 400px; text-align:left; font-size: 12px; padding-top: 3px;">
+						1. If your download didn't start, <a href="http://ftp.osuosl.org/pub/pculture.org/democracy/osx/Democracy-0.9.0.1.dmg">click here</a>.<br /><br />
+						2. Mac Users: <a href="http://www.microsoft.com/windows/windowsmedia/player/wmcomponents.mspx">this free plugin</a> will enable you to watch Windows Media videos in Democracy Player and Quicktime Player. 	
 			</div>
 
-
-
-
+			<span style="color: #494; font-size: 17px;">Democracy Player is downloading...</span><br /><span style="font-size: 14px;">OSX Universal Binary</span>
+			
+			</div>
 
 			<div class="post-download-box">
 
