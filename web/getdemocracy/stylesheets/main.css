@@ -1113,6 +1113,7 @@ label {
 
 
 #post-download-form {
+clear: both;
 background-color: #ffd;
 padding: 5px;
 margin: 0 0 15px 0;
