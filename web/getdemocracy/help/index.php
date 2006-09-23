@@ -7,7 +7,7 @@
 			</div>
 
 			<h4>1. Frequently Asked Questions (FAQ)</h4>
-			<p>A good place to start.  Most common troubleshooting questions:</p>
+			<p>A good place to start.  These are the most common questions:</p>
 			<ul>
 				<li><a href="faq/index.php#04-11">Why won't a video download?</a></li>
 				<li><a href="faq/index.php#04-12">I subscribed to a channel, but it's empty.</a></li>
@@ -15,12 +15,12 @@
 			</ul>
 			<p><strong><a href="faq">All Frequently Asked Questions >></a></strong></p>
 
-			<h4>2. Ask a Question</h4>
-			<p>Our <a href="http://forum.getdemocracy.com">support forums</a> are a good way to find help from experts and other Democracy users.  If you choose, you can have replies to your problem sent right to your e-mail address.  <a href="http://forum.getdemocracy.com">Browse the Forum >></a>.</p>
+			<h4>2. Ask a Person</h4>
+			<p>Our <a href="http://forum.getdemocracy.com">discussion forums</a> are a good way to find help from experts and other Democracy users.  If you choose, you can have replies to your problem sent right to your e-mail address.  <a href="http://forum.getdemocracy.com">Browse the Forum >></a></p>
 			</div>
 			<div id="content-right-2col">
 				<ul class="sidebar-nav">
-					<li><a href="<?= $base ?>/help/">Help and Forums</a>
+					<li><a href="<?= $base ?>/help/">Help Center</a>
 						<ul>
 							<!--<li><a href="<?= $base ?>/help">Viewer Help</a></li> -->
 							<li><a href="faq#viewers">Viewer FAQ</a></li>
@@ -34,7 +34,7 @@
 				<h6>Videomakers + Publishers</h6>
 					<p>Need help making a Democracy channel or using Broadcast Machine?</p>
 					
-				<p>Try the <a href="http://www.getdemocracy.com/help/faq/#creators">Creator FAQ</a> and <a href="<?= $base ?>/make">Make TV page</a>
+				<p><a href="http://www.getdemocracy.com/help/faq/#creators">Creator FAQ</a> - <a href="<?= $base ?>/make">Make TV page</a>
 				</div>
 
 				</div>
