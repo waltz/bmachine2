@@ -1,4 +1,4 @@
-<h6>Videomakers</h6>
+<h6>Creator Updates</h6>
 <p>Updates about how to get more viewers.
 <form action="http://participatoryculture.org/lists/?p=subscribe&id=2" 
 method="post" name="subscribeform">

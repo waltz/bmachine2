@@ -26,11 +26,10 @@ Video podcast shootout: <a href="http://www.getdemocracy.com/articles/video_podc
 	<?php get_links_list(); ?> 
 -->
 
-<h6>Stay Posted</h6>
-<p>We're moving fast. We won't share your email address with anyone.</p>
 <?php include("/data/getdemocracy/site-live/include/email/viewers.php"); ?>
 <?php include("/data/getdemocracy/site-live/include/email/publishers.php"); ?>
 <?php include("/data/getdemocracy/site-live/include/email/press.php"); ?>
+<p>We won't share your email address with anyone.</p>
 <?php include("/data/getdemocracy/site-live/include/email/translators.php"); ?>
 
 				

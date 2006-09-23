@@ -1,4 +1,4 @@
-<h6>Viewers</h6>
+<h6>Viewer Updates</h6>
 <p>Be the first to get new versions of Democracy player.
 <form action="http://participatoryculture.org/lists/?p=subscribe&id=4" method="post" name="subscribeform">
 	<input type="text" class="emailbox" name="email" value="email address" size="12" onfocus='this.value=""' />
