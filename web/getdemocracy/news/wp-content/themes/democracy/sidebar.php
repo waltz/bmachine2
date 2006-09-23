@@ -10,11 +10,11 @@
 <h2>Articles</h2>
 
 <p style="padding-top: 5px;">
-Future of Online Video<br /><a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
+<strong>Future of Online Video</strong>br /><a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
 </p>
 
 <p>
-Video Podcast Shootout<br /><a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
+<strong>Video Podcast Shootout</strong><br /><a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
 </p>
 
 			<h2>Older Posts</h2>
