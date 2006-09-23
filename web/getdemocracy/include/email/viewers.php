@@ -6,5 +6,5 @@
 	<input type="hidden" name="htmlemail" value="1" />
 	<input type="hidden" name="list[4]" value="signup" />
 	<input type="hidden" name="listname[4]" value="Viewers" />
-	<input type="submit" id="emailsubmit" name="subscribe" value="Subscribe" onClick="return checkform();" />
+	<input type="submit" id="emailsubmit" name="subscribe" value="Tell me >>" onClick="return checkform();" />
 </form>
