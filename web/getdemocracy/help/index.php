@@ -31,9 +31,10 @@
 					</li>
 				</ul>
 				<div id="lower-sidebar">
-				<h6>Videomakers/Publishers Help</h6>
+				<h6>Videomakers + Publishers</h6>
 					<p>Need help making a Democracy channel or using Broadcast Machine?</p>
-					<p><strong><a href="<?= $base ?>/make">Go to the Make TV page >></a></strong></p>
+					
+				<p>Try <a href="http://www.getdemocracy.com/help/faq/#creators">This FAQ</a> and check the <p><a href="<?= $base ?>/make">Make TV page</a></p>
 				</div>
 
 				</div>
