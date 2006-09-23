@@ -34,7 +34,7 @@
 				<h6>Videomakers + Publishers</h6>
 					<p>Need help making a Democracy channel or using Broadcast Machine?</p>
 					
-				<p>Try <a href="http://www.getdemocracy.com/help/faq/#creators">This FAQ</a> and check the <p><a href="<?= $base ?>/make">Make TV page</a></p>
+				<p>Try <a href="http://www.getdemocracy.com/help/faq/#creators">this FAQ</a> and the <p><a href="<?= $base ?>/make">Make TV page</a></p>
 				</div>
 
 				</div>
