@@ -9,13 +9,13 @@
 
 <h2>Articles</h2>
 
-<ul>
-<li>
+<p>
 The future of video online: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
-</li>
-<li>
+</p>
+
+<p>
 Video podcast shootout: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
-</li>
+</p>
 
 			<h2>Older Posts</h2>
 				<ul>
