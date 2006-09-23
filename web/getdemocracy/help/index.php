@@ -3,7 +3,7 @@
 			<div id="content-left-2col">
 			<div id="sub-main-2col">
 				<h2>Help</h2>
-				<p class="subhead">Need help? There are two main ways you can get it, with more coming soon:</p>
+				<p class="subhead">Need help?  Try these options.</p>
 			</div>
 
 			<h4>1. Frequently Asked Questions (FAQ)</h4>
