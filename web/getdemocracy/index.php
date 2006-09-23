@@ -27,7 +27,7 @@ include("include/screenshot.php");
 		</div>
 		<div id="subcallout">
 			<div id="subcontent">
-				<h2>600 Channels, All Free</h2>
+				<h2>Over 700 Channels, All Free</h2>
 				<p id="subdesc">When you launch Democracy Player, you'll see the built-in Channel Guide. New channels arrive every day, and you can subscribe to any with a single-click.  The Guide is open to everyone.<br /><a href="https://channelguide.participatoryculture.org/?q=submitchannel">Submit your video feed.</a></p>
 				<ul>
 					<li id="channel1"><img id="channels" src="<?= $base ?>/images/frederator.jpg" width="171" height="114" />
