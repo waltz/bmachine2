@@ -1,13 +1,15 @@
 <!--SIDEBAR-->
 <div id="content-right-2col">
 	<form method="get" id="searchform" action="<?php bloginfo('home'); ?>/">
-		<div><input type="text" value="<?php echo wp_specialchars($s, 1); ?>" name="s" id="s" />
+		<div><input type="text" value="<?php echo wp_specialchars($s, 1); ?>" name="s" id="s" size="15" />
 		<input type="submit" id="searchsubmit" value="Search" />
 		</div>
 	</form>
 
 
 <h2>Articles</h2>
+
+<p>&nbsp;</p>
 
 <p>
 Future of Online Video<br /><a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
