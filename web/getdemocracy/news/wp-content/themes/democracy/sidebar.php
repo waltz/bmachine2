@@ -6,12 +6,11 @@
 		</div>
 	</form>
 
-
+<p>&nbps;</p>
 <h2>Articles</h2>
 
-<p>&nbsp;</p>
-
 <p>
+<br />
 Future of Online Video<br /><a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
 </p>
 
