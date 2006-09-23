@@ -6,7 +6,7 @@
 		</div>
 	</form>
 
-<p>&nbps;</p>
+<p>&nbsp;</p>
 <h2>Articles</h2>
 
 <p>
