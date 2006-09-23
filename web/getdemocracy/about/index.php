@@ -90,7 +90,7 @@ include ("../include/start.php");
 									<div class="staffcontent" style="padding-top:10px;">
 										<div class="column2">
 											<div class="contact-staff-tnail"><img src="<?= $base ?>/images/staff/geoff.jpg" alt="" /></div>
-											<h2>Ben Dean-Kawamura</h2>
+											<h2>Ben Dean- Kawamura</h2>
 											<p><strong>Software Developer</strong></p>
 											<p>Ben lives in Worcester. <br />Contact: <a href="mailto:ben@pculture.org">ben[at]pculture.org</a></p>
 										</div>
