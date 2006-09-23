@@ -8,10 +8,14 @@
 
 
 <h2>Articles</h2>
-The future of video online: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
-<br />
-Video podcast shootout: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
 
+<ul>
+<li>
+The future of video online: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
+</li>
+<li>
+Video podcast shootout: <a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
+</li>
 
 			<h2>Older Posts</h2>
 				<ul>
