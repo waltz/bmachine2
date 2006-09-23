@@ -9,7 +9,7 @@
 <p>&nbsp;</p>
 <h2>Articles</h2>
 
-<p style="padding-top: 5px;>
+<p style="padding-top: 5px;">
 Future of Online Video<br /><a href="http://www.getdemocracy.com/articles/future_of_video.php">Openness Matters. RSS Can Help.</a>
 </p>
 
