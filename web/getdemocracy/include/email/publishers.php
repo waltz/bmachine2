@@ -2,7 +2,7 @@
 <p>Updates about how to get more viewers.
 <form action="http://participatoryculture.org/lists/?p=subscribe&id=2" 
 method="post" name="subscribeform">
-        <input type="text" class="emailbox" name="email" value="email address" size="10" onfocus='this.value=""' />
+        <input type="text" class="emailbox" name="email" value="email address" size="15" onfocus='this.value=""' />
         <input type=hidden name="makeconfirmed" value="1"/>
         <input type="hidden" name="htmlemail" value="1" />
         <input type="hidden" name="list[2]" value="signup" />
