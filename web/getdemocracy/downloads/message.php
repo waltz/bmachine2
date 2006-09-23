@@ -39,7 +39,7 @@ See screenshots and get a bunch of awesome channels installed.<br />
 <h4>I'm already a Democracy user!</h4>
 <p>
 We don't just build kick-ass software.  We're a non-profit on a mission to make media better.  Help us.<br />
-<a href="<?= $base ?>/fight/">5 Ways to Spread the Love >></a>
+<a href="<?= $base ?>/fight/">3 Ways to Spread the Love >></a>
 </p>
 
 </div>

@@ -1204,6 +1204,15 @@ color: #444;
 padding: 10px;
 }
 
+.pd_box_inside li {
+padding: 0px 0 18px 0;
+}
+
+.pd_box_inside li a {
+font-size: 20px;
+}
+
+
 /* END MISC ELEMENTS */
 /* ----------------- */
 

@@ -4,7 +4,6 @@ Subject: You should get Democracy Player
 
 
 {firstname} says:
-
 {comment}
 
 Democracy Player is a free internet TV application.  You can watch any video RSS feed, video podcast, video blog, or BitTorrent file. Watch fullscreen, high resolution, 100% free and open source.
