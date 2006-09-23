@@ -1348,6 +1348,10 @@ small.commentmetadata a {
 	font-size:10px;
 }
 
+#page_title h1 {
+	margin:15px 0;
+}
+
 #page_title h2 {
 	font-size:25px;
 	margin:15px 0;
