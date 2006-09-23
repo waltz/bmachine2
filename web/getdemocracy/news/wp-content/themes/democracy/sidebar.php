@@ -17,7 +17,7 @@ Future of Online Video<br /><a href="http://www.getdemocracy.com/articles/future
 Video Podcast Shootout<br /><a href="http://www.getdemocracy.com/articles/video_podcast_shootout.php">Democracy vs. iTunes</a><br />
 </p>
 
-			<h2>Older Posts</h2>
+			<h2>Blog Posts</h2>
 				<ul>
 				<?php wp_get_archives('type=monthly'); ?>
 				</ul>
