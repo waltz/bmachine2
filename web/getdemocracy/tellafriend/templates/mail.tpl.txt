@@ -1,10 +1,12 @@
 To: <{multiple_friend_email_?}>
 From: "{firstname}" <{sender_email}>
-Subject: Check out Democracy
+Subject: You should get Democracy Player
 
 
 {firstname} says:
 
 {comment}
 
-Democracy is a free, new internet TV platform for watching and broadcasting video. It's open source software and is designed to make watching internet videos feel more like watching TV. You can take a look at some screenshots and learn more: www.getdemocracy.com
+Democracy Player is a free internet TV application.  You can watch any video RSS feed, video podcast, video blog, or BitTorrent file. Watch fullscreen, high resolution, 100% free and open source.
+
+Take a look at some screenshots and learn more: http://www.getdemocracy.com

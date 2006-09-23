@@ -57,7 +57,7 @@
 
           $show_limit_errors     = 'yes';     // (yes, no)
 
-          $log_messages          = 'no';     // (yes, no)
+          $log_messages          = 'yes';     // (yes, no)
 
           $text_wrap             = '65';
 
