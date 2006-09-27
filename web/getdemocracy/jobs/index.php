@@ -13,7 +13,7 @@
 
 <p>We want to fill the positions below as soon as possible.  If you're interested, please be in touch right away; we don't need fancy resumes, just good, clear info about what you've been up to.  Women and people of color are strongly encouraged to apply.</p>
 
-
+<!--
 
 <h3>Director of Business Development</h3>
 
@@ -60,7 +60,7 @@ nicholas@pculture.org</blockquote>
 
 <p>Resumes must include salary expectations to be considered.  And please keep in mind that PCF is a non-profit organization. </p>
 
-
+-->
 
 <h3>Software Developer</h3>
 

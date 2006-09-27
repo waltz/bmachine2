@@ -42,8 +42,7 @@ include("include/screenshot.php");
 					<li><a href="http://www.getdemocracy.com/news/2006/09/democracy-player-09-released/">Democracy Player 0.9 Released!</a></li>
 					<li><a href="http://www.thechannelchannel.tv">The Channel Channel<br />60 second previews of internet TV channels</a></li>
 					
-					<li><a href="<?= $base ?>/news/2006/08/hiring-business-development-director/">Now Hiring: Business Development Director</a></li>
-					
+									
 					<li><a href="<?= $base ?>/articles/future_of_video.php">The Future of Video: Openness Matters.</a></li>
 									</ul>
 				<a href="<?= $base ?>/news/" class="morenews">More news...</a>

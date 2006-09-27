@@ -56,8 +56,6 @@ We don't just build kick-ass software.  We're a non-profit on a mission to make 
 			<Strong>News from the <a style="font-weight: bold; color: #000;" href="<?= $base ?>/news/feed" class="feed">Democracy Blog</a> <a style="color: #ff7209; font-size: 15px;" href="<?= $base ?>/news/feed" class="feed">rss</a></strong><Br />
 			
 <div style="padding: 0 0 10px 60px; text-align: left;">
-Now Hiring: <a href="http://www.getdemocracy.com/jobs/bdd/">Business Development Director</a>
-<Br /><Br />
 New Essay: <a href="http://www.getdemocracy.com/articles/future_of_video.php">Open Video Matters, RSS Can Help</a>
 <br /><br />
 New Project: <a href="http://thechannelchannel.tv">The Channel Channel</a> - 60 second previews of internet TV.  Submit yours.
