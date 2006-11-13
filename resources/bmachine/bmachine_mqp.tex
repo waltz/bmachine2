@@ -1,0 +1,60 @@
+%
+% A pretty basic LaTeX file right now, next step is to put a makefile together
+% to make PDF and DOC generation a cinch. -CJ
+%
+
+%\title{Broadcast Machine MQP}
+%\author{Drew Wilson, Greg Opperman, Christian Bryan}
+%\date{July 14, 2005}			
+
+\documentclass[12pt]{report}
+
+\begin{document}
+%\maketitle
+
+\chapter{Current Issues}
+	Before we can go ahead and create a better Broadcast Machine our team needs to understand the problems with the current software. While Broadcast Machine is good enough to meet the needs of most users, the aim of bringing an easy-to-install and trouble free means of distributing video is far from a reality. The problems are certainly not quick fixes either. Many of the complaints from current Broadcast Machine users are solvable, but only with hacks. The hacks themselves become hard to implement as the developer faces an architecture that is confusing at best. To figure out what the specific problems are, we split them into two categories. The first category of problems includes those that were caused by the specific implementation and the second involves those that spawned from a poorly designed architecture.
+
+	One of the most useful features in Broadcast Machine is unfortunately the one that seems to cause the most problems. The BitTorrent distribution mechanism would allow users to distribute their video and not have to worry about the cost of bandwidth. This is at the center of a program like Broadcast Machine because its draw comes from people who lack the money to support complex distribution schemes for their content. The few times that it does work, the users have been happy with its performance, but its inconsistency is a huge drawback. While the BitTorrent mechanism’s instability is something that can be fixed, the server-side issues are much more complex. As many of the users are relatively inexperienced, and don’t have the money for more expensive webhosts, Broadcast Machine is often run on cheap servers with few options enabled. Trying to work around the limitations of many of these server configurations is a nightmare, but it’s necessary for much of the special functionality that Broadcast Machine has to offer.
+
+	  When it comes time to fix bugs within Broadcast Machine, it’s certainly not smooth sailing for the programmer. For dealing with the database and the structure of the Model, it’s becomes difficult to tell what information is being stored in flat files, which data is being sent to the SQL database and how the two are switched and interconnected. This is where problems with the architecture of the program become a nuisance to the developers. When it comes time to fix the bugs, it’s difficult to do so because the different functions of the program aren’t separated at all in places and where they are, the implementation is lacking. 
+
+	Another one of Broadcast Machine’s failings is in the documentation department. With an open source project like this which can possibly thrive on the contributions of users and other developers, documentation is critical. When tech savvy users have a problem and the desire to fix it, the Broadcast Machine team leaves them out to dry. For a stranger to start working on this program with little face-to-face explanation would be quite the feat. While this problem is less technical in nature, it should be a large concern to the maintainers of Broadcast Machine. Prospective developers are choosing not to hack on the project when they realize that it is often not worth their time to deconstruct the code. 
+
+\chapter{Requirements and Design Decisions}
+
+\section{Architecture}
+
+	Many of Broadcast Machine’s current problems stem from its poor architectural implementation. To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. From a design standpoint, a successful architecture has several requirements.
+
+The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. Ideally, users’ site layouts, or “themes”, have the potential to look drastically different. The templates must be abstracted from the functional code, so that users needn’t worry about damaging the code or digging deep into its inner workings when modifying the layout. Users should also have the ability to easily switch between layouts.
+
+Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer. The layout of the application should appear logical and concise. In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. Developers should not need to dig through a mountain of code before finding the section that they need to edit. If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. In this sense, a good architecture will encourage good design practices.
+
+The application must be flexible enough so that it can be re-factored easily. Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. For example, we may decide later that we would like to use a different type of database, or even a flat file system. We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience.
+
+For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. Model-View-Controller (abbreviated MVC) separates the application into three distinctive layers with different responsibilities that interact to comprise the program. The View layer covers any part of the application that the user interacts with, such as the actual web page that the program renders. All of the actual data stored by the application is represented by the Model layer. The Controller layer handles interactions between the View and the Model, and is responsible for invoking changes on either layer.
+
+\section{Accessibility}
+
+The new Broadcast Machine must work across several different platforms. While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
+
+For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. Although Ruby on Rails is ideal for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. Very few hosting services include Ruby in their hosting plan, and setting up Rails manually is a task beyond our target user-base. PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
+
+Similarly, MySQL is an open-source DBMS (Database Management System) that is perhaps the most widely used SQL (Structured Query Language) implementation, with the exception of enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
+
+When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. An assumption that the average database will contain less than 1000 records for unique videos is reasonable. A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. Despite this, MySQL’s ubiquitous presence on the web makes it an obvious choice over SQLite, as the performance increase does not overshadow SQLite’s significantly lower market penetration.
+
+\section{Ease of Use}
+
+	The most obvious requirement for Broadcast Machine is that it be easy to use. Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program. Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed. Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” (a simplified term for democracy-compatible RSS syndication) via a simple administrative interface. Without any information besides their web server login and password, the user should be able to set up Broadcast machine by dropping the application in their public html folder. The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. The application must intuitively detect server configurations that may interfere with its behavior, and handle those special cases gracefully.
+
+Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels in Democracy Player (See use cases for more information).
+
+\section{Stability}
+
+	Most importantly, the new Broadcast Machine must be stable. At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior. 
+
+\chapter{Architecture}
+
+\end{document}
