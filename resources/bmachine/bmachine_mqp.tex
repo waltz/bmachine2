@@ -151,25 +151,13 @@ File information – Data about the actual video file itself (see below).
 	The new schema also drops several fields and data structures that could be simplified or generated on the fly. For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. We also store information about intellectual property licenses that could be abstracted to its own table. However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
 	Although file data and video data have a one-to-one relationship, we decided that it makes more logical sense to keep them separate rather than merge them into one table. Although we lose a small amount of database performance in a few cases (when file data and video data need to be aggregated together), the alternative would leave us with a large table that would be difficult to maintain. Breaking up the data into two logically chunked tables allows us to write simpler SQL statements when getting and setting, and make these statements easier to read and understand, which has unforeseen benefits in the event that the data structures need to be re-factored.
 
-\subsection{Questions:}
-
-How granular should permissions be? Should it stop at groups (other than special cases, i.e. bans), or can an admin single out particular users? Another approach is to forego groups (except for basics like Admin/User/Anonymous), but I’m pretty sure we want to allow people to create custom groups.
-
-The file extension field seems redundant. We could always divine it from the filename.
-
-Is there any reason to give licenses their own table? It only has two fields, and even though the relationship is 1 to many, processing the join all the time might cost us more in the long run. We’re never going to have to do anything with it than get and set it.
-
-Along the same lines, icon info is one to one, and should probably be merged. I’m not even sure we need to store the mime-type. Does the RSS feed need it? 
-
-The user status (i.e Banned and Activated fields) could be handled with permissions, right? It doesn’t seem to need two Boolean fields. Banned might be an exception, if we want to allow someone to unban a user while preserving group membership, but activation status can be ascertained by lack of permission group membership.
-
 \chapter{BitTorrent}
 !!! Drew's BitTorrent chapter goes here !!!
 =======
 \chapter{What is BitTorrent?}
 
 \section{Overview}
-Bit Torrent is an open protocol for distributing large amounts of data across a network. It’s an Internet content distribution system. The Bit Torrent protocol is decentralized in design and helps minimizes the server load by distributing the upstream. It allows individuals with limited upstream bandwidth to share files easily. 
+Bit Torrent is an open protocol for distributing large amounts of data across a network. The Bit Torrent protocol is decentralized in design and helps minimizes the server load by distributing the upstream. It allows individuals with limited upstream bandwidth to share files easily. 
 Bit Torrent has become wildly popular. Some estimates say BitTorrent counts for 55 percent of Internet upstream. More conservative estimates put it at 35 percent. In either case, it represents a huge percentage of Internet traffic.
 Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol. But Bit Torrents doesn’t need to be used to distribute files illegally. It’s absurd to argue that a specific type of file sharing should be banned because some people may use it to share files to which they do not own the copyright. Imagine if a similar argument had to block email? Email allows people to distribute print material easier and therefore it is easier to break copyright laws. 
 
