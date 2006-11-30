@@ -1,24 +1,38 @@
-%
-% A pretty basic LaTeX file right now, next step is to put a makefile together
-% to make PDF and DOC generation a cinch. -CJ
-%
-
-%\title{Broadcast Machine MQP}
-%\author{Drew Wilson, Greg Opperman, Christian Bryan}
-%\date{July 14, 2005}			
-
-\documentclass[12pt]{report}
+\documentclass[a4paper,12pt]{report}
+\author{Christian Bryan, Greg Opperman, Drew Wilson}
+\date{\today}
+\title{Broadcast Machine}
 
 \begin{document}
 
-\chapter{Current Issues}
-	Before we can go ahead and create a better Broadcast Machine our team needs to understand the problems with the current software. While Broadcast Machine is good enough to meet the needs of most users, the aim of bringing an easy-to-install and trouble free means of distributing video is far from a reality. The problems are certainly not quick fixes either. Many of the complaints from current Broadcast Machine users are solvable, but only with hacks. The hacks themselves become hard to implement as the developer faces an architecture that is confusing at best. To figure out what the specific problems are, we split them into two categories. The first category of problems includes those that were caused by the specific implementation and the second involves those that spawned from a poorly designed architecture.
+\maketitle
 
+\tableofcontents
+
+\chapter{Background}
+* Importance of open media and an open internet for open media.
+	* A brief history of the software and PCF.
+	* How Broadcast Machine relates to similar software such as:
+		> WordPress
+		> Drupal
+		> YouTube
+	* Why Broadcast Machine will be built in PHP/MySQL versus Ruby on Rails, J2EE, and other PHP frameworks.
+
+\chapter{Current Issues}
+(Old 1st Paragraph)
+	Before we can go ahead and create a better Broadcast Machine our team needs to understand the problems with the current software. While Broadcast Machine is good enough to meet the needs of most users, the goal of bringing an easy-to-install and trouble free means of distributing video is far from a reality. The problems are certainly not quick fixes either. Many of the complaints from current Broadcast Machine users are solvable, but only with hacks. The hacks themselves become hard to implement as the developer faces an architecture that is confusing at best. To figure out what the specific problems are, we split them into two categories. The first category of problems includes those that were caused by the specific implementation and the second involves those that spawned from a poorly designed architecture.
+
+(New 1st Paragraph)
+	Before we can create a better Broadcast Machine, we need to understand it's current shortcomings. The first step in addressing problems is understanding what they are. While the current Broadcast Machine package is working for over 20,000 users (14) there are signifigant shortcomings with the software's current architecture and documentation.
+	
 	One of the most useful features in Broadcast Machine is unfortunately the one that seems to cause the most problems. The BitTorrent distribution mechanism would allow users to distribute their video and not have to worry about the cost of bandwidth. This is at the center of a program like Broadcast Machine because its draw comes from people who lack the money to support complex distribution schemes for their content. The few times that it does work, the users have been happy with its performance, but its inconsistency is a huge drawback. While the BitTorrent mechanism’s instability is something that can be fixed, the server-side issues are much more complex. As many of the users are relatively inexperienced, and don’t have the money for more expensive webhosts, Broadcast Machine is often run on cheap servers with few options enabled. Trying to work around the limitations of many of these server configurations is a nightmare, but it’s necessary for much of the special functionality that Broadcast Machine has to offer.
 
 	  When it comes time to fix bugs within Broadcast Machine, it’s certainly not smooth sailing for the programmer. For dealing with the database and the structure of the Model, it’s becomes difficult to tell what information is being stored in flat files, which data is being sent to the SQL database and how the two are switched and interconnected. This is where problems with the architecture of the program become a nuisance to the developers. When it comes time to fix the bugs, it’s difficult to do so because the different functions of the program aren’t separated at all in places and where they are, the implementation is lacking. 
 
 	Another one of Broadcast Machine’s failings is in the documentation department. With an open source project like this which can possibly thrive on the contributions of users and other developers, documentation is critical. When tech savvy users have a problem and the desire to fix it, the Broadcast Machine team leaves them out to dry. For a stranger to start working on this program with little face-to-face explanation would be quite the feat. While this problem is less technical in nature, it should be a large concern to the maintainers of Broadcast Machine. Prospective developers are choosing not to hack on the project when they realize that it is often not worth their time to deconstruct the code. 
+
+(1) A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results.
+http://www.google.com/search?q=%22Powered+by+Broadcast+Machine%22
 
 \chapter{Requirements and Design Decisions}
 
@@ -56,6 +70,94 @@ Likewise, viewers with any level of computer proficiency must be able to easily 
 
 \chapter{Architecture}
 
+<<<<<<< .mine
+\section{View}
+
+\section{Controller}
+
+\section{Model}
+Broadcast Machine must leep track of  several pieces of information pertaining to its entities (channels, files, etc.). A comprehensive list of the data follows (entity relationships highlighted in bold):
+
+\subsection{Data associated with Channels}
+Channel ID – An arbitrary, unique number to identify the channel and associate it 		with other entities
+Title – Each Channel has a title, represented by a string
+Description - A longer body of text that describes the channel's theme or content
+Icon – A thumbnail image for the channel
+Credits – A list of the channel creators and maintainers, or any other people 	involved. 
+Donation information – Represented as a snippet of HTML or a simple url.
+Website information – A url to link to the channel's main web page.
+Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
+Permissions – Rules about which users can access or modify the channel
+
+\subsection{Data associated with channel tags:}
+	Video ID – A reference to the video that the tag describes
+	Tag name – A short word or phrase to categorize the channel
+
+\subsection{Data associated with Users:}
+	ID – An arbitrary, unique number to identify the user and associate him/her with 		other entities
+	Username – The user's nickname or handle
+	Password – Self-explanatory
+	Email Address – Optionally used to verify registration
+	1 – Status (Activated? Banned? Group? Could be managed through permissions)
+	Permissions – User's access credentials for specific channels, files, and the site in 	general
+
+\subsection{Videos have:}
+	ID – An arbitrary, unique number to identify the user and associate it with other 		entities 
+	Title – A short amount of text to describe the video
+Description - A longer body of text that describes the video's theme or content
+	Last Modified Date – A time stamp set every time any video information is 		changed.
+	Credits – A list of the channel creators and maintainers, or any other people 		involved. 
+	Icon – A thumbnail image for the video
+	Transcript (optional)– A text-version of the video's content or dialog for the 		hearing impaired
+	License/Copyright information – The name of the license associated with the 	content, and possibly a url to link to the full body of the license
+	Website url – A link to the video  or publisher's website
+	Release Date – The date and time the video was released to the public
+Publish Date – A timestamp of when the video is made available to the public. 		note that this is different than release time (For example, a publisher might 		publish a movie that was released at an earlier time elsewhere).
+	Running time – The length of the video, in seconds
+	Adult – A boolean flag used for marking adult content
+	Donation information – Represented as a snippet of HTML or a simple url.
+Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
+File information – Data about the actual video file itself (see below).
+	Permissions – Rules about which users can access or modify the video
+
+\subsection{Data associated with video tags:}
+	Video ID – A reference to the video that the tag describes
+	Tag name – A short word or phrase to categorize the video
+
+\subsection{Data associated with Files:}
+	ID – A reference to the ID number of the video to which the file belongs
+	Mime-type – The type of media that the file represents
+	Filename – the url or address on the server where the file is located
+	Size – the size of the file, in bytes.
+	Downloads – A running count of the number of users who have downloaded the 		file
+	BitTorrent Information (optional) – If the file is a torrent, additional information 		must be stored (see below)
+
+\subsection{Data associated with Torrents:}
+	(To be completed)
+
+(Should we pop the schema itself in here?)
+
+\subsection{Design Decisions}
+	The current schema departs from the previous data structures in many ways. Previously, the data layer was represented as a flat-file database. Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
+	First, several pieces of data were being improperly stored in the database. For example, channel and site settings were being stored in the database. This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. That way, data can be easily read and modified, both by the application and advanced users. 
+	The new schema also drops several fields and data structures that could be simplified or generated on the fly. For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. We also store information about intellectual property licenses that could be abstracted to its own table. However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
+	Although file data and video data have a one-to-one relationship, we decided that it makes more logical sense to keep them separate rather than merge them into one table. Although we lose a small amount of database performance in a few cases (when file data and video data need to be aggregated together), the alternative would leave us with a large table that would be difficult to maintain. Breaking up the data into two logically chunked tables allows us to write simpler SQL statements when getting and setting, and make these statements easier to read and understand, which has unforeseen benefits in the event that the data structures need to be re-factored.
+
+\subsection{Questions:}
+
+How granular should permissions be? Should it stop at groups (other than special cases, i.e. bans), or can an admin single out particular users? Another approach is to forego groups (except for basics like Admin/User/Anonymous), but I’m pretty sure we want to allow people to create custom groups.
+
+The file extension field seems redundant. We could always divine it from the filename.
+
+Is there any reason to give licenses their own table? It only has two fields, and even though the relationship is 1 to many, processing the join all the time might cost us more in the long run. We’re never going to have to do anything with it than get and set it.
+
+Along the same lines, icon info is one to one, and should probably be merged. I’m not even sure we need to store the mime-type. Does the RSS feed need it? 
+
+The user status (i.e Banned and Activated fields) could be handled with permissions, right? It doesn’t seem to need two Boolean fields. Banned might be an exception, if we want to allow someone to unban a user while preserving group membership, but activation status can be ascertained by lack of permission group membership.
+
+\chapter{BitTorrent}
+!!! Drew's BitTorrent chapter goes here !!!
+=======
 \chapter{What is BitTorrent?}
 
 \section{Overview}
@@ -76,4 +178,5 @@ Once a user opens a torrent file with their client, they begins downloading piec
 \section{An Example}
 Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay. She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file. A new file called, HumanRightsAbusesInOaxaca-Nov162006.torrent is created that keeps track of how the video file is “cut up”. She begins seeding the file and sends the torrent file to 100 of her contacts in the United States. These 100 people download the torrent file and open it in their Bit Torrent client. Their Bit Torrent client now has a list of all the pieces of the file and can begin requesting them all. The computer in Mexico begins by sending the first piece of the video file to Contact #1, the second piece of the video file to Contact #2, the third piece to Contact #3, and so on. Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm. So now the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has. Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file. The load is distributed among every client in the swarm. Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm. For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm. 
 
+>>>>>>> .r3791
 \end{document}
