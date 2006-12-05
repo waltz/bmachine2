@@ -54,22 +54,71 @@
 \chapter{What is BitTorrent?}
 
 \section{Overview}
-BitTorrent is a protocol for distributing large amounts of data across a network, it's also the name of the free software that implements the BitTorrent protocol. The BitTorrent protocol is decentralized in design and helps minimizes the server load by distributing the upstream of file sharing. It allows individuals with limited upstream bandwidth to share files easily. BitTorrent has changed the way that people share files on the Internet. It's made filesharing more democratic and accessible to ordinary users.
-Recently BitTorrent has become wildly popular. According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. In the same research paper, Shaw and Martin report that they found that 18% of all broadband traffic, both upstream and downstream, is used for torrenting . They also found that it only takes about 10 BitTorrent users sharing files on a single neighborhood node, made up of around 500 users, to double the delays experienced by everybody else . According to their research, 55% of broadband upstream (ie “home outward”) is used for torrenting. According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which still more than all other peer-to-peer programs combined.  In either case, BitTorrent accounts for a huge percentage of Internet traffic.
-Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol. But Bit Torrents doesn’t need to be used to distribute files illegally. It’s absurd to argue that a specific type of file sharing should be banned because some people may use it to share files to which they do not own the copyright. Imagine if a similar argument had to block email? Email allows people to distribute print material easier and therefore it is easier to break copyright laws.
+BitTorrent is a protocol for distributing large amounts of data across a network, it's also the name of the free software that implements the BitTorrent protocol. 
+The BitTorrent protocol is decentralized in design and helps minimizes the server load by distributing the upstream of file sharing. 
+It allows individuals with limited upstream bandwidth to share files easily.
+BitTorrent has changed the way that people share files on the Internet. 
+It has made filesharing more democratic and accessible to ordinary users.
+Recently BitTorrent has become wildly popular. 
+According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. 
+In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting . 
+They also found that it only takes about 10 BitTorrent users sharing files on a single neighborhood node, made up of around 500 users, to double the delays experienced by everybody else . 
+According to their research, 55\% of broadband upstream (ie “home outward”) is used for torrenting. 
+According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which still more than all other peer-to-peer programs combined.  
+In either case, BitTorrent accounts for a huge percentage of Internet traffic.
+Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. 
+Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol. 
+But Bit Torrents doesn’t need to be used to distribute files illegally. 
+It’s absurd to argue that a specific type of file sharing should be banned because some people may use it to share files to which they do not own the copyright. 
+Imagine if a similar argument had to block email? 
+Email allows people to distribute print material easier and therefore it is easier to break copyright laws.
 
 \section{Why is Bit Torrent Important?}
-There are thousands of legitimate uses for Bit Torrent. One of the most important is uses is citizen journalism and other efforts to democratize the media. Linus Torvalds, the father of Linux, said, “given enough eyeballs, all bugs are shallow”. That same idea can be applied to the media. With enough people watching, commenting and contributing, truth will emerge. It’s harder to deceive a well-informed public. 
-Decentralization and participation are at the core of the Internet. Bulletin Board Systems (BBS), Usenet, email, chat-rooms, forums, blogs, podcasts, there’s a clear movement towards media participation. Internet video is the future of media and Bit Torrent is the equalizer that allows individuals to compete with big media companies at providing content. If a website uses Bit Torrent to distribute its content, it doesn’t need to spend millions of dollars on bandwidth to reach its viewers. With just a 10/month commercial web-hosting plan, a video camera, and PC, one person can reach millions of people.
+There are thousands of legitimate uses for Bit Torrent. 
+One of the most important is uses is citizen journalism and other efforts to democratize the media. 
+Linus Torvalds, the father of Linux, said, “given enough eyeballs, all bugs are shallow”. 
+That same idea can be applied to the media. 
+With enough people watching, commenting and contributing, truth will emerge. It’s harder to deceive a well-informed public. 
+Decentralization and participation are at the core of the Internet. 
+Bulletin Board Systems (BBS), Usenet, email, chat-rooms, forums, blogs, podcasts, there’s a clear movement towards media participation. 
+Internet video is the future of media and Bit Torrent is the equalizer that allows individuals to compete with big media companies at providing content. If a website uses Bit Torrent to distribute its content, it doesn’t need to spend millions of dollars on bandwidth to reach its viewers. With just a 10/month commercial web-hosting plan, a video camera, and PC, one person can reach millions of people.
 
 \section{The Process}
-To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client. Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The same client is used to both upload and download Bit Torrent files.
-The original host of the file, called the seeder, starts uses a Bit Torrent client to hash the file into hundreds of small pieces. Meta-data about the file is stored in a torrent file with the .torrent extension. Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files. This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer. 
-The torrent file can be distributed in many ways. Torrent files are very small, only a few kilobytes. They can be attached to an email, put on a website, posted on forums, etc. In fact, a new type of web-software has emerged called a torrent tracker. Torrent trackers helps organize many torrent files into a single website. These websites generally include even more metadata than the data than the torrent files, such as the files title, its author, a website associated with the file, perhaps a description or review of the file. They also provide a the ability to search for a specific file. ChomskyTorrents.org is an example of a public torrent tracker.
-Once a user opens a torrent file with their client, they begins downloading pieces of that file. They are now called a peer. The collection of peers downloading the file is called the swarm. In the beginning there is only one seeder in the swarm. The seeder starts by sends different pieces of the file to different peers. Once those peers finish downloading their first piece, they’re reading to share that piece with the rest of the swarm. So immediately after the first piece of the file is finished downloading, there is already another person ready to share the upstream of the file. The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file. If one peer finishes the entire file before the others, eg if he or she has a faster downstream, that peer then also becomes a seeder, filling the gaps for the other peers.
+To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client. 
+Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The same client is used to both upload and download Bit Torrent files.
+The original host of the file, called the seeder, starts uses a Bit Torrent client to hash the file into hundreds of small pieces. 
+Meta-data about the file is stored in a torrent file with the .torrent extension. 
+Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files. 
+This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer. 
+The torrent file can be distributed in many ways. 
+Torrent files are very small, only a few kilobytes. They can be attached to an email, put on a website, posted on forums, etc. 
+In fact, a new type of web-software has emerged called a torrent tracker.
+Torrent trackers helps organize many torrent files into a single website. These websites generally include even more metadata than the data than the torrent files, such as the files title, its author, a website associated with the file, perhaps a description or review of the file. 
+They also provide a the ability to search for a specific file. ChomskyTorrents.org is an example of a public torrent tracker.
+Once a user opens a torrent file with their client, they begins downloading pieces of that file. 
+They are now called a peer. 
+The collection of peers downloading the file is called the swarm. 
+In the beginning there is only one seeder in the swarm. 
+The seeder starts by sends different pieces of the file to different peers. Once those peers finish downloading their first piece, they’re reading to share that piece with the rest of the swarm. 
+So immediately after the first piece of the file is finished downloading, there is already another person ready to share the upstream of the file. 
+The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file. 
+If one peer finishes the entire file before the others, eg if he or she has a faster downstream, that peer then also becomes a seeder, filling the gaps for the other peers.
 
 \section{An Example}
-Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay. She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file. A new file called, HumanRightsAbusesInOaxaca-Nov162006.torrent is created that keeps track of how the video file is “cut up”. She begins seeding the file and sends the torrent file to 100 of her contacts in the United States. These 100 people download the torrent file and open it in their Bit Torrent client. Their Bit Torrent client now has a list of all the pieces of the file and can begin requesting them all. The computer in Mexico begins by sending the first piece of the video file to Contact #1, the second piece of the video file to Contact #2, the third piece to Contact #3, and so on. Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm. So now the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has. Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file. The load is distributed among every client in the swarm. Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm. For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm. 
+Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay. 
+She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file. 
+A new file called, HumanRightsAbusesInOaxaca-Nov162006.avi.torrent is created that keeps track of how the video file is “cut up”. 
+She begins seeding the file and sends the torrent file to 100 of her contacts in the United States. 
+These 100 people download the torrent file and open it in their Bit Torrent client. 
+Their Bit Torrent client now has a list of all the pieces of the file and can begin requesting them all. 
+The computer in Mexico begins by sending the first piece of the video file to Contact #1, the second piece of the video file to Contact #2, the third piece to Contact #3, and so on. 
+Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm. 
+So now the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has. 
+Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file. 
+The load is distributed among every client in the swarm. 
+Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. 
+Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm. 
+For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm. 
 
 \chapter{Current Issues}
 
@@ -84,16 +133,30 @@ Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attackin
 \end{comment}
 
 % Work in progress! -CJ
-	Before creating a better Broadcast Machine, we need to understand its current shortcomings. The first step in addressing problems is understanding what they are. There are a few issues that are often brought up by users and a few more that the developers are concerned about. While the current Broadcast Machine package is working for over 20,000 users (2.1) there are significant shortcomings with the software's current architecture and documentation.
+	Before creating a better Broadcast Machine, we need to understand its current shortcomings. 
+The first step in addressing problems is understanding what they are. 
+There are a few issues that are often brought up by users and a few more that the developers are concerned about. 
+While the current Broadcast Machine package is working for over 20,000 users (2.1) there are significant shortcomings with the software's current architecture and documentation.
 
 % Incomplete -CJ
-	Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the end user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components.
+	Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. 
+The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the end user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components.
 
 % Incomplete -CJ
-	In Broadcast Machine, this architecture is present but its implementation is lacking. The most notable example of this is the data store. The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
+	In Broadcast Machine, this architecture is present but its implementation is lacking. 
+The most notable example of this is the data store. 
+The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
 	
 % Complete! But I feel like this could be split into two paragraphs. -CJ	
-	The second area in which Broadcast Machine is lacking is documentation. While there is enough user end documentation to support the existing community there is certainly room for improvement. The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases. Supporting the end user is certainly an issue for a project that wishes to put powerful software in the hands of users, but even more alarming is the sparse developer documentation. An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software. There are a few files that begin to talk about the data structures used in the program, but it stops short. While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. The comments that are there describe what the variables are there for, but fail to mention how the a function might work or what effects it has on other parts of the application.
+	The second area in which Broadcast Machine is lacking is documentation. 
+While there is enough user end documentation to support the existing community there is certainly room for improvement. 
+The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
+The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases. 
+Supporting the end user is certainly an issue for a project that wishes to put powerful software in the hands of users, but even more alarming is the sparse developer documentation. 
+An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software. 
+There are a few files that begin to talk about the data structures used in the program, but it stops short. 
+While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. 
+The comments that are there describe what the variables are there for, but fail to mention how the a function might work or what effects it has on other parts of the application.
 	
 % There should be a conclusion paragraph here. -CJ
 
@@ -104,35 +167,67 @@ http://www.google.com/search?q=%22Powered+by+Broadcast+Machine%22
 
 \section{Architecture}
 
-	Many of Broadcast Machine’s current problems stem from its poor architectural implementation. To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. From a design standpoint, a successful architecture has several requirements.
+	Many of Broadcast Machine’s current problems stem from its poor architectural implementation. 
+To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. 
+From a design standpoint, a successful architecture has several requirements.
 
-The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. Ideally, users’ site layouts, or “themes”, have the potential to look drastically different. The templates must be abstracted from the functional code, so that users needn’t worry about damaging the code or digging deep into its inner workings when modifying the layout. Users should also have the ability to easily switch between layouts.
+The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
+Ideally, users’ site layouts, or “themes”, have the potential to look drastically different. 
+The templates must be abstracted from the functional code, so that users needn’t worry about damaging the code or digging deep into its inner workings when modifying the layout. 
+Users should also have the ability to easily switch between layouts.
 
-Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer. The layout of the application should appear logical and concise. In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. Developers should not need to dig through a mountain of code before finding the section that they need to edit. If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. In this sense, a good architecture will encourage good design practices.
+Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer. 
+The layout of the application should appear logical and concise. 
+In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
+Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
+If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. 
+In this sense, a good architecture will encourage good design practices.
 
-The application must be flexible enough so that it can be re-factored easily. Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. For example, we may decide later that we would like to use a different type of database, or even a flat file system. We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience.
+The application must be flexible enough so that it can be re-factored easily. Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. 
+For example, we may decide later that we would like to use a different type of database, or even a flat file system. We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience.
 
-For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. Model-View-Controller (abbreviated MVC) separates the application into three distinctive layers with different responsibilities that interact to comprise the program. The View layer covers any part of the application that the user interacts with, such as the actual web page that the program renders. All of the actual data stored by the application is represented by the Model layer. The Controller layer handles interactions between the View and the Model, and is responsible for invoking changes on either layer.
+For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. 
+Model-View-Controller (abbreviated MVC) separates the application into three distinctive layers with different responsibilities that interact to comprise the program. 
+The View layer covers any part of the application that the user interacts with, such as the actual web page that the program renders. 
+All of the actual data stored by the application is represented by the Model layer. 
+The Controller layer handles interactions between the View and the Model, and is responsible for invoking changes on either layer.
 
 \section{Compatibility}
 
-The new Broadcast Machine must work across several different platforms. While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
+The new Broadcast Machine must work across several different platforms. 
+While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. 
+This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
-For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. Although Ruby on Rails is ideal for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. Very few hosting services include Ruby in their hosting plan, and setting up Rails manually is a task beyond our target user-base. PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
+For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. Although Ruby on Rails is ideal for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. 
+Very few hosting services include Ruby in their hosting plan, and setting up Rails manually is a task beyond our target user-base. 
+PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
 
-Similarly, MySQL is an open-source DBMS (Database Management System) that is perhaps the most widely used SQL (Structured Query Language) implementation, with the exception of enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
+Similarly, MySQL is an open-source DBMS (Database Management System) that is perhaps the most widely used SQL (Structured Query Language) implementation, with the exception of enterprise-level applications such as Oracle. 
+Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
 
-When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. An assumption that the average database will contain less than 1000 records for unique videos is reasonable. A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. Architecting a flexible database controller will allow us to add other DBMS choices as necessary.
+When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. 
+An assumption that the average database will contain less than 1000 records for unique videos is reasonable. A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. 
+Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. 
+The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. 
+Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. 
+Architecting a flexible database controller will allow us to add other DBMS choices as necessary.
 
 \section{Ease of Use}
 
-	The most obvious requirement for Broadcast Machine is that it be easy to use. Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program. Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed. Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” (a simplified term for democracy-compatible RSS syndication) via a simple administrative interface. Without any information besides their web server login and password, the user should be able to set up Broadcast machine by dropping the application in their public html folder. The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. The application must intuitively detect server configurations that may interfere with its behavior, and handle those special cases gracefully.
+	The most obvious requirement for Broadcast Machine is that it be easy to use. 
+Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program. 
+Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed. 
+Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” (a simplified term for democracy-compatible RSS syndication) via a simple administrative interface. 
+Without any information besides their web server login and password, the user should be able to set up Broadcast machine by dropping the application in their public html folder. 
+The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
+The application must intuitively detect server configurations that may interfere with its behavior, and handle those special cases gracefully.
 
 Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels in Democracy Player (See use cases for more information).
 
 \section{Stability}
 
-	Most importantly, the new Broadcast Machine must be stable. At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior. 
+	Most importantly, the new Broadcast Machine must be stable. 
+At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior. 
 
 \chapter{Architecture}
 
@@ -141,61 +236,61 @@ Likewise, viewers with any level of computer proficiency must be able to easily 
 \section{Controller}
 
 \section{Model}
-Broadcast Machine must keep track of  several pieces of information pertaining to its entities (channels, files, etc.). A comprehensive list of the data follows (entity relationships highlighted in bold):
+Broadcast Machine must keep track of  several pieces of information pertaining to its entities (channels, files, etc.). 
+A comprehensive list of the data follows (entity relationships highlighted in bold):
 
 \subsection{Data associated with Channels}
-Channel ID – An arbitrary, unique number to identify the channel and associate it 		with other entities
+Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
 Title – Each Channel has a title, represented by a string
 Description - A longer body of text that describes the channel's theme or content
 Icon – A thumbnail image for the channel
-Credits – A list of the channel creators and maintainers, or any other people 	involved. 
+Credits – A list of the channel creators and maintainers, or any other people involved. 
 Donation information – Represented as a snippet of HTML or a simple url.
 Website information – A url to link to the channel's main web page.
-Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
+Tags – 0 or more keywords associated with the channel, used for categorizing and browsing multiple channels.
 Permissions – Rules about which users can access or modify the channel
 
 \subsection{Data associated with channel tags:}
-	Video ID – A reference to the video that the tag describes
-	Tag name – A short word or phrase to categorize the channel
+Video ID – A reference to the video that the tag describes
+Tag name – A short word or phrase to categorize the channel
 
 \subsection{Data associated with Users:}
-	ID – An arbitrary, unique number to identify the user and associate him/her with 		other entities
-	Username – The user's nickname or handle
-	Password – Self-explanatory
-	Email Address – Optionally used to verify registration
-	1 – Status (Activated? Banned? Group? Could be managed through permissions)
-	Permissions – User's access credentials for specific channels, files, and the site in 	general
+ID – An arbitrary, unique number to identify the user and associate him/her with other entities
+Username – The user's nickname or handle
+Password – Self-explanatory
+Email Address – Optionally used to verify registration
+Permissions – User's access credentials for specific channels, files, and the site in general
 
 \subsection{Videos have:}
-	ID – An arbitrary, unique number to identify the user and associate it with other 		entities 
-	Title – A short amount of text to describe the video
+ID – An arbitrary, unique number to identify the user and associate it with other entities 
+Title – A short amount of text to describe the video
 Description - A longer body of text that describes the video's theme or content
-	Last Modified Date – A time stamp set every time any video information is 		changed.
-	Credits – A list of the channel creators and maintainers, or any other people 		involved. 
-	Icon – A thumbnail image for the video
-	Transcript (optional)– A text-version of the video's content or dialog for the 		hearing impaired
-	License/Copyright information – The name of the license associated with the 	content, and possibly a url to link to the full body of the license
-	Website url – A link to the video  or publisher's website
-	Release Date – The date and time the video was released to the public
-Publish Date – A timestamp of when the video is made available to the public. 		note that this is different than release time (For example, a publisher might 		publish a movie that was released at an earlier time elsewhere).
-	Running time – The length of the video, in seconds
-	Adult – A boolean flag used for marking adult content
-	Donation information – Represented as a snippet of HTML or a simple url.
+Last Modified Date – A time stamp set every time any video information is changed.
+Credits – A list of the channel creators and maintainers, or any other people involved. 
+Icon – A thumbnail image for the video
+Transcript (optional)– A text-version of the video's content or dialog for the hearing impaired
+License/Copyright information – The name of the license associated with the content, and possibly a url to link to the full body of the license
+Website url – A link to the video  or publisher's website
+Release Date – The date and time the video was released to the public
+Publish Date – A timestamp of when the video is made available to the public. note that this is different than release time (For example, a publisher might publish a movie that was released at an earlier time elsewhere).
+Running time – The length of the video, in seconds
+Adult – A boolean flag used for marking adult content
+Donation information – Represented as a snippet of HTML or a simple url.
 Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
 File information – Data about the actual video file itself (see below).
-	Permissions – Rules about which users can access or modify the video
+Permissions – Rules about which users can access or modify the video
 
 \subsection{Data associated with video tags:}
 	Video ID – A reference to the video that the tag describes
 	Tag name – A short word or phrase to categorize the video
 
 \subsection{Data associated with Files:}
-	ID – A reference to the ID number of the video to which the file belongs
-	Mime-type – The type of media that the file represents
-	Filename – the url or address on the server where the file is located
-	Size – the size of the file, in bytes.
-	Downloads – A running count of the number of users who have downloaded the 		file
-	BitTorrent Information (optional) – If the file is a torrent, additional information 		must be stored (see below)
+ID – A reference to the ID number of the video to which the file belongs
+Mime-type – The type of media that the file represents
+Filename – the url or address on the server where the file is located
+Size – the size of the file, in bytes.
+Downloads – A running count of the number of users who have downloaded the file
+BitTorrent Information (optional) – If the file is a torrent, additional information must be stored (see below)
 
 \subsection{Data associated with Torrents:}
 (To be completed)
@@ -203,9 +298,20 @@ File information – Data about the actual video file itself (see below).
 (Should we pop the schema itself in here?)
 
 \subsection{Design Decisions}
-	The current schema departs from the previous data structures in many ways. Previously, the data layer was represented as a flat-file database. Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
-	First, several pieces of data were being improperly stored in the database. For example, channel and site settings were being stored in the database. This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. That way, data can be easily read and modified, both by the application and advanced users. 
-	The new schema also drops several fields and data structures that could be simplified or generated on the fly. For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. We also store information about intellectual property licenses that could be abstracted to its own table. However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
-	Although file data and video data have a one-to-one relationship, we decided that it makes more logical sense to keep them separate rather than merge them into one table. Although we lose a small amount of database performance in a few cases (when file data and video data need to be aggregated together), the alternative would leave us with a large table that would be difficult to maintain. Breaking up the data into two logically chunked tables allows us to write simpler SQL statements when getting and setting, and make these statements easier to read and understand, which has unforeseen benefits in the event that the data structures need to be re-factored.
+The current schema departs from the previous data structures in many ways. Previously, the data layer was represented as a flat-file database. 
+Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
+
+First, several pieces of data were being improperly stored in the database. For example, channel and site settings were being stored in the database. This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. 
+Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. 
+That way, data can be easily read and modified, both by the application and advanced users. 
+
+The new schema also drops several fields and data structures that could be simplified or generated on the fly. 
+For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. 
+Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. 
+We also store information about intellectual property licenses that could be abstracted to its own table. 
+However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
+
+Although file data and video data have a one-to-one relationship, we decided that it makes more logical sense to keep them separate rather than merge them into one table. 
+Although we lose a small amount of database performance in a few cases (when file data and video data need to be aggregated together), the alternative would leave us with a large table that would be difficult to maintain. Breaking up the data into two logically chunked tables allows us to write simpler SQL statements when getting and setting, and make these statements easier to read and understand, which has unforeseen benefits in the event that the data structures need to be re-factored.
 
 \end{document}
