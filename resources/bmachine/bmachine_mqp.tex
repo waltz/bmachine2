@@ -1,4 +1,5 @@
 \documentclass[a4paper,12pt]{report}
+\usepackage{graphicx}
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
 \title{Broadcast Machine}
@@ -70,15 +71,31 @@ Users post content that they think is noteworthy.
 Other users may "Star" the video, which bookmarks it as a favorite. 
 The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player.
 
+\section{What is Democracy Player?}
+Democracy player is principal component in the collection of tools that make Internet TV possible.
+Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels.
+Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way.
+When looking though Internet TV channels, the videos are listed by date, have thumbnails, short descriptions, various meta-data, a link to rate the content and a link to share the content with friends.
+Users can easily subscribe to free Internet TV channels.
+In other words, Democracy Player will automatically download any new content from an RSS feed that contains embedded video content.
+The videos are stored for certain period of time (5 days by default) before being deleted.
 
+\section {What is Channel Guide?}
+Democracy Player make viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels.
+Channel Guide makes finding free Internet TV channels easy.
+Channel Guide is a website that centralizes information about popular free Internet TV channels.
+It allows users to easily browse, subscribe to, comment on, and rate channels.
+It's built into Democracy Player, so it's easy to find.
+Channel Guide had hundreds of channels about everything from citizens news channels, such as Democracy Now!\footnote {http://DemocracyNow.org} Rocketboom\footnote {http://Rocketboom.com}, to independent music video channels like TeleMusicVision\footnote{http://telemusicvision.com}.
 
 \section{What is Broadcast Machine?}
 	The final piece of the platform is Broadcast Machine, a tool that allows video producers to self-publish their content online.
-	Broadcast Machine  began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acted as a light-weight bitTorrent download client. 
+	Broadcast Machine  began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acted as a light-weight BitTorrent download client. 
 Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
 It not only handles video distribution via BitTorrent, but also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more.
 Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, LifeRea and iTunes.
 BM also organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels (video RSS feeds), and share it with friends.
+
 
 \chapter{What is BitTorrent?}
 %Should info like this be included as an appendix?
@@ -87,11 +104,11 @@ BitTorrent is a protocol for distributing large amounts of data across a network
 Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing. 
 
 Currently the most popular form of filesharing, BitTorrent has changed the way that people share files on the Internet, making filesharing more democratic and accessible to ordinary users.
-According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. 
+According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote {http://www.multichannel.com/article/CA6332098.html}
 In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting . 
-According to their research, 55\% of broadband upstream (ie “home outward”) is used for torrenting. 
+According to their research, 55\% of broadband upstream (ie “home outward”) is used for torrenting.
 According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which is still more than all other peer-to-peer programs combined.  
-In either case, BitTorrent accounts for a huge percentage of Internet traffic.
+In either case, BitTorrent accounts for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
 
 Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses. 
 
@@ -132,12 +149,14 @@ If one peer finishes the entire file before the others, eg if he or she has a fa
 Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay. 
 She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file. 
 A new file called, HumanRightsAbusesInOaxaca-Nov162006.avi.torrent is created that keeps track of how the video file is “cut up”. 
-She begins seeding the file and sends the torrent file to 100 of her contacts in the United States. 
+She begins seeding the file and sends the torrent file to 100 of her contacts in the United States.
+% \includegraphics{oaxaca1.ps}
 These 100 people download the torrent file and open it in their Bit Torrent client. 
 Their Bit Torrent client now has a list of all the pieces of the file and can begin requesting them all. 
 The computer in Mexico begins by sending the first piece of the video file to Contact #1, the second piece of the video file to Contact #2, the third piece to Contact #3, and so on. 
 Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm. 
 So now the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has. 
+% \includegraphics{oaxaca2.ps}
 Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file. 
 The load is distributed among every client in the swarm. 
 Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. 
