@@ -178,14 +178,6 @@ For example, many users would like to adapt their installations to custom enviro
 Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
 
 The most notable example of this is the data store. The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
-
-	Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. 
-The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the end user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components.
-
-% Incomplete -CJ
-	In Broadcast Machine, this architecture is present but its implementation is lacking. 
-The most notable example of this is the data store. 
-The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
 	
 % Complete! But I feel like this could be split into two paragraphs. -CJ	
 	The second area in which Broadcast Machine is lacking is documentation. 
