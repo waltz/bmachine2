@@ -32,7 +32,6 @@
 %%  * Unit tests for that code that integrate into the Democracy PyUnit test
 %%    framework
 
-
 \begin{document}
 
 \maketitle
@@ -51,14 +50,31 @@
 	* Why Broadcast Machine will be built in PHP/MySQL versus Ruby on Rails, J2EE, and other PHP frameworks.
 \end{comment}
 \section{About the Participatory Culture Foundation}
-	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
+	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. 
+Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
 
-	PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces. Democracy Player allows users to download and watch videos from all over the world. The Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming. Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web. The final piece of the platform is Broadcast Machine, a tool that allows video producers to self-publish their content online.
+	PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces.  Democracy Player allows users to download and watch videos from all over the world via RSS channels. 
+Still in beta, Democracy Player has been rapidly expanding it's user base as it draws closer to a 1.0 release. 
+In the month of November 2006 alone, the application was downloaded over 15,000 times.
+
+Integrated seamlessly with Democracy, the Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming. 
+Any video publisher may submit their show to the Channel Guide, which users can then peruse by category from within Democracy.
+
+Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web. 
+Users post content that they think is noteworthy. 
+Other users may "Star" the video, which bookmarks it as a favorite. 
+The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player.
+
+
 
 \section{What is Broadcast Machine?}
+	The final piece of the platform is Broadcast Machine, a tool that allows video producers to self-publish their content online.
+	Broadcast Machine  began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acted as a light-weight bitTorrent download client. 
+Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
+In its current state, it not only handles video distribution via bitTorrent, but also supports direct downloads, and creation of video channels compatible with Democracy (via RSS), albeit with problems.
 
 \chapter{What is BitTorrent?}
-
+%Should info like this be included as an appendix?
 \section{Overview}
 BitTorrent is a protocol for distributing large amounts of data across a network. 
 Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing. 
