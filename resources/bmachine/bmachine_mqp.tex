@@ -3,7 +3,9 @@
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
 \title{Broadcast Machine}
+
 \usepackage{verbatim}
+\usepackage{hyperref}
 
 %% Things that need to be in this paper by the end of B term
 %%
@@ -165,23 +167,18 @@ For example, if the original seeder loses her connection to the Internet, the fi
 
 \chapter{Current Issues}
 
-\begin{comment}
-	Before we can go ahead and create a better Broadcast Machine, our team needs to understand the problems with the current software. While Broadcast Machine is good enough to meet the needs of most users, the goal of bringing an easy-to-install and trouble free means of distributing video is far from a reality. The problems are certainly not quick fixes either. Many of the complaints from current Broadcast Machine users are solvable, but only with hacks. The hacks themselves become hard to implement as the developer faces an architecture that is confusing at best. To figure out what the specific problems are, we split them into two categories. The first category of problems includes those that were caused by the specific implementation and the second involves those that spawned from a poorly designed architecture.
-	
-	One of the most useful features in Broadcast Machine is unfortunately the one that seems to cause the most problems. The BitTorrent distribution mechanism would allow users to distribute their video and not have to worry about the cost of bandwidth. This is at the center of a program like Broadcast Machine because its draw comes from people who lack the money to support complex distribution schemes for their content. The few times that it does work, the users have been happy with its performance, but its inconsistency is a huge drawback. While the BitTorrent mechanism’s instability is something that can be fixed, the server-side issues are much more complex. As many of the users are relatively inexperienced, and don’t have the money for more expensive webhosts, Broadcast Machine is often run on cheap servers with few options enabled. Trying to work around the limitations of many of these server configurations is a nightmare, but it’s necessary for much of the special functionality that Broadcast Machine has to offer.
-	
-	  When it comes time to fix bugs within Broadcast Machine, it’s certainly not smooth sailing for the programmer. For dealing with the database and the structure of the Model, it’s becomes difficult to tell what information is being stored in flat files, which data is being sent to the SQL database and how the two are switched and interconnected. This is where problems with the architecture of the program become a nuisance to the developers. When it comes time to fix the bugs, it’s difficult to do so because the different functions of the program aren’t separated at all in places and where they are, the implementation is lacking. 
+% Someone read over this, give me some notes. -CJ
+Before creating a better Broadcast Machine, we need to understand its current shortcomings.
+The first step in addressing problems is understanding what they are. There are a few issues that are often brought up by users and a few more that the developers are concerned about.
+There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
+They cite  lackluster documentation and poor  application architecture as the two culprits that cause the majority of problems. These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
+For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation.
 
-	Another one of Broadcast Machine’s failings is in the documentation department. With an open source project like this which can possibly thrive on the contributions of users and other developers, documentation is critical. When tech savvy users have a problem and the desire to fix it, the Broadcast Machine team leaves them out to dry. For a stranger to start working on this program with little face-to-face explanation would be quite the feat. While this problem is less technical in nature, it should be a large concern to the maintainers of Broadcast Machine. Prospective developers are choosing not to hack on the project when they realize that it is often not worth their time to deconstruct the code. 
-\end{comment}
+% Needs review! -CJ
+Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
 
-% Work in progress! -CJ
-	Before creating a better Broadcast Machine, we need to understand its current shortcomings. 
-The first step in addressing problems is understanding what they are. 
-There are a few issues that are often brought up by users and a few more that the developers are concerned about. 
-While the current Broadcast Machine package is working for over 20,000 users (2.1) there are significant shortcomings with the software's current architecture and documentation.
+The most notable example of this is the data store. The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
 
-% Incomplete -CJ
 	Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. 
 The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the end user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components.
 
@@ -203,8 +200,7 @@ The comments that are there describe what the variables are there for, but fail 
 	
 % There should be a conclusion paragraph here. -CJ
 
-(2.1) A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results.
-http://www.google.com/search?q=%22Powered+by+Broadcast+Machine%22
+\footnotetext{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=%22Powered+by+Broadcast+Machine%22}}
 
 \chapter{Requirements and Design Decisions}
 
