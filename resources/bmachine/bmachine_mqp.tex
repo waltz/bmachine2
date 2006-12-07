@@ -16,9 +16,6 @@
 %%      Drupal/CivicSpace. (Simon for Wordpress - CJ for the rest)
 %%    * Explanations of the technologies we plan to use including HTTP,
 %%      PHP, BitTorrent, Apache, SQL, and RSS (CJ?)
-%%  * An overview of the existing software, how it's architected, and
-%%    what's wrong with it. Include comments about MVC and the existing
-%%    documentation (CJ)
 %%  * A very detailed explanation of the existing data structures. This is
 %%    vital for understanding the program. I've done most of the difficult
 %%    work. (Greg)
@@ -32,8 +29,11 @@
 %%    framework
 
 %% Things that are completed:
-%%    * Brief history of the software and PCF (Greg)
-%%    * Why we're building this on PHP/SQL (See Requirements)
+%%  * Brief history of the software and PCF (Greg)
+%%  * Why we're building this on PHP/SQL (See Requirements)
+%%  * An overview of the existing software, how it's architected, and
+%%    what's wrong with it. Include comments about MVC and the existing
+%%    documentation. (CJ)
 
 %% Things that need work:
 %%  * A database schema that matches those requirements with a detailed
@@ -48,15 +48,6 @@
 
 \chapter{Background}
 
-\begin{comment}
-* Importance of open media and an open internet for open media.
-	* A brief history of the software and PCF.
-	* How Broadcast Machine relates to similar software such as:
-		> WordPress
-		> Drupal
-		> YouTube
-	* Why Broadcast Machine will be built in PHP/MySQL versus Ruby on Rails, J2EE, and other PHP frameworks.
-\end{comment}
 \section{About the Participatory Culture Foundation}
 	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. 
 Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
@@ -170,14 +161,14 @@ For example, if the original seeder loses her connection to the Internet, the fi
 Before creating a better Broadcast Machine, we need to understand its current shortcomings.
 The first step in addressing problems is understanding what they are. There are a few issues that are often brought up by users and a few more that the developers are concerned about.
 There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
-They cite  lackluster documentation and poor  application architecture as the two culprits that cause the majority of problems. These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
-For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation.
+They cite  lackluster documentation and poor application architecture as the two culprits that cause the majority of problems. These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
+For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnotemark
 
 Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
-	
-The majority of the separation problems occur where the 'Model' is. Currently Broadcast Machine is structured so that the model
 
-% Complete! But I feel like this could be split into two paragraphs. -CJ	
+% This certainly needs some work. I as if this is missing alot. -CJ	
+The majority of the separation problems occur where the 'Model' is. Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data_layer.php. The application uses each of these files to store data and handle the return of data in an understandable manner. The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. Datastore.php and data_layer.php are fantastically intertwined. Each of the files provides some sort of functionality that the other relies upon. Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. This intercommunication becomes a problem when the a user or developer changes something in either one. When changes are made at either place in the program, the other part might fail. It is hard to be sure what effects changes will have because of this hook system. Because the hooks are established at runtime, determining which function will be called is often difficult.
+	
 	The second area in which Broadcast Machine is lacking is documentation. 
 While there is enough user end documentation to support the existing community there is certainly room for improvement. 
 The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
@@ -188,7 +179,7 @@ There are a few files that begin to talk about the data structures used in the p
 While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. 
 The comments that are there describe what the variables are there for, but fail to mention how the a function might work or what effects it has on other parts of the application.
 	
-% There should be a conclusion paragraph here. -CJ
+Between architecture and documentation, there are significant portions that Broadcast Machine need improvement. While there is a large amount of work to be done,
 
 \footnotetext{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=%22Powered+by+Broadcast+Machine%22}}
 
