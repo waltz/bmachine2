@@ -168,7 +168,7 @@ Many successful applications, including Broadcast Machine, are architected in su
 % This certainly needs some work. I feel as if this is missing alot. -CJ	
 The majority of the separation problems occur where the 'Model' is. Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php. The application uses each of these files to store data and handle the return of data in an understandable manner. The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. Datastore.php and data\_layer.php are fantastically intertwined. Each of the files provides some sort of functionality that the other relies upon. Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. This intercommunication becomes a problem when the a user or developer changes something in either one. When changes are made at either place in the program, the other part might fail. It is hard to be sure what effects changes will have because of this hook system. Because the hooks are established at runtime, determining which function will be called is often difficult.
 	
-	The second area in which Broadcast Machine is lacking is documentation. 
+The second area in which Broadcast Machine is lacking is documentation. 
 While there is enough user end documentation to support the existing community there is certainly room for improvement. 
 The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
 The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases. 
@@ -178,7 +178,7 @@ There are a few files that begin to talk about the data structures used in the p
 While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. 
 The comments that are there describe what the variables are there for, but fail to mention how the a function might work or what effects it has on other parts of the application.
 	
-Between architecture and documentation, there are significant portions that Broadcast Machine need improvement. While there is a large amount of work to be done,
+Between architecture and documentation, there are significant portions that Broadcast Machine need improvement.
 
 \footnotetext{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}}
 
