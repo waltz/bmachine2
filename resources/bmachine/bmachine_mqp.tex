@@ -9,10 +9,8 @@
 %%  * The background section of the paper should be finished. This includes:
 %%    * The importance of open media and the importance of an open internet
 %%      for open media (Greg)
-%%    * Brief history of the software and PCF (Greg)
 %%    * Reviews of similar software including Ruby, Rails, Word Press,
 %%      Drupal/CivicSpace. (Simon for Wordpress - CJ for the rest)
-%%    * Why we're building this on PHP/SQL (Done - See Requirements)
 %%    * Explanations of the technologies we plan to use including HTTP,
 %%      PHP, BitTorrent, Apache, SQL, and RSS (CJ?)
 %%  * An overview of the existing software, how it's architected, and
@@ -23,14 +21,21 @@
 %%    work. (Greg)
 %%  * A loose set of requirements. Having the existing data structures will
 %%    give you most of this. (Greg)
-%%  * A database schema that matches those requirements with a detailed
-%%    prose explanation. We expect this will change a little. (Greg)
 %%  * A plan for architecting the software. We expect this will change a
 %%    little.
 %%  * Enough of a start on the code to give us a proof-of-concept for the
 %%    architecture
 %%  * Unit tests for that code that integrate into the Democracy PyUnit test
 %%    framework
+
+%% Things that are completed:
+%%    * Brief history of the software and PCF (Greg)
+%%    * Why we're building this on PHP/SQL (See Requirements)
+
+%% Things that need work:
+%%  * A database schema that matches those requirements with a detailed
+%%    prose explanation. We expect this will change a little. (Not prosy 
+%%    enough - Greg)
 
 \begin{document}
 
@@ -71,7 +76,9 @@ The newest and most popular videos are aggregated onto the site's front page, or
 	The final piece of the platform is Broadcast Machine, a tool that allows video producers to self-publish their content online.
 	Broadcast Machine  began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acted as a light-weight bitTorrent download client. 
 Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
-In its current state, it not only handles video distribution via bitTorrent, but also supports direct downloads, and creation of video channels compatible with Democracy (via RSS), albeit with problems.
+It not only handles video distribution via BitTorrent, but also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more.
+Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, LifeRea and iTunes.
+BM also organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels (video RSS feeds), and share it with friends.
 
 \chapter{What is BitTorrent?}
 %Should info like this be included as an appendix?
