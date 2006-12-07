@@ -273,6 +273,65 @@ At the very least, it should preserve all of the functionality of its previous i
 
 \section{Controller}
 
+\section{Existing Data Model}
+%I don't know where else to put this for now... -Greg
+
+\subsection{Channels}
+Channels:
+	Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
+	Title – Each Channel has a title, represented by a string
+	Description - A longer body of text that describes the channel's theme or content
+	Last Modified Date - a timestamp of when the channel was last changed.
+	Open Publishing - A true/false property for whether or not anonymous users may publish videos to the channel
+	Open Viewing - A true/false property for whether or not anonymous users can view the channel
+	Donation HTML - A string of code for donation information
+	Donation URL - The url of the website where donations can be made 
+
+Channel Websites (1 to one with Channels):
+	Channel ID - The ID number of the channel that the website refers to
+	Website - The url of the associated website
+
+Channel Donation Info:
+	Channel ID - The ID number of the channel that the donation info pertains to
+	HTML - Code containing donation pitch and link to donation page
+	URL - URL of the donation page
+
+Channel People (People involved with the making of the channel):
+	Channel ID - The ID number of the channel that the people are involved with
+	Person - A string representing the person's name
+	Role - The person's role in the channel
+
+Channel Administrators:
+	Channel ID - The channel that the user has admin access to
+	Username - The user who is an admin
+
+Channel Viewers:
+	Channel ID - The channel that the user has admin access to
+	Username - The user who has view privileges
+
+Channel Tags (Categories, each channel can have none or several):
+	Channel ID - The channel that the tag describes
+	Tag - The category phrase for the channel
+
+Channel Icon:
+\footnote{Channel Icon and URL are mutually exclusive, meaning you can have one, but not the other. These two tables can be cleverly combined in the new schema, if local icons are also represented as URLs.}
+	Channel ID - The channel that the icon belongs to
+	Filename - the filename of the icon
+	Mime-type - A string representing the type of file that the icon is
+
+Channel Icon URL:
+	Channel ID - The channel that the user has admin access to
+	URL - The address of the external url
+
+Channel License Info (One license may be attached to many channels)
+	Channel ID - The channel that the user has admin access to
+	License Name - A string for the name of the license
+	License URL - A link to the full body of the license
+
+\subsection{Videos}
+Videos:
+
+
 \section{Model}
 Broadcast Machine must keep track of  several pieces of information pertaining to its entities (channels, files, etc.). 
 A comprehensive list of the data follows (entity relationships highlighted in bold):
