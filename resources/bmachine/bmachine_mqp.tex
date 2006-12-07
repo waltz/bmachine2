@@ -311,19 +311,53 @@ Channel Icon:
 	Mime-type - A string representing the type of file that the icon is
 
 Channel Icon URL:
-	Channel ID - The channel that the user has admin access to
+	Channel ID - The channel that the icon is attached to
 	URL - The address of the external url
 
 Channel License Info (One license may be attached to many channels)
-	Channel ID - The channel that the user has admin access to
+	Channel ID - The channel that the license pertains to
 	License Name - A string for the name of the license
 	License URL - A link to the full body of the license
 
 \subsection{Videos}
-Videos:
+Videos: 
+	Video ID - An ASCII urlencoded string derived from the title
+	Title - The name of the video
+	Description - A longer explanation of the video's content
+	Last Changed - A timestamp of when the video was last edited
+	Release Date - When the original work was released
+	Publish Date - When the video was published to a feed
+	Adult - A boolean flag to demarcate potentially offensive content	
 
+Video Roles (People involved with the making of the video)
+	Video ID - The video that the roles pertain to
+	Person - The person's name
+	Role - The person's role in making the video
+
+Video Icon:
+\footnote{Video Icon and URL are mutually exclusive, the same as Channel Icon and url}
+	Video ID - The video that the icon belongs to
+	Filename - the filename of the icon
+	Mime-type - A string representing the type of file that the icon is
+
+Video Icon URL:
+	Video ID - The video that icon is attached to
+	URL - The address of the external url
+
+Video License (One License may be attached to several videos):
+	Video ID - The video that the license pertains to
+	License Name - A string for the name of the license
+	License URL - A link to the full body of the license
+
+Video Transcript (One to one with videos):
+	Video ID - The video that the transcript describes
+	Transcript - The written account of what happens in the video
+
+Video Webpage
+	
 
 \section{Model}
+%Needs: People should be relational!
 Broadcast Machine must keep track of  several pieces of information pertaining to its entities (channels, files, etc.). 
 A comprehensive list of the data follows (entity relationships highlighted in bold):
 
