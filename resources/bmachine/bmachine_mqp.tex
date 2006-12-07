@@ -167,18 +167,16 @@ For example, if the original seeder loses her connection to the Internet, the fi
 
 \chapter{Current Issues}
 
-% Someone read over this, give me some notes. -CJ
 Before creating a better Broadcast Machine, we need to understand its current shortcomings.
 The first step in addressing problems is understanding what they are. There are a few issues that are often brought up by users and a few more that the developers are concerned about.
 There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
 They cite  lackluster documentation and poor  application architecture as the two culprits that cause the majority of problems. These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
 For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation.
 
-% Needs review! -CJ
-Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events raised by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
-
-The most notable example of this is the data store. The data store is described in datastore.php and is built to supply the rest of the program with a means of setting and retrieving data for the program. In this respect, the data store is a success, but some of the functionality that should be in the data store is spread out in other parts of the application, while some aspects that should be abstracted to the controller layer are present.
+Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
 	
+The majority of the separation problems occur where the 'Model' is. Currently Broadcast Machine is structured so that the model
+
 % Complete! But I feel like this could be split into two paragraphs. -CJ	
 	The second area in which Broadcast Machine is lacking is documentation. 
 While there is enough user end documentation to support the existing community there is certainly room for improvement. 
