@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{report}
+d\documentclass[a4paper,12pt]{report}
 \usepackage{graphicx}
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
@@ -92,8 +92,12 @@ The software organizes video content in a way that makes it easy for the laypers
 
 \section {Why do we need Broadcast Machine?}
 	Broadcast Machine is an amagalmation of features from a number of different pieces of software.
-It is much like content management systems (CMS) such as Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}.
-It also has much in common with blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}.
+It is a type of content management systems (CMS), much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}.
+It also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
+In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press\footnote{\url{http://TheChannelChannel.tv}}. 
+Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels. 
+% Since current CMS's were designed with text and images in mind, providing more of a drain on server because the file are much larger. 
+Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to \url{http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=}}. 
 With a number of plugins and work around, each of these pieces of software could accomplish the goals of Broadcast Machine.
 However, since none of these pieces of software were designed with video content in mind, not to mention implementing BitTorrent, the work required to get them to support the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch.
 Below I will discuss the pro and cons of these pieces of software and explain why it is neccesary for use design a new architecture for Broadcast Machine.
@@ -103,6 +107,7 @@ Drupal is a content managment system, a CMS.
 A CMS is a computer software system that assists users in managing internet content. 
 It helps users organize, control, and publish content.\footnote{According to Wikipedia as of Dec 11, 2006.  \url{http://en.wikipedia.org/wiki/Content_management_system}}
 Drupal allows users to easily set up and create and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to \url{http://drupal.org/about}}. 
+It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to \url{http://drupal.org/requirements}.}. 
 
 Drupal is used by The Onion\footnote{\url{http://TheOnion.com}}, OurMedia\footnote{\url{
 Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website.\footnote{\url{http://en.wikipedia.org/wiki/DeanSpace}}
