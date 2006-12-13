@@ -74,7 +74,7 @@ The software enables users to easily subscribe to free Internet TV channels.
 In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content.
 The videos are stored for certain period of time (5 days by default) before being deleted.
 
-\section {What is Channel Guide?}
+\section {What is the Channel Guide?}
 Democracy makes viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels.
 Channel Guide makes finding free Internet TV channels easy.
 It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels.
@@ -102,8 +102,12 @@ With a number of plugins and work around, each of these pieces of software could
 However, since none of these pieces of software were designed with video content in mind, not to mention implementing BitTorrent, the work required to get them to support the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch.
 Below I will discuss the pro and cons of these pieces of software and explain why it is neccesary for use design a new architecture for Broadcast Machine.
 
+\section {The importance of open-source}
+
+\section {Similar Technologies}
+
 \subsection {Drupal & Civicspace}
-Drupal is a content managment system, a CMS.
+Drupal is a content managment system, often referred to as a CMS.
 A CMS is a computer software system that assists users in managing internet content. 
 It helps users organize, control, and publish content.\footnote{According to Wikipedia as of Dec 11, 2006.  \url{http://en.wikipedia.org/wiki/Content_management_system}}
 Drupal allows users to easily set up and create and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to \url{http://drupal.org/about}}. 
@@ -118,7 +122,7 @@ As of version 5.0, Drupal includes an automatic installer and many of the plugin
 
 \subsection {Wordpress & Movable Type}
 
-\chapter{What is BitTorrent?}
+\chapter{BitTorrent}
 %Should info like this be included as an appendix?
 \section{Overview}
 BitTorrent is a protocol for distributing large amounts of data across a network. 
@@ -176,9 +180,6 @@ The load is distributed among every client in the swarm.
 Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. 
 Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm. 
 For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm. 
-
-\section {Why do we need Broadcast Machine?}
-	Broadcast Machine is an amagalmation of features from a number of different pieces of software. Some of the features of Broadcast Machine are covered somewhat by existing software. There are content managment systems (CMS) such as Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}.
 
 \chapter{Current Issues}
 
