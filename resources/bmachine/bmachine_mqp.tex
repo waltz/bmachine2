@@ -47,7 +47,8 @@ d\documentclass[a4paper,12pt]{report}
 \tableofcontents
 
 \chapter{Background}
-
+% I had this from a section below, but it didn't fit. Thought it might fit here...
+%Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to \url{http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=}}. 
 
 \section{About the Participatory Culture Foundation}
 	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. 
@@ -91,16 +92,16 @@ Broadcase Machine uses open standard to ensure compatibility with many feed read
 The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends.
 
 \section {Why do we need Broadcast Machine?}
-	Broadcast Machine is an amagalmation of features from a number of different pieces of software.
-It is a type of content management systems (CMS), much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}.
-It also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
+	Broadcast Machine is an amagalmation of features from a number of different pieces of software. 
+It is a type of content management systems, much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}. 
+Since there regular posts make up the main content, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
 In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press\footnote{\url{http://TheChannelChannel.tv}}. 
 Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels. 
-% Since current CMS's were designed with text and images in mind, providing more of a drain on server because the file are much larger. 
-Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to \url{http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=}}. 
-With a number of plugins and work around, each of these pieces of software could accomplish the goals of Broadcast Machine.
-However, since none of these pieces of software were designed with video content in mind, not to mention implementing BitTorrent, the work required to get them to support the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch.
-Below I will discuss the pro and cons of these pieces of software and explain why it is neccesary for use design a new architecture for Broadcast Machine.
+Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server. 
+With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine. 
+However, since none of these pieces of software were not designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
+It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
+Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine. 
 
 \section {The importance of open-source}
 
@@ -115,11 +116,12 @@ It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7
 Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to \url{http://DrupalSites.com}}, including The Onion\footnote{\url{http://TheOnion.com}}, OurMedia\footnote{\url{http://www.ourmedia.org/}}, and MTV's UK site\footnote{\url{http://mtv.co.uk/}}. 
 The IndyMedia network is also considering using Drupal as the base for their new website\footnote{As of Dec 15, 2006, according to \url{https://docs.indymedia.org/view/Global/IndymediaAlternatives}}. 
 
-Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website.\footnote{\url{http://en.wikipedia.org/wiki/DeanSpace}}
-CivicSpace features an installer and many pre-configured plugins that are meant to help run political websites.
-CivicSpace is used by a huge number of political websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}.
+Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{\url{http://en.wikipedia.org/wiki/DeanSpace}}.
+CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites. 
+CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}. 
 Some of the functionality that makes CivicSpace appealing is becoming deprecated. 
-As of version 5.0, Drupal includes an automatic installer and many of the plugins that set CivicSpace apart from Drupal are being included in the base software.
+As of version 5.0, Drupal includes an automatic installer and many of the plugins that set CivicSpace apart from Drupal are being included in the base software. 
+
 
 \subsection {Wordpress & Movable Type}
 
