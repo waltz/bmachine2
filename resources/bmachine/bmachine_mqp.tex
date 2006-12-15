@@ -104,6 +104,7 @@ It would probably cost us more time to first read and understand the existing co
 Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine. 
 
 \section {The importance of open-source}
+	Similar to PCF, the Free and Open-Source Software (FOSS) movement's primary goal is the democratization of the internet.
 
 \section {Similar Technologies}
 
@@ -279,7 +280,7 @@ At the very least, it should preserve all of the functionality of its previous i
 
 \section{Features}
 % This is just an outline right now. -Greg
-	There are several requirements for features that Broadcast Machine must include:
+There are several requirements for features that Broadcast Machine must include:
  * Automatic generation of RSS feeds
  * Templating system
  * Server-side sharing for BitTorrent
@@ -297,9 +298,13 @@ At the very least, it should preserve all of the functionality of its previous i
 
 \subsection{Channels}
 Channels:
-	Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
-	Title – Each Channel has a title, represented by a string
+	CSSURL - An address that links to a stylesheet (deprecated)
+	Created - An integer describing when the channel was created (deprecated)
 	Description - A longer body of text that describes the channel's theme or content
+	Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
+	Icon - An image associated with the channel
+	LibraryURL - A link to a library (deprecated)
+	Name – Each Channel has a title, represented by a string
 	Last Modified Date - a timestamp of when the channel was last changed.
 	Open Publishing - A true/false property for whether or not anonymous users may publish videos to the channel
 	Open Viewing - A true/false property for whether or not anonymous users can view the channel
@@ -381,8 +386,63 @@ Video Transcript (One to one with videos):
 	Video ID - The video that the transcript describes
 	Transcript - The written account of what happens in the video
 
-Video Webpage
+Video Webpage:
+	Video ID - The video that the webpage describes
+	Webpage - URL of the associated webpage
+
+Video Tags:
+	Video ID - The video that the tag describes
+	Tag - A short word or phrase describing the video
+
+Video Donation Info:
+	Video ID - The video that the donation info is for
+	Donation HTML - A short snippet of code for donation info
+	Donation URL - The url for making a donation
+
+\subsection{Videos}
+Video Files:
+	Video ID - The video that the file belongs to
+	Mime type - The type of video file
+	Extension - The extension of the physical file
+	Datafile - local name of the file 
+	Length - the size of the file in bytes
+	File CRC - A checksum to ensure that the file transferred correctly
+	Piece Length - 
+	Info Hash - A hash of the video's contents, used for bittorrent
+
+Video File Pieces:
+	Video ID - the video that the piece is a part of
+	Piece number - a positive integer to identify the piece
+	Hash - a SHA1 hash of the piece, used for BitTorrent
+
+Video URLs:\footnote{Video files and urls are mutually exclusive. Videos either use BitTorrent or Direct URLs for download}
+	Video ID - the video that the URL describes
+	Mime type - The type of video file
+	Length - the size of the file in bytes
+	URL - the address where the file is stored
+
+\subsection{Data associated with Settings}
+Settings:
+	Site Name - The name of the site
+	Site Summary - A longer description of what the site is about
+	Allow new users - a boolean value to describe whether or not user registration is open
+	Require new user approval - a boolean value to describe whether or not an administrator must approve new user requests
+	Enable HTTP - Whether or not server-side seeding is turned on
+	Shutdown seeded files - Whether or not seeding halts when there are other seeders present
+	Bandwidth Limit - The maximum bandwidth usage for a month, in bytes
+	Homepage - the page to be displayed by default when users navigate to the main page. By default, the "Channels" page
+	Site URL - The base URL of the website
+
+Settings icon:
+	Icon filename - the address of the icon
+	Icon mimetype - the type of file
 	
+Settings icon url:\footnote{Icon URL and icon are once again mutually exclusive}
+	Icon URL - the url where the icon is stored
+
+Settings donation:
+	Donation HTML - A snippet of code for a donation pitch
+	Donation URL - Address of the donation website
 
 \section{Model}
 %Needs: People should be relational!
@@ -393,7 +453,7 @@ A comprehensive list of the data follows (entity relationships highlighted in bo
 Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
 Title – Each Channel has a title, represented by a string
 Description - A longer body of text that describes the channel's theme or content
-Icon – A thumbnail image for the channel
+Icon – Reference to the thumbnail image (See below)
 Credits – A list of the channel creators and maintainers, or any other people involved. 
 Donation information – Represented as a snippet of HTML or a simple url.
 Website information – A url to link to the channel's main web page.
@@ -411,13 +471,13 @@ Password – Self-explanatory
 Email Address – Optionally used to verify registration
 Permissions – User's access credentials for specific channels, files, and the site in general
 
-\subsection{Videos have:}
+\subsection{Data associated with Videos:}
 ID – An arbitrary, unique number to identify the user and associate it with other entities 
 Title – A short amount of text to describe the video
 Description - A longer body of text that describes the video's theme or content
 Last Modified Date – A time stamp set every time any video information is changed.
 Credits – A list of the channel creators and maintainers, or any other people involved. 
-Icon – A thumbnail image for the video
+Icon – Reference to the thumbnail image (See below)
 Transcript (optional)– A text-version of the video's content or dialog for the hearing impaired
 License/Copyright information – The name of the license associated with the content, and possibly a url to link to the full body of the license
 Website url – A link to the video  or publisher's website
@@ -427,20 +487,22 @@ Running time – The length of the video, in seconds
 Adult – A boolean flag used for marking adult content
 Donation information – Represented as a snippet of HTML or a simple url.
 Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
-File information – Data about the actual video file itself (see below).
+Mime-type – The type of media that the file represents
+Filename – the url or address on the server where the file is located
+Size – the size of the file, in bytes.
+Downloads – A running count of the number of users who have downloaded the file
+BitTorrent Information (optional) – If the file is a torrent, additional information must be stored (see below)
 Permissions – Rules about which users can access or modify the video
 
 \subsection{Data associated with video tags:}
 	Video ID – A reference to the video that the tag describes
 	Tag name – A short word or phrase to categorize the video
 
-\subsection{Data associated with Files:}
-ID – A reference to the ID number of the video to which the file belongs
-Mime-type – The type of media that the file represents
-Filename – the url or address on the server where the file is located
-Size – the size of the file, in bytes.
-Downloads – A running count of the number of users who have downloaded the file
-BitTorrent Information (optional) – If the file is a torrent, additional information must be stored (see below)
+\subsection{Data associated with icons:}
+	Icon ID - A unique, autogenerated id number to identify the image
+	Icon URL - The address of the icon
+	Mime-Type - The type of file that the icon is
+
 
 \subsection{Data associated with Torrents:}
 (To be completed)
@@ -455,13 +517,15 @@ First, several pieces of data were being improperly stored in the database. For 
 Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. 
 That way, data can be easily read and modified, both by the application and advanced users. 
 
+Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table. This means that the same icon information can be used by both channels and videos. This will help eliminate duplicate data, and give users more choice in choosing icons.
+
 The new schema also drops several fields and data structures that could be simplified or generated on the fly. 
 For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. 
 Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. 
 We also store information about intellectual property licenses that could be abstracted to its own table. 
 However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
 
-Although file data and video data have a one-to-one relationship, we decided that it makes more logical sense to keep them separate rather than merge them into one table. 
-Although we lose a small amount of database performance in a few cases (when file data and video data need to be aggregated together), the alternative would leave us with a large table that would be difficult to maintain. Breaking up the data into two logically chunked tables allows us to write simpler SQL statements when getting and setting, and make these statements easier to read and understand, which has unforeseen benefits in the event that the data structures need to be re-factored.
+File data and video data have a one-to-one relationship, so it makes sense to merge them into one table. 
+This will normalize the table, which will optimize queries and simplify queries that access that data.
 
 \end{document}
