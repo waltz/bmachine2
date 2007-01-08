@@ -1,4 +1,4 @@
-d\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper,12pt]{report}
 \usepackage{graphicx}
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
@@ -54,9 +54,10 @@ d\documentclass[a4paper,12pt]{report}
 	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. 
 Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
 
-	PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces.  Democracy Player allows users to download and watch videos from all over the world via RSS channels. 
+	PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces. 
+Democracy Player allows users to download and watch videos from all over the world via RSS channels. 
 Still in beta, Democracy Player has been rapidly expanding it's user base as it draws closer to a 1.0 release. 
-In the month of November 2006 alone, the application was downloaded over 15,000 times.\footnote{According to Nicolas Reville, co-founder of Participatory Culture Foundation.}
+In the month of November 2006 alone, the application was downloaded over 15,000 times. 
 
 Integrated seamlessly with Democracy, the Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming. 
 Any video publisher may submit their show to the Channel Guide, which users can then peruse by category from within Democracy.
@@ -64,64 +65,74 @@ Any video publisher may submit their show to the Channel Guide, which users can 
 Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web. 
 Users post content that they think is noteworthy. 
 Other users may "Star" the video, which bookmarks it as a favorite. 
-The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player.
+The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player. 
 
 \section{What is Democracy Player?}
-Democracy player is principal component in the collection of tools that make Internet TV possible.
-Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels.
-Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way.
-When looking though Internet TV channels, the videos are listed by date. Each video has a thumbnail, a short descriptions, various meta-data, a link to rate the content, and a link to share the content with friends.
-The software enables users to easily subscribe to free Internet TV channels.
-In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content.
-The videos are stored for certain period of time (5 days by default) before being deleted.
+Democracy player is principal component in the collection of tools that make Internet TV possible. 
+Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels. 
+Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way. 
+When looking though Internet TV channels, the videos are listed by date. 
+Each video has a thumbnail, a short descriptions, various meta-data, a link to rate the content, and a link to share the content with friends. 
+The software enables users to easily subscribe to free Internet TV channels. 
+In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content. 
+The videos are stored for certain period of time (5 days by default) before being deleted. 
+Democracy Player is different than web services like You Tube in that it does not provide hosting for videos, instead only acting an aggregator for video content that is hosted elsewhere on the web. 
 
 \section {What is the Channel Guide?}
-Democracy makes viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels.
-Channel Guide makes finding free Internet TV channels easy.
-It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels.
-It allows users to easily browse, subscribe to, comment on, and rate free channels.
-It's built into Democracy, so it's easy to find.
-Channel Guide had hundreds of channels about everything from citizens news channels, such as Democracy Now!\footnote {http://DemocracyNow.org} and Rocketboom\footnote {http://Rocketboom.com}, to independent music video channels like TeleMusicVision\footnote{http://telemusicvision.com}.
+Democracy makes viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels. 
+Channel Guide makes finding free Internet TV channels easy. 
+It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels. 
+It allows users to easily browse, subscribe to, comment on, and rate free channels. 
+It's built into Democracy, so it's easy to find. 
+Channel Guide had hundreds of channels about everything from citizens news channels, such as Democracy Now!\footnote {http://DemocracyNow.org} and Rocketboom\footnote {http://Rocketboom.com}, to independent music video channels like TeleMusicVision\footnote{http://telemusicvision.com}. 
+It is also possible for users to create their own channel guides and distribute their own branded versions of Democracy Player. 
 
 \section{What is Broadcast Machine?}
-	The final piece of the platform is Broadcast Machine, a tool that allows video producers to publish their content online.
-	Broadcast Machine began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acted as a light-weight BitTorrent download client. 
-Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
-It not only handles video distribution via BitTorrent, but also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more.
-Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, LifeRea and iTunes.
-The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends.
+	The final piece of the platform is Broadcast Machine, a tool that allows video producers to publish their content online. 
+	Broadcast Machine began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acting as a light-weight BitTorrent download client. 
+Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers). 
+It not only handles video distribution via BitTorrent, but also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more. 
+Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, RSSowl, LifeRea and iTunes. 
+The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends. 
 
 \section {Why do we need Broadcast Machine?}
 	Broadcast Machine is an amagalmation of features from a number of different pieces of software. 
 It is a type of content management systems, much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}. 
-Since there regular posts make up the main content, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
-In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press\footnote{\url{http://TheChannelChannel.tv}}. 
+Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
+In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press. 
 Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels. 
 Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server. 
+Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content. 
 With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine. 
 However, since none of these pieces of software were not designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
 It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
 Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine. 
 
 \section {The importance of open-source}
-	Open source software is an important part of the movement to democratize the media and Internet. This common goal is what ties together PCF's mission with that of the Free Software Movement. The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free (\url{http://www.gnu.org/philosophy/shouldbefree.html})} Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs. The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
+	Open source software is an important part of the movement to democratize the media and Internet. 
+This common goal is what ties together PCF's mission with that of the Free Software Movement. 
+The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free (\url{http://www.gnu.org/philosophy/shouldbefree.html})} 
+Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs. 
+The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
+
 
 	Without Free software, the Internet could not exist as a democratic medium. 
 Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code. 
 With proprietary software, users cannot "own" software, even if they purchase it. 
 Instead, users pay for the privilege of using it. 
 Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support). 
-On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid}
+On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid} 
+
 
 	Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether. 
-This culture encourages technological progress in ways that competitive, closed-source software does not.
+This culture encourages technological progress in ways that competitive, closed-source software does not. 
 
 \section {Similar Technologies}
 
 \subsection {Drupal & Civicspace}
-Drupal is a content managment system, often referred to as a CMS.
+Drupal is a content managment system, often referred to as a CMS. 
 A CMS is a computer software system that assists users in managing internet content. 
-It helps users organize, control, and publish content.\footnote{According to Wikipedia as of Dec 11, 2006.  \url{http://en.wikipedia.org/wiki/Content_management_system}}
+It helps users organize, control, and publish content. 
 Drupal allows users to easily set up and create and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to \url{http://drupal.org/about}}. 
 It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to \url{http://drupal.org/requirements}.}. 
 Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to \url{http://DrupalSites.com}}, including The Onion\footnote{\url{http://TheOnion.com}}, OurMedia\footnote{\url{http://www.ourmedia.org/}}, and MTV's UK site\footnote{\url{http://mtv.co.uk/}}. 
@@ -130,11 +141,12 @@ The IndyMedia network is also considering using Drupal as the base for their new
 Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{\url{http://en.wikipedia.org/wiki/DeanSpace}}.
 CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites. 
 CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}. 
-Some of the functionality that makes CivicSpace appealing is becoming deprecated. 
-As of version 5.0, Drupal includes an automatic installer and many of the plugins that set CivicSpace apart from Drupal are being included in the base software. 
-
+As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software. 
+%templating system
+%architechture
 
 \subsection {Wordpress & Movable Type}
+%need this again
 
 \chapter{BitTorrent}
 %Should info like this be included as an appendix?
@@ -197,10 +209,12 @@ For example, if the original seeder loses her connection to the Internet, the fi
 
 \chapter{Current Issues}
 
-Before creating a better Broadcast Machine, we need to understand its current shortcomings.
-The first step in addressing problems is understanding what they are. There are a few issues that are often brought up by users and a few more that the developers are concerned about.
-There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
-They cite  lackluster documentation and poor application architecture as the two culprits that cause the majority of problems. These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
+Before creating a better Broadcast Machine, we need to understand its current shortcomings. 
+The first step in addressing problems is understanding what they are. 
+There are a few issues that are often brought up by users and a few more that the developers are concerned about. 
+There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs. 
+They cite  lackluster documentation and poor application architecture as the two culprits that cause the majority of problems. 
+These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
 For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnotemark
 
 Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
