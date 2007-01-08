@@ -213,15 +213,35 @@ Before creating a better Broadcast Machine, we need to understand its current sh
 The first step in addressing problems is understanding what they are. 
 There are a few issues that are often brought up by users and a few more that the developers are concerned about. 
 There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs. 
-They cite  lackluster documentation and poor application architecture as the two culprits that cause the majority of problems. 
-These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. The problems mentioned by users are important to address, but after a while it becomes less effecient to quash bugs than it is to address the cause of these bugs. We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
-For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnotemark
+Although the API is thoroughly documented, the data structures have little documentation. 
+This along with poor application architecture are the two culprits that cause the majority of problems. 
+These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. 
+The problems mentioned by users are important to address, but after a while it becomes less efficient to quash bugs than it is to address the cause of these bugs. 
+We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product. 
+For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. 
+With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}}
 
-Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. This design pattern is most commonly known as ``Model-View-Controller''. This design mehtodology separates the application into disticnt parts that can be modified without having a detrimental effect on other parts of the program. The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. Broadcast Machine currently implements this design, albeit poorly. Unfortunately, the separation between the three segments is often unclear.
+Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. 
+This design pattern is most commonly known as "Model-View-Controller (MVC)". 
+This design methodology separates the application into distinct parts that can be modified without having a detrimental effect on other parts of the program. 
+The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. 
+Broadcast Machine currently implements this design, albeit poorly. 
+Unfortunately, the separation between the three segments is often unclear. 
 
 % This certainly needs some work. I feel as if this is missing alot. -CJ	
-The majority of the separation problems occur where the 'Model' is. Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php. The application uses each of these files to store data and handle the return of data in an understandable manner. The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. Datastore.php and data\_layer.php are fantastically intertwined. Each of the files provides some sort of functionality that the other relies upon. Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. This intercommunication becomes a problem when the a user or developer changes something in either one. When changes are made at either place in the program, the other part might fail. It is hard to be sure what effects changes will have because of this hook system. Because the hooks are established at runtime, determining which function will be called is often difficult.
-	
+The majority of the separation problems occur in the 'Model' layer. 
+Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php. 
+The application uses each of these files to store data and handle the return of data in an understandable manner. 
+The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. 
+Datastore.php and data\_layer.php are fantastically intertwined. 
+Each of the files provides some sort of functionality that the other relies upon. 
+Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. 
+This intercommunication becomes a problem when the a user or developer changes something in either one. 
+When changes are made at either place in the program, the other part might fail. 
+It is hard to be sure what effects changes will have because of this hook system. 
+Because the hooks are established at runtime, determining which function will be called is often difficult. 
+
+
 The second area in which Broadcast Machine is lacking is documentation. 
 While there is enough user end documentation to support the existing community there is certainly room for improvement. 
 The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
@@ -230,11 +250,9 @@ Supporting the end user is certainly an issue for a project that wishes to put p
 An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software. 
 There are a few files that begin to talk about the data structures used in the program, but it stops short. 
 While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. 
-The comments that are there describe what the variables are there for, but fail to mention how the a function might work or what effects it has on other parts of the application.
-	
+The comments that are there describe why the variables are there, but fail to mention how the a function might work or what effects it has on other parts of the application. 
 Between architecture and documentation, there are significant portions that Broadcast Machine need improvement.
 
-\footnotetext{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}}
 
 \chapter{Requirements and Design Decisions}
 
@@ -242,7 +260,7 @@ Between architecture and documentation, there are significant portions that Broa
 
 	Many of Broadcast Machine’s current problems stem from its poor architectural implementation. 
 To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. 
-From a design standpoint, a successful architecture has several requirements.
+From a design standpoint, a successful architecture has several requirements. 
 
 The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
 Ideally, users’ site layouts, or “themes”, have the potential to look drastically different. 
@@ -254,16 +272,14 @@ The layout of the application should appear logical and concise.
 In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
 Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
 If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. 
-In this sense, a good architecture will encourage good design practices.
+In this sense, a good architecture will encourage good design practices. 
 
-The application must be flexible enough so that it can be re-factored easily. Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. 
-For example, we may decide later that we would like to use a different type of database, or even a flat file system. We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience.
+The application must be flexible enough so that it can be re-factored easily. 
+Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. 
+For example, we may decide later that we would like to use a different type of database. 
+We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
 
 For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. 
-Model-View-Controller (abbreviated MVC) separates the application into three distinctive layers with different responsibilities that interact to comprise the program. 
-The View layer covers any part of the application that the user interacts with, such as the actual web page that the program renders. 
-All of the actual data stored by the application is represented by the Model layer. 
-The Controller layer handles interactions between the View and the Model, and is responsible for invoking changes on either layer.
 
 \section{Compatibility}
 
