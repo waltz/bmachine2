@@ -281,37 +281,51 @@ We should be able to swap out the back end without having to modify the entire a
 
 For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. 
 
+
 \section{Compatibility}
 
 The new Broadcast Machine must work across several different platforms. 
 While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. 
 This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
-For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. Although Ruby on Rails is ideal for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. 
+
+For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. 
+Although Ruby on Rails is great for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. 
 Very few hosting services include Ruby in their hosting plan, and setting up Rails manually is a task beyond our target user-base. 
+Ruby is not perfect, it too has its draw backs, but in our opinion it would be very well suited for Broadcast Machine. 
+However, since it is not well supported we will not use it. 
 PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
+
 
 Similarly, MySQL is an open-source DBMS (Database Management System) that is perhaps the most widely used SQL (Structured Query Language) implementation, with the exception of enterprise-level applications such as Oracle. 
 Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
 
+
 When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. 
-An assumption that the average database will contain less than 1000 records for unique videos is reasonable. A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. 
+An assumption that the average database will contain less than 1000 records for unique videos is reasonable. 
+A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. 
 Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. 
 The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. 
 Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. 
-Architecting a flexible database controller will allow us to add other DBMS choices as necessary.
+Architecting a flexible database controller will allow us to add other DBMS choices as necessary. 
 
 \section{Ease of Use}
 
 	The most obvious requirement for Broadcast Machine is that it be easy to use. 
 Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program. 
 Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed. 
-Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” (a simplified term for democracy-compatible RSS syndication) via a simple administrative interface. 
-Without any information besides their web server login and password, the user should be able to set up Broadcast machine by dropping the application in their public html folder. 
+Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” via a simple administrative interface. 
+Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application in their public html folder. 
 The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
-The application must intuitively detect server configurations that may interfere with its behavior, and handle those special cases gracefully.
+The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
+Another way in which we will keep the install simple, is by using only one install directory. 
+We will not include any directory structure in the install file, but rather an install script will create any neccesary directories after decompression of the install file. 
+Sometimes during decompression of files, the directory structure of is lost. 
+By keeping all install files in one directory and creating a directory structure with an install script will ensure that all the neccesary directories exists and have the proper permissions. 
+
 
 Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels in Democracy Player (See use cases for more information).
+ 
 
 \section{Stability}
 
@@ -486,7 +500,7 @@ Settings donation:
 
 \section{Model}
 %Needs: People should be relational!
-Broadcast Machine must keep track of  several pieces of information pertaining to its entities (channels, files, etc.). 
+Broadcast Machine must keep track of several pieces of information pertaining to its entities (channels, files, etc.). 
 A comprehensive list of the data follows (entity relationships highlighted in bold):
 
 \subsection{Data associated with Channels}
@@ -550,22 +564,30 @@ Permissions – Rules about which users can access or modify the video
 (Should we pop the schema itself in here?)
 
 \subsection{Design Decisions}
-The current schema departs from the previous data structures in many ways. Previously, the data layer was represented as a flat-file database. 
-Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
+The current schema departs from the previous data structures in many ways. 
+Previously, the data layer was represented as a flat-file database. 
+Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled. 
 
-First, several pieces of data were being improperly stored in the database. For example, channel and site settings were being stored in the database. This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. 
+
+First, several pieces of data were being improperly stored in the database. 
+For example, channel and site settings were being stored in the database. 
+This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. 
 Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. 
 That way, data can be easily read and modified, both by the application and advanced users. 
 
-Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table. This means that the same icon information can be used by both channels and videos. This will help eliminate duplicate data, and give users more choice in choosing icons.
+
+Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table. 
+This means that the same icon information can be used by both channels and videos. This will help eliminate duplicate data, and give users more choice in choosing icons.
 
 The new schema also drops several fields and data structures that could be simplified or generated on the fly. 
 For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. 
-Since most, if not all, browsers render images without an explicit mime-type, eliminated this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. Similarly, fields like file extension, which can be derived from other data, have been pruned. 
+Since most, if not all, browsers render images without an explicit mime-type, eliminating this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. 
+Similarly, fields like file extension, which can be derived from other data, have been pruned. 
 We also store information about intellectual property licenses that could be abstracted to its own table. 
-However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables.
+However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables. 
+
 
 File data and video data have a one-to-one relationship, so it makes sense to merge them into one table. 
-This will normalize the table, which will optimize queries and simplify queries that access that data.
+This will normalize the table, which will optimize queries and simplify queries that access that data. 
 
 \end{document}
