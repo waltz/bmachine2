@@ -145,8 +145,28 @@ As of version 5.0, Drupal includes an automatic installer and many of the functi
 %templating system
 %architechture
 
+\subsubsection {Templating}
+Drupal has a very flexible templating system. By default, PHPTemplate is the templating engine, however it also supports a number of other common templating engines. As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. It also allows for the use of individual cascading style  sheets (CSS) files for each theme.
+
+A theme can be formed in several ways. A PHP file could be created with a .theme extension that includes functions that would override the theme_functions. The Chameleon\footnote{\url{http://api.drupal.org/api/HEAD/file/themes/chameleon/chameleon.theme}} theme is an example of a theme that uses this method. Another way to create a new template is to create file (.xtmpl, .tpl.php, .smarty) for a templating engine (XTemplate, PHPTemplate, ...): e.g. Pushbutton, Bluebeach
+* Style sheet for an existing template or theme: e.g. Marvin, Box Cleanslate
+
+
+
+Drupal also provides module programmers with the ability to theme the software they create. 
+
+has a theming engine "Only use matching versions of themes with Drupal. Themes released for Drupal 4.7 will not work for Drupal 5.0."
+
+
+\subsection {Architecture}
+Drupal is module based. Templating engine
+
+\subsection{Smarty Templating}
+Smarty is often called a templating engine, but is better described as a template or presentation framework.
+
 \subsection {Wordpress & Movable Type}
 %need this again
+
 
 \chapter{BitTorrent}
 %Should info like this be included as an appendix?
