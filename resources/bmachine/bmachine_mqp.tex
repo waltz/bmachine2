@@ -186,21 +186,30 @@ Supported templating engines include: XTemplate, PHPTemplate, and Smarty.
 Pushbutton and Bluebeach are two themes that are distributed with Drupal that were created using this method. 
 Bluebeach was originally written as a XTemplate theme, but was later ported to be a smarty-based theme. 
 
-A quick and dirty way to create a new theme is to find an open source theme that is already in existance and simply create a new style sheet that changes the layout and look 
+A quick and dirty way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
 Marvin and Box Cleanslate are themes that were both created by editing the existing style sheets of previous themes. 
+Marvin is based on Chameleon and Cleanslate is based upon Box_grey. 
 
 
-Drupal templating engine does end at creatin themes for just individual sites. 
+Drupal templating engine does not end at providing theming for just individual installs. 
 It also provides module programmers with the ability to theme the software they create. 
-
-has a theming engine "Only use matching versions of themes with Drupal. Themes released for Drupal 4.7 will not work for Drupal 5.0."
 
 
 \subsection {Architecture}
-Drupal is module based. Templating engine
+Drupal is module based. 
+It allows developers to create modules that inferface with the base code and modify or enhance the functionality of the software. 
+Drupal stores all module information in the directory named modules, which is located in the root directory. 
+The Drupal website maintains a list of a number of popular modules. 
+They're typically distributed as tarballs or zip files. 
+Users copy the compressed file to their webserver and decompress the contents into the modules directory. 
+
+
+CivicSpace is an offshoot of Drupal that began as an install of Drupal with a number of modules that make running a political or charitable website easier. 
+
+
 
 \subsection{Smarty Templating}
-Smarty is often called a templating engine, but is better described as a template or presentation framework.
+Smarty is often called a templating engine, but is better described as a template or presentation framework. 
 
 \subsection {Wordpress & Movable Type}
 %need this again
