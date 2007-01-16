@@ -145,15 +145,42 @@ As of version 5.0, Drupal includes an automatic installer and many of the functi
 %templating system
 %architechture
 
-\subsubsection {Templating}
-Drupal has a very flexible templating system. By default, PHPTemplate is the templating engine, however it also supports a number of other common templating engines. As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. It also allows for the use of individual cascading style  sheets (CSS) files for each theme.
+\subsubsection {Templating and Themes}
+Drupal has a very flexible templating system. 
+It has a built in theme system and supports a number of common engines. 
+As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
+Theme developers can also create new themes by simply editing the cascading style sheets (CSS) of existing themes. 
 
-A theme can be formed in several ways. A PHP file could be created with a .theme extension that includes functions that would override the theme_functions. The Chameleon\footnote{\url{http://api.drupal.org/api/HEAD/file/themes/chameleon/chameleon.theme}} theme is an example of a theme that uses this method. Another way to create a new template is to create file (.xtmpl, .tpl.php, .smarty) for a templating engine (XTemplate, PHPTemplate, ...): e.g. Pushbutton, Bluebeach
-* Style sheet for an existing template or theme: e.g. Marvin, Box Cleanslate
+Themes are stored in individual directories under the Drupal theme directory. 
+Each theme directory bears the name of the theme and at least contains the follow files:
+logo.png - an image that will be displayed next to the url of in a viewer's browser
+screenshot.png - an image that will be displayed in the administration inferface. It's meant to give users deciding on a new theme a preview of how the theme will look before they switch.
+style.css - a CSS file containing all of the styling information about the theme.
+
+Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
+There are a few ways to properly form a new theme for Drupal. 
+One of the most common ways is for the theme developer to create a PHP file with a .theme extension that includes functions that override the default theme functions. 
+The functions defined in this file is used in conjunction with the style.css file to create the layout of the page. 
+Chameleon is an example of a theme that was designed using a .theme file, although it is primarily CSS driven. 
+The Chameleon theme directory contains the following files: 
+Chameleon.theme - the PHP file that contains the theme_functions 
+style.css - the primary style sheet
+common.css -  another style sheet that has more styling info
+screnshot.png, logo.png - images used by the administration interface
+background.png - simple background image
 
 
+Alternatively, a new theme can be created by using one of the supported theme engines. A developer determines which templating engine he/she is going to use and creates a file with a .xtmpl, .tpl, or a .tpl.php extension. 
+Supported templating engines include: XTemplate, PHPTemplate, and Smarty. 
+Pushbutton and Bluebeach are two themes that are distributed with Drupal that were created using this method. 
+Bluebeach was originally written as a XTemplate theme, but was later ported to be a smarty-based theme. 
 
-Drupal also provides module programmers with the ability to theme the software they create. 
+A quick and dirty way to create a new theme is to find an open source theme that is already in existance and simply create a new style sheet that changes the layout and look 
+Marvin and Box Cleanslate are themes that were both created by editing the existing style sheets of previous themes. 
+
+
+Drupal templating engine does end at creatin themes for just individual sites. 
+It also provides module programmers with the ability to theme the software they create. 
 
 has a theming engine "Only use matching versions of themes with Drupal. Themes released for Drupal 4.7 will not work for Drupal 5.0."
 
