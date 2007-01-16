@@ -37,7 +37,7 @@
 
 %% Things that need work:
 %%  * A database schema that matches those requirements with a detailed
-%%    prose explanation. We expect this will change a little. (Not prosy 
+%%    prose explanation. We expect this will change a little. (Not prosy
 %%    enough - Greg)
 
 \begin{document}
@@ -48,37 +48,44 @@
 
 \chapter{Background}
 % I had this from a section below, but it didn't fit. Thought it might fit here...
-%Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to \url{http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=}}. 
+%Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to \url{ http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=} }.
 
 \section{About the Participatory Culture Foundation}
-	The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology. 
+    The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology.
 Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
 
-	PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces. 
-Democracy Player allows users to download and watch videos from all over the world via RSS channels. 
-Still in beta, Democracy Player has been rapidly expanding it's user base as it draws closer to a 1.0 release. 
-In the month of November 2006 alone, the application was downloaded over 15,000 times. 
+    PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces.
+Democracy Player allows users to download and watch videos from all over the world via RSS channels.
+Still in beta, Democracy Player has been rapidly expanding its user base as it draws closer to a 1.0 release.
+In the month of November 2006 alone, the application was downloaded over 15,000 times\footnote{Citation/Number update needed}.
 
-Integrated seamlessly with Democracy, the Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming. 
+Integrated seamlessly with Democracy, the Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming.
 Any video publisher may submit their show to the Channel Guide, which users can then peruse by category from within Democracy.
 
-Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web. 
-Users post content that they think is noteworthy. 
-Other users may "Star" the video, which bookmarks it as a favorite. 
+Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web.
+Users post content that they think is noteworthy.
+Other users may "Star" the video, which bookmarks it as a favorite.
 The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player. 
 
 \section{What is Democracy Player?}
-Democracy player is principal component in the collection of tools that make Internet TV possible. 
-Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels. 
-Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way. 
-When looking though Internet TV channels, the videos are listed by date. 
-Each video has a thumbnail, a short descriptions, various meta-data, a link to rate the content, and a link to share the content with friends. 
-The software enables users to easily subscribe to free Internet TV channels. 
-In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content. 
-The videos are stored for certain period of time (5 days by default) before being deleted. 
-Democracy Player is different than web services like You Tube in that it does not provide hosting for videos, instead only acting an aggregator for video content that is hosted elsewhere on the web. 
+Democracy player is the principal component in the collection of tools that make PCF's Internet television platform possible.
+Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels.
+Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way.
+When looking though Internet TV channels, the videos are listed by date.
+Each video has a thumbnail, a short description, various meta-data, a link to rate the content, and a link to share the content with friends.
+The software enables users to easily subscribe to free Internet TV channels.
+In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content.
+The videos are stored for certain period of time (5 days by default) before being deleted.
+Democracy Player is different than web services like You Tube in that it does not provide hosting for videos, instead only acting as an aggregator for video content that is hosted elsewhere on the web.
 
 \section {What is the Channel Guide?}
+Democracy makes viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels.
+Channel Guide makes finding free Internet TV channels easy.
+It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels.
+It allows users to easily browse, subscribe to, comment on, and rate free channels.
+It's built into Democracy, so it's easy to find.
+Channel Guide had hundreds of channels about everything from citizens news channels, such as Democracy Now!\footnote { http://DemocracyNow.org} and Rocketboom\footnote {http://Rocketboom.com}, to independent music video channels like TeleMusicVision\footnote{ http://telemusicvision.com}.
+It is also possible for users to create their own channel guides and distribute their own branded versions of Democracy Player.
 Democracy makes viewing Internet TV channels easy, but without a central directory of free channels, it might be hard to find interesting channels. 
 Channel Guide makes finding free Internet TV channels easy. 
 It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels. 
@@ -88,6 +95,12 @@ Channel Guide had hundreds of channels about everything from citizens news chann
 It is also possible for users to create their own channel guides and distribute their own branded versions of Democracy Player. 
 
 \section{What is Broadcast Machine?}
+    The final piece of the platform is Broadcast Machine, a tool that allows video producers to publish their content online.
+    Broadcast Machine began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acting as a light-weight BitTorrent download client.
+Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
+It not only handles video distribution via BitTorrent, but also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more.
+Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, RSSowl, LifeRea and iTunes.
+The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends.
 	The final piece of the platform is Broadcast Machine, a tool that allows video producers to publish their content online. 
 	Broadcast Machine began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acting as a light-weight BitTorrent download client. 
 Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers). 
@@ -96,52 +109,49 @@ Broadcase Machine uses open standard to ensure compatibility with many feed read
 The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends. 
 
 \section {Why do we need Broadcast Machine?}
-	Broadcast Machine is an amagalmation of features from a number of different pieces of software. 
-It is a type of content management systems, much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org}}. 
-Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{http://MovableType.com}}. 
-In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press. 
-Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels. 
-Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server. 
-Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content. 
-With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine. 
-However, since none of these pieces of software were not designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
-It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
-Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine. 
-
+    Broadcast Machine is an amagalmation of features from a number of different pieces of software.
+It is a type of content management systems, much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org} }.
+Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{ http://MovableType.com}}.
+In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press.
+Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels.
+Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server.
+Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content.
+With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine.
+However, since none of these pieces of software were not designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch.
+It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch.
+Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine.
+	
 \section {The importance of open-source}
-	Open source software is an important part of the movement to democratize the media and Internet. 
-This common goal is what ties together PCF's mission with that of the Free Software Movement. 
-The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free (\url{http://www.gnu.org/philosophy/shouldbefree.html})} 
-Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs. 
+    Open source software is an important part of the movement to democratize the media and Internet.
+This common goal is what ties together PCF's mission with that of the Free Software Movement.
+The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free (\url{ http://www.gnu.org/philosophy/shouldbefree.html})}
+Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
 The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
 
-
-	Without Free software, the Internet could not exist as a democratic medium. 
-Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code. 
-With proprietary software, users cannot "own" software, even if they purchase it. 
-Instead, users pay for the privilege of using it. 
-Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support). 
+    Without Free software, the Internet could not exist as a democratic medium.
+Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
+With proprietary software, users cannot "own" software, even if they purchase it.
+Instead, users pay for the privilege of using it.
+Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
 On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid} 
-
-
-	Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether. 
+    Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
 This culture encourages technological progress in ways that competitive, closed-source software does not. 
 
 \section {Similar Technologies}
 
 \subsection {Drupal & Civicspace}
 Drupal is a content managment system, often referred to as a CMS. 
-A CMS is a computer software system that assists users in managing internet content. 
-It helps users organize, control, and publish content. 
-Drupal allows users to easily set up and create and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to \url{http://drupal.org/about}}. 
-It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to \url{http://drupal.org/requirements}.}. 
-Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to \url{http://DrupalSites.com}}, including The Onion\footnote{\url{http://TheOnion.com}}, OurMedia\footnote{\url{http://www.ourmedia.org/}}, and MTV's UK site\footnote{\url{http://mtv.co.uk/}}. 
-The IndyMedia network is also considering using Drupal as the base for their new website\footnote{As of Dec 15, 2006, according to \url{https://docs.indymedia.org/view/Global/IndymediaAlternatives}}. 
+A CMS is a computer software system that assists users in managing internet content.
+It helps users organize, control, and publish content.
+Drupal allows users to easily set up and create and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to \url{ http://drupal.org/about}}.
+It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to \url{ http://drupal.org/requirements}.}.
+Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to \url{http://DrupalSites.com}}, including The Onion\footnote{\url{ http://TheOnion.com}}, OurMedia\footnote{\url{http://www.ourmedia.org/}}, and MTV's UK site\footnote{\url{http://mtv.co.uk/} }.
+The IndyMedia network is also considering using Drupal as the base for their new website\footnote{As of Dec 15, 2006, according to \url{https://docs.indymedia.org/view/Global/IndymediaAlternatives} }.
 
-Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{\url{http://en.wikipedia.org/wiki/DeanSpace}}.
-CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites. 
-CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}. 
-As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software. 
+Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{\url{ http://en.wikipedia.org/wiki/DeanSpace}}.
+CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites.
+CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{ http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{ http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}.
+As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software.
 %templating system
 %architechture
 
@@ -150,7 +160,8 @@ Drupal has a very flexible templating system.
 It has a built in theme system and supports a number of common engines. 
 As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
 Theme developers can also create new themes by simply editing the cascading style sheets (CSS) of existing themes. 
-
+A theme can be formed in several ways. A PHP file could be created with a .theme extension that includes functions that would override the theme_functions. The Chameleon\footnote{\url{http://api.drupal.org/api/HEAD/file/themes/chameleon/chameleon.theme}} theme is an example of a theme that uses this method. Another way to create a new template is to create file (.xtmpl, .tpl.php, .smarty) for a templating engine (XTemplate, PHPTemplate, ...): e.g. Pushbutton, Bluebeach
+* Style sheet for an existing template or theme: e.g. Marvin, Box Cleanslate
 Themes are stored in individual directories under the Drupal theme directory. 
 Each theme directory bears the name of the theme and at least contains the follow files:
 logo.png - an image that will be displayed next to the url of in a viewer's browser
@@ -198,17 +209,17 @@ Smarty is often called a templating engine, but is better described as a templat
 \chapter{BitTorrent}
 %Should info like this be included as an appendix?
 \section{Overview}
-BitTorrent is a protocol for distributing large amounts of data across a network. 
-Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing. 
+BitTorrent is a protocol for distributing large amounts of data across a network.
+Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing.
 
 Currently the most popular form of filesharing, BitTorrent has changed the way that people share files on the Internet, making filesharing more democratic and accessible to ordinary users.
-According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote {http://www.multichannel.com/article/CA6332098.html}
-In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting . 
-According to their research, 55\% of broadband upstream (ie “home outward”) is used for torrenting.
+According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote { http://www.multichannel.com/article/CA6332098.html}
+In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting .
+Additionally, 55\% of broadband upstream (ie "home outward") is used for torrenting.
 According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which is still more than all other peer-to-peer programs combined.  
-In either case, BitTorrent accounts for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
+Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
 
-Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses. 
+Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses, including the inexpensive distribution of independent media.
 
 
 \section{Why is Bit Torrent Important?}
@@ -216,125 +227,120 @@ Bit Torrent has been criticized for enabling users to infringe upon copyright la
 
 \section{The Process}
 %Got to figure out how to include pictures. I converted the two images I wanted to include in this section to post script. They're in this folder.
-To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client. 
+To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client.
 Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The same client is used to both upload and download Bit Torrent files.
-The original host of the file, called the seeder, starts uses a Bit Torrent client to hash the file into hundreds of small pieces. 
-Meta-data about the file is stored in a torrent file with the .torrent extension. 
-Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files. 
-This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer. 
-The torrent file can be distributed in many ways. 
-Torrent files are very small, only a few kilobytes. They can be attached to an email, put on a website, posted on forums, etc. 
-In fact, a new type of web-software has emerged called a torrent tracker.
-Torrent trackers helps organize many torrent files into a single website. These websites generally include even more metadata than the data than the torrent files, such as the files title, its author, a website associated with the file, perhaps a description or review of the file. 
+The original host of the file, called the seeder, starts uses a Bit Torrent client to hash the file into hundreds of small pieces.
+Meta-data about the file is stored in a torrent file with the .torrent extension.
+Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files.
+This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer.
+The torrent file can be distributed in many ways.
+Torrent files are very small, usually only a few kilobytes. They can be attached to an email, put on a website, posted on forums, etc.
+To support the distribution of torrents, a new type of web-software has emerged, called a torrent tracker.
+Torrent trackers helps organize many torrent files into a single website. These websites generally record even more metadata than the data in the torrent files, such as the files title, its author, a website associated with the file, perhaps a description or review of the file.
 They also provide a the ability to search for a specific file. ChomskyTorrents.org is an example of a public torrent tracker.
-Once a user opens a torrent file with their client, they begins downloading pieces of that file. 
-They are now called a peer. 
-The collection of peers downloading the file is called the swarm. 
-In the beginning there is only one seeder in the swarm. 
-The seeder starts by sends different pieces of the file to different peers. Once those peers finish downloading their first piece, they’re reading to share that piece with the rest of the swarm. 
-So immediately after the first piece of the file is finished downloading, there is already another person ready to share the upstream of the file. 
-The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file. 
-If one peer finishes the entire file before the others, eg if he or she has a faster downstream, that peer then also becomes a seeder, filling the gaps for the other peers.
+Once a user opens a torrent file with their client, they begin downloading pieces of that file.
+Users who are currently downloading the file are designated as peers, and the collection of peers downloading the file is referred to as the swarm.
+Initially, there is only one seeder in the swarm.
+The seeder starts by sends different pieces of the file to as many peers as possible. 
+As peers finish downloading pieces of the file, they then share those pieces with the rest of the swarm, distributing the upstream bandwidth load amongst all peers and seeders. 
+Once a peer finishes downloading the file, he or she can then leave the file open, and serves as a seeder by continuing to distribute the file to other peers.
+The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file.
 
 \section{An Example}
-Let’s say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay. 
-She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file. 
-A new file called, HumanRightsAbusesInOaxaca-Nov162006.avi.torrent is created that keeps track of how the video file is “cut up”. 
+Let's say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay.
+She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file.
+A new file called, HumanRightsAbusesInOaxaca-Nov162006.avi.torrent is created that logically partitions the original file into several pieces (leaving the original file unchanged), using simple hashes.
 She begins seeding the file and sends the torrent file to 100 of her contacts in the United States.
 % \includegraphics{oaxaca1.ps}
-These 100 people download the torrent file and open it in their Bit Torrent client. 
-Their Bit Torrent client now has a list of all the pieces of the file and can begin requesting them all. 
-The computer in Mexico begins by sending the first piece of the video file to Contact \#1, the second piece of the video file to Contact \#2, the third piece to Contact \#3, and so on. 
-Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm. 
-So now the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has. 
+These 100 people download the torrent file and open it in their Bit Torrent client of choice.
+The client now has a list of all the pieces of the file, and can begin requesting them.
+The computer in Mexico begins by sending the first piece of the video file to Contact \#1, the second piece of the video file to Contact \#2, the third piece to Contact \#3, and so on.
+Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm.
+Now, the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has.
 % \includegraphics{oaxaca2.ps}
-Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file. 
-The load is distributed among every client in the swarm. 
-Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself. 
-Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm. 
-For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm. 
+Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file at the same time.
+The load is distributed among every client in the swarm.
+Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself.
+Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm.
+For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm.
 
 \chapter{Current Issues}
 
-Before creating a better Broadcast Machine, we need to understand its current shortcomings. 
-The first step in addressing problems is understanding what they are. 
-There are a few issues that are often brought up by users and a few more that the developers are concerned about. 
-There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs. 
-Although the API is thoroughly documented, the data structures have little documentation. 
-This along with poor application architecture are the two culprits that cause the majority of problems. 
-These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine. 
-The problems mentioned by users are important to address, but after a while it becomes less efficient to quash bugs than it is to address the cause of these bugs. 
-We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product. 
-For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation. 
-With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}}
+Before creating the next incarnation of Broadcast Machine, we need to understand its current shortcomings.
+The first step in addressing problems is understanding what they are.
+There are a few issues that are often brought up by users and a few more that the developers are concerned about.
+There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
+Although the API is thoroughly documented, the data structures have little documentation.
+This along with poor application architecture are the two culprits that cause the majority of problems.
+These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine.
+The problems mentioned by users are important to address, but after a while it becomes less efficient to quash bugs than it is to address the cause of these bugs.
+We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
+For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation.
+With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results. \url{ http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}}
 
-Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts. 
-This design pattern is most commonly known as "Model-View-Controller (MVC)". 
-This design methodology separates the application into distinct parts that can be modified without having a detrimental effect on other parts of the program. 
-The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. 
-Broadcast Machine currently implements this design, albeit poorly. 
-Unfortunately, the separation between the three segments is often unclear. 
+Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts.
+This design pattern is most commonly known as "Model-View-Controller (MVC)".
+This design methodology separates the application into distinct parts that can be modified without having a detrimental effect on other parts of the program.
+The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components.
+Broadcast Machine currently implements this design, albeit poorly.
+Unfortunately, the separation between the three segments is often unclear.
 
-% This certainly needs some work. I feel as if this is missing alot. -CJ	
-The majority of the separation problems occur in the 'Model' layer. 
-Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php. 
-The application uses each of these files to store data and handle the return of data in an understandable manner. 
-The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. 
-Datastore.php and data\_layer.php are fantastically intertwined. 
-Each of the files provides some sort of functionality that the other relies upon. 
-Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. 
-This intercommunication becomes a problem when the a user or developer changes something in either one. 
-When changes are made at either place in the program, the other part might fail. 
-It is hard to be sure what effects changes will have because of this hook system. 
-Because the hooks are established at runtime, determining which function will be called is often difficult. 
+% This certainly needs some work. I feel as if this is missing alot. -CJ    
+The majority of the separation problems occur in the 'Model' layer.
+Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php.
+The application uses each of these files to store data and handle the return of data in an understandable manner.
+The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism.
+Datastore.php and data\_layer.php are fantastically intertwined.
+Each of the files provides some sort of functionality that the other relies upon.
+Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information.
+This intercommunication becomes a problem when the a user or developer changes something in either one.
+When changes are made at either place in the program, the other part might fail.
+It is hard to be sure what effects changes will have because of this hook system.
+Because the hooks are established at runtime, determining which function will be called is often difficult.
 
 
-The second area in which Broadcast Machine is lacking is documentation. 
-While there is enough user end documentation to support the existing community there is certainly room for improvement. 
-The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
-The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases. 
-Supporting the end user is certainly an issue for a project that wishes to put powerful software in the hands of users, but even more alarming is the sparse developer documentation. 
-An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software. 
-There are a few files that begin to talk about the data structures used in the program, but it stops short. 
-While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete. 
-The comments that are there describe why the variables are there, but fail to mention how the a function might work or what effects it has on other parts of the application. 
+The second area in which Broadcast Machine is lacking is documentation.
+While there is enough user end documentation to support the existing community there is certainly room for improvement.
+The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine.
+The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases.
+Supporting the end user is certainly an issue for a project that wishes to put powerful software in the hands of users, but even more alarming is the sparse developer documentation.
+An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software.
+There are a few files that begin to talk about the data structures used in the program, but it stops short.
+While it is certainly a good start, it needs to be cleaned up and completed. There is a certain amount of inline documentation as well, but it is far from complete.
+The comments that are there describe why the variables are there, but fail to mention how the a function might work or what effects it has on other parts of the application.
 Between architecture and documentation, there are significant portions that Broadcast Machine need improvement.
-
 
 \chapter{Requirements and Design Decisions}
 
 \section{Architecture}
 
-	Many of Broadcast Machine’s current problems stem from its poor architectural implementation. 
-To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. 
+    Many of Broadcast Machine's current problems stem from its poor architectural implementation.
+To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture.
 From a design standpoint, a successful architecture has several requirements. 
 
-The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
-Ideally, users’ site layouts, or “themes”, have the potential to look drastically different. 
-The templates must be abstracted from the functional code, so that users needn’t worry about damaging the code or digging deep into its inner workings when modifying the layout. 
+The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs.
+Ideally, users' site layouts, or "themes", have the potential to look drastically different.
+The templates must be abstracted from the functional code, so that users needn't worry about damaging the code or digging deep into its inner workings when modifying the layout.
 Users should also have the ability to easily switch between layouts.
 
-Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer. 
-The layout of the application should appear logical and concise. 
-In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
-Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
-If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. 
+Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer.
+The layout of the application should appear logical and concise.
+In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in.
+Developers should not need to dig through a mountain of code before finding the section that they need to edit.
+If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application.
 In this sense, a good architecture will encourage good design practices. 
 
-The application must be flexible enough so that it can be re-factored easily. 
-Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. 
-For example, we may decide later that we would like to use a different type of database. 
-We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
-
-For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. 
-
+The application must be flexible enough so that it can be re-factored easily.
+Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others.
+For example, we may decide later that we would like to use a different type of database.
+We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience.
+For these reasons, we have chosen a Model-View-Controller design pattern to represent our application.
 
 \section{Compatibility}
 
-The new Broadcast Machine must work across several different platforms. 
-While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. 
-This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
-
+The new Broadcast Machine must work across several different platforms.
+While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups.
+This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc).
 
 For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. 
 Although Ruby on Rails is great for a Model-View-Controller web application (as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers), it hasn’t been fully adopted by most of the web community. 
@@ -343,41 +349,38 @@ Ruby is not perfect, it too has its draw backs, but in our opinion it would be v
 However, since it is not well supported we will not use it. 
 PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
 
-
 Similarly, MySQL is an open-source DBMS (Database Management System) that is perhaps the most widely used SQL (Structured Query Language) implementation, with the exception of enterprise-level applications such as Oracle. 
 Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
 
-
-When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. 
-An assumption that the average database will contain less than 1000 records for unique videos is reasonable. 
-A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. 
-Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. 
-The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. 
-Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. 
+When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes.
+An assumption that the average database will contain less than 1000 records for unique videos is reasonable.
+A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently.
+Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information.
+The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality.
+Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances.
 Architecting a flexible database controller will allow us to add other DBMS choices as necessary. 
 
 \section{Ease of Use}
 
-	The most obvious requirement for Broadcast Machine is that it be easy to use. 
-Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program. 
-Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed. 
-Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video “channels” via a simple administrative interface. 
-Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application in their public html folder. 
-The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
-The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
-Another way in which we will keep the install simple, is by using only one install directory. 
-We will not include any directory structure in the install file, but rather an install script will create any neccesary directories after decompression of the install file. 
-Sometimes during decompression of files, the directory structure of is lost. 
-By keeping all install files in one directory and creating a directory structure with an install script will ensure that all the neccesary directories exists and have the proper permissions. 
-
+    The most obvious requirement for Broadcast Machine is that it be easy to use.
+Our target user, people who produce videos, should not need a wealth of technical knowledge in order to deploy and use the program.
+Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technical concepts employed.
+Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video "channels" via a simple administrative interface.
+Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application in their public html folder.
+The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up.
+The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully.
+Another way in which we will keep the install simple, is by using only one install directory.
+We will not include any directory structure in the install file, but rather an install script will create any neccesary directories after decompression of the install file.
+Sometimes during decompression of files, the directory structure of is lost.
+By keeping all install files in one directory and creating a directory structure with an install script will ensure that all the neccesary directories exists and have the proper permissions.
 
 Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels in Democracy Player (See use cases for more information).
  
 
 \section{Stability}
 
-	Most importantly, the new Broadcast Machine must be stable. 
-At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior. 
+    Most importantly, the new Broadcast Machine must be stable.
+At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior.
 
 \section{Features}
 % This is just an outline right now. -Greg
@@ -399,155 +402,155 @@ There are several requirements for features that Broadcast Machine must include:
 
 \subsection{Channels}
 Channels:
-	CSSURL - An address that links to a stylesheet (deprecated)
-	Created - An integer describing when the channel was created (deprecated)
-	Description - A longer body of text that describes the channel's theme or content
-	Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
-	Icon - An image associated with the channel
-	LibraryURL - A link to a library (deprecated)
-	Name – Each Channel has a title, represented by a string
-	Last Modified Date - a timestamp of when the channel was last changed.
-	Open Publishing - A true/false property for whether or not anonymous users may publish videos to the channel
-	Open Viewing - A true/false property for whether or not anonymous users can view the channel
-	Donation HTML - A string of code for donation information
-	Donation URL - The url of the website where donations can be made 
+    CSSURL - An address that links to a stylesheet (deprecated)
+    Created - An integer describing when the channel was created (deprecated)
+    Description - A longer body of text that describes the channel's theme or content
+    Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
+    Icon - An image associated with the channel
+    LibraryURL - A link to a library (deprecated)
+    Name – Each Channel has a title, represented by a string
+    Last Modified Date - a timestamp of when the channel was last changed.
+    Open Publishing - A true/false property for whether or not anonymous users may publish videos to the channel
+    Open Viewing - A true/false property for whether or not anonymous users can view the channel
+    Donation HTML - A string of code for donation information
+    Donation URL - The url of the website where donations can be made
 
 Channel Websites (1 to one with Channels):
-	Channel ID - The ID number of the channel that the website refers to
-	Website - The url of the associated website
+    Channel ID - The ID number of the channel that the website refers to
+    Website - The url of the associated website
 
 Channel Donation Info:
-	Channel ID - The ID number of the channel that the donation info pertains to
-	HTML - Code containing donation pitch and link to donation page
-	URL - URL of the donation page
+    Channel ID - The ID number of the channel that the donation info pertains to
+    HTML - Code containing donation pitch and link to donation page
+    URL - URL of the donation page
 
 Channel People (People involved with the making of the channel):
-	Channel ID - The ID number of the channel that the people are involved with
-	Person - A string representing the person's name
-	Role - The person's role in the channel
+    Channel ID - The ID number of the channel that the people are involved with
+    Person - A string representing the person's name
+    Role - The person's role in the channel
 
 Channel Administrators:
-	Channel ID - The channel that the user has admin access to
-	Username - The user who is an admin
+    Channel ID - The channel that the user has admin access to
+    Username - The user who is an admin
 
 Channel Viewers:
-	Channel ID - The channel that the user has admin access to
-	Username - The user who has view privileges
+    Channel ID - The channel that the user has admin access to
+    Username - The user who has view privileges
 
 Channel Tags (Categories, each channel can have none or several):
-	Channel ID - The channel that the tag describes
-	Tag - The category phrase for the channel
+    Channel ID - The channel that the tag describes
+    Tag - The category phrase for the channel
 
 Channel Icon:
 \footnote{Channel Icon and URL are mutually exclusive, meaning you can have one, but not the other. These two tables can be cleverly combined in the new schema, if local icons are also represented as URLs.}
-	Channel ID - The channel that the icon belongs to
-	Filename - the filename of the icon
-	Mime-type - A string representing the type of file that the icon is
+    Channel ID - The channel that the icon belongs to
+    Filename - the filename of the icon
+    Mime-type - A string representing the type of file that the icon is
 
 Channel Icon URL:
-	Channel ID - The channel that the icon is attached to
-	URL - The address of the external url
+    Channel ID - The channel that the icon is attached to
+    URL - The address of the external url
 
 Channel License Info (One license may be attached to many channels)
-	Channel ID - The channel that the license pertains to
-	License Name - A string for the name of the license
-	License URL - A link to the full body of the license
+    Channel ID - The channel that the license pertains to
+    License Name - A string for the name of the license
+    License URL - A link to the full body of the license
 
 \subsection{Videos}
-Videos: 
-	Video ID - An ASCII urlencoded string derived from the title
-	Title - The name of the video
-	Description - A longer explanation of the video's content
-	Last Changed - A timestamp of when the video was last edited
-	Release Date - When the original work was released
-	Publish Date - When the video was published to a feed
-	Adult - A boolean flag to demarcate potentially offensive content	
+Videos:
+    Video ID - An ASCII urlencoded string derived from the title
+    Title - The name of the video
+    Description - A longer explanation of the video's content
+    Last Changed - A timestamp of when the video was last edited
+    Release Date - When the original work was released
+    Publish Date - When the video was published to a feed
+    Adult - A boolean flag to demarcate potentially offensive content    
 
 Video Roles (People involved with the making of the video)
-	Video ID - The video that the roles pertain to
-	Person - The person's name
-	Role - The person's role in making the video
+    Video ID - The video that the roles pertain to
+    Person - The person's name
+    Role - The person's role in making the video
 
 Video Icon:
 \footnote{Video Icon and URL are mutually exclusive, the same as Channel Icon and url}
-	Video ID - The video that the icon belongs to
-	Filename - the filename of the icon
-	Mime-type - A string representing the type of file that the icon is
+    Video ID - The video that the icon belongs to
+    Filename - the filename of the icon
+    Mime-type - A string representing the type of file that the icon is
 
 Video Icon URL:
-	Video ID - The video that icon is attached to
-	URL - The address of the external url
+    Video ID - The video that icon is attached to
+    URL - The address of the external url
 
 Video License (One License may be attached to several videos):
-	Video ID - The video that the license pertains to
-	License Name - A string for the name of the license
-	License URL - A link to the full body of the license
+    Video ID - The video that the license pertains to
+    License Name - A string for the name of the license
+    License URL - A link to the full body of the license
 
 Video Transcript (One to one with videos):
-	Video ID - The video that the transcript describes
-	Transcript - The written account of what happens in the video
+    Video ID - The video that the transcript describes
+    Transcript - The written account of what happens in the video
 
 Video Webpage:
-	Video ID - The video that the webpage describes
-	Webpage - URL of the associated webpage
+    Video ID - The video that the webpage describes
+    Webpage - URL of the associated webpage
 
 Video Tags:
-	Video ID - The video that the tag describes
-	Tag - A short word or phrase describing the video
+    Video ID - The video that the tag describes
+    Tag - A short word or phrase describing the video
 
 Video Donation Info:
-	Video ID - The video that the donation info is for
-	Donation HTML - A short snippet of code for donation info
-	Donation URL - The url for making a donation
+    Video ID - The video that the donation info is for
+    Donation HTML - A short snippet of code for donation info
+    Donation URL - The url for making a donation
 
 \subsection{Videos}
 Video Files:
-	Video ID - The video that the file belongs to
-	Mime type - The type of video file
-	Extension - The extension of the physical file
-	Datafile - local name of the file 
-	Length - the size of the file in bytes
-	File CRC - A checksum to ensure that the file transferred correctly
-	Piece Length - 
-	Info Hash - A hash of the video's contents, used for bittorrent
+    Video ID - The video that the file belongs to
+    Mime type - The type of video file
+    Extension - The extension of the physical file
+    Datafile - local name of the file
+    Length - the size of the file in bytes
+    File CRC - A checksum to ensure that the file transferred correctly
+    Piece Length -
+    Info Hash - A hash of the video's contents, used for bittorrent
 
 Video File Pieces:
-	Video ID - the video that the piece is a part of
-	Piece number - a positive integer to identify the piece
-	Hash - a SHA1 hash of the piece, used for BitTorrent
+    Video ID - the video that the piece is a part of
+    Piece number - a positive integer to identify the piece
+    Hash - a SHA1 hash of the piece, used for BitTorrent
 
 Video URLs:\footnote{Video files and urls are mutually exclusive. Videos either use BitTorrent or Direct URLs for download}
-	Video ID - the video that the URL describes
-	Mime type - The type of video file
-	Length - the size of the file in bytes
-	URL - the address where the file is stored
+    Video ID - the video that the URL describes
+    Mime type - The type of video file
+    Length - the size of the file in bytes
+    URL - the address where the file is stored
 
 \subsection{Data associated with Settings}
 Settings:
-	Site Name - The name of the site
-	Site Summary - A longer description of what the site is about
-	Allow new users - a boolean value to describe whether or not user registration is open
-	Require new user approval - a boolean value to describe whether or not an administrator must approve new user requests
-	Enable HTTP - Whether or not server-side seeding is turned on
-	Shutdown seeded files - Whether or not seeding halts when there are other seeders present
-	Bandwidth Limit - The maximum bandwidth usage for a month, in bytes
-	Homepage - the page to be displayed by default when users navigate to the main page. By default, the "Channels" page
-	Site URL - The base URL of the website
+    Site Name - The name of the site
+    Site Summary - A longer description of what the site is about
+    Allow new users - a boolean value to describe whether or not user registration is open
+    Require new user approval - a boolean value to describe whether or not an administrator must approve new user requests
+    Enable HTTP - Whether or not server-side seeding is turned on
+    Shutdown seeded files - Whether or not seeding halts when there are other seeders present
+    Bandwidth Limit - The maximum bandwidth usage for a month, in bytes
+    Homepage - the page to be displayed by default when users navigate to the main page. By default, the "Channels" page
+    Site URL - The base URL of the website
 
 Settings icon:
-	Icon filename - the address of the icon
-	Icon mimetype - the type of file
-	
+    Icon filename - the address of the icon
+    Icon mimetype - the type of file
+    
 Settings icon url:\footnote{Icon URL and icon are once again mutually exclusive}
-	Icon URL - the url where the icon is stored
+    Icon URL - the url where the icon is stored
 
 Settings donation:
-	Donation HTML - A snippet of code for a donation pitch
-	Donation URL - Address of the donation website
+    Donation HTML - A snippet of code for a donation pitch
+    Donation URL - Address of the donation website
 
 \section{Model}
 %Needs: People should be relational!
-Broadcast Machine must keep track of several pieces of information pertaining to its entities (channels, files, etc.). 
+Broadcast Machine must keep track of several pieces of information pertaining to its entities (channels, files, etc.).
 A comprehensive list of the data follows (entity relationships highlighted in bold):
 
 \subsection{Data associated with Channels}
@@ -555,7 +558,7 @@ Channel ID – An arbitrary, unique number to identify the channel and  associat
 Title – Each Channel has a title, represented by a string
 Description - A longer body of text that describes the channel's theme or content
 Icon – Reference to the thumbnail image (See below)
-Credits – A list of the channel creators and maintainers, or any other people involved. 
+Credits – A list of the channel creators and maintainers, or any other people involved.
 Donation information – Represented as a snippet of HTML or a simple url.
 Website information – A url to link to the channel's main web page.
 Tags – 0 or more keywords associated with the channel, used for categorizing and browsing multiple channels.
@@ -573,11 +576,11 @@ Email Address – Optionally used to verify registration
 Permissions – User's access credentials for specific channels, files, and the site in general
 
 \subsection{Data associated with Videos:}
-ID – An arbitrary, unique number to identify the user and associate it with other entities 
+ID – An arbitrary, unique number to identify the user and associate it with other entities
 Title – A short amount of text to describe the video
 Description - A longer body of text that describes the video's theme or content
 Last Modified Date – A time stamp set every time any video information is changed.
-Credits – A list of the channel creators and maintainers, or any other people involved. 
+Credits – A list of the channel creators and maintainers, or any other people involved.
 Icon – Reference to the thumbnail image (See below)
 Transcript (optional)– A text-version of the video's content or dialog for the hearing impaired
 License/Copyright information – The name of the license associated with the content, and possibly a url to link to the full body of the license
@@ -587,7 +590,7 @@ Publish Date – A timestamp of when the video is made available to the public. 
 Running time – The length of the video, in seconds
 Adult – A boolean flag used for marking adult content
 Donation information – Represented as a snippet of HTML or a simple url.
-Tags – 0 or more keywords associated with the channel, used for categorizing and 	browsing multiple channels.
+Tags – 0 or more keywords associated with the channel, used for categorizing and     browsing multiple channels.
 Mime-type – The type of media that the file represents
 Filename – the url or address on the server where the file is located
 Size – the size of the file, in bytes.
@@ -596,13 +599,13 @@ BitTorrent Information (optional) – If the file is a torrent, additional infor
 Permissions – Rules about which users can access or modify the video
 
 \subsection{Data associated with video tags:}
-	Video ID – A reference to the video that the tag describes
-	Tag name – A short word or phrase to categorize the video
+    Video ID – A reference to the video that the tag describes
+    Tag name – A short word or phrase to categorize the video
 
 \subsection{Data associated with icons:}
-	Icon ID - A unique, autogenerated id number to identify the image
-	Icon URL - The address of the icon
-	Mime-Type - The type of file that the icon is
+    Icon ID - A unique, autogenerated id number to identify the image
+    Icon URL - The address of the icon
+    Mime-Type - The type of file that the icon is
 
 
 \subsection{Data associated with Torrents:}
@@ -611,10 +614,9 @@ Permissions – Rules about which users can access or modify the video
 (Should we pop the schema itself in here?)
 
 \subsection{Design Decisions}
-The current schema departs from the previous data structures in many ways. 
-Previously, the data layer was represented as a flat-file database. 
-Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled. 
-
+The current schema departs from the previous data structures in many ways.
+Previously, the data layer was represented as a flat-file database.
+Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
 
 First, several pieces of data were being improperly stored in the database. 
 For example, channel and site settings were being stored in the database. 
@@ -622,19 +624,18 @@ This information doesn't typically belong in a relational data structure, simply
 Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. 
 That way, data can be easily read and modified, both by the application and advanced users. 
 
-
-Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table. 
+Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table.
 This means that the same icon information can be used by both channels and videos. This will help eliminate duplicate data, and give users more choice in choosing icons.
 
-The new schema also drops several fields and data structures that could be simplified or generated on the fly. 
-For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address. 
-Since most, if not all, browsers render images without an explicit mime-type, eliminating this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves. 
-Similarly, fields like file extension, which can be derived from other data, have been pruned. 
-We also store information about intellectual property licenses that could be abstracted to its own table. 
+The new schema also drops several fields and data structures that could be simplified or generated on the fly.
+For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address.
+Since most, if not all, browsers render images without an explicit mime-type, eliminating this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves.
+Similarly, fields like file extension, which can be derived from other data, have been pruned.
+We also store information about intellectual property licenses that could be abstracted to its own table.
 However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables. 
 
-
-File data and video data have a one-to-one relationship, so it makes sense to merge them into one table. 
+File data and video data have a one-to-one relationship, so it makes sense to merge them into one table.
 This will normalize the table, which will optimize queries and simplify queries that access that data. 
 
 \end{document}
+
