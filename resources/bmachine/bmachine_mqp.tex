@@ -140,6 +140,7 @@ This culture encourages technological progress in ways that competitive, closed-
 \section {Similar Technologies}
 
 \subsection {Drupal & Civicspace}
+%Needs: How Drupal Modules Work
 Drupal is a content managment system, often referred to as a CMS. 
 A CMS is a computer software system that assists users in managing internet content.
 It helps users organize, control, and publish content.
@@ -156,11 +157,11 @@ As of version 5.0, Drupal includes an automatic installer and many of the functi
 %architechture
 
 \subsubsection {Templating and Themes}
+%Needs: Template code examples
 Drupal has a very flexible templating system. 
 It has a built in theme system and supports a number of common engines. 
 A theme can be formed in several ways. 
 As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
-
 
 Themes are stored in individual directories under the Drupal theme directory. 
 Each theme directory bears the name of the theme and at least contains the following files:
@@ -168,7 +169,6 @@ logo.png - an image that will be displayed next to the url of in a viewer's brow
 screenshot.png - an image that will be displayed in the administration inferface. 
 It's meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
 style.css - a CSS file containing all of the styling information about the theme. 
-
 
 Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
 There are a few ways to properly form a new theme for Drupal. 
@@ -277,7 +277,7 @@ Bit Torrent has been criticized for enabling users to infringe upon copyright la
 %Got to figure out how to include pictures. I converted the two images I wanted to include in this section to post script. They're in this folder.
 To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client.
 Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The same client is used to both upload and download Bit Torrent files.
-The original host of the file, called the seeder, starts uses a Bit Torrent client to hash the file into hundreds of small pieces.
+The original host of the file, called the seeder, uses a Bit Torrent client to hash the file, breaking it up logically into hundreds of small pieces, while still leaving the original file intact.
 Meta-data about the file is stored in a torrent file with the .torrent extension.
 Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files.
 This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer.
@@ -581,6 +581,7 @@ This will normalize the table, which will optimize queries and simplify queries 
 With the incredible number of technologies available for use today, it can be difficult to choose which ones most appropriately address the problem we are aiming to solve. Broadcast Machine will be built so that the greatest number of people can use it, which translates to using the most common (and yet most appropriate) technologies at our disposal. At the same time, our group needs to be aware of what is feasible. Supporting Apache is certainly practical because Apache licenses are free while supporting Microsoft's IIS is unreasonable because of the cost to license the software and the time needed to support that platform. Interoperability with current software is important as well. Certainly there is a need to support the Democracy Player and other large video aggregators such as iTunes. The weight pulled by these applications is significant enough that we should provide content that is syndicated using RSS and downloadable via HTTP or BitTorrent.
 
 \section{Apache}
+%Apache almost always comes with PHP, configurations on a per-directory basis (.htaccess), by far the most common web server.
 The Apache webserver is an excellent match for Broadcast Machine. It is one of the most popular webservers in use today \footnote{From a Netcraft survey from Oct. 1995 through Jan. 2007. /url{http://news.netcraft.com/archives/2007/01/05/january_2007_web_server_survey.html}} and is known for being extremely robust.
 Because of its wide adoption, there are many modules that have been written to extend its functionality.
 This flexibility only adds to the allure of Apache; As both the PHP language and URL rewriting are supported through these modules, this server package truly delivers. 
@@ -590,7 +591,8 @@ The Microsoft provides many of the same features that Apache does, but with wide
 Apache's market share dominates over Microsoft's server, making Apache the clear winner.
 
 \section{PHP}
-When it comes to writing applications for the web there are many choices, and while PHP probably doesn't provide the best performance, it is one of the most prevalent server-side scripting languages available.
+%We're using php because its the only thing guarunteed to be installed everywhere. Also, performance/scalability. Expand on the language.
+When it comes to writing applications for the web, there are many choices, and while PHP probably doesn't provide the best performance, it is one of the most prevalent server-side scripting languages available.
 For this program to be as successful as possible, we must leverage the popularity of certain technologies; even if that means sacrificing other maybe better technologies for the most popular.
 The Ruby on Rails platform could allow us to more quickly develop our program, Java Enterprise Edition might let us scale better, and .NET might let us take advantage of the many languages web applications can be created in, but none of these offers a better mix than PHP.
 PHP comes installed by default at many inexpensive webhosts, has a large community following, and there are many prexisiting libraries that we can utilize. 
