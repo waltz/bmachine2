@@ -1,9 +1,9 @@
 \documentclass[a4paper,12pt]{report}
-\usepackage{graphicx}
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
 \title{Broadcast Machine}
 
+\usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{hyperref}
 
@@ -130,7 +130,7 @@ The software is Free in the sense that there are no conditions in distributing o
 
     Without Free software, the Internet could not exist as a democratic medium.
 Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot "own" software, even if they purchase it.
+With proprietary software, users cannot \"own\" software, even if they purchase it.
 Instead, users pay for the privilege of using it.
 Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
 On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid} 
@@ -150,7 +150,7 @@ The IndyMedia network is also considering using Drupal as the base for their new
 
 Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{\url{ http://en.wikipedia.org/wiki/DeanSpace}}.
 CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites.
-CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for "powered by CivicSpace".}, such as The New Democratic Party\footnote{\url{ http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{ http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}.
+CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for \"powered by CivicSpace\".}, such as The New Democratic Party\footnote{\url{ http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{ http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}.
 As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software.
 %templating system
 %architechture
@@ -313,7 +313,6 @@ Keeping the original seeder in the swarm will speed up the process, but its not 
 For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm.
 
 \chapter{Current Issues}
-
 Before creating the next incarnation of Broadcast Machine, we need to understand its current shortcomings.
 The first step in addressing problems is understanding what they are.
 There are a few issues that are often brought up by users and a few more that the developers are concerned about.
@@ -332,8 +331,7 @@ This design methodology separates the application into distinct parts that can b
 The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components.
 Broadcast Machine currently implements this design, albeit poorly.
 Unfortunately, the separation between the three segments is often unclear.
-
-% This certainly needs some work. I feel as if this is missing alot. -CJ    
+    
 The majority of the separation problems occur in the 'Model' layer.
 Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php.
 The application uses each of these files to store data and handle the return of data in an understandable manner.
@@ -345,7 +343,6 @@ This intercommunication becomes a problem when the a user or developer changes s
 When changes are made at either place in the program, the other part might fail.
 It is hard to be sure what effects changes will have because of this hook system.
 Because the hooks are established at runtime, determining which function will be called is often difficult.
-
 
 The second area in which Broadcast Machine is lacking is documentation.
 While there is enough user end documentation to support the existing community there is certainly room for improvement.
@@ -681,9 +678,92 @@ Since most, if not all, browsers render images without an explicit mime-type, el
 Similarly, fields like file extension, which can be derived from other data, have been pruned.
 We also store information about intellectual property licenses that could be abstracted to its own table.
 However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables. 
-
 File data and video data have a one-to-one relationship, so it makes sense to merge them into one table.
-This will normalize the table, which will optimize queries and simplify queries that access that data. 
+This will normalize the table, which will optimize queries and simplify queries that access that data.
+
+\chapter{Utilized Technologies}
+With the incredible number of technologies available for use today, it can be difficult to choose which ones most appropriately address the problem we are aiming to solve. Broadcast Machine will be built so that the greatest number of people can use it, which translates to using the most common (and yet most appropriate) technologies at our disposal. At the same time, our group needs to be aware of what is feasible. Supporting Apache is certainly practical because Apache licenses are free while supporting Microsoft's IIS is unreasonable because of the cost to license the software and the time needed to support that platform. Interoperability with current software is important as well. Certainly there is a need to support the Democracy Player and other large video aggregators such as iTunes. The weight pulled by these applications is significant enough that we should provide content that is syndicated using RSS and downloadable via HTTP or BitTorrent.
+
+\section{Apache}
+The Apache webserver is an excellent match for Broadcast Machine. It is one of the most popular webservers in use today \footnote{From a Netcraft survey from Oct. 1995 through Jan. 2007. /url{http://news.netcraft.com/archives/2007/01/05/january_2007_web_server_survey.html}} and is known for being extremely robust.
+Because of its wide adoption, there are many modules that have been written to extend its functionality.
+This flexibility only adds to the allure of Apache; As both the PHP language and URL rewriting are supported through these modules, this server package truly delivers. 
+Unfortunately, Apache might not be available in all situations.
+The likely runner-up would be Microsoft's Internet Information Services http server which can also provide us with PHP and URL rewriting, albeit in a less robust form.
+The Microsoft provides many of the same features that Apache does, but with widespread adoption as the goal, Apache delivers.
+Apache's market share dominates over Microsoft's server, making Apache the clear winner.
+
+\section{PHP}
+When it comes to writing applications for the web there are many choices, and while PHP probably doesn't provide the best performance, it is one of the most prevalent server-side scripting languages available.
+For this program to be as successful as possible, we must leverage the popularity of certain technologies; even if that means sacrificing other maybe better technologies for the most popular.
+The Ruby on Rails platform could allow us to more quickly develop our program, Java Enterprise Edition might let us scale better, and .NET might let us take advantage of the many languages web applications can be created in, but none of these offers a better mix than PHP.
+PHP comes installed by default at many inexpensive webhosts, has a large community following, and there are many prexisiting libraries that we can utilize. 
+These advantages are important enough to us that our team is willing to ignore problems with the language like it's lack of namespaces and the use of weakly typed variables. 
+
+\section{SQL}
+To store all of the information about the channels, videos and settings in Broadcast Machine, we decided that a database would be best. 
+In the time since the last release, SQL databases have become increasingly more prevalent on the web.
+The most current release of PHP (Version 5) was released with built-in SQLite support in addition to the already well supported MySQL backend.
+We feel that a database lets us store and retrive data in the most scalable and efficient way possible without sacrificing the overall goals of the program.
+The proliferation of database support makes us confident that requiring a relational database system will not deter many potential users.
+An important note to make is that much of the database setup procedure can be semi-automated during the installation as it is in the weblog package WordPress.
+
+\section{URL Rewriting}
+As the internet has become amazingly popular and software packages have replaced humans in the role of content management URL's have become increasingly difficult for users to understand as they more often serve the needs of the software rather than the end user.
+To solve this problem, we can utilize the technique of URL rewriting to turn the cryptic characters in the browser bar into meaningful and rememberable addresses.
+When it comes to weblogs, many people encounter URL's that look something like "\url{http://www.weblog.net/posts.php?day=01041999}".
+When it comes to developers on the web, that URL servers their purposes nicely.
+But many end-users have no idea that we're requesting posts from January 4, 1999.
+To more clearly convey what the URL is trying to accomplish it would be easier to display the URL as something like "\url{http://www.weblog.net/posts/day/Jan/4/1999}".
+This url is much more readable to the casual passers by; it becomes obvious that we're trying to get posts from a certain day, month, and year.
+Unfortunately there is a disconnect between what we would like the user to see and what is useful to us as developers.
+URL rewriting provides us with a simple parser that takes in the URL that is sent to the webserver and parses and converts it to the URL that is more useful to the developer.
+Fortunately for everyone, this all happens transparently without the user having to know about it.
+Apache also provides the developers with an easy mechanism for implementing this functionality.
+Mod_rewrite in specific provides the features that we require. 
+For environments that do not have Apache and Mod_rewrite, users are in an unforuntate position.
+Our team can do our best to provide users with other ways of providing the URL rewriting functionality, but these options are configured by the server administrator more so than the user.
+With Apache and mod_rewrite, the rules for URL rewriting are specified in an htaccess file that the user can upload.
+But with rewriting solutions such as ASAPI rewrite things aren't so easy, the user has to have access to the server configuration or a close relationship with the administrator.
+We expect these situations to be rare and believe that through helpful documentation we can extend these features to other users.
+
+\section{BitTorrent}
+The past 10 years have led to a revolution in the way people use computers.
+Prices of electronics have dropped drastically; increasing the number of people who can afford to use some of these powerful technologies.
+This same price drop in material goods has also forced the cost of services down.
+Now with high-speed internet access becoming broadly available it makes it easy for end users to create, edit, and distribute their content.
+The one thing that emerges as a consistently high cost of content distribution on the web is bandwidth.
+While some small users can afford to support a meager viewer-base with a small amount of funding, a larger viewership is usually reserved for those who are well funded.
+Fortunately, Bram Cohen cleverly engineered the BitTorrent protocol to address such a problem.
+ 
+As has been outlined earlier, BitTorrent is a technology that can easily enable end users to distribute content at a low cost.
+This is extremely important for Broadcast Machine to support, as this technology 
+
+Add technical information about BitTorrent:
+- How it finds peers.
+- How it distributes the files.
+- File integrity handling.
+
+
+
+
+\section{XML and RSS}
+What is XML.
+What is RSS.
+How are RSS and XML related.
+How is RSS used in Broadcast Machine.
+Why use the Yahoo! Media RSS Extensions.
+-> Additional tag explanation.
+Why use the iTunes RSS 
+
+How is RSS reliant on HTTP caching.
+
+RSS is a markup language and a standard.
+Standardized by the W3C.
+What differentiates RSS from XML. (Document Type Definitions)
+The history of RSS, RSS enclosures
+
+\section{HTML and CSS}
 
 \end{document}
 
