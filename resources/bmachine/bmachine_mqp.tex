@@ -158,19 +158,21 @@ As of version 5.0, Drupal includes an automatic installer and many of the functi
 \subsubsection {Templating and Themes}
 Drupal has a very flexible templating system. 
 It has a built in theme system and supports a number of common engines. 
+A theme can be formed in several ways. 
 As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
-Theme developers can also create new themes by simply editing the cascading style sheets (CSS) of existing themes. 
-A theme can be formed in several ways. A PHP file could be created with a .theme extension that includes functions that would override the theme_functions. The Chameleon\footnote{\url{http://api.drupal.org/api/HEAD/file/themes/chameleon/chameleon.theme}} theme is an example of a theme that uses this method. Another way to create a new template is to create file (.xtmpl, .tpl.php, .smarty) for a templating engine (XTemplate, PHPTemplate, ...): e.g. Pushbutton, Bluebeach
-* Style sheet for an existing template or theme: e.g. Marvin, Box Cleanslate
+
+
 Themes are stored in individual directories under the Drupal theme directory. 
-Each theme directory bears the name of the theme and at least contains the follow files:
+Each theme directory bears the name of the theme and at least contains the following files:
 logo.png - an image that will be displayed next to the url of in a viewer's browser
-screenshot.png - an image that will be displayed in the administration inferface. It's meant to give users deciding on a new theme a preview of how the theme will look before they switch.
-style.css - a CSS file containing all of the styling information about the theme.
+screenshot.png - an image that will be displayed in the administration inferface. 
+It's meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
+style.css - a CSS file containing all of the styling information about the theme. 
+
 
 Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
 There are a few ways to properly form a new theme for Drupal. 
-One of the most common ways is for the theme developer to create a PHP file with a .theme extension that includes functions that override the default theme functions. 
+One of the most common ways is for the theme developer to create a PHP file with a .theme extension that includes functions that override the default theme functions, as well as HTML or XHTML. 
 The functions defined in this file is used in conjunction with the style.css file to create the layout of the page. 
 Chameleon is an example of a theme that was designed using a .theme file, although it is primarily CSS driven. 
 The Chameleon theme directory contains the following files: 
@@ -181,14 +183,50 @@ screnshot.png, logo.png - images used by the administration interface
 background.png - simple background image
 
 
-Alternatively, a new theme can be created by using one of the supported theme engines. A developer determines which templating engine he/she is going to use and creates a file with a .xtmpl, .tpl, or a .tpl.php extension. 
+Alternatively, a new theme can be created by using one of the supported theme engines. 
+A developer determines which templating engine he/she is going to use and creates a file with a .xtmpl, .tpl, or a .tpl.php extension. 
 Supported templating engines include: XTemplate, PHPTemplate, and Smarty. 
 Pushbutton and Bluebeach are two themes that are distributed with Drupal that were created using this method. 
 Bluebeach was originally written as a XTemplate theme, but was later ported to be a smarty-based theme. 
 
-A quick and dirty way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
+
+A quick way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
 Marvin and Box Cleanslate are themes that were both created by editing the existing style sheets of previous themes. 
-Marvin is based on Chameleon and Cleanslate is based upon Box_grey. 
+Marvin is based on Chameleon and Cleanslate is based upon Box_grey.  
+
+
+PHPTemplate is a theme engine created by Adrian Rossouw specifically for the Drupal project. 
+Unlike Smarty and XTemplate, it does not need to be interpreted by another theme engine. 
+This means PHPtemplate can execute faster. 
+Every PHPTemplate file contains an HTML skeleton with some simple PHP statements for the dynamic data. 
+PHPTemplate is a good choice for theme developers who know a bit of PHP, just like in Word Press, with some basic PHP snippets you can create complicated themes easily. 
+On the flip-side PHPTemplate is not good for people who are new to programming, or don't know any PHP. 
+Although theme designers do not neccesarily need to understand what the php snipets do, requiring code in the template could confuse the designers and could easily lead to trouble. 
+Code in the templates is a major drawback of the PHPTemplating engine. 
+It makes template design less accessible to ordinary users. 
+
+
+XTemplate is much different than PHPTemplate and the theme engine built in to Drupal, but in many ways it's similar Smarty. 
+It separates the layout into three layers: logic, structure, and style, making it easy for theme designers to create and modify templates. 
+Designer need not even see the logic layer to make a new theme or modify an existing one. 
+This logic layer is made up of all the php code necessary to make the theme run. 
+It contains all of the functions required to interface the template with Drupal. 
+The structure layer consists of an XHTML code. 
+
+
+\section {XHTML}
+XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
+HTML is an application of the Standard Generalized Markup Language (SGML), a very versatile markup language, whereas XHTML is an application of XML, a more restrictive subset of SGML. 
+XHTML is a reformulation of HTML in XML, so in many ways its a cross between XML and HTML. 
+Because XHTML code needs to be well-formed and syntactically correct, XHTML documents allow for automated processing to be performed using a standard XML library. 
+This is unlike HTML, which due to its leniency requires a relatively complex and usually custom parser. 
+
+XHTML 1.0 became an official World Wide Web Consortium (W3C) recommendation on January 2000. 
+
+
+XTemplate templates are directories located in the Drupal /themes/ directory. 
+Each theem directory contains all the XHTML/HTML, CSS, images and JavaScript files that the template uses. 
+
 
 
 Drupal templating engine does not end at providing theming for just individual installs. 
@@ -196,12 +234,13 @@ It also provides module programmers with the ability to theme the software they 
 
 
 \subsection {Architecture}
-Drupal is module based. 
-It allows developers to create modules that inferface with the base code and modify or enhance the functionality of the software. 
+Drupal allows developers to create and contribute modules that inferface with the base code and modify or enhance the functionality of the software. 
 Drupal stores all module information in the directory named modules, which is located in the root directory. 
 The Drupal website maintains a list of a number of popular modules. 
 They're typically distributed as tarballs or zip files. 
 Users copy the compressed file to their webserver and decompress the contents into the modules directory. 
+Modules are usually stored in their individual folders, but this is not a neccesary by design. 
+Each module must contain a ModuleName.module file that contains 
 
 
 CivicSpace is an offshoot of Drupal that began as an install of Drupal with a number of modules that make running a political or charitable website easier. 
@@ -222,11 +261,11 @@ BitTorrent is a protocol for distributing large amounts of data across a network
 Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing.
 
 Currently the most popular form of filesharing, BitTorrent has changed the way that people share files on the Internet, making filesharing more democratic and accessible to ordinary users.
-According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote { http://www.multichannel.com/article/CA6332098.html}
+According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote { \url{http://www.multichannel.com/article/CA6332098.html}}
 In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting .
 Additionally, 55\% of broadband upstream (ie "home outward") is used for torrenting.
 According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which is still more than all other peer-to-peer programs combined.  
-Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
+Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {\url{http://in.tech.yahoo.com/041103/137/2ho4i.html}}
 
 Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses, including the inexpensive distribution of independent media.
 
