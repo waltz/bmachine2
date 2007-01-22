@@ -611,13 +611,6 @@ These in-directory configuration files also do not require costly server restart
 As for Microsoft's IIS webserver, we will make sure that our program runs on the server, but there will be no guarantees that it will be particularly elegant.
 
 \section{PHP}
-%We're using php because its the only thing guarunteed to be installed everywhere. Also, performance/scalability. Expand on the language.
-When it comes to writing applications for the web, there are many choices, and while PHP probably doesn't provide the best performance, it is one of the most prevalent server-side scripting languages available.
-For this program to be as successful as possible, we must leverage the popularity of certain technologies; even if that means sacrificing other maybe better technologies for the most popular.
-The Ruby on Rails platform could allow us to more quickly develop our program, Java Enterprise Edition might let us scale better, and .NET might let us take advantage of the many languages web applications can be created in, but none of these offers a better mix than PHP.
-PHP comes installed by default at many inexpensive webhosts, has a large community following, and there are many prexisiting libraries that we can utilize. 
-These advantages are important enough to us that our team is willing to ignore problems with the language like it's lack of namespaces and the use of weakly typed variables. 
-
 % 1/18/2007, CJ: Rewrote to be more concise. Perhaps talk about PHP vs. Perl, Python, Ruby
 Our team chose to write this application in PHP because it is the one server-side scripting language that is guaranteed to be installed virtually everywhere.
 As noted previously, it is often installed alongside Apache and there are many service providers that already have it installed on their servers.
@@ -625,7 +618,10 @@ PHP as a language is dynamic and weakly typed with a C-like syntax and a large s
 Other languages such as Perl, Python, or Ruby might be excellent choices, but they do not command the same percentage of the market share that PHP does.
 
 \subsection{Authentication}
-% 1/18/2007, CJ: Talk about user authentication and session management.
+% 1/19/2007, CJ: Added part about user authentication.
+Web applications almost always require users to be authenticated and tracked in some way, and PHP provides convenient ways to do both.
+Classic username/password authentication can be used to quickly verify the users identity and through the user of built in session\_* functions in PHP we can easily create persistent user sessions.
+More details on how this functionality will be used can be found in the implementation section.
 
 \section{SQL}
 % 1/18/2007, CJ: Nassar suggested that there should be some mention of object vs. relational databases here. I don't think there's much to talk about!
@@ -638,23 +634,20 @@ It is important to note that the database setup will be automated for the user l
 This automation helps us work around the problem of the user having to configure a complex database. (A great concern for us! Many of our users might not be very computer savvy.)
 
 \section{URL Rewriting (mod_rewrite)}
-As the internet has become amazingly popular and software packages have replaced humans in the role of content management URL's have become increasingly difficult for users to understand as they more often serve the needs of the software rather than the end user.
-To solve this problem, we can utilize the technique of URL rewriting to turn the cryptic characters in the browser bar into meaningful and rememberable addresses.
-When it comes to weblogs, many people encounter URL's that look something like \url{http://www.weblog.net/posts.php?day=01041999}.
-When it comes to developers on the web, that URL servers their purposes nicely.
-But many end-users have no idea that we're requesting posts from January 4, 1999.
-To more clearly convey what the URL is trying to accomplish it would be easier to display the URL as something like \url{http://www.weblog.net/posts/day/Jan/4/1999}.
-This url is much more readable to the casual passers by; it becomes obvious that we're trying to get posts from a certain day, month, and year.
-Unfortunately there is a disconnect between what we would like the user to see and what is useful to us as developers.
-URL rewriting provides us with a simple parser that takes in the URL that is sent to the webserver and parses and converts it to the URL that is more useful to the developer.
-Fortunately for everyone, this all happens transparently without the user having to know about it.
-Apache also provides the developers with an easy mechanism for implementing this functionality.
-Mod_rewrite in specific provides the features that we require. 
-For environments that do not have Apache and Mod_rewrite, users are in an unforuntate position.
-Our team can do our best to provide users with other ways of providing the URL rewriting functionality, but these options are configured by the server administrator more so than the user.
-With Apache and mod_rewrite, the rules for URL rewriting are specified in an htaccess file that the user can upload.
-But with rewriting solutions such as ASAPI rewrite things aren't so easy, the user has to have access to the server configuration or a close relationship with the administrator.
-We expect these situations to be rare and believe that through helpful documentation we can extend these features to other users.
+% 1/22/2007, CJ: Rewrote the section about URL rewriting.
+In the past few years, URL's have become more and more difficult to understand as web applications have come to dominate.
+URL's were designed to be easier to remember than IP addresses, but the've shown they can be just as tough to remember.
+One way to make URL's easy to remember is to rewrite them through the use of the Apache module mod_rewrite.
+This module rewrites making the server pretend that a file exists.
+When it receives a request for a URL it modifies it based on pre-determined rules that can be set by the user.
+These settings can be configured on a per-directory basis by placing the rewrite rules in the .htaccess file.
+URL rewriting also serves another purpose.
+Apple's iTunes will 
+This feature is also necessary to make sure that iTunes can subscribe to feeds produced by Broadcast Machine.
+iTunes requires that the file to be downloaded ends as a file extension that it likes.
+Unfortunately those file extensions are not usually webpages, they are usually MP3 instead of PHP.
+It will only download your MP3 if it looks like \url{http://www.foobar.com/index.mp3?show=4.mp3} versus the traditional \url{http://www.foobar.com/index.mp3?show=4.mp3}. \footnote{\url{http://www.apple.com/itunes/store/podcaststechspecs.html}}
+Not convenient, but necessary given the popularity of iTunes and the demand for compatible content.
 
 \section{BitTorrent}
 % 1/18/2007, CJ: Outlined the topics that need to be covered.
@@ -664,6 +657,54 @@ We expect these situations to be rare and believe that through helpful documenta
 %  - http://www.bittorrent.org/protocol.html
 % * HTTP Seeder
 %  - http://www.bittornado.com/docs/webseed-spec.txt
+\subsection{Metainfo (.torrent) Files}
+In order to distribute files via using the BitTorrent protocol the server must go through three steps.
+The first is to generate a .torrent file that describes the file to be downloaded.
+This file is \"bencoded\", a format that is unaffected by endianness on various platforms and makes the file well suited for any computer. (See below for more on Bencoding.)
+The encoded information is a dictionary (or associative array) of several values.
+There are two keys in the file, the first is called 'announce' and is associated with the URL of the tracker.
+The second is another dictionary called 'info' which contains a few more keys.
+Key one is 'name' which is a suggested filename for the file, second is 'piece length' which is the length in bytes of each piece the file is split into.
+Third is 'pieces' which are the number of pieces the file was split into, fourth is 'length' which is the total file size in bytes, and last is 'path' which is \"a list of strings corresponding to subdirectory names\".
+
+\subsection{Trackers}
+The second step is to begin running a tracker.
+Trackers is a central point of contact for all of the people sharing a particular file.
+When a client contacts the tracker they send their information via an HTTP GET message that is formed using ordinary CGI methods.
+This means that each parameter is sent by using \"?parameter=value\" sequences that are appended to the announce URL.
+Some of the parameters include:
+\begin{description}
+	\item[info_hash] A 20-byte SHA1 hash of the value of the info key that was sent in the torrent file.
+	\item[peer_id] A 20-byte string used to identify the client.
+	\item[port] The port number that the client is listening on.
+	\item[uploaded] The total number of bytes uploaded.
+	\item[downloaded] The total number of bytes downloaded.
+	\item[left] Number of bytes the client has left to download.
+	\item[compact] Indicates that the client accepts 'compact' responses. If this is set, the tracker should respond with a set of six byte strings that contain four bytes of network address and two bytes of the listening port.
+	\item[event] Three 'events' can be sent to the tracker. One is 'started' which tells that the client has begun downloading, the second is 'stopped' which must be sent when the client shuts down gracefully, and the third is 'completed' which should be sent when the client finishes downloading the file.
+\end{description}
+The tracker responds to these events with a document with Mimetype \"text/plain\" that contains a bencoded dictionary with the following values.
+\begin{description}
+	\item[failure reason] If this key is present, then no other keys can be. The value should be a (written) message explaining why the request couldn't be completed.
+	\item[warning message] Like 'failure reason' except the request is still processed.
+	\item[interval] The number of seconds the client should wait between regular requests to the tracker.
+	\item[min interval] The minimum amount of time a client must wait between requests.
+	\item[tracker id] A string that the client should send back when it announces.
+	\item[complete] The number of people who have finished downloading the file.
+	\item[incomplete] Number of people downloading but have not finished.
+	\item[peers] Contains a list of dictionaries describing the peers, each dictionary should have three keys. The first is 'peer id' which is the peer's self-selected id number, the second is the peer's IP address and the third is the port on which the peer is listening.
+As it is now, these are the fields that are absolutely required for a BitTorrent tracker, but there are a few unofficial extensions to the protocol that might be interesting to look at in the future. \footnote{\url{http://wiki.theory.org/BitTorrentSpecification}}
+
+\subsection{Web Seeding}
+When a user wants to distribute a file via BitTorrent, they need to stay online using their client 'seeding' the file to others.
+Web Seeding begins to alleviate this problem by using an HTTP server for seeding.
+The first thing that this extension specifies is that there should be a key added to the metainfo file that is called \"httpseeds\" and contains a list of URLs where data can be downloaded from over HTTP.
+The client then takes this base URL and appends information to it to specify which parts of the file it would like to read.
+The request is then requested via HTTP GET and fielded by the server.
+In response, the server should send HTTP status 200 for 'OK' and the requested data in binary, or an HTTP status 503 for 'Service Temporarily Unavailable'. 
+The protocol itself is relatively simple, but it leaves the door wide open for clients to make to many requests and bog down the server.
+To address this problem it is imperative that the seeding portion have some method of controlling how much upload bandwidth is used.
+
 
 \section{XML and RSS}
 % 1/18/2007, CJ: OUtlined the topics that need to be covered.
@@ -680,11 +721,8 @@ We expect these situations to be rare and believe that through helpful documenta
 %  - Apple iTunes Podcasting Specification
 %   > Specified Tags
 
-\section{Mimetypes}
-% 1/18/2007, CJ: Talk about how mimetypes are integral to how Broadcast Machine works.
-
-\section{Authentication}
-% 1/18/2007, CJ
+%\section{Mimetypes}
+% 1/22/2007, CJ: Do we still need a section on Mimetypes?
 
 \section{Smarty}
 We decided to use the Smarty templating system because of its 
