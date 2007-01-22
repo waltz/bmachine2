@@ -486,12 +486,12 @@ It also contained CSSURL, which would store a link to an external style sheet to
 	The donation_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
 
 \subsection{Users}
-	The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). The primary field was Name, which may have caused problems when two people with the same name would attempt to register (e.g. two John Smiths would not be allowed to join at the same time). In the future, the primary key for the table should be username.
+	The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
 
-	The newusers table tracked only those users who have not verified their account. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
+	The newusers table tracked only those users who have not verified their account. This allowed functionality to prevent scripted bots to spam Broadcast Machine installations with open registration, by requiring that all users verify their e-mail address. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
 
 \subsection{Settings}
-	Settings for the website itself was stored in a B-Encoded flat file. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql_prefix, mysql_host, mysql_username, mysql_password, mysql_database, and mysql_verified), and BitTorrent sharing settings (Ping, sharing_enable, sharing_auto, sharing_python, sharing_actual_python, minport, maxport). Since we will be using http-seeding of torrents, some of these settings are expected to change.
+	Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql_prefix, mysql_host, mysql_username, mysql_password, mysql_database, and mysql_verified), and BitTorrent sharing settings (Ping, sharing_enable, sharing_auto, sharing_python, sharing_actual_python, minport, maxport). 
 
 \section{Changes to the Database}
 	In the new database model, several changes will have to be made in order to normalize the database for increased performance and easier programming. These changes are listed below:
@@ -504,7 +504,9 @@ It also contained CSSURL, which would store a link to an external style sheet to
 
 	The files table is poorly named, since it really stored information on videos, not the files that the videos are encoded in. In the future, it should be possible to have multiple files associated with one video (for hosting multiple formats and resolutions). The name of this table should be changed from files to something more descriptive, such as videos.
 
-	Site settings will be moved from a B-Encoded file to a table in the database.
+	In the users table, the primary key field is Name, which may have caused problems when two people with the same name would attempt to register (e.g. two John Smiths would not be allowed to join at the same time). In the future, the primary key for the table should be username, which should always be unique.
+
+	Site settings will be moved from a B-Encoded file to a table in the database. Since we will be using http-seeding of torrents, some of these settings are expected to change.
 
 \section{New Model}
 %This will be changed and updated as the new schema comes along further
