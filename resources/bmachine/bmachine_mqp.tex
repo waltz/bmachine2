@@ -139,7 +139,7 @@ This culture encourages technological progress in ways that competitive, closed-
 
 \section {Similar Technologies}
 
-\subsection {Drupal & Civicspace}
+\subsection {Drupal \& Civicspace}
 %Needs: How Drupal Modules Work
 Drupal is a content managment system, often referred to as a CMS. 
 A CMS is a computer software system that assists users in managing internet content.
@@ -176,7 +176,7 @@ One of the most common ways is for the theme developer to create a PHP file with
 The functions defined in this file is used in conjunction with the style.css file to create the layout of the page. 
 Chameleon is an example of a theme that was designed using a .theme file, although it is primarily CSS driven. 
 The Chameleon theme directory contains the following files: 
-Chameleon.theme - the PHP file that contains the theme_functions 
+Chameleon.theme - the PHP file that contains the theme\_functions 
 style.css - the primary style sheet
 common.css -  another style sheet that has more styling info
 screnshot.png, logo.png - images used by the administration interface
@@ -192,7 +192,7 @@ Bluebeach was originally written as a XTemplate theme, but was later ported to b
 
 A quick way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
 Marvin and Box Cleanslate are themes that were both created by editing the existing style sheets of previous themes. 
-Marvin is based on Chameleon and Cleanslate is based upon Box_grey.  
+Marvin is based on Chameleon and Cleanslate is based upon Box\_grey.  
 
 
 PHPTemplate is a theme engine created by Adrian Rossouw specifically for the Drupal project. 
@@ -452,9 +452,9 @@ There are several requirements for features that Broadcast Machine must include:
 	The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
 
 \subsection{BitTorrent}
-	The torrents table stored metadata for BitTorrent files. It tracked the hash checksum for the torrent file (info_hash), the name of the file itself (filename), and a binary file containing the torrent itself. Filename was required to be unique, and the info_hash served as the primary key for the table. In the new schema, this will be expanded to include much more metadata usually associated with torrent trackers.
+	The torrents table stored metadata for BitTorrent files. It tracked the hash checksum for the torrent file (info\_hash), the name of the file itself (filename), and a binary file containing the torrent itself. Filename was required to be unique, and the info_hash served as the primary key for the table. In the new schema, this will be expanded to include much more metadata usually associated with torrent trackers.
 
-	The peers table was used to keep track of users who downloaded or were in the process of downloading a file. It contained an info_hash to designate which torrent file the peer was downloading from, the user's IP address, the port they were using to connect, whether or not they had completed the file (seeder), and a timestamp for when the user connected to the swarm (time). The table was indexed by time, with a combination of ip, port, and the info_hash server as a primary key (meaning that no two entries could share the same data for all three fields). 
+	The peers table was used to keep track of users who downloaded or were in the process of downloading a file. It contained an info\_hash to designate which torrent file the peer was downloading from, the user's IP address, the port they were using to connect, whether or not they had completed the file (seeder), and a timestamp for when the user connected to the swarm (time). The table was indexed by time, with a combination of ip, port, and the info\_hash server as a primary key (meaning that no two entries could share the same data for all three fields). 
 
 	The combination of these two tables enabled Broadcast Machine to operate as a minimalist BitTorrent tracker.\footnote{for more information on trackers, see the BitTorrent section} Features associated with these tables include BitTorrent file downloads (via the web page view and RSS, as well as server-side seeding of torrents.
 
