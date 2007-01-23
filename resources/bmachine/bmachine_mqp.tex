@@ -730,5 +730,52 @@ We decided to use the Smarty templating system because of its
 \section{XHTML and CSS}
 % 1/18/2007, CJ: Drew's blurb on XHTML goes here. More needs to be added about CSS.
 
+\chapter{Development}
+
+\section{Architecture}
+%This probably isn't too latex friendly yet - Greg
+Active development began with discussions of how to best architect Broadcast Machine with a defined set of features:
+  * Unit tests for all of the implemented functionality
+  * A web based setup process
+  * Creating channels
+  * Browsing Channels
+  * Managing channels
+  * Creating video items from links
+  * Creating video items from uploaded files
+  * Browsing videos in a channel
+  * Managing video items
+  * Video RSS in all the forms curently available
+  * Subscribe via Democracy link
+  * User Authentication and permissions
+  * Ability to import data from an existing Broadcast Machine
+  * BitTorrent tracking
+  * BitTorrent seeding via HTTP seeding support
+
+\section{Flow}
+We then decided on a logical process for how the application would handle requests for information. First, the application would receive a URL, POST parameters, and cookie information from the web server. URLs will be typically received from mod_rewrite in the form of http://baseurl.com/controller/action. The action field may also reference another controler, in which case it would be followed by another parameter for the action that controller should take. For example, say a person runs a Broadcast Machine install on http://foobar.com. If a user would like to browse all videos on the site by a specific category, such as "dogs", he or she would go to www.foobar.com/tags/dogs/. In this case, /tags is a reference to the tag controller, which is responsible for getting all videos that contain that tag. The parameter to be passed to the video controller is dogs, which means that only videos containing the dogs tag will be returned. 
+
+After the controller generates an associated array of data (which may contain other arrays), it passed this information to the view layer, or template. The template uses this information to fill in an XHTML or RSS page, and sets the mime type (in the case of linking to files), and renders the user interface.
+
+\section{Program API}
+Next, we considered the program API, or the way in which the actual code and data would be laid out. This affects not only the program itself, but also how developers would go about adding new features and modifying existing ones.
+
+\section{Controllers and Views}
+After coming up with an acceptable API, our next task was to come up with a list of views, and delegate responsibilities for getting the data necessary to render those views to the appropriate controller.
+
+\subsection{Front Page "/"}
+The front page is found at the top directory of the Broadcast Machine install ("/"). This page lists all of the viewable channels. If a user is logged in as an administrator, it also provides links to add, edit, or remove that channel, as well as subscribe links for Democracy Player, RSS, and iTunes (depending on the site settings). The controller responsible for getting the information about each channel is aptly named the frontpage controller.
+
+\subsection{Channel View "/channelname"}
+The channel view lists all videos in a channel, and is accessed by going to a URL-safe truncation of that channel's name. This view calls the channel controller to retrieve information about every video in the channel, and then inserts that information into the template. The view also displays channel statistics, subscription links, and has buttons to edit, delete, or add new videos if you are logged in as an administrator, which correspond to appropriate video controller actions. Administrators also have the ability to see links to delete the entire channel, or edit it.
+
+Adding a video to a channel is handled by the "add" action of the channel controller (/channelname/add). When adding a video, users will be able to enter detailed metadata about the video, and either link directly to the file or upload it directly to the server, albeit with restrictions\footnote{PHP has a maximum file size for uploading that depends on the server configuration}. Users will also be given the option to upload the file on their own via FTP, and have Broadcast Machine detect it later. Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (/channelname/remove) and editing it (/channel/edit)
+
+\subsection{Video view "/channelname/videoname"}
+The video view displays all of the relevant information about an individual video, including its meta-data and download statistics. It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
+
+\subsection{User Page "/users/"}
+The user
+\section{Model Schema}
+
 \end{document}
 
