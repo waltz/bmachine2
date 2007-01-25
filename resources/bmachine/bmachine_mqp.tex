@@ -234,6 +234,25 @@ It also provides module programmers with the ability to theme the software they 
 
 
 \subsection {Architecture}
+Modularity is a key element in the design of Drupal.
+A modular design provides flexibility, adaptability, and extensibility, which allows users with some knowledge of programming to customize their experience.
+
+
+A Drupal module is nothing more than plain text file which contains PHP code. 
+Module code is executed in during the normal runtime of the site, not beforehand or afterwards. 
+This allows the modules access to all of the functions, variables, and data structures of Drupal base code. 
+In fact, a Drupal module isn't any different than an regular PHP file, the only difference the way in which it is concieved by the programmer and the how it is abstracted to a single file. 
+The developers of Drupal believe this model lends itself to good programming principals. 
+They believe that "modularity better suits the open-source development model, because otherwise you can't easily have people working in parallel without risk of interference"\footnote{\url{http://drupal.org/node/292}}. 
+
+
+The main idea of the Drupal module system is to allow module developers to inject code at certain places in the base code. 
+This injected code can then enhance or modify the functionality of the software. 
+The certain places where code can be injected by the module system are refferred to as "hooks" and are defined in the API. 
+
+When the engine comes across a place in the base code where hooks are available, the engine iterates through all of the modules in the modules directory looking for a module that uses that hook. 
+For example, we have a module named "billyclub", which is naturally located in /modules/billyclub.module. If there exists a hook called "fancypants" and the module "billyclub" exports to that hook, the engine will call the function named "billyclub_fancypants()" in /modules/billyclub.module.
+
 Drupal allows developers to create and contribute modules that inferface with the base code and modify or enhance the functionality of the software. 
 Drupal stores all module information in the directory named modules, which is located in the root directory. 
 The Drupal website maintains a list of a number of popular modules. 
