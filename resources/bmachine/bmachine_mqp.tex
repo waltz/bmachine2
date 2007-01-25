@@ -153,8 +153,8 @@ Civicspace, formerly known as DeanSpace and Hack4Dean, was born of a distributio
 CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites.
 CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for \"powered by CivicSpace\".}, such as The New Democratic Party\footnote{\url{ http://www.ndp.ca}}, Better Donkey\footnote{\url{http://BetterDonkey.org}}, Blog for America\footnote{\url{ http://www.blogforamerica.com/}}, and Oregon's Bus Project\footnote{\url{http://www.busproject.org}}.
 As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software.
-%templating system
-%architechture
+%templating system - check below and let me know what you think
+%architechture - ditto
 
 \subsubsection {Templating and Themes}
 %Needs: Template code examples
@@ -164,23 +164,67 @@ A theme can be formed in several ways.
 As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
 
 Themes are stored in individual directories under the Drupal theme directory. 
-Each theme directory bears the name of the theme and at least contains the following files:
+Each theme directory bares the name of the theme and at least contains the following files:
 logo.png - an image that will be displayed next to the url of in a viewer's browser
 screenshot.png - an image that will be displayed in the administration inferface. 
-It's meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
+It is meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
 style.css - a CSS file containing all of the styling information about the theme. 
 
 Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
 There are a few ways to properly form a new theme for Drupal. 
 One of the most common ways is for the theme developer to create a PHP file with a .theme extension that includes functions that override the default theme functions, as well as HTML or XHTML. 
 The functions defined in this file is used in conjunction with the style.css file to create the layout of the page. 
-Chameleon is an example of a theme that was designed using a .theme file, although it is primarily CSS driven. 
+Chameleon is an example of a theme that was designed using a .theme file to override the default theming functions.
 The Chameleon theme directory contains the following files: 
 Chameleon.theme - the PHP file that contains the theme\_functions 
 style.css - the primary style sheet
 common.css -  another style sheet that has more styling info
 screnshot.png, logo.png - images used by the administration interface
 background.png - simple background image
+
+Below is the Chameleon function that overrides the default Drupal node function.
+
+function chameleon_node(\$node, \$teaser = 0, \$page = 0) {
+
+  \$output  = "<div class=\"node". ((!\$node->status) ? ' node-unpublished' : '') ."\">\n";
+
+  if (!\$page) {
+    \$output .= " <h2 class=\"title\">". (\$teaser ? l(\$node->title, "node/\$node->nid") : check_plain(\$node->title)) ."</h2>\n";
+  }
+
+  \$output .= " <div class=\"content\">\n";
+
+  if (\$teaser && \$node->teaser) {
+    \$output .= \$node->teaser;
+  }
+  else {
+    \$output .= \$node->body;
+  }
+
+  \$output .= " </div>\n";
+
+  \$submitted['node_submitted'] = theme_get_setting("toggle_node_info_\$node->type") ? array('#title' => t("By !author at @date", array('!author' => theme('username', \$node), '@date' => format_date(\$node->created, 'small')))) : array();
+
+  \$terms = array();
+  if (module_exists('taxonomy')) {
+    \$terms = taxonomy_link("taxonomy terms", \$node);
+  }
+
+  \$links = array_merge(\$submitted, \$terms);
+  if (\$node->links) {
+    \$links = array_merge(\$links, \$node->links);
+  }
+  if (count(\$links)) {
+    \$output .= '<div class="links">'. theme('links', \$links, array('class' => 'links inline')) ."</div>\n";
+  }
+
+  \$output .= "</div>\n";
+
+  return \$output;
+} 
+
+As you can see, presentation elements and application code are closely intertwined. 
+All presentation elements are appended to \$output and which is eventually returned back to the base code. 
 
 
 Alternatively, a new theme can be created by using one of the supported theme engines. 
@@ -212,25 +256,6 @@ Designer need not even see the logic layer to make a new theme or modify an exis
 This logic layer is made up of all the php code necessary to make the theme run. 
 It contains all of the functions required to interface the template with Drupal. 
 The structure layer consists of an XHTML code. 
-
-
-\section {XHTML}
-XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
-HTML is an application of the Standard Generalized Markup Language (SGML), a very versatile markup language, whereas XHTML is an application of XML, a more restrictive subset of SGML. 
-XHTML is a reformulation of HTML in XML, so in many ways its a cross between XML and HTML. 
-Because XHTML code needs to be well-formed and syntactically correct, XHTML documents allow for automated processing to be performed using a standard XML library. 
-This is unlike HTML, which due to its leniency requires a relatively complex and usually custom parser. 
-
-XHTML 1.0 became an official World Wide Web Consortium (W3C) recommendation on January 2000. 
-
-
-XTemplate templates are directories located in the Drupal /themes/ directory. 
-Each theem directory contains all the XHTML/HTML, CSS, images and JavaScript files that the template uses. 
-
-
-
-Drupal templating engine does not end at providing theming for just individual installs. 
-It also provides module programmers with the ability to theme the software they create. 
 
 
 \subsection {Architecture}
@@ -281,24 +306,24 @@ In the PHP application, the application developer starts be assigning variables 
 include('Smarty.class.php');
 
 // create object
-$smarty = new Smarty;
+\$smarty = new Smarty;
 
 // assign some content. This would typically come from
 // a database or other source, but we'll use static
 // values for the purpose of this example.
-$smarty->assign('name', 'george smith');
-$smarty->assign('address', '45th & Harris');
+\$smarty->assign('name', 'george smith');
+\$smarty->assign('address', '45th & Harris');
 
 // display it
-$smarty->display('index.tpl');
+\$smarty->display('index.tpl');
 
 
 To someone who knows XHTML and CSS, Smarty templates are very easy to read. 
 Tags are escaped using curly brackets, { and }. 
 For example, imagine we add the following two lines to our template, index.tpl. 
 
-Name: {$name}<br>
-Address: {$address}<br>
+Name: {\$name}<br>
+Address: {\$address}<br>
 
 The output would be:
 
@@ -318,13 +343,13 @@ There is nothing stopping developers from including application logic in the tem
 Smarty is flexible enough to allow misuse of its, but if used correcly it can make theme developement a lot easier on non-programmers. 
 Below is an example of how presentation logic can be included in the template layer without bogging down the template designer with application code. 
 
-    {foreach from=$data item="entry"}
+    {foreach from=\$data item="entry"}
         <tr bgcolor="{cycle values="#dedede,#eeeeee" advance=false}">
-            <td>{$entry.Name|escape}</td>        
-            <td align="right">{$entry.EntryDate|date_format:"%e %b, %Y %H:%M:%S"}</td>        
+            <td>{\$entry.Name|escape}</td>        
+            <td align="right">{\$entry.EntryDate|date_format:"\%e \%b, \%Y \%H:\%M:\%S"}</td>        
         </tr>
         <tr>
-            <td colspan="2" bgcolor="{cycle values="#dedede,#eeeeee"}">{$entry.Comment|escape}</td>
+            <td colspan="2" bgcolor="{cycle values="#dedede,#eeeeee"}">{\$entry.Comment|escape}</td>
         </tr>
     {foreachelse}
         <tr>
@@ -812,7 +837,15 @@ To address this problem it is imperative that the seeding portion have some meth
 We decided to use the Smarty templating system because of its 
 
 \section{XHTML and CSS}
-% 1/18/2007, CJ: Drew's blurb on XHTML goes here. More needs to be added about CSS.
+% 1/25/2007, More needs to be added about CSS.
+XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
+HTML is an application of the Standard Generalized Markup Language (SGML), a very versatile markup language, whereas XHTML is an application of XML, a more restrictive subset of SGML. 
+XHTML is a reformulation of HTML in XML, so in many ways its a cross between XML and HTML. 
+Because XHTML code needs to be well-formed and syntactically correct, XHTML documents allow for automated processing to be performed using a standard XML library. 
+This is unlike HTML, which due to its leniency requires a relatively complex and usually custom parser. 
+
+XHTML 1.0 became an official World Wide Web Consortium (W3C) recommendation on January 2000. 
+
 
 \chapter{Development}
 
