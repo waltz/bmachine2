@@ -256,9 +256,83 @@ For example, we have a module named "billyclub", which is naturally located in /
 
 \subsection{Smarty Templating}
 Smarty is often called a templating engine, but may be better described as a template framework. 
-Smarty integrates with CSS, XHTML, and PHP to create a framework for abstracting logic from the view layer. 
-It's a flexible tag based templating system which 
+Smarty integrates with CSS, XHTML, and PHP to create a framework for abstracting presentation elements (XHTML and CSS) from the logic layer. 
+It's a flexible tag based system which allows template designers all the functionality that they might need, without requiring them to understand any PHP syntax.
+It also allows programmers to increase the functionality of the templating language based on the needs of their specific application. 
 
+ 
+Smarty works by adding another parsing layer before the PHP parser. 
+This pre-parser converts smarty tags to plain text, variables, or PHP code, then passes the parsed text on to the PHP interpreter. 
+The smarty engine is installed by copying the library files to your webserver and adding an include statement to the header of your PHP application. 
+The Smarty engine is distribute as a tarball from \url{http://smarty.php.net}. 
+Decompressed, file structure should look like this:
+
+../Smarty/
+                          Config_File.class.php
+                          debug.tpl
+                          internals/
+                          plugins/
+                          Smarty.class.php
+                          Smarty_Compiler.class.php
+
+Using Smarty is easy and in many ways is very similar other PHP templating engines. 
+In the PHP application, the application developer starts be assigning variables for use in the template. 
+
+include('Smarty.class.php');
+
+// create object
+$smarty = new Smarty;
+
+// assign some content. This would typically come from
+// a database or other source, but we'll use static
+// values for the purpose of this example.
+$smarty->assign('name', 'george smith');
+$smarty->assign('address', '45th & Harris');
+
+// display it
+$smarty->display('index.tpl');
+
+
+To someone who knows XHTML and CSS, Smarty templates are very easy to read. 
+Tags are escaped using curly brackets, { and }. 
+For example, imagine we add the following two lines to our template, index.tpl. 
+
+Name: {$name}<br>
+Address: {$address}<br>
+
+The output would be:
+
+Name: george smith<br>
+Address: 45th & Harris<br>
+
+% sources http://smarty.php.net/crashcourse.php
+% http://smarty.php.net/rightforme.php
+As shown above, Smarty clearly separates presentation elements from application code. 
+It divides the application into two distinct layers. 
+However, it's important to note that it does not entirely remove logic from the templates. 
+Smarty's design principles allow for the inclusion of logic as long as the logic pertains to the presentation. 
+For example, looping over table row colors would be considered presentation logic and would be allowable. 
+The application layer shouldn't be concerned with this sort of thing, it's a design decision. 
+The idea is that template designers should be able to completely change the templates and rebuild them without even seeing the application code.
+There is nothing stopping developers from including application logic in the template layer, but doing so would undermine the reason for using a templating system. 
+Smarty is flexible enough to allow misuse of its, but if used correcly it can make theme developement a lot easier on non-programmers. 
+Below is an example of how presentation logic can be included in the template layer without bogging down the template designer with application code. 
+
+    {foreach from=$data item="entry"}
+        <tr bgcolor="{cycle values="#dedede,#eeeeee" advance=false}">
+            <td>{$entry.Name|escape}</td>        
+            <td align="right">{$entry.EntryDate|date_format:"%e %b, %Y %H:%M:%S"}</td>        
+        </tr>
+        <tr>
+            <td colspan="2" bgcolor="{cycle values="#dedede,#eeeeee"}">{$entry.Comment|escape}</td>
+        </tr>
+    {foreachelse}
+        <tr>
+            <td colspan="2">No records</td>
+        </tr>
+    {/foreach}
+
+Smarty also allows for variables and variable modifiers  
 
 \subsection {Wordpress & Movable Type}
 %need this again
