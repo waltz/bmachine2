@@ -253,18 +253,6 @@ The certain places where code can be injected by the module system are refferred
 When the engine comes across a place in the base code where hooks are available, the engine iterates through all of the modules in the modules directory looking for a module that uses that hook. 
 For example, we have a module named "billyclub", which is naturally located in /modules/billyclub.module. If there exists a hook called "fancypants" and the module "billyclub" exports to that hook, the engine will call the function named "billyclub_fancypants()" in /modules/billyclub.module.
 
-Drupal allows developers to create and contribute modules that inferface with the base code and modify or enhance the functionality of the software. 
-Drupal stores all module information in the directory named modules, which is located in the root directory. 
-The Drupal website maintains a list of a number of popular modules. 
-They're typically distributed as tarballs or zip files. 
-Users copy the compressed file to their webserver and decompress the contents into the modules directory. 
-Modules are usually stored in their individual folders, but this is not a neccesary by design. 
-Each module must contain a ModuleName.module file that contains 
-
-
-CivicSpace is an offshoot of Drupal that began as an install of Drupal with a number of modules that make running a political or charitable website easier. 
-
-
 
 \subsection{Smarty Templating}
 Smarty is often called a templating engine, but is better described as a template or presentation framework. 
