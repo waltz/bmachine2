@@ -12,7 +12,7 @@
 %%  * The background section of the paper should be finished. This includes:
 %%    * The importance of open media and the importance of an open internet
 %%      for open media (Greg)
-%%    * Reviews of similar software including Ruby, Rails, Word Press,
+%%    * Reviews of similar software including Ruby, Rails, Wordpress,
 %%      Drupal/CivicSpace. (Simon for Wordpress - drew)
 %%    * Explanations of the technologies we plan to use including HTTP,
 %%      PHP, BitTorrent, Apache, SQL, and RSS (CJ?)
@@ -111,8 +111,8 @@ The software organizes video content in a way that makes it easy for the laypers
 \section {Why do we need Broadcast Machine?}
     Broadcast Machine is an amagalmation of features from a number of different pieces of software.
 It is a type of content management systems, much like Drupal\footnote{\url{http://Drupal.org}} and Civic Space\footnote{\url{http://CivicSpaceLabs.org} }.
-Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Word Press \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{ http://MovableType.com}}.
-In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Word Press.
+Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Wordpress \footnote{\url{http://WordPress.org}} and Movable Type \footnote{\url{ http://MovableType.com}}.
+In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Wordpress.
 Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels.
 Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server.
 Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content.
@@ -236,7 +236,7 @@ PHPTemplate is a theme engine created by Adrian Rossouw specifically for the Dru
 Unlike Smarty and XTemplate, it does not need to be interpreted by another theme engine. 
 This means PHPtemplate can execute faster. 
 Every PHPTemplate file contains an HTML skeleton with some simple PHP statements for the dynamic data. 
-PHPTemplate is a good choice for theme developers who know a bit of PHP, just like in Word Press, with some basic PHP snippets you can create complicated themes easily. 
+PHPTemplate is a good choice for theme developers who know a bit of PHP, just like in Wordpress, with some basic PHP snippets you can create complicated themes easily. 
 On the flip-side PHPTemplate is not good for people who are new to programming, or don't know any PHP. 
 Although theme designers do not neccesarily need to understand what the php snipets do, requiring code in the template could confuse the designers and could easily lead to trouble. 
 Code in the templates is a major drawback of the PHPTemplating engine. 
@@ -378,6 +378,49 @@ Smarty also allows for variables and variable modifiers
 
 \subsection {Wordpress & Movable Type}
 %need this again
+Wordpress and Movable Type are pieces of blogging software. 
+They're CMS's that are designed specifically for a single user or a small group of users who will regularly post text and image content. 
+Wordpress is PHP 4.2 and uses MySQL 3.23 as its database backend. 
+It was created with the vision of creating a powerful GPL-licsenced internet publishing platform based on open standard. 
+The first version was released in 2001. 
+Wordpress is blogging software designed to be installed on an individual's webhost, either their own computer connected to a broadband connection or a commercial webhost like Dreamhost or 1and1. There exist services such as the one at \url{http://Wordpress.com} that provide webhosting and just provide users with the a fresh install of Wordpress, but for the most part Wordpress users install the software themselves. 
+
+\subsubsection{Templating System}
+Theming is a little more standard in Wordpress than in Drupal. 
+Wordpress uses a single custom engine that's similar to the PHPTemplate in Drupal. 
+Although there seems to be some effort given to abstracting presentation element, it doesn't appear to be much. Style element has been moved into a seperate CSS file, style.css, but in some popular themes CSS positioning is located in the same file as all of the style data.
+Furthermore, a lot of PHP code is embedded in the templates. 
+There tends to be a lot of logic, even non-presentation logic, contained in the theme. Needless to say, it can get rather confusing for the novice programmer or template designer. 
+Nearly all themes are made up of the following 9 files. At a minimum, a theme must include index.php and style.css. 
+
+style.css - contains all of the the theme's styling information.
+header.php - header for each page.
+sidebar.php - sidebar layout and data. 
+searchform.php - template for the page that returns search results.
+index.php - template for the main page. Calls the header and sidebar.
+category-2.php - template for the second category.
+comments.php - template for the comments section, which is included whenever comments are displayed.
+single.php - template for the view post view.
+
+The code in the these templates is comprised of XHTML and PHP code. 
+One of the major problems is that the XHTML is not consistently in the same place. 
+Sometimes XHTML is located within a PHP code block and sometimes it is outside of the code block. 
+Unlike Drupal and the current version of Broadcast Machine, Wordpress does not have an output variable that is updated throughout the template 
+
+Each file is included at some point during the run of the engine. 
+All pages are generated on the fly, there's no server-side caching. 
+This has its advantages and its drawbacks. 
+The advantage is that it is not neccesary to rebuild pages every time you make a minor change. 
+A drawback is that each page requires time to built and delivered. 
+If your blog gets a lot of traffic in a short period of time, performance may drop dramatically. A number of plugin have been developed to deal with this problem, but no solutions to this problem have been incorporated into the base code of the application. 
+
+
+
+\subsubsection{Architecture}
+The way in which the templating system works is very closely related to how the program is architected. 
+Every time someone goes to the index page of a Wordpress site (e.g. http://blogurl.com/wordpress/index.php) the engine starts by reading a configuration file and checking settings from the database. 
+Next the Wordpress engine checks  goes through a number of theme directory 
+
 
 
 \chapter{BitTorrent}
