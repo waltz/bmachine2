@@ -376,7 +376,7 @@ Below is an example of how presentation logic can be included in the template la
 
 Smarty also allows for variables and variable modifiers  
 
-\subsection {Wordpress & Movable Type}
+\subsection {Wordpress}
 %need this again
 Wordpress and Movable Type are pieces of blogging software. 
 They're CMS's that are designed specifically for a single user or a small group of users who will regularly post text and image content. 
@@ -425,7 +425,21 @@ Next the Wordpress engine goes to the appropriate theme directory and parses the
 At a minimum this theme will reference style.css, but most of the time themes include a header, footer, single post template, comments template, and a sidebar template. 
 In most cases the main index file first includes the header file, then the siderbar, then the content section is executed from within the main index file, and then finally the footer is included. 
 The content section is usually comprised of a set number of the most recent posts. 
-This section is also sometimes referred to as The Loop. 
+This part of the template code is also sometimes referred to as The Loop. 
+
+In order to get a good idea of the how Wordpress is architechted, it's almost important to look at how it handles plugins. 
+A plugins is a PHP file that is stored in the /wp-content/plugin/ directory. It need not be in its own individual directory, although many plugins are distributed this way.
+To install a plugin, the blog administrator must copy the plugin file to the /wp-content/plugin/ directory, then log into the administrative back-end. 
+From there the user locates the plugin in must click the "activate" link. 
+In order for the Wordpress engine to actually use the plugin, a call to the plugin must be places somewhere in the theme. 
+These calls are PHP function calls that return a certain output. 
+For instance, take the OpenForBusiness plugin. OpenForBusiness is a module is designed to allow users who run a business to publish their hours. 
+After activating 
+
+
+
+
+As you can see, Wordpress doesn't have a hook system like Drupal, but instead operates on a 
 
 
 
