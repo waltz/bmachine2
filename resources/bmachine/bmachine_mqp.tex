@@ -257,15 +257,17 @@ They might accidentally delete an integral part of the code or accidently forget
 They might be forced to learn some basic PHP programming just to change the layout or style of a page, which somewhat defeats the purpose of having a templating system.
 
 
-XTemplate is much different than PHPTemplate and the theme engine built in to Drupal, but in many ways it's similar Smarty. 
+XTemplate is rather different from PHPTemplate and the theme engine built in to Drupal, but in many ways it's similar Smarty. 
 It separates the layout into three layers: logic, structure, and style, making it easy for theme designers to create and modify templates. 
 Designer need not deal with the logic layer to make a new theme or modify an existing one. 
-This logic layer is made up of all the php code necessary to make the theme run. 
+This logic layer is made up of all the PHP code necessary to make the theme run. 
 It contains all of the functions required to interface the template with Drupal. 
-The structure layer consists of an XHTML code. 
+The structure layer consists of an XHTML code that establishes the general layout of the code. 
+The style layer is made up of the CSS code that adds the finishing touches to the design. 
+In concept it is very much like Smarty, the major differences between the two are in syntax.
+Bluebeach, the theme used by \url{http://drupal.org} was originally written as a XTemplate theme, but was later ported to be a smarty-based theme. As of version 5.0, Drupal no longer includes XTemplate as a default templating engine but it does remain as a module mantained by user contribution. 
+For this reason, many themes that were originally written in XTemplate are now being converted to Smarty. 
 
-%example of XTemplate
-Bluebeach was originally written as a XTemplate theme, but was later ported to be a smarty-based theme. 
 
 A quick way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
 Marvin and Box Cleanslate are themes that were both created by editing the existing style sheets of previous themes. 
@@ -278,9 +280,8 @@ Marvin is based on Chameleon and Cleanslate is based upon Box\_grey.
 Modularity is a key element in the design of Drupal.
 A modular design provides flexibility, adaptability, and extensibility, which allows users with some knowledge of programming to customize their experience.
 
-
-A Drupal module is nothing more than plain text file which contains PHP code. 
-Module code is executed in during the normal runtime of the site, not beforehand or afterwards. 
+A Drupal module is nothing more than a plain text file which contains PHP code. 
+Module code is executed during the normal runtime of the site, not beforehand or afterwards. 
 This allows the modules access to all of the functions, variables, and data structures of Drupal base code. 
 In fact, a Drupal module isn't any different than an regular PHP file, the only difference the way in which it is concieved by the programmer and the how it is abstracted to a single file. 
 The developers of Drupal believe this model lends itself to good programming principals. 
