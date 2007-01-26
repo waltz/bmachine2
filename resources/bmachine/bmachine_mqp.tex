@@ -405,10 +405,12 @@ single.php - template for the view post view.
 The code in the these templates is comprised of XHTML and PHP code. 
 One of the major problems is that the XHTML is not consistently in the same place. 
 Sometimes XHTML is located within a PHP code block and sometimes it is outside of the code block. 
-Unlike Drupal and the current version of Broadcast Machine, Wordpress does not have an output variable that is updated throughout the template 
+Unlike Drupal and the current version of Broadcast Machine, Wordpress does not have an output variable that is updated throughout the template then later output as one output statement. 
+This makes things even more confusing for non-programmers because, without knowing PHP, he or she may not know what code effects presentation and what code effects the logic. 
+It makes it very easy for someone to break the program while attempting to only modify a theme. 
 
+In Wordpress, all pages are generated on the fly, there's no server-side caching. 
 Each file is included at some point during the run of the engine. 
-All pages are generated on the fly, there's no server-side caching. 
 This has its advantages and its drawbacks. 
 The advantage is that it is not neccesary to rebuild pages every time you make a minor change. 
 A drawback is that each page requires time to built and delivered. 
@@ -419,7 +421,11 @@ If your blog gets a lot of traffic in a short period of time, performance may dr
 \subsubsection{Architecture}
 The way in which the templating system works is very closely related to how the program is architected. 
 Every time someone goes to the index page of a Wordpress site (e.g. http://blogurl.com/wordpress/index.php) the engine starts by reading a configuration file and checking settings from the database. 
-Next the Wordpress engine checks  goes through a number of theme directory 
+Next the Wordpress engine goes to the appropriate theme directory and parses the main index file, index.php. 
+At a minimum this theme will reference style.css, but most of the time themes include a header, footer, single post template, comments template, and a sidebar template. 
+In most cases the main index file first includes the header file, then the siderbar, then the content section is executed from within the main index file, and then finally the footer is included. 
+The content section is usually comprised of a set number of the most recent posts. 
+This section is also sometimes referred to as The Loop. 
 
 
 
