@@ -5,7 +5,7 @@ require '../smarty/Smarty.class.php';
 class VideoController
 {
 	// Constructor, retrieve function
-	function videoController()
+	function VideoController($param_2)
 	{
 		
 	}
