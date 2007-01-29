@@ -444,7 +444,7 @@ As you can see, Wordpress doesn't have a hook system like Drupal, but instead op
 
 
 \chapter{BitTorrent}
-%Should info like this be included as an appendix?
+
 \section{Overview}
 BitTorrent is a protocol for distributing large amounts of data across a network.
 Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing.
@@ -452,7 +452,7 @@ Decentralized in design, The BitTorrent protocol allows individuals with limited
 Currently the most popular form of filesharing, BitTorrent has changed the way that people share files on the Internet, making filesharing more democratic and accessible to ordinary users.
 According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote { \url{http://www.multichannel.com/article/CA6332098.html}}
 In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting .
-Additionally, 55\% of broadband upstream (ie "home outward") is used for torrenting.
+According to one North American research lab, 55\% of broadband upstream (ie "home outward") is used for torrenting.\footnote{http://www.multichannel.com/article/CA6332098.html}
 According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which is still more than all other peer-to-peer programs combined.  
 Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {\url{http://in.tech.yahoo.com/041103/137/2ho4i.html}}
 
@@ -464,16 +464,14 @@ Bit Torrent has been criticized for enabling users to infringe upon copyright la
 
 \section{The Process}
 %Got to figure out how to include pictures. I converted the two images I wanted to include in this section to post script. They're in this folder.
-To begin sharing files using the Bit Torrent protocol, users first need to install a Bit Torrent client.
-Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The same client is used to both upload and download Bit Torrent files.
-The original host of the file, called the seeder, uses a Bit Torrent client to hash the file, breaking it up logically into hundreds of small pieces, while still leaving the original file intact.
-Meta-data about the file is stored in a torrent file with the .torrent extension.
-Meta-data stored in this file includes, information about the files to be shared, how the data is cut up, and information about the host computer that will be seeding the files.
-This torrent file is then distributed to the people who are interested in downloading the data and is opened by a Bit Torrent client located on their personal computer.
-The torrent file can be distributed in many ways.
-Torrent files are very small, usually only a few kilobytes. They can be attached to an email, put on a website, posted on forums, etc.
-To support the distribution of torrents, a new type of web-software has emerged, called a torrent tracker.
-Torrent trackers helps organize many torrent files into a single website. These websites generally record even more metadata than the data in the torrent files, such as the files title, its author, a website associated with the file, perhaps a description or review of the file.
+To begin sharing files using the Bit Torrent protocol, users first need to install a client that implements the BitTorrent protocol.
+Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The client can prepare, request, and transfer any part of a torrented file using the protocol.
+The original host of the file, called the seeder, creates a torrent file, which contains metadata about the files to be shared, or about the tracker, which is the server that coordinates distribution of the file.
+Meta-data stored in this file includes, information about the files to be shared, how the data is divided into logical pieces, and information about the host computer that will be seeding the files. The torrent file also contains a hash checksum of several parts of the file, so that when a peer recieves a piece the client may check to make sure that the piece was downloaded correctly.
+Torrent files are very small, usually only a few kilobytes, and can be attached to an email, put on a website, posted on forums, etc.
+
+People who wish to download the files download the appropriate .torrent file, which allows them to connect to the tracker, which is responsible for connecting seeders and peers.
+In addition to connecting peers together, some torrent trackers help organize many torrent files into a single website. These websites generally record even more metadata than the data in the torrent files, such as the files title, its author, a website associated with the file, and even descriptions and reviews.
 They also provide a the ability to search for a specific file. ChomskyTorrents.org is an example of a public torrent tracker.
 Once a user opens a torrent file with their client, they begin downloading pieces of that file.
 Users who are currently downloading the file are designated as peers, and the collection of peers downloading the file is referred to as the swarm.
@@ -482,6 +480,15 @@ The seeder starts by sends different pieces of the file to as many peers as poss
 As peers finish downloading pieces of the file, they then share those pieces with the rest of the swarm, distributing the upstream bandwidth load amongst all peers and seeders. 
 Once a peer finishes downloading the file, he or she can then leave the file open, and serves as a seeder by continuing to distribute the file to other peers.
 The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file.
+
+Torrent information can also be derived from a process called torrent scraping, a defacto standard proposed by BitTorrent creator Bram Cohen.\footnote{http://groups.yahoo.com/group/BitTorrent/message/3275, Accessed 01/29/2007}
+With scraping, clients can query the state of a torrent that a tracker is managing using the scrape URL. 
+The tracker that maintains the scrape URL does so to automate the process of screen scraping\footnote{Screen scraping refers to an algorithm that derives data from a human-readable interface, usually a website} a torrent's statistics page, since there is currently no standard for the layout of these pages. 
+Torrent clients may scrape this data by using the announce URL of the torrent file, and finding the last forward slash ("/") in the url. 
+If the text immediately following it is the string "announce", then it is assumed that the tracker supports scraping, and the string "scrape" is substituted into the url to find the scraping page. 
+Optionally, the client may also request the scrape data using a torrent's info_hash as a paramter, which returns statistics for just that torrent instead of all torrents managed by the tracker. 
+
+After this request, the server responds with a plain text document consisting of a bencoded dictionary, similar to a .torrent file itself. The dictionary contains a list of files, the number of peers who have completed each file, the number of people who have downloaded a torrent, the number of peers who have not yet completed the file, and the internal name. The dictionary may also include unofficial extensions to the scraping standard, known as flags. Some clients use this to specify the minimum number of seconds between scrape requests, error codes, and more.
 
 \section{An Example}
 Let's say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay.
@@ -948,7 +955,7 @@ Active development began with discussions of how to best architect Broadcast Mac
   * BitTorrent tracking
   * BitTorrent seeding via HTTP seeding support
 
-\section{Flow}
+\subsection{Flow}
 We then decided on a logical process for how the application would handle requests for information. First, the application would receive a URL, POST parameters, and cookie information from the web server. URLs will be typically received from mod_rewrite in the form of http://baseurl.com/controller/action. The action field may also reference another controler, in which case it would be followed by another parameter for the action that controller should take. For example, say a person runs a Broadcast Machine install on http://foobar.com. If a user would like to browse all videos on the site by a specific category, such as "dogs", he or she would go to www.foobar.com/tags/dogs/. In this case, /tags is a reference to the tag controller, which is responsible for getting all videos that contain that tag. The parameter to be passed to the video controller is dogs, which means that only videos containing the dogs tag will be returned. 
 
 After the controller generates an associated array of data (which may contain other arrays), it passed this information to the view layer, or template. The template uses this information to fill in an XHTML or RSS page, and sets the mime type (in the case of linking to files), and renders the user interface.
@@ -967,7 +974,7 @@ The channel view lists all videos in a channel, and is accessed by going to a UR
 
 Adding a video to a channel is handled by the "add" action of the channel controller (/channelname/add). When adding a video, users will be able to enter detailed metadata about the video, and either link directly to the file or upload it directly to the server, albeit with restrictions\footnote{PHP has a maximum file size for uploading that depends on the server configuration}. Users will also be given the option to upload the file on their own via FTP, and have Broadcast Machine detect it later. Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (/channelname/remove) and editing it (/channel/edit)
 
-\subsection{Video view "/channelname/videoname"}
+\subsection{Video view "/channelname/videoname" & "/video/videoname"}
 The video view displays all of the relevant information about an individual video, including its meta-data and download statistics. It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
 
 \subsection{User Page "/users/"}
