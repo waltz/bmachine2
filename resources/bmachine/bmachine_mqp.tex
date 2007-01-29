@@ -374,10 +374,9 @@ Below is an example of how presentation logic can be included in the template la
         </tr>
     {/foreach}
 
-Smarty also allows for variables and variable modifiers  
 
 \subsection {Wordpress}
-%need this again
+%Jan 29 - better
 Wordpress and Movable Type are pieces of blogging software. 
 They're CMS's that are designed specifically for a single user or a small group of users who will regularly post text and image content. 
 Wordpress is PHP 4.2 and uses MySQL 3.23 as its database backend. 
@@ -427,20 +426,20 @@ In most cases the main index file first includes the header file, then the sider
 The content section is usually comprised of a set number of the most recent posts. 
 This part of the template code is also sometimes referred to as The Loop. 
 
-In order to get a good idea of the how Wordpress is architechted, it's almost important to look at how it handles plugins. 
-A plugins is a PHP file that is stored in the /wp-content/plugin/ directory. It need not be in its own individual directory, although many plugins are distributed this way.
-To install a plugin, the blog administrator must copy the plugin file to the /wp-content/plugin/ directory, then log into the administrative back-end. 
-From there the user locates the plugin in must click the "activate" link. 
+In order to get a good idea of the how Wordpress is architechted, it's also important to look at how it handles plugins. 
+A Wordpress plugins is a PHP file that is stored in the /wp-content/plugin/ directory. 
+It need not be in its own individual directory, although many plugins are distributed this way. 
+To install a plugin, the blog administrator must copy the plugin file to the /wp-content/plugin/ directory on their webhost, then login to the administrative back-end. 
+From there the adinistrator must locate the plugin in the administrative interface and click the "activate" link. 
 In order for the Wordpress engine to actually use the plugin, a call to the plugin must be places somewhere in the theme. 
 These calls are PHP function calls that return a certain output. 
-For instance, take the OpenForBusiness plugin. OpenForBusiness is a module designed to allow users who run a business to easily publish their hours on their Wordpress blog. 
-After activating 
+For example, take the OpenForBusiness plugin. 
+OpenForBusiness is designed to allow users who run a business to easily publish their hours on their Wordpress blog. 
+After the administrator copies OpenForBusiness.php to the correct directory and activates it from the administrative interface, he or she must paste the following code into one of the theme files. 
 
+<?php OpenForBusiness(); ?>
 
-
-
-As you can see, Wordpress doesn't have a hook system like Drupal, but instead operates on a 
-
+As you can see, Wordpress doesn't have a hook system like Drupal, but instead relies on function calls to triger plugins. 
 
 
 \chapter{BitTorrent}
