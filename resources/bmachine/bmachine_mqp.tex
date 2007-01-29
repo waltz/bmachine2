@@ -485,7 +485,7 @@ With scraping, clients can query the state of a torrent that a tracker is managi
 The tracker that maintains the scrape URL does so to automate the process of screen scraping\footnote{Screen scraping refers to an algorithm that derives data from a human-readable interface, usually a website} a torrent's statistics page, since there is currently no standard for the layout of these pages. 
 Torrent clients may scrape this data by using the announce URL of the torrent file, and finding the last forward slash ("/") in the url. 
 If the text immediately following it is the string "announce", then it is assumed that the tracker supports scraping, and the string "scrape" is substituted into the url to find the scraping page. 
-Optionally, the client may also request the scrape data using a torrent's info_hash as a paramter, which returns statistics for just that torrent instead of all torrents managed by the tracker. 
+Optionally, the client may also request the scrape data using a torrent's info_hash as a parameter, which returns statistics for just that torrent instead of all torrents managed by the tracker. 
 
 After this request, the server responds with a plain text document consisting of a bencoded dictionary, similar to a .torrent file itself. The dictionary contains a list of files, the number of peers who have completed each file, the number of people who have downloaded a torrent, the number of peers who have not yet completed the file, and the internal name. The dictionary may also include unofficial extensions to the scraping standard, known as flags. Some clients use this to specify the minimum number of seconds between scrape requests, error codes, and more.
 
@@ -916,8 +916,35 @@ To address this problem it is imperative that the seeding portion have some meth
 %  - Apple iTunes Podcasting Specification
 %   > Specified Tags
 
+
 %\section{Mimetypes}
 % 1/22/2007, CJ: Do we still need a section on Mimetypes?
+
+XML, or Extensible Markup Language, is a general-purpose language for describing heirarchal relationships with a variety of applications. 
+First recommended by the W3C in 1998, XML provides an easy way to convey information that is both human-legible and easily parsed by computer algorithms. 
+
+XML documents start out with a declaration stating what version of SML is being used, information about character encoding, and any other dependencies that the document may rely on:
+
+<?xml version="1.1" encoding="UTF-8"?>
+
+This tag specifies that the document is using the XML 1.1 standard, and is encoded using the UTF-8 character set.
+
+Followed by the declaration, XML files consist of several elements that may be nested within each other, defined by start and end tags.
+These tags surround text or other elements, which is referred to as the tag's content.
+Tags may have attributes which are embedded into the element's start tag. 
+The meanings of each tag and its corresponding content is left intentionally ambiguous, meaning that the XML standard allows users to define their own rules about how XML elements should be structured, and what data they should contain. 
+Customizable schemas supplement the syntactical rules of XML with constraints generally having to do with element and attribute names, and how the information is organized heirarchically. 
+For example, a schema might specify that an XML document describing a bicycle must have an element describing the gears, and only one gearset must be present for a car. 
+It might also specify that a set of gears can have several attributes, including manufacturer, number of gears, etc. 
+
+<bike name="C200" manufacturer="Raleigh">
+	<gears manufacturer="Shimano" speed="21">Y-42U98010</gear>
+	...
+</bike>
+
+XML is a powerful markup language, and it has been used to construct many popular languages, such as XHTML and RSS.
+
+%Needs: An example of an XML 
 
 \section{Smarty}
 
