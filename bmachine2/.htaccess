@@ -1,0 +1,15 @@
+
+# Finally! A decent explanation of mod_rewrite! - CJ
+# http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html
+
+# Make sure that mod_rewrite is on.
+RewriteEngine on
+
+# Logging function for development.
+#RewriteLog mod_rewrite.log
+
+# Set the logging verbosity. 0 = min, 9 = max
+#RewriteLogLevel 9
+
+# Rewrite URLs so that everything goes to the dispatcher.
+RewriteRule (*) index.php?params=$1
