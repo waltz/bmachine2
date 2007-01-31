@@ -167,13 +167,12 @@ As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate.
 
 Themes are stored in individual directories under the Drupal theme directory. 
 Each theme directory bares the name of the theme and at least contains the following files:
-
-logo.png - an image that will be displayed next to the url of in a viewer's browser
-
-screenshot.png - an image that will be displayed in the administration inferface. 
+\begin{description}
+\item[logo.png] an image that will be displayed next to the url of in a viewer's browser
+\item[screenshot.png] an image that will be displayed in the administration inferface. 
 It is meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
-
-style.css - a CSS file containing all of the styling information about the theme. 
+\item[style.css] a CSS file containing all of the styling information about the theme. 
+\end{description}
 
 
 Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
@@ -182,17 +181,13 @@ One of the most common ways is for the theme developer to create a PHP file with
 The functions defined in this file are used in conjunction with the style.css file to create the layout of the page. 
 Chameleon is an example of a theme that was designed using a .theme file to override the default theming functions.
 The Chameleon theme directory contains the following files: 
-
-Chameleon.theme - the PHP file that contains the theme\_functions 
-
-style.css - the primary style sheet
-
-common.css -  another style sheet that has more styling info
-
-screnshot.png, logo.png - images used by the administration interface
-
-background.png - simple background image
-
+\begin{description}
+\item[Chameleon.theme] the PHP file that contains the theme\_functions 
+\item[style.css] the primary style sheet
+\item[common.css] another style sheet that has more styling info
+\item[screnshot.png, logo.png] images used by the administration interface
+\item[background.png] simple background image
+\end{description}
 
 Below is an example of how a theme function can override the default theming functions. 
 This is the Chameleon function that overrides the default Drupal node function.
@@ -334,13 +329,15 @@ The smarty engine is installed by copying the library files to your webserver an
 The Smarty engine is distribute as a tarball from http://smarty.php.net}. 
 Decompressed, file structure should look like this:
 
-../Smarty/
-                          Config\_File.class.php
-                          debug.tpl
-                          internals/
-                          plugins/
-                          Smarty.class.php
-                          Smarty\_Compiler.class.php
+\begin{description}
+\item[../Smarty/]
+\item[/Smarty/Config\_File.class.php]
+\item[/Smarty/debug.tpl]
+\item[/Smarty/internals/]
+\item[/Smarty/plugins/]
+\item[/Smarty/Smarty.class.php]
+\item[/Smarty/Smarty\_Compiler.class.php]
+\end{description}
 
 Using Smarty is easy and in many ways is very similar other PHP templating engines. 
 In the PHP application, the application developer starts be assigning variables for use in the template. 
@@ -420,22 +417,16 @@ Furthermore, a lot of PHP code is embedded in the templates.
 There tends to be a lot of logic, even non-presentation logic, contained in the theme. Needless to say, it can get rather confusing for the novice programmer or template designer. 
 Nearly all themes are made up of the following 9 files. At a minimum, a theme must include index.php and style.css. 
 
-style.css - contains all of the the theme's styling information.
-
-header.php - header for each page
-
-sidebar.php - sidebar layout and data
-
-searchform.php - template for the page that returns search results
-
-index.php - template for the main page. Calls the header and sidebar
-
-category-2.php - template for the second category
-
-comments.php - template for the comments section, which is included whenever comments are displayed
-
-single.php - template for the view post view
-
+\begin{description}
+\item[style.css] contains all of the the theme's styling information.
+\item[header.php] header for each page
+\item[sidebar.php] sidebar layout and data
+\item[searchform.php] template for the page that returns search results
+\item[index.php] template for the main page. Calls the header and sidebar
+\item[category-2.php] template for the second category
+\item[comments.php] template for the comments section, which is included whenever comments are displayed
+\item[single.php] template for the view post view
+\end{description}
 
 The code in the these templates is comprised of XHTML and PHP code. 
 One of the major problems is that the XHTML is not consistently in the same place. 
@@ -501,7 +492,8 @@ According to CacheLogic, a British web-analysis company, BitTorrent accounts for
 Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
 
 
-Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses, including the inexpensive distribution of independent media.
+%Jan 31: shouldn't this be cut? -drew
+%Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses, including the inexpensive distribution of independent media.
 
 
 \section{Why is Bit Torrent Important?}
@@ -690,11 +682,13 @@ At the very least, it should preserve all of the functionality of its previous i
 \section{Features}
 % This is just an outline right now. -Greg
 There are several requirements for features that Broadcast Machine must include:
- * Automatic generation of RSS feeds
- * Templating system
- * Server-side sharing for BitTorrent
- * Tagging
- * A granular permission system
+\begin{description}
+\item[Automatic generation of RSS feeds]
+\item[Templating system]
+\item[Server-side sharing for BitTorrent]
+\item[Tagging]
+\item[A granular permission system]
+\end{description}
 
 \chapter{Architecture}
 
@@ -801,64 +795,70 @@ A comprehensive list of the data follows (entity relationships highlighted in bo
 
 
 \subsection{Data associated with Channels}
-Channel ID – An arbitrary, unique number to identify the channel and  associate it with other entities
-Title – Each Channel has a title, represented by a string
-Description - A longer body of text that describes the channel's theme or content
-Icon – Reference to the thumbnail image (See below)
-Credits – A list of the channel creators and maintainers, or any other people involved.
-Donation information – Represented as a snippet of HTML or a simple url.
-Website information – A url to link to the channel's main web page.
-Tags – 0 or more keywords associated with the channel, used for categorizing and browsing multiple channels.
-Permissions – Rules about which users can access or modify the channel
+\begin{description}
+\item[Channel ID] An arbitrary, unique number to identify the channel and  associate it with other entities
+\item[Title] Each Channel has a title, represented by a string
+\item[Description] A longer body of text that describes the channel's theme or content
+\item[Icon] Reference to the thumbnail image (See below)
+\item[Credits] A list of the channel creators and maintainers, or any other people involved.
+\item[Donation information] Represented as a snippet of HTML or a simple url.
+\item[Website information] A url to link to the channel's main web page.
+\item[Tags] 0 or more keywords associated with the channel, used for categorizing and browsing multiple channels.
+\item[Permissions] Rules about which users can access or modify the channel
+\end{description}
 
+\subsection{Data associated with channel tags}
+\begin{description}
+\item[Video ID] A reference to the video that the tag describes
+\item[Tag name] A short word or phrase to categorize the channel
+\end{description}
 
-\subsection{Data associated with channel tags:}
-Video ID – A reference to the video that the tag describes
-Tag name – A short word or phrase to categorize the channel
-
-
-\subsection{Data associated with Users:}
-ID – An arbitrary, unique number to identify the user and associate him/her with other entities
-Username – The user's nickname or handle
-Password – Self-explanatory
-Email Address – Optionally used to verify registration
-Permissions – User's access credentials for specific channels, files, and the site in general
-
+\subsection{Data associated with Users}
+\begin{description}
+\item[ID] An arbitrary, unique number to identify the user and associate him/her with other entities
+\item[Username] The user's nickname or handle
+\item[Password] Self-explanatory
+\item[Email Address] Optionally used to verify registration
+\item[Permissions] User's access credentials for specific channels, files, and the site in general
+\end{description}
 
 \subsection{Data associated with Videos}
-ID – An arbitrary, unique number to identify the user and associate it with other entities
-Title – A short amount of text to describe the video
-Description - A longer body of text that describes the video's theme or content
-Last Modified Date – A time stamp set every time any video information is changed.
-Credits – A list of the channel creators and maintainers, or any other people involved.
-Icon – Reference to the thumbnail image (See below)
-Transcript (optional)– A text-version of the video's content or dialog for the hearing impaired
-License/Copyright information – The name of the license associated with the content, and possibly a url to link to the full body of the license
-Website url – A link to the video  or publisher's website
-Release Date – The date and time the video was released to the public
-Publish Date – A timestamp of when the video is made available to the public. note that this is different than release time (For example, a publisher might publish a movie that was released at an earlier time elsewhere).
-Running time – The length of the video, in seconds
-Adult – A boolean flag used for marking adult content
-Donation information – Represented as a snippet of HTML or a simple url.
-Tags – 0 or more keywords associated with the channel, used for categorizing and     browsing multiple channels.
-Mime-type – The type of media that the file represents
-Filename – the url or address on the server where the file is located
-Size – the size of the file, in bytes.
-Downloads – A running count of the number of users who have downloaded the file
-BitTorrent Information (optional) – If the file is a torrent, additional information must be stored (see below)
-Permissions – Rules about which users can access or modify the video
-
+\begin{description}
+\item[ID] An arbitrary, unique number to identify the user and associate it with other entities
+\item[Title] A short amount of text to describe the video
+\item[Description] A longer body of text that describes the video's theme or content
+\item[Last Modified Date] A time stamp set every time any video information is changed.
+\item[Credits] A list of the channel creators and maintainers, or any other people involved.
+\item[Icon] Reference to the thumbnail image (See below)
+\item[Transcript (optional)] A text-version of the video's content or dialog for the hearing impaired
+\item[License/Copyright information] The name of the license associated with the content, and possibly a url to link to the full body of the license
+\item[Website url] A link to the video  or publisher's website
+\item[Release Date] The date and time the video was released to the public
+\item[Publish Date] A timestamp of when the video is made available to the public. note that this is different than release time (For example, a publisher might publish a movie that was released at an earlier time elsewhere).
+\item[Running time] The length of the video, in seconds
+\item[Adult] A boolean flag used for marking adult content
+\item[Donation information – Represented as a snippet of HTML or a simple url.
+\item[Tags] 0 or more keywords associated with the channel, used for categorizing and     browsing multiple channels.
+\item[Mime-type] The type of media that the file represents
+\item[Filename] the url or address on the server where the file is located
+\item[Size] the size of the file, in bytes.
+\item[Downloads] A running count of the number of users who have downloaded the file
+\item[BitTorrent Information (optional) – If the file is a torrent, additional information must be stored (see below)
+\item[Permissions] Rules about which users can access or modify the video
+\end{description}
 
 \subsection{Data associated with video tags:}
-Video ID – A reference to the video that the tag describes
-Tag name – A short word or phrase to categorize the video
+\begin{description}
+\item[Video ID – A reference to the video that the tag describes
+\item[Tag name – A short word or phrase to categorize the video
+\end{description}
 
-
-\subsection{Data associated with icons:}
-Icon ID - A unique, autogenerated id number to identify the image
-Icon URL - The address of the icon
-Mime-Type - The type of file that the icon is
-
+\subsection{Data associated with icons}
+\begin{description}
+\item[Icon ID - A unique, autogenerated id number to identify the image
+\item[Icon URL - The address of the icon
+\item[Mime-Type - The type of file that the icon is
+\end{description}
 
 \subsection{Data associated with Torrents}
 %To be completed
@@ -981,6 +981,7 @@ Some of the parameters include:
 \item[event] Three 'events' can be sent to the tracker. One is 'started' which tells that the client has begun downloading, the second is 'stopped' which must be sent when the client shuts down gracefully, and the third is 'completed' which should be sent when the client finishes downloading the file.
 \end{description}
 The tracker responds to these events with a document with Mimetype \"text/plain\" that contains a bencoded dictionary with the following values.
+
 \begin{description}
 \item[failure reason] If this key is present, then no other keys can be. The value should be a (written) message explaining why the request couldn't be completed.
 \item[warning message] Like 'failure reason' except the request is still processed.
@@ -990,7 +991,10 @@ The tracker responds to these events with a document with Mimetype \"text/plain\
 \item[complete] The number of people who have finished downloading the file.
 \item[incomplete] Number of people downloading but have not finished.
 \item[peers] Contains a list of dictionaries describing the peers, each dictionary should have three keys. The first is 'peer id' which is the peer's self-selected id number, the second is the peer's IP address and the third is the port on which the peer is listening.
+\end{description}
+
 As it is now, these are the fields that are absolutely required for a BitTorrent tracker, but there are a few unofficial extensions to the protocol that might be interesting to look at in the future. \footnote{http://wiki.theory.org/BitTorrentSpecification}
+
 
 
 \subsection{Web Seeding}
@@ -1105,22 +1109,25 @@ The power of CSS and structured documents becomes
 \chapter{Development}
 \section{Architecture}
 %This probably isn't too latex friendly yet - Greg
+%^^ Jan/31/06: next time you want to use a list, use the item[] tag -drew
 Active development began with discussions of how to best architect Broadcast Machine with a defined set of features:
-  * Unit tests for all of the implemented functionality
-  * A web based setup process
-  * Creating channels
-  * Browsing Channels
-  * Managing channels
-  * Creating video items from links
-  * Creating video items from uploaded files
-  * Browsing videos in a channel
-  * Managing video items
-  * Video RSS in all the forms curently available
-  * Subscribe via Democracy link
-  * User Authentication and permissions
-  * Ability to import data from an existing Broadcast Machine
-  * BitTorrent tracking
-  * BitTorrent seeding via HTTP seeding support
+\begin{description}
+\item[Unit tests for all of the implemented functionality]
+\item[A web based setup process]
+\item[Creating channels]
+\item[Browsing Channels]
+\item[Managing channels]
+\item[Creating video items from links]
+\item[Creating video items from uploaded files]
+\item[Browsing videos in a channel]
+\item[Managing video items]
+\item[Video RSS in all the forms curently available]
+\item[Subscribe via Democracy link]
+\item[User Authentication and permissions]
+\item[Ability to import data from an existing Broadcast Machine]
+\item[BitTorrent tracking]
+\item[BitTorrent seeding via HTTP seeding support]
+\end{description}
 
 
 \subsection{Flow}
