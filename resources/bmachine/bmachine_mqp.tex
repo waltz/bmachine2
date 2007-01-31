@@ -1069,15 +1069,15 @@ XML is a powerful markup language, and it has been used to construct many popula
 %Needs: An example of an XML 
 
 \section{Smarty}
-We chose to use the Smarty templating system because it provided us with an easy way to create dynamic webpages without having deal with a mess of PHP and HTML. 
+We chose to use the Smarty templating system because it provides our users with an easy way to create dynamic webpages without requiring that template developers deal with a mess of PHP. 
 Smarty allows us to specify tags that are later replaced with developer specified information.
-The system allows the developer to separate the presentation of the webpage from the logic of the PHP program. 
-Instead of having to deal with PHP functions making SQL queries and function calls from the inside of an table, there can be an HTML file with select Smarty tags that are later replaced with pertinent data.
-While tag replacement is its most basic operation, Smarty also allows for simple flow control and special "variable modifiers".
+The system allows the developer to separate the presentation of the webpage from most of the logic of the PHP program. 
+Instead of having to deal with PHP functions making SQL queries and function calls from the inside of a table, there can be an XHTML file with select Smarty tags that are later replaced with data or code.
+While tag replacement is its most basic operation, Smarty also allows for simple flow control and special \"variable modifiers\".
 These variable modifiers allow the presentation layer to retain some control over how the data is filled in while keeping a suitable amount of abstraction.
 For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
-Many would expect a signifigant performance hit from using a system like this, but Smarty makes sure it's as fast as any.
-Smarty takes in the templates for the presentation layer and 'compiles' them into PHP which is executed with the same speed as any other PHP file.
+You might expect to take a performance hit from using a system like this, but Smarty makes sure it's as fast as any.
+Smarty takes in the templates for the presentation layer and \"compiles\" them into PHP which is executed with the same speed as any other PHP file.
 This is much better than some systems which don't compile and instead perform the data substitution on the fly, which is very time consuming. 
 
 
