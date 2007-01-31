@@ -1040,7 +1040,7 @@ First recommended by the W3C in 1998, XML provides an easy way to convey informa
 XML documents start out with a declaration stating what version of SML is being used, information about character encoding, and any other dependencies that the document may rely on:
 
 
-<?xml version="1.1" encoding="UTF-8"?>
+<?xml version=\"1.1\" encoding=\"UTF-8\"?>
 
 
 This tag specifies that the document is using the XML 1.1 standard, and is encoded using the UTF-8 character set.
@@ -1055,9 +1055,9 @@ For example, a schema might specify that an XML document describing a bicycle mu
 It might also specify that a set of gears can have several attributes, including manufacturer, number of gears, etc. 
 
 
-<bike name="C200" manufacturer="Raleigh">
+<bike name=\"C200\"\ manufacturer=\"Raleigh\">
 
-<gears manufacturer="Shimano" speed="21">Y-42U98010</gear>
+<gears manufacturer=\"Shimano\"\ speed=\"21\">Y-42U98010</gear>
 
 ...
 
