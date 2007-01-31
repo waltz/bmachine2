@@ -337,7 +337,8 @@ Decompressed, file structure should look like this:
 Using Smarty is easy and in many ways is very similar other PHP templating engines. 
 In the PHP application, the application developer starts be assigning variables for use in the template. 
 
-include('Smarty.class.PHP');
+\subsection {Wordpress and Movable Type}
+include('Smarty.class.php');
 
 // create object
 \$smarty = new Smarty;
@@ -693,13 +694,13 @@ There are several requirements for features that Broadcast Machine must include:
 It contained a unique integer identifier (ID, the primary key), A text explanation of the channel (description), and integer number for when the channel was made (Created), a text title for the channel (name), fields for URLs of linked icons, libraries, and the channel's main website (Icon, LibraryURL, and WebURL, respectively), a field to designate the publisher (Publisher). In addition to this, it has several tiny int values that served as settings flags, with 0 being false, and the default value, and 1 being true. This includes OpenPublish, RequireLogin, and NotPublic. OpenPublish allowed administrators to designate whether or not non-administrative users were allowed to publish videos to a channel. RequireLogin was used to determine whether or not users must be logged in to view the channel. If NotPublic was set, the channel itself would be hidden from anonymous users.
 It also contained CSSURL, which would store a link to an external style sheet to be used in rendering the channel page.
 
-	The channel_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
+	The channel\_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
 
 	The channel_files table records associations between the channels table and the files table (see below). In other words, it allows Broadcast Machine to keep track of which files belong to which channel, which is essential to the channel view and RSS feeds. It contains a reference to the channel in question (channel_id), the hash of the file (hash), and integer timestamp (thetime). The primary key is channel_id and hash, meaning that there can't be more than one record for any channel and file pair.
 
-	The channel_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
+	The channel\_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel\_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
 
-	Like channel_files, the section_files table tracks which files are associated with which sections. The table contains a reference to channel_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
+	Like channel\_files, the section\_files table tracks which files are associated with which sections. The table contains a reference to channel\_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
 
 \subsection{Videos}
 	The table for storing video information is the files table. This information is used to render the details page for each individual video. The files table contains a unique integer identifier for each video (ID), an ineger for when the file was created (Created), the name of the file (FileName), the name of the person who created the channel (Creator), a text summary of the file (Description), a title (Title), an optional link to a transcript for the hearing-disabled (transcript), a link to a website for more information(Webpage), an optional donation code (donation_id), boolean flags for Excerpt, Explicit, ignore_mimetype, and External properties, and URL, in case the file was linked to externally. It also contains a link to an image thumnail of the video (Image), name and URL of the license used to distribute the video (LicenseName, LicenseURL), the MIME-type of the file (Mimetype), an integer for the date published (Publishdate), and the date of the video release via three fields: ReleaseDay, ReleaseMonth, and ReleaseYear (all are integers). Also included is a short string called Rights, which is slightly redundant due to the License field. 
@@ -711,7 +712,7 @@ It also contained CSSURL, which would store a link to an external style sheet to
 \subsection{Donations}
 	The donation table stores information on how users can contribute to the makers of a video. This allowed the generation of donation links to be displayed alongside a video in the video view, as well as from within Democracy and the RSS feed for the channel. Users could use these links to contribute to the makers of the video. Each donation record had a unique ID, an e-mail address (email), a short description (title), and a longer text donation pitch (text). Putting this information in its own table allowed publishers to frequently associate videos with the same donation info, as this info rarely changed. 
 
-	The donation_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
+	The donation\_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
 
 \subsection{Users}
 	The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
@@ -878,13 +879,8 @@ It will only download your MP3 if it looks like \url{http://www.foobar.com/index
 Not convenient, but necessary given the popularity of iTunes and the demand for compatible content.
 
 \section{BitTorrent}
-% 1/18/2007, CJ: Outlined the topics that need to be covered.
-% * Metainfo (.torrent) Files
-%  - Support for bencoding strings.
-% * Tracker
-%  - http://www.bittorrent.org/protocol.html
-% * HTTP Seeder
-%  - http://www.bittornado.com/docs/webseed-spec.txt
+% 1/23/2007, CJ: Draft finished.
+
 \subsection{Metainfo (.torrent) Files}
 In order to distribute files via using the BitTorrent protocol the server must go through three steps.
 The first is to generate a .torrent file that describes the file to be downloaded.
@@ -933,7 +929,6 @@ In response, the server should send HTTP status 200 for 'OK' and the requested d
 The protocol itself is relatively simple, but it leaves the door wide open for clients to make to many requests and bog down the server.
 To address this problem it is imperative that the seeding portion have some method of controlling how much upload bandwidth is used.
 
-
 \section{XML and RSS}
 % 1/18/2007, CJ: OUtlined the topics that need to be covered.
 % * XML
@@ -948,7 +943,14 @@ To address this problem it is imperative that the seeding portion have some meth
 %   > Specified Tags
 %  - Apple iTunes Podcasting Specification
 %   > Specified Tags
+XML itself is a multi-purpose markup language specified by the W3C that provides an enormous amount of flexibility.
+It's loosely defined syntax makes it suitable for almost any application imaginable.
+One of the most prevalent applications of XML is RSS.
+Lately the RSS specification has gained alot of traction as a useful and feasible format for distributing syndicated content.
 
+The format was created as a way for publishers to distribute their content in a 
+Unfortunately RSS has has a tumultuous past, with three different and competing versions the format was hardly standard.
+The past few years have allowed RSS to mature into the document format that it is now.
 
 %\section{Mimetypes}
 % 1/22/2007, CJ: Do we still need a section on Mimetypes?
@@ -980,7 +982,16 @@ XML is a powerful markup language, and it has been used to construct many popula
 %Needs: An example of an XML 
 
 \section{Smarty}
-
+We chose to use the Smarty templating system because it provided us with an easy way to create dynamic webpages without having deal with a mess of PHP and HTML.
+Smarty allows us to specify tags that are later replaced with developer specified information.
+The system allows the developer to separate the presentation of the webpage from the logic of the PHP program.
+Instead of having to deal with PHP functions making SQL queries and function calls from the inside of an table, there can be an HTML file with select Smarty tags that are later replaced with pertinent data.
+While tag replacement is its most basic operation, Smarty also allows for simple flow control and special "variable modifiers".
+These variable modifiers allow the presentation layer to retain some control over how the data is filled in while keeping a suitable amount of abstraction.
+For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
+Many would expect a signifigant performance hit from using a system like this, but Smarty makes sure it's as fast as any.
+Smarty takes in the templates for the presentation layer and 'compiles' them into PHP which is executed with the same speed as any other PHP file.
+This is much better than some systems which don't compile and instead perform the data substitution on the fly, which is very time consuming. 
 
 \section{XHTML and CSS}
 % 1/25/2007, More needs to be added about CSS.
