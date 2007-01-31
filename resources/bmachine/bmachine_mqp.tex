@@ -210,7 +210,7 @@ function chameleon\_node(\$node, \$teaser = 0, \$page = 0) \{
   if (\$teaser \&\& \$node->teaser) \{
     \$output .= \$node->teaser;
   \}
-  else {
+  else \{
     \$output .= \$node->body;
   \}
 
@@ -234,7 +234,8 @@ function chameleon\_node(\$node, \$teaser = 0, \$page = 0) \{
   \$output .= \"</div>\textbackslash n\";
 
   return \$output;
-} 
+\} 
+
 
 As you can see, presentation elements and application code are closely intertwined. 
 All presentation elements are appended to \$output, which is eventually returned to the base code to be output.
@@ -263,7 +264,7 @@ The Internet Center Theme, the theme for http://www.openwebdesign.org}, is an ex
 
         <?PHP if (\$site\_name) : ?>
 
-            <?PHP if (\$site\_name) { ?><h1 class='site-name'><a href="<?PHP print \$base\_path ?>" title="<?PHP print t('Home') ?>"><?PHP print \$site\_name ?></a></h1><?PHP } ?>
+            <?PHP if (\$site\_name) \{ ?><h1 class='site-name'><a href=\"<?PHP print \$base\_path ?>\"\ title=\"<?PHP print t('Home') ?>\"><?PHP print \$site\_name ?></a></h1><?PHP \} ?>
 
         <?PHP endif;?>
 
@@ -365,13 +366,13 @@ To someone who knows XHTML and CSS, Smarty templates are very easy to read.
 Tags are escaped using curly brackets, { and }. 
 For example, imagine we add the following two lines to our template, index.tpl. 
 
-Name: {\$name}<br>
-Address: {\$address}<br>
+Name: \{\$name\}<br>
+Address: \{\$address\}<br>
 
 The output would be:
 
 Name: george smith<br>
-Address: 45th \& Harris<br>
+Address: 45th \&\ Harris<br>
 
 % sources http://smarty.php.net/crashcourse.php
 % http://smarty.php.net/rightforme.php
@@ -386,19 +387,19 @@ There is nothing stopping developers from including application logic in the tem
 Smarty is flexible enough to allow misuse of its, but if used correcly it can make theme developement a lot easier on non-programmers. 
 Below is an example of how presentation logic can be included in the template layer without bogging down the template designer with application code. 
 
-    {foreach from=\$data item="entry"}
-        <tr bgcolor="{cycle values="#dedede,#eeeeee" advance=false}">
-            <td>{\$entry.Name|escape}</td>        
-            <td align="right">{\$entry.EntryDate|date\_format:"\%e \%b, \%Y \%H:\%M:\%S"}</td>        
+    \{foreach from=\$data item=\"entry\"\}
+        <tr bgcolor=\"\{cycle values=\"#dedede,#eeeeee" advance=false\}\">
+            <td>\{\$entry.Name|escape\}</td>        
+            <td align=\"right\">\{\$entry.EntryDate|date\_format:\"\%e \%b, \%Y \%H:\%M:\%S\"\}</td>        
         </tr>
         <tr>
-            <td colspan="2" bgcolor="{cycle values="#dedede,#eeeeee"}">{\$entry.Comment|escape}</td>
+            <td colspan=\"2\"\ bgcolor=\"\{cycle values=\"#dedede,#eeeeee\"\}\">{\$entry.Comment|escape\}</td>
         </tr>
-    {foreachelse}
+    \{foreachelse\}
         <tr>
-            <td colspan="2">No records</td>
+            <td colspan=\"2\">No records</td>
         </tr>
-    {/foreach}
+    \{/foreach\}
 
 
 \subsection {Wordpress}
