@@ -67,7 +67,7 @@ Any video publisher may submit their show to the Channel Guide, which users can 
 
 Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web.
 Users post content that they think is noteworthy.
-Other users may "Star" the video, which bookmarks it as a favorite.
+Other users may \"Star\" the video, which bookmarks it as a favorite.
 The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player. 
 
 \section{What is Democracy Player?}
@@ -127,7 +127,7 @@ The software is Free in the sense that there are no conditions in distributing o
 
 Without Free software, the Internet could not exist as a democratic medium.
 Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot \"own\" software, even if they purchase it.
+With proprietary software, users cannot \"own\"\ software, even if they purchase it.
 Instead, users pay for the privilege of using it.
 Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
 On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid} 
@@ -199,13 +199,13 @@ This is the Chameleon function that overrides the default Drupal node function.
 
 function chameleon\_node(\$node, \$teaser = 0, \$page = 0) {
 
-  \$output  = "<div class=\"node". ((!\$node->status) ? ' node-unpublished' : '') ."\">\n";
+  \$output  = \"<div class=\"node\". ((!\$node->status) ? ' node-unpublished' : '') .\"\">\textbackslash n\";
 
   if (!\$page) {
-    \$output .= " <h2 class=\"title\">". (\$teaser ? l(\$node->title, "node/\$node->nid") : check\_plain(\$node->title)) ."</h2>\n";
+    \$output .= \"\ <h2 class=\"title\">\". (\$teaser ? l(\$node->title, \"node/\$node->nid\") : check\_plain(\$node->title)) .\"</h2>\textbackslash n";
   }
 
-  \$output .= " <div class=\"content\">\n";
+  \$output .= \"\ <div class=\"content\">\textbackslash n";
 
   if (\$teaser \&\& \$node->teaser) {
     \$output .= \$node->teaser;
@@ -214,13 +214,13 @@ function chameleon\_node(\$node, \$teaser = 0, \$page = 0) {
     \$output .= \$node->body;
   }
 
-  \$output .= " </div>\n";
+  \$output .= \" </div>\textbackslash n\";
 
-  \$submitted['node\_submitted'] = theme\_get\_setting("toggle\_node\_info\_\$node->type") ? array('#title' => t("By !author at @date", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
+  \$submitted['node\_submitted'] = theme\_get\_setting(\"toggle\_node\_info\_\$node->type\") ? array('#title' => t(\"By !author at @date\", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
 
   \$terms = array();
   if (module\_exists('taxonomy')) {
-    \$terms = taxonomy\_link("taxonomy terms", \$node);
+    \$terms = taxonomy\_link(\"taxonomy terms\", \$node);
   }
 
   \$links = array\_merge(\$submitted, \$terms);
@@ -228,10 +228,10 @@ function chameleon\_node(\$node, \$teaser = 0, \$page = 0) {
     \$links = array\_merge(\$links, \$node->links);
   }
   if (count(\$links)) {
-    \$output .= '<div class="links">'. theme('links', \$links, array('class' => 'links inline')) ."</div>\n";
+    \$output .= '<div class=\"links\">'. theme('links', \$links, array('class' => 'links inline')) .\"</div>\textbackslash n\";
   }
 
-  \$output .= "</div>\n";
+  \$output .= \"</div>\textbackslash n\";
 
   return \$output;
 } 
