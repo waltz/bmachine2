@@ -216,7 +216,7 @@ function chameleon\_node(\$node, \$teaser = 0, \$page = 0) \{
 
   \$output .= \" </div>\textbackslash n\";
 
-  \$submitted['node\_submitted'] = theme\_get\_setting(\"toggle\_node\_info\_\$node->type\") ? array('#title' => t(\"By !author at @date\", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
+  \$submitted['node\_submitted'] = theme\_get\_setting(\"toggle\_node\_info\_\$node->type\") ? array('\#title' => t(\"By !author at @date\", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
 
   \$terms = array();
   if (module\_exists('taxonomy')) \{
@@ -388,12 +388,12 @@ Smarty is flexible enough to allow misuse of its, but if used correcly it can ma
 Below is an example of how presentation logic can be included in the template layer without bogging down the template designer with application code. 
 
     \{foreach from=\$data item=\"entry\"\}
-        <tr bgcolor=\"\{cycle values=\"#dedede,#eeeeee" advance=false\}\">
+        <tr bgcolor=\"\{cycle values=\"\#dedede,\#eeeeee" advance=false\}\">
             <td>\{\$entry.Name|escape\}</td>        
             <td align=\"right\">\{\$entry.EntryDate|date\_format:\"\%e \%b, \%Y \%H:\%M:\%S\"\}</td>        
         </tr>
         <tr>
-            <td colspan=\"2\"\ bgcolor=\"\{cycle values=\"#dedede,#eeeeee\"\}\">{\$entry.Comment|escape\}</td>
+            <td colspan=\"2\"\ bgcolor=\"\{cycle values=\"\#dedede,\#eeeeee\"\}\">{\$entry.Comment|escape\}</td>
         </tr>
     \{foreachelse\}
         <tr>
