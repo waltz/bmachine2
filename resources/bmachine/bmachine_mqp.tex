@@ -197,39 +197,39 @@ background.png - simple background image
 Below is an example of how a theme function can override the default theming functions. 
 This is the Chameleon function that overrides the default Drupal node function.
 
-function chameleon\_node(\$node, \$teaser = 0, \$page = 0) {
+function chameleon\_node(\$node, \$teaser = 0, \$page = 0) \{
 
   \$output  = \"<div class=\"node\". ((!\$node->status) ? ' node-unpublished' : '') .\"\">\textbackslash n\";
 
-  if (!\$page) {
+  if (!\$page) \{
     \$output .= \"\ <h2 class=\"title\">\". (\$teaser ? l(\$node->title, \"node/\$node->nid\") : check\_plain(\$node->title)) .\"</h2>\textbackslash n";
-  }
+  \}
 
   \$output .= \"\ <div class=\"content\">\textbackslash n";
 
-  if (\$teaser \&\& \$node->teaser) {
+  if (\$teaser \&\& \$node->teaser) \{
     \$output .= \$node->teaser;
-  }
+  \}
   else {
     \$output .= \$node->body;
-  }
+  \}
 
   \$output .= \" </div>\textbackslash n\";
 
   \$submitted['node\_submitted'] = theme\_get\_setting(\"toggle\_node\_info\_\$node->type\") ? array('#title' => t(\"By !author at @date\", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
 
   \$terms = array();
-  if (module\_exists('taxonomy')) {
+  if (module\_exists('taxonomy')) \{
     \$terms = taxonomy\_link(\"taxonomy terms\", \$node);
-  }
+  \}
 
   \$links = array\_merge(\$submitted, \$terms);
-  if (\$node->links) {
+  if (\$node->links) \{
     \$links = array\_merge(\$links, \$node->links);
-  }
-  if (count(\$links)) {
+  \}
+  if (count(\$links)) \{
     \$output .= '<div class=\"links\">'. theme('links', \$links, array('class' => 'links inline')) .\"</div>\textbackslash n\";
-  }
+  \}
 
   \$output .= \"</div>\textbackslash n\";
 
