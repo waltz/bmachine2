@@ -1,6 +1,7 @@
 CREATE TABLE users (
 	id int NOT NULL AUTO_INCREMENT,
 	username varchar(32) UNIQUE,
+	name varchar(128),
 	pass varchar(255),
 	email varchar(128),
 	active tinyint(1),
@@ -77,7 +78,7 @@ CREATE TABLE settings (
 	open_reg tinyint(1),
 	reg_approval tinyint(1),
 	bandwidth_limit bigint,
-	baseurl varchar(128),
+	baseurl varchar(128) UNIQUE,
 	iconurl varchar(128),
 	donation_html varchar(255),
 	donation_url varchar(255),

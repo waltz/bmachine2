@@ -2,34 +2,35 @@
 
 require '../smarty/Smarty.class.php';
 
-class VideoController
+class TagController
 {
 	// Constructor, retrieve function
-	function VideoController($param_2)
+	function TagController($param_2)
 	{
 		
 	}
 	
 	// Create
-	function addVideo()
+	// I'm not sure this function needs to exist - Greg
+	function addTag()
 	{
 		
 	}
 
 	// Retrieve
-	function retrieveVideo()
+	function viewTag()
 	{
 		
 	}
 	
 	// Update
-	function updateVideo()
+	function editTag()
 	{
 		
 	}
 	
 	// Delete
-	function deleteVideo()
+	function removeTag()
 	{
 		
 	}

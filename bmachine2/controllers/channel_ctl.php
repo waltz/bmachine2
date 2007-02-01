@@ -2,34 +2,34 @@
 
 require '../smarty/Smarty.class.php';
 
-class VideoController
+class ChannelController
 {
 	// Constructor, retrieve function
-	function VideoController($param_2)
+	function ChannelController($param_2)
 	{
 		
 	}
 	
 	// Create
-	function addVideo()
+	function addChannel()
 	{
 		
 	}
 
 	// Retrieve
-	function retrieveVideo()
+	function viewChannel()
 	{
 		
 	}
 	
 	// Update
-	function updateVideo()
+	function editChannel()
 	{
 		
 	}
 	
 	// Delete
-	function deleteVideo()
+	function removeVideo()
 	{
 		
 	}

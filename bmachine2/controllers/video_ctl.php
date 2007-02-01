@@ -17,19 +17,19 @@ class VideoController
 	}
 
 	// Retrieve
-	function retrieveVideo()
+	function viewVideo()
 	{
 		
 	}
 	
 	// Update
-	function updateVideo()
+	function editVideo()
 	{
 		
 	}
 	
 	// Delete
-	function deleteVideo()
+	function removeVideo()
 	{
 		
 	}
