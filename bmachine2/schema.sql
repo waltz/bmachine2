@@ -13,7 +13,7 @@ CREATE TABLE users (
 
 CREATE TABLE channels (
 	id int NOT NULL AUTO_INCREMENT,
-	title varchar(64),
+	title varchar(128),
 	description text,
 	modified timestamp,
 	icon binary,
@@ -37,13 +37,13 @@ CREATE TABLE videos (
 	description text,
 	modified timestamp,
 	icon binary,
-	transcript text,
-	license_name varchar(64),
-	license_url varchar(255)
-	website_url varchar(128),
-	donation_url varchar(128),
+	license_name varchar(128),
+	license_url varchar(255),
+	website_url varchar(255),
+	donation_html varchar(255)
+	donation_url varchar(255),
 	release_date datetime,
-	length int, 
+	runtime int, 
 	adult tinyint(1),
 	mime varchar(32),
 	fileurl varchar(255),
@@ -55,7 +55,8 @@ CREATE TABLE videos (
 CREATE TABLE video_credits (
 	id int NOT NULL,
 	name varchar(128),
-	FOREIGN KEY (id) REFERENCES channels (id)
+	role varchar(128),
+	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
 CREATE TABLE video_tags (
@@ -82,4 +83,5 @@ CREATE TABLE settings (
 	iconurl varchar(128),
 	donation_html varchar(255),
 	donation_url varchar(255),
+	donthideporn tinyint(1)
 );
