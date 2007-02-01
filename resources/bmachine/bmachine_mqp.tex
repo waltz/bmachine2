@@ -1009,52 +1009,31 @@ To address this problem it is imperative that the seeding portion have some meth
 
 
 \section{XML and RSS}
-% 1/18/2007, CJ: OUtlined the topics that need to be covered.
-% * XML
-%  - History
-% * RSS
-%  - History
-%  - Various Versions
-%  - Why 2.0?
-%  - Basic RSS Structure Example
-%  - HTTP Caching
-%  - Yahoo! Media RSS Extensions
-%   > Specified Tags
-%  - Apple iTunes Podcasting Specification
-%   > Specified Tags
+% 2/2/2007, CJ: Finished the section. Needs a review/read-through and probably some corrections.
 XML itself is a multi-purpose markup language specified by the W3C that provides an enormous amount of flexibility.
 It's loosely defined syntax makes it suitable for almost any application imaginable.
 One of the most prevalent applications of XML is RSS.
 Lately the RSS specification has gained alot of traction as a useful and feasible format for distributing syndicated content.
 
-
 The format was created as a way for publishers to distribute their content in a 
 Unfortunately RSS has has a tumultuous past, with three different and competing versions the format was hardly standard.
 The past few years have allowed RSS to mature into the document format that it is now.
 
-
-%\section{Mimetypes}
-% 1/22/2007, CJ: Do we still need a section on Mimetypes?
-
-
 XML, or Extensible Markup Language, is a general-purpose language for describing heirarchal relationships with a variety of applications. 
 First recommended by the W3C in 1998, XML provides an easy way to convey information that is both human-legible and easily parsed by computer algorithms. 
-
+XML documents start out with a declaration stating what version of XML is being used, information about character encoding, and any other dependencies that the document may rely on:
 
 XML documents start out with a declaration stating what version of SML is being used, information about character encoding, and any other dependencies that the document may rely on:
 
-
 <?xml version=\"1.1\" encoding=\"UTF-8\"?>
 
-
 This tag specifies that the document is using the XML 1.1 standard, and is encoded using the UTF-8 character set.
-
 
 Followed by the declaration, XML files consist of several elements that may be nested within each other, defined by start and end tags.
 These tags surround text or other elements, which is referred to as the tag's content.
 Tags may have attributes which are embedded into the element's start tag. 
-The meanings of each tag and its corresponding content is left intentionally ambiguous, meaning that the XML standard allows users to define their own rules about how XML elements should be structured, and what data they should contain. 
-Customizable schemas supplement the syntactical rules of XML with constraints generally having to do with element and attribute names, and how the information is organized heirarchically. 
+The meanings of each tag and its corresponding content is left intentionally ambiguous, meaning that the XML standard allows users to define what signifigance the tags have, and what data they should contain. 
+Customizable schemas supplement the syntactical rules of XML with constraints having to do with element and attribute names, and how the information is organized heirarchically. 
 For example, a schema might specify that an XML document describing a bicycle must have an element describing the gears, and only one gearset must be present for a car. 
 It might also specify that a set of gears can have several attributes, including manufacturer, number of gears, etc. 
 
@@ -1069,8 +1048,154 @@ It might also specify that a set of gears can have several attributes, including
 
 
 XML is a powerful markup language, and it has been used to construct many popular languages, such as XHTML and RSS.
+RSS is an integral part of Broadcast Machine.
+The format was developed to allow content producers to publish their content in a way that was easily syndicatable, standardized and inexpensive.
+RSS went through an unfortunate period where many individuals and groups wanted undue control over what the standard was going to be.
+Lately publishers have begun to settle on the RSS 2.0 specification.
+While RSS 2.0 is not governed by a traditional standards body such as the W3C or ISO the specification is taken care of by the RSS-DEV working group at Harvard University. \footnote{\url{http://en.wikipedia.org/wiki/RSS-DEV_Working_Group}}
+The RSS 2.0 specification allows for publishers to specify 'channels' in which there are repeating elements of 'items' which contain the main content.
+At the top of the RSS file there is an area where the publisher can add information about the channel such as a link to the publishing website, the author, webmaster and other various information.
+Each of the items within the channel contain additional sub-elements that describe the item.
+There are descriptors for the time and date at which the content was published, links to the website with the extended or full version of the contents, and ususally there is a unique identifier that lets the computer detect duplicates.
 
-%Needs: An example of an XML 
+<?xml version=\"1.0\"?>
+<rss version=\"2.0\">
+  <channel>
+    <title>Boston Concerts</title>
+    <link>http://bostonmusic.org</link>
+    <description>A collection of concerts in Boston.</description>
+    <language>en-us</language>
+    <pubDate>Tue, 10 Jan 2006 04:00:00 GMT</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2006 09:41:01 GMT</lastBuildDate>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <generator>Weblog Editor 2.0</generator>
+    <managingEditor>bob.jones@bostonmusic.org</managingEditor>
+    <webMaster>webmaster@bostonmusic.org</webMaster>
+
+    <item>
+      <title>Dave Brubeck</title>
+      <link>http://bostonmusic.org/2007/01/02/brubeck</link>
+      <description>Dave Brubeck is coming to the Somerville Theatre this Saturday!</description>
+      <pubDate>Tue, 03 Jun 2003 09:39:21 GMT</pubDate>
+      <guid>http://bostonmusic.org/2007/01/02/brubeck#25543</guid>
+    </item>
+
+  </channel>
+</rss>
+
+This example provides us with exactly what anyone would need to push content updates around the internet.
+Unfortunately the internet isn't only text and images, it's a place full of music and video too.
+Recently, publishers have begun to embed video and audio into RSS feeds that provide users with an experience much like broadcast television or radio.
+With audio this method has been called \"Podcasting\" and the same method but with video has been called \"Broadcatching\".
+The RSS format is built to handle text (which it does very well) but third parties have had to create extensions to the current RSS 2.0 standard that allow them to have fields for audio, video and miscellaneous metadata.
+Much to our dismay, we found that there wasn't any agreement on what this new standard should be.
+As it stands now, Apple and Yahoo are pushing their own extensive additions while other publishers are using an older yet effective method.
+The simplest solution is to use the <enclosure> tag.
+It is an optional sub-element of the <item> tag and lets the publisher specify a url for the media, a mimetype and a length in bytes for filesize.
+The tag is an official part of the RSS 2.0 specification and it provides basic and effective functionality.
+Its featureset unforuntately pales in comparison with what can be done with Apple's or Yahoo's extensions.
+The Apple extension was the next option to appear.
+With the rise in popularity of Podcasting, Apple was quick to capitalize on the trend by adding support to its prevalent iTunes application.
+The large iTunes user base is a boon to publishers who want to easily reach such a large market like that.
+Unfortunately to reach those people, Apple requires that your RSS feed be formatted using their extensions. \footnote{\url{http://www.apple.com/itunes/store/podcaststechspecs.html}}
+
+The first step in creating an iTunes RSS feed is to include the XML namespace declaration for the iTunes tags.
+Simply place the following text at the top of the feed, and step one is done.
+<rss xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" version=\"2.0\">
+Next, the publisher needs to add tags that describe the channel.
+iTunes specifies a special tag for describing the owner of the feed.
+Enclose the name and email address of the producer as such:
+  <itunes:owner>
+    <itunes:name>Bob Jones</itunes:name>
+    <itunes:email>bob.jones@bostonmusic.org</itunes:email>
+  </itunes:owner>
+There is also a section where the publisher can link to an image for the podcast.
+   <itunes:image href="http://bostonmusic.org/brubeck.jpeg" />
+For describing the content there is a field where people can specify categories for their feeds.
+	<itunes:category text="Music">
+      <itunes:category text="Jazz"/>
+   </itunes:category>
+It is important to note that the category tags can be paired with a beginnng and an end or alone.
+We should also pay attention that it is possible to nest categories, effectively creating subcategories that iTunes recongizes.
+
+The RSS items themselves can also be extended.
+Publishers might like to specify an author for each item. (Perhaps the feed is a collection of videos from other people.)
+It can be specified using the <itunes:author> tag.
+The media can also be supplemented by a small summary.
+The <itunes:summary> tag is especially useful.
+When it comes to the audio or video file, the iTunes specification uses the <enclosure> tag mentioned earlier.
+To further describe the content iTunes allows for keywords and tags to be added to each item using the <itunes:keywords> tag.
+We can see how this all comes together in this example item:
+
+	<item>
+		<title>Dave Brubeck - Take Five</title>
+		<itunes:author>Dave Brubeck</itunes:author>
+		<itunes:subtitle>Imagine yourself walking through the city.</itunes:subtitle>
+		<itunes:summary>
+			Dave Brubeck takes us on an adventure in Jazz.
+		</itunes:summary>
+		<enclosure url="http://bostonmusic.org/brubeck.mp3" length="4989537" type="audio/mpeg" />
+		<guid>http://bostonmusic.org/brubeck.mp3</guid>
+		<pubDate>Wed, 1 Jun 2005 19:00:00 GMT</pubDate>
+		<itunes:duration>3:59</itunes:duration>
+		<itunes:keywords>dave brubeck, jazz</itunes:keywords>
+	</item>
+
+The competing standard is Yahoo!'s Media RSS \footnote{\url{http://search.yahoo.com/mrss}} specification which puts forth an even larger set of extensions to RSS 2.0.
+One difference between the Yahoo and Apple specifications is that Yahoo's additions are with respect to the item that is enclosed rather than to the RSS item itself.
+The Apple specification approached a restructuring of the RSS file while the Yahoo modifications are strictly media-centric metadata.
+This difference makes the Yahoo additions more desireable for embedding rich content within ordinary text feeds while the Apple additions push RSS as a multimedia only platform.
+
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss"
+xmlns:dcterms="http://purl.org/dc/terms/">
+<channel>
+<title>Music Videos 101</title>
+<link>http://www.foo.com</link>
+<description>Discussions of great videos</description>
+	<item>
+		<title>The latest video from an artist</title>
+		<link>http://www.foo.com/item1.htm</link>
+		<media:content url="http://www.foo.com/movie.mov" fileSize="12216320" 
+		type="video/quicktime" expression="full">
+		<media:player url="http://www.foo.com/player?id=1111" 
+		height="200" width="400"/>
+		<media:hash algo="md5">dfdec888b72151965a34b4b59031290a</media:hash>
+		<media:credit role="producer">producer's name</media:credit>
+		<media:credit role="artist">artist's name</media:credit>
+		<media:category scheme="http://blah.com/scheme">music/artist 
+		name/album/song</media:category>
+		<media:text type="plain">
+		Oh, say, can you see, by the dawn's early light
+		</media:text>
+		<media:rating>nonadult</media:rating>
+		<dcterms:valid>
+			start=2002-10-13T09:00+01:00;
+			end=2002-10-17T17:00+01:00;
+			scheme=W3C-DTF
+		</dcterms:valid>
+		</media:content>
+	</item>
+</channel>
+</rss>
+
+From this example we can see how the specification does not place any of the tags in the section with the channel, everything is with the item.
+The most notable change is the movement from the <enclosure> tag to the use of the <media:content> tag.
+Unfortunately there isn't much improvement, as they are the same thing by different names.
+The second is the specification of a media player that can be used to play the video.
+This is particularly useful in a world of Adobe Flash video where there are FLV files and SWF players.
+The next <media:hash> tag is a welcome addition as it lets the computers on the recieving end verify the integrity of file that they have just downloaded.
+Just like the Apple extensions, Yahoo allows the <media:category> and even lets the publisher specify the scheme by which the categories are laid out.
+There is also a <media:text> tag that lets the publisher add a short description of the current media being played.
+The last part is a bit curious as the Yahoo specification recommends that the publisher include a small part about XML Dublin Core compatability and how the file can be verified.
+
+With these three different ways of pushing rich content with RSS there is certain variety.
+All of these need to be supported in Broadcast Machine.
+The simple enclosure method is supported by a large number of clients making it an easy choice.
+Apple iTunes fans are not to be left out as they are such a large community.
+Supporting Yahoo Media RSS is a must because of Democracy Player's support for the format.
+
+% 2/1/2007, CJ: Add something about the creative commons module.
+% 2/1/2007, CJ: Blurb on HTTP caching?
 
 \section{Smarty}
 We chose to use the Smarty templating system because it provides our users with an easy way to create dynamic webpages without requiring that template developers deal with a mess of PHP. 
