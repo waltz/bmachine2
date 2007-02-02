@@ -63,8 +63,8 @@ CREATE TABLE video_tags (
 );
 
 CREATE TABLE published (
-	id channel_id int,
-	id video_id int,
+	channel_id int,
+	video_id int,
 	publish_date timestamp,
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
