@@ -38,7 +38,7 @@ CREATE TABLE videos (
 	license_name varchar(128),
 	license_url varchar(255),
 	website_url varchar(255),
-	donation_html varchar(255)
+	donation_html varchar(255),
 	donation_url varchar(255),
 	release_date datetime,
 	runtime int, 
