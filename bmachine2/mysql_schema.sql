@@ -40,7 +40,7 @@ CREATE TABLE videos (
 	license_name varchar(128),
 	license_url varchar(255),
 	website_url varchar(255),
-	donation_html varchar(255)
+	donation_html varchar(255),
 	donation_url varchar(255),
 	release_date datetime,
 	runtime int, 
@@ -66,11 +66,10 @@ CREATE TABLE video_tags (
 );
 
 CREATE TABLE published (
-	id channel_id int,
-	id video_id int,
+	channel_id int,
+	video_id int,
 	publish_date timestamp,
-	FOREIGN KEY (channel_id) REFERENCES channels (id),
-	FOREIGN KEY (video_id) REFERENCES videos (id)
+	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
 CREATE TABLE settings (
