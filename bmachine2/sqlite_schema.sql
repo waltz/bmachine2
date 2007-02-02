@@ -1,18 +1,17 @@
 CREATE TABLE users (
-	id int NOT NULL AUTOINCREMENT,
+	id INTEGER PRIMARY KEY,
 	username varchar(32) UNIQUE,
 	name varchar(128),
 	pass varchar(255),
 	email varchar(128),
 	active tinyint(1),
 	admin tinyint(1),
-	banned tinyint(1),
-	PRIMARY KEY (id)
+	banned tinyint(1)
 );
 
 
 CREATE TABLE channels (
-	id int NOT NULL AUTOINCREMENT,
+	id INTEGER PRIMARY KEY,
 	title varchar(128),
 	description text,
 	modified timestamp,
@@ -21,8 +20,7 @@ CREATE TABLE channels (
 	donation_url varchar(255),
 	website_url varchar(255), 
 	license_name varchar(255),
-	license_url varchar(255),
-	PRIMARY KEY (id)
+	license_url varchar(255)
 );
 
 CREATE TABLE channel_tags (
@@ -32,7 +30,7 @@ CREATE TABLE channel_tags (
 );
 
 CREATE TABLE videos (
-	id int NOT NULL AUTOINCREMENT,
+	id INTEGER PRIMARY KEY,
 	title varchar(128),
 	description text,
 	modified timestamp,
@@ -48,8 +46,7 @@ CREATE TABLE videos (
 	mime varchar(32),
 	fileurl varchar(255),
 	size bigint,
-	downloads int,
-	PRIMARY KEY (id)
+	downloads int
 );
 
 CREATE TABLE video_credits (
@@ -69,8 +66,7 @@ CREATE TABLE published (
 	id channel_id int,
 	id video_id int,
 	publish_date timestamp,
-	FOREIGN KEY (channel_id) REFERENCES channels (id),
-	FOREIGN KEY (video_id) REFERENCES videos (id)
+	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
 CREATE TABLE settings (
