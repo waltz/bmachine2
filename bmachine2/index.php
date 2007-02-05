@@ -17,7 +17,7 @@ require($path . '/smarty/Smarty.class.php');
 $smarty = new Smarty();
 
 //set up all the correct paths
-$smarty->template_dir = $path . '/themes/';
+$smarty->template_dir = $path . '/themes/default/';
 $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache';
 $smarty->config_dir = $path . '/smarty/configs';
@@ -26,7 +26,7 @@ $smarty->config_dir = $path . '/smarty/configs';
 $smarty->assign('name', 'Ned');
 
 //Display template
-$smarty->display('a.tpl');
+$smarty->display('add.tpl');
 
 
 ?>
