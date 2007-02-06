@@ -21,7 +21,8 @@
 
    <div class="help_pop_link">
       <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/publish_popup.php')">
-<img src="images/help_button.gif" alt="help"/></a>
+<img src="themes/default/images/help_button.gif" alt="help"/></a>
+
    </div>
 </div>
 
@@ -56,9 +57,9 @@
 <fieldset id="channel_selection">
 	<legend>Publish to These Channels</legend>
    <ul>
-
-<li><input type=checkbox name="post_channels[]" value="1" /> First Channel<br/>
-
+{* for *}
+<li><input type=checkbox name="post_channels[]" value="{$value}" /> {$channels}<br/>
+{* end for *}
 	    </ul>
 </fieldset>
 
@@ -87,7 +88,7 @@
 </div>
 </fieldset>
 
-<fieldset><img src="images/cc_logo_17px.png" alt="CC logo" /> Creative Commons (optional): <input type="text" name="LicenseName" size="38" value="" onFocus="this.blur();" autocomplete="off" class="blended"/><br/>
+<fieldset><img src="themes/default/images/cc_logo_17px.png" alt="CC logo" /> Creative Commons (optional): <input type="text" name="LicenseName" size="38" value="" onFocus="this.blur();" autocomplete="off" class="blended"/><br/>
 
 <a href="#" onClick="window.open('http://creativecommons.org/license/?partner=bmachine&exit_url=' + escape('http://localhost/vegworcester-css/bm/cc.php?license_url=[license_url]&license_name=[license_name]'),'cc_window','scrollbars=yes,status=no,directories=no,titlebar=no,menubar=no,location=no,toolbar=no,width=450,height=600'); return false;">Choose License</a>
 
@@ -97,7 +98,7 @@
 </div>
 
 <p class="publish_button" style="clear: both;">
-<input id="publish_button" style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
+<input id="publish_button" style="border: 0px solid black;" type="image" src="./images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
 <div class="section optional">
@@ -329,7 +330,7 @@ Will be set to the time that you press 'publish'.
 </div>
 
 <p class="publish_button" style="clear: both;">
-<input style="border: 0px solid black;" type="image" src="images/publish_button.gif" border=0 alt="Continue" />
+<input style="border: 0px solid black;" type="image" src="./images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
 </div>

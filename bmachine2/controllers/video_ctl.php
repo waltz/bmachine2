@@ -1,7 +1,5 @@
 <?php
 
-require_once('../smarty/Smarty.class.php');
-
 class VideoController
 {
 	// Constructor, retrieve function

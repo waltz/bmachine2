@@ -131,7 +131,7 @@ textarea, input, select {
 }
 
 #head h1 {
-	background: url(images/blue_light_title2.gif) no-repeat;
+	background: url(themes/default/images/blue_light_title2.gif) no-repeat;
 	height: 60px;
 	margin: 0;
 }

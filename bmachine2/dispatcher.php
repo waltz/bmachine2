@@ -18,8 +18,13 @@ $smarty->cache_dir = $path . '/smarty/cache';
 $smarty->config_dir = $path . '/smarty/configs';
 
 //assign any smarty variables and function
+//THESE ARE JUST TEST VALUES
 $smarty->assign('title', 'Broadcast Machine');
-$smarty->assign('name', 'Ned');
+$smarty->assign('channels', 'First Channel');
+$smarty->assign('username', 'drew');
+//$smarty->assign('loggedin', true);
+//$smarty->assign('loggedin', false);
+
 
 //Display template
 $smarty->display('javascripts.inc');
