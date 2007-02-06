@@ -4,9 +4,9 @@
 set_include_path(get_include_path() . ':smarty');
 
 // Include the controllers
-require_once 'controllers/ChannelController.php';
-require_once 'controllers/VideoController.php';
-require_once 'controllers/TagController.php';
+require_once ('controllers/channel_ctl.php');
+require_once ('controllers/video_ctl.php');
+require_once ('controllers/tag_ctl.php');
 
 // Grab the parameters.
 $get_params = $_GET['params'];

@@ -1,8 +1,8 @@
 <?php
 
 // Simple, just includes the dispatcher.
-//include('dispatcher.php');
-
+include('dispatcher.php');
+/*
 //set absolute server path. this is the current directory
 $path = getcwd();
 //echo 'current path: ' . $path;
@@ -30,6 +30,6 @@ $smarty->assign('name', 'Ned');
 $smarty->display('javascripts.inc');
 $smarty->display('header.tpl'); 
 $smarty->display('add.tpl');
-
+*/
 
 ?>
