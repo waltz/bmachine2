@@ -1,22 +1,22 @@
 CREATE TABLE users (
-	id int NOT NULL AUTO_INCREMENT,
-	username varchar(32) UNIQUE,
-	name varchar(128),
-	pass varchar(255),
-	email varchar(128),
-	active tinyint(1),
-	admin tinyint(1),
-	banned tinyint(1),
+	id unsigned NOT NULL AUTO_INCREMENT,
+	username varchar(255) UNIQUE NOT NULL,
+	name varchar(255) NOT NULL,
+	pass varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	active boolean NOT NULL,
+	admin boolean NOT NULL,
+	banned boolean NOT NULL,
 	PRIMARY KEY (id)
 );
 
 
 CREATE TABLE channels (
-	id int NOT NULL AUTO_INCREMENT,
-	title varchar(128),
+	id unsigned NOT NULL AUTO_INCREMENT,
+	title varchar(255) NOT NULL,
 	description text,
-	modified timestamp,
-	icon binary,
+	modified timestamp NOT NULL,
+	icon_url varchar(255),
 	donation_html varchar(255),
 	donation_url varchar(255),
 	website_url varchar(255), 
@@ -26,61 +26,66 @@ CREATE TABLE channels (
 );
 
 CREATE TABLE channel_tags (
-	id int NOT NULL,
-	name varchar(32),
+	id unsigned NOT NULL,
+	name varchar(255),
+	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES channels (id)
 );
 
 CREATE TABLE videos (
-	id int NOT NULL AUTO_INCREMENT,
-	title varchar(128),
+	id unsigned NOT NULL AUTO_INCREMENT,
+	title varchar(255) NOT NULL,
 	description text,
-	modified timestamp,
-	icon binary,
-	license_name varchar(128),
+	modified timestamp NOT NULL,
+	icon_url varchar(255),
+	license_name varchar(255),
 	license_url varchar(255),
 	website_url varchar(255),
 	donation_html varchar(255),
 	donation_url varchar(255),
 	release_date datetime,
-	runtime int, 
-	adult tinyint(1),
-	mime varchar(32),
-	fileurl varchar(255),
+	runtime unsigned, 
+	adult boolean NOT NULL,
+	mime varchar(255) NOT NULL,
+	fileurl varchar(255) NOT NULL,
 	size bigint,
-	downloads int,
+	downloads unsigned NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE video_credits (
-	id int NOT NULL,
-	name varchar(128),
-	role varchar(128),
+	id unsigned NOT NULL,
+	name varchar(255) NOT NULL,
+	role varchar(255) NOT NULL,
+	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
 CREATE TABLE video_tags (
-	id int NOT NULL,
-	name varchar(128),
+	id unsigned NOT NULL,
+	name varchar(255) NOT NULL,
+	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
 CREATE TABLE published (
-	channel_id int,
-	video_id int,
+	channel_id unsigned NOT NULL,
+	video_id unsigned NOT NULL,
 	publish_date timestamp,
+	PRIMARY KEY (channel_id, video_id),
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
 CREATE TABLE settings (
-	name varchar(128),
+	name varchar(255) NOT NULL,
 	description text,
-	open_reg tinyint(1),
-	reg_approval tinyint(1),
-	bandwidth_limit bigint,
-	baseurl varchar(128) UNIQUE,
-	iconurl varchar(128),
+	open_reg boolean NOT NULL,
+	reg_approval boolean NOT NULL,
+	bandwidth_limit bigint NOT NULL,
+	baseurl varchar(255) UNIQUE NOT NULL,
+	iconurl varchar(255),
 	donation_html varchar(255),
 	donation_url varchar(255),
-	donthideporn tinyint(1)
+	donthideporn boolean NOT NULL,
+	PRIMARY KEY (baseurl)
 );
