@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE users CHARACTER SET utf8 (
 	id unsigned NOT NULL AUTO_INCREMENT,
 	username varchar(255) UNIQUE NOT NULL,
 	name varchar(255) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE channels (
+CREATE TABLE channels CHARACTER SET utf8 (
 	id unsigned NOT NULL AUTO_INCREMENT,
 	title varchar(255) NOT NULL,
 	description text,
@@ -25,14 +25,14 @@ CREATE TABLE channels (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE channel_tags (
+CREATE TABLE channel_tags CHARACTER SET utf8 (
 	id unsigned NOT NULL,
 	name varchar(255),
 	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES channels (id)
 );
 
-CREATE TABLE videos (
+CREATE TABLE videos CHARACTER SET utf8 (
 	id unsigned NOT NULL AUTO_INCREMENT,
 	title varchar(255) NOT NULL,
 	description text,
@@ -53,7 +53,7 @@ CREATE TABLE videos (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE video_credits (
+CREATE TABLE video_credits CHARACTER SET utf8 (
 	id unsigned NOT NULL,
 	name varchar(255) NOT NULL,
 	role varchar(255) NOT NULL,
@@ -61,14 +61,14 @@ CREATE TABLE video_credits (
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
-CREATE TABLE video_tags (
+CREATE TABLE video_tags CHARACTER SET utf8 (
 	id unsigned NOT NULL,
 	name varchar(255) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
-CREATE TABLE published (
+CREATE TABLE published CHARACTER SET utf8 (
 	channel_id unsigned NOT NULL,
 	video_id unsigned NOT NULL,
 	publish_date timestamp,
@@ -76,7 +76,7 @@ CREATE TABLE published (
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
-CREATE TABLE settings (
+CREATE TABLE settings CHARACTER SET utf8 (
 	name varchar(255) NOT NULL,
 	description text,
 	open_reg boolean NOT NULL,
