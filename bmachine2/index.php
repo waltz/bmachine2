@@ -23,9 +23,12 @@ $smarty->cache_dir = $path . '/smarty/cache';
 $smarty->config_dir = $path . '/smarty/configs';
 
 //assign any smarty variables and function
+$smarty->assign('title', 'Broadcast Machine');
 $smarty->assign('name', 'Ned');
 
 //Display template
+$smarty->display('javascripts.inc');
+$smarty->display('header.tpl'); 
 $smarty->display('add.tpl');
 
 
