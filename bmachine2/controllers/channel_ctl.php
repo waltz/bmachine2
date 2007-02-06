@@ -1,6 +1,6 @@
 <?php
 
-require '../smarty/Smarty.class.php';
+//require_once('../smarty/Smarty.class.php');
 
 class ChannelController
 {

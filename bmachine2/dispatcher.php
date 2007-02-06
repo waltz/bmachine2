@@ -1,7 +1,34 @@
 <?php
 
+//Setup smarty
+//set absolute server path. this is the current directory
+$path = getcwd();
+//echo 'current path: ' . $path;
+
+//include the smarty library
+require($path . '/smarty/Smarty.class.php');
+
+//create a new instance
+$smarty = new Smarty();
+
+//set up all the correct paths
+$smarty->template_dir = $path . '/themes/default/';
+$smarty->compile_dir = $path . '/smarty/templates_c/';
+$smarty->cache_dir = $path . '/smarty/cache';
+$smarty->config_dir = $path . '/smarty/configs';
+
+//assign any smarty variables and function
+$smarty->assign('title', 'Broadcast Machine');
+$smarty->assign('name', 'Ned');
+
+//Display template
+$smarty->display('javascripts.inc');
+$smarty->display('header.tpl'); 
+$smarty->display('add.tpl');
+
+
 // Add Smarty to the PHP include path.
-set_include_path(get_include_path() . ':smarty');
+//set_include_path(get_include_path() . ':smarty');
 
 // Include the controllers
 require_once ('controllers/channel_ctl.php');
