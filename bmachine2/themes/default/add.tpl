@@ -32,9 +32,19 @@ maxuploadsize - the maximum upload size for this server
 
 <div class="section">
 <fieldset id="video_file">
+
+<div>	
 	<input type="hidden" name="post_use_upload" class="hidden" value="1" />
   <input type="hidden" name="URL" value="http://" class="hidden">
 	<h3>Upload a File</h3>
+
+
+
+	
+	<div id="specify_url" style="display:none;">
+		<h3>URL of the file:</h3>
+		<input type="text" name="URL" size="60" value="http://" />
+	</div>
 
 	<div id="upload_file">
 	<input type="file" name="post_file_upload" value="Choose File" /><br />
@@ -47,6 +57,7 @@ maxuploadsize - the maximum upload size for this server
 	The maximum upload size of this server is <strong>{$maxuploadsize}Mb</strong>.
 	</p>
 	</div>
+
 
 </fieldset>
 
