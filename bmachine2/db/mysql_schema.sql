@@ -1,0 +1,91 @@
+CREATE TABLE users CHARACTER SET utf8 (
+	id unsigned NOT NULL AUTO_INCREMENT,
+	username varchar(255) UNIQUE NOT NULL,
+	name varchar(255) NOT NULL,
+	pass varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	active boolean NOT NULL,
+	admin boolean NOT NULL,
+	banned boolean NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE channels CHARACTER SET utf8 (
+	id unsigned NOT NULL AUTO_INCREMENT,
+	title varchar(255) NOT NULL,
+	description text,
+	modified timestamp NOT NULL,
+	icon_url varchar(255),
+	donation_html varchar(255),
+	donation_url varchar(255),
+	website_url varchar(255), 
+	license_name varchar(255),
+	license_url varchar(255),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE channel_tags CHARACTER SET utf8 (
+	id unsigned NOT NULL,
+	name varchar(255),
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES channels (id)
+);
+
+CREATE TABLE videos CHARACTER SET utf8 (
+	id unsigned NOT NULL AUTO_INCREMENT,
+	title varchar(255) NOT NULL,
+	description text,
+	modified timestamp NOT NULL,
+	icon_url varchar(255),
+	license_name varchar(255),
+	license_url varchar(255),
+	website_url varchar(255),
+	donation_html varchar(255),
+	donation_url varchar(255),
+	release_date datetime,
+	runtime unsigned, 
+	adult boolean NOT NULL,
+	mime varchar(255) NOT NULL,
+	fileurl varchar(255) NOT NULL,
+	size bigint,
+	downloads unsigned NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE video_credits CHARACTER SET utf8 (
+	id unsigned NOT NULL,
+	name varchar(255) NOT NULL,
+	role varchar(255) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES videos (id)
+);
+
+CREATE TABLE video_tags CHARACTER SET utf8 (
+	id unsigned NOT NULL,
+	name varchar(255) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES videos (id)
+);
+
+CREATE TABLE published CHARACTER SET utf8 (
+	channel_id unsigned NOT NULL,
+	video_id unsigned NOT NULL,
+	publish_date timestamp,
+	PRIMARY KEY (channel_id, video_id),
+	FOREIGN KEY (channel_id) REFERENCES channels (id)
+);
+
+CREATE TABLE settings CHARACTER SET utf8 (
+	name varchar(255) NOT NULL,
+	description text,
+	open_reg boolean NOT NULL,
+	reg_approval boolean NOT NULL,
+	bandwidth_limit bigint NOT NULL,
+	baseurl varchar(255) UNIQUE NOT NULL,
+	iconurl varchar(255),
+	donation_html varchar(255),
+	donation_url varchar(255),
+	donthideporn boolean NOT NULL,
+	PRIMARY KEY (baseurl)
+);
