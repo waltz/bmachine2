@@ -28,9 +28,9 @@ class ChannelController
 	}
 	
 	// Delete
-	function removeVideo()
+	function removeChannel($id)
 	{
-		
+		$delete_query = "DELETE FROM channels WHERE id=\'$id\';";
 	}
 
 }
