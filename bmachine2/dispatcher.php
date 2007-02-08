@@ -3,7 +3,7 @@
 //Setup smarty
 //set absolute server path. this is the current directory
 $path = getcwd();
-//echo 'current path: ' . $path;
+
 
 //include the smarty library
 require($path . '/smarty/Smarty.class.php');
@@ -18,14 +18,12 @@ $smarty->cache_dir = $path . '/smarty/cache';
 $smarty->config_dir = $path . '/smarty/configs';
 
 //assign any smarty variables and function
-//THESE ARE JUST TEST VALUES
+//THESE ARE JUST TEST VALUES, these will need to come for the DB
 $smarty->assign('title', 'Broadcast Machine');
-$smarty->assign('channels', 'First Channel');
 $smarty->assign('username', 'drew');
-//$smarty->assign('loggedin', true);
-//$smarty->assign('loggedin', false);
-
-
+$smarty->assign('allchannels',
+			array('first channel', 'second channel', 'third channel'));
+         
 //Display template
 $smarty->display('javascripts.inc');
 $smarty->display('header.tpl'); 

@@ -57,9 +57,9 @@
 <fieldset id="channel_selection">
 	<legend>Publish to These Channels</legend>
    <ul>
-{* for *}
-<li><input type=checkbox name="post_channels[]" value="{$value}" /> {$channels}<br/>
-{* end for *}
+{foreach from=$allchannels item=channel}
+<li><input type=checkbox name="post_channels[]" value="{$channel}" /> {$channel}<br/>
+{/foreach}
 	    </ul>
 </fieldset>
 
