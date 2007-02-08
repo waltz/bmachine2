@@ -1,4 +1,8 @@
 {* Smarty *}
+{*This smarty template requires the following smarty variables:
+allchannels - an array of the all availible channels
+maxuploadsize - the maximum upload size for this server
+*}
 
 
 <!-- BASIC PUBLISHING OPTIONS -->
@@ -12,7 +16,6 @@
 	<input type="hidden" name="Mimetype" value="" class="hidden">
 	<input type="hidden" name="People" class="hidden" />
 	<input type="hidden" name="ID" class="hidden" value=""/>
-
 
 <div id="poststuff">
 
@@ -35,13 +38,13 @@
 
 	<div id="upload_file">
 	<input type="file" name="post_file_upload" value="Choose File" /><br />
-	<p style="font-size: 11px; margin-bottom: 0px; padding-bottom: 0px;">
+	<p id="note">
 	<strong>Note:</strong> Uploading files with your browser can take several minutes or longer, 
 	depending on the file size.  The file upload will begin when you click "Publish".  Please be patient 
 	and do not touch the browser while your file is uploading.  Also be aware that servers sometimes have 
 	a limit on the maximum size of an uploaded file.  For files larger than 2 or 3 megabytes, we generally 
 	recommend either posting a torrent or using an FTP program and then linking to the file.<br /><br />
-	The maximum upload size of this server is <strong>2M</strong>.
+	The maximum upload size of this server is <strong>{$maxuploadsize}Mb</strong>.
 	</p>
 	</div>
 
@@ -60,7 +63,7 @@
 {foreach from=$allchannels item=channel}
 <li><input type=checkbox name="post_channels[]" value="{$channel}" /> {$channel}<br/>
 {/foreach}
-	    </ul>
+	</ul>
 </fieldset>
 
 
@@ -98,7 +101,7 @@
 </div>
 
 <p class="publish_button" style="clear: both;">
-<input id="publish_button" style="border: 0px solid black;" type="image" src="./images/publish_button.gif" border=0 alt="Continue" />
+<input id="publish_button" type="image" src="themes/default/images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
 <div class="section optional">
@@ -329,13 +332,13 @@ Will be set to the time that you press 'publish'.
 </fieldset>
 </div>
 
+
 <p class="publish_button" style="clear: both;">
-<input style="border: 0px solid black;" type="image" src="./images/publish_button.gif" border=0 alt="Continue" />
+<input type="image" src="themes/default/images/publish_button.gif" border=0 alt="Continue" />
 </p>
 
 </div>
 </form>
-
-	<div class="spacer">&nbsp;</div>
-	</body>
-	</html>
+<div class="spacer">&nbsp;</div>
+</body>
+</html>

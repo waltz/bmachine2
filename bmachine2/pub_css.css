@@ -151,6 +151,7 @@ font-size: 24px;
 	padding: 7px 0 3px 0;
 	text-align: right;
 	font-size: 11px;
+	color: #444;
 }
 
 
@@ -268,6 +269,13 @@ margin-left: 0;
 	border: 2px solid #f00;
 }
 
+/* ----- Add video -------- */
+#note {
+	font-size: 11px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
 /* ----- AUTO FILL -------- */
 #auto_fill {
 	line-height: 150%;
@@ -374,6 +382,7 @@ h2, .page_name h2, h2.page_name {
 
 .publish_button {
 	margin-left: 16px;
+	border: 0px solid black;
 }
 
 .help_pop h2 {

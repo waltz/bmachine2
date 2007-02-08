@@ -19,11 +19,20 @@ $smarty->config_dir = $path . '/smarty/configs';
 
 //assign any smarty variables and function
 //THESE ARE JUST TEST VALUES, these will need to come for the DB
-$smarty->assign('title', 'Broadcast Machine');
+
+//required for header.tpl
+$smarty->assign('title', 'Broadcast Machine'); 
 $smarty->assign('username', 'drew');
+//at this point, userprivilege can be either 'admin' or 'notadmin'
+//if I figure out booleans in smarty, it might be better to change
+//this to be called 'isadmin' and it can be true or false 
+$smarty->assign('userprivilege', 'admin');
+$smarty->assign('loggedin', 'no');
 $smarty->assign('allchannels',
 			array('first channel', 'second channel', 'third channel'));
-         
+$smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb
+
+
 //Display template
 $smarty->display('javascripts.inc');
 $smarty->display('header.tpl'); 
