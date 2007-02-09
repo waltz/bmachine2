@@ -3,6 +3,7 @@
 allchannels - an array containing all availible channels
 maxuploadsize - the maximum upload size for this server
 allvideos - an array containing all previously published videos 
+--> need to find out how all the video data is being passed to this. for autofill 
 *}
 
 
@@ -37,17 +38,18 @@ allvideos - an array containing all previously published videos
 <div>	
 	<input type="hidden" name="post_use_upload" class="hidden" value="1" />
   <input type="hidden" name="URL" value="http://" class="hidden">
+
 	<h3>Upload a File</h3>
 
+	<a href="#" 
+		onClick="document.getElementById('specify_url').style.display = 'none';
+		 document.getElementById('upload_file').style.display = 'block'; 
+		  return false;">Upload a File</a> or 		  
+	<a href="#" onClick="document.getElementById('upload_file').style.display = 'none';
+		 document.getElementById('specify_url').style.display = 'block'; 
+		  return false;">Link to a File</a>
 
-
-	
-	<div id="specify_url" style="display:none;">
-		<h3>URL of the file:</h3>
-		<input type="text" name="URL" size="60" value="http://" />
-	</div>
-
-	<div id="upload_file">
+	<div id="upload_file" style="display:none;">
 	<input type="file" name="post_file_upload" value="Choose File" /><br />
 	<p id="note">
 	<strong>Note:</strong> Uploading files with your browser can take several minutes or longer, 
@@ -57,6 +59,11 @@ allvideos - an array containing all previously published videos
 	recommend either posting a torrent or using an FTP program and then linking to the file.<br /><br />
 	The maximum upload size of this server is <strong>{$maxuploadsize}Mb</strong>.
 	</p>
+	</div>
+
+
+	<div id="specify_url" style="display:none;">
+		<input type="text" name="URL" size="60" value="http://" />
 	</div>
 
 
@@ -187,28 +194,6 @@ allvideos - an array containing all previously published videos
 </div>
 </fieldset>
 
-<fieldset style="clear:both" id="postdiv">
-
-<div class="the_legend">
-<a href="#" onClick="document.getElementById('transcript_upload').style.display = 'none'; document.getElementById('transcript_url').style.display = 'none'; document.getElementById('transcript_text').style.display = 'block'; return false;" style="font-weight:normal;">Enter Transcript Text</a> <em>or</em> <a href="#" onClick="document.getElementById('transcript_text').style.display = 'none'; document.getElementById('transcript_url').style.display = 'none'; document.getElementById('transcript_upload').style.display = 'block'; return false;">Upload text file</a> <em>or</em> <a href="#" onClick="document.getElementById('transcript_upload').style.display = 'none'; document.getElementById('transcript_text').style.display = 'none'; document.getElementById('transcript_url').style.display = 'block'; return false;">Specify URL</a>
-
-</div>
-
-<div id="transcript_text">
-
-<textarea rows="3" cols="40" 
-	name="post_transcript_text"></textarea>
-</div>
-
-<div id="transcript_upload" style="display:none;">
-<input type="file" name="post_transcript_file"/>
-</div>
-
-<div id="transcript_url" style="display:none;">
-
-<input type="text" name="Transcript" size="40" value=""/>
-</div>
-</fieldset>
 
 <fieldset>
   <div class="the_legend">Associated Webpage </div>

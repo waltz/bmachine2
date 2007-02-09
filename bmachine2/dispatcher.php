@@ -31,8 +31,28 @@ $smarty->assign('loggedin', 'no');
 $smarty->assign('allchannels',
 			array('first channel', 'second channel', 'third channel'));
 $smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb
-$smarty->assign('allvideos',
+//works -- $smarty->assign('allvideos',
 			array('first video', 'second video', 'third video'));
+$smarty->assign('allvideos',
+			array(array('name' => 'first video',
+          'creator' => 'xdrewxcorex',
+          'copyrightholder' => 'drew wilson',
+          'keywords' => array('cool','awesome','internet', 'blog'),
+          'peopleinvolved' => array('name' => 'drew',
+                           'role' => 'captian of video capture'),
+                           array('name' => 'greg',
+                           'role' => 'senior vice chairman'),
+                           array('name' => 'cj',
+                           'role' => 'director')),
+          'webpage' => 'http://www.yeahd00d.com'
+          ));
+
+
+                           
+//continute here          
+
+
+
 
 //Display template
 $smarty->display('javascripts.inc');
