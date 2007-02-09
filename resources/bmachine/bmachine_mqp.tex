@@ -1311,6 +1311,35 @@ The user
 
 \section{Model Schema}
 
+\section{Testing Environment}
+% 2/8/2005, CJ: Wrote about the use of unit testing, its advantages and the setup of the test servers.
+With any software, it is necessary to test to make sure that your application works as expected.
+We decided to test our application on mock servers so that we could see how our software reacted to common configurations that we expect our users to encounter.
+
+We ended up with three server configurations:
+\begin{description}
+	\item{Generic Linux} This server runs a common version of Linux called Ubuntu. It is running Apache 2 as its webserver with PHP version 5 and both MySQL and SQLite databases. This configuration is optimal, and we feel that it will account for the majority of our users. It is also important to have support for both database engines; we need to make sure that the program behaves correctly when both are available.
+	\item{Microsoft Vista} Having a server that is running Microsoft's Internet Information Services is important. 
+Because IIS is the second most popular webserver in use, we need to make sure that we are not preventing such a large population from running our software. Ensuring that our application runs on IIS will be difficult because of it's lack of URL rewriting support. It's important to us that our program run on servers lacking URL rewriting, because while it is convenient and common, its availability cannot be guaranteed. Fortunately that will be the only challenge on this server; its configuration is otherwise similar, sporting PHP 5 and SQLite.
+	\item{Hosted Linux} Since our program is geared towards users who are likely to have low-cost hosting services, we decided to use one popular service as a testbed. Dreamhost provides inexpensive, albeit limited hosting accounts. They provide servers with Apache 2, PHP 4, and MySQL installed. The platform provides us with a place where we can see how our program deals with setting permissions in restricted environments.
+\end{description}
+
+These testing platforms should do a good job at allowing us to see how our application is coming along.
+It lets us see how the smaller pieces work together, but it does not let us see how the smaller pieces are working by themselves.
+If the smaller parts do not work then the whole will fail.
+This is the point where unit testing becomes useful.
+Unit testing allows our group to write small pieces of code that test individual classes and functions.
+When we see something go wrong on the testing server we can run our unit tests and pinpoint the part of the program that we need to fix.
+Between the use of the testing servers and the unit tests the goal is to minimize the amount of time that we spend diagnosing bugs and instead spend more time fixing bugs.
+
+Overall I feel that these servers will be as useful as we expect.
+They will help us be as prepared as possible when it comes time to release the first version.
+This testing framework should also be very helpful to anyone who would like to continue developing Broadcast Machine.
+The unit tests will make sure that the existing code does not break, and the test servers illustrate what our target environment is.
+Unfortunately it took a very long time to get the test servers running.
+The amount of effort put in to setting up the testing framework seemed excessive to me.
+For a project of this size, I can't say whether or not the time spend was worth it.
+Hopefully these are useful to future developers and our time was well spent. 
 
 \end{document}
 
