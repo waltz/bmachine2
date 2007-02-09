@@ -31,7 +31,8 @@ $smarty->assign('loggedin', 'no');
 $smarty->assign('allchannels',
 			array('first channel', 'second channel', 'third channel'));
 $smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb
-
+$smarty->assign('allvideos',
+			array('first video', 'second video', 'third video'));
 
 //Display template
 $smarty->display('javascripts.inc');

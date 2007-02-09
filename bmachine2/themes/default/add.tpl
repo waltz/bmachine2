@@ -1,7 +1,8 @@
 {* Smarty *}
 {*This smarty template requires the following smarty variables:
-allchannels - an array of the all availible channels
+allchannels - an array containing all availible channels
 maxuploadsize - the maximum upload size for this server
+allvideos - an array containing all previously published videos 
 *}
 
 
@@ -123,7 +124,11 @@ maxuploadsize - the maximum upload size for this server
 		<div style="font-size: 12px; line-height: 15px;">Automatically fill in these information fields with info from a previously published video:</div>
 
 <select name="videos" onChange="autofill(this.options[this.selectedIndex].value);" ><option value=""></option>
-<option value="0ce68fd83102a64b5decc96bb2bb6f67514f295d">test video 1</option><option value="bbfcfbe30df9d94317de8d3f064cbd2a37bd90a8">test 3</option><option value="eb634e3557a78fab01c56870d7a79b9d488a84fe">test 2</option></select>	
+{foreach from=$allvideos item=video}
+<option value="{$video}">{$video}</option>
+{/foreach}
+</select>
+
 		</fieldset>
 
     <fieldset>
