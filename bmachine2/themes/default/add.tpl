@@ -3,7 +3,9 @@
 allchannels - an array containing all availible channels
 maxuploadsize - the maximum upload size for this server
 allvideos - an array containing all previously published videos 
---> need to find out how all the video data is being passed to this. for autofill 
+--> need to make autofill work. right now it's just commented out. the
+problem is that smarty data and java data don't work well together. I
+think the best solution is to read smarty data into a javascript datastructure  
 *}
 
 
@@ -126,18 +128,18 @@ allvideos - an array containing all previously published videos
 <div class="section optional">
 <div class="section_header">Optional: Additional Information</div>
 
-		<fieldset id="auto_fill">
-		<legend>Auto Fill</legend>
-		<div style="font-size: 12px; line-height: 15px;">Automatically fill in these information fields with info from a previously published video:</div>
+<!-- <fieldset id="auto_fill">
+<legend>Auto Fill</legend> 
+<div style="font-size: 12px; line-height: 15px;">Automatically fill in these information fields with info from a previously published video:</div>
 
-<select name="videos" onChange="autofill(this.options[this.selectedIndex].value);" ><option value=""></option>
+<select name="videos" onChange="autofill(this.options[this.selectedIndex].value);"><option value=""></option>
 {foreach from=$allvideos item=video}
-<option value="{$video}">{$video}</option>
+<option value="{$video.id}">{$video.name}</option>
 {/foreach}
 </select>
 
 		</fieldset>
-
+ -->
     <fieldset>
       <div class="the_legend">
 			Creator (can be multiple or an organization)

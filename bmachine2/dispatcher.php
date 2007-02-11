@@ -30,22 +30,125 @@ $smarty->assign('userprivilege', 'admin');
 $smarty->assign('loggedin', 'no');
 $smarty->assign('allchannels',
 			array('first channel', 'second channel', 'third channel'));
-$smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb
-//works -- $smarty->assign('allvideos',
-			array('first video', 'second video', 'third video'));
+$smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb 
+$smarty->assign('test', 'hello!');
+
 $smarty->assign('allvideos',
-			array(array('name' => 'first video',
-          'creator' => 'xdrewxcorex',
-          'copyrightholder' => 'drew wilson',
-          'keywords' => array('cool','awesome','internet', 'blog'),
-          'peopleinvolved' => array('name' => 'drew',
-                           'role' => 'captian of video capture'),
-                           array('name' => 'greg',
-                           'role' => 'senior vice chairman'),
-                           array('name' => 'cj',
-                           'role' => 'director')),
-          'webpage' => 'http://www.yeahd00d.com'
+			array(
+				array('id' => '0',
+					'name' => 'first video',
+          		'creator' => 'xdrewxcorex',
+          		'copyrightholder' => 'drew wilson', 
+          		'keywords' => array('cool','awesome','internet', 'blog'),
+          		'peopleinvolved' => array(
+          			array(
+          				'name' => 'drew',
+               		'role' => 'captian of video capture'
+             		),
+             		array(
+              			'name' => 'greg',
+                  	'role' => 'senior vice chairman'
+             		),
+               	array(
+               		'name' => 'cj', 
+               		'role' => 'director'
+               	)
+            	),
+          	'webpage' => 'http://www.yeahd00d.com',
+          	'releasedate' => array(
+          		'year' => '2007',
+          		'month' => 'Jan',
+          		'day' => '5'
+          	),
+          	'playlength' => array(
+          		'hours' => '1',
+          		'minutes' => '14',
+          		'seconds' => '45'
+          	),
+          	'isexcerpt' => 'yes',
+          	'isadult' => 'no',
+          	'createdate' => array('year' => '2007',
+          						'month' => 'Jan',
+          						'day' => '5'
+          	)
+          ),
+				array('id' => '1',
+					'name' => 'second video',
+          		'creator' => 'boner',
+          		'copyrightholder' => 'boner mcgee', 
+          		'keywords' => array('2keyword1','2keyword2','2keyword3'),
+          		'peopleinvolved' => array(
+          			array(
+          				'name' => 'Cpt John',
+               		'role' => 'senior admin'
+             		),
+             		array(
+              			'name' => 'cody',
+                  	'role' => 'asst'
+             		)
+            	),
+          	'webpage' => 'http://www.video2.com',
+          	'releasedate' => array(
+          		'year' => '1999',
+          		'month' => 'Dec',
+          		'day' => '3'
+          	),
+          	'playlength' => array(
+          		'hours' => '0',
+          		'minutes' => '1',
+          		'seconds' => '23'
+          	),
+          	'isexcerpt' => 'no',
+          	'isadult' => 'yes',
+          	'createdate' => array('year' => '1990',
+          						'month' => 'Sep',
+          						'day' => '9'
+          	)
+          )          
           ));
+
+
+//a test single video
+
+$smarty->assign('testvideo',
+				array('name' => 'first video',
+          		'creator' => 'xdrewxcorex',
+          		'copyrightholder' => 'drew wilson', 
+          		'keywords' => array('cool','awesome','internet', 'blog'),
+          		'peopleinvolved' => array(
+          			array(
+          				'name' => 'drew',
+               		'role' => 'captian of video capture'
+             		),
+             		array(
+              			'name' => 'greg',
+                  	'role' => 'senior vice chairman'
+             		),
+               	array(
+               		'name' => 'cj', 
+               		'role' => 'director'
+               	)
+            	),
+          	'webpage' => 'http://www.yeahd00d.com',
+          	'releasedate' => array(
+          		'year' => '2007',
+          		'month' => 'Jan',
+          		'day' => '5'
+          	),
+          	'playlength' => array(
+          		'hours' => '1',
+          		'minutes' => '14',
+          		'seconds' => '45'
+          	),
+          	'isexcerpt' => 'yes',
+          	'isadult' => 'no',
+          	'createdate' => array('year' => '2007',
+          						'month' => 'Jan',
+          						'day' => '5'
+          	))       
+          );
+///end test 
+
 
 
                            
