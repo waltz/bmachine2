@@ -1,7 +1,8 @@
 <?php
 
 // Include the Smarty library.
-require(getcwd() . '/smarty/Smarty.class.php');
+$path = getcwd();
+require( $path . '/smarty/Smarty.class.php');
 
 // Create a new Smarty instance.
 $smarty = new Smarty();
@@ -9,8 +10,8 @@ $smarty = new Smarty();
 //set up all the correct paths
 $smarty->template_dir = $path . '/themes/default/';
 $smarty->compile_dir = $path . '/smarty/templates_c/';
-$smarty->cache_dir = $path . '/smarty/cache';
-$smarty->config_dir = $path . '/smarty/configs';
+$smarty->cache_dir = $path . '/smarty/cache/';
+$smarty->config_dir = $path . '/smarty/configs/';
 
 //assign any smarty variables and function
 //THESE ARE JUST TEST VALUES, these will need to come for the DB
