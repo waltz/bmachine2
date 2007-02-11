@@ -21,7 +21,7 @@ $smarty->config_dir = $path . '/smarty/configs';
 //THESE ARE JUST TEST VALUES, these will need to come for the DB
 
 //required for header.tpl
-$smarty->assign('title', 'Broadcast Machine'); 
+$smarty->assign('title', 'My Video Blog'); 
 $smarty->assign('username', 'drew');
 //at this point, userprivilege can be either 'admin' or 'notadmin'
 //if I figure out booleans in smarty, it might be better to change
@@ -108,59 +108,13 @@ $smarty->assign('allvideos',
           ));
 
 
-//a test single video
-
-$smarty->assign('testvideo',
-				array('name' => 'first video',
-          		'creator' => 'xdrewxcorex',
-          		'copyrightholder' => 'drew wilson', 
-          		'keywords' => array('cool','awesome','internet', 'blog'),
-          		'peopleinvolved' => array(
-          			array(
-          				'name' => 'drew',
-               		'role' => 'captian of video capture'
-             		),
-             		array(
-              			'name' => 'greg',
-                  	'role' => 'senior vice chairman'
-             		),
-               	array(
-               		'name' => 'cj', 
-               		'role' => 'director'
-               	)
-            	),
-          	'webpage' => 'http://www.yeahd00d.com',
-          	'releasedate' => array(
-          		'year' => '2007',
-          		'month' => 'Jan',
-          		'day' => '5'
-          	),
-          	'playlength' => array(
-          		'hours' => '1',
-          		'minutes' => '14',
-          		'seconds' => '45'
-          	),
-          	'isexcerpt' => 'yes',
-          	'isadult' => 'no',
-          	'createdate' => array('year' => '2007',
-          						'month' => 'Jan',
-          						'day' => '5'
-          	))       
-          );
-///end test 
-
-
-
-                           
-//continute here          
-
-
 
 
 //Display template
 $smarty->display('javascripts.inc');
 $smarty->display('header.tpl'); 
-$smarty->display('add.tpl');
+//$smarty->display('add.tpl');
+$smarty->display('addchannel.tpl');
 
 
 // Add Smarty to the PHP include path.
