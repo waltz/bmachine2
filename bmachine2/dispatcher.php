@@ -1,14 +1,9 @@
 <?php
 
-//Setup smarty
-//set absolute server path. this is the current directory
-$path = getcwd();
+// Include the Smarty library.
+require(getcwd() . '/smarty/Smarty.class.php');
 
-
-//include the smarty library
-require($path . '/smarty/Smarty.class.php');
-
-//create a new instance
+// Create a new Smarty instance.
 $smarty = new Smarty();
 
 //set up all the correct paths
@@ -116,14 +111,10 @@ $smarty->display('header.tpl');
 //$smarty->display('add.tpl');
 $smarty->display('addchannel.tpl');
 
-
-// Add Smarty to the PHP include path.
-//set_include_path(get_include_path() . ':smarty');
-
 // Include the controllers
-require_once ('controllers/channel_ctl.php');
-require_once ('controllers/video_ctl.php');
-require_once ('controllers/tag_ctl.php');
+require_once('controllers/channel_ctl.php');
+require_once('controllers/video_ctl.php');
+require_once('controllers/tag_ctl.php');
 
 // Grab the parameters.
 $get_params = $_GET['params'];
