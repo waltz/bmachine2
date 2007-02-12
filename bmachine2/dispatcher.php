@@ -66,7 +66,9 @@ $smarty->assign('allvideos',
           	'createdate' => array('year' => '2007',
           						'month' => 'Jan',
           						'day' => '5'
-          	)
+          	),
+          	'thumbnailurl' => 'http://127.0.0.1/vegworcester-css/bm/thumbnails/7896fd19809694632effe6aefbf94b0b.jpg',
+          	'url' => 'http://videourl.com'
           ),
 				array('id' => '1',
 					'name' => 'second video',
@@ -99,18 +101,63 @@ $smarty->assign('allvideos',
           	'createdate' => array('year' => '1990',
           						'month' => 'Sep',
           						'day' => '9'
-          	)
+          	),
+          	'thumbnailurl' => 'http://127.0.0.1/vegworcester-css/bm/thumbnails/7896fd19809694632effe6aefbf94b0b.jpg',
+          	'url' => 'http://videourl.com'
+          ),
+				array('id' => '2',
+					'name' => 'third video',
+          		'creator' => 'yeah, man',
+          		'copyrightholder' => 'boner mcgee', 
+          		'keywords' => array('2keyword1','2keyword2','2keyword3'),
+          		'peopleinvolved' => array(
+          			array(
+          				'name' => 'Cpt John',
+               		'role' => 'senior admin'
+             		),
+             		array(
+              			'name' => 'cody',
+                  	'role' => 'asst'
+             		)
+            	),
+          	'webpage' => 'http://www.video2.com',
+          	'releasedate' => array(
+          		'year' => '1999',
+          		'month' => 'Dec',
+          		'day' => '3'
+          	),
+          	'playlength' => array(
+          		'hours' => '0',
+          		'minutes' => '1',
+          		'seconds' => '23'
+          	),
+          	'isexcerpt' => 'no',
+          	'isadult' => 'yes',
+          	'createdate' => array('year' => '1990',
+          						'month' => 'Sep',
+          						'day' => '9'
+          	),
+          	'thumbnailurl' => 'http://127.0.0.1/vegworcester-css/bm/thumbnails/7896fd19809694632effe6aefbf94b0b.jpg',
+          	'url' => 'http://tester.org'
           )          
+          
           ));
+//$smarty->assign('channel', 'test');
 
-
-
+//test values for header2.tpl
+$smarty->assign('sitetitle', 'my video blog');
+$smarty->assign('pagetitle', 'first channel');
+$smarty->assign('cssurl', 'themes/default/default.css');
+$smarty->assign('rssurl', 'http://none.rss');
 
 //Display template
 $smarty->display('javascripts.inc');
-$smarty->display('header.tpl'); 
+//$smarty->display('header.tpl');
+$smarty->display('header2.tpl'); 
+$smarty->display('showchannel.tpl');
 //$smarty->display('add.tpl');
-$smarty->display('addchannel.tpl');
+//$smarty->display('addchannel.tpl');
+
 
 // Include the controllers
 require_once('controllers/channel_ctl.php');

@@ -114,7 +114,7 @@ think the best solution is to read smarty data into a javascript datastructure
 
 <fieldset><img src="themes/default/images/cc_logo_17px.png" alt="CC logo" /> Creative Commons (optional): <input type="text" name="LicenseName" size="38" value="" onFocus="this.blur();" autocomplete="off" class="blended"/><br/>
 
-<a href="#" onClick="window.open('http://creativecommons.org/license/?partner=bmachine&exit_url=' + escape('http://localhost/vegworcester-css/bm/cc.php?license_url=[license_url]&license_name=[license_name]'),'cc_window','scrollbars=yes,status=no,directories=no,titlebar=no,menubar=no,location=no,toolbar=no,width=450,height=600'); return false;">Choose License</a>
+<a href="#" onClick="window.open('http://creativecommons.org/license/?partner=bmachine&exit_url=' + escape('http://localhost/hello/cc.php?license_url=[license_url]&license_name=[license_name]'),'cc_window','scrollbars=yes,status=no,directories=no,titlebar=no,menubar=no,location=no,toolbar=no,width=450,height=600'); return false;">Choose License</a>
 
 <input type="hidden" name="LicenseURL" value="" class="hidden"/>
 
