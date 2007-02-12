@@ -1,84 +1,124 @@
 <?php
 
-require 'database_settings.inc';
-
 class DatabaseController
 {
-	// Holds an integer that describes the database type.
-	// 0 for no database configured, 1 for MySQL, and 2 for SQLite.
-	var $database_type;
+	var $database_type;			// 0 = No DB, 1 = MySQL, 2 = SQLite
+	var $hostname = localhost;	// Hostname for MySQL databases.
+	var $username;					// Username for MySQL.
+	var $password;					// Password for MySQL.
+	var $database;					// MySQL database name or SQLite filename.
+	var $sqlite_handle;			// Holds the database handle for SQLite databases.	
 	
-	// Read the database info from the settings file and connect to it.
-	function DatabaseController($param_2)
+	// Everything should be setup on instantiation.
+	function DatabaseController()
 	{
-		// Detect which database we should be using.
-		// If PHP is lower than version 5 then assume MySQL, else we need to
-		// decide between SQLite and MySQL.
-		
-		get_loaded_extensions();
-		
-		if(phpversion() < 5){
-			
-		}
-		elseif{
-			
-		}
-		else{
-			// No database modules detected!
-		}
+		$this->configure();
+		$this->connect();
 	}
-	
-	// See if a specific module is loaded.
-	// Returns 1 if the module is loaded, 0 if not.
-	function isModuleLoaded($module)
+
+	// Copies database config values from the settings file.
+	// Returns 1 on success and FALSE on failure.
+	function configure()
 	{
-		$loaded_modules = get_loaded_extensions();
-		
-		foreach($loaded_modules as $module_id => $module_name)
+		if((include "../db/db_config.inc") == 1)
 		{
-			if($module_name == $module)
-			{
-				return 1;
-			}
+			$this->hostname = $cf_hostname;
+			$this->username = $cf_username;
+			$this->password = $cf_password;
+			$this->database = $cf_database;
+			
+			return TRUE;
 		}
-		return 0;
+		else
+		{
+			return FALSE;
+		}
 	}
 	
-	// Query the database.
-	function queryDatabase()
+	// Starts a connection to the database.
+	// Returns FALSE on failure
+	function connect()
 	{
-		
+		if($this->isMySQL())
+		{
+			return mysql_connect($this->hostname, $this->username, $this->password);
+		}
+		else if($this->isSQLite())
+		{
+			$this->sqlite_handle = sqlite_open($this->database);
+			return $this->sqlite_handle;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
-	// Connect to the database.
-	function connectToDatabase()
+	// Sends queries to the database.
+	// Stores the result for 'getArray()' before returning.
+	// Returns FALSE on failure or a result on success.
+	function query($query)
 	{
-		
+		if($this->isMySQL())
+		{
+			$result = mysql_query($query);
+			$this->last_result = $result;
+			return $result;
+		}
+		else if($this->isSQLite())
+		{
+			$result = sqlite_query($query);
+			$this->last_result = $result;
+			return $result;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	// Generate an array based upon a result of a database query.
+	// When called with no parameters, tries to use the last result.
+	// Returns FALSE on failure or a result on success.
+	function getArray($result = $this->last_result)
+	{
+		if($this->isMySQL())
+		{
+			return mysql_fetch_array($result);
+		}
+		else if($this->isSQLite())
+		{
+			return sqlite_fetch_array($result);
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
-	// Returns 1 if MySQL, 0 if not.
+	// Returns TRUE if MySQL, FALSE if not.
 	function isMySQL()
 	{
-		if(this->$database_type == 1)
+		if($this->database_type == 1)
 		{
-			return 1;
+			return TRUE;
 		}
 		else
 		{
-			return 0;
+			return FALSE;
 		}
 	}
 	
-	// Returns 2 if SQLite, 0 if not.
+	// Returns TRUE if SQLite, FALSE if not.
 	function isSQLite()
 	{
-		if(this->$database_type == 2)
+		if($this->database_type == 2)
 		{
-			return 1;
+			return TRUE;
 		}
 		else
 		{
-			return 0;
+			return FALSE;
 		}
 	}
 }
