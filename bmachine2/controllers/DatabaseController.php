@@ -22,6 +22,7 @@ class DatabaseController
 	{
 		if((include "../db/db_config.inc") == 1)
 		{
+			$this->database_type = $cf_dbengine
 			$this->hostname = $cf_hostname;
 			$this->username = $cf_username;
 			$this->password = $cf_password;

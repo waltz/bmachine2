@@ -28,7 +28,7 @@ CREATE TABLE channels (
 CREATE TABLE channel_tags (
 	id int unsigned NOT NULL,
 	name varchar(255),
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES channels (id)
 ) CHARACTER SET utf8;
 
@@ -57,14 +57,14 @@ CREATE TABLE video_credits (
 	id int unsigned NOT NULL,
 	name varchar(255) NOT NULL,
 	role varchar(255) NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name, role),
 	FOREIGN KEY (id) REFERENCES videos (id)
 ) CHARACTER SET utf8;
 
 CREATE TABLE video_tags (
 	id int unsigned NOT NULL,
 	name varchar(255) NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES videos (id)
 ) CHARACTER SET utf8;
 

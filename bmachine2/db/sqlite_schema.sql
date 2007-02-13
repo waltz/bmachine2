@@ -26,7 +26,7 @@ CREATE TABLE channels (
 CREATE TABLE channel_tags (
 	id int NOT NULL,
 	name varchar(255),
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES channels (id)
 );
 
@@ -54,14 +54,14 @@ CREATE TABLE video_credits (
 	id int NOT NULL,
 	name varchar(255) NOT NULL,
 	role varchar(255) NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name, role),
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
 CREATE TABLE video_tags (
 	id int NOT NULL,
 	name varchar(255) NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
