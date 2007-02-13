@@ -24,15 +24,13 @@ $smarty->assign('username', 'drew');
 //this to be called 'isadmin' and it can be true or false 
 $smarty->assign('userprivilege', 'admin');
 $smarty->assign('loggedin', 'no');
-$smarty->assign('allchannels',
-			array('first channel', 'second channel', 'third channel'));
 $smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb 
 $smarty->assign('test', 'hello!');
 
 $smarty->assign('allvideos',
 			array(
 				array('id' => '0',
-					'name' => 'first video',
+					'title' => 'first video',
           		'creator' => 'xdrewxcorex',
           		'copyrightholder' => 'drew wilson', 
           		'keywords' => array('cool','awesome','internet', 'blog'),
@@ -71,7 +69,7 @@ $smarty->assign('allvideos',
           	'url' => 'http://videourl.com'
           ),
 				array('id' => '1',
-					'name' => 'second video',
+					'title' => 'second video',
           		'creator' => 'boner',
           		'copyrightholder' => 'boner mcgee', 
           		'keywords' => array('2keyword1','2keyword2','2keyword3'),
@@ -106,7 +104,7 @@ $smarty->assign('allvideos',
           	'url' => 'http://videourl.com'
           ),
 				array('id' => '2',
-					'name' => 'third video',
+					'title' => 'third video',
           		'creator' => 'yeah, man',
           		'copyrightholder' => 'boner mcgee', 
           		'keywords' => array('2keyword1','2keyword2','2keyword3'),
@@ -142,7 +140,47 @@ $smarty->assign('allvideos',
           )          
           
           ));
-//$smarty->assign('channel', 'test');
+$smarty->assign('currentchannelid', '1');
+$smarty->assign('allchannels',
+	array(
+		array(
+			id => '0',
+			title => 'First Channel',
+			description => 'This is like the best channel ever!',
+			timestamp => 'Dec 12, 2006',
+			icon_url => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			donation_html => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			donation_url => 'http//website.w/donate.php',
+			website_url => 'http://website.ws', 
+			license_name => 'Attribution yeah yeah',
+			license_url => 'http://license.com'
+		),
+		array(
+			id => '1',
+			title => 'Second Channel',
+			description => 'second channel second channel second channel',
+			timestamp => 'Oct 11, 2005',
+			icon_url => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			donation_html => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			donation_url => 'http//website.w/donate.php',
+			website_url => 'http://website.ws', 
+			license_name => 'Attribution yeah yeah',
+			license_url => 'http://license.com'
+		),
+		array(
+			id => '2',
+			title => 'Third Channel',
+			description => '3rd 3rd 3rd',
+			timestamp => 'Jul 3, 2006',
+			icon_url => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			donation_html => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			donation_url => 'http//website.w/donate.php',
+			website_url => 'http://website.ws', 
+			license_name => 'Attribution yeah yeah',
+			license_url => 'http://license.com'
+		)
+	)
+);
 
 //test values for header2.tpl
 $smarty->assign('sitetitle', 'my video blog');
@@ -152,10 +190,10 @@ $smarty->assign('rssurl', 'http://none.rss');
 
 //Display template
 $smarty->display('javascripts.inc');
-//$smarty->display('header.tpl');
-$smarty->display('header2.tpl'); 
-$smarty->display('showchannel.tpl');
-//$smarty->display('add.tpl');
+$smarty->display('header.tpl');
+//$smarty->display('header2.tpl'); 
+//$smarty->display('showchannel.tpl');
+$smarty->display('add.tpl');
 //$smarty->display('addchannel.tpl');
 
 

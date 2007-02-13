@@ -82,7 +82,7 @@ think the best solution is to read smarty data into a javascript datastructure
 	<legend>Publish to These Channels</legend>
    <ul>
 {foreach from=$allchannels item=channel}
-<li><input type=checkbox name="post_channels[]" value="{$channel}" /> {$channel}<br/>
+<li><input type=checkbox name="post_channels[]" value="{$channel.id}" /> {$channel.title}<br/>
 {/foreach}
 	</ul>
 </fieldset>
@@ -134,12 +134,12 @@ think the best solution is to read smarty data into a javascript datastructure
 
 <select name="videos" onChange="autofill(this.options[this.selectedIndex].value);"><option value=""></option>
 {foreach from=$allvideos item=video}
-<option value="{$video.id}">{$video.name}</option>
+<option value="{$video.id}">{$video.title}</option>
 {/foreach}
 </select>
-
+ --> 
 		</fieldset>
- -->
+
     <fieldset>
       <div class="the_legend">
 			Creator (can be multiple or an organization)

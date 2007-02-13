@@ -4,9 +4,10 @@ $allvideos
 	$video.name
 	$video.url
 	$video.thumbnailurl
-$channel
-	$channel.name
-	$channel.rssurl
+$currentchannelid - the id of the channel currently being output
+$allchannels[#]
+	$allchannels[#].title
+	$allchannels[#].rssurl
 *}
 
 <body>
@@ -14,7 +15,7 @@ $channel
 <div id="inner_wrap">
 
 	<div id="library_header_wrap">
-	<div id="library_title">{$sitetitle}: {$channel.name}</div>
+	<div id="library_title">{$sitetitle}: {$allchannels[$currentchannelid].title}</div>
 <div id="rss_feed"><a href="{$channel.rssurl}"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
 
