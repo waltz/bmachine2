@@ -1,28 +1,29 @@
 <?php
 
+require_once('DatabaseController.php');
+
 class AuthenticationController
 {
 	function AuthenticationController()
 	{
 		// Start/resume the session.
 		session_start();
+	
+		// Session variables must be globals.
+		global $authdata;
 		
-		
+		// Register common session variables.
+		session_register($authdata);
+	}
+	
+	// Log the user in.
+	function login()
+	{
+			
 	}
 	
 	// Is the user logged in?
-	function isUserAuthenticated()
-	{
-		
-	}
-	
-	function isSesionActive()
-	{
-		
-	}
-	
-	// Start a user's session.
-	function setSession()
+	function isAllowed($action, $perm_level = "Admin")
 	{
 		
 	}
@@ -30,7 +31,8 @@ class AuthenticationController
 	// End a user's session.
 	function logout()
 	{
-		session_destroy();
+		// Unregisters any variables for this session.
+		session_unset();
 	}
 	
 }
