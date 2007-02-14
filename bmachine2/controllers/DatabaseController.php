@@ -4,9 +4,9 @@ class DatabaseController
 {
 	var $database_type;			// 0 = No DB, 1 = MySQL, 2 = SQLite
 	var $hostname = localhost;	// Hostname for MySQL databases.
-	var $username;					// Username for MySQL.
-	var $password;					// Password for MySQL.
-	var $database;					// MySQL database name or SQLite filename.
+	var $username;				// Username for MySQL.
+	var $password;				// Password for MySQL.
+	var $database;				// MySQL database name or SQLite filename.
 	var $sqlite_handle;			// Holds the database handle for SQLite databases.	
 	
 	// Everything should be setup on instantiation.
@@ -42,7 +42,8 @@ class DatabaseController
 	{
 		if($this->isMySQL())
 		{
-			return mysql_connect($this->hostname, $this->username, $this->password);
+			$mysql_status = mysql_connect($this->hostname, $this->username, $this->password);
+			mysql_select_db($this->database);
 		}
 		else if($this->isSQLite())
 		{

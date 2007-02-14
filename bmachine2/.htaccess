@@ -12,4 +12,4 @@ RewriteEngine on
 #RewriteLogLevel 9
 
 # Rewrite URLs so that everything goes to the dispatcher.
-RewriteRule (*) index.php?params=$1
+RewriteRule ^/(.*) index.php?params=$1
