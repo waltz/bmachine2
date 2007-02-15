@@ -1,6 +1,5 @@
 <?php
 
-require '../smarty/Smarty.class.php';
 
 class ChannelController
 {
@@ -17,21 +16,21 @@ class ChannelController
 	}
 
 	// Retrieve
-	function retrieveChannel()
+	function viewChannel()
 	{
 		
 	}
 	
 	// Update
-	function updateChannel()
+	function editChannel()
 	{
 		
 	}
 	
 	// Delete
-	function deleteChannel()
+	function removeChannel($id)
 	{
-		
+		$delete_query = "DELETE FROM channels WHERE id=\'$id\';";
 	}
 
 }

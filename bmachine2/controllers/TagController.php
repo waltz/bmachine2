@@ -11,13 +11,13 @@ class TagController
 	}
 	
 	// Create
-	function addTag()
+	function addTag($id, )
 	{
-		
+		$add_query = "INSERT INTO waaaaaaaah";
 	}
 
 	// Retrieve
-	function retrieveTag()
+	function getTag()
 	{
 		
 	}
@@ -29,7 +29,7 @@ class TagController
 	}
 	
 	// Delete
-	function deleteTag()
+	function removeTag()
 	{
 		
 	}

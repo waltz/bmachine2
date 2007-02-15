@@ -198,9 +198,10 @@ $smarty->display('addchannel.tpl');
 
 
 // Include the controllers
-require_once('controllers/channel_ctl.php');
-require_once('controllers/video_ctl.php');
-require_once('controllers/tag_ctl.php');
+require_once('controllers/ChannelController.php');
+require_once('controllers/VideoController.php');
+require_once('controllers/TagController.php');
+require_once('controllers/FrontPageController.php');
 
 // Grab the parameters.
 $get_params = $_GET['params'];
@@ -243,11 +244,11 @@ elseif(isset($param_1) && !isset($param_2))
 	new ChannelController($param_1);
 }
 
-// If no parameters were sent, go to the default channel.
+// If no parameters were sent, go to the all channel view.
 // This is also the catch-all if something goes wrong.
 else
 {
-	new ChannelController();
+	new FrontPageController();
 }
 
 ?>
