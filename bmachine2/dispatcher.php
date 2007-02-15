@@ -215,7 +215,7 @@ $param_3 = strtok('/');
 // of the video.
 if($param_1 == 'video')
 {
-	new video_ctl($param_2);
+	new VideoController($param_2);
 }
 
 // If the first parameter is 'tag' then the second must be the
