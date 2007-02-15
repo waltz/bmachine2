@@ -191,9 +191,7 @@ $smarty->assign('rssurl', 'http://none.rss');//
 require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
-/* this doesn't exist, yet
 require_once('controllers/FrontPageController.php');
-*/
 
 // Grab the parameters.
 $get_params = $_GET['params'];
@@ -240,8 +238,7 @@ elseif(isset($param_1) && !isset($param_2))
 // This is also the catch-all if something goes wrong.
 else
 {
-	//new FrontPageController();
-	echo "ZOMG!";
+	new FrontPageController();
 }
 
 ?>
