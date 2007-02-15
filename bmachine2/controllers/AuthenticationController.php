@@ -1,7 +1,5 @@
 <?php
 
-require_once('DatabaseController.php');
-
 class AuthenticationController
 {
 	// Session variables must be globals.
@@ -28,7 +26,7 @@ class AuthenticationController
 		$pass_md5 = md5($password);
 		
 		// Grab any rows matching the username.
-		$user_array = $db->getArray($db->query("SELECT * FROM users WHERE username='$username'"));
+		$user_array = $db->getArray($db->query('SELECT * FROM users WHERE username="$username"'));
 		
 		// If the user array comes back empty, there isn't a user with that name.
 		if($user_array == FALSE))

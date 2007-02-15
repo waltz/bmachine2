@@ -2,20 +2,18 @@
 
 // Include the Smarty library.
 $path = getcwd();
-require( $path . '/smarty/Smarty.class.php');
+require($path . '/smarty/Smarty.class.php');
 
 // Create a new Smarty instance.
 $smarty = new Smarty();
 
-//set up all the correct paths
+// Configure Smarty include paths.
 $smarty->template_dir = $path . '/themes/default/';
 $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
-//assign any smarty variables and function
-//THESE ARE JUST TEST VALUES, these will need to come for the DB
-
+/*
 //required for header.tpl
 $smarty->assign('title', 'My Video Blog'); 
 $smarty->assign('username', 'drew');
@@ -186,16 +184,8 @@ $smarty->assign('allchannels',
 $smarty->assign('sitetitle', 'my video blog');
 $smarty->assign('pagetitle', 'first channel');
 $smarty->assign('cssurl', 'themes/default/default.css');
-$smarty->assign('rssurl', 'http://none.rss');
-
-//Display template
-$smarty->display('javascripts.inc');
-$smarty->display('header.tpl');
-//$smarty->display('header2.tpl'); 
-//$smarty->display('showchannel.tpl');
-//$smarty->display('add.tpl');
-$smarty->display('addchannel.tpl');
-
+$smarty->assign('rssurl', 'http://none.rss');// 
+*/
 
 // Include the controllers
 require_once('controllers/ChannelController.php');
@@ -248,7 +238,8 @@ elseif(isset($param_1) && !isset($param_2))
 // This is also the catch-all if something goes wrong.
 else
 {
-	new FrontPageController();
+	//new FrontPageController();
+	echo "ZOMG!";
 }
 
 ?>
