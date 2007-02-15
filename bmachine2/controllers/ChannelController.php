@@ -18,8 +18,8 @@ class ChannelController
 	// Retrieve
 	function viewChannel($id)
 	{
-		channel_query = 'SELECT id, title, description, modified, icon_url, donation_html, donation_url, website_url, license_name, license_url FROM channels where id="$id";';
-		$channel = $db->getArray($db->quey($channel_query);
+		$channel_query = 'SELECT id, title, description, modified, icon_url, donation_html, donation_url, website_url, license_name, license_url FROM channels where id="$id";';
+		$channel = $db->getArray($db->query($channel_query));
 	}
 	
 	// Update
@@ -31,7 +31,7 @@ class ChannelController
 	// Delete
 	function removeChannel($id)
 	{
-		//$delete_query = 'DELETE FROM channels WHERE id="$id";';
+		$delete_query = 'DELETE FROM channels WHERE id="$id";';
 	}
 
 }
