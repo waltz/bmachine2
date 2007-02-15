@@ -191,7 +191,9 @@ $smarty->assign('rssurl', 'http://none.rss');//
 require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
+/* this doesn't exist, yet
 require_once('controllers/FrontPageController.php');
+*/
 
 // Grab the parameters.
 $get_params = $_GET['params'];
