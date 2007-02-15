@@ -193,8 +193,8 @@ $smarty->display('javascripts.inc');
 $smarty->display('header.tpl');
 //$smarty->display('header2.tpl'); 
 //$smarty->display('showchannel.tpl');
-$smarty->display('add.tpl');
-//$smarty->display('addchannel.tpl');
+//$smarty->display('add.tpl');
+$smarty->display('addchannel.tpl');
 
 
 // Include the controllers
