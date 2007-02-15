@@ -8,7 +8,7 @@ CREATE TABLE users (
 	admin boolean NOT NULL,
 	banned boolean NOT NULL,
 	PRIMARY KEY (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 
 CREATE TABLE channels (
@@ -23,14 +23,14 @@ CREATE TABLE channels (
 	license_name varchar(255),
 	license_url varchar(255),
 	PRIMARY KEY (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE channel_tags (
 	id int unsigned NOT NULL,
 	name varchar(255),
 	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES channels (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE videos (
 	id int unsigned NOT NULL AUTO_INCREMENT,
@@ -51,22 +51,22 @@ CREATE TABLE videos (
 	size bigint,
 	downloads int unsigned NOT NULL,
 	PRIMARY KEY (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE video_credits (
 	id int unsigned NOT NULL,
-	name varchar(255) NOT NULL,
-	role varchar(255) NOT NULL,
+	name varchar(128) NOT NULL,
+	role varchar(128) NOT NULL,
 	PRIMARY KEY (id, name, role),
 	FOREIGN KEY (id) REFERENCES videos (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE video_tags (
 	id int unsigned NOT NULL,
 	name varchar(255) NOT NULL,
 	PRIMARY KEY (id, name),
 	FOREIGN KEY (id) REFERENCES videos (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE published (
 	channel_id int unsigned NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE published (
 	publish_date timestamp,
 	PRIMARY KEY (channel_id, video_id),
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE settings (
 	name varchar(255) NOT NULL,
@@ -88,4 +88,4 @@ CREATE TABLE settings (
 	donation_url varchar(255),
 	donthideporn boolean NOT NULL,
 	PRIMARY KEY (baseurl)
-) CHARACTER SET utf8;
+) ENGINE=InnoDB, CHARACTER SET utf8;
