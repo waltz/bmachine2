@@ -10,6 +10,8 @@ $allchannels[#]
 	$allchannels[#].rssurl
 *}
 
+{include file='header2.tpl'}
+
 <body>
 <div id="wrap">
 <div id="inner_wrap">
