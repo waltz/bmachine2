@@ -71,4 +71,6 @@ else
 	new FrontPageController();
 }
 
+new FrontPageController();
+
 ?>
