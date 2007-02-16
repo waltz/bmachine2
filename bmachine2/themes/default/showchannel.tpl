@@ -17,7 +17,7 @@ $allchannels[#]
 <div id="inner_wrap">
 
 	<div id="library_header_wrap">
-	<div id="library_title"><a href="{$baseurl}">{$sitetitle}</a>: <a href="{$baseurl}channels/{$allchannels[$currentchannelid].title}">{$allchannels[$currentchannelid].title}</a></div>
+	<div id="library_title"><a href="{$baseurl}">{$settings.name}</a>: <a href="{$baseurl}channels/{$allchannels[$currentchannelid].title}">{$allchannels[$currentchannelid].title}</a></div>
 <div id="rss_feed"><a href="{$channel.rssurl}"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
 

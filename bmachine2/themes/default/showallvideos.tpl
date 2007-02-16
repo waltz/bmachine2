@@ -7,7 +7,7 @@
 
 <br />
 	<div id="library_header_wrap">
-	<div id="library_title"><a href="{$baseurl}">{$sitetitle}</a>: Show All Videos</div>
+	<div id="library_title"><a href="{$baseurl}">{$settings.name}</a>: Show All Videos</div>
 <div id="rss_feed"><a href="{$baseurl}videos/rss"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
 
