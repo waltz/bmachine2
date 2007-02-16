@@ -34,7 +34,7 @@ class FrontPageController
 		}
 
 		//smaaaaaaarty
-		$smarty->assign('channels', $channels);
+		//$smarty->assign('channels', $channels);
 		echo 'HELLO';
 		//$smarty->display('addvideo.tpl');
         }
