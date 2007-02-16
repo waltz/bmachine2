@@ -217,28 +217,29 @@ require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
 require_once('controllers/FrontPageController.php');
 
-/**
 // Grab the parameters.
 //$parameters = $_GET['params'];
 $navString = $_SERVER['REQUEST_URI'];
 $parts = explode('/', $navString);
-
+//print_r($parts);
 // Parse out the parameters.
 //$param_1 = strtok($parameters, '/');
 //$param_2 = strtok('/');
 //$param_3 = strtok('/');
 $param_1 = $parts['2'];
-echo $param_1;
+//echo $param_1;
 $param_2 = $parts['3'];
+//echo $param_2;
 $param_3 = $parts['4'];
-
+//echo $param_3;
 //Instantiate DatabaseController
 $db = new DatabaseController();
 
 // If the first parameter is a video then the second is the name
 // of the video.
 if($param_1 == 'video')
-{
+{	
+	//echo 'video controller';
 	new VideoController($param_2);
 }
 
@@ -246,25 +247,29 @@ if($param_1 == 'video')
 // user specified tag.
 elseif($param_1 == 'tag')
 {
+	//echo 'tag controller';
 	new TagController($param_2);
 }
 
 // Delegate to the user controller if the first param is 'user'.
 elseif($param_1 == 'users')
 {
+	//echo 'user controller';
 	new UserController($param_2);
 }
 
 // Call the video controller if we get a channel and a video.
 elseif(isset($param_1) && isset($param_2))
 {
+	//echo 'channel/video';
 	new VideoController($param_2);
 }
 
 // If we only get the first parameter and no second parameter,
 // we should assume that it's a channel name.
-elseif(isset($param_1) && !isset($param_2))
+elseif($param_1 != '' && $param_2 == '')
 {
+	//echo 'You\'ve reached a channel!';
 	new ChannelController($param_1);
 }
 
@@ -272,7 +277,8 @@ elseif(isset($param_1) && !isset($param_2))
 // This is also the catch-all if something goes wrong.
 else
 {
+	//echo 'frontpage controller';
 	new FrontPageController();
 }
-**/
+
 ?>

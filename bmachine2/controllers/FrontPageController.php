@@ -7,6 +7,7 @@ class FrontPageController
         // Constructor, retrieve function
         function FrontPageController()
         {
+			//echo 'The FrontPageController has been instantiated.';
 			$this->getChannels();
         }
 
