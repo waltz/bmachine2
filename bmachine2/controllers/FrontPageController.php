@@ -36,7 +36,50 @@ class FrontPageController
 		$db->disconnect();
 
 		//smaaaaaarty
-		$smarty->assign('channels', $channels);
+		//$smarty->assign('channels', $channels);
+		$smarty->assign('channels', 
+	array(
+		array(
+			'id' => '0',
+			'title' => 'First Channel',
+			'description' => 'This is like the best channel ever!',
+			'modified' => 'Dec 12, 2006',
+			'icon_url' => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			'donation_html' => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			'donation_url' => 'http//website.w/donate.php',
+			'website_url' => 'http://website.ws', 
+			'license_name' => 'Attribution yeah yeah',
+			'license_url' => 'http://license.com',
+			'tags' => array('tag1','tag2','tag3')
+		),
+		array(
+			'id' => '1',
+			'title' => 'Second Channel',
+			'description' => 'second channel second channel second channel',
+			'modified' => 'Oct 11, 2005',
+			'icon_url' => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			'donation_html' => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			'donation_url' => 'http//website.w/donate.php',
+			'website_url' => 'http://website.ws', 
+			'license_name' => 'Attribution yeah yeah',
+			'license_url' => 'http://license.com',
+			'tags' => array('tag4','tag5')
+		),
+		array(
+			'id' => '2',
+			'title' => 'Third Channel',
+			'description' => '3rd 3rd 3rd',
+			'modified' => 'Jul 3, 2006',
+			'icon_url' => 'http://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Russian_icon_Instaplanet_Saint_Nicholas.JPG/300px-Russian_icon_Instaplanet_Saint_Nicholas.JPG',
+			'donation_html' => "PLEASE gimme <a href='http://www.yeah.com'>money</a>. <b>OKAY?</b>",
+			'donation_url' => 'http//website.w/donate.php',
+			'website_url' => 'http://website.ws', 
+			'license_name' => 'Attribution yeah yeah',
+			'license_url' => 'http://license.com',
+			'tags' => array('tag6','tag7','tag8','tag9','tag10','tag11','tag12','tag7','tag8','tag9','tag10','tag11','tag12')
+		)
+	)
+); 
 
 
 		$smarty->display('frontpage.tpl');
