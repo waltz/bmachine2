@@ -44,7 +44,8 @@ class VideoController
 	function getVideo($id)
 	{
 		$video_query = 'SELECT title, description, modified, icon_url, license_name, license_url, website_url, donation_url, adult, release_date, length, mime, fileurl, size, downloads FROM videos WHERE id="$id";';
-		return $db->getArray($db->query($video_query));
+		//$result = $db->getArray($db->query($video_query));
+		return $result;
 	}
 
 	// View a video's page.
@@ -54,11 +55,11 @@ class VideoController
 		
 		// This query grabs all of the tags associated with the video.
 		$tag_query = 'SELECT name FROM video_tags WHERE id="$id\";';
-		$video_tags = $db->getArray($db->query($tag_query));
+		//$video_tags = $db->getArray($db->query($tag_query));
  
 		// This query grabs the list of people involved with the video
 		$credits_query = 'SELECT name, role FROM video_credits WHERE id="$id;";';
-		$video_credits = $db->getArray($db->query($credits_query));
+		//$video_credits = $db->getArray($db->query($credits_query));
 	}
 	
 	// Edit an existing video.
