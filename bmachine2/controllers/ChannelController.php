@@ -12,7 +12,8 @@ class ChannelController
 	// Create
 	function addChannel()
 	{
-		$add_query = 'INSERT INTO channels(title, description, modified, icon_url) VALUES ($title, $description, $modified, $icon_url);'
+		$add_query = 'INSERT INTO channels(title, description, modified, icon_url) VALUES ($title, $description, $modified, $icon_url);';
+
 	}
 
 	// Retrieve
