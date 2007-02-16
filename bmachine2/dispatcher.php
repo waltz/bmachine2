@@ -28,6 +28,8 @@ $param_1 = strtok($parameters, '/');
 $param_2 = strtok('/');
 $param_3 = strtok('/');
 
+new FrontPageController();
+
 //Instantiate DatabaseController
 $db = new DatabaseController();
 
