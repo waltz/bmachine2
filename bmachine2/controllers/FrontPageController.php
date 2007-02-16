@@ -7,7 +7,7 @@ class FrontPageController
         // Constructor, retrieve function
         function FrontPageController()
         {
-		getChannels();
+			$this->getChannels();
         }
 
         // Retrieve

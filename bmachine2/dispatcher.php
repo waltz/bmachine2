@@ -13,20 +13,26 @@ $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
-// Include the controllers
-require_once('controllers/DatabaseController.php');
-require_once('controllers/ChannelController.php');
-require_once('controllers/VideoController.php');
-require_once('controllers/TagController.php');
-require_once('controllers/FrontPageController.php');
+// Include the controllers 
+include 'controllers/DatabaseController.php';
+include 'controllers/ChannelController.php';
+include 'controllers/VideoController.php';
+include 'controllers/TagController.php';
+include 'controllers/FrontPageController.php';
 
 // Grab the parameters.
-$parameters = $_GET['params'];
+//$parameters = $_GET['params'];
+$navString = $_SERVER['REQUEST_URI'];
+$parts = explode('/', $navString);
 
 // Parse out the parameters.
-$param_1 = strtok($parameters, '/');
-$param_2 = strtok('/');
-$param_3 = strtok('/');
+//$param_1 = strtok($parameters, '/');
+//$param_2 = strtok('/');
+//$param_3 = strtok('/');
+$param_1 = $parts['2'];
+echo $param_1;
+$param_2 = $parts['3'];
+$param_3 = $parts['4'];
 
 //Instantiate DatabaseController
 $db = new DatabaseController();
