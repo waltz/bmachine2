@@ -13,7 +13,7 @@ $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
-
+/** 
 //required for header.tpl
 $smarty->assign('title', 'My Video Blog'); 
 $smarty->assign('username', 'drew');
@@ -138,9 +138,9 @@ $smarty->assign('allvideos',
           )          
           
           ));
-$smarty->assign('currentchannelid', '1');
-$smarty->assign('baseurl', 'http://localhost/test/');
-$smarty->assign('allchannels',
+$smarty->assign('currentchannelid', '1');  
+$smarty->assign('baseurl', 'http://localhost/test/');  
+$smarty->assign('allchannels', 
 	array(
 		array(
 			id => '0',
@@ -182,7 +182,7 @@ $smarty->assign('allchannels',
 			tags => array('tag6','tag7','tag8','tag9','tag10','tag11','tag12','tag7','tag8','tag9','tag10','tag11','tag12')
 		)
 	)
-);
+); 
 
 //test values for header2.tpl
 $smarty->assign('sitetitle', 'my video blog');
@@ -191,9 +191,9 @@ $smarty->assign('cssurl', 'themes/default/default.css');
 $smarty->assign('rssurl', 'http://none.rss');// 
 
 //$smarty->display('header.tpl');
-$smarty->display('showchannel.tpl');
+$smarty->display('showchannel.tpl'); 
 //$smarty->display('frontpage.tpl'); 
-
+**/ 
 // Include the controllers
 require_once('controllers/DatabaseController.php');
 require_once('controllers/ChannelController.php');
@@ -208,6 +208,7 @@ $get_params = $_GET['params'];
 $param_1 = strtok($parameters, '/');
 $param_2 = strtok('/');
 $param_3 = strtok('/');
+
 
 //Instantiate DatabaseController
 $db = new DatabaseController();
