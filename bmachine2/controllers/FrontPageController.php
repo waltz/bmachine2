@@ -27,7 +27,8 @@ class FrontPageController
 				if ($tag["id"] == $channel["id"])
 				{
 					$channel["tags"][] = $tag["name"];
-					
+					//Uncomment this after we get unit tests:
+					//unset($tags[$tag]);
 				}
 			}
 		}
