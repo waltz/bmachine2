@@ -44,10 +44,11 @@ class VideoController
     // Get video metadata
 	function getVideo($id)
 	{
-		//$db = new DatabaseController();
+		$db = new DatabaseController();
 		$video_query = 'SELECT title, description, modified, icon_url, license_name, license_url, website_url, donation_url, adult, release_date, length, mime, fileurl, size, downloads FROM videos WHERE id="$id";';
-		$result = $db->getArray($db->query($video_query));
-		return $result;
+		//$result = $db->getArray($db->query($video_query));
+		//return $result;
+		$db->disconnect();
 	}
 
 	// View a video's page.

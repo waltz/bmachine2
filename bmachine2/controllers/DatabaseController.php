@@ -64,17 +64,15 @@ class DatabaseController
 	{
 		if($this->isMySQL())
 		{
-			$result = mysql_query($query);
-			$this->last_result = $result;
-			return $result;
+			return mysql_query($query);
+			//$this->last_result = $result;
 		}
 		else 
 		{
 			if($this->isSQLite())
 			{
-				$result = sqlite_query($query);
-				$this->last_result = $result;
-				return $result;
+				return sqlite_query($query);
+				//$this->last_result = $result;
 			}
 			else
 			{
@@ -86,9 +84,8 @@ class DatabaseController
 	// Generate an array based upon a result of a database query.
 	// When called with no parameters, tries to use the last result.
 	// Returns FALSE on failure or a result on success.
-	function getArray()
+	function getArray($result)
 	{
-		$result = $this->last_result;
 		if($this->isMySQL())
 		{
 			return mysql_fetch_array($result);
