@@ -8,6 +8,7 @@ class DatabaseController
 	var $password;				// Password for MySQL.
 	var $database;				// MySQL database name or SQLite filename.
 	var $sqlite_handle;			// Holds the database handle for SQLite databases.	
+	var $connection;			// Keeps track of the connection for proper disconnect
 	
 	// Everything should be setup on instantiation.
 	function DatabaseController()
@@ -42,7 +43,7 @@ class DatabaseController
 	{
 		if($this->isMySQL())
 		{
-			$mysql_status = mysql_connect($this->hostname, $this->username, $this->password);
+			$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
 			mysql_select_db($this->database);
 		}
 		else if($this->isSQLite())
@@ -100,6 +101,23 @@ class DatabaseController
 		{
 			return FALSE;
 		}
+	}
+
+	function disconnect()
+	{
+		if($this->isMySQL())
+                {
+                        mysql_close($this->connection);
+                }
+                else if($this->isSQLite())
+                {
+                        sqlite_close($this->sqlite_handle);
+                }
+                else
+                {
+                        return FALSE;
+                }
+
 	}
 
 	// Returns TRUE if MySQL, FALSE if not.
