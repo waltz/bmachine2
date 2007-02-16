@@ -20,9 +20,9 @@ class DatabaseController
 	// Returns 1 on success and FALSE on failure.
 	function configure()
 	{
-		if((include "../db/db_config.inc") == 1)
+		if((include "db/db_config.inc") == 1)
 		{
-			$this->database_type = $cf_dbengine
+			$this->database_type = $cf_dbengine;
 			$this->hostname = $cf_hostname;
 			$this->username = $cf_username;
 			$this->password = $cf_password;
@@ -67,23 +67,27 @@ class DatabaseController
 			$this->last_result = $result;
 			return $result;
 		}
-		else if($this->isSQLite())
+		else 
 		{
-			$result = sqlite_query($query);
-			$this->last_result = $result;
-			return $result;
-		}
-		else
-		{
-			return FALSE;
+			if($this->isSQLite())
+			{
+				$result = sqlite_query($query);
+				$this->last_result = $result;
+				return $result;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 	}
 	
 	// Generate an array based upon a result of a database query.
 	// When called with no parameters, tries to use the last result.
 	// Returns FALSE on failure or a result on success.
-	function getArray($result = $this->last_result)
+	function getArray()
 	{
+		$result = $this->last_result;
 		if($this->isMySQL())
 		{
 			return mysql_fetch_array($result);

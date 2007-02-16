@@ -188,6 +188,7 @@ $smarty->assign('rssurl', 'http://none.rss');//
 */
 
 // Include the controllers
+require_once('controllers/DatabaseController.php');
 require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
@@ -200,6 +201,9 @@ $get_params = $_GET['params'];
 $param_1 = strtok($parameters, '/');
 $param_2 = strtok('/');
 $param_3 = strtok('/');
+
+//Instantiate DatabaseController
+$db = new DatabaseController();
 
 // If the first parameter is a video then the second is the name
 // of the video.

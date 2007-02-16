@@ -20,6 +20,18 @@ class FrontPageController
 
 		$tags = $db->getArray($db->query($channel_tags_query));
 
+		//Put the tags in the appropriate array
+		foreach ($channels as $channel) 
+		{
+			foreach ($tags as $tag) {
+				if ($tag["id"] == $channel["id"])
+				{
+					$channel["tags"][] = $tag["name"];
+					
+				}
+			}
+		}
+
 		//smaaaaaaarty
 		$smarty->assign('channels', $channels);
 		$smarty->display('frontpage.tpl');
