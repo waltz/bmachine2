@@ -13,20 +13,18 @@ $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
-
-
 $smarty->assign('settings', 
 	array (
-		name => 'my vlog site222',
-		description => 'my site is awesome',
-		open_reg => 'yes',
-		reg_approval => 'yes',
-		bandwidth_limit => '',
-		baseurl => 'http://localhost/test',
-		iconurl => 'http://getdemocracy.com/logo.gif',
-		donation_html => 'give me <b>money</b>',
-		donation_url => 'http://donationurl.com',
-		donthideporn => 'no'
+		'name' => 'my vlog site222',
+		'description' => 'my site is awesome',
+		'open_reg' => 'yes',
+		'reg_approval' => 'yes',
+		'bandwidth_limit' => '',
+		'baseurl' => 'http://localhost/test',
+		'iconurl' => 'http://getdemocracy.com/logo.gif',
+		'donation_html' => 'give me <b>money</b>',
+		'donation_url' => 'http://donationurl.com',
+		'donthideporn' => 'no'
 	)
 );
 	
