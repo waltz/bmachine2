@@ -26,13 +26,14 @@ class VideoController
 		}
 	}
 	
-	// Add a video to the datbase or 
+	// Add a video to the database, or display a blank page for adding.
 	function addVideo()
 	{
 		if(isset($_POST['video_name']) || isset($_POST['description']))
 		{
-			$add_query = "INSERT INTO videos(title, description, icon_url, license_name, license_url, website_url, donation_html, donation_url, release_date, runtime, adult, mime, fileurl, size) VALUES (\'$title\', \'$description\', \'$icon_url\', \'$license_name\', \'$license_url\', \'$website_url\', \'$donation_html\', \'$donation_url\', \'$release_date\', \'$runtime\', \'$adult\', \'$mime\', \'$fileurl\', \'$size\');"; 				
-			$db->query($add_query);
+			
+			$query = "INSERT INTO videos(title, description, icon_url, license_name, license_url, website_url, donation_html, donation_url, release_date, runtime, adult, mime, fileurl, size) VALUES (\'$title\', \'$description\', \'$icon_url\', \'$license_name\', \'$license_url\', \'$website_url\', \'$donation_html\', \'$donation_url\', \'$release_date\', \'$runtime\', \'$adult\', \'$mime\', \'$fileurl\', \'$size\');"; 				
+			$db->query($query);
 		}
 		else
 		{

@@ -231,7 +231,7 @@ $param_2 = $parts['3'];
 $param_3 = $parts['4'];
 //echo $param_3;
 //Instantiate DatabaseController
-$db = new DatabaseController();
+//$db = new DatabaseController();
 
 // If the first parameter is a video then the second is the name
 // of the video.
