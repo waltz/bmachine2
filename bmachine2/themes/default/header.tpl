@@ -16,6 +16,8 @@ loggedin - boolean, yes or no
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="pub_css.css"/>
 	<link rel="stylesheet" type="text/css" href="themes/default/style.css"/>
+	<link rel="stylesheet" type="text/css" href="{$baseurl}themes/default/style.css"/>
+	<link rel="stylesheet" type="text/css" href="{$cssurl}"/>	
 	</head>
 	<body>
 

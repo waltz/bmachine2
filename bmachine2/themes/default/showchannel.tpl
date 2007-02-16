@@ -10,14 +10,14 @@ $allchannels[#]
 	$allchannels[#].rssurl
 *}
 
-{include file='header2.tpl'}
+{include file='header.tpl'}
 
 <body>
 <div id="wrap">
 <div id="inner_wrap">
 
 	<div id="library_header_wrap">
-	<div id="library_title">{$sitetitle}: {$allchannels[$currentchannelid].title}</div>
+	<div id="library_title"><a href="{$baseurl}">{$sitetitle}</a>: <a href="{$baseurl}channels/{$allchannels[$currentchannelid].title}">{$allchannels[$currentchannelid].title}</a></div>
 <div id="rss_feed"><a href="{$channel.rssurl}"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
 
@@ -25,26 +25,7 @@ $allchannels[#]
 		<h3 class="section_name">All Files</h3>
 		<ul>
 
-{foreach from=$allvideos item=video}
-<!-- VIDEO -->
-
-<li><div class='video_display'>
-
-<div class="thumbnail">
-	<a href="{$video.url}"><img src="{$video.thumbnailurl}" width="150"  style="border: 0" alt="{$video.name}" /></a>
-</div>
-
-<div class="video_title">
-	<a href="{$video.url}">{$video.name}</a>
-</div>
-<a href="{$video.url}">more...</a>
-</div>
-
-<div class="dl_links">
-<a href="{$video.directdownloadurl}" class="link-download">Direct Download</a> </div>
-</li>
-<!-- /VIDEO -->
-{/foreach}
+{include file='showallvideosinachannel.tpl'}
 
 </ul>
 
