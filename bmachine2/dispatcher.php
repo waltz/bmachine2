@@ -206,8 +206,6 @@ $smarty->assign('rssurl', 'http://none.rss');//
 //$smarty->display('showchannel.tpl'); 
 //$smarty->display('frontpage.tpl'); 
 
-
-3B
 // Include the controllers
 require_once('controllers/DatabaseController.php');
 require_once('controllers/ChannelController.php');
