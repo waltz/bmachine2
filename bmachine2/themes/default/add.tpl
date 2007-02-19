@@ -1,6 +1,6 @@
 {* Smarty *}
 {*This smarty template requires the following smarty variables:
-allchannels - an array containing all availible channels
+channels - an array containing all availible channels
 maxuploadsize - the maximum upload size for this server
 allvideos - an array containing all previously published videos 
 --> need to make autofill work. right now it's just commented out. the
@@ -8,6 +8,8 @@ problem is that smarty data and java data don't work well together. I
 think the best solution is to read smarty data into a javascript datastructure  
 *}
 
+{include file='header.tpl'}
+{include file='javascripts.inc'}
 
 <!-- BASIC PUBLISHING OPTIONS -->
 <div class="wrap">
@@ -81,7 +83,7 @@ think the best solution is to read smarty data into a javascript datastructure
 <fieldset id="channel_selection">
 	<legend>Publish to These Channels</legend>
    <ul>
-{foreach from=$allchannels item=channel}
+{foreach from=$channels item=channel}
 <li><input type=checkbox name="post_channels[]" value="{$channel.id}" /> {$channel.title}<br/>
 {/foreach}
 	</ul>
@@ -128,6 +130,8 @@ think the best solution is to read smarty data into a javascript datastructure
 <div class="section optional">
 <div class="section_header">Optional: Additional Information</div>
 
+
+
 <!-- <fieldset id="auto_fill">
 <legend>Auto Fill</legend> 
 <div style="font-size: 12px; line-height: 15px;">Automatically fill in these information fields with info from a previously published video:</div>
@@ -137,8 +141,18 @@ think the best solution is to read smarty data into a javascript datastructure
 <option value="{$video.id}">{$video.title}</option>
 {/foreach}
 </select>
- --> 
+ 
 		</fieldset>
+-->
+
+<fieldset><div class="section_header">Donation HTML (Optional) </div>
+	<textarea name="Donation_HTML" rows="4" cols="38">
+	</textarea>
+</fieldset>
+
+<fieldset><div class="section_header">Donation URL (Optional) </div>
+	<input type="text" name="Donation_URL" size="38" value="http://"/>
+</fieldset>
 
     <fieldset>
       <div class="the_legend">
@@ -149,7 +163,7 @@ think the best solution is to read smarty data into a javascript datastructure
     </fieldset>
 
     <fieldset>
-      <div class="the_legend">Associated Donation Setup:</div> 
+      <!-- <div class="the_legend">Associated Donation Setup:</div> --> 
 
 <select name="donation_id">
 <option value="">(none)</option>
@@ -200,7 +214,7 @@ think the best solution is to read smarty data into a javascript datastructure
 <fieldset>
   <div class="the_legend">Associated Webpage </div>
 	<br />
-	<input type="text" name="Webpage" size="40" value=""/>
+	<input type="text" name="Webpage" size="40" value="http://"/>
 </fieldset>
 
 
@@ -343,5 +357,5 @@ Will be set to the time that you press 'publish'.
 </div>
 </form>
 <div class="spacer">&nbsp;</div>
-</body>
-</html>
+
+{include file='footer.tpl'}

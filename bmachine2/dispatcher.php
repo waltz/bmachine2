@@ -199,9 +199,11 @@ $smarty->assign('channels',
 $smarty->assign('sitetitle', 'my video blog');
 $smarty->assign('pagetitle', 'first channel'); 
 
-//$smarty->display('header.tpl');
+//$smarty->display('add.tpl');
 //$smarty->display('showchannel.tpl'); 
-$smarty->display('frontpage.tpl'); 
+//$smarty->display('frontpage.tpl');
+$smarty->display('channeledit.tpl');
+//$smarty->display('addchannel.tpl'); 
 
 // Include the controllers
 require_once('controllers/DatabaseController.php');

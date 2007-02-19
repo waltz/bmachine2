@@ -14,21 +14,18 @@ loggedin - boolean, yes or no
 	<head>
 	<title>{$title} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}pub_css.css"/>
-	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/white.css"/>
 	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/style.css"/>
-	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/default.css"/>	
 	</head>
 	<body>
 
 	<div id="head">
-	<h1 id="preview">&nbsp;</h1>
+		<h1 id="preview">&nbsp;</h1>
 	</div>
-
+	
 	{* Check to see if the user is logged in.*}	
 	{if $loggedin eq 'yes'}
 	<div id="logged_in">	
-	<a href="index.php">View Front Page &gt;&gt;</a> | <strong><a href="user_edit.php?i={$username}">{$username}</a></strong> - <a href="login.php?logout=1">logout</a>
+		<a href="index.php">View Front Page &gt;&gt;</a> | <strong><a href="user_edit.php?i={$username}">{$username}</a></strong> - <a href="login.php?logout=1">logout</a>
 	</div>
 		{* Check if user has admin rights *}
 	 	{if $userprivilege eq 'admin'}

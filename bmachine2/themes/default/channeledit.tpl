@@ -1,15 +1,17 @@
 {* Smarty *}
 
+{replace $channels[2] with $channel when the DB is up}
+
 {include file='header.tpl'}
 
 <div class="wrap">
 
-<form method="post" action="create_channel.php" name="post" enctype="multipart/form-data" accept-charset="utf-8">
+<form method="post" action="edit_channel.php" name="post" enctype="multipart/form-data" accept-charset="utf-8">
 <!-- , iso-8859-1 -->
 <input type="hidden" name="ID" value="" class="hidden"/>
 <div id="poststuff">
 <div class="page_name">
-   <h2>Create a Channel</h2>
+   <h2>Edit Channel: <a href="{$baseurl}/{$channel.title}">{$channel.title}</a></h2>
 
    <div class="help_pop_link">
       <a href="javascript:popUp('http://www.getdemocracy.com/broadcast/help/channel_popup.php')">
