@@ -1,5 +1,5 @@
 <?php
-
+/* temp
 // Include the controllers
 require_once('controllers/DatabaseController.php');
 require_once('controllers/AuthenticationController.php');
@@ -15,7 +15,7 @@ $parts = explode('/', $url);
 $param_1 = $parts['2'];
 $param_2 = $parts['3'];
 $param_3 = $parts['4'];
-
+*/ 
 // Include the Smarty library.
 $path = getcwd();
 require_once($path . '/smarty/Smarty.class.php');
@@ -30,13 +30,15 @@ $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
+
+/* temp
 // Instantiate the Database and Authentication controllers.
 global $db;
 $db = new DatabaseController();
 
 global $auth;
 $auth = new AuthenticationController();
-
+*/
 /*****************BEGIN SMARTY TEST DATA***********************/
 $smarty->assign('settings', 
 	array (
@@ -62,7 +64,7 @@ $smarty->assign('loggedin', 'no');
 $smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb 
 $smarty->assign('test', 'hello!');
 
-$smarty->assign('allvideos',
+$smarty->assign('videos',
 			array(
 				array('id' => '0',
 					'title' => 'first video',
@@ -84,18 +86,23 @@ $smarty->assign('allvideos',
                	)
             	),
           	'webpage' => 'http://www.yeahd00d.com',
-          	'releasedate' => array(
+          	'tags' => array('tag1','tag2','tag3'),
+          	'modified' => array(
           		'year' => '2007',
           		'month' => 'Jan',
-          		'day' => '5'
+          		'day' => '5',
+          		'hour' => '19',
+          		'minute' => '31',
+          		'second' => '02'
           	),
-          	'playlength' => array(
+          	'runtime' => array(
           		'hours' => '1',
           		'minutes' => '14',
           		'seconds' => '45'
           	),
           	'isexcerpt' => 'yes',
           	'isadult' => 'no',
+          	'channels' => array('First Channel'),
           	'createdate' => array('year' => '2007',
           						'month' => 'Jan',
           						'day' => '5'
@@ -119,18 +126,23 @@ $smarty->assign('allvideos',
              		)
             	),
           	'webpage' => 'http://www.video2.com',
-          	'releasedate' => array(
+          	'tags' => array('tag3','tag4','tag5','tag6','tag7','tag8'),
+          	'modified' => array(
           		'year' => '1999',
           		'month' => 'Dec',
-          		'day' => '3'
+          		'day' => '3',
+          		'hour' => '5',
+          		'minute' => '15',
+          		'second' => '05'
           	),
-          	'playlength' => array(
+          	'runtime' => array(
           		'hours' => '0',
           		'minutes' => '1',
           		'seconds' => '23'
           	),
           	'isexcerpt' => 'no',
           	'isadult' => 'yes',
+          	'channels' => array('First Channel'),
           	'createdate' => array('year' => '1990',
           						'month' => 'Sep',
           						'day' => '9'
@@ -154,18 +166,63 @@ $smarty->assign('allvideos',
              		)
             	),
           	'webpage' => 'http://www.video2.com',
-          	'releasedate' => array(
+          	'tags' => array('tag9','tag10','tag11'),
+          	'modified' => array(
           		'year' => '1999',
           		'month' => 'Dec',
-          		'day' => '3'
+          		'day' => '3',
+          		'hour' => '02',
+          		'minute' => '24',
+          		'second' => '35'
           	),
-          	'playlength' => array(
+          	'runtime' => array(
           		'hours' => '0',
           		'minutes' => '1',
           		'seconds' => '23'
           	),
           	'isexcerpt' => 'no',
           	'isadult' => 'yes',
+          	'channels' => array('First Channel', 'Second Channel'),
+          	'createdate' => array('year' => '1990',
+          						'month' => 'Sep',
+          						'day' => '9'
+          	),
+          	'thumbnailurl' => 'http://127.0.0.1/vegworcester-css/bm/thumbnails/7896fd19809694632effe6aefbf94b0b.jpg',
+          	'url' => 'http://tester.org'
+          ),
+				array('id' => '3',
+					'title' => ' video',
+          		'creator' => 'yeah, man',
+          		'copyrightholder' => 'boner mcgee', 
+          		'keywords' => array('2keyword1','2keyword2','2keyword3'),
+          		'peopleinvolved' => array(
+          			array(
+          				'name' => 'Cpt John',
+               		'role' => 'senior admin'
+             		),
+             		array(
+              			'name' => 'cody',
+                  	'role' => 'asst'
+             		)
+            	),
+          	'webpage' => 'http://www.video2.com',
+          	'tags' => array('tag9','tag10','tag11'),
+          	'modified' => array(
+          		'year' => '1999',
+          		'month' => 'Dec',
+          		'day' => '3',
+          		'hour' => '02',
+          		'minute' => '24',
+          		'second' => '35'
+          	),
+          	'runtime' => array(
+          		'hours' => '0',
+          		'minutes' => '1',
+          		'seconds' => '23'
+          	),
+          	'isexcerpt' => 'no',
+          	'isadult' => 'yes',
+          	'channels' => array('First Channel', 'Second Channel'),
           	'createdate' => array('year' => '1990',
           						'month' => 'Sep',
           						'day' => '9'
@@ -173,6 +230,7 @@ $smarty->assign('allvideos',
           	'thumbnailurl' => 'http://127.0.0.1/vegworcester-css/bm/thumbnails/7896fd19809694632effe6aefbf94b0b.jpg',
           	'url' => 'http://tester.org'
           )          
+          
           
           ));
 $smarty->assign('currentchannelid', '1');    
@@ -220,9 +278,7 @@ $smarty->assign('channels',
 	)
 ); 
 
-//test values for header2.tpl
-$smarty->assign('sitetitle', 'my video blog');
-$smarty->assign('pagetitle', 'first channel'); 
+$smarty->display('video.tpl');
 
 /*****************END SMARTY TEST DATA***********************/
 
