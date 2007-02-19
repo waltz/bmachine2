@@ -1,5 +1,6 @@
 <?php
-/* temp
+
+
 // Include the controllers
 require_once('controllers/DatabaseController.php');
 require_once('controllers/AuthenticationController.php');
@@ -15,7 +16,7 @@ $parts = explode('/', $url);
 $param_1 = $parts['2'];
 $param_2 = $parts['3'];
 $param_3 = $parts['4'];
-*/ 
+ 
 // Include the Smarty library.
 $path = getcwd();
 require_once($path . '/smarty/Smarty.class.php');
@@ -47,7 +48,7 @@ $smarty->assign('settings',
 		'open_reg' => 'yes',
 		'reg_approval' => 'yes',
 		'bandwidth_limit' => '',
-		'baseurl' => 'http://localhost/test/',
+		'baseurl' => 'http://bmm.badcrayon.net/bmachine2/',
 		'iconurl' => 'http://getdemocracy.com/logo.gif',
 		'donation_html' => 'give me <b>money</b>',
 		'donation_url' => 'http://donationurl.com',
@@ -233,6 +234,9 @@ $smarty->assign('videos',
           
           
           ));
+
+
+
 $smarty->assign('currentchannelid', '1');    
 $smarty->assign('channels', 
 	array(
