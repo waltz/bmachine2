@@ -1,10 +1,27 @@
 <?php
 
+// Include the controllers
+require_once('controllers/DatabaseController.php');
+require_once('controllers/AuthenticationController.php');
+require_once('controllers/ChannelController.php');
+require_once('controllers/VideoController.php');
+require_once('controllers/TagController.php');
+require_once('controllers/FrontPageController.php');
+
+// See what URL we are being passed and parse it out.
+$url = $_SERVER['REQUEST_URI'];
+$parts = explode('/', $url);
+
+$param_1 = $parts['2'];
+$param_2 = $parts['3'];
+$param_3 = $parts['4'];
+
 // Include the Smarty library.
 $path = getcwd();
-require($path . '/smarty/Smarty.class.php');
+require_once($path . '/smarty/Smarty.class.php');
 
 // Create a new Smarty instance.
+global $smarty;
 $smarty = new Smarty();
 
 // Configure Smarty include paths.
@@ -13,6 +30,14 @@ $smarty->compile_dir = $path . '/smarty/templates_c/';
 $smarty->cache_dir = $path . '/smarty/cache/';
 $smarty->config_dir = $path . '/smarty/configs/';
 
+// Instantiate the Database and Authentication controllers.
+global $db;
+$db = new DatabaseController();
+
+global $auth;
+$auth = new AuthenticationController();
+
+/*****************BEGIN SMARTY TEST DATA***********************/
 $smarty->assign('settings', 
 	array (
 		'name' => 'my vlog site222',
@@ -199,42 +224,13 @@ $smarty->assign('channels',
 $smarty->assign('sitetitle', 'my video blog');
 $smarty->assign('pagetitle', 'first channel'); 
 
-//$smarty->display('add.tpl');
-//$smarty->display('showchannel.tpl'); 
-//$smarty->display('frontpage.tpl');
-$smarty->display('channeledit.tpl');
-//$smarty->display('addchannel.tpl'); 
+/*****************END SMARTY TEST DATA***********************/
 
-// Include the controllers
-require_once('controllers/DatabaseController.php');
-require_once('controllers/ChannelController.php');
-require_once('controllers/VideoController.php');
-require_once('controllers/TagController.php');
-require_once('controllers/FrontPageController.php');
+// The following if/else block contains the main dispatcher logic.
 
-// Grab the parameters.
-//$parameters = $_GET['params'];
-$navString = $_SERVER['REQUEST_URI'];
-$parts = explode('/', $navString);
-//print_r($parts);
-// Parse out the parameters.
-//$param_1 = strtok($parameters, '/');
-//$param_2 = strtok('/');
-//$param_3 = strtok('/');
-$param_1 = $parts['2'];
-//echo $param_1;
-$param_2 = $parts['3'];
-//echo $param_2;
-$param_3 = $parts['4'];
-//echo $param_3;
-//Instantiate DatabaseController
-//$db = new DatabaseController();
-
-// If the first parameter is a video then the second is the name
-// of the video.
+// If the first parameter is a video then the second is the name of the video.
 if($param_1 == 'video')
 {	
-	//echo 'video controller';
 	new VideoController($param_2);
 }
 
@@ -242,21 +238,18 @@ if($param_1 == 'video')
 // user specified tag.
 elseif($param_1 == 'tag')
 {
-	//echo 'tag controller';
 	new TagController($param_2);
 }
 
 // Delegate to the user controller if the first param is 'user'.
 elseif($param_1 == 'users')
 {
-	//echo 'user controller';
 	new UserController($param_2);
 }
 
 // Call the video controller if we get a channel and a video.
 elseif(isset($param_1) && isset($param_2))
 {
-	//echo 'channel/video';
 	new VideoController($param_2);
 }
 
@@ -264,7 +257,6 @@ elseif(isset($param_1) && isset($param_2))
 // we should assume that it's a channel name.
 elseif($param_1 != '' && $param_2 == '')
 {
-	//echo 'You\'ve reached a channel!';
 	new ChannelController($param_1);
 }
 
@@ -272,7 +264,6 @@ elseif($param_1 != '' && $param_2 == '')
 // This is also the catch-all if something goes wrong.
 else
 {
-	//echo 'frontpage controller';
 	new FrontPageController();
 }
 

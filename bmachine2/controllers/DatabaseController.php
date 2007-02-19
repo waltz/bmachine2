@@ -65,19 +65,14 @@ class DatabaseController
 		if($this->isMySQL())
 		{
 			return mysql_query($query);
-			//$this->last_result = $result;
 		}
-		else 
+		else if($this->isSQLite())
 		{
-			if($this->isSQLite())
-			{
-				return sqlite_query($query);
-				//$this->last_result = $result;
-			}
-			else
-			{
-				return FALSE;
-			}
+			return sqlite_query($query);
+		}
+		else
+		{
+			return FALSE;
 		}
 	}
 	

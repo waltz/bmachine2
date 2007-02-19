@@ -2,20 +2,17 @@
 
 class AuthenticationController
 {
-	// Session variables must be globals.
-	global $authdata;
-	
 	function AuthenticationController()
 	{
-		// Need a new database connection.
-		$db = new DatabaseController();
+		// Session variables must be globals.
+		global $authdata;
 		
 		// Start/resume the session.
 		session_start();
 	}
 	
 	// Log the user in.
-	// Returns 0 on success, 1 for on user, 2 if it's bad password.
+	// Returns 0 on success, 1 on non-existent user, 2 if it's bad password
 	function login()
 	{
 		// Get the username and password from HTTP POST.
@@ -29,21 +26,28 @@ class AuthenticationController
 		$user_array = $db->getArray($db->query('SELECT * FROM users WHERE username="$username"'));
 		
 		// If the user array comes back empty, there isn't a user with that name.
-		if($user_array == FALSE))
+		if($user_array == FALSE)
 		{
 			return 1;
 		}
 		
-		// See if the password is correct.
+		// If the passwords match, set the username and permissions level.
 		if($user_array['pass'] == $pass_md5)
 		{
-			$auth_token = 
-			session_register($auth_token);
+			/*
+			$_SESSION['username'] = $username;
+			$perm_level = $db->getArray($db->query("SELECT admin FROM users WHERE username='$username'"));
+			if(
+			
+			$_SESSION['perm_level'] = 
+			*/
 		}
 		else
 		{
 			return 2;
 		}
+		
+		return 0;
 	}
 	
 	// Is an action allowed?
@@ -53,6 +57,7 @@ class AuthenticationController
 		// There should be a table that holds these values, and the user controller should allow them to be edited.
 		$admin_actions(ViewChannel, AddChannel, EditChannel, AddVideo, EditVideo,  AddUser, EditUser);
 		$user_actions(ViewChannel);
+		$anon_actions();
 		
 		if($perm_level == "Admin")
 		{
@@ -64,15 +69,19 @@ class AuthenticationController
 				}
 			}
 		}
-		elseif($perm_level == "")
+		elseif($perm_level == "User")
 		{
-			foreach($admin_actions as $admin_action)
+			foreach($user_actions as $user_action)
 			{
-				if($admin_action == $action)
+				if($user_action == $action)
 				{
 					return TRUE;
 				}
 			}
+		}
+		else
+		{
+			return FALSE;
 		}
 	}
 	

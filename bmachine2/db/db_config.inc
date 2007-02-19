@@ -2,9 +2,9 @@
 
 // Broadcast Machine Database Configuration File
 $cf_dbengine = 1;  				// 0 = No DB, 1 = MySQL, 2 = SQLite
-$cf_hostname = "mysql.badcrayon.net";
+$cf_hostname = "localhost";
 $cf_username = "bmm";
 $cf_password = "wpimqp";
-$cf_database = "bmm";
+$cf_database = "bmachine2";
 
 ?>
