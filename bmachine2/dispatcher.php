@@ -20,7 +20,7 @@ $smarty->assign('settings',
 		'open_reg' => 'yes',
 		'reg_approval' => 'yes',
 		'bandwidth_limit' => '',
-		'baseurl' => 'http://bmm.badcrayon.net/bmachine2/',
+		'baseurl' => 'http://localhost/test/',
 		'iconurl' => 'http://getdemocracy.com/logo.gif',
 		'donation_html' => 'give me <b>money</b>',
 		'donation_url' => 'http://donationurl.com',
@@ -150,8 +150,7 @@ $smarty->assign('allvideos',
           )          
           
           ));
-$smarty->assign('currentchannelid', '1');  
-$smarty->assign('baseurl', 'http://localhost/test/');  
+$smarty->assign('currentchannelid', '1');    
 $smarty->assign('channels', 
 	array(
 		array(
@@ -198,9 +197,7 @@ $smarty->assign('channels',
 
 //test values for header2.tpl
 $smarty->assign('sitetitle', 'my video blog');
-$smarty->assign('pagetitle', 'first channel');
-$smarty->assign('cssurl', 'themes/default/default.css');
-$smarty->assign('rssurl', 'http://none.rss');// 
+$smarty->assign('pagetitle', 'first channel'); 
 
 //$smarty->display('header.tpl');
 //$smarty->display('showchannel.tpl'); 

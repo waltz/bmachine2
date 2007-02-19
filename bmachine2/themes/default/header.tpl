@@ -14,9 +14,10 @@ loggedin - boolean, yes or no
 	<head>
 	<title>{$title} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="http://bmm.badcrayon.net/bmachine2/pub_css.css"/>
-	<link rel="stylesheet" type="text/css" href="http://bmm.badcrayon.net/bmachine2/themes/default/white.css"/>
-	<link rel="stylesheet" type="text/css" href="http://bmm.badcrayon.net/bmachine2/themes/default/style.css"/>
+	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}pub_css.css"/>
+	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/white.css"/>
+	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/style.css"/>
+	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/default.css"/>	
 	</head>
 	<body>
 
