@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id INTEGER PRIMARY KEY,
 	username blob NOT NULL,
@@ -10,7 +9,6 @@ CREATE TABLE users (
 	banned boolean NOT NULL
 );
 
-DROP TABLE IF EXISTS channels;
 CREATE TABLE channels (
 	id INTEGER PRIMARY KEY,
 	title blob NOT NULL,
@@ -24,7 +22,6 @@ CREATE TABLE channels (
 	license_url blob
 );
 
-DROP TABLE IF EXISTS channel_tags;
 CREATE TABLE channel_tags (
 	id int NOT NULL,
 	name blob NOT NULL,
@@ -32,7 +29,6 @@ CREATE TABLE channel_tags (
 	FOREIGN KEY (id) REFERENCES channels (id)
 );
 
-DROP TABLE IF EXISTS videos;
 CREATE TABLE videos (
 	id INTEGER PRIMARY KEY,
 	title blob NOT NULL,
@@ -53,7 +49,6 @@ CREATE TABLE videos (
 	downloads int NOT NULL
 );
 
-DROP TABLE IF EXISTS video_credits;
 CREATE TABLE video_credits (
 	id int NOT NULL,
 	name blob NOT NULL,
@@ -62,7 +57,6 @@ CREATE TABLE video_credits (
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
-DROP TABLE IF EXISTS video_tags;
 CREATE TABLE video_tags (
 	id int NOT NULL,
 	name blob NOT NULL,
@@ -70,7 +64,6 @@ CREATE TABLE video_tags (
 	FOREIGN KEY (id) REFERENCES videos (id)
 );
 
-DROP TABLE IF EXISTS published;
 CREATE TABLE published (
 	channel_id int NOT NULL,
 	video_id int NOT NULL,
@@ -79,7 +72,6 @@ CREATE TABLE published (
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
 
-DROP TABLE IF EXISTS settings;
 CREATE TABLE settings (
 	name blob NOT NULL,
 	description text,
