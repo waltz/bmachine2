@@ -36,7 +36,7 @@ INSERT INTO videos (
 	runtime,
 	adult,
 	mime,
-	fileurl,
+	file_url,
 	size
 ) VALUES (
 	"Screen is Black",
