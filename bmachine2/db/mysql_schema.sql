@@ -11,6 +11,19 @@ CREATE TABLE IF NOT EXISTS users (
 	KEY (username(100))
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
+CREATE TABLE IF NOT EXISTS licenses (
+        id int unsigned NOT NULL AUTO_INCREMENT,
+        license_name blob NOT NULL,
+        license_url varchar(255) NOT NULL,
+        PRIMARY KEY (id)
+) ENGINE=InnoDB, CHARACTER SET utf8;
+
+CREATE TABLE IF NOT EXISTS donations (
+        id int unsigned NOT NULL AUTO_INCREMENT,
+        donation_html blob NOT NULL,
+        donation_url varchar(255) NOT NULL,
+        PRIMARY KEY (id)
+) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS channels (
 	id int unsigned NOT NULL AUTO_INCREMENT,
@@ -19,15 +32,6 @@ CREATE TABLE IF NOT EXISTS channels (
 	modified timestamp NOT NULL,
 	icon_url varchar(255) NOT NULL,
 	website_url varchar(255) NOT NULL, 
-	license_name blob,
-	license_url varchar(255),
-	PRIMARY KEY (id)
-) ENGINE=InnoDB, CHARACTER SET utf8;
-
-CREATE TABLE IF NOT EXISTS licenses (
-	id int unsigned NOT NULL AUTO_INCREMENT,
-	license_name blob NOT NULL,
-	license_url varchar(255) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
@@ -36,13 +40,6 @@ CREATE TABLE IF NOT EXISTS channel_licenses (
 	license_id int unsigned NOT NULL,
 	PRIMARY KEY (channel_id),
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
-) ENGINE=InnoDB, CHARACTER SET utf8;
-
-CREATE TABLE IF NOT EXISTS donations (
-	id int unsigned NOT NULL AUTO_INCREMENT,
-	donation_html blob NOT NULL,
-	donation_url varchar(255) NOT NULL,
-	PRIMARY KEY (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS channel_donations (
@@ -62,6 +59,7 @@ CREATE TABLE IF NOT EXISTS channel_tags (
 CREATE TABLE IF NOT EXISTS videos (
 	id int unsigned NOT NULL AUTO_INCREMENT,
 	title blob NOT NULL,
+	title_url varchar(255),
 	description text,
 	modified timestamp NOT NULL,
 	icon_url varchar(255) NOT NULL,
@@ -70,7 +68,7 @@ CREATE TABLE IF NOT EXISTS videos (
 	runtime int unsigned, 
 	adult boolean NOT NULL,
 	mime blob NOT NULL,
-	fileurl varchar(255) NOT NULL,
+	file_url varchar(255) NOT NULL,
 	size bigint,
 	downloads int unsigned NOT NULL,
 	PRIMARY KEY (id)

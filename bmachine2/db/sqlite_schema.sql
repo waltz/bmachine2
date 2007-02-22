@@ -9,17 +9,37 @@ CREATE TABLE users (
 	banned boolean NOT NULL
 );
 
+CREATE TABLE licenses (
+        id integer PRIMARY KEY,
+        license_name blob NOT NULL,
+        license_url varchar(255) NOT NULL
+);
+
+CREATE TABLE donations (
+        id int unsigned PRIMARY KEY,
+        donation_html blob NOT NULL,
+        donation_url varchar(255) NOT NULL
+);
+
 CREATE TABLE channels (
 	id INTEGER PRIMARY KEY,
 	title blob NOT NULL,
 	description text NOT NULL,
 	modified timestamp NOT NULL,
 	icon_url blob NOT NULL,
-	donation_html blob,
-	donation_url blob,
-	website_url blob, 
-	license_name blob,
-	license_url blob
+	website_url blob NOT NULL
+);
+
+CREATE TABLE channel_donations (
+        channel_id int unsigned NOT NULL,
+        donation_id int unsigned NOT NULL,
+        PRIMARY KEY (channel_id)
+);
+
+CREATE TABLE channel_licenses (
+	channel_id int unsigned NOT NULL,
+        license_id int unsigned NOT NULL,
+        PRIMARY KEY (channel_id)
 );
 
 CREATE TABLE channel_tags (
@@ -32,22 +52,32 @@ CREATE TABLE channel_tags (
 CREATE TABLE videos (
 	id INTEGER PRIMARY KEY,
 	title blob NOT NULL,
+	title_url varchar(255),
 	description text,
 	modified timestamp NOT NULL,
 	icon_url blob,
-	license_name blob,
-	license_url blob,
 	website_url blob,
-	donation_html blob,
-	donation_url blob,
 	release_date datetime,
 	runtime int, 
 	adult boolean NOT NULL,
 	mime blob NOT NULL,
-	fileurl blob NOT NULL,
+	file_url blob NOT NULL,
 	size bigint,
 	downloads int NOT NULL
 );
+
+CREATE TABLE video_donations (
+        video_id int unsigned NOT NULL,
+        donation_id int unsigned NOT NULL,
+        PRIMARY KEY (video_id)
+);
+
+CREATE TABLE video_licenses (
+        video_id int unsigned NOT NULL,
+        license_id int unsigned NOT NULL,
+        PRIMARY KEY (video_id)
+);
+
 
 CREATE TABLE video_credits (
 	id int NOT NULL,
