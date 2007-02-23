@@ -21,19 +21,19 @@ class DatabaseController
 	// Returns 1 on success and FALSE on failure.
 	function configure()
 	{
-		if((include "db/db_config.inc") == 1)
+		global $err;
+
+		if(include('db/db_config.inc') == 1)
 		{
 			$this->database_type = $cf_dbengine;
 			$this->hostname = $cf_hostname;
 			$this->username = $cf_username;
 			$this->password = $cf_password;
 			$this->database = $cf_database;
-			
-			return TRUE;
 		}
 		else
 		{
-			return FALSE;
+			$err->emitError('Error reading database configuration file.');
 		}
 	}
 	
@@ -41,19 +41,36 @@ class DatabaseController
 	// Returns FALSE on failure
 	function connect()
 	{
+		global $err;
+		
 		if($this->isMySQL())
 		{
 			$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
-			mysql_select_db($this->database);
+			
+			if(!$this->connection)
+			{
+				$err->emitError(mysql_error());
+			}
+			
+			if(!mysql_select_db($this->database))
+			{
+				$err->emitError(mysql_error());
+			}
 		}
 		else if($this->isSQLite())
 		{
 			$this->sqlite_handle = sqlite_open($this->database);
+			
+			if(!$this->sqlite_handle)
+			{
+				$err->emitError('Failure opening SQLite database.');
+			}
+			
 			return $this->sqlite_handle;
 		}
 		else
 		{
-			return FALSE;
+			$err->emitError('Cannot connect to an unknown database type.');
 		}
 	}
 
@@ -98,18 +115,17 @@ class DatabaseController
 	function disconnect()
 	{
 		if($this->isMySQL())
-                {
-                        mysql_close($this->connection);
-                }
-                else if($this->isSQLite())
-                {
-                        sqlite_close($this->sqlite_handle);
-                }
-                else
-                {
-                        return FALSE;
-                }
-
+		{
+        	mysql_close($this->connection);
+		}
+		else if($this->isSQLite())
+		{
+        	sqlite_close($this->sqlite_handle);
+		}
+        else
+		{
+			return FALSE;
+		}
 	}
 
 	// Returns TRUE if MySQL, FALSE if not.

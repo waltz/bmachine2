@@ -1,33 +1,51 @@
-		// Detect which database we should be using.
-		// If PHP is lower than version 5 then assume MySQL, else we need to
-		// decide between SQLite and MySQL.
-		
-		get_loaded_extensions();
-		
-		if(phpversion() < 5)
-		{
-			
-		}
-		elseif
-		{
-			
-		}
-		else{
-			// No database modules detected!
-		}
-		
-			// See if a specific module is loaded.
-	// Returns 1 if the module is loaded, 0 if not.
-	function isModuleLoaded($module)
+<?php
+
+class SetupController
+{
+	function SetupController($params)
 	{
-		$loaded_modules = get_loaded_extensions();
-		
-		foreach($loaded_modules as $module_id => $module_name)
-		{
-			if($module_name == $module)
-			{
-				return 1;
-			}
-		}
-		return 0;
+		$this->detectEnvironment();
+		$this->setupDirectories();
+		$this->setupDatabase();
+		$this->setupUsers();
 	}
+	
+	// Discover what the current PHP environment is like, and write it to the config file.
+	function detectEnvironment()
+	{
+		// What's the current base URL?
+		
+		// Are magic quotes on?
+		
+		// Write the settings file.
+		
+		// Write the .htaccess file.
+	}
+	
+	// Should be executed first!
+	function setupDiretories()
+	{
+		
+	}
+	
+	// Executed second!
+	function setupDatabase()
+	{
+		
+	}
+	
+	// And third...
+	function setupUsers()
+	{
+		
+	}
+	
+	// Write the .htaccess file.
+	function writeRewrite()
+	{
+		// Open the file.
+		// Write to the file.
+		// Close the file.
+	}
+
+}

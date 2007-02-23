@@ -50,40 +50,31 @@ class AuthenticationController
 		return 0;
 	}
 	
-	// Is an action allowed?
-	// Returns TRUE if allowed, FALSE if not.
-	function isAllowed($action, $perm_level = "Admin")
+	function isAnon()
 	{
-		// There should be a table that holds these values, and the user controller should allow them to be edited.
-		$admin_actions(ViewChannel, AddChannel, EditChannel, AddVideo, EditVideo,  AddUser, EditUser);
-		$user_actions(ViewChannel);
-		$anon_actions();
-		
-		if($perm_level == "Admin")
+		if(!isset($_SESSION['username']))
 		{
-			foreach($admin_actions as $admin_action)
-			{
-				if($admin_action == $action)
-				{
-					return TRUE;
-				}
-			}
-		}
-		elseif($perm_level == "User")
-		{
-			foreach($user_actions as $user_action)
-			{
-				if($user_action == $action)
-				{
-					return TRUE;
-				}
-			}
+			return TRUE;
 		}
 		else
 		{
 			return FALSE;
 		}
 	}
+	
+	function isUser()
+	{
+		global $db;
+			
+	}
+		
+	function isAdmin()
+	{
+		
+	}
+	
+
+	
 	
 	// End a user's session.
 	function logout()

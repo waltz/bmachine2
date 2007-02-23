@@ -16,8 +16,8 @@
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-#RewriteBase /cjbmtest/
+RewriteBase /bmachine2/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /cjbmtest/index.php [L]
+RewriteRule . /bmachine2/index.php [L]
 </IfModule>

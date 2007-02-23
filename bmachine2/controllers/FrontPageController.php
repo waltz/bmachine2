@@ -16,8 +16,6 @@ class FrontPageController
 
 		$channels = $db->getArray($db->query($channels_query));
 		$tags = $db->getArray($db->query($channel_tags_query));
-
-		if($tags == FALSE){ die('YIKES'); }
 		
 		//Put the tags in the appropriate array
 		foreach($channels as $channel) 
@@ -36,7 +34,7 @@ class FrontPageController
 
 		$smarty->assign('channels', $channels);
 		$smarty->display('frontpage.tpl');
-	}        
+	}  
 }
 
 ?>

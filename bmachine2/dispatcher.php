@@ -1,5 +1,7 @@
 <?php
 
+// Make sure that PHP complains. Turn all error reporting on.
+error_reporting(E_ALL);
 
 // Include the controllers
 require_once('controllers/DatabaseController.php');
@@ -8,6 +10,7 @@ require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
 require_once('controllers/FrontPageController.php');
+require_once('controllers/ErrorController.php');
 
 // See what URL we are being passed and parse it out.
 $url = $_SERVER['REQUEST_URI'];
@@ -40,6 +43,10 @@ $db = new DatabaseController();
 global $auth;
 $auth = new AuthenticationController();
 */
+
+global $err;
+$err = new ErrorController();
+
 /*****************BEGIN SMARTY TEST DATA***********************/
 $smarty->assign('settings', 
 	array (
@@ -65,6 +72,8 @@ $smarty->assign('loggedin', 'no');
 $smarty->assign('maxuploadsize', '2'); //the max upload size for this server in Mb 
 $smarty->assign('test', 'hello!');
 
+// Each controller should be passed a '$params' array that contains the url parameters as
+// well as sanitized POST data.
 $smarty->assign('videos',
 			array(
 				array('id' => '0',
@@ -324,7 +333,8 @@ elseif($param_1 != '' && $param_2 == '')
 // This is also the catch-all if something goes wrong.
 else
 {
-	new FrontPageController();
+	$err->emitError('Yikes!');
+	//new FrontPageController();
 }
 
 ?>
