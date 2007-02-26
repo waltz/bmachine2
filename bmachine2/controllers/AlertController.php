@@ -1,7 +1,7 @@
 <?php
 
-class ErrorController{
-	function ErrorController(){}
+class AlertController{
+	function AlertController(){}
 	
 	function emitError($message){
 		global $smarty;
