@@ -123,5 +123,5 @@ CREATE TABLE IF NOT EXISTS settings (
 	theme blob NOT NULL,
         donation_html blob NOT NULL,
         donation_url varchar(255) NOT NULL,
-	PRIMARY KEY (baseurl)
+	PRIMARY KEY (base_url)
 ) ENGINE=InnoDB, CHARACTER SET utf8;

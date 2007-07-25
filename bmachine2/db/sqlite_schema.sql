@@ -114,5 +114,5 @@ CREATE TABLE settings (
 	theme blob NOT NULL,
 	donation_html blob NOT NULL,
 	donation_url blob NOT NULL,
-	PRIMARY KEY (baseurl)
+	PRIMARY KEY (base_url)
 );
