@@ -1,28 +1,49 @@
 <?php
 
-abstract class DatabaseController
+//Include parent class
+require_once 'DatabaseController.php';
+
+class MySQLController extends DatabaseController
 {
+	//Instantiates, configures, and connects
+	function MySQLController()
+	{
+		$this->configure();
+		$this->connect();
+	}
+
 	// Copies database config values from the settings file.
 	// Returns 1 on success and FALSE on failure.
-	abstract function configure();
+	function configure() {
+		return true;
+	}
 	
 	// Starts a connection to the database.
 	// Returns FALSE on failure
-	abstract function connect();
+	function connect() {
+		return true;
+	}
 
 	// Sends queries to the database.
 	// Stores the result for 'getArray()' before returning.
 	// Returns FALSE on failure or a result on success.
-	abstract function query($query);
+	function query($query) {
+		return true;
+	}
 	
 	// Generate an array based upon a result of a database query.
 	// When called with no parameters, tries to use the last result.
 	// Returns FALSE on failure or a result on success.
-	abstract function getArray($result);
+	function getArray($result) {
+		$result = null;
+		return result;
+	}
 	
 	//Disconnect from the database
 	//Returns FALSE on failure
-	abstract function disconnect();	
+	function disconnect() {
+		return true;
+	}
 }
 
 ?>
