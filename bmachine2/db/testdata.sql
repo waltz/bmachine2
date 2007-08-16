@@ -93,4 +93,4 @@ INSERT INTO published (
 ) VALUES (
 	1,
 	1
-)
+);

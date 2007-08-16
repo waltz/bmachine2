@@ -26,9 +26,13 @@ class MySQLControllerTest extends UnitTestCase
 		$foo = $controller->query($query);
 		$this->assertTrue($foo);
 
+		//Test getArray
+		$bar = $controller->getArray($foo);
+		
 		//Test a bad query
 		//$query = "select gfjkghfl from fkgjfjkhg";
 		//$foo = $controller->query($query);
+
 	}
 
 	function testDisconnect(){
