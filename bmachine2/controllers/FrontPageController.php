@@ -1,6 +1,8 @@
 <?php
 
-class FrontPageController
+require_once('ApplicationController.php');
+
+class FrontPageController extends ApplicationController
 {
 	function FrontPageController()
 	{

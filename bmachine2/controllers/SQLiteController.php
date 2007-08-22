@@ -13,13 +13,6 @@ class SQLiteController extends DatabaseController
 	var $sqlite_handle;		//DB Handle
 	var $connection = false;	//Keeps track of the connection to disconnect
 
-	//Instantiates, configures, and connects
-	function SQLiteController()
-	{
-		$this->configure();
-		$this->connect();
-	}
-
 	// Copies database config values from the settings file.
 	// Returns true on success and FALSE on failure.
 	function configure() {

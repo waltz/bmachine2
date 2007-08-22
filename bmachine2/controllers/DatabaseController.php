@@ -2,6 +2,17 @@
 
 abstract class DatabaseController
 {
+	//Configures and connects to Db on instantiation
+	function __construct() {
+		$this->configure();
+                $this->connect();
+	}
+
+        // Closes connection on destruct
+        function __destruct() {
+                $this->disconnect();
+        }
+
 	// Copies database config values from the settings file.
 	// Returns 1 on success and FALSE on failure.
 	abstract function configure();

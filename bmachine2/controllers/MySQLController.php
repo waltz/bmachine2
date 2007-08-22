@@ -12,17 +12,11 @@ class MySQLController extends DatabaseController
 	var $database;			//DB name
 	var $connection = false;	//Keeps track of the connection to disconnect
 
-	//Instantiates, configures, and connects
-	function MySQLController()
-	{
-		$this->configure();
-		$this->connect();
-	}
-
 	// Copies database config values from the settings file.
 	// Returns true on success and FALSE on failure.
 	function configure() {
-		include('../db/db_config.inc');
+		// Include global db variables
+		global $cf_hostname,  $cf_username, $cf_password, $cf_database;
 
                 $this->hostname = $cf_hostname;
                 $this->username = $cf_username;
@@ -36,12 +30,12 @@ class MySQLController extends DatabaseController
 	function connect() {
 		$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
 		if(!$this->connection) {
-			die(mysql_error());
+			die(mysql_error()); //Change to alert
 			return false;
 		}
 
 		if(!mysql_select_db($this->database)) {
-                	die(mysql_error());
+                	die(mysql_error()); //Ditto
 			return false;
                 }
 

@@ -8,6 +8,9 @@ require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
 require_once '../controllers/MySQLController.php';
 
+//Require dbconfig file
+require_once '../db/db_config.inc';
+
 class MySQLControllerTest extends UnitTestCase
 {
 	// The instantiator can set different parameters for the whole test.
@@ -33,11 +36,6 @@ class MySQLControllerTest extends UnitTestCase
 		//$query = "select gfjkghfl from fkgjfjkhg";
 		//$foo = $controller->query($query);
 
-	}
-
-	function testDisconnect(){
-		$controller = new MySQLController();
-		$this->assertTrue($controller->disconnect());
 	}
 }
 
