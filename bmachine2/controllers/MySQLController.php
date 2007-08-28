@@ -42,24 +42,23 @@ class MySQLController extends DatabaseController
 		return true;
 	}
 
+        // Generate an array based upon a result of a database query.
+        // Returns an empty array on failure and a full array on success
+        function getArray($result) {
+                $array = array();
+                if (mysql_num_rows($result) > 0) {
+                        while($row = mysql_fetch_assoc($result)) {
+                                array_push($array, $row);
+                        }
+                }
+                return $array;
+        }
+
 	// Sends queries to the database.
-	// Stores the result for 'getArray()' before returning.
-	// Returns FALSE on failure or a result on success.
+	// Returns FALSE on failure or an associative array on success.
 	function query($query) {
 		$result = mysql_query($query);
-		return $result;
-	}
-	
-	// Generate an array based upon a result of a database query.
-	// Returns FALSE on failure or a result on success.
-	function getArray($result) {
-		$array = array();
-		if (mysql_num_rows($result) > 0) {
-                	while($row = mysql_fetch_assoc($result)) {
-				array_push($array, $row);
-                	}
-		}
-		return $array;		
+		return $this->getArray($result);
 	}
 	
 	//Disconnect from the database

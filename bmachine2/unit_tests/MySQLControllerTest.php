@@ -28,9 +28,6 @@ class MySQLControllerTest extends UnitTestCase
 		$query = "select * from channels";
 		$foo = $controller->query($query);
 		$this->assertTrue($foo);
-
-		//Test getArray
-		$bar = $controller->getArray($foo);
 		
 		//Test a bad query
 		//$query = "select gfjkghfl from fkgjfjkhg";

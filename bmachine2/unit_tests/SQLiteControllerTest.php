@@ -8,6 +8,9 @@ require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
 require_once '../controllers/SQLiteController.php';
 
+//Require dbconfig file
+require_once '../db/db_config.inc';
+
 class SQLiteControllerTest extends UnitTestCase
 {
 	// The instantiator can set different parameters for the whole test.

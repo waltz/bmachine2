@@ -1,34 +1,81 @@
 <?php
 
-class VideoController
+require_once('ApplicationController.php');
+
+class VideoController extends ApplicationController
 {
-	function VideoController($param)
-	{
-		if($param == 'add')
-		{
-			$this->addVideo();
-		}
-		else if($param == 'edit')
-		{
-			$this->editVideo();
-		}
-		else if($param == 'remove')
-		{
-			$this->removeVideo();
-		}
-		else if($param == 'download')
-		{
-			$this->downloadVideo();
-		}
-		else
-		{
-			$this->viewVideo($param);
-		}
+	// Takes on an array of url parameters and calls the correct controller functions
+	// Called on instantiation
+	function dispatch($params) {
+	  switch($params[0]) {
+	    case 'add':
+	      $this->add();
+	      break;
+	    case 'all':
+	      $this->all();
+	      break;
+	    default:
+	      switch($params[1]) {
+	        case '':
+		  $this->show($params[0]);
+		  break;
+		case 'show':
+		  $this->show($params[0]);
+		  break;
+		case 'edit':
+		  $this->edit($params[0]);
+		  break;
+		case 'remove':
+		  $this->remove($params[0]);
+		  break;
+	      }
+	      break;
+	  }
+		
+	}
+
+	//Default function if controller is requested without any parameters
+	function index() {
+		$this->all();
+	}
+
+	// Shows all videos
+	function all() {
+		$query = "select * from videos;";
+		$result = $this->db_controller->query($query);
+		//Needs to get tags?
+		$this->view->assign('allvideos', $result);
+		$this->view->display('showallvideos.tpl');
 	}
 	
-	// Add a video to the database, or display a blank page for adding.
-	function addVideo()
-	{
+	// If post, inserts a new video into the database
+	// If no post, brings up form for adding a new video
+        function add() {
+
+        }
+	
+	// Removes a video from the database
+	function remove($name) {
+		$query = "delete from videos where title = $name;";
+		$result = $this->db_controller->query($query);
+		//Add an alert and redirect to all videos?
+	}
+	
+	// If post, updates video record in db
+	// If no post, brings up an edit form
+	function edit($name) {
+	
+	}
+
+	function show($name) {
+		$query = "select * from videos where title = $name;";
+		$result = $this->db_controller->query($query);
+		//There's no template for this yet...
+		// $view->assign('video', $result);
+		// $view->display('showvideo.tpl');
+	}
+
+	/*function VideoController($param)
 		if(isset($_POST['video_name']) || isset($_POST['description']))
 		{
 			
@@ -42,14 +89,6 @@ class VideoController
 	}
 
     // Get video metadata
-	function getVideo($id)
-	{
-		$db = new DatabaseController();
-		$video_query = 'SELECT title, description, modified, icon_url, license_name, license_url, website_url, donation_url, adult, release_date, length, mime, fileurl, size, downloads FROM videos WHERE id="$id";';
-		//$result = $db->getArray($db->query($video_query));
-		//return $result;
-		$db->disconnect();
-	}
 
 	// View a video's page.
 	function viewVideo($id)
@@ -91,7 +130,7 @@ class VideoController
 	function downloadVideo()
 	{	
 		echo 'Thanks for downloading this video!';
-	}
+	}*/
 
 }
 

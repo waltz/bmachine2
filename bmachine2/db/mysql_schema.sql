@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS donations (
 
 CREATE TABLE IF NOT EXISTS channels (
 	id int unsigned NOT NULL AUTO_INCREMENT,
-	title blob NOT NULL,
+	title blob NOT NULL UNIQUE,
 	description text NOT NULL,
 	modified timestamp NOT NULL,
 	icon_url varchar(255) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS channel_tags (
 
 CREATE TABLE IF NOT EXISTS videos (
 	id int unsigned NOT NULL AUTO_INCREMENT,
-	title blob NOT NULL,
+	title blob NOT NULL UNIQUE,
 	title_url varchar(255),
 	description text,
 	modified timestamp NOT NULL,

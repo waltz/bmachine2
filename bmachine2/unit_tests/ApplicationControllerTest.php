@@ -11,6 +11,13 @@ require_once '../controllers/ApplicationController.php';
 // This is a dummy class used to test the ApplicationController
 class TestApp extends ApplicationController {
 
+	function index() {
+		return true;
+	}
+
+	function dispatch($params) {
+		return true;
+	}
 }
 
 class ApplicationControllerTest extends UnitTestCase
@@ -24,7 +31,8 @@ class ApplicationControllerTest extends UnitTestCase
 	// Tests instantiation
 	function testInstantiation()
 	{
-		$foo = new TestApp();
+		$params = array();
+		$foo = new TestApp($params);
 		$this->assertTrue($foo);			
 	}
 }

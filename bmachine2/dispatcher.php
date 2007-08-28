@@ -17,7 +17,6 @@ else
 }
 
 // Include the controllers
-require_once('controllers/DatabaseController.php');
 require_once('controllers/AuthenticationController.php');
 require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
@@ -36,24 +35,6 @@ foreach($parts as $part)
 	$i++;
 }
  
-// Include the Smarty library.
-$path = getcwd();
-require_once($path . '/smarty/Smarty.class.php');
-
-// Create a new Smarty instance.
-global $smarty;
-$smarty = new Smarty();
-
-// Configure Smarty include paths.
-$smarty->template_dir = $path . '/themes/default/';
-$smarty->compile_dir = $path . '/smarty/templates_c/';
-$smarty->cache_dir = $path . '/smarty/cache/';
-$smarty->config_dir = $path . '/smarty/configs/';
-
-// Instantiate the Database and Authentication controllers.
-global $db;
-$db = new DatabaseController();
-
 global $auth;
 $auth = new AuthenticationController();
 
