@@ -6,9 +6,9 @@
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
-require_once '../controllers/ApplicationController.php';
+require_once '../controllers/ViewController.php';
 
-// This is a dummy class used to test the ApplicationController
+// This is a dummy class used to test the ViewController
 class TestApp extends ApplicationController {
 
 	function index() {
@@ -25,7 +25,7 @@ class ApplicationControllerTest extends UnitTestCase
 	// The instantiator can set different parameters for the whole test.
 	function ApplicationControllerTest()
 	{
-		$this->UnitTestCase('ApplicationController Test Case');
+		$this->UnitTestCase('ViewController Test Case');
 	}
 	
 	// Tests instantiation

@@ -11,7 +11,6 @@ require_once('../smarty/Smarty.class.php');
 abstract class ApplicationController {
 	var $db_controller;
 	var $view;
-	var $alert;
 
 	public function __construct($params) {
 		global $cf_dbengine;
@@ -40,14 +39,11 @@ abstract class ApplicationController {
 			$this->dispatch($params);
 		}
         }
- 
-	public function add_alert($msg) {
-		array_push($alert, $msg);
-        }
-	
+ 	
+	abstract function dispatch($params);
+
 	abstract function index();
 
-	abstract function dispatch($params);
 
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 
-require_once('ApplicationController.php');
+require_once('ViewController.php');
 
-class VideoController extends ApplicationController
+class VideoController extends ViewController
 {
 	// Takes on an array of url parameters and calls the correct controller functions
 	// Called on instantiation

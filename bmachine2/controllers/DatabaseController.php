@@ -36,7 +36,7 @@ abstract class DatabaseController
 	abstract function disconnect();	
 
 	//Standard API for CRUD operations:
-	abstract function create($table, $values);
+	abstract function create($table, $data);
 
 	abstract function read($table, $condition);
 	
