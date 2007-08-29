@@ -1,9 +1,9 @@
 <?php
 
 //Include parent class
-require_once 'DatabaseController.php';
+require_once 'SQLController.php';
 
-class SQLiteController extends DatabaseController
+class SQLiteController extends SQLController
 {
 	var $database;			//SQLite filename
 	var $connection = false;	//Keeps track of the connection to disconnect

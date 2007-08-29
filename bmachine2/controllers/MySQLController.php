@@ -1,9 +1,9 @@
 <?php
 
 //Include parent class
-require_once 'DatabaseController.php';
+require_once 'SQLController.php';
 
-class MySQLController extends DatabaseController
+class MySQLController extends SQLController
 {
 	
 	var $hostname;			//DB hostname
@@ -55,10 +55,9 @@ class MySQLController extends DatabaseController
         }
 
 	// Sends queries to the database.
-	// Returns FALSE on failure or an associative array on success.
+	// Returns result of the query
 	function query($query) {
-		$result = mysql_query($query);
-		return $this->getArray($result);
+		return mysql_query($query);
 	}
 	
 	//Disconnect from the database

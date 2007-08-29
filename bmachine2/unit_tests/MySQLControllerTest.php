@@ -20,19 +20,55 @@ class MySQLControllerTest extends UnitTestCase
 	}
 	
 	// Tests instantiation, configure, connect, and query functions
-	function testQuery()
-	{
+	function testCRUD() {
 		$controller = new MySQLController();
 
-		//Test a good query
-		$query = "select * from channels";
-		$foo = $controller->query($query);
+		//CREATE
+		$data = array(
+			"title"		=>	"Unit test video", 
+			"description"	=>	"This is only a test",
+			"icon_url"	=>	"http://blank.com/blank.gif",
+			"website_url"	=>	"http://bm.com",
+			"adult"		=>	"false",
+			"mime"		=>	"avi",
+			"file_url"	=>	"http://bm.com/video.avi"
+		);
+		$foo = $controller->create("videos", $data);
 		$this->assertTrue($foo);
-		
-		//Test a bad query
-		//$query = "select gfjkghfl from fkgjfjkhg";
-		//$foo = $controller->query($query);
 
+		//READ
+
+		//Test read all:
+		$videos = $controller->read("videos", "all");
+		if (count($videos) > 0) {
+			$foo = true;
+		} else {
+			$foo = false;
+		}
+		$this->assertTrue($foo);
+
+		//Test read w/ condition:
+		$videos = $controller->read("videos", 'title="Unit test video"');
+                if (count($videos) > 0) {
+                        $foo = true;
+                } else {
+                        $foo = false;
+                }
+                $this->assertTrue($foo);
+
+		//UPDATE
+		$data["icon_url"] = "test";
+		$update = $controller->update("videos", $data, 'title="Unit test video"');
+		$this->assertTrue($update);
+
+		$videos = $controller->read("videos", 'title ="Unit test video"');
+		foreach ($videos as $x) {
+			$this->assertEqual($x["icon_url"], "test");
+		}
+		
+		//DELETE
+		$foo = $controller->delete("videos", 'title="Unit test video"');
+		$this->assertTrue($foo);
 	}
 }
 

@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS videos (
 	mime blob NOT NULL,
 	file_url varchar(255) NOT NULL,
 	size bigint,
-	downloads int unsigned NOT NULL,
+	downloads int unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
