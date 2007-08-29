@@ -1,6 +1,8 @@
 <?php
 
-class AuthenticationController
+require_once('ApplicationController.php');
+
+class AuthenticationController extends ApplicationController
 {
 	function AuthenticationController()
 	{
@@ -72,10 +74,7 @@ class AuthenticationController
 	{
 		
 	}
-	
 
-	
-	
 	// End a user's session.
 	function logout()
 	{

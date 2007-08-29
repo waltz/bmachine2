@@ -13,36 +13,45 @@ if(!file_exists('settings.inc'))
 }
 else
 {
-	require_once('settings.inc');
+	if(require_once('settings.inc') != "Done")
+	{
+		require_once('controllers/SetupController.php');
+		new SetupController();
+	}
 }
 
 // Include the controllers
-require_once('controllers/AuthenticationController.php');
 require_once('controllers/ChannelController.php');
 require_once('controllers/VideoController.php');
 require_once('controllers/TagController.php');
 require_once('controllers/FrontPageController.php');
-require_once('controllers/AlertController.php');
 
-// See what URL we are being passed and parse it out.
-$url = $_SERVER['REQUEST_URI'];
-$url = strip_tags($url);
-$parts = explode('/', $url);
+/*
+	Clean URI's:
+	http://sample.com/video/foo_bar
+	$parts = {video, foo_bar}
 
-foreach($parts as $part)
+	Dirty URI's:
+	http://sample.com/index.php/video/foo_bar
+	$parts = {index.php, video, foo_bar}
+*/
+
+$url = $_SERVER['REQUEST_URI'];	/* Nab the current URI. */
+$url = strip_tags($url);	/* Strip any HTML out. */
+$parts = explode('/', $url);	/* Put the URI into an array. */
+
+// If we have 'dirty' URI's, then we should strip out the index value.
+if($parts[0] == 'index.php')
 {
-	$params[($i + 1)] = $part;
-	$i++;
+	$newparts;
+
+	for(int i = 0; i < sizeof($parts); i++)
+	{
+		$newparts[i] = $parts[i + 1];
+	}
+
+	$parts = $newparts;
 }
- 
-global $auth;
-$auth = new AuthenticationController();
-
-global $alert;
-$alert = new AlertController();
-
-// Construct the '$params' array.
-
 
 // The following if/else block contains the main dispatcher logic.
 
