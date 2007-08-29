@@ -63,7 +63,7 @@ CREATE TABLE videos (
 	mime blob NOT NULL,
 	file_url blob NOT NULL,
 	size bigint,
-	downloads int NOT NULL
+	downloads int NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE video_donations (
