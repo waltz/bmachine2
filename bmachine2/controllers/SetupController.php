@@ -1,13 +1,79 @@
 <?php
 
+/*
+	1.  Display welcome.
+	2.	Detect settings.
+	3.	Setup the database.
+		a) MySQL/SQLite
+		b) hostname
+		c) username
+		d) password
+	4.	Create the admin user.
+	5.	
+*/	
+	
 class SetupController
 {
 	function SetupController()
 	{
-		$this->detectEnvironment();
-		$this->setupDirectories();
-		$this->setupDatabase();
-		$this->setupUsers();
+		if(file_exists('../settings.inc'))
+		{
+			$setupStatus = require('../settings.inc');
+		
+			if($setupStatus == 'Settings')
+			{
+				
+			}
+			elseif($setupStatus == 'Database')
+			{
+				
+			}
+			elseif($setupStatus == 'FirstUser')
+			{
+				
+			}
+			elseif($setupStatus == 'Done')
+			{
+				
+			}
+		}
+		// $this->displayStartPage();
+		// $this->detectEnvironment();
+		// $this->setupDirectories();
+		// $this->setupDatabase();
+		// $this->setupUsers();
+	}
+	
+	// Displays a welcome page. Let the user know something's going on.
+	function displayStartPage()
+	{
+		$this->writeMessage("Thanks for installing Broadcast Machine!");
+	}
+	
+	function writeMessage($message)
+	{
+		$this->writeHTMLHeader();
+		echo($message . "<br/>");
+		$this->writeHTMLFooter();
+	}
+	
+	function writeHTMLHeader()
+	{
+		echo("<html><head><title>");
+		echo("Broadcast Machine Setup");
+		echo('</title><style type="text/css">');
+		$this->writeStylesheet();
+		echo('</head><body><div class="body">');
+	}
+	
+	function writeHTMLfooter()
+	{
+		echo('</div></body></html>');
+	}
+	
+	function writeStylesheet()
+	{
+		// CJ - Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
 	}
 	
 	// Discover what the current PHP environment is like, and write it to the config file.
@@ -16,6 +82,8 @@ class SetupController
 		// Settings array.
 		$settings;
 		
+		echo("Started environment detection...");
+
 		// What's the current base URL?
 		
 		// Are magic quotes on?
@@ -29,7 +97,7 @@ class SetupController
 		}
 		
 		// Can we handle multi-byte strings?
-		if(function_exists('mb_strstr')
+		if(function_exists('mb_strstr'))
 		{
 			$settings['mbstring_enabled'] = 'yes';
 		}
@@ -52,10 +120,15 @@ class SetupController
 		$settings['max_upload_size'] = ini_get('upload_max_filesize');
 		
 		// Do we have mod_rewrite?
-		// Note: Will 'apache_get_modules()' work on Apache 1 and 2?
+		// CJ: Will 'apache_get_modules()' work on Apache 1 and 2?
+		// CJ: The 'apache_get_modules
 		if(!in_array('mod_rewrite', apache_get_modules()))
 		{
 			$settings['rewrite_avail'] = 'no';
+		}
+		else
+		{
+			$settings['rewrite_avail'] = 'yes';
 		}
 		
 		// Write the settings file. (settings.inc)
@@ -66,7 +139,7 @@ class SetupController
 	// Should be executed first!
 	function setupDirectories()
 	{
-		
+		file
 	}
 	
 	// Executed second!
@@ -79,14 +152,6 @@ class SetupController
 	function setupUsers()
 	{
 		
-	}
-	
-	// Write the .htaccess file.
-	function writeRewrite()
-	{
-		// Open the file.
-		// Write to the file.
-		// Close the file.
 	}
 
 }
