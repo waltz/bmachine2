@@ -41,11 +41,12 @@ class VideoController extends ViewController
 
 	// Shows all videos
 	function all() {
-		$query = "select * from videos;";
-		$result = $this->db_controller->query($query);
+		$videos = $this->db_controller->read("videos", "all");
+		
 		//Needs to get tags?
-		$this->view->assign('allvideos', $result);
-		$this->view->display('showallvideos.tpl');
+
+		$this->view->assign('allvideos', $videos);
+		$this->view->display('video-all.tpl');
 	}
 	
 	// If post, inserts a new video into the database

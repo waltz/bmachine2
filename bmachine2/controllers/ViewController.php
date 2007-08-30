@@ -8,7 +8,7 @@ require_once($cf_dbengine.'Controller.php');
 // Include Smarty
 require_once('../smarty/Smarty.class.php');
 
-abstract class ApplicationController {
+abstract class ViewController {
 	var $db_controller;
 	var $view;
 

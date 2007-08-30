@@ -9,7 +9,7 @@ require_once '../simpletest/reporter.php';
 require_once '../controllers/ViewController.php';
 
 // This is a dummy class used to test the ViewController
-class TestApp extends ApplicationController {
+class TestApp extends ViewController {
 
 	function index() {
 		return true;
@@ -20,10 +20,10 @@ class TestApp extends ApplicationController {
 	}
 }
 
-class ApplicationControllerTest extends UnitTestCase
+class ViewControllerTest extends UnitTestCase
 {
 	// The instantiator can set different parameters for the whole test.
-	function ApplicationControllerTest()
+	function ViewControllerTest()
 	{
 		$this->UnitTestCase('ViewController Test Case');
 	}
@@ -38,7 +38,7 @@ class ApplicationControllerTest extends UnitTestCase
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.
-$test = new ApplicationControllerTest();
+$test = new ViewControllerTest();
 $test->run(new HtmlReporter());
 
 //$test->run(new TextReporter());
