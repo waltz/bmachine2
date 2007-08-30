@@ -940,6 +940,7 @@ a:visited {
 .thumbnail { 
 	border: 1px solid rgb(153, 153, 153); 
 	background-color: rgb(204, 255, 204); 
+	height: 150px;
 }
 
 /*.thumbnail img {

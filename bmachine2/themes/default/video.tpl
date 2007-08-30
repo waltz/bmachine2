@@ -1,12 +1,14 @@
 {* Smarty *}
 {* Shows all videos *}
-
+{*
+$pagination.currentpage - the current page
+$pagination.totalpages - the total number page
+ *}
 {include file='header.tpl'}
 
 <body>
 <div id="wrap">
 <div id="inner_wrap">
-
 <br />
 	<div id="library_header_wrap">
 	<div id="library_title"><a href="{$settings.baseurl}">{$settings.name}</a>: Show All Videos</div>
@@ -17,23 +19,23 @@
 
 		<ul>
 
-{foreach from=$videos item=video}
+{foreach from=$allvideos item=video}
 <!-- VIDEO -->
 
 <li><div class='video_display'>
 
 <div class="thumbnail">
-	<a href="{$baseurl}video/{$video.title}"><img src="{$video.thumbnailurl}" width="150"  style="border: 0" alt="{$video.name}" /></a>
+	<a href="{$baseurl}video/{$video.title_url}"><img src="{$video.icon_url}" height="150" style="border: 0" alt="{$video.title}" /></a>
 </div>
 
 <div class="video_title" style="text-align:left;">
 <div class="video_title" style="text-align:left;">
-	<a href="{$settings.baseurl}video/{$video.title}">{$video.title}</a>
+	<a href="{$settings.baseurl}video/{$video.title_url}">{$video.title}</a>
 </div>
 
 <div style="text-align:left; font-size: 10px; font-weight: normal;">
-Runtime: {$video.runtime.hours}h {$video.runtime.minutes}m {$video.runtime.seconds}s <br />
-Posted: {$video.modified.month}-{$video.modified.day}-{$video.modified.year} @ {$video.modified.hour}:{$video.modified.minute}:{$video.modified.second} <br />
+Runtime: {$video.runtime}<br />
+Posted: {$video.modified} <br />
 Channel(s): 
 {foreach from=$video.channels item=inchannel}
 <a href="{$settings.baseurl}{$inchannel}">{$inchannel}</a>&nbsp;
@@ -47,8 +49,8 @@ Tags(s):
 
 </div>
 <div class="dl_links" style="text-align:center;">
-<a href="{$video.url}" class="link-download">Direct Download</a> </div>
-<div style="text-align:right;"><a href="{$baseurl}video/{$video.title}">more...</a></div>
+<a href="{$video.title_url}/download" class="link-download">Direct Download</a> </div>
+<div style="text-align:right;"><a href="{$video.title_url}">more...</a></div>
 </li>
 <!-- /VIDEO -->
 {/foreach}
@@ -56,13 +58,30 @@ Tags(s):
 
 </ul>
 
-
 		<div class="spacer_left">&nbsp;</div>
 
 		</div>
 
 
   </div>
+
+<div style="float:right"> 
+{if $pagination.currentpage neq 1}
+	<a href="#{$pagination.currentpage-1}">&laquo; Previous</a>
+{/if}
+{section name=pages loop=$pagination.totalpages}
+{if $smarty.section.pages.iteration eq $pagination.currentpage} {* if printing current page, make it bold and non-clickable *}
+	<b>{$smarty.section.pages.iteration}</b>
+{else}
+  <a href="#">{$smarty.section.pages.iteration}</a> {* this is your $i *}
+{/if} 
+{/section}
+{if $pagination.totalpages gt 1}
+	<a href="#{$pagination.currentpage+1}">Next &raquo;</a>
+{/if}
+
+
 </div>
+
 <br/>
 {include file='footer.tpl'}

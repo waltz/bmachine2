@@ -84,7 +84,7 @@ class VideoController extends ViewController
 		}
 		else
 		{
-			$smarty->display('add.tpl');
+			$smarty->display('addvideo.tpl');
 		}
 	}
 

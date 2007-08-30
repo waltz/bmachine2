@@ -1,7 +1,7 @@
 {* Smarty *}
 {*
-This smarty template requires the following smarty variables:
-title - the title of the website
+In this template you may use the following variables:
+$settings 
 username
 userprivilege - either 'admin' or not set  
 loggedin - boolean, yes or no
@@ -12,7 +12,7 @@ loggedin - boolean, yes or no
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<title>{$title} - Powered by Broadcast Machine</title>
+	<title>{$settings.name} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/style.css"/>
 	</head>

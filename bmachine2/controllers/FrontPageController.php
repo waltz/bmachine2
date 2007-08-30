@@ -12,9 +12,10 @@ class FrontPageController extends ApplicationController
 	function getChannels()
 	{
 		global $db, $auth, $smarty;		
-
+/**
 		$channels_query = 'SELECT id, title, description, modified, icon_url, donation_html, donation_url, website_url, license_name, license_url FROM channels';
 		$channel_tags_query = 'SELECT id, name FROM channel_tags;';
+**/
 
 		$channels = $db->getArray($db->query($channels_query));
 		$tags = $db->getArray($db->query($channel_tags_query));
