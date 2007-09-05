@@ -45,9 +45,9 @@ if($parts[0] == 'index.php')
 {
 	$newparts;
 
-	for(int i = 0; i < sizeof($parts); i++)
+	for($i = 0; $i < sizeof($parts); $i++)
 	{
-		$newparts[i] = $parts[i + 1];
+		$newparts[$i] = $parts[$i + 1];
 	}
 
 	$parts = $newparts;
