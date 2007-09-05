@@ -6,26 +6,26 @@
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
-require_once '../controllers/VideoController.php';
+require_once '../controllers/ChannelController.php';
 
-class VideoControllerTest extends UnitTestCase
+class ChannelControllerTest extends UnitTestCase
 {
 	// The instantiator can set different parameters for the whole test.
-	function VideoControllerTest()
+	function ChannelControllerTest()
 	{
-		$this->UnitTestCase('VideoController Test Case');
+		$this->UnitTestCase('ChannelController Test Case');
 	}
 	
 	// Should hit the index function
 	function testIndex()
 	{
 		$params = array();
-		$video = new videoController($params);
+		$Channel = new ChannelController($params);
 	}
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.
-$test = new VideoControllerTest();
+$test = new ChannelControllerTest();
 $test->run(new HtmlReporter());
 
 //$test->run(new TextReporter());

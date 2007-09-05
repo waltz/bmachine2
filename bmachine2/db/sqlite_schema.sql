@@ -52,7 +52,6 @@ CREATE TABLE channel_tags (
 CREATE TABLE videos (
 	id INTEGER PRIMARY KEY,
 	title blob NOT NULL UNIQUE,
-	title_url varchar(255),
 	description text,
 	modified timestamp NOT NULL,
 	icon_url blob,

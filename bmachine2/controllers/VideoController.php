@@ -42,97 +42,102 @@ class VideoController extends ViewController
 	// Shows all videos
 	function all() {
 		$videos = $this->db_controller->read("videos", "all");
-		
-		//Needs to get tags?
 
-		$this->view->assign('allvideos', $videos);
-		$this->view->display('video-all.tpl');
+		//Get tags and channels that a video belongs to
+		$videos = $this->getTags($videos);
+
+		//$this->view->assign('allvideos', $videos);
+		//$this->view->display('video-all.tpl');
 	}
 	
 	// If post, inserts a new video into the database
 	// If no post, brings up form for adding a new video
         function add() {
+		//If data is posted, insert video into db
+		if(isset($_POST['title'])) {
 
+		} else {
+			$this->view->display('video-add.tpl');
+		}
         }
 	
 	// Removes a video from the database
-	function remove($name) {
-		$query = "delete from videos where title = $name;";
-		$result = $this->db_controller->query($query);
-		//Add an alert and redirect to all videos?
+	function remove($title) {
+		$id = getID($title);
+		$condition = 'video_id="'.$id.'"';
+
+		//Delete all donations associated with a video
+		$this->delete("video_donations", $condition);
+
+		//Delete all licenses associated with a video
+		$this->delete("video_licenses", $condition);
+
+		//Delete all credits associated with a video
+		$condition = 'id="'.$id.'"';
+		$this->delete("video_credits", $condition);
+
+		//Delete all tags associated with a video
+		$this->delete("video_tags", $condition);
+
+		//Delete the video itself
+		$this->delete("videos", $condition);
+
+		//Add an alert and redirect to index
+		$this->view->assign('alerts', 'Video was successfully removed');
+		$this->index();
 	}
 	
 	// If post, updates video record in db
 	// If no post, brings up an edit form
-	function edit($name) {
-	
-	}
-
-	function show($name) {
-		$query = "select * from videos where title = $name;";
-		$result = $this->db_controller->query($query);
-		//There's no template for this yet...
-		// $view->assign('video', $result);
-		// $view->display('showvideo.tpl');
-	}
-
-	/*function VideoController($param)
-		if(isset($_POST['video_name']) || isset($_POST['description']))
-		{
-			
-			$query = "INSERT INTO videos(title, description, icon_url, license_name, license_url, website_url, donation_html, donation_url, release_date, runtime, adult, mime, fileurl, size) VALUES (\'$title\', \'$description\', \'$icon_url\', \'$license_name\', \'$license_url\', \'$website_url\', \'$donation_html\', \'$donation_url\', \'$release_date\', \'$runtime\', \'$adult\', \'$mime\', \'$fileurl\', \'$size\');"; 				
-			$db->query($query);
-		}
-		else
-		{
-			$smarty->display('addvideo.tpl');
-		}
-	}
-
-    // Get video metadata
-
-	// View a video's page.
-	function viewVideo($id)
-	{ 
-		$video = $this->getVideo($id);
-		
-		// This query grabs all of the tags associated with the video.
-		$tag_query = 'SELECT name FROM video_tags WHERE id="$id\";';
-		//$video_tags = $db->getArray($db->query($tag_query));
- 
-		// This query grabs the list of people involved with the video
-		$credits_query = 'SELECT name, role FROM video_credits WHERE id="$id;";';
-		//$video_credits = $db->getArray($db->query($credits_query));
-	}
-	
-	// Edit an existing video.
-	function editVideo($id)
-	{
-		if(isset($_POST['video_name']) || isset($_POST['description']))
+	function edit($title) {
+		// If new data is posted, update database
+		if(isset($_POST['title']))
                 {
-                  	$update_query = ""; 
-                        //$db->query($update_query);
+			//Update the video in the database
+			$this->view->assign('alerts', 'Video was successfully edited');
+			$this->show($params[0]);
+                } else {
+			$video = $this->db_controller->read("videos", "title=$title");
+	                //Get tags and channels info
+        	        $video = $this->getTags($video);
+			//$this->view->assign('video', $video);
+			//$this->view->display('video-edit.tpl');
                 }
-                else
-                {
-			$smarty->assign('video', $this->getVideo($id));
-                        $smarty->display('editvideo.tpl');
-		}
+
+	}
+
+	function show($title) {
+		$video = $this->db_controller->read("videos", "title=$title");
+		//Get tags and channels info
+		$video = $this->getTags($video);
+		//$view->assign('video', $video);
+		//$view->display('video-show.tpl');
+	}
+
+	// PRIVATE FUNCTIONS
+
+	// Adds tags to an array of videos (or just one)
+	// Returns a fresh array of videos
+	private function getTags($videos) {
+                foreach ($videos as &$video) {
+                	$id = $video["id"];
+                	$tags = $this->db_controller->read("video_tags", "id = $id");
+                        $video['tags'] = $tags;
+                }
+		unset($video);
+		return $videos;
 	}
 	
-	// Delete a video from the database.
-	function removeVideo($id)
-	{
-		$delete_query = 'DELETE FROM videos WHERE id ="$id";';
-		$db->query($delete_query) or die ("Video was not deleted");		
+	//Returns a video id based on its title
+	//Returns false if title not found
+	private function getID($title) {
+		$video = $this->db_controller->read("videos", "title=$title");
+		if (isset($video['id'])) {
+			return $video['id'];
+		} else {
+			return false;
+		}
 	}
-
-	// Download a video directly.
-	function downloadVideo()
-	{	
-		echo 'Thanks for downloading this video!';
-	}*/
-
 }
 
 ?>
