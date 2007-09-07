@@ -1,16 +1,61 @@
 <?php
 
-/*
-	1.  Display welcome.
-	2.	Setup the database.
-		a) MySQL/SQLite
-		b) hostname
-		c) username
-		d) password
-	3.	Detect Settings
-	4.	Create the admin user.
-*/	
-	
+// These two functions are to be used by any part of BM2 that needs
+// to store simple settings as key/value pairs. These should be used
+// as infrequently as possible. The database should be used whenever
+// possible. These are a last resort!
+
+// Takes in a key and returns a value. Returns NULL if the key
+// doesn't exist.
+function getSetupValue($key)
+{
+	$handle = fopen("../settings.inc", "r");
+
+	while($setupdata = fscanf($handle, "%s\t%s\n"))
+	{
+		list ($read_key, $read_value) = $setupdata;
+
+		if($read_key == $key)
+		{
+			$value = $read_value;
+		}
+	}
+		
+	fclose($handle);	    
+	return $value;
+}
+
+// Takes in a key and a value to be written to the file. Returns TRUE
+// if the values were written and FALSE if not. If the key already
+// exists, it's value is overwritten with the new value.
+function setSetupKey($key, $value)
+{
+	$handle = fopen('../settings.inc', 'at');
+
+	$pair = $key . "\t" . $value . "\n";	
+
+	$status = fwrite($handle, $pair);
+			
+	fclose($handle);
+
+	if($status = FALSE)
+	{
+		return FALSE;
+	}
+}
+
+function isSetupDone()
+{
+	if(getSetupValue('SetupStatus') == 'done')
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
 class SetupController
 {
 	function SetupController()
@@ -76,5 +121,7 @@ class SetupController
 	{
 		// CJ - Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
 	}
+
+	
 
 }
