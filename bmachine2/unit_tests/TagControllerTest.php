@@ -6,27 +6,26 @@
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
-require_once '../controllers/VideoController.php';
+require_once '../controllers/TagController.php';
 
-class VideoControllerTest extends UnitTestCase
+class TagControllerTest extends UnitTestCase
 {
 	// The instantiator can set different parameters for the whole test.
-	function VideoControllerTest()
+	function TagControllerTest()
 	{
-		$this->UnitTestCase('VideoController Test Case');
+		$this->UnitTestCase('TagController Test Case');
 	}
 	
 	// Should hit the index function
 	function testIndex()
 	{
-		echo "unit test: ".getcwd()."<br />";
 		$params = array();
-		$video = new videoController($params);
+		$tag = new TagController($params);
 	}
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.
-$test = new VideoControllerTest();
+$test = new TagControllerTest();
 $test->run(new HtmlReporter());
 
 //$test->run(new TextReporter());

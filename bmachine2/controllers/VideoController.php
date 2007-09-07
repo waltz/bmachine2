@@ -46,8 +46,8 @@ class VideoController extends ViewController
 		//Get tags and channels that a video belongs to
 		$videos = $this->getTags($videos);
 
-		//$this->view->assign('allvideos', $videos);
-		//$this->view->display('video-all.tpl');
+		$this->view->assign('allvideos', $videos);
+		$this->view->display('video-all.tpl');
 	}
 	
 	// If post, inserts a new video into the database

@@ -1,6 +1,8 @@
 <?php
 
-class ChannelController
+require_once('ViewController.php');
+
+class ChannelController extends ViewController
 {
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
