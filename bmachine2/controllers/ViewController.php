@@ -25,12 +25,13 @@ abstract class ViewController {
 		}			
 
 		// Instantiate the templating engine
+		$base_url = $this->getSetting('baseurl');
+
 		$this->view = new Smarty();
 		//Theme should be a preference variable
-		echo "viewcontroller: ".getcwd()."<br />";
-		$view->template_dir = '../themes/default/';
-		$view->compile_dir = '../smarty/templates_c/';
-		$view->cache_dir = '../smarty/cache/';
+		$view->template_dir = $base_url.'/themes/default/';
+		$view->compile_dir = $base_url.'/smarty/templates_c/';
+		$view->cache_dir = $base_url.'/smarty/cache/';
 		
 		//If $params is empty, call index function
 		//Otherwise, call controller dispatcher
@@ -76,8 +77,14 @@ abstract class ViewController {
         		{return FALSE;}
 	}
 
-	
- 	
+	//Displays a template unless a unit test flag is set
+	function display($template) {
+		global $bm_debug;
+		if ($bm_debug != 'unittest') {
+			$this->view->display($template);
+		}
+	}
+
 	abstract function dispatch($params);
 
 	abstract function index();

@@ -47,7 +47,7 @@ class VideoController extends ViewController
 		$videos = $this->getTags($videos);
 
 		$this->view->assign('allvideos', $videos);
-		$this->view->display('video-all.tpl');
+		$this->display('video-all.tpl');
 	}
 	
 	// If post, inserts a new video into the database
@@ -57,7 +57,7 @@ class VideoController extends ViewController
 		if(isset($_POST['title'])) {
 
 		} else {
-			$this->view->display('video-add.tpl');
+			$this->display('video-add.tpl');
 		}
         }
 	
@@ -67,20 +67,20 @@ class VideoController extends ViewController
 		$condition = 'video_id="'.$id.'"';
 
 		//Delete all donations associated with a video
-		$this->delete("video_donations", $condition);
+		$this->db_controller->delete("video_donations", $condition);
 
 		//Delete all licenses associated with a video
-		$this->delete("video_licenses", $condition);
+		$this->db_controller->delete("video_licenses", $condition);
 
 		//Delete all credits associated with a video
 		$condition = 'id="'.$id.'"';
-		$this->delete("video_credits", $condition);
+		$this->db_controller->delete("video_credits", $condition);
 
 		//Delete all tags associated with a video
-		$this->delete("video_tags", $condition);
+		$this->db_controller->delete("video_tags", $condition);
 
 		//Delete the video itself
-		$this->delete("videos", $condition);
+		$this->db_controller->delete("videos", $condition);
 
 		//Add an alert and redirect to index
 		$this->view->assign('alerts', 'Video was successfully removed');
@@ -94,14 +94,14 @@ class VideoController extends ViewController
 		if(isset($_POST['title']))
                 {
 			//Update the video in the database
-			$this->view->assign('alerts', 'Video was successfully edited');
+			$this->assign('alerts', 'Video was successfully edited');
 			$this->show($params[0]);
                 } else {
 			$video = $this->db_controller->read("videos", "title=$title");
 	                //Get tags and channels info
         	        $video = $this->getTags($video);
-			//$this->view->assign('video', $video);
-			//$this->view->display('video-edit.tpl');
+			$this->view->assign('video', $video);
+			$this->display('video-edit.tpl');
                 }
 
 	}
@@ -110,8 +110,8 @@ class VideoController extends ViewController
 		$video = $this->db_controller->read("videos", "title=$title");
 		//Get tags and channels info
 		$video = $this->getTags($video);
-		//$view->assign('video', $video);
-		//$view->display('video-show.tpl');
+		$this->view->assign('video', $video);
+		$this->display('video-show.tpl');
 	}
 
 	// PRIVATE FUNCTIONS
