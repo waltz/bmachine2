@@ -113,7 +113,7 @@ class ChannelController extends ViewController
                         unset($channel['tags']);
 
 			//Update tags
-			$condition = 'id="'.channel_id.'"';
+			$condition = 'id="'.$channel_id.'"';
 			$old_tags = $this->db_controller->read("channel_tags", $condition);
 			
 			// If tag is in the old array, but not in the new one, delete it
@@ -174,12 +174,12 @@ class ChannelController extends ViewController
                         $tags = $this->db_controller->read("channel_tags", "id = $id");
 
 			// Add published videos to each channel
-			$condition = 'channel_id="'.$channel['id'].'" limit 5 sort by publish_date desc';
+			$condition = 'channel_id="'.$channel['id'].'" limit 5 order by publish_date desc';
 			$published = $this->db_controller->read("published", $condition);
 			$videos = array();
 			foreach ($published as $x) {
 				$video_id = $x['video_id'];
-				$condition = 'id="'.$x['video_id'].'"';
+				$condition = 'id="'.$video_id.'"';
 				$video = $this->db_controller->read("videos", $condition);
 				array_push($videos, $video);
 			}

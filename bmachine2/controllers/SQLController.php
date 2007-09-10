@@ -37,6 +37,7 @@ abstract class SQLController extends DatabaseController
 			$query = "select * from $table where $condition;";
 		}
 		$result = $this->query($query);
+
 		return $this->getArray($result);
 	}
 

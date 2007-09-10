@@ -70,6 +70,21 @@ class MySQLControllerTest extends UnitTestCase
 		$foo = $controller->delete("videos", 'title="Unit test video"');
 		$this->assertTrue($foo);
 	}
+
+	//This tests tests working with an empty query
+	function testEmpty() {
+		$controller = new MySQLController();
+		$condition = 'title="vjlfhjklghskf"';
+		$foo = false;
+
+		$videos = $controller->read("videos", $condition);
+		if (count($videos) == 0) {
+			$foo = true;
+		} else {
+			$foo = false;
+		}
+		$this->assertTrue($foo);
+	}
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.

@@ -25,7 +25,7 @@ class VideoControllerTest extends UnitTestCase
 		$video = new videoController($params);
 	}
 
-	function testAll() {
+/*	function testAll() {
 		$params = array();
 		$params[0] = 'all';
 		$video = new videoController($params);
@@ -45,10 +45,12 @@ class VideoControllerTest extends UnitTestCase
 			"file_url"      =>      "http://bm.com/video.avi"
 		);
 
+		$_POST = $data;
+
 		$video = new videoController($params);
 	}
 
-/*	function testShow() {
+	function testShow() {
 		$params = array();
 		$params[0] = 'channelname';
 		$video = new videoController($params);

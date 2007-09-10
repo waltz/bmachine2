@@ -1,5 +1,4 @@
 <?php
-
 require_once('ViewController.php');
 
 class VideoController extends ViewController
@@ -44,7 +43,7 @@ class VideoController extends ViewController
 		$videos = $this->db_controller->read("videos", "all");
 
 		//Get tags and channels that a video belongs to
-		$videos = $this->getTags($videos);
+		$videos = $this->getTagsAndChannels($videos);
 
 		$this->view->assign('allvideos', $videos);
 		$this->display('video-all.tpl');
@@ -55,6 +54,23 @@ class VideoController extends ViewController
         function add() {
 		//If data is posted, insert video into db
 		if(isset($_POST['title'])) {
+			$video = $_POST;
+
+			//Put the tag string into an array
+                        $tags = explode(" ", $video['tags']);
+                        unset($video['tags']);
+
+			$this->$db_controller->create("videos", $video);
+
+			//Insert tags into the database
+                        $id = getID($video['title']);
+                        foreach ($tags as $x) {
+                                $tag = array(
+                                        "id" => $id,
+                                        "name" => $x
+                                );
+                                $this->db_controller->create("video_tags", $tag);
+                        }
 
 		} else {
 			$this->display('video-add.tpl');
@@ -93,13 +109,48 @@ class VideoController extends ViewController
 		// If new data is posted, update database
 		if(isset($_POST['title']))
                 {
+			$video = $_POST;
+                        $video_id = getID($video['title']);
+
+                         //Put the tag string into an array
+                        $tags = explode(" ", $video['tags']);
+                        unset($channel['tags']);
+
+			//Update tags
+                        $condition = 'id="'.$video_id.'"';
+                        $old_tags = $this->db_controller->read("video_tags", $condition);
+
+                        // If tag is in the old array, but not in the new one, delete it
+                        foreach ($old_tags as $old_tag) {
+                                if (array_search($old_tag['name'], $tags) === FALSE) {
+                                        $condition = 'id="'.$video_id.'" and name="'.$old_tag['name'].'"';
+                                        $this->db_controller->delete($channel_tags, $condition);
+                                }
+                        }
+
+
+                        foreach ($tags as $name) {
+                                //Check if tag already exists
+                                $condition = 'id="'.$video_id.'" and name="'.$name.'"';
+                                $check = $this->db_controller->read("video_tags", $condition);
+                                //If tag isn't in the database, add it
+                                if (count($check) == 0) {
+                                        $tag = array(
+                                                "id"    => $channel_id,
+                                                "name"  => $name
+                                        );
+                                        $this->db_controller->create("channel_tags", $tag);
+                                }
+                        }
+
+
 			//Update the video in the database
 			$this->assign('alerts', 'Video was successfully edited');
 			$this->show($params[0]);
                 } else {
 			$video = $this->db_controller->read("videos", "title=$title");
 	                //Get tags and channels info
-        	        $video = $this->getTags($video);
+        	        $video = $this->getTagsAndChannels($video);
 			$this->view->assign('video', $video);
 			$this->display('video-edit.tpl');
                 }
@@ -109,20 +160,35 @@ class VideoController extends ViewController
 	function show($title) {
 		$video = $this->db_controller->read("videos", "title=$title");
 		//Get tags and channels info
-		$video = $this->getTags($video);
+		$video = $this->getTagsandChannels($video);
 		$this->view->assign('video', $video);
 		$this->display('video-show.tpl');
 	}
 
 	// PRIVATE FUNCTIONS
 
-	// Adds tags to an array of videos (or just one)
+	// Adds tags and channels to an array of videos (or just one)
 	// Returns a fresh array of videos
-	private function getTags($videos) {
+	private function getTagsAndChannels($videos) {
                 foreach ($videos as &$video) {
-                	$id = $video["id"];
-                	$tags = $this->db_controller->read("video_tags", "id = $id");
+                	$id = $video['id'];
+			$condition = 'id="'.$id.'"';
+
+                	$tags = $this->db_controller->read("video_tags", $condition);
+
+			// Add published channel to each video
+                        $condition = 'video_id="'.$id.'" order by publish_date desc';
+                        $published = $this->db_controller->read("published", $condition);
+                        $channels = array();
+                        foreach ($published as $x) {
+                                $channel_id = $x['channel_id'];
+                                $condition = 'id="'.$channel_id.'"';
+                                $channel = $this->db_controller->read("channels", $condition);
+                                array_push($channels, $channel['title']);
+                        }
+			$video['channels'] = $channels;
                         $video['tags'] = $tags;
+
                 }
 		unset($video);
 		return $videos;
