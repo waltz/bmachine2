@@ -20,9 +20,18 @@ $smarty->config_dir = $path . '/smarty/configs/';
 //include the template
 
 //test data, from API
-/** video/ (ie video/all) - id, title, title_url, modified, icon_url, website_url, release_date, runtime, adult, size, downloads, tags, channels, settings (name, description, open_reg, reg_approval, bandwidth_limit, baseurl, iconurl, , donation_html, donation_url, donthideporn) user (username, admin, banned)
+/** channel/ (ie channel/all) - same as front page - channel (id, title, description, modified, icon_url, website_url, tags (array of channel tags), videos (array of 10 most recent videos (id, title, title_url, modified, icon_url, website_url, release_date, runtime, adult, size, downloads, tags, channels))
 **/
 
+$smarty->assign('channel', array(
+			'id' => '0', 
+			'title' => 'Channel #1',
+			'description' => 'I made this channel about funny videos. I am gonna post every week. What do you think?',
+			'modified' => 'sept 1, 1997',
+			'icon_url' => 'http://worcesterunited.com/files/channel_icon.jpg',
+			'website_url' => '',
+       			'tags' => array('funny','hott','notmine', 'publicdomain')
+));
 $smarty->assign('allvideos',
 			//test video 1
 			array(
@@ -153,8 +162,8 @@ $smarty->assign('allvideos',
           			'tags' => array('cool','funny'),
 				'channels' => array('channel2')
 				)
-			)
-);
+));
+
 $smarty->assign('settings', array(
 				'name' => 'My BroadCast Machine Install',
 				'description' => 'this is like the best BM install', 
@@ -175,6 +184,6 @@ $smarty->assign('user', array(
 
 $smarty->assign('pagination', array ('currentpage' => '3', 'totalpages' => 10));
 
-$smarty->display('video-all.tpl')
+$smarty->display('channel-edit.tpl')
 
 ?>

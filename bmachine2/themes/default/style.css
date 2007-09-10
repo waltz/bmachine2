@@ -4,7 +4,16 @@
 	font-size: 12px;
 	line-height: 15px;
 }
+/* ----------- video-single.tpl ------*/
+#download_now {
+	text-align:left;
+	font-size:1.4em;
+	font-weight:bold;
+}
 
+div.video_display_big {
+	padding: 5px
+}
 /* -----------  frontpage.tpl ------------ */
 #tagsbox {
 	margin: 0px;
@@ -13,7 +22,9 @@
 	font-size: 20px;
 }
 
-
+span.smalltext {
+	font-size: 0.6em;
+}
 
 
 /* -----------  HEAD ------------ */

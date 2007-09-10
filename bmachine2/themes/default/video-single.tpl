@@ -11,18 +11,71 @@ $pagination.totalpages - the total number page
 <div id="inner_wrap">
 <br />
 	<div id="library_header_wrap">
-	<div id="library_title"><a href="{$settings.baseurl}">{$settings.name}</a>: Show All Videos</div>
-<div id="rss_feed"><a href="{$settings.baseurl}videos/rss"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
+	<div id="library_title">
+		<h1>{$video.title|truncate}</h1>
+		<table><tr><td valign="top" align="right"><span class="smalltext"><b>channels: </b></span></td>
+		<td>
+		<span class="smalltext">
+		{foreach from=$video.channels item=channel}
+		<a href="{$settings.baseurl}/channel/{$channel}">{$channel}</a>
+		{/foreach}
+		</span>
+		</td></tr>
+		<tr><td valign="top"  align="right"><span class="smalltext"><b>tags: </b></span></td>
+		<td>
+		<span class="smalltext">
+		{foreach from=$video.tags item=tag}
+		<a href="{$settings.baseurl}/channel/{$tag}">{$tag}</a>
+		{/foreach}
+		</span>
+		</td></tr>
+		</table>
+	</div>
 </div>
 
 <div class="video_section">
 
-
 <!-- VIDEO -->
-$video
+<div>
+<div style="float:right;">Support this video: <a href="{$video.donation_url}">Donate</a></div>
+<div id="download_now"><a href="{$video.title_url}/download">Download Now</a> <sup><span class="smalltext">({$video.size})</span></sup>
+</div>
+
+</div>
+<div>
+
+<div class="video_display_big" style="text-align:left;">
+	<div style="float:right; padding-right:20px; text-align:center;">
+		<img src="{$video.icon_url}" width="300" height="300" style="border: 0" alt="{$video.title}" />
+	</div>
+	{if $video.website_url neq ''}
+		<span class="smalltext">&raquo; Associated Website: {$video.website_url}</span><br />	
+	{/if}
+	<span class="smalltext">&raquo; Last Modified: {$video.modified}</span><br />
+	<span class="smalltext"> &raquo; This video is licensed under <a href="{$video.license_url}">{$video.license_name}</a>.</span><br />
+	<span class="smalltext">&raquo; Released: {$video.release_date}</span><br />
+	<span class="smalltext">&raquo; Downloaded {$video.downloads} times.</span><br /><br />
+	<h2>Description</h2>
+	<p>{$video.description}
+	<br /><br />{$video.donation_html}
+	</p>
+	<h2>Credits</h2>
+	<p>
+	<table>
+	{foreach from=$video.credits item=credit}
+		<tr><td><b>{$credit.role}</b></td> <td>{$credit.name}</td></tr>
+	{/foreach}
+	</table>
+	</p>
+
+</div>
+
+
+<div class="dl_links" style="text-align:center;">
+<a href="{$video.title_url}/download">Download</a> | <a href="{$video.title_url}">Permalink</a> | <a href="{$video.donation_url}">Donate</a>
+</div>
 
 <!-- /VIDEO -->
-
 
 
 

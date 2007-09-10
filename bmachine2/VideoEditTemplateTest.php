@@ -34,7 +34,7 @@ $smarty->assign('video',
           			'website_url' => 'http://websiteurl1.net',
 		          	'release_date' => 'aug, 28, 2007', 
 		          	'runtime' => '2h 30m', 
-		          	'adult' => 'no',
+		          	'adult' => 'yes',
 		          	'mime' => 'MIME TYPE HERE',
 		          	'size' => '200kb',  
 		          	'downloads' => '2', 
@@ -73,7 +73,7 @@ $smarty->assign('video',
 					)
 				),
           			'tags' => array('cool','awesome','internet', 'blog'),
-				'channels' => array('channel1', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2')
+				'channels' => array('channel1', 'channel15', 'channel13')
 			)
 
 );
@@ -84,7 +84,7 @@ $smarty->assign('settings', array(
 				'reg_approval' => 'yes', 
 				'bandwidth_limit' => 'yes', 
 				'baseurl' => 'http://127.0.0.1/~drew/bmachine2/', 
-				'iconurl' => 'http://worcesterunited.com/files/broadcast.jpg', 
+				'icon_url' => 'http://worcesterunited.com/files/broadcast.jpg', 
 				'donation_html' => 'Please <a href="#">donate</a>', 
 				'donation_url' => 'http://paypal.com', 
 				'donthideporn' => 'no', 
@@ -96,7 +96,9 @@ $smarty->assign('user', array(
 				));
 
 $smarty->assign('pagination', array ('currentpage' => '3', 'totalpages' => 10));
+$smarty->assign('allchannels', array('channel1', 'channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7', 'channel8', 'channel9', 'channel10', 'channel11', 'channel12', 'channel13', 'channel14', 'channel15'));
 
-$smarty->display('video-single.tpl')
+$smarty->display('video-edit.tpl')
+//$smarty->display('video-single.tpl')
 
 ?>

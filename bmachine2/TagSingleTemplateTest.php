@@ -20,8 +20,40 @@ $smarty->config_dir = $path . '/smarty/configs/';
 //include the template
 
 //test data, from API
-/** video/ (ie video/all) - id, title, title_url, modified, icon_url, website_url, release_date, runtime, adult, size, downloads, tags, channels, settings (name, description, open_reg, reg_approval, bandwidth_limit, baseurl, iconurl, , donation_html, donation_url, donthideporn) user (username, admin, banned)
+/** tag/tag-name - channels(an array of channels which are tagged with a given tag (id, title, title_url, description, modified, icon_url, website_url, donation_html, donation_url, license_name, license_url, tags)), allvideos (an array of videos which are tagged with a given tag (id, title, title_url, modified, icon_url, website_url, release_date, runtime, adult, size, downloads, tags, channels)) || settings (name, description, open_reg, reg_approval, bandwidth_limit, baseurl, iconurl, , donation_html, donation_url, donthideporn) user (username, admin, banned)
+
 **/
+
+$smarty->assign('tag', 'cool');
+
+$smarty->assign('channels', array(
+			array (
+				'id' => '0', 
+				'title' => 'Channel #1',
+				'title_url' => 'http://localhost/~drew/bmachine2/channel/channel-1-is-here/',
+				'description' => 'I made this channel about funny videos. I am gonna post every week. What do you think?',
+				'modified' => 'sept 1, 1997',
+				'icon_url' => 'http://localhost/~drew/bmachine2/singing.jpg',
+				'website_url' => '',
+				'donation_html' => '',
+				'donation_url' => 'http://paypal.com/mydonations/',
+				'license_name' => 'GPL',
+				'license_name' => 'http://gnu.org',
+	       			'tags' => array('funny','hott','notmine', 'cool', 'publicdomain')
+	),
+			array (
+				'id' => '5', 
+				'title' => 'Channel #5',
+				'title_url' => 'http://localhost/~drew/bmachine2/channel/channel-2-is-here/',
+				'description' => 'Cool stuff from Spain',
+				'modified' => 'Dec 18, 2001',
+				'icon_url' => 'http://localhost/~drew/bmachine2/singing.jpg',
+				'website_url' => 'http://spain2001.com',
+	       			'tags' => array('funny','hott','notmine', 'publicdomain', 'cool')
+	),
+)
+);
+
 
 $smarty->assign('allvideos',
 			//test video 1
@@ -66,7 +98,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '12mb',  
 		          	'downloads' => '2', 
-          			'tags' => array('funny', 'happy'),
+          			'tags' => array('funny', 'happy', 'cool'),
 				//'channels' => array('channel2')
 				),
 				array('id' => '3',
@@ -94,7 +126,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '14mb',  
 		          	'downloads' => '2439', 
-          			'tags' => array('cool','funny'),
+          			'tags' => array('cool','nice'),
 				'channels' => array('channel2')
 				),
 				array('id' => '5',
@@ -108,7 +140,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '14mb',  
 		          	'downloads' => '2439', 
-          			'tags' => array('cool','funny'),
+          			'tags' => array('cool','waycool'),
 				'channels' => array('channel2')
 				),
 				array('id' => '6',
@@ -122,7 +154,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '14mb',  
 		          	'downloads' => '2439', 
-          			'tags' => array('cool','funny'),
+          			'tags' => array('cool','notmine'),
 				'channels' => array('channel2')
 				),
 				array('id' => '7',
@@ -136,7 +168,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '14mb',  
 		          	'downloads' => '2439', 
-          			'tags' => array('cool','funny'),
+          			'tags' => array('cool','yeahiknowitsnotgreat'),
 				'channels' => array('channel2')
 				),
 				array('id' => '8',
@@ -150,7 +182,7 @@ $smarty->assign('allvideos',
 		          	'adult' => 'no',
 		          	'size' => '14mb',  
 		          	'downloads' => '2439', 
-          			'tags' => array('cool','funny'),
+          			'tags' => array('cool'),
 				'channels' => array('channel2')
 				)
 			)
@@ -175,6 +207,6 @@ $smarty->assign('user', array(
 
 $smarty->assign('pagination', array ('currentpage' => '3', 'totalpages' => 10));
 
-$smarty->display('video-all.tpl')
+$smarty->display('tag-single.tpl')
 
 ?>
