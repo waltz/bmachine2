@@ -10,6 +10,8 @@ error_reporting(E_ALL);
 //global $baseDir = getSetting("baseDir");
 //global $baseURI = getSetting("baseURI");
 
+global $baseDir;
+
 // In case there aren't any settings yet...
 if(!isset($baseDir))
   {
