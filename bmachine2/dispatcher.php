@@ -26,7 +26,8 @@ require_once($baseDir . 'controllers/SetupController.php');
 require_once($baseDir . 'controllers/ChannelController.php');
 require_once($baseDir . 'controllers/VideoController.php');
 require_once($baseDir . 'controllers/TagController.php');
-require_once($baseDir . 'controllers/FrontPageController.php');
+//require_once($baseDir . 'controllers/FrontPageController.php');
+require_once($baseDir . 'controllers/ViewController.php');
 
 // Make sure that Broadcast Machine is installed.
 // If not, start the setup controller.
