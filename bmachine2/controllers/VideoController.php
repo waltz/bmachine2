@@ -58,12 +58,12 @@ class VideoController extends ViewController
 
 			//Put the tag string into an array
                         $tags = explode(" ", $video['tags']);
-                        unset($video['tags']);
+                       	unset($video['tags']);
 
-			$this->$db_controller->create("videos", $video);
+			$this->db_controller->create("videos", $video);
 
 			//Insert tags into the database
-                        $id = getID($video['title']);
+                        $id = $this->getID($video['title']);
                         foreach ($tags as $x) {
                                 $tag = array(
                                         "id" => $id,
@@ -71,7 +71,6 @@ class VideoController extends ViewController
                                 );
                                 $this->db_controller->create("video_tags", $tag);
                         }
-
 		} else {
 			$this->display('video-add.tpl');
 		}
@@ -197,7 +196,10 @@ class VideoController extends ViewController
 	//Returns a video id based on its title
 	//Returns false if title not found
 	private function getID($title) {
-		$video = $this->db_controller->read("videos", "title=$title");
+		$condition = 'title="'.$title.'"';
+		$x = $this->db_controller->read("videos", $condition);
+		$video = $x[0];
+				
 		if (isset($video['id'])) {
 			return $video['id'];
 		} else {

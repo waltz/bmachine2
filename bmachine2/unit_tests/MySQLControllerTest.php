@@ -61,10 +61,9 @@ class MySQLControllerTest extends UnitTestCase
 		$update = $controller->update("videos", $data, 'title="Unit test video"');
 		$this->assertTrue($update);
 
-		$videos = $controller->read("videos", 'title ="Unit test video"');
-		foreach ($videos as $x) {
-			$this->assertEqual($x["icon_url"], "test");
-		}
+		$vidarray = $controller->read("videos", 'title="Unit test video"');
+		$video = $vidarray[0];
+		$this->assertEqual($video["icon_url"], "test");
 		
 		//DELETE
 		$foo = $controller->delete("videos", 'title="Unit test video"');
@@ -75,15 +74,7 @@ class MySQLControllerTest extends UnitTestCase
 	function testEmpty() {
 		$controller = new MySQLController();
 		$condition = 'title="vjlfhjklghskf"';
-		$foo = false;
-
-		$videos = $controller->read("videos", $condition);
-		if (count($videos) == 0) {
-			$foo = true;
-		} else {
-			$foo = false;
-		}
-		$this->assertTrue($foo);
+		$this->assertFalse($controller->read("videos", $condition));
 	}
 }
 

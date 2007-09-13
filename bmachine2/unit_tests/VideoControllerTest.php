@@ -23,34 +23,45 @@ class VideoControllerTest extends UnitTestCase
 	{
 		$params = array();
 		$video = new videoController($params);
+		$this->assertTrue(true);
 	}
 
-/*	function testAll() {
+	function testAll() {
 		$params = array();
 		$params[0] = 'all';
 		$video = new videoController($params);
+		$this->assertTrue(true);
 	}
 
 	function testAdd() {
 		$params = array();
 		$params[0] = 'add';
 
-                $data = array(                        
+                $_POST = array(                        
 			"title"         =>      "Unit test video",                        
 			"description"   =>      "This is only a test",                        
 			"icon_url"      =>      "http://blank.com/blank.gif",                        
 			"website_url"   =>      "http://bm.com",                        
 			"adult"         =>      "false",                   
 			"mime"          =>      "avi",         
-			"file_url"      =>      "http://bm.com/video.avi"
+			"file_url"      =>      "http://bm.com/video.avi",
+			"tags"		=>	"funny lol"
 		);
 
-		$_POST = $data;
-
 		$video = new videoController($params);
+
+		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
+		$this->assertEqual(count($vidarray), 1);
+		
+		$testvideo = $vidarray[0];
+		$tags = $video->db_controller->read("video_tags", 'id="'.$testvideo['id'].'"');
+		$this->assertEqual(count($tags), 2);
+		
+		$video->db_controller->delete("videos", 'title="Unit test video"');	
+		$video->db_controller->delete("videos", 'name="funny" or name="lol"');
 	}
 
-	function testShow() {
+/*	function testShow() {
 		$params = array();
 		$params[0] = 'channelname';
 		$video = new videoController($params);
