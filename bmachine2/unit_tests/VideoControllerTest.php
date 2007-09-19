@@ -54,34 +54,80 @@ class VideoControllerTest extends UnitTestCase
 		$this->assertEqual(count($vidarray), 1);
 		
 		$testvideo = $vidarray[0];
-		$tags = $video->db_controller->read("video_tags", 'id="'.$testvideo['id'].'"');
+		$condition = 'id="'.$testvideo['id'].'"';
+		$tags = $video->db_controller->read("video_tags", $condition);
 		$this->assertEqual(count($tags), 2);
-		
-		$video->db_controller->delete("videos", 'title="Unit test video"');	
-		$video->db_controller->delete("videos", 'name="funny" or name="lol"');
 	}
 
-/*	function testShow() {
+	function testVideoName() {
 		$params = array();
-		$params[0] = 'channelname';
+		$params[0] = 'Unit test video';
+		$video = new VideoController($params);
+
+		$this->assertTrue(true);
+	}
+
+	function testShow() {
+                $params = array();
+                $params[0] = 'Unit test video';
+                $params[1] = 'show';
+
+                $video = new videoController($params);
+
+                $this->assertTrue(true);
+
+	}
+
+	function testEditEmpty() {
+		unset($_POST);
+		$params = array();
+		$params[0] = 'Unit test video54545';
+		$params[1] = 'edit';
+
 		$video = new videoController($params);
 
-		$params[1] = 'show';
-		$video = new videoController($params);
+		$this->assertTrue(true);
 	}
 
 	function testEdit() {
                 $params = array();
-                $params[0] = 'channelname';
+                $params[0] = 'Unit test video';
 		$params[1] = 'edit';
+
+		$_POST = array(
+                        "title"         =>      "Unit test video",
+                        "description"   =>      "This is only an edited test",
+                        "icon_url"      =>      "http://blank.com/blank.gif",
+                        "website_url"   =>      "http://bm.com",
+                        "adult"         =>      "false",
+                        "mime"          =>      "avi",
+                        "file_url"      =>      "http://bm.com/video.avi",
+                        "tags"          =>      "funny lol"
+                );
+
                 $video = new videoController($params);
+
+		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
+		$testvid = $vidarray[0];
+                $this->assertEqual($testvid['description'], "This is only an edited test");
+
+	}
+
+	function testEditTags() {
+
 	}
 
 	function testRemove() {
                 $params = array();
-                $params[0] = 'channelname';
+                $params[0] = 'Unit test video';
+		$params[1] = 'remove';
+
                 $video = new videoController($params);
-	}*/
+
+		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
+		$testvideo = $vidarray[0];
+		$this->assertEqual(count($vidarray), 0);		
+	}
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.

@@ -78,7 +78,7 @@ class VideoController extends ViewController
 	
 	// Removes a video from the database
 	function remove($title) {
-		$id = getID($title);
+		$id = $this->getID($title);
 		$condition = 'video_id="'.$id.'"';
 
 		//Delete all donations associated with a video
@@ -109,14 +109,17 @@ class VideoController extends ViewController
 		if(isset($_POST['title']))
                 {
 			$video = $_POST;
-                        $video_id = getID($video['title']);
+                        $video_id = $this->getID($video['title']);
+			$condition = 'id="'.$video_id.'"';
 
                          //Put the tag string into an array
                         $tags = explode(" ", $video['tags']);
-                        unset($channel['tags']);
+                        unset($video['tags']);
+
+			//Update video 
+			$this->db_controller->update('videos', $video, $condition);
 
 			//Update tags
-                        $condition = 'id="'.$video_id.'"';
                         $old_tags = $this->db_controller->read("video_tags", $condition);
 
                         // If tag is in the old array, but not in the new one, delete it
@@ -142,26 +145,42 @@ class VideoController extends ViewController
                                 }
                         }
 
-
-			//Update the video in the database
-			$this->assign('alerts', 'Video was successfully edited');
+			$this->view->assign('alerts', 'Video was successfully edited');
 			$this->show($params[0]);
                 } else {
-			$video = $this->db_controller->read("videos", "title=$title");
-	                //Get tags and channels info
-        	        $video = $this->getTagsAndChannels($video);
-			$this->view->assign('video', $video);
-			$this->display('video-edit.tpl');
+			$vidarray = $this->db_controller->read("videos", "title=$title");
+			echo count($vidarray)."<br/>";
+			
+			if (count($vidarray) > 0) {
+				echo "what";
+                                $video = $vidarray[0];
+
+                                //Get tags and channels info
+                                $video = $this->getTagsAndChannels($video);
+                                $this->view->assign('video', $video);
+                                $this->display('video-edit.tpl');
+			} else {
+                                $this->view->assign('alert', "Video $title not found");
+                                $this->index();
+			}
                 }
 
 	}
 
 	function show($title) {
-		$video = $this->db_controller->read("videos", "title=$title");
-		//Get tags and channels info
-		$video = $this->getTagsandChannels($video);
-		$this->view->assign('video', $video);
-		$this->display('video-show.tpl');
+		$condition = 'title="'.$title.'"';
+		$vidarray = $this->db_controller->read("videos", $condition);
+		if (count($vidarray) == 0) {
+			$this->view->assign('alert', "Video $title not found");
+			$this->index();
+		} else {
+			$video = $vidarray[0];
+
+			//Get tags and channels info
+			$video = $this->getTagsandChannels($video);
+			$this->view->assign('video', $video);
+			$this->display('video-show.tpl');
+		}
 	}
 
 	// PRIVATE FUNCTIONS
