@@ -6,7 +6,8 @@
 // doesn't exist.
 function getSetting($key)
 {
-      	$handle = fopen("../settings.inc", "r");
+      	$handle = fopen("settings.inc", "r");
+	$value = NULL;
 
         while($setupdata = fscanf($handle, "%s\t%s\n")) {
                 list ($read_key, $read_value) = $setupdata;
@@ -23,7 +24,7 @@ function getSetting($key)
 // exists, it's value is overwritten with the new value.
 function setSetting($key, $value)
 {
-      	$handle = fopen('../settings.inc', 'at');
+      	$handle = fopen('settings.inc', 'at');
 
         $pair = $key . "\t" . $value . "\n";
 

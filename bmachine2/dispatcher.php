@@ -4,13 +4,13 @@
 error_reporting(E_ALL);
 
 // Include functions to read/write settings.
-//require_once('SettingsHelper.php');
+require_once('SettingsHelper.php');
 
 // Set the base directory and URI globals.
-//global $baseDir = getSetting("baseDir");
-//global $baseURI = getSetting("baseURI");
-
-global $baseDir;
+global $basDir;
+$baseDir = getSetting("baseDir");
+global $baseURI;
+$baseDir = getSetting("baseURI");
 
 // In case there aren't any settings yet...
 if(!isset($baseDir))
@@ -26,7 +26,7 @@ require_once($baseDir . 'controllers/SetupController.php');
 require_once($baseDir . 'controllers/ChannelController.php');
 require_once($baseDir . 'controllers/VideoController.php');
 require_once($baseDir . 'controllers/TagController.php');
-//require_once($baseDir . 'controllers/FrontPageController.php');
+require_once($baseDir . 'controllers/FrontPageController.php');
 require_once($baseDir . 'controllers/ViewController.php');
 
 // Make sure that Broadcast Machine is installed.
@@ -117,8 +117,7 @@ elseif($param_1 != '' && $param_2 == '')
 // This is also the catch-all if something goes wrong.
 else
 {
-	$err->emitError('Yikes!');
-	//new FrontPageController();
+	new FrontPageController();
 }
 
 ?>
