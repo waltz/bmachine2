@@ -27,6 +27,9 @@ class VideoController extends ViewController
 		case 'remove':
 		  $this->remove($params[0]);
 		  break;
+		case 'download':
+		  $this->download($params[0]);
+		  break;
 	      }
 	      break;
 	  }
@@ -109,6 +112,7 @@ class VideoController extends ViewController
 		if(isset($_POST['title']))
                 {
 			$video = $_POST;
+
                         $video_id = $this->getID($video['title']);
 			$condition = 'id="'.$video_id.'"';
 
@@ -121,12 +125,12 @@ class VideoController extends ViewController
 
 			//Update tags
                         $old_tags = $this->db_controller->read("video_tags", $condition);
-
+			
                         // If tag is in the old array, but not in the new one, delete it
                         foreach ($old_tags as $old_tag) {
                                 if (array_search($old_tag['name'], $tags) === FALSE) {
                                         $condition = 'id="'.$video_id.'" and name="'.$old_tag['name'].'"';
-                                        $this->db_controller->delete($channel_tags, $condition);
+                                        $this->db_controller->delete("video_tags", $condition);
                                 }
                         }
 
@@ -138,21 +142,20 @@ class VideoController extends ViewController
                                 //If tag isn't in the database, add it
                                 if (count($check) == 0) {
                                         $tag = array(
-                                                "id"    => $channel_id,
+                                                "id"    => $video_id,
                                                 "name"  => $name
                                         );
-                                        $this->db_controller->create("channel_tags", $tag);
+                                        $this->db_controller->create("video_tags", $tag);
                                 }
                         }
 
 			$this->view->assign('alerts', 'Video was successfully edited');
 			$this->show($params[0]);
                 } else {
-			$vidarray = $this->db_controller->read("videos", "title=$title");
-			echo count($vidarray)."<br/>";
+			$condition = 'title="'.$title.'"';
+			$vidarray = $this->db_controller->read("videos", $condition);
 			
 			if (count($vidarray) > 0) {
-				echo "what";
                                 $video = $vidarray[0];
 
                                 //Get tags and channels info
@@ -160,7 +163,7 @@ class VideoController extends ViewController
                                 $this->view->assign('video', $video);
                                 $this->display('video-edit.tpl');
 			} else {
-                                $this->view->assign('alert', "Video $title not found");
+                                $this->view->assign('alerts', "Video $title not found");
                                 $this->index();
 			}
                 }
@@ -181,6 +184,25 @@ class VideoController extends ViewController
 			$this->view->assign('video', $video);
 			$this->display('video-show.tpl');
 		}
+	}
+
+	// Increments the download count and then calls the template to serve up the file
+	function download($title) {
+                $condition = 'title="'.$title.'"';
+                $vidarray = $this->db_controller->read("videos", $condition);
+                if (count($vidarray) == 0) {
+                        $this->view->assign('alert', "Video $title not found");
+                        $this->index();
+                } else {
+			//Update video
+			$video = $vidarray[0];
+			$video['downloads']++;
+                        $this->db_controller->update('videos', $video, $condition);
+
+                        $this->view->assign('video', $vidarray[0]);
+                        $this->display('video-download.tpl');
+                }
+
 	}
 
 	// PRIVATE FUNCTIONS

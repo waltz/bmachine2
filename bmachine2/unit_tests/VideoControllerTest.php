@@ -81,7 +81,7 @@ class VideoControllerTest extends UnitTestCase
 	function testEditEmpty() {
 		unset($_POST);
 		$params = array();
-		$params[0] = 'Unit test video54545';
+		$params[0] = 'Unit test video';
 		$params[1] = 'edit';
 
 		$video = new videoController($params);
@@ -108,12 +108,54 @@ class VideoControllerTest extends UnitTestCase
                 $video = new videoController($params);
 
 		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
-		$testvid = $vidarray[0];
-                $this->assertEqual($testvid['description'], "This is only an edited test");
-
+		$testvideo = $vidarray[0];
+                $this->assertEqual($testvideo['description'], "This is only an edited test");
 	}
 
 	function testEditTags() {
+		$params = array();
+		$params[0] = 'Unit test video';
+                $params[1] = 'edit';
+
+                $_POST = array(
+                        "title"         =>      "Unit test video",
+                        "description"   =>      "This is only an edited test",
+                        "icon_url"      =>      "http://blank.com/blank.gif",
+                        "website_url"   =>      "http://bm.com",
+                        "adult"         =>      "false",
+                        "mime"          =>      "avi",
+                        "file_url"      =>      "http://bm.com/video.avi",
+                        "tags"          =>      "funny test"
+                );
+
+		$video = new videoController($params);
+
+		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
+                $testvideo = $vidarray[0];
+
+                $condition = 'id="'.$testvideo['id'].'"';
+                $tags = $video->db_controller->read("video_tags", $condition);
+
+		$tag = $tags[0];
+		$this->assertEqual($tag['name'], "funny");
+
+		$tag = $tags[1];
+                $this->assertEqual($tag['name'], "test");
+
+		
+	}
+
+	function testDownload() {
+                $params = array();
+                $params[0] = 'Unit test video';
+                $params[1] = 'download';
+
+		$video = new videoController($params);
+
+                $vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
+                $testvideo = $vidarray[0];
+
+		$this->assertEqual($testvideo['downloads'], 1);
 
 	}
 
