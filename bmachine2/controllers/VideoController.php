@@ -84,6 +84,9 @@ class VideoController extends ViewController
 		$id = $this->getID($title);
 		$condition = 'video_id="'.$id.'"';
 
+		//Delete all published associations with a video 
+		$this->db_controller->delete("published", $condition);
+
 		//Delete all donations associated with a video
 		$this->db_controller->delete("video_donations", $condition);
 
@@ -174,7 +177,7 @@ class VideoController extends ViewController
 		$condition = 'title="'.$title.'"';
 		$vidarray = $this->db_controller->read("videos", $condition);
 		if (count($vidarray) == 0) {
-			$this->view->assign('alert', "Video $title not found");
+			$this->view->assign('alerts', "Video $title not found");
 			$this->index();
 		} else {
 			$video = $vidarray[0];
@@ -191,7 +194,7 @@ class VideoController extends ViewController
                 $condition = 'title="'.$title.'"';
                 $vidarray = $this->db_controller->read("videos", $condition);
                 if (count($vidarray) == 0) {
-                        $this->view->assign('alert', "Video $title not found");
+                        $this->view->assign('alerts', "Video $title not found");
                         $this->index();
                 } else {
 			//Update video
@@ -211,18 +214,15 @@ class VideoController extends ViewController
 	// Returns a fresh array of videos
 	private function getTagsAndChannels($videos) {
                 foreach ($videos as &$video) {
-                	$id = $video['id'];
-			$condition = 'id="'.$id.'"';
-
+			$condition = 'id="'.$video['id'].'"';
                 	$tags = $this->db_controller->read("video_tags", $condition);
 
-			// Add published channel to each video
-                        $condition = 'video_id="'.$id.'" order by publish_date desc';
+			// Add published channels to each video
+                        $condition = 'video_id="'.$video['id'].'" order by publish_date desc';
                         $published = $this->db_controller->read("published", $condition);
                         $channels = array();
                         foreach ($published as $x) {
-                                $channel_id = $x['channel_id'];
-                                $condition = 'id="'.$channel_id.'"';
+                                $condition = 'id="'.$x['channel_id'].'"';
                                 $channel = $this->db_controller->read("channels", $condition);
                                 array_push($channels, $channel['title']);
                         }
@@ -238,10 +238,9 @@ class VideoController extends ViewController
 	//Returns false if title not found
 	private function getID($title) {
 		$condition = 'title="'.$title.'"';
-		$x = $this->db_controller->read("videos", $condition);
-		$video = $x[0];
-				
-		if (isset($video['id'])) {
+		$x = $this->db_controller->read("videos", $condition);				
+		if (count($x) > 0) {
+			$video = $x[0];
 			return $video['id'];
 		} else {
 			return false;

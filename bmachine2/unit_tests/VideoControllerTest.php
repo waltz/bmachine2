@@ -64,7 +64,7 @@ class VideoControllerTest extends UnitTestCase
 		$params[0] = 'Unit test video';
 		$video = new VideoController($params);
 
-		$this->assertTrue(true);
+		$this->assertNoErrors();
 	}
 
 	function testShow() {
@@ -74,8 +74,7 @@ class VideoControllerTest extends UnitTestCase
 
                 $video = new videoController($params);
 
-                $this->assertTrue(true);
-
+                $this->assertNoErrors();
 	}
 
 	function testEditEmpty() {
@@ -86,7 +85,7 @@ class VideoControllerTest extends UnitTestCase
 
 		$video = new videoController($params);
 
-		$this->assertTrue(true);
+		$this->assertNoErrors();
 	}
 
 	function testEdit() {
