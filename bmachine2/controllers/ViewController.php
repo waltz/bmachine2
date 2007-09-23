@@ -2,11 +2,11 @@
 // All shared functionality (BitTorrent, DB, etc) should be inherited from this class
 
 // Include the appropriate database controller
-require_once($baseDir . 'db/db_config.inc');
-require_once($baseDir . 'controllers/' . $cf_dbengine . 'Controller.php');
+require_once($baseDir.'db/db_config.inc');
+require_once($baseDir.'controllers/' . $cf_dbengine . 'Controller.php');
 
 // Include Smarty
-require_once($baseDir . 'smarty/Smarty.class.php');
+require_once($baseDir.'smarty/Smarty.class.php');
 
 abstract class ViewController {
 	var $db_controller;
@@ -25,13 +25,13 @@ abstract class ViewController {
 		}			
 
 		// Instantiate the templating engine
-		$base_url = $this->getSetting('baseurl');
+		global $baseDir;
 
 		$this->view = new Smarty();
 		//Theme should be a preference variable
-		$view->template_dir = $base_url.'/themes/default/';
-		$view->compile_dir = $base_url.'/smarty/templates_c/';
-		$view->cache_dir = $base_url.'/smarty/cache/';
+		$view->template_dir = $baseDir.'/themes/default/';
+		$view->compile_dir = $baseDir.'/smarty/templates_c/';
+		$view->cache_dir = $baseDir.'/smarty/cache/';
 		
 		//If $params is empty, call index function
 		//Otherwise, call controller dispatcher

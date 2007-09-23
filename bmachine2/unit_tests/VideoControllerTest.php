@@ -3,12 +3,14 @@
 // The SimpleTest API is available at http://simpletest.com/api.
 // It is a fairly complete list of the classes and assertions available.
 
+//Initialize unit testing variables
+$baseDir = "../";
+$bm_debug = 'unittest';
+
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
 require_once '../controllers/VideoController.php';
-
-$bm_debug = 'unittest';
 
 class VideoControllerTest extends UnitTestCase
 {
