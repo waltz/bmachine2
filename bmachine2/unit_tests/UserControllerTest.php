@@ -106,12 +106,37 @@ class UserControllerTest extends UnitTestCase
 
 	}
 
-	function testLogin() {
+	function testLoginNoPost() {
+		$params = array();
+		$params[0] = 'login';
 
+		$user = new UserController($params);
+		$this->assertNoErrors();
 	}
 
-	function testLogout() {
+	function testLogin() {
+                $params = array();
+                $params[0] = 'login';
 
+                $_POST = array(
+                        "username"      =>      "UnitTestUser",
+                        "pass"          =>      "blah",
+                );
+                
+		$user = new UserController($params);
+                $this->assertNoErrors();
+		$this->assertEqual($_SESSION['username'], "UnitTestUser");
+		$this->assertEqual($_SESSION['pass'], sha1("blah"));
+        }
+
+
+	function testLogout() {
+                $params = array();
+                $params[0] = 'login';
+
+                $user = new UserController($params);
+
+		$this->assertNoErrors();
 	}
 
 	function testRemove() {

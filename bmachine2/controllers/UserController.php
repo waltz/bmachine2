@@ -11,9 +11,16 @@ class UserController extends ViewController{
             case 'signup':
               $this->signup();
               break;
+            case 'login':
+              $this->login();
+              break;
+            case 'logout':
+              $this->logout();
+              break;
             case 'all':
               $this->all();
               break;
+
             default:
               switch($params[1]) {
                 case '':
@@ -52,6 +59,10 @@ class UserController extends ViewController{
 		//If data is posted, create user in the db
                 if(isset($_POST)) {
 			//Needs: Error checking?
+
+			//Hash password
+			$_POST['pass'] = sha1($_POST['pass']);
+
                         $this->db_controller->create("users", $_POST);
                         $this->display('user-unactivated.tpl');
                 } else {
@@ -75,6 +86,9 @@ class UserController extends ViewController{
 	function edit($username) {
 		// If new data has been posted, update database
 		if(isset($_POST)) {
+			//Hash password:
+			$_POST['pass'] = sha1($_POST['pass']);
+
 			$this->db_controller->update('users', $_POST, 'username="'.$username.'"');
 			$this->view->assign('alerts', 'User information was successfully edited');
                         $this->show($username);
@@ -85,7 +99,11 @@ class UserController extends ViewController{
         	                $this->view->assign('alerts', "User $username not found");
                 	        $this->index();
 	                } else {
-        	                $this->view->assign('user', $userArray[0]);
+				//Unset password
+				$user = $userArray[0];
+				unset($user['password']);
+
+        	                $this->view->assign('user', $user);
                 	        $this->display('user-edit.tpl');
                 	}
 
@@ -98,15 +116,36 @@ class UserController extends ViewController{
 		$this->index();
 	}
 
-	function login()
-	{
-		
+	function login() {
+		if (isset($_POST)) {
+			$_POST['pass'] = sha1($_POST['pass']);
+			$user = $this->db_controller->read("users", 'username="'.$_POST['username'].'" and pass="'.$_POST['pass'].'"');
+			if (count($user) > 0) {
+				session_start();
+				$_SESSION['pass'] = $_POST['pass'];
+				$_SESSION['username'] = $_POST['username'];
+
+				$this->view->assign('alerts', "You have been logged in. Welcome back!");
+				$this->index();
+			} else {
+				$this->view->assign('alerts', "Login failed: username or password is incorrect.");
+				$this->display('user-login.tpl');
+			}
+			
+		} else {
+			$this->view->assign('alerts', "Please log in.");
+			$this->display('user-login.tpl');
+		}
 	}
 	
 	// Kill any existing session.
 	function logout()
 	{
-	
+		$_SESSION = array();
+		session_destroy();	
+
+		$this->view->assign('alerts', "You have been successfully logged out.");
+		$this->index();
 	}
 }
 
