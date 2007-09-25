@@ -12,6 +12,9 @@ abstract class ViewController {
 	var $db_controller;
 	var $view;
 
+        abstract function dispatch($params);
+        abstract function index();
+
 	public function __construct($params) {
 		global $cf_dbengine;
 		//Instantiate the DB connection		
@@ -52,10 +55,29 @@ abstract class ViewController {
 		}
 	}
 
-	abstract function dispatch($params);
+	// AUTHENTICATION FUNCTIONS //
+	
+	// Checks to see if user is logged in
+	// Returns true if logged in, false if not
+ 	function isUser() {
+                if (isset($_SESSION)) {
+                        $userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
+                        return (count($userArray) > 0) ? true : false;
+                }
+                return false;
+	}
 
-	abstract function index();
-
-
+	// Checks to see if user has administrative privileges
+	// Returns true if logged in, false if not
+	function isAdmin() {
+		if (isset($_SESSION)) {
+			$userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
+			if (count($userArray) > 0) {
+				$user = $userArray[0];
+				return ($user['admin'] == 0) ? false : true;
+			}
+		} 
+		return false;
+	}
 }
 ?>
