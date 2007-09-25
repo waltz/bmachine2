@@ -48,7 +48,7 @@ class VideoController extends ViewController
 		//Get tags and channels that a video belongs to
 		$videos = $this->getTagsAndChannels($videos);
 
-		$this->view->assign('allvideos', $videos);
+		$this->view->assign('videos', $videos);
 		$this->display('video-all.tpl');
 	}
 	
@@ -74,6 +74,7 @@ class VideoController extends ViewController
                                 );
                                 $this->db_controller->create("video_tags", $tag);
                         }
+			$this->show($video['title']);
 		} else {
 			$this->display('video-add.tpl');
 		}
@@ -153,7 +154,7 @@ class VideoController extends ViewController
                         }
 
 			$this->view->assign('alerts', 'Video was successfully edited');
-			$this->show($params[0]);
+			$this->show($title);
                 } else {
 			$condition = 'title="'.$title.'"';
 			$vidarray = $this->db_controller->read("videos", $condition);

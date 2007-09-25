@@ -3,6 +3,10 @@
 // The SimpleTest API is available at http://simpletest.com/api.
 // It is a fairly complete list of the classes and assertions available.
 
+//Initialize unit testing variables
+$baseDir = "../";
+$bm_debug = 'unittest';
+
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
@@ -21,7 +25,32 @@ class TagControllerTest extends UnitTestCase
 	{
 		$params = array();
 		$tag = new TagController($params);
+		$this->assertNoErrors();
 	}
+
+        function testAll() {
+                $params = array();
+                $params[0] = 'all';
+                $tag = new TagController($params);
+                $this->assertNoErrors();
+        }
+        function testTagName() {
+                $params = array();
+                $params[0] = 'Unit test Tag';
+                $tag = new TagController($params);
+
+                $this->assertNoErrors();
+        }
+
+        function testShow() {
+                $params = array();
+                $params[0] = 'Unit test Tag';
+                $params[1] = 'show';
+
+                $tag = new TagController($params);
+
+		$this->assertNoErrors();
+        }
 }
 
 // Instantiate the unit test class and tell it to display the results as HTML.

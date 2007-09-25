@@ -1,12 +1,12 @@
 CREATE TABLE users (
 	id INTEGER PRIMARY KEY,
-	username blob NOT NULL,
+	username blob NOT NULL UNIQUE,
 	name blob NOT NULL,
 	pass blob NOT NULL,
 	email blob NOT NULL,
-	active boolean NOT NULL,
-	admin boolean NOT NULL,
-	banned boolean NOT NULL
+	active boolean NOT NULL DEFAULT FALSE,
+	admin boolean NOT NULL DEFAULT FALSE,
+	banned boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE licenses (

@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS users (
 	id int UNSIGNED NOT NULL AUTO_INCREMENT,
-	username blob NOT NULL,
+	username blob NOT NULL UNIQUE,
 	name blob NOT NULL,
 	pass blob NOT NULL,
 	email blob NOT NULL,
-	active boolean NOT NULL,
-	admin boolean NOT NULL,
-	banned boolean NOT NULL,
+	active boolean NOT NULL DEFAULT FALSE,
+	admin boolean NOT NULL DEFAULT FALSE,
+	banned boolean NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
 	KEY (username(100))
 ) ENGINE=InnoDB, CHARACTER SET utf8;

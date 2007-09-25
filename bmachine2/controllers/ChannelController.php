@@ -71,6 +71,7 @@ class ChannelController extends ViewController
 				);
 				$this->db_controller->create("channel_tags", $tag);
 			}
+			$this->show($channel['title']);
                 } else {
                         $this->display('channel-add.tpl');
                 }

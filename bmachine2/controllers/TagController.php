@@ -19,9 +19,6 @@ class TagController extends ViewController
                 case 'show':
                   $this->show($params[0]);
                   break;
-                case 'remove':
-                  $this->remove($params[0]);
-                  break;
               }
               break;
           }
@@ -34,29 +31,16 @@ class TagController extends ViewController
 
 	// Shows all tags
         function all() {
-                $tags = $this->db_controller->read("channel_tags", "all");
+                $channelTags = $this->db_controller->read("channel_tags", "all");
+		$videoTags = $this->db_controller->read("video_tags", "all");
 
-                //Get videos and channels that are tagged with each tag
-                $tags = $this->getChannels($tags);
-		$tags = $this->getVideos($tags);
+                //Get videos and channels that are associated with each tag
+                $channelTags = $this->getChannels($channelTags);
+		$videoTags = $this->getVideos($videoTags);
 
-                //$this->view->assign('alltags', $tags);
-                //$this->view->display('tag-all.tpl');
-        }
-
-        // Removes all tags with $name from the database
-	function remove($name) {
-		$condition = 'name="'.$name.'"';
-
-		//Delete all channel tags
-		$this->delete("channel_tags", $condition);
-
-		//Delete all video tags
-		$this->delete("video_tags", $condition);
-
-                //Add an alert and redirect to index
-                $this->view->assign('alerts', 'Tag was successfully removed from all videos and channels');
-                $this->index();
+		$this->view->assign('channelTags', $channelTags);
+                $this->view->assign('videoTags', $videoTags);
+                $this->display('tag-all.tpl');
         }
 
         function show($name) {
@@ -64,24 +48,32 @@ class TagController extends ViewController
         }
 
         // PRIVATE FUNCTIONS
-
-        // Adds tags to an array of channels (or just one)
-        // Returns a fresh array of channels
         private function getChannels($tags) {
                 foreach ($tags as &$tag) {
                         $name = $tag["name"];
+			
 			//Get channel names somehow
 			$channels = null;
-                        $tags['channels'] = $channels;
+                        
+			$tag['channels'] = $channels;
                 }
                 unset($tag);
                 return $tags;
         }
 
 	private function getVideos($tags) {
+                foreach ($tags as &$tag) {
+                        $name = $tag["name"];
+
+                        //Get video names somehow
+			$condition = 'id="'.$tag['id'].'"';
+
+                        $tag['video'] = $videos;
+                }
+                unset($tag);
+                return $tags;
 
 	}
-
 }
 
 ?>
