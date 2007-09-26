@@ -20,7 +20,6 @@ class UserController extends ViewController{
             case 'all':
               $this->all();
               break;
-
             default:
               switch($params[1]) {
                 case '':
@@ -30,13 +29,13 @@ class UserController extends ViewController{
                   $this->show($params[0]);
                   break;
                 case 'edit':
-                  $this->edit($params[0]);
+                  ($this->isAdmin() || $this->isUser($params[0])) ? $this->edit($params[0]) : $this->forbidden();
                   break;
                 case 'activate':
-                  $this->remove($params[0]);
+                  $this->activate();
                   break;
                 case 'remove':
-                  $this->remove($params[0]);
+		  ($this->isAdmin() || $this->isUser($params[0])) ? $this->remove($params[0]) : $this->forbidden();
                   break;
               }
               break;
@@ -70,6 +69,10 @@ class UserController extends ViewController{
                 }
 
         }
+
+	function activate() {
+
+	}
 
 	function show($username) {
 		$userArray = $this->db_controller->read('users', 'username="'.$username.'"');

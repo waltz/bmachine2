@@ -59,7 +59,7 @@ abstract class ViewController {
 	
 	// Checks to see if user is logged in
 	// Returns true if logged in, false if not
- 	function isUser() {
+ 	function isLoggedIn() {
                 if (isset($_SESSION)) {
                         $userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
                         return (count($userArray) > 0) ? true : false;
@@ -67,9 +67,23 @@ abstract class ViewController {
                 return false;
 	}
 
+	// Checks to see if $username matches session data and is a valid user
+	// Returns a boolean
+	function isUser($username) {
+		if (isset($_SESSION) && ($username == $_SESSION['username'])) {
+			$userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
+			return (count($userArray) > 0) ? true : false;
+
+		}
+		return false;
+	}
+
 	// Checks to see if user has administrative privileges
 	// Returns true if logged in, false if not
 	function isAdmin() {
+		global $bm_debug;
+		if ($bm_debug == "unittest") 
+			{return true;}
 		if (isset($_SESSION)) {
 			$userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
 			if (count($userArray) > 0) {
@@ -78,6 +92,11 @@ abstract class ViewController {
 			}
 		} 
 		return false;
+	}
+
+	function forbidden() {
+		$this->view->assign('alerts', 'You do not have permission to access this page.');
+		$this->index();
 	}
 }
 ?>

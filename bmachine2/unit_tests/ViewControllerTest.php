@@ -5,7 +5,6 @@
 
 //Initialize unit testing variables
 $baseDir = "../";
-$bm_debug = 'unittest';
 
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
@@ -43,17 +42,17 @@ class ViewControllerTest extends UnitTestCase
 		session_start();
                 $_SESSION['pass'] = sha1("unittest");
                 $_SESSION['username'] = "UnitTester";
-
+		
                 $params = array();
                 $foo = new TestApp($params);
                 $this->assertNoErrors();
-		$this->assertFalse($foo->isUser());
+		$this->assertFalse($foo->isLoggedIn());
+		$this->assertFalse($foo->isUser("UnitTester"));
 		$this->assertFalse($foo->isAdmin());
 
 		//Destroy Session
 		$_SESSION = array();
                 session_destroy();
-
 	}
 
 	function testUser() {
@@ -76,7 +75,9 @@ class ViewControllerTest extends UnitTestCase
 		$foo->db_controller->create("users", $user);
 
                 $this->assertNoErrors();
-		$this->assertTrue($foo->isUser());
+		$this->assertTrue($foo->isLoggedIn());
+		$this->assertTrue($foo->isUser("UnitTestUser"));
+		$this->assertFalse($foo->isUser("flsgjhh"));
 		$this->assertTrue($foo->isAdmin());
 		
 		$foo->db_controller->delete("users", 'username="UnitTestUser"');

@@ -9,7 +9,7 @@ class ChannelController extends ViewController
         function dispatch($params) {
           switch($params[0]) {
             case 'add':
-              $this->add();
+              ($this->isAdmin()) ? $this->add() : $this->forbidden();
               break;
             case 'all':
               $this->all();
@@ -23,10 +23,10 @@ class ChannelController extends ViewController
                   $this->show($params[0]);
                   break;
                 case 'edit':
-                  $this->edit($params[0]);
+		  ($this->isAdmin()) ? $this->edit($params[0]) : $this->forbidden();
                   break;
                 case 'remove':
-                  $this->remove($params[0]);
+                  ($this->isAdmin()) ? $this->remove($params[0]) : $this->forbidden();
                   break;
               }
               break;
