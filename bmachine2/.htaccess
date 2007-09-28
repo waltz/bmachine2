@@ -14,9 +14,9 @@
 # Rewrite URLs so that everything goes to the dispatcher.
 #RewriteRule ^/(.*) index.php?params=$1
 
-<IfModule mod_rewrite.c>
+<IfModule mod_rewrite.so>
 RewriteEngine On
-RewriteBase /cjbmtest/
+RewriteBase /bmachine2/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /bmachine2/index.php [L]

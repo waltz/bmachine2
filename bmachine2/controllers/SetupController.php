@@ -1,19 +1,47 @@
 <?php
 
-require_once('ViewController.php');
+require_once($baseDir . 'controllers/ViewController.php');
 
-class SetupController
+class SetupController extends ViewController
 {
-	function SetupController()
+	function SetupController($uri)
 	{
-		$this->setupDatabase();
+	  if(isset($uri))
+	    {
+	      $this->dispatch($uri);
+	    }
+	  else
+	    {
+	      //$this->checkPermissions();
+	      $this->detectEnvironment();
+	      $this->writeHtaccess();
+	      $this->setupBaseURI();
+	    }
+	}
+	
+	function dispatch($uri)
+	{
+	  switch($i)
+	    {
+	    case "database":
+	      // db
+	      break;
+	    case "firstuser":
+	      // firstuser
+	      break;
+	    }
 	}
 
-	function displayWelcomePage()
+	function index()
 	{
-	  // Should this be done here?
-	  $this->detectEnvironment();
-	  
+	}
+
+	function checkPermissions()
+	{
+	}
+
+	function setupBaseURI()
+	{
 	  $this->writeHTMLHeader();
 	  echo('Thanks for installing Broadcast Machine!' . "\n");
 	  echo("First off, we need to figure out your base URL. </br>");
@@ -23,8 +51,17 @@ class SetupController
 	  echo("We've detected that your current URI is {$baseURI}!");
 	  echo("If you'd like to use this as your root URI, click 'next' below.");
 	  echo("If you'd like to use a different URI, enter it into the address bar!");
-	  $baseURI = $baseURI . "/setup/database";
-	  echo("<form method=\"link\" action=\"$baseURI\">");
+	  
+	  if(getSetting("CleanURIs") == "On")
+	    {
+	      $baseURI = $baseURI . "setup/database";
+	    }
+	  else
+	    {
+	      $baseURI = $baseURI . "index.php/" . "setup/database";
+	    }
+
+	  echo("<form method=\"POST\" action=\"$baseURI\">");
 	  echo('<input type="submit" value="Get started!">');
 	  echo("<input type=\"hidden\" name=\"baseURI\" value=\"{$baseURI}\">");
 	  echo('</form>');
@@ -38,7 +75,6 @@ class SetupController
 	    {
 	      setSetting("baseURI", $_POST['baseURI']);
 	    }
-
 	  if(isset($_POST['MySQLData']))
 	    {
 	   
@@ -102,18 +138,18 @@ class SetupController
 	function detectEnvironment()
 	{
 	  // Figure out the base directory.
-	  setSetting("baseDir", getcwd());
+	  $cur_dir = getcwd() . "/";
+	  setSetting("baseDir", $cur_dir);
 
 	  // See if magic quotes are turned on.
-	  
-	  /*
-	   CJ - I fell dumb detecting this once and storing it
-	   when you can just as easily detect it on the fly.
-	  */
-
-	   setSetting("MagicQuotesGPC", get_magic_quotes_gpc()); /* GET/POST/Cookie data. */
+	  setSetting("MagicQuotesGPC", get_magic_quotes_gpc()); /* GET/POST/Cookie data. */
 	  setSetting("MagicQuotesRuntime", get_magic_quotes_runtime()); /* Database, file operations. */
 
+	  // Is mod_rewrite installed?
+	  if(array_search("mod_rewrite", apache_get_modules()) != FALSE)
+	    {
+	      setSetting("CleanURIs", "On");
+	    }
 	}
 
 	function writeMessage($message)
@@ -140,5 +176,10 @@ class SetupController
 	function writeStylesheet()
 	{
 		// CJ - Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
+	}
+
+	function writeHtaccess()
+	{
+	  echo("writeHtaccess is still a stub...");
 	}
 }

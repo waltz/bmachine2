@@ -24,6 +24,8 @@ function getSetting($key)
 // exists, it's value is overwritten with the new value.
 function setSetting($key, $value)
 {
+  try
+    {
       	$handle = fopen('settings.inc', 'at');
 
         $pair = $key . "\t" . $value . "\n";
@@ -33,7 +35,14 @@ function setSetting($key, $value)
         fclose($handle);
 
       	if($status = FALSE)
-      		{return FALSE;}
+      	{
+	  return FALSE;
+	}
+    }
+  catch(Exception $e)
+    {
+      echo("Couldn't open settings file.");
+    }
 }
 	
 ?>

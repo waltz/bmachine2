@@ -3,8 +3,35 @@
 // Make sure that PHP complains. Turn all error reporting on.
 error_reporting(E_ALL);
 
+// Include some needed helpers.
+require_once('helpers/SaniHelper.php');
+
+// Make sure specialcharacters are escaped.
+if(get_magic_quotes_gpc() == 0)
+  {
+    $_GET = array_addslashes($_GET);
+    $_POST = array_addslashes($_POST);
+    $_COOKIE = array_addslashes($_COOKIE);
+  }
+
+// Strip HTML tags from all input strings.
+if(isset($_GET))
+  {
+    $_GET = array_strip_tags($_GET);
+  }
+
+if(isset($_POST))
+  {
+    $_POST = array_strip_tags($_POST);
+  }
+
+if(isset($_COOKIE))
+  {
+    $_COOKIE = array_strip_tags($_COOKIE);
+  }
+
 // Include functions to read/write settings.
-require_once('SettingsHelper.php');
+require_once('helpers/SettingsHelper.php');
 
 // Set the base directory and URI globals.
 global $basDir;
@@ -33,9 +60,14 @@ require_once($baseDir . 'controllers/ViewController.php');
 // If not, start the setup controller.
 if(!file_exists('settings.inc'))
   {
-    new SetupController();
+    new SetupController(NULL);
     exit();
   }
+ else if(getSetting("SetupStatus") != "Complete")
+   {
+     new SetupController(NULL);
+     exit();
+   }
 
 // Something needs to be done about magic quotes...
 if(getSetting("MagicQuotesGPC"))
@@ -77,6 +109,7 @@ if($uri[0] == 'index.php')
 
 // The following if/else block contains the main dispatcher logic.
 
+// For the setup controller...
 if($uri[0] == 'setup')
 {
   new SetupController($uri);
@@ -100,24 +133,10 @@ elseif($uri[0] == 'users')
 	new UserController($uri);
 }
 
-// Call the video controller if we get a channel and a video.
-/*elseif(isset($param_1) && isset($param_2))
-{
-	new VideoController($uri);
-	}
-
-// If we only get the first parameter and no second parameter,
-// we should assume that it's a channel name.
-elseif($param_1 != '' && $param_2 == '')
-{
-	new ChannelController($param_1);
-}
-*/
-// If no parameters were sent, go to the all channel view.
-// This is also the catch-all if something goes wrong.
+// Defaults to the Channel controller.
 else
 {
-	new FrontPageController();
+  new ChannelController($uri);
 }
 
 ?>
