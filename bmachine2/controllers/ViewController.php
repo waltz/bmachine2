@@ -2,7 +2,7 @@
 // All shared functionality (BitTorrent, DB, etc) should be inherited from this class
 
 // Include the appropriate database controller
-require_once($baseDir.'db/db_config.inc');
+require_once($baseDir.'db/db_config.php');
 require_once($baseDir.'controllers/' . $cf_dbengine . 'Controller.php');
 
 // Include Smarty

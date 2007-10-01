@@ -45,7 +45,7 @@ class VideoController extends ViewController
 		$videos = $this->db_controller->read("videos", "all");
 
 		//Get tags and channels that a video belongs to
-		$videos = $this->getTagsAndChannels($videos);
+		$videos = $this->getMetaData($videos);
 
 		$this->view->assign('videos', $videos);
 		$this->display('video-all.tpl');
@@ -162,7 +162,7 @@ class VideoController extends ViewController
                                 $video = $vidarray[0];
 
                                 //Get tags and channels info
-                                $video = $this->getTagsAndChannels($video);
+                                $video = $this->getMetaData($video);
                                 $this->view->assign('video', $video);
                                 $this->display('video-edit.tpl');
 			} else {
@@ -183,7 +183,7 @@ class VideoController extends ViewController
 			$video = $vidarray[0];
 
 			//Get tags and channels info
-			$video = $this->getTagsandChannels($video);
+			$video = $this->getMetaData($video);
 			$this->view->assign('video', $video);
 			$this->display('video-show.tpl');
 		}
@@ -210,12 +210,14 @@ class VideoController extends ViewController
 
 	// PRIVATE FUNCTIONS
 
-	// Adds tags and channels to an array of videos (or just one)
+	// Adds tags, credits, and channels to an array of videos (or just one)
 	// Returns a fresh array of videos
-	private function getTagsAndChannels($videos) {
+	private function getMetaData($videos) {
                 foreach ($videos as &$video) {
 			$condition = 'id="'.$video['id'].'"';
-                	$tags = $this->db_controller->read("video_tags", $condition);
+                	
+			$tags = $this->db_controller->read("video_tags", $condition);
+			$credits = $this->db_controller->read("video_credits", $condition);
 
 			// Add published channels to each video
                         $condition = 'video_id="'.$video['id'].'" order by publish_date desc';
