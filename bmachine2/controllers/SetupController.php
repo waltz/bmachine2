@@ -38,6 +38,7 @@ class SetupController extends ViewController
 
 	function checkPermissions()
 	{
+	  
 	}
 
 	function setupBaseURI()
@@ -150,6 +151,12 @@ class SetupController extends ViewController
 	    {
 	      setSetting("CleanURIs", "On");
 	    }
+	  
+	  // What is the maximum allowed file upload size.
+	  //php, ini upload_max_filesize, post_max_size
+	  $maxfile = ini_get('upload_max_filesize');
+	  $maxpost = ini_get('post_max_size');
+
 	}
 
 	function writeMessage($message)
@@ -192,18 +199,48 @@ class SetupController extends ViewController
 	    {
 	      $handle = fopen($baseDir . '.htaccess', "w");
 
-	      fwrite($handle, "<IfModule mod_rewrite.so>" . "/n");
-	      fwrite($handle, "RewriteEngine On" . "/n");
-	      fwrite($handle, "RewriteBase $baseURI" . "/n");
-	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!f" . "/n");
-	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!d" . "/n");
-	      fwrite($handle, "RewriteRule . $baseURI [L]");
-	      fwrite($handle, "</IfModule>");
+	      fwrite($handle, "<IfModule mod_rewrite.so>" . "\n");
+	      fwrite($handle, "RewriteEngine On" . "\n");
+	      fwrite($handle, "RewriteBase $baseURI" . "\n");
+	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!f" . "\n");
+	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!d" . "\n");
+	      fwrite($handle, "RewriteRule . $baseURI [L]" . "\n");
+	      fwrite($handle, "</IfModule>" . "\n");
 	      fclose($handle);
 	    }
 	  catch (Exception $e)
 	    {
 	      echo("Exception caught!" . $e->getMessage() . "\n");
+	    }
+	}
+
+	function loadSchema()
+	{
+	  $schema = array();
+	  
+	  // Read the schema in from a file.
+	  try
+	    {
+	      $handle = fopen($baseDir . "db/" . $cf_engine . "Schema.inc.php");
+	      for($i = 0; !eof($handle); $i++)
+		{
+		  $schema[$i] = fgets($handle);
+		}
+	      fclose($handle);
+	    }
+	  catch(Exception $e)
+	    {
+	      echo("Exception Caught!: " . $e->getMessage() . "\n");
+	    }
+
+	  // Load the schema into the database.
+	  if($db->connect())
+	    {
+	      foreach($schema as $command)
+		{
+		  $db->query($command);
+		}
+	      $db->disconnect();
 	    }
 	}
 }
