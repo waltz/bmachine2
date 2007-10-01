@@ -14,7 +14,7 @@ class SetupController extends ViewController
 	    {
 	      //$this->checkPermissions();
 	      $this->detectEnvironment();
-	      $this->writeHtaccess();
+	      //$this->writeHtaccess();
 	      $this->setupBaseURI();
 	    }
 	}
@@ -180,6 +180,30 @@ class SetupController extends ViewController
 
 	function writeHtaccess()
 	{
-	  echo("writeHtaccess is still a stub...");
+	  // Grab the baseURI settig.
+	  $baseURI = getSetting("BaseURI");
+
+	  if(file_exists($baseDir . '.htaccess'))
+	    {
+	      return;
+	    }
+
+	  try
+	    {
+	      $handle = fopen($baseDir . '.htaccess', "w");
+
+	      fwrite($handle, "<IfModule mod_rewrite.so>" . "/n");
+	      fwrite($handle, "RewriteEngine On" . "/n");
+	      fwrite($handle, "RewriteBase $baseURI" . "/n");
+	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!f" . "/n");
+	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!d" . "/n");
+	      fwrite($handle, "RewriteRule . $baseURI [L]");
+	      fwrite($handle, "</IfModule>");
+	      fclose($handle);
+	    }
+	  catch (Exception $e)
+	    {
+	      echo("Exception caught!" . $e->getMessage() . "\n");
+	    }
 	}
 }
