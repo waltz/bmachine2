@@ -11,15 +11,21 @@ abstract class SQLController extends DatabaseController
 		$columns = array();
 		$values = array();
 		foreach($data as $column=>$value) {
-			array_push($columns, $column);
+			if (!is_int($column))
+				{array_push($columns, $column);}
 			array_push($values, $value);
 		}
 		//Build query
-		$query = "Insert into $table (";
-		foreach ($columns as $x) {
-			$query .= $x.", ";
+		if ($columns === array()) {
+			$query = "Insert into $table values (";
+		} else {
+			$query = "Insert into $table (";
+			foreach ($columns as $x) {
+				$query .= $x.", ";
+			}
+			$query = rtrim($query, ", ").") values (";
 		}
-		$query = rtrim($query, ", ").") values (";
+
 		foreach ($values as $y) {
 			$query .= '"'.$y.'"'.", ";
 		}

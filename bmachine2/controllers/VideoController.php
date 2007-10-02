@@ -66,6 +66,10 @@ class VideoController extends ViewController
 			$channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
                         unset($video['channels']);
 
+			//Get credits information
+                        $credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
+                        unset($video['credits']);
+
 			$this->db_controller->create("videos", $video);
 
 			//Insert tags into the database

@@ -9,7 +9,7 @@ require_once '../simpletest/reporter.php';
 require_once '../controllers/MySQLController.php';
 
 //Require dbconfig file
-require_once '../db/db_config.inc';
+require_once '../db/db_config.php';
 
 class MySQLControllerTest extends UnitTestCase
 {
@@ -24,6 +24,8 @@ class MySQLControllerTest extends UnitTestCase
 		$controller = new MySQLController();
 
 		//CREATE
+
+		// Create with associative arrays
 		$data = array(
 			"title"		=>	"Unit test video", 
 			"description"	=>	"This is only a test",
@@ -35,6 +37,19 @@ class MySQLControllerTest extends UnitTestCase
 		);
 		$foo = $controller->create("videos", $data);
 		$this->assertTrue($foo);
+
+		$videos = $controller->read("videos", 'title="Unit test video"');
+		$this->assertEqual(count($videos), 1);
+		
+		//Create w/ numerical array
+		$video = $videos[0];
+		$creddata = array($video['id'], "testee", "tester");
+
+		$foo = $controller->create("video_credits", $creddata);
+		$this->assertTrue($foo);
+
+		$creds = $controller->read("video_credits", 'name = "testee" and role = "tester"');
+		$this->assertEqual(count($creds), 1);
 
 		//READ
 
@@ -66,8 +81,14 @@ class MySQLControllerTest extends UnitTestCase
 		$this->assertEqual($video["icon_url"], "test");
 		
 		//DELETE
+		$foo = $controller->delete("video_credits", 'name = "testee" and role = "tester"');
+		$creds = $controller->read("video_credits", 'name = "testee" and role = "tester"');
+                $this->assertEqual(count($creds), 0);
+
 		$foo = $controller->delete("videos", 'title="Unit test video"');
-		$this->assertTrue($foo);
+		$videos = $controller->read("videos", 'title="Unit test video"');
+                $this->assertEqual(count($videos), 0);
+
 	}
 
 	//This tests tests working with an empty query
