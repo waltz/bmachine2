@@ -75,10 +75,7 @@ class VideoController extends ViewController
 			//Insert tags into the database
                         $id = $this->getID($video['title']);
                         foreach ($tags as $x) {
-                                $tag = array(
-                                        "id" => $id,
-                                        "name" => $x
-                                );
+                                $tag = array($id, $x);
                                 $this->db_controller->create("video_tags", $tag);
                         }
 
@@ -110,13 +107,13 @@ class VideoController extends ViewController
 		$this->db_controller->delete("video_licenses", $condition);
 
 		//Delete all credits associated with a video
-		$condition = 'id="'.$id.'"';
 		$this->db_controller->delete("video_credits", $condition);
 
 		//Delete all tags associated with a video
 		$this->db_controller->delete("video_tags", $condition);
 
 		//Delete the video itself
+		$condition = 'id="'.$id.'"';
 		$this->db_controller->delete("videos", $condition);
 
 		//Add an alert and redirect to index
@@ -147,12 +144,13 @@ class VideoController extends ViewController
 			
 
 			//Update tags
+			$condition = 'video_id="'.$video_id.'"';
                         $old_tags = $this->db_controller->read("video_tags", $condition);
 			
                         // If tag is in the old array, but not in the new one, delete it
                         foreach ($old_tags as $old_tag) {
                                 if (array_search($old_tag['name'], $tags) === FALSE) {
-                                        $condition = 'id="'.$video_id.'" and name="'.$old_tag['name'].'"';
+                                        $condition = 'video_id="'.$video_id.'" and name="'.$old_tag['name'].'"';
                                         $this->db_controller->delete("video_tags", $condition);
                                 }
                         }
@@ -160,15 +158,11 @@ class VideoController extends ViewController
 
                         foreach ($tags as $name) {
                                 //Check if tag already exists
-                                $condition = 'id="'.$video_id.'" and name="'.$name.'"';
+                                $condition = 'video_id="'.$video_id.'" and name="'.$name.'"';
                                 $check = $this->db_controller->read("video_tags", $condition);
                                 //If tag isn't in the database, add it
                                 if (count($check) == 0) {
-                                        $tag = array(
-                                                "id"    => $video_id,
-                                                "name"  => $name
-                                        );
-                                        $this->db_controller->create("video_tags", $tag);
+                                        $this->db_controller->create("video_tags", array($video_id, $name));
                                 }
                         }
 
@@ -264,7 +258,7 @@ class VideoController extends ViewController
 	// Returns a fresh array of videos
 	private function getMetaData($videos) {
                 foreach ($videos as &$video) {
-			$condition = 'id="'.$video['id'].'"';
+			$condition = 'video_id="'.$video['id'].'"';
                 	
 			$tags = $this->db_controller->read("video_tags", $condition);
                         $video['tags'] = $tags;
@@ -273,7 +267,7 @@ class VideoController extends ViewController
 			$video['credits'] = $credits;
 
 			// Add published channels to each video
-                        $condition = 'video_id="'.$video['id'].'" order by publish_date desc';
+                        $condition .= ' order by publish_date desc';
                         $published = $this->db_controller->read("published", $condition);
                         $channels = array();
                         foreach ($published as $x) {

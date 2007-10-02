@@ -52,7 +52,7 @@ class ChannelControllerTest extends UnitTestCase
                 $this->assertEqual(count($chanarray), 1);
 
                 $testchannel = $chanarray[0];
-                $condition = 'id="'.$testchannel['id'].'"';
+                $condition = 'channel_id="'.$testchannel['id'].'"';
                 $tags = $channel->db_controller->read("channel_tags", $condition);
                 $this->assertEqual(count($tags), 2);
         }
@@ -122,7 +122,7 @@ class ChannelControllerTest extends UnitTestCase
                 $chanarray = $channel->db_controller->read("channels", 'title="Unit test channel"');
                 $testchannel = $chanarray[0];
 
-                $condition = 'id="'.$testchannel['id'].'"';
+                $condition = 'channel_id="'.$testchannel['id'].'"';
                 $tags = $channel->db_controller->read("channel_tags", $condition);
 
                 $tag = $tags[0];
@@ -130,8 +130,6 @@ class ChannelControllerTest extends UnitTestCase
 
                 $tag = $tags[1];
                 $this->assertEqual($tag['name'], "test");
-
-
         }
 
 

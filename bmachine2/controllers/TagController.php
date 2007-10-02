@@ -59,7 +59,7 @@ class TagController extends ViewController
 		$channels = array();
                 foreach ($tags as &$tag) {
 			$chanArray = $this->db_controller->read("channels", 'id="'.$tag['id'].'"');
-			array_push($channels, chanArray[0]);
+			array_push($channels, $chanArray[0]);
                 }
                 unset($tag);
 		$tags['channels'] = $channels;
@@ -70,7 +70,7 @@ class TagController extends ViewController
 		$videos = array();
                 foreach ($tags as &$tag) {
 			$vidArray =  $this->db_controller->read("videos", 'id="'.$tag['id'].'"');
-                        array_push($videos, vidArray[0]);
+                        array_push($videos, $vidArray[0]);
                 }
                 unset($tag);
 		$tags['videos'] = $videos;

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
 	id int UNSIGNED NOT NULL AUTO_INCREMENT,
-	username blob NOT NULL UNIQUE,
+	username blob NOT NULL,
 	name blob NOT NULL,
 	pass blob NOT NULL,
 	email blob NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
 	admin boolean NOT NULL DEFAULT FALSE,
 	banned boolean NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id),
-	KEY (username(100))
+	UNIQUE KEY (username(100))
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS licenses (
@@ -27,12 +27,13 @@ CREATE TABLE IF NOT EXISTS donations (
 
 CREATE TABLE IF NOT EXISTS channels (
 	id int unsigned NOT NULL AUTO_INCREMENT,
-	title blob NOT NULL UNIQUE,
+	title blob NOT NULL,
 	description text NOT NULL,
 	modified timestamp NOT NULL,
 	icon_url varchar(255) NOT NULL,
 	website_url varchar(255) NOT NULL, 
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	UNIQUE KEY (title(100))
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS channel_licenses (
@@ -50,15 +51,15 @@ CREATE TABLE IF NOT EXISTS channel_donations (
 ) ENGINE=INNODB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS channel_tags (
-	id int unsigned NOT NULL,
+	channel_id int unsigned NOT NULL,
 	name blob NOT NULL,
-	PRIMARY KEY (id, name(100)),
-	FOREIGN KEY (id) REFERENCES channels (id)
+	PRIMARY KEY (channel_id, name(100)),
+	FOREIGN KEY (channel_id) REFERENCES channels (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS videos (
 	id int unsigned NOT NULL AUTO_INCREMENT,
-	title blob NOT NULL UNIQUE,
+	title blob NOT NULL,
 	description text,
 	modified timestamp NOT NULL,
 	icon_url varchar(255) NOT NULL,
@@ -70,7 +71,8 @@ CREATE TABLE IF NOT EXISTS videos (
 	file_url varchar(255) NOT NULL,
 	size bigint,
 	downloads int unsigned NOT NULL DEFAULT '0',
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	UNIQUE KEY (title(100))
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS video_donations (
@@ -88,18 +90,18 @@ CREATE TABLE IF NOT EXISTS video_licenses (
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS video_credits (
-	id int unsigned NOT NULL,
+	video_id int unsigned NOT NULL,
 	name blob NOT NULL,
 	role blob NOT NULL,
-	PRIMARY KEY (id, name(100), role(100)),
-	FOREIGN KEY (id) REFERENCES videos (id)
+	PRIMARY KEY (video_id, name(100), role(100)),
+	FOREIGN KEY (video_id) REFERENCES videos (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS video_tags (
-	id int unsigned NOT NULL,
+	video_id int unsigned NOT NULL,
 	name blob NOT NULL,
-	PRIMARY KEY (id, name(100)),
-	FOREIGN KEY (id) REFERENCES videos (id)
+	PRIMARY KEY (video_id, name(100)),
+	FOREIGN KEY (video_id) REFERENCES videos (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS published (

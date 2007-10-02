@@ -65,10 +65,7 @@ class ChannelController extends ViewController
 			//Insert tags into the database
 			$id = $this->getID($channel['title']);
 			foreach ($tags as $x) {
-				$tag = array(
-					"id" => $id,
-					"name" => $x
-				);
+				$tag = array($id, $x);
 				$this->db_controller->create("channel_tags", $tag);
 			}
 			$this->show($channel['title']);
@@ -92,13 +89,13 @@ class ChannelController extends ViewController
                 $this->db_controller->delete("channel_licenses", $condition);
 		
                 //Delete all credits associated with a channel
-                $condition = 'id="'.$id.'"';
                 $this->db_controller->delete("channel_credits", $condition);
 
                 //Delete all tags associated with a channel
 		$this->db_controller->delete("channel_tags", $condition);
 
                 //Delete the channel itself
+                $condition = 'id="'.$id.'"';
                 $this->db_controller->delete("channels", $condition);
 
                 //Add an alert and redirect to index
@@ -124,12 +121,13 @@ class ChannelController extends ViewController
                         $update = $this->db_controller->update("channels", $channel, $condition);
 
 			//Update tags
+			$condition = 'channel_id="'.$channel_id.'"';
 			$old_tags = $this->db_controller->read("channel_tags", $condition);
 			
 			// If tag is in the old array, but not in the new one, delete it
 			foreach ($old_tags as $old_tag) {
 				if (array_search($old_tag['name'], $tags) === FALSE) {
-					$condition = 'id="'.$channel_id.'" and name="'.$old_tag['name'].'"';
+					$condition = 'channel_id="'.$channel_id.'" and name="'.$old_tag['name'].'"';
 					$this->db_controller->delete("channel_tags", $condition);
 				}
 			}
@@ -137,15 +135,11 @@ class ChannelController extends ViewController
 			
 			foreach ($tags as $name) {
 				//Check if tag already exists
-				$condition = 'id="'.$channel_id.'" and name="'.$name.'"';
+				$condition = 'channel_id="'.$channel_id.'" and name="'.$name.'"';
 				$check = $this->db_controller->read("channel_tags", $condition);
 				//If tag isn't in the database, add it
 				if (count($check) == 0) {
-					$tag = array(
-						"id" 	=> $channel_id,
-						"name" 	=> $name
-					);
-					$this->db_controller->create("channel_tags", $tag);
+					$this->db_controller->create("channel_tags", array($channel_id, $name));
 				}
 			}
 
@@ -193,7 +187,7 @@ class ChannelController extends ViewController
         // Returns a fresh array of channels
         private function getTagsandVideos($channels) {
                 foreach ($channels as &$channel) {
-			$condition = 'id="'.$channel["id"].'"';
+			$condition = 'channel_id="'.$channel["id"].'"';
                         $tags = $this->db_controller->read("channel_tags", $condition);
 
 			// Add published videos to each channel
