@@ -82,6 +82,13 @@ class VideoController extends ViewController
 			//Insert publishing data
 			$this->publish($id, $channels);
 
+			//Insert credits
+			foreach ($credits as $x) {
+				$credit = array($id, $x['name'], $x['role']);
+				$this->db_controller->create("video_credits", $credit);
+			}
+
+			$this->view->assign('alerts', 'Video successfully created');
 			$this->show($video['title']);
 		} else {
 			//Get list of available channels
@@ -127,20 +134,22 @@ class VideoController extends ViewController
 		// If new data is posted, update database
 		if(isset($_POST['title']))
                 {
-			$video = $_POST;
-
-                        $video_id = $this->getID($video['title']);
+                        $video_id = $this->getID($_POST['title']);
 			$condition = 'id="'.$video_id.'"';
 
                          //Put the tag string into an array
-                        $tags = explode(" ", $video['tags']);
-                        unset($video['tags']);
+                        $tags = explode(" ", $_POST['tags']);
+                        unset($_POST['tags']);
 
                         $channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
-                        unset($POST['channels']);
+                        unset($_POST['channels']);
+
+			$credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
+                        unset($_POST['credits']);
+
 
 			//Update video 
-			$this->db_controller->update('videos', $video, $condition);
+			$this->db_controller->update('videos', $_POST, $condition);
 			
 
 			//Update tags
@@ -155,7 +164,6 @@ class VideoController extends ViewController
                                 }
                         }
 
-
                         foreach ($tags as $name) {
                                 //Check if tag already exists
                                 $condition = 'video_id="'.$video_id.'" and name="'.$name.'"';
@@ -165,6 +173,28 @@ class VideoController extends ViewController
                                         $this->db_controller->create("video_tags", array($video_id, $name));
                                 }
                         }
+
+			// Update credits
+			$old_credits = $this->db_controller->read('video_credits', 'video_id="'.$video_id.'"');
+			//If credit is in the old array, but not the new one, delete it
+			foreach ($old_credits as $old_credit) {
+					unset($old_credit['video_id']);
+					if (array_search($old_credit, $credits) === false) {
+	                                        $condition = 'video_id="'.$video_id.'" and name="'.$old_credit['name'].'" and role="'.$old_credit['role'].'"';
+        	                                $this->db_controller->delete("video_credits", $condition);
+                                }
+			}
+
+			foreach ($credits as $credit) {
+                                //Check if credit already exists
+				$condition = 'video_id="'.$video_id.'" and name="'.$credit['name'].'" and role="'.$credit['role'].'"';
+				$check = $this->db_controller->read("video_credits", $condition);
+                                //If credit isn't in the database, add it
+                                if (count($check) == 0) {
+                                        $this->db_controller->create("video_credits", array($video_id, $credit['name'], $credit['role']));
+                                }
+                        }
+
 
                         //Update publishing information
 			$condition = 'video_id="'.$video_id.'"';

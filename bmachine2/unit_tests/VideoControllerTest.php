@@ -64,7 +64,8 @@ class VideoControllerTest extends UnitTestCase
 			"mime"          =>      "avi",         
 			"file_url"      =>      "http://bm.com/video.avi",
 			"tags"		=>	"funny lol",
-			"channels"	=>	array($this->channel_id)
+			"channels"	=>	array($this->channel_id),
+			"credits"	=>	array(array("name" => "john doe", "role" => "director"))
 		);
 
 		$video = new videoController($params);
@@ -81,6 +82,8 @@ class VideoControllerTest extends UnitTestCase
 		$published = $video->db_controller->read("published", $condition.' and channel_id="'.$this->channel_id.'"');
                 $this->assertEqual(count($published), 1);
 
+		$credits = $video->db_controller->read("video_credits", $condition);
+		$this->assertEqual(count($credits), 1);
 	}
 
 	function testVideoName() {
@@ -112,7 +115,7 @@ class VideoControllerTest extends UnitTestCase
 		$this->assertNoErrors();
 	}
 
-/*	function testEdit() {
+	function testEdit() {
                 $params = array();
                 $params[0] = 'Unit test video';
 		$params[1] = 'edit';
@@ -125,7 +128,9 @@ class VideoControllerTest extends UnitTestCase
                         "adult"         =>      "false",
                         "mime"          =>      "avi",
                         "file_url"      =>      "http://bm.com/video.avi",
-                        "tags"          =>      "funny lol"
+                        "tags"          =>      "funny lol",
+			"channels"      =>      array($this->channel_id),
+			"credits"       =>      array(array("name" => "john doe", "role" => "director"))
                 );
 
                 $video = new videoController($params);
@@ -133,9 +138,9 @@ class VideoControllerTest extends UnitTestCase
 		$vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
 		$testvideo = $vidarray[0];
                 $this->assertEqual($testvideo['description'], "This is only an edited test");
-	}*/
+	}
 
-	function testEditTagsAndPublished() {
+	function testEditMetaData() {
 		$params = array();
 		$params[0] = 'Unit test video';
                 $params[1] = 'edit';
@@ -149,7 +154,11 @@ class VideoControllerTest extends UnitTestCase
                         "mime"          =>      "avi",
                         "file_url"      =>      "http://bm.com/video.avi",
                         "tags"          =>      "funny test",
-			"channels"	=>	array()
+			"channels"	=>	array(),
+			"credits"       =>      array(
+							array("name" => "jane doe", "role" => "director"),
+							array("name" => "tony jones", "role" => "producer")
+						)
                 );
 
 		$video = new videoController($params);
@@ -169,6 +178,9 @@ class VideoControllerTest extends UnitTestCase
 		$published = $video->db_controller->read("published", $condition);
                 $this->assertEqual(count($published), 0);
 
+		$credits = $video->db_controller->read("video_credits", $condition);
+                $this->assertEqual(count($credits), 2);
+		$this->assertFalse(array_search(array("name" => "john doe", "role" => "director"), $credits));
 	}
 
 	function testDownload() {
@@ -197,6 +209,9 @@ class VideoControllerTest extends UnitTestCase
 
 		$published = $video->db_controller->read("published", 'video_id="'.$this->video_id.'"');
                 $this->assertEqual(count($published), 0);
+
+		$credits = $video->db_controller->read("video_credits", 'video_id="'.$this->video_id.'"');
+                $this->assertEqual(count($credits), 0);
 
 
 		//Destroy test channel
