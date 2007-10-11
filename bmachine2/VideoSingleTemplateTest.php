@@ -30,7 +30,7 @@ $smarty->assign('video',
 				'title_url' => 'http://mysite.com/OMG-awesome-video',
 				'description' => 'This is like the best video ever, you won\'t believe how awesome it is. Check out the ending. It\'s the best part.',
 				'modified' => 'Aug, 28, 2007 @ 2pm',
-				'icon_url' => 'http://worcesterunited.com/files/singing.jpg',
+				'icon_url' => 'http://localhost/~drew/bmachine2/singing.jpg',
           			'website_url' => 'http://websiteurl1.net',
 		          	'release_date' => 'aug, 28, 2007', 
 		          	'runtime' => '2h 30m', 
@@ -56,24 +56,24 @@ $smarty->assign('video',
 						'role' => 'Actress',
 					), 
 					array(
-						'name' => 'Emma Goldman',
-						'role' => 'Actress',
+						'name' => 'CJ Bryan',
+						'role' => 'Actor',
 					), 
 					array(
-						'name' => 'Emma Goldman',
-						'role' => 'Actress',
+						'name' => 'Abbie Hoffman',
+						'role' => 'Producer',
 					), 
 					array(
-						'name' => 'Emma Goldman',
-						'role' => 'Actress',
+						'name' => 'Stanley \'Tookie\' Williams ',
+						'role' => 'Sound',
 					), 
 					array(
-						'name' => 'Emma Goldman',
-						'role' => 'Actress',
+						'name' => 'Mao Zedong',
+						'role' => 'Investor',
 					)
 				),
           			'tags' => array('cool','awesome','internet', 'blog'),
-				'channels' => array('channel1', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2', 'channel2')
+				'channels' => array('channel1', 'channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7', 'channel8', 'channel9', 'channel10', 'channel11', 'channel12', 'channel13', 'channel14', 'channel15')
 			)
 
 );
