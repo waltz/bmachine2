@@ -3,10 +3,12 @@
 // Make sure that PHP complains. Turn all error reporting on.
 error_reporting(E_ALL);
 
-// Include some needed helpers.
+include('bm2.conf');
+
+// Include the input sanitization helper.
 require_once('helpers/SaniHelper.php');
 
-// Make sure specialcharacters are escaped.
+// Make sure special characters are escaped.
 if(get_magic_quotes_gpc() == 0)
   {
     $_GET = array_addslashes($_GET);
@@ -30,11 +32,11 @@ if(isset($_COOKIE))
     $_COOKIE = array_strip_tags($_COOKIE);
   }
 
-// Include functions to read/write settings.
+// Include a helper for reading/writing settings pairs.
 require_once('helpers/SettingsHelper.php');
 
 // Set the base directory and URI globals.
-global $basDir;
+global $baseDir;
 $baseDir = getSetting("baseDir");
 global $baseURI;
 $baseDir = getSetting("baseURI");
@@ -53,7 +55,7 @@ require_once($baseDir . 'controllers/SetupController.php');
 require_once($baseDir . 'controllers/ChannelController.php');
 require_once($baseDir . 'controllers/VideoController.php');
 require_once($baseDir . 'controllers/TagController.php');
-require_once($baseDir . 'controllers/FrontPageController.php');
+//require_once($baseDir . 'controllers/FrontPageController.php');
 require_once($baseDir . 'controllers/ViewController.php');
 
 // Make sure that Broadcast Machine is installed.
@@ -63,11 +65,18 @@ if(!file_exists('settings.inc'))
     new SetupController(NULL);
     exit();
   }
+
+
+/*
  else if(getSetting("SetupStatus") != "Complete")
    {
+    
      new SetupController(NULL);
      exit();
    }
+*/
+
+//echo(getSetting("SetupStatus"));
 
 // Something needs to be done about magic quotes...
 if(getSetting("MagicQuotesGPC"))
@@ -91,10 +100,15 @@ if(getSetting("MagicQuotesRuntime"))
 */
 
 $uri = $_SERVER['REQUEST_URI'];	/* Nab the current URI. */
+//echo($uri);
 $uri = strip_tags($uri);	/* Strip any HTML out. */
 $uri = explode('/', $uri);	/* Put the URI into an array. */
 
+print_r($uri);
+echo('\n');
+
 // If we have 'dirty' URI's, then we should strip out the index value.
+/*
 if($uri[0] == 'index.php')
 {
 	$new_uri;
@@ -106,6 +120,22 @@ if($uri[0] == 'index.php')
 
 	$uri = $new_uri;
 }
+*/
+
+// Make sure the uri is parsed correctly.
+if($uri[0] == "" || $uri[0] == $baseUri || $uri[0] == "index.php")
+  {
+    $new_uri;
+    
+    for()
+      {
+      }
+    
+    $uri = $new_uri;
+  }
+
+print_r($uri);
+echo('\n');
 
 // The following if/else block contains the main dispatcher logic.
 
@@ -113,7 +143,7 @@ if($uri[0] == 'index.php')
 if($uri[0] == 'setup')
 {
   new SetupController($uri);
- }
+}
 // If the first parameter is a video then the second is the name of the video.
 if($uri[0] == 'video')
 {	

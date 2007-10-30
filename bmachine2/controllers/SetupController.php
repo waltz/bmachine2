@@ -6,6 +6,9 @@ class SetupController extends ViewController
 {
 	function SetupController($uri)
 	{
+	  // If the SetupController is instantiated with a URI string,
+	  // it should try and serve up the requested setup page. Else
+	  // the controller should continue to setup the software.
 	  if(isset($uri))
 	    {
 	      $this->dispatch($uri);
@@ -13,32 +16,78 @@ class SetupController extends ViewController
 	  else
 	    {
 	      //$this->checkPermissions();
-	      $this->detectEnvironment();
+	      //$this->detectEnvironment();
 	      //$this->writeHtaccess();
-	      $this->setupBaseURI();
+	      //$this->setupBaseURI();
+	      $this->setupDatabase();
 	    }
 	}
 	
+	// Where do we go with our URI parameters?
 	function dispatch($uri)
 	{
-	  switch($i)
+	  switch($uri)
 	    {
 	    case "database":
-	      // db
+	      $this->setupDatabase();
 	      break;
 	    case "firstuser":
 	      // firstuser
 	      break;
+	    default:
+	      $this->error();
 	    }
 	}
 
+	// We don't really implement this, but it has to be inherited from
+	// the ViewController.
 	function index()
 	{
 	}
 
+	function error()
+	{
+	  echo("Looks like the page you requested could not be found!");
+	}
+
 	function checkPermissions()
 	{
+	  // Smarty
+	  // * Make sure the folder exists.
+	  // * Check to see if it can write to the compiled templates and cache folder.
+	  global $baseDir;
+	  if(!file_exists($baseDir . "smarty/"))
+	    {
+	      //writeAlert("Broadcast Machine can't find the folder for Smarty!");
+	    }
+	  else
+	    {
+	      if(!(is_writable($baseDir . "smarty/templates_c/") || is_writable($baseDir . "smarty/cache/")))
+		{
+		   //writeAlert("Broadcast Machine isn't allowed to write Smarty's templates and cache directories");
+		}
+	    }
+
+	  // Base Directory
+	  // * Can we write settings.inc.php
+	  // * Can we write .htaccess?
+	  if(!is_writable($baseDir))
+	    {
+	      //writeAlert("Broadcast machine isn't allowed to write the settings file or .htaccess!");
+	    }
+
+	  // Can we execute dispatcher and index?
+	  if(!is_executable($baseDir . "dispatcher.php"))
+	    {
+	      //writeAlert("The dispatcher isn't executable!");
+	    }
 	  
+	  if(!is_executable($baseDir . "index.php"))
+	      {
+		//writeAlert("The index file isn't executable!");
+	      }
+	  
+	      //pushAlerts();
 	}
 
 	function setupBaseURI()
@@ -182,7 +231,7 @@ class SetupController extends ViewController
 	
 	function writeStylesheet()
 	{
-		// CJ - Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
+		// Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
 	}
 
 	function writeHtaccess()
@@ -221,7 +270,7 @@ class SetupController extends ViewController
 	  // Read the schema in from a file.
 	  try
 	    {
-	      $handle = fopen($baseDir . "db/" . $cf_engine . "Schema.inc.php");
+	      $handle = fopen($baseDir . "db/" . $cf_engine . "Schema.sql");
 	      for($i = 0; !eof($handle); $i++)
 		{
 		  $schema[$i] = fgets($handle);

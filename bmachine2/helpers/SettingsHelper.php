@@ -6,7 +6,15 @@
 // doesn't exist.
 function getSetting($key)
 {
-      	$handle = fopen("settings.inc", "r");
+  if(is_readable("settings.inc"))
+    {
+     $handle = fopen("settings.inc", "r"); 
+  }
+  else
+    {
+      return;
+    }
+
 	$value = NULL;
 
         while($setupdata = fscanf($handle, "%s\t%s\n")) {
