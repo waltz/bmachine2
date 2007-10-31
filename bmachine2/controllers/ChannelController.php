@@ -88,9 +88,6 @@ class ChannelController extends ViewController
                 //Delete all licenses associated with a channel
                 $this->db_controller->delete("channel_licenses", $condition);
 		
-                //Delete all credits associated with a channel
-                $this->db_controller->delete("channel_credits", $condition);
-
                 //Delete all tags associated with a channel
 		$this->db_controller->delete("channel_tags", $condition);
 

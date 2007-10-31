@@ -30,12 +30,10 @@ class MySQLController extends SQLController
 	function connect() {
 		$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
 		if(!$this->connection) {
-			die(mysql_error()); //Change to alert
 			return false;
 		}
 
 		if(!mysql_select_db($this->database)) {
-                	die(mysql_error()); //Ditto
 			return false;
                 }
 

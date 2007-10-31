@@ -34,6 +34,7 @@ class VideoControllerTest extends UnitTestCase
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only a test",
                         "icon_url"      =>      "http://blank.com/blank.gif",
+			"website_url"	=>	"http://test.com"
                 );
 
                 $video->db_controller->create("channels", $channel);

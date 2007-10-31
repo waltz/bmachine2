@@ -11,9 +11,9 @@ class SQLiteController extends SQLController
 	// Copies database config values from the settings file.
 	// Returns true on success and FALSE on failure.
 	function configure() {
-		global $cf_database;
+		global $cf_hostname;
 
-		$this->database = $cf_database;
+		$this->database = $_SERVER['DOCUMENT_ROOT'].$cf_hostname;
 		return true;
 	}
 	

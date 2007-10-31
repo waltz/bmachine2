@@ -9,7 +9,7 @@ require_once '../simpletest/reporter.php';
 require_once '../controllers/SQLiteController.php';
 
 //Require dbconfig file
-require_once '../db/db_config.inc';
+require_once '../db/db_config.php';
 
 class SQLiteControllerTest extends UnitTestCase
 {
@@ -20,23 +20,73 @@ class SQLiteControllerTest extends UnitTestCase
 	}
 	
 	// Tests instantiation, configure, connect, and query functions
-	function testQuery()
+	function testCRUD()
 	{
 		$controller = new SQLiteController();
 
-		//Test a good query
-		$query = "select * from channels";
-		$foo = $controller->query($query);
-		$this->assertTrue($foo);
+                //CREATE
+                $data = array(
+                        "title"         =>      "Unit test video",
+                        "description"   =>      "This is only a test",
+                        "icon_url"      =>      "http://blank.com/blank.gif",
+                        "website_url"   =>      "http://bm.com",
+                        "adult"         =>      "false",
+                        "mime"          =>      "avi",
+                        "file_url"      =>      "http://bm.com/video.avi"
+                );
+                
+		$foo = $controller->create("videos", $data);
+                $this->assertTrue($foo);
 
-		//Test a bad query
-		//$query = "select gfjkghfl from fkgjfjkhg";
-		//$foo = $controller->query($query);
-	}
+                //READ
 
-	function testDisconnect(){
-		$controller = new SQLiteController();
-		$this->assertTrue($controller->disconnect());
+                //Test read all:
+                $videos = $controller->read("videos", "all");
+                if (count($videos) > 0) {
+                        $foo = true;
+                } else {
+                        $foo = false;
+                }
+                $this->assertTrue($foo);
+
+                //Test read w/ condition:
+                $videos = $controller->read("videos", 'title="Unit test video"');
+		$foo = (count($videos) > 0) ? true : false;
+                $this->assertTrue($foo);
+
+                //UPDATE
+                $data["icon_url"] = "test";
+                $update = $controller->update("videos", $data, 'title="Unit test video"');
+                $this->assertTrue($update);
+
+                $vidarray = $controller->read("videos", 'title="Unit test video"');
+                $video = $vidarray[0];
+                $this->assertEqual($video["icon_url"], "test");
+
+                //DELETE
+                $foo = $controller->delete("video_credits", 'name = "testee" and role = "tester"');
+                $creds = $controller->read("video_credits", 'name = "testee" and role = "tester"');
+                $this->assertEqual(count($creds), 0);
+
+                $foo = $controller->delete("videos", 'title="Unit test video"');
+                $videos = $controller->read("videos", 'title="Unit test video"');
+                $this->assertEqual(count($videos), 0);
+
+		//DELETE
+		$foo = $controller->delete("videos", 'title="Unit test video"');
+                $videos = $controller->read("videos", 'title="Unit test video"');
+                $this->assertEqual(count($videos), 0);
+
+		//$this->assertTrue($controller->disconnect());
+		$this->assertNoErrors();
+
+	//This tests tests working with an empty query
+        function testEmpty() {
+                $controller = new MySQLController();
+                $condition = 'title="vjlfhjklghskf"';
+                $this->assertFalse($controller->read("videos", $condition));
+        }
+
 	}
 }
 

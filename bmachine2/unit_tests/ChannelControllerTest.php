@@ -43,6 +43,7 @@ class ChannelControllerTest extends UnitTestCase
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only a test",
                         "icon_url"      =>      "http://blank.com/blank.gif",
+			"website_url"	=>	"http://test.com",
                         "tags"          =>      "funny lol"
                 );
 
@@ -95,6 +96,7 @@ class ChannelControllerTest extends UnitTestCase
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only an edited test",
                         "icon_url"      =>      "http://blank.com/blank.gif",
+			"website_url"   =>      "http://test.com",
                         "tags"          =>      "funny lol"
                 );
 
@@ -114,6 +116,7 @@ class ChannelControllerTest extends UnitTestCase
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only an edited test",
                         "icon_url"      =>      "http://blank.com/blank.gif",
+			"website_url"   =>      "http://test.com",
                         "tags"          =>      "funny test"
                 );
 
