@@ -52,7 +52,7 @@ abstract class SQLController extends DatabaseController
 		foreach ($data as $column=>$value) {
 			$query .= "$column = ".'"'.$value.'", ';
 		}
-		$query =  rtrim($query, ", ")." where $condition";
+		$query =  rtrim($query, ", ")." where $condition;";
 		$this->query($query);
 		return true;
 	}

@@ -44,14 +44,12 @@ class MySQLController extends SQLController
         // Returns an empty array on failure and a full array on success
         function getArray($result) {
 		$array = array();
-
 		if (mysql_num_rows($result)> 0) {
 			$array = array();
                         while($row = mysql_fetch_assoc($result)) {
                                 array_push($array, $row);
                         }
                 }
-
 		return $array;
         }
 
