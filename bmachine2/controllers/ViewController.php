@@ -23,7 +23,7 @@ abstract class ViewController {
 				$this->db_controller = new MySQLController();
 				break;
 			case 'SQLite2':
-				$this->db_controller = new SQLiteController();
+				$this->db_controller = new SQLite2Controller();
 				break;
 		}			
 
