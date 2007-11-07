@@ -98,14 +98,28 @@ if(getSetting("MagicQuotesRuntime"))
 	http://sample.com/index.php/video/foo_bar
 	$parts = {index.php, video, foo_bar}
 */
-
+if($cleanUris == "Off")
+  {
+    $baseUri = $baseUri . "index.php/";
+  }
 $uri = $_SERVER['REQUEST_URI'];	/* Nab the current URI. */
-//echo($uri);
-$uri = strip_tags($uri);	/* Strip any HTML out. */
-$uri = explode('/', $uri);	/* Put the URI into an array. */
-
+//echo($uri . "<br>");
+$location = strpos($uri, $baseUri);
+//echo($location . "<br>");
+if($location !== false)
+{
+  //echo("Found the substring.<br>");
+  $uri = substr($uri, $location + strlen($baseUri));  
+ }
+//echo($uri . "<br>");
+$uri = explode("/", $uri);
 print_r($uri);
-echo('\n');
+//echo("<br>");
+//exit;
+
+//echo($uri);
+//$uri = strip_tags($uri);	/* Strip any HTML out. */
+//$uri = explode('/', $uri);	/* Put the URI into an array. */
 
 // If we have 'dirty' URI's, then we should strip out the index value.
 /*
@@ -122,20 +136,46 @@ if($uri[0] == 'index.php')
 }
 */
 
+
+ /*
+
+/bmachine2/index.php/setup/
+/bmachine2/index.php/setup/database/
+/bmachine2/setup/database/
+
+we want to ignore entries in $uri that are blank, are the base directory or are index.php.
+
+ */
+ /*
+print_r($uri);
+echo("<br>");
+//echo(sizeof($uri));
 // Make sure the uri is parsed correctly.
-if($uri[0] == "" || $uri[0] == $baseUri || $uri[0] == "index.php")
+$limit = sizeof($uri);
+echo($limit . "<br>");
+for($uri_ctr = 0; $uri_ctr < $limit; $uri_ctr++) $limit;
+{
+  //echo($uri_ctr);
+  $new_uri = array();
+  $new_uri_ctr = 0;
+  echo("Looking at: " . $uri[$uri_ctr] . "<br>");
+  if($uri[$uri_ctr] != $baseUri && $uri[$uri_ctr] != "index.php" && $uri[$uri_ctr] != "")
   {
-    $new_uri;
-    
-    for()
-      {
-      }
-    
-    $uri = $new_uri;
+    $new_uri[$new_uri_ctr] = $uri[$uri_ctr];
+    echo("Kept: " . $uri[$uri_ctr] . "<br>");
+    $new_uri_ctr++;
   }
+  $uri = $new_uri;
+  //print_r($new_uri);
+  //echo("yup");
+}
 
 print_r($uri);
-echo('\n');
+echo("<br>");
+ */
+
+
+
 
 // The following if/else block contains the main dispatcher logic.
 
