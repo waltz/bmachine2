@@ -1,23 +1,31 @@
+##
+## Broadcast Machine 2 URI rewriting config.
+##
 
-# Finally! A decent explanation of mod_rewrite! - CJ
-# http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html
-
-# Make sure that mod_rewrite is on.
-#RewriteEngine on
-
-# Logging function for development.
-#RewriteLog mod_rewrite.log
-
-# Set the logging verbosity. 0 = min, 9 = max
-#RewriteLogLevel 9
-
-# Rewrite URLs so that everything goes to the dispatcher.
-#RewriteRule ^/(.*) index.php?params=$1
-
+##
+## For when mod_rewrite is dynamically loaded.
+##
 <IfModule mod_rewrite.so>
-RewriteEngine On
-RewriteBase /bmachine2/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /bmachine2/index.php [L]
+	  RewriteEngine On
+	  RewriteBase /bmachine2/
+	  RewriteCond %{REQUEST_FILENAME} !-f
+	  RewriteCond %{REQUEST_FILENAME} !-d
+	  RewriteRule . /bmachine2/index.php [L]
+</IfModule>
+
+##
+## For when mod_rewrite is compiled in. (Ubuntu default!)
+##
+<IfModule mod_rewrite.c>
+          RewriteEngine On
+          RewriteBase /bmachine2/
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteRule . /bmachine2/index.php [L]
+</IfModule>
+
+# libphp5, what about mod_php, statically/dynamically compiled?
+<IfModule libphp5.so>
+	  # Disable magic quotes.
+	  php_flag magic_quotes_gpc Off
 </IfModule>
