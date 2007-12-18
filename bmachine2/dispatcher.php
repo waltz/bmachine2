@@ -3,10 +3,11 @@
 // Make sure that PHP complains. Turn all error reporting on.
 error_reporting(E_ALL);
 
+// Include the configuration.
 include('bm2.conf');
 
-// Include the input sanitization helper.
-require_once('helpers/SaniHelper.php');
+require_once('helpers/SaniHelper.php'); // Include the input sanitization helper.
+require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions.
 
 // Make sure special characters are escaped.
 if(get_magic_quotes_gpc() == 0)
@@ -90,92 +91,47 @@ if(getSetting("MagicQuotesRuntime"))
   }
 
 /*
-	Clean URI's:
-	http://sample.com/video/foo_bar
-	$parts = {video, foo_bar}
+	Test Cases:
 
-	Dirty URI's:
-	http://sample.com/index.php/video/foo_bar
-	$parts = {index.php, video, foo_bar}
+	Given: http://sample.com/video/foo/bar
+	Returns: video,foo,bar
+	
+	http://sample.com/index.php/video/foo/
+	video, foo
+
+	http://sample.com/index.php
+	(void)
+	
+	http://sample.com/index.php/
+	(void)
 */
-if($cleanUris == "Off")
-  {
-    $baseUri = $baseUri . "index.php/";
-  }
-$uri = $_SERVER['REQUEST_URI'];	/* Nab the current URI. */
-//echo($uri . "<br>");
-$location = strpos($uri, $baseUri);
-//echo($location . "<br>");
-if($location !== false)
+
+$uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
+
+if(strpos($uri, "index.php"))
 {
-  //echo("Found the substring.<br>");
+    $baseUri = $baseUri . "index.php";
+}
+
+//echo("uri: " . $uri . "<br>"); // Debug.
+//echo("baseUri: " . $baseUri . "<br>"); // Debug.
+
+$location = strpos($uri, $baseUri); // Figure out where the baseUri starts.
+
+//echo("location: " . $location . "<br>"); // Debug.
+
+if(!($location === false))
+{
+  //echo("Found the substring.<br>"); // Debug.
   $uri = substr($uri, $location + strlen($baseUri));  
- }
-//echo($uri . "<br>");
-$uri = explode("/", $uri);
-print_r($uri);
-//echo("<br>");
-//exit;
-
-//echo($uri);
-//$uri = strip_tags($uri);	/* Strip any HTML out. */
-//$uri = explode('/', $uri);	/* Put the URI into an array. */
-
-// If we have 'dirty' URI's, then we should strip out the index value.
-/*
-if($uri[0] == 'index.php')
-{
-	$new_uri;
-
-	for($i = 0; $i < sizeof($uri); $i++)
-	{
-		$new_uri[$i] = $uri[$i + 1];
-	}
-
-	$uri = $new_uri;
-}
-*/
-
-
- /*
-
-/bmachine2/index.php/setup/
-/bmachine2/index.php/setup/database/
-/bmachine2/setup/database/
-
-we want to ignore entries in $uri that are blank, are the base directory or are index.php.
-
- */
- /*
-print_r($uri);
-echo("<br>");
-//echo(sizeof($uri));
-// Make sure the uri is parsed correctly.
-$limit = sizeof($uri);
-echo($limit . "<br>");
-for($uri_ctr = 0; $uri_ctr < $limit; $uri_ctr++) $limit;
-{
-  //echo($uri_ctr);
-  $new_uri = array();
-  $new_uri_ctr = 0;
-  echo("Looking at: " . $uri[$uri_ctr] . "<br>");
-  if($uri[$uri_ctr] != $baseUri && $uri[$uri_ctr] != "index.php" && $uri[$uri_ctr] != "")
-  {
-    $new_uri[$new_uri_ctr] = $uri[$uri_ctr];
-    echo("Kept: " . $uri[$uri_ctr] . "<br>");
-    $new_uri_ctr++;
-  }
-  $uri = $new_uri;
-  //print_r($new_uri);
-  //echo("yup");
 }
 
-print_r($uri);
-echo("<br>");
- */
+//echo("Final uri: " . $uri . "<br>"); // Debug.
 
+$uri = explode("/", $uri); // Translate the modified URI into an array of parameters.
+$uri = array_trim($uri);
 
-
+//print_r($uri); echo("<br>"); exit; // Debug.
 
 // The following if/else block contains the main dispatcher logic.
 
@@ -187,20 +143,20 @@ if($uri[0] == 'setup')
 // If the first parameter is a video then the second is the name of the video.
 if($uri[0] == 'video')
 {	
-	new VideoController($uri);
+  new VideoController($uri);
 }
 
 // If the first parameter is 'tag' then the second must be the
 // user specified tag.
 elseif($uri[0] == 'tag')
 {
-	new TagController($uri);
+  new TagController($uri);
 }
 
 // Delegate to the user controller if the first param is 'user'.
 elseif($uri[0] == 'users')
 {
-	new UserController($uri);
+  new UserController($uri);
 }
 
 // Defaults to the Channel controller.
