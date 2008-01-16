@@ -189,14 +189,12 @@ class VideoControllerTest extends UnitTestCase
                 $params[0] = 'Unit test video';
                 $params[1] = 'download';
 
-		echo "download: ";	
 		$video = new videoController($params);
 
                 $vidarray = $video->db_controller->read("videos", 'title="Unit test video"');
                 $testvideo = $vidarray[0];
 
 		$this->assertEqual($testvideo['downloads'], 1);
-
 	}
 
 	function testRemove() {

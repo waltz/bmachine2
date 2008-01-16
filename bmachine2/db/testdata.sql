@@ -52,7 +52,7 @@ INSERT INTO videos (
 	
 	
 INSERT INTO video_credits (
-	id,
+	video_id,
 	name,
 	role
 ) VALUES (
@@ -62,7 +62,7 @@ INSERT INTO video_credits (
 );
 
 INSERT INTO video_credits (
-	id,
+	video_id,
 	name,
 	role
 ) VALUES (
@@ -72,7 +72,7 @@ INSERT INTO video_credits (
 );
 	
 INSERT INTO video_tags (
-	id,
+	video_id,
 	name
 ) VALUES (
 	1,
@@ -80,7 +80,7 @@ INSERT INTO video_tags (
 );
 
 INSERT INTO video_tags (
-	id,
+	video_id,
 	name
 ) VALUES (
 	1,
