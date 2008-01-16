@@ -16,19 +16,20 @@ class MySQLController extends SQLController
 	// Returns true on success and FALSE on failure.
 	function configure() {
 		// Include global db variables
-		global $cf_hostname,  $cf_username, $cf_password, $cf_database;
-
-                $this->hostname = $cf_hostname;
-                $this->username = $cf_username;
-                $this->password = $cf_password;
-                $this->database = $cf_database;
+		global $dbHostname,  $dbUsername, $dbPassword, $dbDatabase;
+		
+		$this->hostname = $dbHostname;
+                $this->username = $dbUsername;
+                $this->password = $dbPassword;
+                $this->database = $dbDatabase;
+		
 		return true;
 	}
 	
 	// Starts a connection to the database.
 	// Returns FALSE on failure
 	function connect() {
-		$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
+	  	$this->connection = mysql_connect($this->hostname, $this->username, $this->password);
 		if(!$this->connection) {
 			return false;
 		}
@@ -43,7 +44,8 @@ class MySQLController extends SQLController
         // Generate an array based upon a result of a database query.
         // Returns an empty array on failure and a full array on success
         function getArray($result) {
-		$array = array();
+	  if($result == null){ return null; }
+	  $array = array();
 		if (mysql_num_rows($result)> 0) {
 			$array = array();
                         while($row = mysql_fetch_assoc($result)) {

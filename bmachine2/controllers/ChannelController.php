@@ -183,6 +183,10 @@ class ChannelController extends ViewController
         // Adds tags and videos to an array of channels (or just one)
         // Returns a fresh array of channels
         private function getTagsandVideos($channels) {
+	  if($channels == null){ 
+	    echo "Big oops, no channels.";
+	    //	    die; 
+	  }
                 foreach ($channels as &$channel) {
 			$condition = 'channel_id="'.$channel["id"].'"';
                         $tags = $this->db_controller->read("channel_tags", $condition);

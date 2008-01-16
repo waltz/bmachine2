@@ -3,13 +3,34 @@
 // Make sure that PHP complains. Turn all error reporting on.
 error_reporting(E_ALL);
 
-// Include the configuration.
-include('bm2.conf');
+// Include the configuration file.
+include('bm2_conf.php');
 
-require_once('helpers/SaniHelper.php'); // Include the input sanitization helper.
-require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions.
+// In case there aren't any settings yet...
+if(!isset($baseDir)){ $baseDir = getcwd(); }
+
+// Make sure there's  a trailing slash!
+$baseDir = $baseDir . "/";
+
+require_once($baseDir . 'helpers/SaniHelper.php'); // Include the input sanitization helper.           
+require_once($baseDir . 'helpers/UtilityHelper.php'); // Some useful but lonely functions. 
+
+// Include the controllers
+require_once($baseDir . 'controllers/SetupController.php');
+require_once($baseDir . 'controllers/ChannelController.php');
+require_once($baseDir . 'controllers/VideoController.php');
+require_once($baseDir . 'controllers/TagController.php');
+require_once($baseDir . 'controllers/ViewController.php');
 
 // Make sure special characters are escaped.
+if(get_magic_quotes_gpc() == 0)
+  {
+    $_GET = array_addslashes($_GET);
+    $_POST = array_addslashes($_POST);
+    $_COOKIE = array_addslashes($_COOKIE);
+  }
+
+// Make sure special characters are escaped. 
 if(get_magic_quotes_gpc() == 0)
   {
     $_GET = array_addslashes($_GET);
@@ -33,79 +54,6 @@ if(isset($_COOKIE))
     $_COOKIE = array_strip_tags($_COOKIE);
   }
 
-// Include a helper for reading/writing settings pairs.
-require_once('helpers/SettingsHelper.php');
-
-// Set the base directory and URI globals.
-global $baseDir;
-$baseDir = getSetting("baseDir");
-global $baseURI;
-$baseDir = getSetting("baseURI");
-
-// In case there aren't any settings yet...
-if(!isset($baseDir))
-  {
-    $baseDir = getcwd();
-  }
-
-// Make sure there's  a trailing slash!
-$baseDir = $baseDir . "/";
-
-// Include the controllers
-require_once($baseDir . 'controllers/SetupController.php');
-require_once($baseDir . 'controllers/ChannelController.php');
-require_once($baseDir . 'controllers/VideoController.php');
-require_once($baseDir . 'controllers/TagController.php');
-//require_once($baseDir . 'controllers/FrontPageController.php');
-require_once($baseDir . 'controllers/ViewController.php');
-
-// Make sure that Broadcast Machine is installed.
-// If not, start the setup controller.
-if(!file_exists('settings.inc'))
-  {
-    new SetupController(NULL);
-    exit();
-  }
-
-
-/*
- else if(getSetting("SetupStatus") != "Complete")
-   {
-    
-     new SetupController(NULL);
-     exit();
-   }
-*/
-
-//echo(getSetting("SetupStatus"));
-
-// Something needs to be done about magic quotes...
-if(getSetting("MagicQuotesGPC"))
-  {
-    // Fix magic quotes!
-  }
-
-if(getSetting("MagicQuotesRuntime"))
-  {
-    // Again... fix 'em.
-  }
-
-/*
-	Test Cases:
-
-	Given: http://sample.com/video/foo/bar
-	Returns: video,foo,bar
-	
-	http://sample.com/index.php/video/foo/
-	video, foo
-
-	http://sample.com/index.php
-	(void)
-	
-	http://sample.com/index.php/
-	(void)
-*/
-
 $uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
 
 if(strpos($uri, "index.php"))
@@ -121,10 +69,10 @@ $location = strpos($uri, $baseUri); // Figure out where the baseUri starts.
 //echo("location: " . $location . "<br>"); // Debug.
 
 if(!($location === false))
-{
-  //echo("Found the substring.<br>"); // Debug.
-  $uri = substr($uri, $location + strlen($baseUri));  
-}
+  {
+    //echo("Found the substring.<br>"); // Debug.
+    $uri = substr($uri, $location + strlen($baseUri));  
+  }
 
 //echo("Final uri: " . $uri . "<br>"); // Debug.
 

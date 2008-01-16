@@ -1,5 +1,5 @@
 ##
-## Broadcast Machine 2 URI rewriting config.
+## Broadcast Machine 2 URI rewrite config.
 ##
 
 ##
@@ -7,10 +7,10 @@
 ##
 <IfModule mod_rewrite.so>
 	  RewriteEngine On
-	  RewriteBase /bmachine2/
+	  RewriteBase /~cbryan/bmachine2/
 	  RewriteCond %{REQUEST_FILENAME} !-f
 	  RewriteCond %{REQUEST_FILENAME} !-d
-	  RewriteRule . /bmachine2/index.php [L]
+	  RewriteRule . /~cbryan/bmachine2/index.php [L]
 </IfModule>
 
 ##
@@ -18,10 +18,10 @@
 ##
 <IfModule mod_rewrite.c>
           RewriteEngine On
-          RewriteBase /bmachine2/
+          RewriteBase /~cbryan/bmachine2/
           RewriteCond %{REQUEST_FILENAME} !-f
           RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteRule . /bmachine2/index.php [L]
+          RewriteRule . /~cbryan/bmachine2/index.php [L]
 </IfModule>
 
 # libphp5, what about mod_php, statically/dynamically compiled?
