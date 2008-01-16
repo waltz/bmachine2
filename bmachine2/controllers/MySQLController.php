@@ -16,12 +16,12 @@ class MySQLController extends SQLController
 	// Returns true on success and FALSE on failure.
 	function configure() {
 		// Include global db variables
-		global $dbHostname,  $dbUsername, $dbPassword, $dbDatabase;
+		global $cf_hostname,  $cf_username, $cf_password, $cf_database;
 		
-		$this->hostname = $dbHostname;
-                $this->username = $dbUsername;
-                $this->password = $dbPassword;
-                $this->database = $dbDatabase;
+		$this->hostname = $cf_hostname;
+                $this->username = $cf_username;
+                $this->password = $cf_password;
+                $this->database = $cf_database;
 		
 		return true;
 	}

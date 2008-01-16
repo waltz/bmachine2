@@ -8,10 +8,10 @@
 # Remeber to change your .htaccess file when this changes.
 # NOTE: If bm2 is installed in the root dir, leave this blank!
 # Example: If the url is http://sample.com/apps/bm2/, then this should be /apps/bm2/
-$baseUri = "/~cbryan/bmachine2/";
+$baseUri = "/bmachine2/";
 
 # What directory is bm2 installed into?
-$baseDir = "/home/cbryan/Code/democracy/bmachine2/";
+$baseDir = "/home/oppy/gopperman.com/bmachine2/";
 
 # Should we use clean URLs?
 # Is your .htaccess file correctly setup?
@@ -20,10 +20,10 @@ $cleanUris = "On";
 
 # Database configuration options.
 # These are used by any database controller that needs to connect.
-$dbEngine = "MySQL"; // Which engine do you want to use? (MySQL, SQLite, Postgres...)
-$dbHostname = "localhost"; // What's the hostname?
-$dbName = "bm2"; // Which database should we use?
-$dbUsername = "cbryan";
-$dbPassword = "disSero7";
+$cf_dbengine = "MySQL"; // Which engine do you want to use? (MySQL, SQLite, Postgres...)
+$cf_hostname = "mysql.gopperman.com"; // What's the hostname?
+$cf_database = "bmachine"; // Which database should we use?
+$cf_username = "bmachine";
+$cf_password = "bemacho";
 
 ?>
