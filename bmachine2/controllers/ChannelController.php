@@ -4,6 +4,7 @@ require_once('ViewController.php');
 
 class ChannelController extends ViewController
 {
+ 
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
@@ -40,14 +41,11 @@ class ChannelController extends ViewController
 
 	// Shows all channels
         function all() {
-                $channels = $this->db_controller->read("channels", "all");
-
-                //Get tags and videos that a channel has
-                $channels = $this->getTagsandVideos($channels);
-
-                $this->view->assign('allchannels', $channels);
-                $this->display('channel-all.tpl');
-        }
+	  $channels = $this->db_controller->read("channels", "all");
+          $channels = $this->getTagsandVideos($channels);
+	  $this->view->assign('allchannels', $channels);
+	  $this->display('channel-all.tpl');
+      	}
 
         // If post, inserts a new channel into the database
         // If no post, brings up form for adding a new channel

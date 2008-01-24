@@ -1,5 +1,6 @@
 <?php
-require_once('ViewController.php');
+
+require_once($baseDir . 'controllers/ViewController.php');
 
 class VideoController extends ViewController
 {

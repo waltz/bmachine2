@@ -1,7 +1,7 @@
 <?php
 
 //Include parent class
-require_once 'SQLController.php';
+require_once($baseDir . 'controllers/SQLController.php');
 
 class MySQLController extends SQLController
 {

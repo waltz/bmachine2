@@ -10,7 +10,11 @@ include('bm2_conf.php');
 if(!isset($baseDir)){ $baseDir = getcwd(); }
 
 // Make sure there's  a trailing slash!
-$baseDir = $baseDir . "/";
+//$baseDir = $baseDir . "/";
+if(substr($baseDir, strlen($baseDir)-1, 1) != "/")
+  {
+    $baseDir = $baseDir . "/";
+  }
 
 require_once($baseDir . 'helpers/SaniHelper.php'); // Include the input sanitization helper.           
 require_once($baseDir . 'helpers/UtilityHelper.php'); // Some useful but lonely functions. 

@@ -6,7 +6,7 @@ require_once($baseDir . 'bm2_conf.php');
 require_once($baseDir . 'controllers/' . $cf_dbengine . 'Controller.php');
 
 // Include Smarty
-require_once($baseDir.'smarty/Smarty.class.php');
+require_once($baseDir . 'smarty/Smarty.class.php');
 
 abstract class ViewController {
 	var $db_controller;
@@ -31,11 +31,12 @@ abstract class ViewController {
 		global $baseDir;
 
 		$this->view = new Smarty();
-		//Theme should be a preference variable
-		$view->template_dir = $baseDir.'/themes/default/';
-		$view->compile_dir = $baseDir.'/smarty/templates_c/';
-		$view->cache_dir = $baseDir.'/smarty/cache/';
-		
+		// TODO: The templates folder should be dynamic.
+		//echo($baseDir . 'themes/default/');
+		$this->view->template_dir = $baseDir . 'themes/default/';
+		$this->view->compile_dir = $baseDir . 'smarty/templates_c/';
+		$this->view->cache_dir = $baseDir . 'smarty/cache/';
+
 		//If $params is empty, call index function
 		//Otherwise, call controller dispatcher
 		if ($params[0] == '') {
@@ -45,13 +46,11 @@ abstract class ViewController {
 		}
         }
 
-
-
 	//Displays a template unless a unit test flag is set
 	function display($template) {
 		global $bm_debug;
 		if ($bm_debug != 'unittest') {
-			$this->view->display($template);
+		  $this->view->display($template);
 		}
 	}
 

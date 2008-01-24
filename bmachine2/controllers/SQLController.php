@@ -2,7 +2,7 @@
 //This class gives SQL-based DB controllers CRUD operations
 
 //Include parent class
-require_once 'DatabaseController.php';
+require_once($baseDir . 'controllers/DatabaseController.php');
 
 abstract class SQLController extends DatabaseController
 {
