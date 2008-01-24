@@ -16,7 +16,8 @@ class ChannelController extends ViewController
               $this->all();
               break;
             default:
-              switch($params[1]) {
+		$params[0] = $this->parse($params[0]);
+              	switch($params[1]) {
                 case '':
                   $this->show($params[0]);
                   break;
@@ -43,7 +44,7 @@ class ChannelController extends ViewController
         function all() {
 	  $channels = $this->db_controller->read("channels", "all");
           $channels = $this->getTagsandVideos($channels);
-	  $this->view->assign('allchannels', $channels);
+	  $this->view->assign('channels', $channels);
 	  $this->display('channel-all.tpl');
       	}
 

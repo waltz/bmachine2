@@ -29,6 +29,12 @@ class ViewControllerTest extends UnitTestCase
 	function ViewControllerTest() {
 		$this->UnitTestCase('ViewController Test Case');
 	}
+
+	function TestParse(){
+		$foo =  new TestApp(array());
+		$this->AssertEqual($foo->parse("test_string"), "test string");
+		$this->AssertNoErrors();
+	}
 	
 	// Tests instantiation
 	function testInstantiation() {

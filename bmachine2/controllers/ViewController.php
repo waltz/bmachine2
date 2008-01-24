@@ -46,6 +46,12 @@ abstract class ViewController {
 		}
         }
 
+	//Parses a URL string into it's database-safe counterpart
+	//So far, only substitutes underscores for spaces
+	public function parse($string) {
+		return str_replace('_', ' ', $string);
+	}
+
 	//Displays a template unless a unit test flag is set
 	function display($template) {
 		global $bm_debug;

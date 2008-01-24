@@ -15,7 +15,8 @@ class VideoController extends ViewController
 	      $this->all();
 	      break;
 	    default:
-	      switch($params[1]) {
+		$params[0] = $this->parse($params[0]);
+	      	switch($params[1]) {
 	        case '':
 		  $this->show($params[0]);
 		  break;

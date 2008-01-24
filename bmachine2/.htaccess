@@ -7,10 +7,10 @@
 ##
 <IfModule mod_rewrite.so>
 	  RewriteEngine On
-	  RewriteBase /~cbryan/bmachine2/
+	  RewriteBase /home/oppy/gopperman.com/bmachine2/
 	  RewriteCond %{REQUEST_FILENAME} !-f
 	  RewriteCond %{REQUEST_FILENAME} !-d
-	  RewriteRule . /~cbryan/bmachine2/index.php [L]
+	  RewriteRule . /home/oppy/gopperman.com/bmachine2/index.php [L]
 </IfModule>
 
 ##
@@ -18,10 +18,10 @@
 ##
 <IfModule mod_rewrite.c>
           RewriteEngine On
-          RewriteBase /~cbryan/bmachine2/
+          RewriteBase /home/oppy/gopperman.com/bmachine2/
           RewriteCond %{REQUEST_FILENAME} !-f
           RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteRule . /~cbryan/bmachine2/index.php [L]
+          RewriteRule . /home/oppy/gopperman.com/bmachine2/index.php [L]
 </IfModule>
 
 # libphp5, what about mod_php, statically/dynamically compiled?

@@ -12,7 +12,7 @@ $baseUri = "/~cbryan/bmachine2/";
 
 # What directory is bm2 installed into?
 # Be sure to add the trailing slash!
-$baseDir = "/home/cbryan/Code/democracy/bmachine2/";
+$baseDir = "/home/oppy/gopperman.com/bmachine2/";
 
 # Should we use clean URLs?
 # Is your .htaccess file correctly setup?
@@ -22,9 +22,9 @@ $cleanUris = "On";
 # Database configuration options.
 # These are used by any database controller that needs to connect.
 $cf_dbengine = "MySQL"; // Which engine do you want to use? (MySQL, SQLite, Postgres...)
-$cf_hostname = "localhost"; // What's the hostname?
-$cf_database = "bm2"; // Which database should we use?
-$cf_username = "cbryan";
-$cf_password = "disSero7";
+$cf_hostname = "mysql.gopperman.com"; // What's the hostname?
+$cf_database = "bmachine"; // Which database should we use?
+$cf_username = "bmachine";
+$cf_password = "bemacho";
 
 ?>
