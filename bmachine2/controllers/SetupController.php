@@ -4,292 +4,61 @@ require_once($baseDir . 'controllers/ViewController.php');
 
 class SetupController extends ViewController
 {
-	function SetupController($uri)
-	{
-	  // If the SetupController is instantiated with a URI string,
-	  // it should try and serve up the requested setup page. Else
-	  // the controller should continue to setup the software.
-	  if(isset($uri))
-	    {
-	      $this->dispatch($uri);
-	    }
-	  else
-	    {
-	      //$this->checkPermissions();
-	      //$this->detectEnvironment();
-	      //$this->writeHtaccess();
-	      //$this->setupBaseURI();
-	      $this->setupDatabase();
-	    }
-	}
-	
-	// Where do we go with our URI parameters?
-	function dispatch($uri)
-	{
-	  switch($uri)
-	    {
-	    case "database":
-	      $this->setupDatabase();
-	      break;
-	    case "firstuser":
-	      // firstuser
-	      break;
-	    default:
-	      $this->error();
-	    }
+	function dispatch($params) {
+		$this->index();
 	}
 
-	// We don't really implement this, but it has to be inherited from
-	// the ViewController.
+	//The index function checks to see where setup left off and calls the appropriate function
 	function index()
 	{
-	}
 
-	function error()
-	{
-	  echo("Looks like the page you requested could not be found!");
-	}
-
-	function checkPermissions()
-	{
-	  // Smarty
-	  // * Make sure the folder exists.
-	  // * Check to see if it can write to the compiled templates and cache folder.
-	  global $baseDir;
-	  if(!file_exists($baseDir . "smarty/"))
-	    {
-	      //writeAlert("Broadcast Machine can't find the folder for Smarty!");
-	    }
-	  else
-	    {
-	      if(!(is_writable($baseDir . "smarty/templates_c/") || is_writable($baseDir . "smarty/cache/")))
-		{
-		   //writeAlert("Broadcast Machine isn't allowed to write Smarty's templates and cache directories");
-		}
-	    }
-
-	  // Base Directory
-	  // * Can we write settings.inc.php
-	  // * Can we write .htaccess?
-	  if(!is_writable($baseDir))
-	    {
-	      //writeAlert("Broadcast machine isn't allowed to write the settings file or .htaccess!");
-	    }
-
-	  // Can we execute dispatcher and index?
-	  if(!is_executable($baseDir . "dispatcher.php"))
-	    {
-	      //writeAlert("The dispatcher isn't executable!");
-	    }
-	  
-	  if(!is_executable($baseDir . "index.php"))
-	      {
-		//writeAlert("The index file isn't executable!");
-	      }
-	  
-	      //pushAlerts();
-	}
-
-	function setupBaseURI()
-	{
-	  $this->writeHTMLHeader();
-	  echo('Thanks for installing Broadcast Machine!' . "\n");
-	  echo("First off, we need to figure out your base URL. </br>");
-	  echo("Just point your browser to the URL that you want to use as your base! </br>");
-	  $baseURI = $_SERVER['REQUEST_URI'];
-	  echo("<br/><br/>");
-	  echo("We've detected that your current URI is {$baseURI}!");
-	  echo("If you'd like to use this as your root URI, click 'next' below.");
-	  echo("If you'd like to use a different URI, enter it into the address bar!");
-	  
-	  if(getSetting("CleanURIs") == "On")
-	    {
-	      $baseURI = $baseURI . "setup/database";
-	    }
-	  else
-	    {
-	      $baseURI = $baseURI . "index.php/" . "setup/database";
-	    }
-
-	  echo("<form method=\"POST\" action=\"$baseURI\">");
-	  echo('<input type="submit" value="Get started!">');
-	  echo("<input type=\"hidden\" name=\"baseURI\" value=\"{$baseURI}\">");
-	  echo('</form>');
-	  $this->writeHTMLFooter();
 	}
 	
-	function setupDatabase()
-	{
-	  // Save the baseURI if we get sent it.
-	  if(isset($_POST['baseURI']))
-	    {
-	      setSetting("baseURI", $_POST['baseURI']);
-	    }
-	  if(isset($_POST['MySQLData']))
-	    {
-	   
-	    }	
-	  elseif(isset($_POST['SQLiteData']))
-		{
-		
-		}
-	  else
-	    {
-	      $this->displayDBSetupForm();
-	    }		
+	//Creates a .htaccess file from scratch
+	function write_htaccess() {
+		$rewriteBase = getcwd().'/';
+		//A big string to denote the contents of the .htaccess file	
+		$htcontents =  "## Broadcast Machine 2 URI rewrite config.\n
+				\n
+				## For when mod_rewrite is dynamically loaded.\n
+				<IfModule mod_rewrite.so>\n
+				\tRewriteEngine On\n
+				\tRewriteBase $rewriteBase \n
+				\tRewriteCond %{REQUEST_FILENAME} !-f\n
+				\tRewriteCond %{REQUEST_FILENAME} !-d\n
+				\tRewriteRule . $rewriteBase"."index.php [L]\n
+				</IfModule>\n
+				\n
+				## For when mod_rewrite is compiled in. (Ubuntu default!)\n
+				<IfModule mod_rewrite.c>\n
+				\tRewriteEngine On\n
+				\tRewriteBase $rewriteBase \n
+				\tRewriteCond %{REQUEST_FILENAME} !-f\n
+				\tRewriteCond %{REQUEST_FILENAME} !-d\n
+				\tRewriteRule . $rewriteBase"."index.php [L]\n
+				</IfModule>\n
+				\n
+				# libphp5, what about mod_php, statically/dynamically compiled?\n
+				\t<IfModule libphp5.so>\n
+				\t# Disable magic quotes.\n
+				\tphp_flag magic_quotes_gpc Off\n
+				</IfModule>";
+		write_file('.htaccess', $htcontents);
 	}
 
-	function displayDBSetupForm()
-	{
-		$this->writeHTMLHeader();
-		echo('<div class="greeting">Thanks for installing Broadcast Machine!</div>');
-		echo('<div class="mysql_setup">');
-		echo('<form action="{$baseURI . " method="POST">');
-		echo('Hostname: <input type="text" name="hostname"><br/>');
-		echo('DB Name: <input type="text" name="dbname"><br/>');
-		echo('Username: <input type="text" name="username"><br/>');
-		echo('Password: <input type="text" name="password"><br/>');
-		echo('<input type="hidden" name="MySQLData">');
-		echo('<input type="submit">');
-		echo('</form>');
-		echo('</div>');
-		$this->writeHTMLFooter();
+	//Creates bm2_conf.php from scratch
+	function write_bm2conf() {
+		$contents = "";
+		write_file('bm2_conf.php', $contents);
 	}
-
-	function setupFirstUser()
-	{
-	  // Validate incoming data.
-	  if(isset($_POST['FirstUser']))
-	    {
-	      // Make sure the username is valid.
-	      // Check to see if the passwords are the same.
-	      // Make sure the email address is properly formatted.
-	    }
-	    else
-	      {
-		$this->displayNewUserForm();		
-	      }  
-	}
-
-	function displayNewUserForm()
-	{
-	  $this->writeHTMLHeader();
-	  echo("Time to pick a username! <br/>");
-	  echo("<form action=\"{$baseURI}/setup/firstuser\" method=\"POST\">");
-	  echo("Username: <input type=\"text\" name=\"username\"><br/>");
-	  echo("Password: <input type=\"text\" name=\"password\"><br/>");
-	  echo("Confirm Password: <input type=\"text\" name=\"confirmpassword\"><br/>");
-	  echo("Email: <input type=\"text\" name=\"email\"><br/>");
-	  echo("<input type=\"hidden\" name=\"FirstUser\" value=\"TRUE\">");
-	  echo("</form>");
-	  $this->writeHTMLFooter();
-	}
-
-	function detectEnvironment()
-	{
-	  // Figure out the base directory.
-	  $cur_dir = getcwd() . "/";
-	  setSetting("baseDir", $cur_dir);
-
-	  // See if magic quotes are turned on.
-	  setSetting("MagicQuotesGPC", get_magic_quotes_gpc()); /* GET/POST/Cookie data. */
-	  setSetting("MagicQuotesRuntime", get_magic_quotes_runtime()); /* Database, file operations. */
-
-	  // Is mod_rewrite installed?
-	  if(array_search("mod_rewrite", apache_get_modules()) != FALSE)
-	    {
-	      setSetting("CleanURIs", "On");
-	    }
-	  
-	  // What is the maximum allowed file upload size.
-	  //php, ini upload_max_filesize, post_max_size
-	  $maxfile = ini_get('upload_max_filesize');
-	  $maxpost = ini_get('post_max_size');
-
-	}
-
-	function writeMessage($message)
-	{
-		$this->writeHTMLHeader();
-		echo($message . "<br/>");
-		$this->writeHTMLFooter();
-	}
-	
-	function writeHTMLHeader()
-	{
-		echo("<html><head><title>");
-		echo("Broadcast Machine Setup");
-		echo('</title><style type="text/css">');
-		$this->writeStylesheet();
-		echo('</head><body><div class="body">');
-	}
-	
-	function writeHTMLfooter()
-	{
-		echo('</div></body></html>');
-	}
-	
-	function writeStylesheet()
-	{
-		// Stylesheet should go here. Maybe it could work as an included file? (setup.css?)
-	}
-
-	function writeHtaccess()
-	{
-	  // Grab the baseURI settig.
-	  $baseURI = getSetting("BaseURI");
-
-	  if(file_exists($baseDir . '.htaccess'))
-	    {
-	      return;
-	    }
-
-	  try
-	    {
-	      $handle = fopen($baseDir . '.htaccess', "w");
-
-	      fwrite($handle, "<IfModule mod_rewrite.so>" . "\n");
-	      fwrite($handle, "RewriteEngine On" . "\n");
-	      fwrite($handle, "RewriteBase $baseURI" . "\n");
-	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!f" . "\n");
-	      fwrite($handle, "RewriteCond ${REQUEST_FILENAME} -!d" . "\n");
-	      fwrite($handle, "RewriteRule . $baseURI [L]" . "\n");
-	      fwrite($handle, "</IfModule>" . "\n");
-	      fclose($handle);
-	    }
-	  catch (Exception $e)
-	    {
-	      echo("Exception caught!" . $e->getMessage() . "\n");
-	    }
-	}
-
-	function loadSchema()
-	{
-	  $schema = array();
-	  
-	  // Read the schema in from a file.
-	  try
-	    {
-	      $handle = fopen($baseDir . "db/" . $cf_engine . "Schema.sql");
-	      for($i = 0; !eof($handle); $i++)
-		{
-		  $schema[$i] = fgets($handle);
-		}
-	      fclose($handle);
-	    }
-	  catch(Exception $e)
-	    {
-	      echo("Exception Caught!: " . $e->getMessage() . "\n");
-	    }
-
-	  // Load the schema into the database.
-	  if($db->connect())
-	    {
-	      foreach($schema as $command)
-		{
-		  $db->query($command);
-		}
-	      $db->disconnect();
-	    }
+	//Helper to write a file given a filename and big string
+	function write_file($filename, $contents) {
+		$file = fopen($filename, 'w');
+                if (!$file) {
+                        $this->display('error-permissions.tpl');
+                } else {
+                        fputs($file,$contents);
+                        fclose($file);
+                }
 	}
 }

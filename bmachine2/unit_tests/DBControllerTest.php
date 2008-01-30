@@ -5,7 +5,7 @@ require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
 
 // Include the appropriate database controller
-require_once('../db/db_config.php');
+require_once('../bm2_conf.php');
 require_once('../controllers/' . $cf_dbengine . 'Controller.php');
 
 class DBControllerTest extends UnitTestCase

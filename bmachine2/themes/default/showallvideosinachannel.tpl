@@ -1,7 +1,6 @@
 		<ul>
 
-{foreach from=$channel.videos item=huh}
-{foreach from=$huh item=video}
+{foreach from=$channel.videos item=video}
 <!-- VIDEO -->
 
 <li><div class='video_display'>
@@ -31,7 +30,6 @@ Video Tags:
 <div style="text-align:right;"><a href="{$video.title_url}">more...</a></div>
 </li>
 <!-- /VIDEO -->
-{/foreach}
 {/foreach}
 
 </ul>

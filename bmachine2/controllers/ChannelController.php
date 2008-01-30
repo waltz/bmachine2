@@ -194,7 +194,7 @@ class ChannelController extends ViewController
 			foreach ($published as $x) {
 				$condition = 'id="'.$x['video_id'].'"';
 				$video = $this->db_controller->read("videos", $condition);
-				array_push($videos, $video);
+				array_push($videos, $video[0]);
 			}
 
 			//Assign tag array and video array
