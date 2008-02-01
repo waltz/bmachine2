@@ -30,14 +30,16 @@ class ChannelControllerTest extends UnitTestCase
 
         function testAll() {
                 $params = array();
-                $params[0] = 'all';
+		$params[0] = 'channel';
+                $params[1] = 'all';
                 $channel = new ChannelController($params);
                 $this->assertTrue(true);
         }
 
         function testAdd() {
                 $params = array();
-                $params[0] = 'add';
+		$params[0] = 'channel';
+                $params[1] = 'add';
 
                 $_POST = array(
                         "title"         =>      "Unit test channel",
@@ -60,7 +62,7 @@ class ChannelControllerTest extends UnitTestCase
 
         function testChannelName() {
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $channel = new ChannelController($params);
 
                 $this->assertNoErrors();
@@ -68,7 +70,7 @@ class ChannelControllerTest extends UnitTestCase
 
         function testShow() {
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $params[1] = 'show';
 
                 $channel = new ChannelController($params);
@@ -79,7 +81,7 @@ class ChannelControllerTest extends UnitTestCase
         function testEditEmpty() {
                 unset($_POST);
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $params[1] = 'edit';
 
                 $channel = new channelController($params);
@@ -89,7 +91,7 @@ class ChannelControllerTest extends UnitTestCase
 
         function testEdit() {
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $params[1] = 'edit';
 
                 $_POST = array(
@@ -109,7 +111,7 @@ class ChannelControllerTest extends UnitTestCase
 
         function testEditTags() {
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $params[1] = 'edit';
 
                 $_POST = array(
@@ -138,7 +140,7 @@ class ChannelControllerTest extends UnitTestCase
 
         function testRemove() {
                 $params = array();
-                $params[0] = 'Unit test channel';
+                $params[0] = 'Unit_test_channel';
                 $params[1] = 'remove';
 
                 $channel = new channelController($params);

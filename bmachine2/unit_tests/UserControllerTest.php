@@ -30,14 +30,16 @@ class UserControllerTest extends UnitTestCase
 
 	function testAll() {
 		$params = array();
-		$params[0] = 'all';
+		$params[0] = 'user'; 
+		$params[1] = 'all';
 		$user = new UserController($params);
 		$this->assertNoErrors();
 	}
 
 	function testSignup() {
 		$params = array();
-		$params[0] = 'signup';
+		$params[0] = 'user'; 
+		$params[1] = 'signup';
 
                 $_POST = array(                        
 			"username"      =>      "UnitTestUser",                        
@@ -55,7 +57,8 @@ class UserControllerTest extends UnitTestCase
 
 	function testUserName() {
 		$params = array();
-		$params[0] = 'UnitTestUser';
+		$params[0] = 'user'; 
+		$params[1] = 'UnitTestUser';
 		$User = new UserController($params);
 
 		$this->assertNoErrors();
@@ -108,7 +111,8 @@ class UserControllerTest extends UnitTestCase
 
 	function testLoginNoPost() {
 		$params = array();
-		$params[0] = 'login';
+		$params[0] = 'user'; 
+		$params[1] = 'login';
 
 		$user = new UserController($params);
 		$this->assertNoErrors();
@@ -116,7 +120,8 @@ class UserControllerTest extends UnitTestCase
 
 	function testLogin() {
                 $params = array();
-                $params[0] = 'login';
+		$params[0] = 'user'; 
+                $params[1] = 'login';
 
                 $_POST = array(
                         "username"      =>      "UnitTestUser",
@@ -132,8 +137,8 @@ class UserControllerTest extends UnitTestCase
 
 	function testLogout() {
                 $params = array();
-                $params[0] = 'login';
-
+		$params[0] = 'user'; 
+                $params[1] = 'logout';
                 $user = new UserController($params);
 
 		$this->assertNoErrors();

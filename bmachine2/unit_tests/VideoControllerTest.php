@@ -47,14 +47,16 @@ class VideoControllerTest extends UnitTestCase
 
 	function testAll() {
 		$params = array();
-		$params[0] = 'all';
+		$params[0] = 'video';
+		$params[1] = 'all';
 		$video = new videoController($params);
 		$this->assertNoErrors();
 	}
 
 	function testAdd() {
 		$params = array();
-		$params[0] = 'add';
+		$params[0] = 'video';
+		$params[1] = 'add';
 
                 $_POST = array(                        
 			"title"         =>      "Unit test video",                        
@@ -97,7 +99,7 @@ class VideoControllerTest extends UnitTestCase
 
 	function testShow() {
                 $params = array();
-                $params[0] = 'Unit test video';
+                $params[0] = 'Unit_test_video';
                 $params[1] = 'show';
 
                 $video = new videoController($params);
@@ -108,7 +110,7 @@ class VideoControllerTest extends UnitTestCase
 	function testEditEmpty() {
 		unset($_POST);
 		$params = array();
-		$params[0] = 'Unit test video';
+		$params[0] = 'Unit_test_video';
 		$params[1] = 'edit';
 
 		$video = new videoController($params);
@@ -118,7 +120,7 @@ class VideoControllerTest extends UnitTestCase
 
 	function testEdit() {
                 $params = array();
-                $params[0] = 'Unit test video';
+                $params[0] = 'Unit_test_video';
 		$params[1] = 'edit';
 
 		$_POST = array(
@@ -143,7 +145,7 @@ class VideoControllerTest extends UnitTestCase
 
 	function testEditMetaData() {
 		$params = array();
-		$params[0] = 'Unit test video';
+		$params[0] = 'Unit_test_video';
                 $params[1] = 'edit';
 
                 $_POST = array(
@@ -186,7 +188,7 @@ class VideoControllerTest extends UnitTestCase
 
 	function testDownload() {
                 $params = array();
-                $params[0] = 'Unit test video';
+                $params[0] = 'Unit_test_video';
                 $params[1] = 'download';
 
 		$video = new videoController($params);
@@ -199,7 +201,7 @@ class VideoControllerTest extends UnitTestCase
 
 	function testRemove() {
                 $params = array();
-                $params[0] = 'Unit test video';
+                $params[0] = 'Unit_test_video';
 		$params[1] = 'remove';
 
                 $video = new videoController($params);

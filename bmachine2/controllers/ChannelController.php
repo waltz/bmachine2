@@ -8,7 +8,7 @@ class ChannelController extends ViewController
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
-          switch($params[0]) {
+          switch($params[1]) {
             case 'add':
               ($this->isAdmin()) ? $this->add() : $this->forbidden();
               break;

@@ -7,7 +7,7 @@ class TagController extends ViewController
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
-          switch($params[0]) {
+          switch($params[1]) {
             case 'all':
               $this->all();
               break;

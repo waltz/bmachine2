@@ -30,13 +30,15 @@ class TagControllerTest extends UnitTestCase
 
         function testAll() {
                 $params = array();
-                $params[0] = 'all';
+		$params[0] = 'tag';
+                $params[1] = 'all';
                 $tag = new TagController($params);
                 $this->assertNoErrors();
         }
         function testTagName() {
                 $params = array();
-                $params[0] = 'Unit test Tag';
+		$params[0] = 'tag';
+                $params[1] = 'Unit';
                 $tag = new TagController($params);
 
                 $this->assertNoErrors();
@@ -44,7 +46,7 @@ class TagControllerTest extends UnitTestCase
 
         function testShow() {
                 $params = array();
-                $params[0] = 'Unit test Tag';
+                $params[0] = 'Unit';
                 $params[1] = 'show';
 
                 $tag = new TagController($params);

@@ -48,7 +48,34 @@ class SetupController extends ViewController
 
 	//Creates bm2_conf.php from scratch
 	function write_bm2conf() {
-		$contents = "";
+		//Auto-detect basedir, baseurl
+		$baseDir = getcwd().'/';
+		$baseURI = $_SERVER['REQUEST_URI'];
+		$contents = 	'<?php\n
+				## Configuration file for Broadcast Machine 2\n
+				\n
+				# Relative to your webserver root, where is bm2 installed?\n
+				# Remember to change your .htaccess file when this changes.\n
+				# NOTE: If bm2 is installed in the root dir, leave this blank!\n
+				# Example: If the url is http://sample.com/apps/bm2/, then this should be /apps/bm2/\n
+				$baseUri = "'.$baseURI.'";\n
+				\n
+				# What directory is bm2 installed into?\n
+				# Be sure to add the trailing slash!\n
+				$baseDir = "'.$baseDir.'";\n
+				\n
+				# Should we use clean URLs?\n
+				# Should be "Off" or "On", be careful, it\'s case sensitive!\n
+				$cleanUris = "On";\n
+				\n
+				# Database configuration options.\n
+				# These are used by any database controller that needs to connect.\n
+				$cf_dbengine = "MySQL"; // Which engine do you want to use? (MySQL, SQLite, Postgres...)\n
+				$cf_hostname = "'.$_POST['hostname'].'"; // What\'s the hostname?\n
+				$cf_database = "'.$_POST['database'].'"; // Which database should we use?\n
+				$cf_username = "'.$_POST['username'].'";\n
+				$cf_password = "'.$_POST['password'].'";\n
+				?>';
 		write_file('bm2_conf.php', $contents);
 	}
 	//Helper to write a file given a filename and big string
