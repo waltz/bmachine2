@@ -8,22 +8,23 @@ class ChannelController extends ViewController
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
+	  if (!isset($params[1])) {$params[1] = '';}
           switch($params[1]) {
-            case 'add':
-              ($this->isAdmin()) ? $this->add() : $this->forbidden();
-              break;
+          case 'add':
+           	($this->isAdmin()) ? $this->add() : $this->forbidden();
+              	break;
             case 'all':
-              $this->all();
-              break;
+              	$this->all();
+              	break;
             default:
 		$params[0] = $this->parse($params[0]);
               	switch($params[1]) {
                 case '':
-                  $this->show($params[0]);
-                  break;
+                  	$this->show($params[0]);
+                  	break;
                 case 'show':
-                  $this->show($params[0]);
-                  break;
+                  	$this->show($params[0]);
+                  	break;
                 case 'edit':
 		  ($this->isAdmin()) ? $this->edit($params[0]) : $this->forbidden();
                   break;
