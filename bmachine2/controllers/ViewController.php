@@ -1,9 +1,9 @@
 <?php
 // All shared functionality (BitTorrent, DB, etc) should be inherited from this class
 
-// Include the appropriate database controller.
-require_once($baseDir . 'bm2_conf.php');
-require_once($baseDir . 'controllers/' . $cf_dbengine . 'Controller.php');
+// Include the appropriate database controller, if available.
+if (isset($cf_dbengine))
+	{require_once($baseDir . 'controllers/' . $cf_dbengine . 'Controller.php');}
 
 // Include Smarty
 require_once($baseDir . 'smarty/Smarty.class.php');

@@ -9,6 +9,7 @@ $baseDir = "../";
 // We need to include the unit testing framework and the message reporting framework.
 require_once '../simpletest/unit_tester.php';
 require_once '../simpletest/reporter.php';
+require_once '../bm2_conf.php';
 require_once '../controllers/ViewController.php';
 
 // This is a dummy class used to test the ViewController

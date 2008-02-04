@@ -5,15 +5,26 @@ require_once($baseDir . 'controllers/ViewController.php');
 class SetupController extends ViewController
 {
 	function dispatch($params) {
-		$this->index();
+          if (!isset($params[1])) {$params[1] = '';}
+          switch($params[1]) {
+            case 'htaccess':
+	      $this->write_htaccess();
+              break;
+            case 'database':
+              $this->database();
+              break;
+          }
+
 	}
 
-	//The index function checks to see where setup left off and calls the appropriate function
-	function index()
-	{
-
-	}
+	//The index function is vestigial
+	function index() {}
 	
+	//Sets up database
+	function database() {
+
+	}
+
 	//Creates a .htaccess file from scratch
 	function write_htaccess() {
 		$rewriteBase = getcwd().'/';
@@ -50,7 +61,7 @@ class SetupController extends ViewController
 	function write_bm2conf() {
 		//Auto-detect basedir, baseurl
 		$baseDir = getcwd().'/';
-		$baseURI = $_SERVER['REQUEST_URI'];
+		$baseURI = $_SERVER['REQUEST_URI'].'/';
 		$contents = 	'<?php\n
 				## Configuration file for Broadcast Machine 2\n
 				\n
