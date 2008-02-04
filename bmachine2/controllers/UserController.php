@@ -78,7 +78,8 @@ class UserController extends ViewController{
 	function show($username) {
 		$userArray = $this->db_controller->read('users', 'username="'.$username.'"');
 		if (count($userArray) == 0) {
-			$this->view->assign('alerts', "User $username not found");
+			$alerts[] = "User $username not found";
+			$this->view->assign('alerts', $alerts);
 			$this->index();
 		} else {
 			$this->view->assign('user', $userArray[0]);
@@ -94,13 +95,15 @@ class UserController extends ViewController{
 			$_POST['pass'] = sha1($_POST['pass']);
 
 			$this->db_controller->update('users', $_POST, 'username="'.$username.'"');
-			$this->view->assign('alerts', 'User information was successfully edited');
+			$alerts[] = 'User information was edited successfully';
+			$this->view->assign('alerts', $alerts);
                         $this->show($username);
 		} else {
 			//If data has not yet been posted, get user data and display edit template
 			$userArray = $this->db_controller->read('users', 'username="'.$username.'"');
 	                if (count($userArray) == 0) {
-        	                $this->view->assign('alerts', "User $username not found");
+				$alerts[] = "User $username not found";
+        	                $this->view->assign('alerts', $alerts);
                 	        $this->index();
 	                } else {
 				//Unset password
@@ -116,7 +119,8 @@ class UserController extends ViewController{
 
 	function remove($username) {
 		$this->db_controller->delete("users", 'username="'.$username.'"');
-		$this->view->assign('alerts', 'User was successfully deleted');
+		$alerts[] =  'User was successfully deleted';
+		$this->view->assign('alerts', $alerts);
 		$this->index();
 	}
 
@@ -129,15 +133,18 @@ class UserController extends ViewController{
 				$_SESSION['pass'] = $_POST['pass'];
 				$_SESSION['username'] = $_POST['username'];
 
-				$this->view->assign('alerts', "You have been logged in. Welcome back!");
+				$alerts = "You have been logged in. Welcome back!";
+				$this->view->assign('alerts', $alerts);
 				$this->index();
 			} else {
-				$this->view->assign('alerts', "Login failed: username or password is incorrect.");
+				$alerts[] = "Login failed: username or password is incorrect.";
+				$this->view->assign('alerts', $alerts);
 				$this->display('user-login.tpl');
 			}
 			
 		} else {
-			$this->view->assign('alerts', "Please log in.");
+			$alerts[] = "Please log in.";
+			$this->view->assign('alerts', $alerts);
 			$this->display('user-login.tpl');
 		}
 	}
@@ -148,7 +155,8 @@ class UserController extends ViewController{
 		$_SESSION = array();
 		session_destroy();	
 
-		$this->view->assign('alerts', "You have been successfully logged out.");
+		$alerts[] = "You have been successfully logged out.";
+		$this->view->assign('alerts', $alerts);
 		$this->index();
 	}
 }

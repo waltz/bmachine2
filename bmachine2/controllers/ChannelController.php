@@ -96,7 +96,8 @@ class ChannelController extends ViewController
                 $this->db_controller->delete("channels", $condition);
 
                 //Add an alert and redirect to index
-                $this->view->assign('alerts', 'Channel was successfully removed');
+		$alerts[] = 'Channel was successfully removed';
+                $this->view->assign('alerts', $alerts);
                 $this->index();
         }
         

@@ -90,8 +90,8 @@ class VideoController extends ViewController
 				$credit = array($id, $x['name'], $x['role']);
 				$this->db_controller->create("video_credits", $credit);
 			}
-
-			$this->view->assign('alerts', 'Video successfully created');
+			$alerts[] = 'Video was created successfully!';
+			$this->view->assign('alerts', $alerts);
 			$this->show($video['title']);
 		} else {
 			//Get list of available channels
@@ -127,7 +127,8 @@ class VideoController extends ViewController
 		$this->db_controller->delete("videos", $condition);
 
 		//Add an alert and redirect to index
-		$this->view->assign('alerts', 'Video was successfully removed');
+		$alerts[] = 'Video was removed successfully!';
+		$this->view->assign('alerts', $alerts);
 		$this->index();
 	}
 	
@@ -225,7 +226,8 @@ class VideoController extends ViewController
                                 }
                         }
 
-			$this->view->assign('alerts', 'Video was successfully edited');
+			$alerts[] = 'Video was edited successfully';
+			$this->view->assign('alerts', $alerts);
 			$this->show($title);
                 } else {
 			$condition = 'title="'.$title.'"';
@@ -243,7 +245,8 @@ class VideoController extends ViewController
 
                                 $this->display('video-edit.tpl');
 			} else {
-                                $this->view->assign('alerts', "Video $title not found");
+				$alerts[] = "Video $title not found";
+                                $this->view->assign('alerts', $alerts);
                                 $this->index();
 			}
                 }
@@ -254,8 +257,8 @@ class VideoController extends ViewController
 		$condition = 'title="'.$title.'"';
 		$vidarray = $this->db_controller->read("videos", $condition);
 		if (count($vidarray) == 0) {
-			$this->view->assign('alerts', "Video $title not found");
-			$this->index();
+			$alerts[] = "Video $title not found";
+                        $this->view->assign('alerts', $alerts);
 		} else {
 			$video = $vidarray[0];
 
@@ -271,7 +274,8 @@ class VideoController extends ViewController
                 $condition = 'title="'.$title.'"';
                 $vidarray = $this->db_controller->read("videos", $condition);
                 if (count($vidarray) == 0) {
-                        $this->view->assign('alerts', "Video $title not found");
+			$alerts[] = "Video $title not found";
+                        $this->view->assign('alerts', $alerts);
                         $this->index();
                 } else {
 			//Update video

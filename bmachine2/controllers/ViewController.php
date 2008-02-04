@@ -54,8 +54,10 @@ abstract class ViewController {
 
 	//Displays a template unless a unit test flag is set
 	function display($template) {
-		global $bm_debug;
+		global $bm_debug, $baseDir, $baseURI;
 		if ($bm_debug != 'unittest') {
+		  $this->view->assign('baseDir', $baseDir);
+		  $this->view->assign('baseURI', $baseURI);
 		  $this->view->display($template);
 		}
 	}
@@ -100,7 +102,8 @@ abstract class ViewController {
 	}
 
 	function forbidden() {
-		$this->view->assign('alerts', 'You do not have permission to access this page.');
+		$alerts[] = 'You do not have permission to access this page.';
+		$this->view->assign('alerts', $alerts);
 		$this->index();
 	}
 }
