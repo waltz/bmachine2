@@ -57,7 +57,7 @@ class UserController extends ViewController{
 
         function signup() {
 		//If data is posted, create user in the db
-                if(isset($_POST)) {
+                if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//Needs: Error checking?
 
 			//Hash password
