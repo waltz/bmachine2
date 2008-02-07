@@ -5,7 +5,8 @@ abstract class DatabaseController
 	//Configures and connects to Db on instantiation
 	function __construct() {
 		$this->configure();
-                $this->connect();
+                if ($this->connect() === false) 
+			{throw new Exception('Could not connect to database.');}
 	}
 
         // Closes connection on destruct

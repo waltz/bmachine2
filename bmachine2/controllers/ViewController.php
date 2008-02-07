@@ -16,17 +16,6 @@ abstract class ViewController {
         abstract function index();
 
 	public function __construct($params) {
-		global $cf_dbengine;
-		//Instantiate the DB connection		
-		switch($cf_dbengine) {
-			case 'MySQL':
-				$this->db_controller = new MySQLController();
-				break;
-			case 'SQLite2':
-				$this->db_controller = new SQLite2Controller();
-				break;
-		}			
-
 		// Instantiate the templating engine
 		global $baseDir;
 
@@ -36,6 +25,31 @@ abstract class ViewController {
 		$this->view->template_dir = $baseDir . 'themes/default/';
 		$this->view->compile_dir = $baseDir . 'smarty/templates_c/';
 		$this->view->cache_dir = $baseDir . 'smarty/cache/';
+
+		global $cf_dbengine;
+		//Instantiate the DB connection		
+		try {
+			switch($cf_dbengine) {
+				case 'MySQL':
+					$this->db_controller = new MySQLController();
+					break;
+				case 'SQLite2':
+					$this->db_controller = new SQLite2Controller();
+					break;
+			}			
+		} catch (Exception $e) {
+			//This catch needs to ignore the first two steps of setup
+			if (isset($params[0]) && isset($params[1])) {
+				if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'database') {
+					$this->display('error-database.tpl');
+					return;
+				}
+			} else {
+				$this->display('error-database.tpl');
+                                return;
+
+			}
+		}
 
 		//If $params is empty, call index function
 		//Otherwise, call controller dispatcher

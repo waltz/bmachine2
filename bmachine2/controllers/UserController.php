@@ -1,6 +1,6 @@
 <?php
 
-include('ViewController.php');
+require_once('ViewController.php');
 
 class UserController extends ViewController{
 
