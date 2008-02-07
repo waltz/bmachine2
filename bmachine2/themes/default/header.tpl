@@ -14,7 +14,7 @@ loggedin - boolean, yes or no
 	<head>
 	<title>{$settings.name} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="{$settings.baseurl}themes/default/style.css"/>
+	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css"/>
 	</head>
 	<body>
 
