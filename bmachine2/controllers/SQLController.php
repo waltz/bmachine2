@@ -7,7 +7,7 @@ require_once($baseDir . 'controllers/DatabaseController.php');
 abstract class SQLController extends DatabaseController
 {
 	// $data is an associative array of table column names and values
-	function create($table, $data) {
+  function create($table, $data) {
 		$columns = array();
 		$values = array();
 		foreach($data as $column=>$value) {
@@ -17,7 +17,7 @@ abstract class SQLController extends DatabaseController
 		}
 		//Build query
 		if ($columns === array()) {
-			$query = "Insert into $table values (";
+			$query = 'Insert into $table values (';
 		} else {
 			$query = "Insert into $table (";
 			foreach ($columns as $x) {
@@ -30,7 +30,7 @@ abstract class SQLController extends DatabaseController
 			$query .= '"'.$y.'"'.", ";
 		}
 		$query = rtrim($query, ", ").");";
-		$this->query($query);
+       		$this->query($query);
 		return true;
 	}
 	

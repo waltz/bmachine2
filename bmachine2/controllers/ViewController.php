@@ -54,10 +54,10 @@ abstract class ViewController {
 
 	//Displays a template unless a unit test flag is set
 	function display($template) {
-		global $bm_debug, $baseDir, $baseURI;
+		global $bm_debug, $baseDir, $baseUri;
 		if ($bm_debug != 'unittest') {
 		  $this->view->assign('baseDir', $baseDir);
-		  $this->view->assign('baseURI', $baseURI);
+		  $this->view->assign('baseUri', $baseUri);
 		  $this->view->display($template);
 		}
 	}
@@ -89,7 +89,7 @@ abstract class ViewController {
 	// Returns true if logged in, false if not
 	function isAdmin() {
 		global $bm_debug;
-		if ($bm_debug == "unittest") 
+       		if ($bm_debug == "unittest") 
 			{return true;}
 		if (isset($_SESSION)) {
 			$userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
@@ -97,7 +97,7 @@ abstract class ViewController {
 				$user = $userArray[0];
 				return ($user['admin'] == 0) ? false : true;
 			}
-		} 
+		}
 		return false;
 	}
 

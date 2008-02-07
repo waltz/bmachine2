@@ -70,6 +70,7 @@ class ChannelController extends ViewController
 			}
 			$this->show($channel['title']);
                 } else {
+		  //echo('add chan.');
                         $this->display('channel-add.tpl');
                 }
         }

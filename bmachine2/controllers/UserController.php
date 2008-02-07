@@ -7,6 +7,7 @@ class UserController extends ViewController{
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
+	  // This is a hack. Yikes. 
           if (!isset($params[1])) {$params[1] = '';}
 	  switch($params[1]) {
             case 'signup':
@@ -29,7 +30,7 @@ class UserController extends ViewController{
                 case 'show':
                   $this->show($params[0]);
                   break;
-                case 'edit':
+                Case 'edit':
                   ($this->isAdmin() || $this->isUser($params[0])) ? $this->edit($params[0]) : $this->forbidden();
                   break;
                 case 'activate':
@@ -55,20 +56,34 @@ class UserController extends ViewController{
 		$this->display('user-all.tpl');
 	}
 
-        function signup() {
-		//If data is posted, create user in the db
-                if($_SERVER['REQUEST_METHOD'] == 'POST') {
-			//Needs: Error checking?
+	// Add new users.
+        function signup() 
+	{
+	  // If there's POST data, verify and add the entry.
+	  if($_SERVER['REQUEST_METHOD'] == 'POST')
+	    {
+	      // TODO: Validate input.
+ 
+	      // Hash the password.
+	      $_POST['pass'] = sha1($_POST['pass']);
+	      print_r($_POST);
 
-			//Hash password
-			$_POST['pass'] = sha1($_POST['pass']);
+	      // Build the user data array.
+	      $user = array('name' => $_POST['name'],
+			    'username' => $_POST['username'],
+			    'pass' => $_POST['pass'],
+			    'email' => $_POST['email']);
 
-                        $this->db_controller->create("users", $_POST);
-                        $this->display('user-unactivated.tpl');
-                } else {
-                        $this->display('user-add.tpl');
-                }
+	      // Add the new user to the database.
+	      $this->db_controller->create("users", $user);
 
+	      // Tell the user to activate their account.
+	      //$this->display('user-unactivated.tpl');
+	    }
+	  else
+	    {
+	      $this->display('user-signup.tpl');
+	    }
         }
 
 	function activate() {
@@ -124,10 +139,12 @@ class UserController extends ViewController{
 		$this->index();
 	}
 
-	function login() {
-		if (isset($_POST)) {
-			$_POST['pass'] = sha1($_POST['pass']);
-			$user = $this->db_controller->read("users", 'username="'.$_POST['username'].'" and pass="'.$_POST['pass'].'"');
+	function login()
+	{
+	  if ($_SERVER['REQUEST_METHOD'] == 'POST')
+	    {
+	      $_POST['pass'] = sha1($_POST['pass']);
+	      $user = $this->db_controller->read("users", 'username="'.$_POST['username'].'" and pass="'.$_POST['pass'].'"');
 			if (count($user) > 0) {
 				session_start();
 				$_SESSION['pass'] = $_POST['pass'];
@@ -154,7 +171,6 @@ class UserController extends ViewController{
 	{
 		$_SESSION = array();
 		session_destroy();	
-
 		$alerts[] = "You have been successfully logged out.";
 		$this->view->assign('alerts', $alerts);
 		$this->index();

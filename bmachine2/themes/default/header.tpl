@@ -46,4 +46,11 @@ loggedin - boolean, yes or no
 	</div>	 	
  	{/if}
 
+	<!-- Display all of the alerts. -->
+	<ul>
+	{foreach from=$alerts item=alert}
+		<li>{$alert}</li> 
+	{/foreach}
+	</ul>
+
 <!-- END HEADER -->

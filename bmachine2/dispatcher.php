@@ -80,7 +80,7 @@ switch ($uri[0]) {
       new VideoController($uri);
       break;
   case 'tag':
-      new TagController($uri);
+      New Tagcontroller($uri);
       break;
   case 'user':
       new UserController($uri);
