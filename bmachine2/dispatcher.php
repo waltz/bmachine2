@@ -51,21 +51,17 @@ if (get_magic_quotes_gpc() == 0)
   }
 
 // Make sure special characters are escaped. 
-if (get_magic_quotes_gpc() == 0) {
+if(get_magic_quotes_gpc() == 0)
+  {
     $_GET = array_addslashes($_GET);
     $_POST = array_addslashes($_POST);
     $_COOKIE = array_addslashes($_COOKIE);
-}
+  }
 
 // Strip HTML tags from all input strings.
-if(isset($_GET))
-  {$_GET = array_strip_tags($_GET);}
-
-if(isset($_POST))
-  {$_POST = array_strip_tags($_POST);}
-
-if(isset($_COOKIE))
-  {$_COOKIE = array_strip_tags($_COOKIE);}
+if(isset($_GET)){ $_GET = array_strip_tags($_GET); }
+if(isset($_POST)){ $_POST = array_strip_tags($_POST); }
+if(isset($_COOKIE)){ $_COOKIE = array_strip_tags($_COOKIE); }
 
 //Include the right ViewController
 if (!isset($uri[0])) {$uri[0] = 'channel';} //Default value
