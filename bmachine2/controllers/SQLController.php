@@ -17,7 +17,7 @@ abstract class SQLController extends DatabaseController
 		}
 		//Build query
 		if ($columns === array()) {
-			$query = 'Insert into $table values (';
+			$query = "Insert into $table values (";
 		} else {
 			$query = "Insert into $table (";
 			foreach ($columns as $x) {
