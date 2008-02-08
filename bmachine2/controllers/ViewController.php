@@ -67,13 +67,20 @@ abstract class ViewController {
 	}
 
 	//Displays a template unless a unit test flag is set
-	function display($template) {
-		global $bm_debug, $baseDir, $baseUri;
-		if ($bm_debug != 'unittest') {
-		  $this->view->assign('baseDir', $baseDir);
-		  $this->view->assign('baseUri', $baseUri);
-		  $this->view->display($template);
-		}
+	function display($template) 
+	{
+      	  global $bm_debug, $baseDir, $baseUri;
+	
+	  // If the unit test flag is on, don't display templates.
+	  if($bm_debug == 'unittest') { return; }
+	  
+	  if(isset($_SESSION['username']))
+	    {
+	      $this->view->assign('currentUser', $_SESSION['username']);
+	    }
+	  $this->view->assign('baseDir', $baseDir);
+	  $this->view->assign('baseUri', $baseUri);
+	  $this->view->display($template);
 	}
 
 	// AUTHENTICATION FUNCTIONS //
@@ -99,19 +106,32 @@ abstract class ViewController {
 		return false;
 	}
 
-	// Checks to see if user has administrative privileges
-	// Returns true if logged in, false if not
-	function isAdmin() {
+	// See if the user is an admin.
+	function isAdmin()
+	{
 		global $bm_debug;
-       		if ($bm_debug == "unittest") 
-			{return true;}
-		if (isset($_SESSION)) {
-			$userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
-			if (count($userArray) > 0) {
-				$user = $userArray[0];
-				return ($user['admin'] == 0) ? false : true;
-			}
-		}
+
+		// If you're unit testing, you're always an admin.
+       		if($bm_debug == "unittest") { return true; }
+	
+		// If the session has a username, see if they're an admin.
+		if(isset($_SESSION['username']))
+		  {
+		    // Read the user's info from the database.
+		    $userArray = $this->db_controller->read('users', 'username="' . $_SESSION['username'] . '"');
+		
+		    // If there were any results, see if any are admins.
+		    if(count($userArray) > 0)
+			  {
+			    // Get the first user.
+			    $user = $userArray[0];
+			    
+			    // Return true/false if they're an admin or not.
+			    return ($user['admin'] == 0) ? false : true;
+			  }
+		  }
+		
+		// Otherwise, return false.
 		return false;
 	}
 

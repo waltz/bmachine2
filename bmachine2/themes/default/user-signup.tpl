@@ -15,7 +15,7 @@
       <input name='pass' type='password' />
       <br/>
       <label for='pass_confirm'>Confirm:</label>
-      <input name='password_confirm' type='password' />
+      <input name='pass_conf' type='password' />
       <br/>
       <label for='email'>Email:</label>
       <input name='email' type='text' />

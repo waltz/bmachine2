@@ -63,11 +63,20 @@ class UserController extends ViewController{
 	  if($_SERVER['REQUEST_METHOD'] == 'POST')
 	    {
 	      // TODO: Validate input.
- 
+	      // TODO: Check the password and the password confirm fields.
+
+	      // Validate the input.
+	      if($_POST['pass'] != $_POST['pass_conf'])
+		{
+		  $alerts[] = 'Make sure the passwords match!';
+		  $this->view->assign('alerts', $alerts);
+		  $this->display('user-signup.tpl');
+		  exit;
+		}
+
 	      // Hash the password.
 	      $_POST['pass'] = sha1($_POST['pass']);
-	      print_r($_POST);
-
+	     
 	      // Build the user data array.
 	      $user = array('name' => $_POST['name'],
 			    'username' => $_POST['username'],
@@ -77,8 +86,11 @@ class UserController extends ViewController{
 	      // Add the new user to the database.
 	      $this->db_controller->create("users", $user);
 
+	      $alerts[] = "User successfully created! Thanks!";
+	      $this->view->assign('alerts', $alerts);
+
 	      // Tell the user to activate their account.
-	      //$this->display('user-unactivated.tpl');
+	      $this->display('user-signup.tpl');
 	    }
 	  else
 	    {
@@ -146,10 +158,10 @@ class UserController extends ViewController{
 	      $_POST['pass'] = sha1($_POST['pass']);
 	      $user = $this->db_controller->read("users", 'username="'.$_POST['username'].'" and pass="'.$_POST['pass'].'"');
 			if (count($user) > 0) {
-				session_start();
-				$_SESSION['pass'] = $_POST['pass'];
+			  //session_start();
+				//$_SESSION['pass'] = $_POST['pass'];
 				$_SESSION['username'] = $_POST['username'];
-
+				
 				$alerts = "You have been logged in. Welcome back!";
 				$this->view->assign('alerts', $alerts);
 				$this->index();
@@ -169,11 +181,34 @@ class UserController extends ViewController{
 	// Kill any existing session.
 	function logout()
 	{
-		$_SESSION = array();
-		session_destroy();	
-		$alerts[] = "You have been successfully logged out.";
-		$this->view->assign('alerts', $alerts);
-		$this->index();
+	  // Resume/create a session.
+	  //session_start();
+
+	  // See if there is valid session to destroy.
+	  if(isset($_SESSION['username']))
+	    {
+	      // Unset any session variables.
+	      unset($_SESSION['username']);
+
+	      // Destroy the session.
+	      session_destroy();
+	      
+	      // Tell the user they've logged out.
+	      $alerts[] = "You have been successfully logged out.";
+	      $this->view->assign('alerts', $alerts);
+
+	      // TODO: This should redirect the user to a different URI.
+	      $this->index();
+	    }
+	  else
+	    {
+	      // There wasn't a session to destroy!
+	      $alerts[] = "Noone to logout!";
+	      $this->view->assign('alerts', $alerts);
+
+	      // TODO: This should redirect to a URI too...
+	      $this->index();
+	    }
 	}
 }
 

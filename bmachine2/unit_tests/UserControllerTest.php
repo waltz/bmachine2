@@ -42,17 +42,20 @@ class UserControllerTest extends UnitTestCase
 		$params[0] = 'user'; 
 		$params[1] = 'signup';
 
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
                 $_POST = array(                        
 			"username"      =>      "UnitTestUser",                        
 			"name"   	=>      "Joe Tester",                        
 			"pass"          =>      "blah",                   
+			'pass_conf'     =>      'blah',
 			"email"         =>      "tester@bm.com",         
 			"admin"		=>	"false"
 		);
 
 		$user = new UserController($params);
 
-		$userArray = $user->db_controller->read('users', 'username="UnitTestUser"');
+		$userArray = $user->db_controller->read('users', 'username="UnitTestTester"');
 		$this->assertEqual(count($userArray), 1);
 	}
 

@@ -3,6 +3,9 @@
 // Make sure that PHP complains. Turn all error reporting on.
 error_reporting(E_ALL);
 
+// Absolutely start a session. Before anything else. No matter what.
+session_start();
+
 //Include helpers
 require_once('helpers/SaniHelper.php'); // Include the input sanitization helper.           
 require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions. 

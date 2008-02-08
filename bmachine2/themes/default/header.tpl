@@ -42,7 +42,7 @@ loggedin - boolean, yes or no
 		{/if}
 	{else}
 	<div id="logged_in">
-		<a href="index.php">Login</a> | <a href="">Signup</a>
+		<a href="index.php">Login</a> | <a href="">Signup</a> | {$currentUser}
 	</div>	 	
  	{/if}
 
