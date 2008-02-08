@@ -6,8 +6,9 @@
 <body>
 <div id="wrap">
 <div id="inner_wrap">
-<h1>Welcome to Broadcast Machine!</h1>
-<p>Now, we're going to need some information to connect Broadcast Machine to a MySQL database. If you're unsure about what MySQL is, check out this <a 
+
+<h1>Database Settings</h1>
+<p>We're going to need some information to connect Broadcast Machine to a MySQL database. If you're unsure about what MySQL is, check out this <a 
 href="">guide</a>. Enter your database information below:</p>
 <form method="post" action="" name="post" enctype="multipart/form-data" accept-charset="utf-8">
 <!-- , iso-8859-1 -->
@@ -18,19 +19,19 @@ href="">guide</a>. Enter your database information below:</p>
 
 <div class="section_header">Database Information</div>
 <fieldset>
-<div class="the_legend">Hostname: </div><br /><input type="text" name="hostname" size="38" value="" />
+<div class="the_legend">Hostname: </div><br /><input type="text" name="hostname" size="38" value="{$hostname}" />
 </fieldset>
 
 <fieldset>
-<div class="the_legend">Database Name: </div><br /><input type="text" name="dbname" size="38" value="" />
+<div class="the_legend">Database Name: </div><br /><input type="text" name="database" size="38" value="{$database}" />
 </fieldset>
 
 <fieldset>
-<div class="the_legend">Username: </div><br /><input type="text" name="username" size="38" value="" />
+<div class="the_legend">Username: </div><br /><input type="text" name="username" size="38" value="{$username}" />
 </fieldset>
 
 <fieldset>
-<div class="the_legend">Password: </div><br /><input type="text" name="password" size="38" value="" />
+<div class="the_legend">Password: </div><br /><input type="password" name="password" size="38" value="" />
 </fieldset>
 
 

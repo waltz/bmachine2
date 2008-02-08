@@ -60,6 +60,21 @@ class MySQLController extends SQLController
 	function query($query) {
 		return mysql_query($query);
 	}
+
+        // Builds and executes a query from an external file
+        // Returns true or false
+        function load($file) {
+		$f = fopen($file, 'r');
+		if ($f) {
+			while (!feof($f)) {
+				$query = stream_get_line($f, 1000000, ";").';';
+				$this->query($query);
+			}
+			fclose($f);
+			return true;
+		}
+        }
+
 	
 	//Disconnect from the database
 	//Returns FALSE on failure

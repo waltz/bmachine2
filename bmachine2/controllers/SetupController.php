@@ -1,6 +1,7 @@
 <?php
 
 require_once($baseDir . 'controllers/ViewController.php');
+require_once($baseDir . 'controllers/MySQLController.php');
 
 class SetupController extends ViewController
 {
@@ -13,9 +14,12 @@ class SetupController extends ViewController
 					$this->forbidden();	 
 					return;
 				}
+			} else {
+				$this->firstuser();
+				return;
 			}
 		}
-
+		if (!isset($params[1])) {$params[1] = '';}
 		switch($params[1]) {
 		  case 'cleanurls':
 		    $this->write_htaccess();
@@ -30,26 +34,91 @@ class SetupController extends ViewController
 
 	//The index function serves as the settings page logic after setup
 	function index() {
-
 	}
 	
+	function firstuser() {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if($_POST['pass'] != $_POST['password_confirm']) { 
+                  		$alerts[] = 'Make sure the passwords match!';
+                  		$this->view->assign('alerts', $alerts);
+                  		$this->view->assign('username', $_POST['username']);
+                  		$this->view->assign('name', $_POST['name']);
+                  		$this->view->assign('email', $_POST['email']);
+                  		$this->display('setup-firstuser.tpl');
+                  		return;
+                	}
+
+	              	// Hash the password.
+        	      	$_POST['pass'] = sha1($_POST['pass']);
+
+			// Build the user data array.
+              		$user = array(
+				'name' 		=> $_POST['name'],
+                            	'username' 	=> $_POST['username'],
+                            	'pass' 		=> $_POST['pass'],
+                            	'email' 	=> $_POST['email'],
+			    	'active' 	=> true,
+			    	'admin' 	=> true);
+
+	              	// Add the new user to the database.
+        	      	$this->db_controller->create("users", $user);
+
+			$alerts[] = "Finished! Welcome to Broadcat Machine!";
+              		$this->view->assign('alerts', $alerts);
+			$this->display('channel-all.tpl');
+		} else {
+			$this->display('setup-firstuser.tpl');
+		}
+	}
 	//Sets up database
 	function database() {
+		global $cf_hostname,  $cf_username, $cf_password, $cf_database, $baseDir;
+
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			if (!$this->write_bm2conf()) {
-				$this->display('error-permissions.tpl');
+			//Connect to the database
+			$cf_dbengine = "MySQL";
+			$cf_hostname = $_POST['hostname'];
+			$cf_database = $_POST['database'];
+			$cf_username = $_POST['username'];
+			$cf_password = $_POST['password'];
+
+			try {
+				if (!($this->db_controller))
+					{$this->db_controller = new MySQLController();}
+			} catch (Exception $e) {
+				$alerts[] = 'We couldn\'t connect to the database using the information you provided. Please double-check the information and try again.';
+				$this->view->assign('alerts', $alerts);
+				$this->view->assign('hostname', $cf_hostname);
+				$this->view->assign('database', $cf_database);
+				$this->view->assign('username', $cf_username);
+				$this->display('setup-database.tpl');
 				return;
-				//Set up the database
+			}
+
+			if ($this->db_controller->load($baseDir.'db/MySQLSchema.sql')) {
+				//Write configuration file
+				if (!$this->write_bm2conf()) {
+					$this->display('error-permissions.tpl');
+					return;
+				}
+				$alerts[] = "Thanks, Broadcast Machine's Database is all set up now.";
+				$this->view->assign('alerts', $alerts);
 				$this->display('setup-firstuser.tpl');
+			} else {
+				$this->display('error-database.tpl');	
 			}
 		} else {
+			//Assign variable names in case someone comes back to change them
+			$this->view->assign('hostname', $cf_hostname);
+        	        $this->view->assign('database', $cf_database);
+                	$this->view->assign('username', $cf_username);
 			$this->display('setup-database.tpl');
 		}
 	}
 
 	//Creates a .htaccess file from scratch
 	function write_htaccess() {
-		$rewriteBase = str_replace(array("index.php", "setup", "setup/"),'',$_SERVER['REQUEST_URI']);
+		$rewriteBase = str_replace(array("index.php", "setup", "setup/", "/cleanurls"),'',$_SERVER['REQUEST_URI']);
 		//A big string to denote the contents of the .htaccess file	
 		$htcontents =  "## Broadcast Machine 2 URI rewrite config.
 				
@@ -83,7 +152,7 @@ class SetupController extends ViewController
 	function write_bm2conf() {
 		//Auto-detect basedir, baseurl
 		$baseDir = getcwd().'/';
-		$baseURI = str_replace(array("index.php", "setup", "setup/"),'',$_SERVER['REQUEST_URI']);
+		$baseUri = str_replace(array("index.php", "setup", "setup/", "/database"),'',$_SERVER['REQUEST_URI']);
 		$contents = 	'<?php
 ## Configuration file for Broadcast Machine 2
 				
@@ -91,7 +160,7 @@ class SetupController extends ViewController
 # Remember to change your .htaccess file when this changes.
 # NOTE: If bm2 is installed in the root dir, leave this blank!
 # Example: If the url is http://sample.com/apps/bm2/, then this should be /apps/bm2/
-$baseUri = "'.$baseURI.'";
+$baseUri = "'.$baseUri.'";
 				
 # What directory is bm2 installed into?
 # Be sure to add the trailing slash!
@@ -105,7 +174,7 @@ $cleanUris = "On";
 # These are used by any database controller that needs to connect.
 $cf_dbengine = "MySQL"; // Which engine do you want to use? (MySQL, SQLite, Postgres...)
 $cf_hostname = "'.$_POST['hostname'].'"; // What\'s the hostname?
-$cf_database = "'.$_POST['dbname'].'"; // Which database should we use?
+$cf_database = "'.$_POST['database'].'"; // Which database should we use?
 $cf_username = "'.$_POST['username'].'";
 $cf_password = "'.$_POST['password'].'";
 ?>';

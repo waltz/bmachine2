@@ -21,7 +21,6 @@ abstract class ViewController {
 
 		$this->view = new Smarty();
 		// TODO: The templates folder should be dynamic.
-		//echo($baseDir . 'themes/default/');
 		$this->view->template_dir = $baseDir . 'themes/default/';
 		$this->view->compile_dir = $baseDir . 'smarty/templates_c/';
 		$this->view->cache_dir = $baseDir . 'smarty/cache/';

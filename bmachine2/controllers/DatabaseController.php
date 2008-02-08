@@ -27,6 +27,12 @@ abstract class DatabaseController
 	// Returns FALSE on failure or a result on success.
 	abstract function query($query);
 	
+	//Builds and executes a query from an external file
+	// Stores the result for 'getArray()' before returning.
+        // Returns FALSE on failure or a result on success.
+
+	abstract function load($file);
+
 	// Generate an array based upon a result of a database query.
 	// When called with no parameters, tries to use the last result.
 	// Returns FALSE on failure or a result on success.
@@ -35,6 +41,7 @@ abstract class DatabaseController
 	//Disconnect from the database
 	//Returns FALSE on failure
 	abstract function disconnect();	
+
 
 	//Standard API for CRUD operations:
 	abstract function create($table, $data);
