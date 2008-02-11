@@ -9,16 +9,20 @@
 {foreach from=$channels item=channel}
 <br />
 	<div id="library_header_wrap">
-	<div id="library_title"><a href="{$settings.baseurl}">{$settings.name}</a>Channel Name: <a href="{$settings.baseurl}/{$channel.title}">{$channel.title}</a></div>
-<div id="rss_feed"><a href="{$settings.baseurl}channels/{$channel.title}"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
+	<div id="library_title">Channel 
+Name: <a href="{$baseUri}channel/show/{$channel.title|replace:' 
+':'-'}">{$channel.title}</a></div>
+<div id="rss_feed"><a href="{$baseUri}channel/show/{$channel.title|replace:' ':'-'}"><img 
+src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
 
 <div class="video_section">
 	
 		<div id="tagsbox"><b>Channel Tags: </b>
 		{foreach from=$channel.tags item=tag}
-			<a href="tags/{$tag.name}">{$tag.name}</a>
-		{/foreach}</div>
+			<a href="{$baseUri}tag/show/{$tag.name}">{$tag.name}</a>
+		{/foreach}
+		</div>
 
 		<ul>
 

@@ -1,3 +1,16 @@
+#alerts {
+	width:50%;
+	margin-left: 200px;
+	background-color:pink;
+	padding:10px;
+}
+
+#alerts h3 {
+	padding-left:20px;
+	padding-top:10px;
+	padding-bottom: 0px;
+}
+
 /* -----------  add.tpl ------------ */
 
 #auto_fill_body {

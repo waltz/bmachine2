@@ -49,7 +49,7 @@ class TagController extends ViewController
 		//Get videos and channels that are associated with each tag
                 $channelTags = $this->getChannels($channelTags);
                 $videoTags = $this->getVideos($videoTags);
-
+		$this->view->assign('tagName', $name);
                 $this->view->assign('channelTags', $channelTags);
                 $this->view->assign('videoTags', $videoTags);
                 $this->display('tag-show.tpl');

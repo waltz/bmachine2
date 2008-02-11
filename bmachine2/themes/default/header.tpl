@@ -1,11 +1,4 @@
 {* Smarty *}
-{*
-In this template you may use the following variables:
-$settings 
-username
-userprivilege - either 'admin' or not set  
-loggedin - boolean, yes or no
-*}
 
 <!-- BEGIN HEADER -->
 
@@ -54,10 +47,16 @@ loggedin - boolean, yes or no
  	{/if}
 
 	<!-- Display all of the alerts. -->
-	<ul>
-	{foreach from=$alerts item=alert}
-		<li>{$alert}</li> 
-	{/foreach}
-	</ul>
+	{if $alerts|@count gt 0}
+	<div id="alerts">
+		<h2>Alert!</h2>
+		<h3>Errors:</h2>
+		<ul>
+		{foreach from=$alerts item=alert}
+			<li>{$alert}</li> 
+		{/foreach}
+		</ul>
+	</div>
+	{/if}
 
 <!-- END HEADER -->
