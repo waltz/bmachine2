@@ -1,6 +1,6 @@
 
 <br />
-<div style="float:right; margin: 50px;">Powered by Broadcast Machine from the <a href="http://participatoryculture.org">Participatory Culture Foundation</a></div>
+<div style="margin: 50px;"><center>Powered by Broadcast Machine</center></div>
 
 </body>
 </html>

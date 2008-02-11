@@ -9,7 +9,7 @@ session_start();
 //Include helpers
 require_once('helpers/SaniHelper.php'); // Include the input sanitization helper.           
 require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions. 
-
+require_once('routes.php'); //URL re-routing information
 // In case there aren't any settings yet...
 if(!isset($baseDir)){ $baseDir = getcwd(); }
 // Make sure there's  a trailing slash!
@@ -32,6 +32,11 @@ if (!file_exists('.htaccess')) {
 		include('bm2_conf.php');
 		// Grab the URI since we're all set up
 		$uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
+		//Substitute user-defined routes
+		foreach ($routes as $route => $redirect) {
+			$uri = str_replace($route, $redirect, $uri);
+		}
+
 		if(strpos($uri, "index.php"))
 			{$baseUri = $baseUri . "index.php";}
 		$location = strpos($uri, $baseUri); // Figure out where the baseUri starts.
@@ -65,7 +70,14 @@ if(isset($_COOKIE)){ $_COOKIE = array_strip_tags($_COOKIE); }
 
 //Include the right ViewController
 if (!isset($uri[0])) {$uri[0] = 'channel';} //Default value
-require_once($baseDir.'controllers/'.ucwords($uri[0]).'Controller.php');
+$controller = $baseDir.'controllers/'.ucwords($uri[0]).'Controller.php';
+if (file_exists($controller)) {
+	require_once($controller);
+} else {
+	header('HTTP/1.0 404 Not Found');
+	require_once('404.php');
+	return;
+}
 
 // The following switch block contains the main dispatcher logic.
 switch ($uri[0]) {
