@@ -2,16 +2,15 @@
 
 {include file='header.tpl'}
 
-<body>
-<div id="wrap">
-<div id="inner_wrap">
-
+<div id="view_container">
 {foreach from=$channels item=channel}
-<br />
+<div class="channel_containter">
 <div id="library_header_wrap">
 	<div id="library_title">
-	     Channel Name: <a href="{$baseUri}channel/{$channel.title|urlencode}">
-	     	     	   {$channel.title}</a>
+	     Channel Name:
+	     <a href="{$baseUri}channel/{$channel.title|urlencode}">
+	     {$channel.title}
+	     </a>
 	</div>
 	<div id="rss_feed">
 	     <a href="{$baseUri}channel/{$channel.title|urlencode}/rss">
@@ -22,28 +21,22 @@
 
 <div class="video_section">
      <div id="tagsbox">
-     <b>Channel Tags:</b>
-     {foreach from=$channel.tags item=tag}
+          <b>Channel Tags:</b>
+     	  {foreach from=$channel.tags item=tag}
      	      <a href="{$baseUri}tags/{$tag.name|lower}">{$tag.name}</a>
-     {/foreach}
+     	  {/foreach}
      </div>
 
-		<ul>
-
-{include file='showallvideosinachannel.tpl'}
-
-</ul>
-
-<div id="tagsbox"><a href="{$baseUri}channel/{$channel.title|urlencode}"><b>>> See all videos in this channel >> </b></a></div>
-		
-		<div class="spacer_left">&nbsp;</div>
-
-		</div>
-
-{/foreach}
-
-  </div>
+     {foreach from=$channel.videos item=video}
+     <div class="small_video">
+     	  <img src="{$video.icon_url}" alt="{$video.title}" />
+	  <a href="{$baseUri}video/{$video.title|urlencode}">{$video.title}</a>
+	  <br/>     
+     </div>
+     {/foreach}
 </div>
-<br/>
+<div>
+{/foreach}
+</div>
 
 {include file='footer.tpl'}
