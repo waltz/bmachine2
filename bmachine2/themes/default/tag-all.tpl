@@ -12,14 +12,14 @@
 	<h3>Video Tags</h3>
 	<p>
 		{foreach from=$videoTags item=tag}
-			<a href="{$settings.baseurl}tag/{$tag.name}">{$tag.name}</a>
+			<a href="{$baseUri}tag/show/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 	</p>
 
 	<h3>Channel tags</h3>
 	<p>
 		{foreach from=$channelTags item=tag}
-			<a href="{$settings.baseurl}tag/{$tag.name}">{$tag.name}</a>
+			<a href="{$baseUri}tag/show/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 	</p>
 
