@@ -177,9 +177,7 @@ class UserController extends ViewController{
 	      $_POST['pass'] = sha1($_POST['pass']);
 	      $user = $this->db_controller->read("users", 'username="'.$_POST['username'].'" and pass="'.$_POST['pass'].'"');
 			if (count($user) > 0) {
-			  //session_start();
-				//$_SESSION['pass'] = $_POST['pass'];
-				$_SESSION['username'] = $_POST['username'];
+      				$_SESSION['username'] = $_POST['username'];
 				
 				$alerts = "You have been logged in. Welcome back!";
 				$this->view->assign('alerts', $alerts);
@@ -191,8 +189,12 @@ class UserController extends ViewController{
 			}
 			
 		} else {
-			$alerts[] = "Please log in.";
-			$this->view->assign('alerts', $alerts);
+	    if(isset($_SESSION['username']))
+	      {
+		$alerts[] = "Hey there partner! You're already logged in!";
+		$this->view->assign('alerts', $alerts);
+	      }
+
 			$this->display('user-login.tpl');
 		}
 	}
