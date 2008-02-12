@@ -39,8 +39,8 @@ class SetupController extends ViewController
 	function firstuser() {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if($_POST['pass'] != $_POST['password_confirm']) { 
-                  		$alerts[] = 'Make sure the passwords match!';
-                  		$this->view->assign('alerts', $alerts);
+                  		$this->alerts[] = 'Make sure the passwords match!';
+                  		$this->view->assign('alerts', $this->alerts);
                   		$this->view->assign('username', $_POST['username']);
                   		$this->view->assign('name', $_POST['name']);
                   		$this->view->assign('email', $_POST['email']);
@@ -63,9 +63,7 @@ class SetupController extends ViewController
 	              	// Add the new user to the database.
         	      	$this->db_controller->create("users", $user);
 
-			$alerts[] = "Finished! Welcome to Broadcat Machine!";
-              		$this->view->assign('alerts', $alerts);
-			$this->display('channel-all.tpl');
+			$this->display('setup-finished.tpl');
 		} else {
 			$this->display('setup-firstuser.tpl');
 		}
@@ -86,8 +84,8 @@ class SetupController extends ViewController
 				if (!($this->db_controller))
 					{$this->db_controller = new MySQLController();}
 			} catch (Exception $e) {
-				$alerts[] = 'We couldn\'t connect to the database using the information you provided. Please double-check the information and try again.';
-				$this->view->assign('alerts', $alerts);
+				$this->alerts[] = 'We couldn\'t connect to the database using the information you provided. Please double-check the information and try again.';
+				$this->view->assign('alerts', $this->alerts);
 				$this->view->assign('hostname', $cf_hostname);
 				$this->view->assign('database', $cf_database);
 				$this->view->assign('username', $cf_username);
@@ -101,9 +99,17 @@ class SetupController extends ViewController
 					$this->display('error-permissions.tpl');
 					return;
 				}
-				$alerts[] = "Thanks, Broadcast Machine's Database is all set up now.";
-				$this->view->assign('alerts', $alerts);
-				$this->display('setup-firstuser.tpl');
+				$this->alerts[] = "Database settings saved. Thanks!";
+				$this->view->assign('alerts', $this->alerts);
+
+				global $users;
+				$users =  $this->db_controller->read("users", "all");
+
+				if (count($users) > 0) {
+					$this->index();
+				} else {
+					$this->display('setup-firstuser.tpl');
+				}
 			} else {
 				$this->display('error-database.tpl');	
 			}

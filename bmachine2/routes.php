@@ -12,9 +12,10 @@ $routes = array(
 	'tags'		=>	'tag',
 	'channels'	=>	'channel',
 	//Routes can be used to call a controller and action from a single URL parameter:
-	'signup'	=> 	'user/signup',
-	'login'		=>	'user/login',
-	'logout'	=>	'user/logout'
+	//'settings'	=>	'setup/settings',
+	//'signup'	=> 	'user/signup',
+	//'login'	=>	'user/login',
+	//'logout'	=>	'user/logout'
 );
 
 ?>

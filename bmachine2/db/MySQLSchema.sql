@@ -111,18 +111,3 @@ CREATE TABLE IF NOT EXISTS published (
 	PRIMARY KEY (channel_id, video_id),
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 ) ENGINE=InnoDB, CHARACTER SET utf8;
-
-CREATE TABLE IF NOT EXISTS settings (
-	name blob NOT NULL,
-	description text,
-	open_reg boolean NOT NULL,
-	reg_approval boolean NOT NULL,
-	bandwidth_limit bigint NOT NULL,
-	base_url varchar(255) UNIQUE NOT NULL,
-	icon_url varchar(255) NOT NULL,
-	donthideporn boolean NOT NULL,
-	theme blob NOT NULL,
-        donation_html blob NOT NULL,
-        donation_url varchar(255) NOT NULL,
-	PRIMARY KEY (base_url)
-) ENGINE=InnoDB, CHARACTER SET utf8;

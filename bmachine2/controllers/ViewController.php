@@ -11,6 +11,7 @@ require_once($baseDir . 'smarty/Smarty.class.php');
 abstract class ViewController {
 	var $db_controller;
 	var $view;
+	var $alerts;
 
         abstract function dispatch($params);
         abstract function index();
@@ -88,7 +89,7 @@ abstract class ViewController {
 	// Returns true if logged in, false if not
  	function isLoggedIn() {
                 if (isset($_SESSION)) {
-                        $userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'" and pass="'.$_SESSION['pass'].'"');
+                        $userArray = $this->db_controller->read('users', 'username="'.$_SESSION['username'].'"');
                         return (count($userArray) > 0) ? true : false;
                 }
                 return false;
@@ -135,8 +136,8 @@ abstract class ViewController {
 	}
 
 	function forbidden() {
-		$alerts[] = 'You do not have permission to access this page.';
-		$this->view->assign('alerts', $alerts);
+		$this->alerts[] = 'You do not have permission to access this page.';
+		$this->view->assign('alerts', $this->alerts);
 		$this->index();
 	}
 }

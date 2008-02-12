@@ -101,18 +101,3 @@ CREATE TABLE published (
 	PRIMARY KEY (channel_id, video_id),
 	FOREIGN KEY (channel_id) REFERENCES channels (id)
 );
-
-CREATE TABLE settings (
-	name blob NOT NULL,
-	description text,
-	open_reg boolean NOT NULL,
-	reg_approval boolean NOT NULL,
-	bandwidth_limit bigint NOT NULL,
-	base_url blob UNIQUE NOT NULL,
-	icon_url blob NOT NULL,
-        donthideporn boolean NOT NULL,
-	theme blob NOT NULL,
-	donation_html blob NOT NULL,
-	donation_url blob NOT NULL,
-	PRIMARY KEY (base_url)
-);
