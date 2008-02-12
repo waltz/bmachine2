@@ -9,7 +9,12 @@ class UserController extends ViewController{
         function dispatch($params) {
 	  // This is a hack. Yikes. 
           if (!isset($params[1])) {$params[1] = '';}
+	  if(!isset($params[3])) { $params[3] = ''; }
+
 	  switch($params[1]) {
+	  case '':
+	    $this->currentUser();
+	    break;
             case 'signup':
               $this->signup();
               break;
@@ -20,15 +25,15 @@ class UserController extends ViewController{
               $this->logout();
               break;
             case 'all':
-              $this->all();
+		($this->isAdmin()) ? $this->all() : $this->forbidden();
               break;
             default:
-              switch($params[1]) {
+              switch($params[3]) {
                 case '':
-                  $this->show($params[0]);
+                  $this->show($params[1]);
                   break;
                 case 'show':
-                  $this->show($params[0]);
+                  $this->show($params[1]);
                   break;
                 Case 'edit':
                   ($this->isAdmin() || $this->isUser($params[0])) ? $this->edit($params[0]) : $this->forbidden();
@@ -46,7 +51,7 @@ class UserController extends ViewController{
 
         //Default function if controller is requested without any parameters
         function index() {
-                $this->all();
+                $this->currentUser();
         }
 
 
@@ -55,6 +60,20 @@ class UserController extends ViewController{
 		$this->view->assign('users', $users);
 		$this->display('user-all.tpl');
 	}
+
+	// Display the profile of the current user.
+	function currentUser()
+	{
+	  // If the user is logged in display the profile.
+	  if(isset($_SESSION['username']))
+	    {
+	      $this->show($_SESSION['username']);
+	    }
+	    else
+	      {
+		$this->login();
+	      }
+	    }
 
 	// Add new users.
         function signup() 
@@ -107,7 +126,7 @@ class UserController extends ViewController{
 		if (count($userArray) == 0) {
 			$alerts[] = "User $username not found";
 			$this->view->assign('alerts', $alerts);
-			$this->index();
+			$this->display('user-show.tpl');
 		} else {
 			$this->view->assign('user', $userArray[0]);
 			$this->display('user-show.tpl');

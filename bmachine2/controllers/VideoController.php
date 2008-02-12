@@ -44,7 +44,8 @@ class VideoController extends ViewController
 	}
 
 	// Shows all videos
-	function all() {
+	function all()
+	{
 		$videos = $this->db_controller->read("videos", "all");
 
 		//Get tags and channels that a video belongs to
@@ -54,33 +55,46 @@ class VideoController extends ViewController
 		$this->display('video-all.tpl');
 	}
 	
-	// If post, inserts a new video into the database
-	// If no post, brings up form for adding a new video
-        function add() {
-		//If data is posted, insert video into db
-		if(isset($_POST['title'])) {
-			$video = $_POST;
+	// Add a video.
+        function add()
+	{
+	  // If there's POST data, try to parse it.
+	  if($_SERVER['REQUEST_METHOD'] == 'POST')
+	    {
+	      // Basic validation.
+	      if($_POST['title'] == '')
+		{
+		  $alerts[] = 'You forgot the title!';
+		  $this->view->assign('alert', $alerts);
+		  $this->display('video-add.tpl');
+		}
 
-			//Put the tag string into an array
-                        $tags = explode(" ", $video['tags']);
-                       	unset($video['tags']);
+	      // If tags exist, process them.
+	      if($_POST['tags'] != '')
+		{
+		  // Put the tag string into an array
+		  $tags = explode(" ", $_POST['tags']);
+		  
+		  // Insert tags into the database
+		  $id = $this->getID($video['title']);
+		  foreach($tags as $x)
+		    {
+		      $tag = array($id, $x);
+		      $this->db_controller->create("video_tags", $tag);
+		    }
+		}
 
-			//Get publishing channel list
-			$channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
-                        unset($video['channels']);
+	      //Get publishing channel list
+	      $channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
+	      unset($video['channels']);
 
-			//Get credits information
-                        $credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
+	      //Get credits information
+	      $credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
                         unset($video['credits']);
 
 			$this->db_controller->create("videos", $video);
 
-			//Insert tags into the database
-                        $id = $this->getID($video['title']);
-                        foreach ($tags as $x) {
-                                $tag = array($id, $x);
-                                $this->db_controller->create("video_tags", $tag);
-                        }
+			
 
 			//Insert publishing data
 			$this->publish($id, $channels);
@@ -90,10 +104,14 @@ class VideoController extends ViewController
 				$credit = array($id, $x['name'], $x['role']);
 				$this->db_controller->create("video_credits", $credit);
 			}
+
+
 			$alerts[] = 'Video was created successfully!';
 			$this->view->assign('alerts', $alerts);
 			$this->show($video['title']);
-		} else {
+		} 
+	  else 
+	    {
 			//Get list of available channels
 			$channels = $this->db_controller->read('channels', 'all');
 			$this->view->assign('channels', $channels);

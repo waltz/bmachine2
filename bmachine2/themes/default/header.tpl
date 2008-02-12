@@ -1,50 +1,45 @@
 {* Smarty *}
 
-<!-- BEGIN HEADER -->
+<!-- Start Header -->
 
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
 	<title>{$settings.name} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css"/>
-	</head>
-	<body>
+	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css" />
+</head>
 
+<body>
+	<!-- Banner/logo -->
 	<div id="head">
-		<h1 id="preview">&nbsp;</h1>
+	     <h1 id="preview">&nbsp;</h1>
 	</div>
-	
-	{* Check to see if the user is logged in.*}	
-	{if $loggedin eq 'yes'}
-	<div id="logged_in">	
-		<a href="index.php">View Front Page &gt;&gt;</a> | <strong><a href="user_edit.php?i={$username}">{$username}</a></strong> - <a href="login.php?logout=1">logout</a>
-	</div>
-		{* Check if user has admin rights *}
-	 	{if $userprivilege eq 'admin'}
-		<div id="adminmenu">
-		<div id="inner_nav">
-			<a href="admin.php">Dashboard</a>
-			<a href="publish.php">Publish</a>
-			<a href="edit_videos.php">Files</a><a href="channels.php">Channels</a>
-			<a href="donations.php">Donations</a>
-			<a href="settings.php">Settings</a>
-			<a href="users.php">Users</a><a href="http://www.participatoryculture.org/bm/help/" target="_blank"  style="color: #B55;">Help</a>
-		</div>
-		</div>
-		{/if}
-	{else}
+
+	<!-- Navigation menu -->
+	<!--
+	TODO: Add these navigation links.
+	   * Home
+	   * Channels
+	   * Videos
+	   * Tags
+	-->
+
+	<!-- User menu -->
 	<div id="logged_in">
-	     {if $currentUser eq ""}
-		<a href="{$baseUri}user/login">Login</a> |
-		<a href="{$baseUri}user/signup">Signup</a>
-	     {else}
-		Hey {$currentUser}! |
-		<a href="{$baseUri}user/logout">Logout</a> |
-		<a href="{$baseUri}user/settings">Settings</a>
-	     {/if}
+	{if $currentUser eq ""}
+	    <a href="{$baseUri}user/login">Login</a> |
+	    <a href="{$baseUri}user/signup">Signup</a>
+	{else}
+	   Hey {$currentUser}! |
+	   <a href="{$baseUri}user/logout">Logout</a> |
+	   <a href="{$baseUri}user/">Settings</a>
+	{/if}
 	</div>	 	
- 	{/if}
 
 	<!-- Display all of the alerts. -->
 	{if $alerts|@count gt 0}
@@ -59,4 +54,4 @@
 	</div>
 	{/if}
 
-<!-- END HEADER -->
+<!-- End Header -->

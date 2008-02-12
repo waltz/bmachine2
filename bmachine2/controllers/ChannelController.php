@@ -7,33 +7,51 @@ class ChannelController extends ViewController
  
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
-        function dispatch($params) {
-	  if (!isset($params[1])) {$params[1] = '';}
-          switch($params[1]) {
-          case 'add':
-           	($this->isAdmin()) ? $this->add() : $this->forbidden();
-              	break;
-            case 'all':
-              	$this->all();
-              	break;
-            default:
-		$params[0] = $this->parse($params[0]);
-              	switch($params[1]) {
-                case '':
-                  	$this->show($params[0]);
-                  	break;
-                case 'show':
-                  	$this->show($params[0]);
-                  	break;
-                case 'edit':
-		  ($this->isAdmin()) ? $this->edit($params[0]) : $this->forbidden();
-                  break;
-                case 'remove':
-                  ($this->isAdmin()) ? $this->remove($params[0]) : $this->forbidden();
-                  break;
-              }
-              break;
-          }
+        function dispatch($params)
+	{
+	  // There has to be a better way to do this...
+
+	  /*
+	   * For some channel 'foo' we can expect the following parameters:
+	   * 
+	   * sample.com/channel/add
+	   * sample.com/channel/
+	   * sample.com/channel/all
+	   * sample.com/channel/foo/remove
+	   * sample.com/channel/foo/edit
+	   * sample.com/channel/foo
+	   *
+	   */
+
+	  // If the array parameters are unset, set them.
+	  if(!isset($params[1])){ $params[1] = ''; }
+	  if(!isset($params[2])){ $params[2] = ''; }
+
+	  // Yuk...
+	  switch($params[1])
+	    {
+	    case '':
+	      $this->all();
+	      break;
+	    case 'all':
+	      $this->all();
+	      break;
+	    case 'add':
+	      ($this->isAdmin()) ? $this->add() : $this->forbidden();
+	      break;
+	    default:
+	      switch($params[2])
+		{
+		case 'edit':
+		  ($this->isAdmin()) ? $this->edit() : $this->forbidden();
+		  break;
+		case 'delete':
+		  ($this->isAdmin()) ? $this->remove() : $this->forbidden();
+		  break;
+	        default:
+		  $this->show($this->parse($params[1]));
+		}
+	    }
 	}
 
 	//Default function if controller is requested without any parameters
@@ -49,30 +67,61 @@ class ChannelController extends ViewController
 	  $this->display('channel-all.tpl');
       	}
 
-        // If post, inserts a new channel into the database
-        // If no post, brings up form for adding a new channel
-        function add() {
-                //If data is posted, insert channel into db
-                if(isset($_POST['title'])) {
-			$channel = $_POST;
+	// Add a new channel.
+        function add()
+	{
+	  // If there's POST data, see if it's a new channel.
+	  if($_SERVER['REQUEST_METHOD'] == 'POST')
+	    {
+	      // Input verification. Make sure there's a channel name.
+	      if($_POST['title'] == '')
+		{
+		  $alerts[] = 'You forgot to name your channel!';
+		  $this->view->assign('alerts', $alerts);
+		  $this->display('channel-add.tpl');
+		  return;
+		}
 
-			//Put the tag string into an array
-			$tags = explode(" ", $channel['tags']);
-			unset($channel['tags']);
-			
-			$this->db_controller->create("channels", $channel);
+	      // Fill in some optional fields if they're unset.
+	      if(!isset($_POST['icon_url'])){ $_POST['icon_url'] = ''; }
+ 
+	      // Build the channel data array.
+	      $channel = array('title' => $_POST['title'],
+			       'description' => $_POST['description']);
+			       
+	      // Create the channel.
+	      $this->db_controller->create("channels", $channel);
 
-			//Insert tags into the database
-			$id = $this->getID($channel['title']);
-			foreach ($tags as $x) {
-				$tag = array($id, $x);
-				$this->db_controller->create("channel_tags", $tag);
-			}
-			$this->show($channel['title']);
-                } else {
-		  //echo('add chan.');
-                        $this->display('channel-add.tpl');
-                }
+	      // Parse the tags.
+	      if($_POST['tags'] != '')
+		{
+		  $tags = explode(" ", $_POST['tags']);
+    
+		  //Insert tags into the database
+		  $id = $this->getID($_POST['title']);
+		  foreach($tags as $tag)
+		    {
+		      // Build the tag structure.
+		      $builtTag = array($id, $tag);
+		  
+		      // Add the tag to the database.
+		      $this->db_controller->create("channel_tags", $builtTag);
+		    }
+		}
+	    
+	      // TODO: This should redirect to the newly created channel.
+	      //$this->redirect('channel/$_POST['title']');
+	      
+	      // Success!
+	      $alerts[] = "You've got a new channel!";
+	      $this->view->assign('alerts', $alerts);
+	      $this->display('channel-add.tpl');
+	    }
+	  else
+	    {
+	      // If there's no POST data, ask the user to add a channel.
+	      $this->display('channel-add.tpl');
+	    }
         }
 
         // Removes a channel from the database
@@ -171,17 +220,17 @@ class ChannelController extends ViewController
                         $this->view->assign('alerts', "Channel $title not found");
                         $this->index();
                 } else {
-                        $channel = $chanarray[0];
-
+		  //$channel = $chanarray;
+			//print_r($channel);
                         //Get tags and channels info
-                        $channel = $this->getTagsandVideos($channel);
-                        $this->view->assign('channel', $channel);
-                        $this->display('channel-show.tpl');
+                        $chanarray = $this->getTagsandVideos($chanarray);
+                        $this->view->assign('channel', $chanarray[0]);
+                        $this->display('channel.tpl');
                 }
         }
 
         // PRIVATE FUNCTIONS
-
+ 
         // Adds tags and videos to an array of channels (or just one)
         // Returns a fresh array of channels
         private function getTagsandVideos($channels) {
