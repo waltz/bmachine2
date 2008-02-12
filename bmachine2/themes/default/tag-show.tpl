@@ -9,8 +9,7 @@
 
 <br />
 	<div id="library_header_wrap">
-	<div id="library_title">Channels with tag: <a 
-href="{$baseUri}tag/show/{$tagName}">{$tagName}</a></div>
+	<div id="library_title">Channels with tag: <a href="{$baseUri}tag/show/{$tagName}">{$tagName}</a></div>
 <div id="rss_feed"><a href="{$baseUri}tag/show/{$tag}"><img 
 src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div>
 </div>
@@ -19,10 +18,8 @@ src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div
 
 		<ul>
 			{foreach from=$channelTags item=channel}
-			<li>Channel name: {$channel.channel_id}</li>
+			<li>+ Channel name: {$channel.title}</li>
 			{/foreach}
-			
-
 		</ul>
 
 		
