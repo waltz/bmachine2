@@ -44,8 +44,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<!-- Display all of the alerts. -->
 	{if $alerts|@count gt 0}
 	<div id="alerts">
-		<h2>Alert!</h2>
-		<h3>Errors:</h2>
 		<ul>
 		{foreach from=$alerts item=alert}
 			<li>{$alert}</li> 
