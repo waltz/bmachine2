@@ -10,7 +10,7 @@
 <h1>Database Settings</h1>
 <p>We're going to need some information to connect Broadcast Machine to a MySQL database. If you're unsure about what MySQL is, check out this <a 
 href="">guide</a>. Enter your database information below:</p>
-<form method="post" action="" name="post" enctype="multipart/form-data" accept-charset="utf-8">
+<form method="post" action="{$baseUri}setup" name="post" enctype="multipart/form-data" accept-charset="utf-8">
 <!-- , iso-8859-1 -->
 <input type="hidden" name="ID" value="" class="hidden"/>
 <div id="poststuff">
