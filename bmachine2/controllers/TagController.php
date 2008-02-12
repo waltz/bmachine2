@@ -7,19 +7,21 @@ class TagController extends ViewController
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
         function dispatch($params) {
-	  if (!isset($params[1])) {$params[1] = '';}
+	  if (!isset($params[2])) {$params[2] = '';}
           switch($params[1]) {
             case 'all':
               $this->all();
               break;
             default:
-              switch($params[1]) {
-                case '':
-                  $this->show($params[0]);
+              switch($params[2]) {
+		case '':
+                  $this->show($params[1]);
                   break;
                 case 'show':
-                  $this->show($params[0]);
+                  $this->show($params[1]);
                   break;
+		case 'rss':
+		  $this->rss($params[1]);
               }
               break;
           }
@@ -34,9 +36,9 @@ class TagController extends ViewController
         function all() {
 		$videoTags = $this->db_controller->read('video_tags', 'all');
 		$channelTags = $this->db_controller->read('channel_tags', 'all');
-
 		$this->view->assign('videoTags', $videoTags);
-		$this->view->assign('channelTags', $channelTags); 
+		$this->view->assign('channelTags', $channelTags);
+		$this->display('tag-all.tpl');
         }
 
         function show($name) {
@@ -53,13 +55,14 @@ class TagController extends ViewController
                 $this->view->assign('channelTags', $channelTags);
                 $this->view->assign('videoTags', $videoTags);
                 $this->display('tag-show.tpl');
+		print_r($channelTags);
         }
 
         // PRIVATE FUNCTIONS
         private function getChannels($tags) {
 		$channels = array();
                 foreach ($tags as &$tag) {
-			$chanArray = $this->db_controller->read("channels", 'id="'.$tag['id'].'"');
+			$chanArray = $this->db_controller->read("channels", 'id="'.$tag['channel_id'].'"');
 			array_push($channels, $chanArray[0]);
                 }
                 unset($tag);
@@ -70,7 +73,7 @@ class TagController extends ViewController
 	private function getVideos($tags) {
 		$videos = array();
                 foreach ($tags as &$tag) {
-			$vidArray =  $this->db_controller->read("videos", 'id="'.$tag['id'].'"');
+			$vidArray =  $this->db_controller->read("videos", 'id="'.$tag['video_id'].'"');
                         array_push($videos, $vidArray[0]);
                 }
                 unset($tag);
