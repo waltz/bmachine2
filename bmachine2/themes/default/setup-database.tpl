@@ -3,7 +3,6 @@
 
 {include file='header.tpl'}
 
-<body>
 <div id="wrap">
 <div id="inner_wrap">
 

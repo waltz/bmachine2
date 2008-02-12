@@ -80,6 +80,7 @@ abstract class ViewController {
 	    }
 	  $this->view->assign('baseDir', $baseDir);
 	  $this->view->assign('baseUri', $baseUri);
+	  $this->view->assign('alerts', $this->alerts);
 	  $this->view->display($template);
 	}
 

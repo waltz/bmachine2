@@ -2,31 +2,41 @@
 
 {include file='header.tpl'}
 
-<h2>Add a new Channel</h2>
+<div id="wrap">
+<div id="inner_wrap">
+
+<h1>Add a new Channel</h1>
+<p>A channel is a collection of related videos. Users can automatically subscribe to channels using software such as Miro, or any RSS reader.</p>
 
 <form name="channel/add" method="POST" action="{$baseUri}channel/add" >
-      <fieldset>
-	<legend>General Info</legend>
-	<label for="title">Channel Name:</label><br/>
-	<input name="title" type="text" /><br/>
-	<label for="description">Channel Description</label><br/>
-	<textarea name="description"></textarea>
-      </fieldset>      
+<div id="poststuff">
+<div class="page_name">
+<div class="section">
 
+<div class="section_header">Channel Information</div>
       <fieldset>
-	<legend>Additional Settings</legend>
-	<label for="tags">Tags: (Space separated!)</label><br/>
-	<input name="tags" type="text" /><br/>
-	<label for="icon">Icon:</label></br>
-	<input disabled name="icon" type="file" />
-      </fieldset>
+	<div class="the_legend"><label for="title">Channel Name</label></div><br/>
+	<input name="title" type="text" value="{$title}" size="38" /><br/>
 
-      <fieldset>
-	<legend>License</legend>
-	<!-- TODO: Options for Creative Commons licenses. -->
+	<div class="the_legend"><label for="description">Channel Description</label></div><br/>
+	<textarea name="description" size="38">{$description}</textarea><br/>
+
+	<label for="tags">Tags <small>seperated by spaces</small></label><br/>
+	<input name="tags" type="text" value="{$tags}" size="38" /><br/>
+	<label for="icon_url">Icon URL:</label><br/>
+	<input name="icon_url" type="text" value="{$icon}" size="38"/><br/>
+	
+	<label for="website_url">Website URL:</label><br/>
+        <input name="website_url" type="text" value="{$website_url}" size="38"/>
+
       </fieldset>
 
       <input name="submit" type="submit" value="Add" />
+
+</div>
+</div>
+</div>
+
 </form>
 
 {include file='footer.tpl'}

@@ -62,6 +62,7 @@ class SetupController extends ViewController
 
 	              	// Add the new user to the database.
         	      	$this->db_controller->create("users", $user);
+			$_SESSION['username'] = $_POST['username'];
 
 			$this->display('setup-finished.tpl');
 		} else {
@@ -107,7 +108,9 @@ class SetupController extends ViewController
 
 				if (count($users) > 0) {
 					$this->index();
+					
 				} else {
+					echo "your mom";
 					$this->display('setup-firstuser.tpl');
 				}
 			} else {

@@ -34,7 +34,6 @@ if (!file_exists('.htaccess')) {
 		include('bm2_conf.php');
 		// Grab the URI since we're all set up
 		$uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
-		echo $uri;
 		//Substitute user-defined routes
 		foreach ($routes as $route => $redirect) {
 			$uri = str_replace($route, $redirect, $uri);

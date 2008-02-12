@@ -28,8 +28,7 @@ class ChannelController extends ViewController
 	  if(!isset($params[2])){ $params[2] = ''; }
 
 	  // Yuk...
-	  switch($params[1])
-	    {
+	  switch($params[1]) {
 	    case '':
 	      $this->all();
 	      break;
@@ -40,8 +39,7 @@ class ChannelController extends ViewController
 	      ($this->isAdmin()) ? $this->add() : $this->forbidden();
 	      break;
 	    default:
-	      switch($params[2])
-		{
+	      switch($params[2]) {
 		case 'edit':
 		  ($this->isAdmin()) ? $this->edit() : $this->forbidden();
 		  break;
@@ -68,60 +66,55 @@ class ChannelController extends ViewController
       	}
 
 	// Add a new channel.
-        function add()
-	{
-	  // If there's POST data, see if it's a new channel.
-	  if($_SERVER['REQUEST_METHOD'] == 'POST')
-	    {
-	      // Input verification. Make sure there's a channel name.
-	      if($_POST['title'] == '')
-		{
-		  $alerts[] = 'You forgot to name your channel!';
-		  $this->view->assign('alerts', $alerts);
-		  $this->display('channel-add.tpl');
-		  return;
-		}
+	function add() {
+		// If there's POST data, see if it's a new channel.
+	  	if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	      	
+			// Input validation. Make sure there's a channel name.
+		      	if($_POST['title'] == '') {
+				$this->alerts[] = 'You forgot to name your channel!';
+			  	$this->view->assign('alerts', $this->alerts);
 
-	      // Fill in some optional fields if they're unset.
-	      if(!isset($_POST['icon_url'])){ $_POST['icon_url'] = ''; }
- 
-	      // Build the channel data array.
-	      $channel = array('title' => $_POST['title'],
-			       'description' => $_POST['description']);
-			       
-	      // Create the channel.
-	      $this->db_controller->create("channels", $channel);
+				//Should assign the rest of the post variables to smarty
+				foreach ($_POST as $field => $value) {
+					$this->view->assign($field, $value);
+				}
 
-	      // Parse the tags.
-	      if($_POST['tags'] != '')
-		{
-		  $tags = explode(" ", $_POST['tags']);
-    
-		  //Insert tags into the database
-		  $id = $this->getID($_POST['title']);
-		  foreach($tags as $tag)
-		    {
-		      // Build the tag structure.
-		      $builtTag = array($id, $tag);
-		  
-		      // Add the tag to the database.
-		      $this->db_controller->create("channel_tags", $builtTag);
-		    }
-		}
-	    
-	      // TODO: This should redirect to the newly created channel.
-	      //$this->redirect('channel/$_POST['title']');
+				$this->display('channel-add.tpl');
+				return;
+			} else {
+				//Put the tag string into an array, strip extraneous data
+		                $tags = explode(" ", $_POST['tags']); 
+
+        		        unset($_POST['tags']); 
+				unset($_POST['submit']);
+
+				// Create the channel.
+				$this->db_controller->create("channels", $_POST);
+
+				//Insert tags into the database
+				$id = $this->getID($_POST['title']);
+				foreach($tags as $tag) {
+				
+					// Build the tag structure.
+				      	$builtTag = array($id, $tag);
+
+				      	// Add the tag to the database.
+				      	$this->db_controller->create("channel_tags", $builtTag);
+				}
+			}
+	      	    
+		      	// TODO: This should redirect to the newly created channel.
 	      
-	      // Success!
-	      $alerts[] = "You've got a new channel!";
-	      $this->view->assign('alerts', $alerts);
-	      $this->display('channel-add.tpl');
-	    }
-	  else
-	    {
-	      // If there's no POST data, ask the user to add a channel.
-	      $this->display('channel-add.tpl');
-	    }
+		      	// Success!
+		      	$this->alerts[] = "You've got a new channel!";
+		      	$this->view->assign('alerts', $this->alerts);
+		      	$this->display('channel-add.tpl');
+		      	$this->show($_POST['title']);
+		} else {
+		      // If there's no POST data, ask the user to add a channel.
+		      $this->display('channel-add.tpl');
+		}
         }
 
         // Removes a channel from the database
@@ -155,8 +148,7 @@ class ChannelController extends ViewController
         // If no post, brings up an edit form
         function edit($title) {
                 // If new data is posted, update database
-                if(isset($_POST['title']))
-                {
+                if(isset($_POST['title'])) {
 			$channel = $_POST;
 			$channel_id = $this->getID($channel['title']);
 			$condition = 'id="'.$channel_id.'"';
@@ -225,7 +217,7 @@ class ChannelController extends ViewController
                         //Get tags and channels info
                         $chanarray = $this->getTagsandVideos($chanarray);
                         $this->view->assign('channel', $chanarray[0]);
-                        $this->display('channel.tpl');
+                        $this->display('channel-show.tpl');
                 }
         }
 
