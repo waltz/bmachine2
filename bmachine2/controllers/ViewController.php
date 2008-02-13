@@ -69,19 +69,23 @@ abstract class ViewController {
 	//Displays a template unless a unit test flag is set
 	function display($template) 
 	{
-      	  global $bm_debug, $baseDir, $baseUri;
+      	  	global $bm_debug, $baseDir, $baseUri;
 	
-	  // If the unit test flag is on, don't display templates.
-	  if($bm_debug == 'unittest') { return; }
+	  	// If the unit test flag is on, don't display templates.
+	 	if($bm_debug == 'unittest') { return; }
 	  
-	  if(isset($_SESSION['username']))
-	    {
-	      $this->view->assign('currentUser', $_SESSION['username']);
-	    }
-	  $this->view->assign('baseDir', $baseDir);
-	  $this->view->assign('baseUri', $baseUri);
-	  $this->view->assign('alerts', $this->alerts);
-	  $this->view->display($template);
+		if(isset($_SESSION['username'])) {
+	      		$this->view->assign('currentUser', $_SESSION['username']);
+			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
+		} else {
+			$this->view->assign('isAdmin', false);
+		}
+
+		//Assign smarty variables
+		$this->view->assign('baseDir', $baseDir);
+		$this->view->assign('baseUri', $baseUri);
+		$this->view->assign('alerts', $this->alerts);
+		$this->view->display($template);
 	}
 
 	// AUTHENTICATION FUNCTIONS //

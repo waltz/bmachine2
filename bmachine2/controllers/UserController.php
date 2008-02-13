@@ -88,7 +88,7 @@ class UserController extends ViewController{
 	      if($_POST['pass'] != $_POST['pass_conf'])
 		{
 		  $alerts[] = 'Make sure the passwords match!';
-		  $this->view->assign('alerts', $alerts);
+		  
 		  $this->display('user-signup.tpl');
 		  exit;
 		}
@@ -106,7 +106,7 @@ class UserController extends ViewController{
 	      $this->db_controller->create("users", $user);
 
 	      $alerts[] = "User successfully created! Thanks!";
-	      $this->view->assign('alerts', $alerts);
+	      
 
 	      // Tell the user to activate their account.
 	      $this->display('user-signup.tpl');
@@ -125,7 +125,7 @@ class UserController extends ViewController{
 		$userArray = $this->db_controller->read('users', 'username="'.$username.'"');
 		if (count($userArray) == 0) {
 			$alerts[] = "User $username not found";
-			$this->view->assign('alerts', $alerts);
+			
 			$this->display('user-show.tpl');
 		} else {
 			$this->view->assign('user', $userArray[0]);
@@ -142,14 +142,14 @@ class UserController extends ViewController{
 
 			$this->db_controller->update('users', $_POST, 'username="'.$username.'"');
 			$alerts[] = 'User information was edited successfully';
-			$this->view->assign('alerts', $alerts);
+			
                         $this->show($username);
 		} else {
 			//If data has not yet been posted, get user data and display edit template
 			$userArray = $this->db_controller->read('users', 'username="'.$username.'"');
 	                if (count($userArray) == 0) {
 				$alerts[] = "User $username not found";
-        	                $this->view->assign('alerts', $alerts);
+        	                
                 	        $this->index();
 	                } else {
 				//Unset password
@@ -166,7 +166,7 @@ class UserController extends ViewController{
 	function remove($username) {
 		$this->db_controller->delete("users", 'username="'.$username.'"');
 		$alerts[] =  'User was successfully deleted';
-		$this->view->assign('alerts', $alerts);
+		
 		$this->index();
 	}
 
@@ -180,11 +180,11 @@ class UserController extends ViewController{
       				$_SESSION['username'] = $_POST['username'];
 				
 				$alerts = "You have been logged in. Welcome back!";
-				$this->view->assign('alerts', $alerts);
+				
 				$this->index();
 			} else {
 				$alerts[] = "Login failed: username or password is incorrect.";
-				$this->view->assign('alerts', $alerts);
+				
 				$this->display('user-login.tpl');
 			}
 			
@@ -192,7 +192,7 @@ class UserController extends ViewController{
 	    if(isset($_SESSION['username']))
 	      {
 		$alerts[] = "Hey there partner! You're already logged in!";
-		$this->view->assign('alerts', $alerts);
+		
 	      }
 
 			$this->display('user-login.tpl');
@@ -216,7 +216,7 @@ class UserController extends ViewController{
 	      
 	      // Tell the user they've logged out.
 	      $alerts[] = "You have been successfully logged out.";
-	      $this->view->assign('alerts', $alerts);
+	      
 
 	      // TODO: This should redirect the user to a different URI.
 	      $this->index();
@@ -225,7 +225,7 @@ class UserController extends ViewController{
 	    {
 	      // There wasn't a session to destroy!
 	      $alerts[] = "Noone to logout!";
-	      $this->view->assign('alerts', $alerts);
+	      
 
 	      // TODO: This should redirect to a URI too...
 	      $this->index();

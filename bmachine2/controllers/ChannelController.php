@@ -39,12 +39,13 @@ class ChannelController extends ViewController
 	      ($this->isAdmin()) ? $this->add() : $this->forbidden();
 	      break;
 	    default:
+	      $params[1] = $this->parse($params[1]);
 	      switch($params[2]) {
 		case 'edit':
-		  ($this->isAdmin()) ? $this->edit() : $this->forbidden();
+		  ($this->isAdmin()) ? $this->edit($params[1]) : $this->forbidden();
 		  break;
-		case 'delete':
-		  ($this->isAdmin()) ? $this->remove() : $this->forbidden();
+		case 'remove':
+		  ($this->isAdmin()) ? $this->remove($params[1]) : $this->forbidden();
 		  break;
 	        default:
 		  $this->show($this->parse($params[1]));
@@ -69,7 +70,6 @@ class ChannelController extends ViewController
 	function add() {
 		// If there's POST data, see if it's a new channel.
 	  	if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	      	
 			// Input validation. Make sure there's a channel name.
 		      	if($_POST['title'] == '') {
 				$this->alerts[] = 'You forgot to name your channel!';

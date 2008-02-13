@@ -34,6 +34,11 @@
 	  <br/>     
      </div>
      {/foreach}
+     {if $isAdmin}
+	<a href="{$baseuri}{$channel.title|urlencode}/edit">Edit</a> | 
+	<a href="{$baseuri}{$channel.title|urlencode}/remove">Remove</a>
+     {/if}
+
 </div>
 <div>
 {/foreach}

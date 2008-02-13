@@ -42,6 +42,7 @@ class ChannelControllerTest extends UnitTestCase
 		$params[0] = 'channel';
                 $params[1] = 'add';
 
+		$_SERVER['REQUEST_METHOD'] = 'POST';
                 $_POST = array(
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only a test",
@@ -63,7 +64,8 @@ class ChannelControllerTest extends UnitTestCase
 
         function testChannelName() {
                 $params = array();
-                $params[0] = 'Unit_test_channel';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
                 $channel = new ChannelController($params);
 
                 $this->assertNoErrors();
@@ -71,8 +73,9 @@ class ChannelControllerTest extends UnitTestCase
 
         function testShow() {
                 $params = array();
-                $params[0] = 'Unit_test_channel';
-                $params[1] = 'show';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
+                $params[2] = 'show';
 
                 $channel = new ChannelController($params);
 
@@ -82,8 +85,9 @@ class ChannelControllerTest extends UnitTestCase
         function testEditEmpty() {
                 unset($_POST);
                 $params = array();
-                $params[0] = 'Unit_test_channel';
-                $params[1] = 'edit';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
+                $params[2] = 'edit';
 
                 $channel = new channelController($params);
 
@@ -92,8 +96,9 @@ class ChannelControllerTest extends UnitTestCase
 
         function testEdit() {
                 $params = array();
-                $params[0] = 'Unit_test_channel';
-                $params[1] = 'edit';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
+                $params[2] = 'edit';
 
                 $_POST = array(
                         "title"         =>      "Unit test channel",
@@ -102,8 +107,7 @@ class ChannelControllerTest extends UnitTestCase
 			"website_url"   =>      "http://test.com",
                         "tags"          =>      "funny lol"
                 );
-
-                $channel = new channelController($params);
+		$channel = new channelController($params);
 
                 $chanarray = $channel->db_controller->read("channels", 'title="Unit test channel"');
                 $testchannel = $chanarray[0];
@@ -112,8 +116,9 @@ class ChannelControllerTest extends UnitTestCase
 
         function testEditTags() {
                 $params = array();
-                $params[0] = 'Unit_test_channel';
-                $params[1] = 'edit';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
+                $params[2] = 'edit';
 
                 $_POST = array(
                         "title"         =>      "Unit test channel",
@@ -141,8 +146,9 @@ class ChannelControllerTest extends UnitTestCase
 
         function testRemove() {
                 $params = array();
-                $params[0] = 'Unit_test_channel';
-                $params[1] = 'remove';
+		$params[0] = 'channel';
+                $params[1] = 'Unit_test_channel';
+                $params[2] = 'remove';
 
                 $channel = new channelController($params);
 
