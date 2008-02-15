@@ -24,15 +24,15 @@ class SetupController extends ViewController
 		  case 'cleanurls':
 		    $this->write_htaccess();
 		    break;
-		  case 'database':
-		    $this->database();
+		  case 'settings':
+		    $this->settings();
 		    break;
 		  default:
 		    $this->index();
 		}
 	}
 
-	//The index function serves as the settings page logic after setup
+	//The only time index is called is when you don't have permission to access it
 	function index() {
 	}
 	
@@ -69,8 +69,8 @@ class SetupController extends ViewController
 			$this->display('setup-firstuser.tpl');
 		}
 	}
-	//Sets up database
-	function database() {
+	//Sets up settings
+	function settings() {
 		global $cf_hostname,  $cf_username, $cf_password, $cf_database, $baseDir;
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -81,16 +81,25 @@ class SetupController extends ViewController
 			$cf_username = $_POST['username'];
 			$cf_password = $_POST['password'];
 
+			//Input validation
+			if ($_POST['site_name'] == '') {
+				$this->alerts[] = "Site name shouldn't be blank";
+				unset($_POST['password']);
+                                foreach ($_POST as $field => $value) {$this->view->assign($field, $value);}  
+				$this->display('setup-settings.tpl');
+				return;
+			}
+			if (!isset($_POST['site_iconurl'])) {$_POST['site_iconurl'] = '';}
+			if (!isset($_POST['site_description'])) {$_POST['site_description'] = '';}
+
 			try {
-				if (!($this->db_controller))
+				if (!($this->db_controller)) 
 					{$this->db_controller = new MySQLController();}
 			} catch (Exception $e) {
 				$this->alerts[] = 'We couldn\'t connect to the database using the information you provided. Please double-check the information and try again.';
-				$this->view->assign('alerts', $this->alerts);
-				$this->view->assign('hostname', $cf_hostname);
-				$this->view->assign('database', $cf_database);
-				$this->view->assign('username', $cf_username);
-				$this->display('setup-database.tpl');
+				unset($_POST['password']);
+                                foreach ($_POST as $field => $value) {$this->view->assign($field, $value);}  
+				$this->display('setup-settings.tpl');
 				return;
 			}
 
@@ -100,8 +109,7 @@ class SetupController extends ViewController
 					$this->display('error-permissions.tpl');
 					return;
 				}
-				$this->alerts[] = "Database settings saved. Thanks!";
-				$this->view->assign('alerts', $this->alerts);
+				$this->alerts[] = "Site settings saved. Thanks!";
 
 				global $users;
 				$users =  $this->db_controller->read("users", "all");
@@ -110,7 +118,6 @@ class SetupController extends ViewController
 					$this->index();
 					
 				} else {
-					echo "your mom";
 					$this->display('setup-firstuser.tpl');
 				}
 			} else {
@@ -118,10 +125,9 @@ class SetupController extends ViewController
 			}
 		} else {
 			//Assign variable names in case someone comes back to change them
-			$this->view->assign('hostname', $cf_hostname);
-        	        $this->view->assign('database', $cf_database);
-                	$this->view->assign('username', $cf_username);
-			$this->display('setup-database.tpl');
+			unset($_POST['password']);
+                        foreach ($_POST as $field => $value) {$this->view->assign($field, $value);}  
+			$this->display('setup-settings.tpl');
 		}
 	}
 
@@ -160,8 +166,10 @@ class SetupController extends ViewController
 	//Creates bm2_conf.php from scratch
 	function write_bm2conf() {
 		//Auto-detect basedir, baseurl
-		$baseDir = getcwd().'/';
-		$baseUri = str_replace(array("index.php", "setup", "setup/", "/database"),'',$_SERVER['REQUEST_URI']);
+		global $baseDir, $baseUri;
+
+		//$baseDir = getcwd().'/';
+		//$baseUri = str_replace(array("index.php", "setup", "setup/", "/settings"),'',$_SERVER['REQUEST_URI']);
 		$contents = 	'<?php
 ## Configuration file for Broadcast Machine 2
 				
@@ -186,6 +194,12 @@ $cf_hostname = "'.$_POST['hostname'].'"; // What\'s the hostname?
 $cf_database = "'.$_POST['database'].'"; // Which database should we use?
 $cf_username = "'.$_POST['username'].'";
 $cf_password = "'.$_POST['password'].'";
+
+# Site Settings
+$site_name = "'.$_POST['site_name'].'";
+$site_description = "'.$_POST['site_description'].'";
+$site_iconurl = "'.$_POST['site_iconurl'].'";
+
 ?>';
 
 		return $this->write_file('bm2_conf.php', $contents);

@@ -12,9 +12,11 @@ require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions.
 require_once('routes.php'); //URL re-routing information
 // In case there aren't any settings yet...
 if(!isset($baseDir)){ $baseDir = getcwd(); }
-$baseUri = str_replace(array("index.php", "setup", "setup/", "/database"),'',$_SERVER['REQUEST_URI']);
+$baseUri = str_replace(array("index.php", "setup/", "setup", "/settings"),'',$_SERVER['REQUEST_URI']);
 
 // Make sure there's  a trailing slash!
+if(substr($baseUri, strlen($baseUri)-1, 1) != "/")
+        {$baseUri = $baseUri . "/";}
 if(substr($baseDir, strlen($baseDir)-1, 1) != "/")
 	{$baseDir = $baseDir . "/";}
 
@@ -29,9 +31,10 @@ if (!file_exists('.htaccess')) {
 	if (!file_exists('bm2_conf.php')) {
 	        $uri = array();
 	        $uri[0] = 'setup';
-        	$uri[1] = 'database';
+        	$uri[1] = 'settings';
 	} else {
 		include('bm2_conf.php');
+
 		// Grab the URI since we're all set up
 		$uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
 		//Substitute user-defined routes

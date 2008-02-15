@@ -40,7 +40,7 @@ abstract class ViewController {
 		} catch (Exception $e) {
 			//This catch needs to ignore the first two steps of setup
 			if (isset($params[0]) && isset($params[1])) {
-				if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'database') {
+				if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'settings') {
 					$this->display('error-database.tpl');
 					return;
 				}
@@ -69,14 +69,20 @@ abstract class ViewController {
 	//Displays a template unless a unit test flag is set
 	function display($template) 
 	{
-      	  	global $bm_debug, $baseDir, $baseUri;
+      	  	global $bm_debug, $baseDir, $baseUri, $site_name, $site_description, $site_iconurl;
 	
 	  	// If the unit test flag is on, don't display templates.
 	 	if($bm_debug == 'unittest') { return; }
 	  
 		if(isset($_SESSION['username'])) {
 	      		$this->view->assign('currentUser', $_SESSION['username']);
-			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
+			//If for some god-forsaken reason you have a session but are in setup, don't call isAdmin
+			if (isset($params[0]) && isset($params[1])) {
+                                if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'settings') {
+		 			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
+                                        return;
+                                }
+                        } 
 		} else {
 			$this->view->assign('isAdmin', false);
 		}
@@ -84,6 +90,9 @@ abstract class ViewController {
 		//Assign smarty variables
 		$this->view->assign('baseDir', $baseDir);
 		$this->view->assign('baseUri', $baseUri);
+		$this->view->assign('site_name', $site_name);
+		$this->view->assign('site_description', $site_description);
+		$this->view->assign('site_iconurl', $site_iconurl);
 		$this->view->assign('alerts', $this->alerts);
 		$this->view->display($template);
 	}
@@ -119,6 +128,7 @@ abstract class ViewController {
 		// If you're unit testing, you're always an admin.
        		if($bm_debug == "unittest") { return true; }
 	
+
 		// If the session has a username, see if they're an admin.
 		if(isset($_SESSION['username']))
 		  {

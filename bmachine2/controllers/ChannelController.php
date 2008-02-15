@@ -73,7 +73,6 @@ class ChannelController extends ViewController
 			// Input validation. Make sure there's a channel name.
 		      	if($_POST['title'] == '') {
 				$this->alerts[] = 'You forgot to name your channel!';
-			  	$this->view->assign('alerts', $this->alerts);
 
 				//Should assign the rest of the post variables to smarty
 				foreach ($_POST as $field => $value) {
@@ -108,7 +107,6 @@ class ChannelController extends ViewController
 	      
 		      	// Success!
 		      	$this->alerts[] = "You've got a new channel!";
-		      	$this->view->assign('alerts', $this->alerts);
 		      	$this->display('channel-add.tpl');
 		      	$this->show($_POST['title']);
 		} else {
@@ -139,8 +137,7 @@ class ChannelController extends ViewController
                 $this->db_controller->delete("channels", $condition);
 
                 //Add an alert and redirect to index
-		$alerts[] = 'Channel was successfully removed';
-                $this->view->assign('alerts', $alerts);
+		$this->alerts[] = 'Channel was successfully removed';
                 $this->index();
         }
         
@@ -183,21 +180,19 @@ class ChannelController extends ViewController
 				}
 			}
 
-                        $this->view->assign('alerts', 'Channel was successfully edited');
+			$this->alerts[] = "Channel has been successfully edited";
                         $this->show($params[0]);
                 } else {
                         $condition = 'title="'.$title.'"';
                         $chanarray = $this->db_controller->read("channels", $condition);
 
                         if (count($chanarray) > 0) {
-                                $channel = $chanarray[0];
-
                                 //Get tags and video info
-                                $channel = $this->getTagsAndVideos($channel);
-                                $this->view->assign('channel', $channel);
+                                $chanarray = $this->getTagsAndVideos($chanarray);
+                                $this->view->assign('channel', $chanarray[0]);
                                 $this->display('channel-edit.tpl');
                         } else {
-                                $this->view->assign('alerts', "Channel $title not found");
+				$this->alerts[] = "Channel $title not found";
                                 $this->index();
                         }
                 }
@@ -209,7 +204,7 @@ class ChannelController extends ViewController
 		$condition = 'title="'.$title.'"';
                 $chanarray = $this->db_controller->read("channels", $condition);
 		if (count($chanarray) == 0) {
-                        $this->view->assign('alerts', "Channel $title not found");
+			$this->alerts[] = "Channel $title not found";
                         $this->index();
                 } else {
 		  //$channel = $chanarray;
@@ -240,7 +235,6 @@ class ChannelController extends ViewController
 				$video = $this->db_controller->read("videos", $condition);
 				array_push($videos, $video[0]);
 			}
-
 			//Assign tag array and video array
                         $channel['tags'] = $tags;
 			$channel['videos'] = $videos;

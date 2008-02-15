@@ -7,7 +7,7 @@
 <div id="wrap">
 <div id="inner_wrap">
 <h1>All finished</h1>
-<p>Welcome to Broadcast Machine! From here, you can either configure some basic <a href="{$baseUri}settings">site settings</a>, or mosey on over to 
-the <a href="{$baseUri}setup/database">front page</a>.</p>
+<p>Welcome to Broadcast Machine! From here, you can either add your first <a href="{$baseUri}channel/add">channel</a>, or mosey on over to 
+the <a href="{$baseUri}">front page</a>.</p>
 
 {include file='footer.tpl'}
