@@ -26,7 +26,7 @@
 </fieldset>
 
 <fieldset>
-<div class="the_legend">Icon URL </div><br /><input type="text" name="site_url" size="38" value="{$site_iconurl}" />
+<div class="the_legend">Icon URL </div><br /><input type="text" name="site_iconurl" size="38" value="{$site_iconurl}" />
 </fieldset>
 
 <!--<fieldset>

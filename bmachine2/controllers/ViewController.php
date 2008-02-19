@@ -70,7 +70,9 @@ abstract class ViewController {
 	function display($template) 
 	{
       	  	global $bm_debug, $baseDir, $baseUri, $site_name, $site_description, $site_iconurl;
-	
+		echo $site_name."<br/>";
+		echo $site_description."<br/>";
+		echo $site_iconurl."<br/>";
 	  	// If the unit test flag is on, don't display templates.
 	 	if($bm_debug == 'unittest') { return; }
 	  

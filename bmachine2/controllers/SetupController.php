@@ -80,6 +80,12 @@ class SetupController extends ViewController
 			$cf_database = $_POST['database'];
 			$cf_username = $_POST['username'];
 			$cf_password = $_POST['password'];
+			$site_name   = $_POST['site_name'];
+			$site_description   = $_POST['site_iconurl'];
+			$site_iconurl   = $_POST['site_iconurl'];
+			echo $site_name."<br/>";
+	                echo $site_description."<br/>";
+        	        echo $site_iconurl."<br/>";
 
 			//Input validation
 			if ($_POST['site_name'] == '') {
@@ -115,8 +121,7 @@ class SetupController extends ViewController
 				$users =  $this->db_controller->read("users", "all");
 
 				if (count($users) > 0) {
-					$this->index();
-					
+					$this->index();	
 				} else {
 					$this->display('setup-firstuser.tpl');
 				}
