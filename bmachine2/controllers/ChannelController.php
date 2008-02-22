@@ -158,7 +158,6 @@ class ChannelController extends ViewController
                         unset($channel['tags']);
 
                         //Update channel
-			print_r($channel);
                         $update = $this->db_controller->update("channels", $channel, $condition);
 
 			//Update tags
