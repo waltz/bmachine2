@@ -8,21 +8,22 @@
 	<div id="library_header_wrap">
 		<div id="library_title">All Tags</div>
 	</div>
-<div class="video_section" style="text-align:left;">
+<div class="video_section">
+	<div class="align-left">
 	<h3>Video Tags</h3>
 	<p>
 		{foreach from=$videoTags item=tag}
-			<a href="{$baseUri}tag/show/{$tag.name}">{$tag.name}</a>
+			<a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 	</p>
 
-	<h3>Channel tags</h3>
+	<h3>Channel Tags</h3>
 	<p>
 		{foreach from=$channelTags item=tag}
-			<a href="{$baseUri}tag/show/{$tag.name}">{$tag.name}</a>
+			<a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 	</p>
-
+	</div>
 </div>
 
 </div>

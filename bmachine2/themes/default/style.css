@@ -1,3 +1,7 @@
+
+.align-left {
+	text-align: left;
+}
 #alerts {
 	width:50%;
 	margin-left: 200px;
