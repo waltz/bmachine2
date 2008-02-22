@@ -69,10 +69,7 @@ abstract class ViewController {
 	//Displays a template unless a unit test flag is set
 	function display($template) 
 	{
-      	  	global $bm_debug, $baseDir, $baseUri, $site_name, $site_description, $site_iconurl;
-		echo $site_name."<br/>";
-		echo $site_description."<br/>";
-		echo $site_iconurl."<br/>";
+      	  	global $bm_debug, $siteDomain, $baseDir, $baseUri, $site_name, $site_description, $site_iconurl;
 	  	// If the unit test flag is on, don't display templates.
 	 	if($bm_debug == 'unittest') { return; }
 	  
@@ -92,6 +89,7 @@ abstract class ViewController {
 		//Assign smarty variables
 		$this->view->assign('baseDir', $baseDir);
 		$this->view->assign('baseUri', $baseUri);
+		$this->view->assign('siteDomain', $siteDomain);
 		$this->view->assign('site_name', $site_name);
 		$this->view->assign('site_description', $site_description);
 		$this->view->assign('site_iconurl', $site_iconurl);

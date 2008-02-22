@@ -47,6 +47,9 @@ class ChannelController extends ViewController
 		case 'remove':
 		  ($this->isAdmin()) ? $this->remove($params[1]) : $this->forbidden();
 		  break;
+		case 'rss':
+		  $this->rss($params[1]);
+                  break;
 	        default:
 		  $this->show($this->parse($params[1]));
 		}
@@ -215,6 +218,24 @@ class ChannelController extends ViewController
                         $this->display('channel-show.tpl');
                 }
         }
+
+        function rss($title) {
+                $condition = 'title="'.$title.'"';
+                $chanarray = $this->db_controller->read("channels", $condition);
+                if (count($chanarray) == 0) {
+                        $this->alerts[] = "Channel $title not found";
+                        $this->index();
+                } else {
+                  //$channel = $chanarray;
+                        //print_r($channel);
+                        //Get tags and channels info
+                        $chanarray = $this->getTagsandVideos($chanarray);
+                        $this->view->assign('channel', $chanarray[0]);
+                        $this->display('channel-rss.tpl');
+                }
+        }
+
+
 
         // PRIVATE FUNCTIONS
  
