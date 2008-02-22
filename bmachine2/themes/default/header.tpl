@@ -28,7 +28,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	   * Videos
 	   * Tags
 	-->
-
+	<div id="navigation-links">
+		<a href="{$baseUri}">home</a> | 
+		<a href="{$baseUri}channel/all">channels</a> |
+		<a href="{$baseUri}video/all">videos</a> |
+		<a href="{$baseUri}tags/all">tags</a>
+	</div>
 	<!-- User menu -->
 	<div id="logged_in">
 	{if $currentUser eq ""}

@@ -57,6 +57,23 @@ class TagController extends ViewController
                 $this->display('tag-show.tpl');
         }
 
+        function rss($name) {
+                $condition = 'name="'.$name.'"';
+
+                //Get arrays of channel and video ids with that tag
+                $channelTags = $this->db_controller->read("channel_tags", $condition);
+                $videoTags = $this->db_controller->read("video_tags", $condition);
+
+                //Get videos and channels that are associated with each tag
+                $channelTags = $this->getChannels($channelTags);
+                $videoTags = $this->getVideos($videoTags);
+                $this->view->assign('tagName', $name);
+                $this->view->assign('channelTags', $channelTags['channels']);
+                $this->view->assign('videoTags', $videoTags['videos']);
+                $this->display('tag-rss.tpl');
+        }
+
+
         // PRIVATE FUNCTIONS
         private function getChannels($tags) {
 		$channels = array();

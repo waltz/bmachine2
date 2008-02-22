@@ -7,7 +7,11 @@
 <div id="inner_wrap">
 
 	<div id="library_header_wrap">
-	<div id="library_title">Items tagged with '<a href="{$baseUri}tag/{$tagName}">{$tagName}</a>'</div>
+	<div id="library_title">Items tagged with '<a href="{$baseUri}tag/{$tagName}">{$tagName}</a>'
+<div id="rss_feed"><a href="{$baseUri}tag/{$tagName}/rss"><img 
+src="{$baseUri}themes/default/images/rss_button.gif"
+alt="rss feed" border="0" /></a></div>
+</div>
 
 </div>
 

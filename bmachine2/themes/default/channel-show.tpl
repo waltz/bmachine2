@@ -9,7 +9,8 @@
 	<div id="library_header_wrap">
 	<div id="library_title"><img src="{$channel.icon_url}" width="100px" /><a 
 href="{$settings.baseurl}">{$settings.name}</a> : {$channel.title}</a> : Show all videos </div>
-<div id="rss_feed"><a href="{$settings.baseurl}videos/rss"><img src="themes/default/images/rss_button.gif" alt="rss feed" border="0" /></a></div><br />
+<div id="rss_feed"><a href="{$baseUri}channel/{$channel.title|urlencode}/rss"><img src="{$baseUri}themes/default/images/rss_button.gif" 
+alt="rss feed" border="0" /></a></div><br />
 
 <span class="smalltext" style="float:right"><b>Last modified {$channel.modified}
 {if $channel.website_url neq ''}<br />Website <a href="{$channel.website}">{$channel.website_url}</a>{/if}</b></span>

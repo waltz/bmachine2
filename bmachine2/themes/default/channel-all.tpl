@@ -21,6 +21,7 @@
 
 
 <div class="video_section">
+<div class="align-left">
      <div id="tagsbox">
           <b>Channel Tags:</b>
      	  {foreach from=$channel.tags item=tag}
@@ -30,7 +31,7 @@
 
      {foreach from=$channel.videos item=video}
      <div class="small_video">
-     	  <img src="{$video.icon_url}" alt="{$video.title}" />
+     	  <img src="{$video.icon_url}" alt="{$video.title}" width="200px" />
 	  <a href="{$baseUri}video/{$video.title|urlencode}">{$video.title}</a>
 	  <br/>     
      </div>
@@ -39,7 +40,7 @@
 	<a href="{$baseuri}channel/{$channel.title|urlencode}/edit">Edit</a> | 
 	<a href="{$baseuri}channel/{$channel.title|urlencode}/remove">Remove</a>
      {/if}
-
+</div>
 </div>
 <div>
 {/foreach}

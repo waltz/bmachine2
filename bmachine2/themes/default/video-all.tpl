@@ -1,16 +1,12 @@
 {* Smarty *}
-<<<<<<< .mine
-
-=======
 {* Shows all videos *}
->>>>>>> .r6227
 {include file='header.tpl'}
 
 {foreach from=$videos item=video}
 <div class="video">
      <div class="icon">
      	  <a href="{$baseUri}video/{$video.title_url}">
-	  <img src="{$video.icon_url}" alt="{$video.title}"/>
+	  <img src="{$video.icon_url}" alt="{$video.title}" width="200px"/>
 	  </a>
      </div>
 
@@ -32,7 +28,7 @@
           <br/>
      	  Tags(s):
      	  {foreach from=$video.tags item=tag}
-	     <a href="{$baseUri}tag/{$tag}">{$tag}</a>
+	     <a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
      	  {/foreach}
      	  <br/>
      </div>
