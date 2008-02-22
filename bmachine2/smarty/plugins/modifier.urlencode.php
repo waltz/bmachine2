@@ -11,7 +11,7 @@
 function smarty_modifier_urlencode($string)
 {
   $string = str_replace(' ', '_', $string);
-  return strtolower($string);
+  return $string;
 }
 
 ?>
