@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>{$tagName}</title>
-    <link>{$siteDomain}{$baseuri}channel/{$channel.title|urlencode}</link>
+    <link>{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}</link>
     <description>{$channel.description}</description>
     <generator>Broadcast Machine</generator>
 

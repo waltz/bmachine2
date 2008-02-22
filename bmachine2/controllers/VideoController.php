@@ -328,6 +328,8 @@ class VideoController extends ViewController
                         foreach ($published as $x) {
                                 $condition = 'id="'.$x['channel_id'].'"';
                                 $channel = $this->db_controller->read("channels", $condition);
+				//print_r($channel);
+				$channel = $channel[0]; //done by dw. not entirely sure why this works, but it does
                                 array_push($channels, $channel['title']);
                         }
 			$video['channels'] = $channels;			
