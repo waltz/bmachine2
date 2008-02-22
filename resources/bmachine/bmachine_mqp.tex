@@ -1,155 +1,44 @@
 \documentclass[a4paper,12pt]{report}
-\author{Christian Bryan, Greg Opperman, Drew Wilson}
+\author{Christian Bryan, Greg Opperman}
 \date{\today}
 \title{Broadcast Machine}
 
 \usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{hyperref}
-
-%% Things that need to be in this paper by the end of B term
-%%
-%%  * The background section of the paper should be finished. This includes:
-%%    * The importance of open media and the importance of an open internet
-%%      for open media (Greg)
-%%    * Reviews of similar software including Ruby, Rails, Wordpress,
-%%      Drupal/CivicSpace. (Simon for Wordpress - drew)
-%%    * Explanations of the technologies we plan to use including HTTP,
-%%      PHP, BitTorrent, Apache, SQL, and RSS (CJ?)
-%%  * A very detailed explanation of the existing data structures. This is
-%%    vital for understanding the program. I've done most of the difficult
-%%    work. (Greg)
-%%  * A loose set of requirements. Having the existing data structures will
-%%    give you most of this. (Greg)
-%%  * A plan for architecting the software. We expect this will change a
-%%    little.
-%%  * Enough of a start on the code to give us a proof-of-concept for the
-%%    architecture
-%%  * Unit tests for that code that integrate into the Democracy PyUnit test
-%%    framework
-
-%% Things that are completed:
-%%  * Brief history of the software and PCF (Greg)
-%%  * Why we're building this on PHP/SQL (See Requirements)
-%%  * An overview of the existing software, how it's architected, and
-%%    what's wrong with it. Include comments about MVC and the existing
-%%    documentation. (CJ)
-
-%% Things that need work:
-%%  * A database schema that matches those requirements with a detailed
-%%    prose explanation. We expect this will change a little. (Not prosy
-%%    enough - Greg)
-
 \begin{document}
 
 \maketitle
 
+\chapter*{Abstract}
+% One paragraph describing the project.
+
+\chapter*{Authorship}
+% Who wrote what.
+
 \tableofcontents
 
+\chapter{Introduction}
+% A summary of the topics covered in this report.
+% Describe the goal of the project.
+
 \chapter{Background}
-% I had this from a section below, but it didn't fit. Thought it might fit here...
-%Providers of Internet video have recently seen an explosion in users\foonote{"We're seeing an explosion in the popularity of television content with Internet audiences, and Time Life's video library is growing every day," said Adam Berrey, vice president of marketing and strategy, Brightcove. "Using Brightcove enables Time Life to bring video content directly to its fans with experiences that communicate its brand and integrate directly into online fan sites and social networks." According to  http://www.prnewswire.com/cgi-bin/stories.pl?ACCT=104&STORY=/www/story/12-12-2006/0004489645&EDATE=} }.
+% FOR: Greg
 
-\section{About the Participatory Culture Foundation}
-The Participatory Culture Foundation is a 501c(3) non-profit organization dedicated to the creation of a democratic mass medium through internet technology.
-Based in Massachussetts, it was founded by Worcester natives Nick Reville, Tiffiniy Cheng, Holmes Wilson, and WPI alunmus Nick Nassar.
+\section{Introduction}
+% Summary of the background.
 
+\section{The Current State of Internet Video}
+%Introduction
 
-PCF seeks to achieve its goal of democratizing the media through their open-source Internet TV platform, consisting of several pieces.
-Democracy Player allows users to download and watch videos from all over the world via RSS channels.
-Still in beta, Democracy Player has been rapidly expanding its user base as it draws closer to a 1.0 release.
-In the month of November 2006 alone, the application was downloaded over 15,000 times\footnote{Citation/Number update needed}.
-
-
-Integrated seamlessly with Democracy, the Channel Guide serves as an open directory for internet television channels, ranging from local citizen journalism to major network programming.
-Any video publisher may submit their show to the Channel Guide, which users can then peruse by category from within Democracy.
-
-
-Videobomb is a website for aggregating the best videos online, allowing users to create custom channels of videos from all over the web.
-Users post content that they think is noteworthy.
-Other users may \"Star\" the video, which bookmarks it as a favorite.
-The newest and most popular videos are aggregated onto the site's front page, or downloaded via feeds that integrate with Democracy Player. 
-
-\section{What is Democracy Player?}
-% include democracy player icon here
-% get some screenshots
-Democracy player is the principal component in the collection of tools that make PCF's Internet television platform possible.
-Democracy Player is a cross-platform media player that has built in support for reading Internet TV channels.
-Democracy Player can read any RSS feed with embedded video and organize the videos in a clear, logical way.
-When looking though Internet TV channels, the videos are listed by date.
-Each video has a thumbnail, a short description, various meta-data, a link to rate the content, and a link to share the content with friends.
-The software enables users to easily subscribe to free Internet TV channels.
-In other words, Democracy will automatically download any new content from an RSS feed that contains embedded video content.
-The videos are stored for certain period of time (5 days by default) before being deleted.
-Democracy Player is different than web services like You Tube in that it does not provide hosting for videos, instead only acting as an aggregator for video content that is hosted elsewhere on the web.
-
-
-\section {What is the Channel Guide?}
-% let's get some screen shots for here too
-Democracy makes viewing Internet TV channels easy, but without a central directory of free channels it might be hard to find interesting channels.
-Channel Guide makes finding free Internet TV channels easy.
-It is a website that is embedded in Democracy that centralizes information about popular free Internet TV channels.
-It allows users to easily browse, subscribe to, comment on, and rate free channels.
-It's built into Democracy, so it's easy to find.
-Channel Guide had hundreds of channels about everything from citizens news channels, such as Democracy Now!\footnote{http://DemocracyNow.org} and Rocketboom\footnote{http://Rocketboom.com}, to independent music video channels like TeleMusicVision\footnote{http://telemusicvision.com}.
-Although it is not currently possible to remove the Channel Guide, it is possible for users to create their own channel guides and distribute their own branded versions of Democracy Player which includes their custom channel guide. 
-
-
-\section{What is Broadcast Machine?}
-The final piece of the platform is Broadcast Machine, a tool that allows video producers to publish their content online.
-Broadcast Machine began as Blog Torrent, a small application that simplified the creation and sharing of torrent files, as well as acting as a light-weight BitTorrent download client.
-Broadcast Machine built on that foundation, expanding the application to a full-featured toolkit for internet video publishers (commonly referred to as vloggers).
-Not only does it handle video distribution via BitTorrent, it also supports direct downloads, syndication, categorization (tagging), extensive information about the videos themselves, and more.
-Broadcase Machine uses open standard to ensure compatibility with many feed readers, like Democracy Player, RSSowl, LifeRea and iTunes.
-The software organizes video content in a way that makes it easy for the layperson to download video, subscribe to channels, and share content with friends.
-
-\section {Why do we need Broadcast Machine?}
-Broadcast Machine is an amagalmation of features from a number of different pieces of software.
-It is a type of content management systems (CMS), much like Drupal\footnote{http://Drupal.org} and Civic Space\footnote{http://CivicSpaceLabs.org}.
-Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Wordpress \footnote{http://WordPress.org} and Movable Type \footnote{ http://MovableType.com}.
-In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Wordpress.
-Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels.
-Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server.
-Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content.
-With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine.
-However, since none of these pieces of software were designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
-It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
-Below we will discuss the pros and cons of these pieces of software and explain more why it is neccesary for us to design a new architecture for Broadcast Machine. 
-
-
-\section {The Importance of Open-Source}
-Open source software is an important part of the movement to democratize the media and Internet. 
-This common goal is what ties together PCF's mission with that of the Free Software Movement. 
-The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free http://www.gnu.org/philosophy/shouldbefree.html}
-Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
-The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
-
-
-Without Free software, the Internet could not exist as a democratic medium.
-Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot \"own\"\ software, even if they purchase it.
-Instead, users pay for the privilege of using it.
-Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
-On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{ibid} 
-
-
-Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
-This culture encourages technological progress in ways that competitive, closed-source software does not. 
-
-
-\section {Similar Technologies}
-\subsection {Drupal \& CivicSpace}
-% sources: 
-% http://drupal.org/about
-% http://drupal.org/requirements
-% http://DrupalSites.com
+\subsection{Drupal}
 Drupal is a content managment system, often referred to as a CMS. 
 A CMS is a computer software system that assists users in managing internet content.
 It helps users organize, control, and publish content.
 Drupal allows users to easily set up, create, and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to  http://drupal.org/about}.
 It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to http://drupal.org/requirements}.
 Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to http://DrupalSites.com}, including The Onion\footnote{ http://TheOnion.com}, OurMedia\footnote{http://www.ourmedia.org/}, and MTV's UK site\footnote{http://mtv.co.uk/}.
-The IndyMedia network is also considering using Drupal as the base for their new website\footnote{As of Dec 15, 2006, according to https://docs.indymedia.org/view/Global/IndymediaAlternatives}.
+The IndyMedia network is also considering using Drupal as the base for their new website \footnote{As of Dec 15, 2006, according to \url{https://docs.indymedia.org/view/Global/IndymediaAlternatives}}.
 
 
 CivicSpace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{ http://en.wikipedia.org/wiki/DeanSpace}.
@@ -158,87 +47,8 @@ CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\f
 As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software.
 
 
-\subsubsection {Templating and Theming in Drupal}
-Drupal has a very flexible templating system. 
-It has a built-in theme system and supports a number of common engines. 
-A theme can be formed in several ways. 
-As of version 5.0, Drupal interfaces with Smarty, XTemplate, and PHPTemplate. 
 
-
-Themes are stored in individual directories under the Drupal theme directory. 
-Each theme directory bares the name of the theme and at least contains the following files:
-\begin{description}
-\item[logo.png] an image that will be displayed next to the url of in a viewer's browser
-\item[screenshot.png] an image that will be displayed in the administration inferface. 
-It is meant to give users deciding on a new theme a preview of how the theme will look before they switch. 
-\item[style.css] a CSS file containing all of the styling information about the theme. 
-\end{description}
-
-
-Depending on what method the theme developer uses to create the theme, there will need to be a number of other files included in the theme's directory. 
-There are a few ways to properly form a new theme for Drupal. 
-One of the most common ways is for the theme developer to create a PHP file with a .theme extension that includes functions that override the default theme functions, as well as HTML or XHTML. 
-The functions defined in this file are used in conjunction with the style.css file to create the layout of the page. 
-Chameleon is an example of a theme that was designed using a .theme file to override the default theming functions.
-The Chameleon theme directory contains the following files: 
-\begin{description}
-\item[Chameleon.theme] the PHP file that contains the theme\_functions 
-\item[style.css] the primary style sheet
-\item[common.css] another style sheet that has more styling info
-\item[screnshot.png, logo.png] images used by the administration interface
-\item[background.png] simple background image
-\end{description}
-
-Below is an example of how a theme function can override the default theming functions. 
-This is the Chameleon function that overrides the default Drupal node function.
-
-function chameleon\_node(\$node, \$teaser = 0, \$page = 0) \{
-
-  \$output  = \"<div class=\"node\". ((!\$node->status) ? ' node-unpublished' : '') .\"\">\textbackslash n\";
-
-  if (!\$page) \{
-    \$output .= \"\ <h2 class=\"title\">\". (\$teaser ? l(\$node->title, \"node/\$node->nid\") : check\_plain(\$node->title)) .\"</h2>\textbackslash n";
-  \}
-
-  \$output .= \"\ <div class=\"content\">\textbackslash n";
-
-  if (\$teaser \&\& \$node->teaser) \{
-    \$output .= \$node->teaser;
-  \}
-  else \{
-    \$output .= \$node->body;
-  \}
-
-  \$output .= \" </div>\textbackslash n\";
-
-  \$submitted['node\_submitted'] = theme\_get\_setting(\"toggle\_node\_info\_\$node->type\") ? array('\#title' => t(\"By !author at @date\", array('!author' => theme('username', \$node), '@date' => format\_date(\$node->created, 'small')))) : array();
-
-  \$terms = array();
-  if (module\_exists('taxonomy')) \{
-    \$terms = taxonomy\_link(\"taxonomy terms\", \$node);
-  \}
-
-  \$links = array\_merge(\$submitted, \$terms);
-  if (\$node->links) \{
-    \$links = array\_merge(\$links, \$node->links);
-  \}
-  if (count(\$links)) \{
-    \$output .= '<div class=\"links\">'. theme('links', \$links, array('class' => 'links inline')) .\"</div>\textbackslash{} n\";
-  \}
-
-  \$output .= \"</div>\textbackslash{} n\";
-
-  return \$output;
-\} 
-
-
-As you can see, presentation elements and application code are closely intertwined. 
-All presentation elements are appended to \$output, which is eventually returned to the base code to be output.
-
-
-Another way that a new theme can be created by using one of the supported theme engines. 
-A developer determines which templating engine he or she is going to use and creates a file with a .xtmpl, .tpl, or a .tpl.php extension. 
-Supported templating engines include: XTemplate, PHPTemplate, and Smarty. 
+ing engines include: XTemplate, PHPTemplate, and Smarty. 
 Pushbutton and Bluebeach are two examples of themes that are distributed with Drupal that were created using one the included theme engines. 
 
 
@@ -253,9 +63,9 @@ Code in the templates is a major drawback of the PHPTemplating engine.
 It makes template design less accessible to ordinary users, who might know some XHTML and CSS. 
 
 
-The Internet Center Theme, the theme for http://www.openwebdesign.org}, is an example of a theme that was built using PHPTemplate. Below is a snippet of code that demonstrates how PHPTemplate looks. 
+The Internet Center Theme, the theme for \url{http://www.openwebdesign.org}, is an example of a theme that was built using PHPTemplate. Below is a snippet of code that demonstrates how PHPTemplate looks. 
 
-<div class="logo">
+<div class=\"logo\">
 
         <?PHP if (\$site\_name) : ?>
 
@@ -268,7 +78,7 @@ The Internet Center Theme, the theme for http://www.openwebdesign.org}, is an ex
 
 Notice how difficult it is to see just the design elements. 
 Imagine if you were just trying to change the look of the page. 
-You would need to first determing which parts of the code are exclusively presentation elements and which were logical elements. 
+You would need to first determine which parts of the code are exclusively presentation elements and which were logical elements. 
 To someone who has never seen PHP script and is unfamiliar with programming, the code above would be very confusing. 
 They might accidentally delete an integral part of the code or accidently forget a question mark at the end of a PHP block. 
 They might be forced to learn some basic PHP programming just to change the layout or style of a page, which somewhat defeats the purpose of having a templating system.
@@ -283,7 +93,7 @@ The structure layer consists of an XHTML code that establishes the general layou
 The style layer is made up of the CSS code that adds the finishing touches to the design. 
 In concept it is very much like Smarty, the major differences between the two are in syntax and flexibility.
 Smarty is more flexible and powerful than XTemplate, but we'll get into that more later. 
-Bluebeach, the theme used by http://drupal.org} was originally written as a XTemplate theme, but was recently ported to be a Smarty-based theme. 
+Bluebeach, the theme used by \url{http://drupal.org} was originally written as a XTemplate theme, but was recently ported to be a Smarty-based theme. 
 As of version 5.0, Drupal no longer includes XTemplate as a default templating engine but it does remain as a module mantained by user contribution. 
 For this reason, many themes that were originally written in XTemplate are now being converted to Smarty. 
 
@@ -293,57 +103,7 @@ Surprisingly a large number of new themes are created this way.
 Marvin and Box Cleanslate are two popular themes that were both created by editing the existing style sheets of previous themes. 
 Marvin is based on Chameleon and Cleanslate is based upon Box\_grey.  
 
-
-\subsection {Drupal's Architecture}
-Modularity is a key element in the design of Drupal.
-They operate under the belief that a modular design provides flexibility, adaptability, and extensibility, which allows users with some knowledge of programming to customize their experience.
-
-
-Much of the functionality of Drupal comes from contributed modules. 
-A Drupal module is nothing more than a plain text file which contains PHP code. 
-Module code is executed during the normal runtime of the site, not beforehand not afterwards. 
-This allows the modules access to all of the functions, runtime variables, and data structures of Drupal base code. 
-In fact, a Drupal module isn't any different than a regular PHP file, the only difference the way in which it is concieved by the programmer and the how it is abstracted to a single file. 
-The developers of Drupal believe this model lends itself to good programming principals. 
-They believe that "modularity better suits the open-source development model, because otherwise you can't easily have people working in parallel without risk of interference"\footnote{http://drupal.org/node/292}. % Jan/30/07: that's a proof by contradiction. :) -drew (feel free to kill this comment after you read it)
-
-
-The main idea of the Drupal module system is to allow module developers to inject code at certain places in the base code. 
-This injected code can then enhance or modify the functionality of the software. 
-The certain places where code can be injected by the module system are refferred to as "hooks" and are defined in the API. 
-When the engine comes across a place in the base code where hooks are available, the engine iterates through all of the modules in the modules directory looking for a module that uses that hook. 
-For example, we have a module named "billyclub", which is naturally located in "/modules/billyclub.module". If there exists a hook called "fancypants" and the module "billyclub" exports to that hook, the engine will call the function named "billyclub\_fancypants()" in "/modules/billyclub.module".
-Any modules that export to a certain hook must have a function named "MODULENAME\_HOOKNAME()" located in the module file. 
-
-
-\subsection{Smarty Templating}
-Smarty is often called a templating engine, but may be better described as a template framework. 
-Smarty integrates with CSS, XHTML, and PHP to create a framework for abstracting presentation elements (XHTML and CSS) from the logic layer. 
-It's a flexible tag based system which allows template designers all the functionality that they might need, without requiring them to understand any PHP syntax.
-It also allows programmers to increase the functionality of the templating language based on the needs of their specific application. 
-
- 
-Smarty works by adding another parsing layer before the PHP parser. 
-This pre-parser converts smarty tags to plain text, variables, or PHP code, then passes the parsed text on to the PHP interpreter. 
-The smarty engine is installed by copying the library files to your webserver and adding an include statement to the header of your PHP application. 
-The Smarty engine is distribute as a tarball from http://smarty.php.net}. 
-Decompressed, file structure should look like this:
-
-\begin{description}
-\item[../Smarty/]
-\item[/Smarty/Config\_File.class.php]
-\item[/Smarty/debug.tpl]
-\item[/Smarty/internals/]
-\item[/Smarty/plugins/]
-\item[/Smarty/Smarty.class.php]
-\item[/Smarty/Smarty\_Compiler.class.php]
-\end{description}
-
-Using Smarty is easy and in many ways is very similar other PHP templating engines. 
-In the PHP application, the application developer starts be assigning variables for use in the template. 
-
-
-\subsection {Wordpress and Movable Type}
+\subsection {Wordpress}
 include('Smarty.class.php');
 
 // create object
@@ -400,7 +160,6 @@ Below is an example of how presentation logic can be included in the template la
 
 
 \subsection {Wordpress}
-%Jan 29 - better
 Wordpress and Movable Type are pieces of blogging software. 
 They are CMS's that are designed specifically for a single user or a small group of users who will regularly post text and image content. 
 Wordpress is PHP 4.2 and uses MySQL 3.23 as its database backend. 
@@ -408,25 +167,6 @@ It was created with the vision of creating a powerful GPL-licsenced internet pub
 The first version was released in 2001. 
 Wordpress is blogging software designed to be installed on an individual's webhost, either their own computer connected to a broadband connection or a commercial webhost like Dreamhost or 1and1. There exist services such as the one at http://Wordpress.com} that provide webhosting and just provide users with the a fresh install of Wordpress, but for the most part Wordpress users install the software themselves. 
 
-
-\subsubsection{Templating System}
-Theming is a little more standard in Wordpress than in Drupal. 
-Wordpress uses a single custom engine that's similar to the PHPTemplate in Drupal. 
-Although there seems to be some effort given to abstracting presentation element, it doesn't appear to be much. Style element has been moved into a seperate CSS file, style.css, but in some popular themes CSS positioning is located in the same file as all of the style data.
-Furthermore, a lot of PHP code is embedded in the templates. 
-There tends to be a lot of logic, even non-presentation logic, contained in the theme. Needless to say, it can get rather confusing for the novice programmer or template designer. 
-Nearly all themes are made up of the following 9 files. At a minimum, a theme must include index.php and style.css. 
-
-\begin{description}
-\item[style.css] contains all of the the theme's styling information.
-\item[header.php] header for each page
-\item[sidebar.php] sidebar layout and data
-\item[searchform.php] template for the page that returns search results
-\item[index.php] template for the main page. Calls the header and sidebar
-\item[category-2.php] template for the second category
-\item[comments.php] template for the comments section, which is included whenever comments are displayed
-\item[single.php] template for the view post view
-\end{description}
 
 The code in the these templates is comprised of XHTML and PHP code. 
 One of the major problems is that the XHTML is not consistently in the same place. 
@@ -444,113 +184,72 @@ A drawback is that each page requires time to built and delivered.
 If your blog gets a lot of traffic in a short period of time, performance may drop dramatically. 
 A number of plugin have been developed to deal with this problem, but no solutions to this problem have been incorporated into the base code of the application. 
 
+%MOVE ME
+\subsection{Smarty Templating}
+Smarty is often called a templating engine, but may be better described as a template framework. 
+Smarty integrates with CSS, XHTML, and PHP to create a framework for abstracting presentation elements (XHTML and CSS) from the logic layer. 
+It's a flexible tag based system which allows template designers all the functionality that they might need, without requiring them to understand any PHP syntax.
+It also allows programmers to increase the functionality of the templating language based on the needs of their specific application. 
 
-\subsubsection{Architecture}
-The way in which the templating system works is very closely related to how the program is architected. 
-Every time someone goes to the index page of a Wordpress site (e.g. http://blogurl.com/wordpress/index.php) the engine starts by reading a configuration file and checking settings from the database. 
-Next the Wordpress engine goes to the appropriate theme directory and parses the main index file, index.php. 
-At a minimum this theme will reference style.css, but most of the time themes include a header, footer, single post template, comments template, and a sidebar template. 
-In most cases the main index file first includes the header file, then the sidebar, then the content section is executed from within the main index file, and then finally the footer is included. 
-The content section is usually comprised of a set number of the most recent posts. 
-This part of the template code is also sometimes referred to as The Loop. 
+ 
+Smarty works by adding another parsing layer before the PHP parser. 
+This pre-parser converts smarty tags to plain text, variables, or PHP code, then passes the parsed text on to the PHP interpreter. 
+The smarty engine is installed by copying the library files to your webserver and adding an include statement to the header of your PHP application. 
+The Smarty engine is distribute as a tarball from \url{http://smarty.php.net}. 
+Decompressed, file structure should look like this:
 
+\begin{description}
+\item[../Smarty/]
+\item[/Smarty/Config\_File.class.php]
+\item[/Smarty/debug.tpl]
+\item[/Smarty/internals/]
+\item[/Smarty/plugins/]
+\item[/Smarty/Smarty.class.php]
+\item[/Smarty/Smarty\_Compiler.class.php]
+\end{description}
 
-In order to get a good idea of the how Wordpress is architected, it's also important to look at how it handles plugins. 
-A Wordpress plugin is a PHP file that is stored in the /wp-content/plugin/ directory. 
-It need not be in its own individual directory, although many plugins are distributed this way. 
-To install a plugin, the blog administrator must copy the plugin file to the /wp-content/plugin/ directory on their webhost, then login to the administrative back-end. 
-From there the adinistrator must locate the plugin in the administrative interface and click the "activate" link. 
-In order for the Wordpress engine to actually use the plugin, a call to the plugin must be places somewhere in the theme. 
-These calls are PHP function calls that return a certain output. 
+Using Smarty is easy and in many ways is very similar other PHP templating engines. 
+In the PHP application, the application developer starts be assigning variables for use in the template. 
 
+%% Line break
+%% summary of gaps in existing technology
 
-As an example, let's look at the OpenForBusiness plugin. 
-OpenForBusiness is designed to allow users who run a business to easily publish their hours on their Wordpress blog. 
-After the administrator copies OpenForBusiness.php to the correct directory and activates it from the administrative interface, he or she must then paste the following code into one of the theme files. 
-
-
-<?PHP OpenForBusiness(); ?>
-
-
-Wordpress doesn't have a hook system like Drupal, instead it relies on function calls to triger plugins. 
-Every plugin adds at least one additional function to the list of functions that can be used, but that function is not called in any way by default. 
-The user must edit their active template to enable the new plugin. 
-
-
-\chapter{BitTorrent}
-
-\section{Overview}
-BitTorrent is a protocol for distributing large amounts of data across a network.
-Decentralized in design, The BitTorrent protocol allows individuals with limited upstream bandwidth to easily distribute files, minimizing the server load by sharing the bandwidth costs associated with file sharing.
-
-
-Currently the most popular form of filesharing, BitTorrent has changed the way that people share files on the Internet, making filesharing more democratic and accessible to ordinary users.
-According to research conducted by Terry Shaw of CableLabs, and Jim Martin, a computer science professor at Clemson University, 60 percent of American teens equipped with broadband have downloaded audio and video files over peer-to-peer networks. \footnote { http://www.multichannel.com/article/CA6332098.html}
-In the same research paper, Shaw and Martin report that they found that 18\% of all broadband traffic, both upstream and downstream, is used for torrenting .
-According to one North American research lab, 55\% of broadband upstream (ie "home outward") is used for torrenting.\footnote{http://www.multichannel.com/article/CA6332098.html}
-According to CacheLogic, a British web-analysis company, BitTorrent accounts for only 35 percent of traffic on the Internet, which is still more than all other peer-to-peer programs combined.  
-Although researched statistics often vary, by all accounts BitTorrent is responsible for a huge percentage of Internet traffic.\footnote {http://in.tech.yahoo.com/041103/137/2ho4i.html}
+\subsection {Broadcast Machine}
+Broadcast Machine is an amagalmation of features from a number of different pieces of software.
+It is a type of content management systems (CMS), much like Drupal\footnote{http://Drupal.org} and Civic Space\footnote{http://CivicSpaceLabs.org}.
+Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Wordpress \footnote{http://WordPress.org} and Movable Type \footnote{ http://MovableType.com}.
+In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Wordpress.
+Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels.
+Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server.
+Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content.
+With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine.
+However, since none of these pieces of software were designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
+It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
+Below we will discuss the pros and cons of these pieces of software and explain more why it is necessary for us to design a new architecture for Broadcast Machine. 
 
 
-%Jan 31: shouldn't this be cut? -drew
-%Bit Torrent has been criticized for enabling users to infringe upon copyright laws by sharing files illegally. Some Universities, including WPI, have gone to extreme measures to block access to the Bit Torrent protocol, despite its wide variety of legitimate uses, including the inexpensive distribution of independent media.
+\subsubsection*{The Importance of Open-Source}
+Open source software is an important part of the movement to democratize the media and Internet. 
+This common goal is what ties together PCF's mission with that of the Free Software Movement. 
+The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
+Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
+The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
 
 
-\section{Why is Bit Torrent Important?}
-%rewriting
-
-\section{The Process}
-%Got to figure out how to include pictures. I converted the two images I wanted to include in this section to post script. They're in this folder.
-To begin sharing files using the Bit Torrent protocol, users first need to install a client that implements the BitTorrent protocol.
-Popular clients include ABC, Azureus, BitTornado, TorrentStorm, and µTorrent. The client can prepare, request, and transfer any part of a torrented file using the protocol.
-The original host of the file, called the seeder, creates a torrent file, which contains metadata about the files to be shared, or about the tracker, which is the server that coordinates distribution of the file.
-Meta-data stored in this file includes, information about the files to be shared, how the data is divided into logical pieces, and information about the host computer that will be seeding the files. The torrent file also contains a hash checksum of several parts of the file, so that when a peer recieves a piece the client may check to make sure that the piece was downloaded correctly.
-Torrent files are very small, usually only a few kilobytes, and can be attached to an email, put on a website, posted on forums, etc.
+Without Free software, the Internet could not exist as a democratic medium.
+Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
+With proprietary software, users cannot \"own\" software, even if they purchase it.
+Instead, users pay for the privilege of using it.
+Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
+On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
 
 
-People who wish to download the files download the appropriate .torrent file, which allows them to connect to the tracker, which is responsible for connecting seeders and peers.
-In addition to connecting peers together, some torrent trackers help organize many torrent files into a single website. These websites generally record even more metadata than the data in the torrent files, such as the files title, its author, a website associated with the file, and even descriptions and reviews.
-They also provide a the ability to search for a specific file. ChomskyTorrents.org is an example of a public torrent tracker.
-Once a user opens a torrent file with their client, they begin downloading pieces of that file.
-Users who are currently downloading the file are designated as peers, and the collection of peers downloading the file is referred to as the swarm.
-Initially, there is only one seeder in the swarm.
-The seeder starts by sends different pieces of the file to as many peers as possible. 
-As peers finish downloading pieces of the file, they then share those pieces with the rest of the swarm, distributing the upstream bandwidth load amongst all peers and seeders. 
-Once a peer finishes downloading the file, he or she can then leave the file open, and serves as a seeder by continuing to distribute the file to other peers.
-The seeder and the peers connect to one another sharing pieces of the file until everyone in the swarm has every piece of the file.
+Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
+This culture encourages technological progress in ways that competitive, closed-source software does not. 
 
 
-Torrent information can also be derived from a process called torrent scraping, a defacto standard proposed by BitTorrent creator Bram Cohen.\footnote{http://groups.yahoo.com/group/BitTorrent/message/3275, Accessed 01/29/2007}
-With scraping, clients can query the state of a torrent that a tracker is managing using the scrape URL. 
-The tracker that maintains the scrape URL does so to automate the process of screen scraping\footnote{Screen scraping refers to an algorithm that derives data from a human-readable interface, usually a website} a torrent's statistics page, since there is currently no standard for the layout of these pages. 
-Torrent clients may scrape this data by using the announce URL of the torrent file, and finding the last forward slash ("/") in the url. 
-If the text immediately following it is the string "announce", then it is assumed that the tracker supports scraping, and the string "scrape" is substituted into the url to find the scraping page. 
-Optionally, the client may also request the scrape data using a torrent's info\_hash as a parameter, which returns statistics for just that torrent instead of all torrents managed by the tracker. 
 
-
-After this request, the server responds with a plain text document consisting of a bencoded dictionary, similar to a .torrent file itself. The dictionary contains a list of files, the number of peers who have completed each file, the number of people who have downloaded a torrent, the number of peers who have not yet completed the file, and the internal name. The dictionary may also include unofficial extensions to the scraping standard, known as flags. Some clients use this to specify the minimum number of seconds between scrape requests, error codes, and more.
-
-
-\section{An Example}
-Let's say that a woman in Oaxaca, MX films the Mexican Federal Police attacking teachers on strike for better pay.
-She then creates a video file called HumanRightsAbusesInOaxaca-Nov162006.avi. She opens her Bit Torrent client and generates a torrent file.
-A new file called, HumanRightsAbusesInOaxaca-Nov162006.avi.torrent is created that logically partitions the original file into several pieces (leaving the original file unchanged), using simple hashes.
-She begins seeding the file and sends the torrent file to 100 of her contacts in the United States.
-% \includegraphics{oaxaca1.ps}
-These 100 people download the torrent file and open it in their Bit Torrent client of choice.
-The client now has a list of all the pieces of the file, and can begin requesting them.
-The computer in Mexico begins by sending the first piece of the video file to Contact \#1, the second piece of the video file to Contact \#2, the third piece to Contact \#3, and so on.
-Once some contact finishing downloading their piece of the video file, he or she can then share that piece with every other peer in the swarm.
-Now, the computer in Mexico, the seeder, can concentrate on only sharing pieces of the file that only it has.
-% \includegraphics{oaxaca2.ps}
-Immediately every client in the swarm, ie every contact in the US, is both uploading and downloading the video file at the same time.
-The load is distributed among every client in the swarm.
-Furthermore, once the person in Mexico has sent 1 copy of every piece to some person in the swarm, the swarm can finish sharing the file by itself.
-Keeping the original seeder in the swarm will speed up the process, but its not necessary as long as every piece of the file exists somewhere in the swarm.
-For example, if the original seeder loses her connection to the Internet, the file can still be shared and distributed among the swarm.
-
-
-\chapter{Current Issues}
+\subsubsection*{Current Issues}
 Before creating the next incarnation of Broadcast Machine, we need to understand its current shortcomings.
 The first step in addressing problems is understanding what they are.
 There are a few issues that are often brought up by users and a few more that the developers are concerned about.
@@ -561,11 +260,11 @@ These problems are becoming more important to address as Participatory Culture's
 The problems mentioned by users are important to address, but after a while it becomes less efficient to quash bugs than it is to address the cause of these bugs.
 We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
 For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation.
-With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for "Powered by Broadcast Machine" on Google returns upwards of 20,000 results.  http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}
+With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for \"Powered by Broadcast Machine\" on Google returns upwards of 20,000 results.  http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}
 
 
 Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts.
-This design pattern is most commonly known as "Model-View-Controller (MVC)".
+This design pattern is most commonly known as \"Model-View-Controller (MVC)\".
 This design methodology separates the application into distinct parts that can be modified without having a detrimental effect on other parts of the program.
 The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. 
 Broadcast Machine currently implements this design, albeit poorly. 
@@ -597,17 +296,19 @@ There is a certain amount of inline documentation as well, but it is far from co
 The comments that are there describe why the variables are there, but fail to mention how a function might work or what effects it has on other parts of the application. 
 Between architecture and documentation, there are significant portions that Broadcast Machine need improvement. 
 
+\chapter{Design}
+% FOR: CJ
 
-\chapter{Requirements and Design Decisions}
-\section{Architecture}
+%%Intro
 Many of Broadcast Machine's current problems stem from its poor architectural implementation. 
 To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. 
 From a design standpoint, a successful architecture has several requirements. 
 
 
-\subsection{Customizable} %Jan/30/07: What's a better name for this requirement? -drew
+\subsection{Customizable} 
+%Jan/30/07: What's a better name for this requirement? -drew
 The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
-Ideally, users' site layouts, or "themes", have the potential to look drastically different. 
+Ideally, users' site layouts, or \"themes\", have the potential to look drastically different. 
 The templates must be abstracted from the functional code, so that users need not worry about damaging the code or digging deep into its inner workings when modifying the layout. 
 Users should also have the ability to easily switch between layouts. 
 
@@ -690,7 +391,7 @@ There are several requirements for features that Broadcast Machine must include:
 \item[A granular permission system]
 \end{description}
 
-\chapter{Architecture}
+\chapter{Implementation}
 
 \section{View}
 
@@ -706,16 +407,6 @@ The instance table was used to prevent two versions of Broadcast Machine from us
 
 \subsection{Stats}
 The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
-
-
-\subsection{BitTorrent}
-The torrents table stored metadata for BitTorrent files. It tracked the hash checksum for the torrent file (info\_hash), the name of the file itself (filename), and a binary file containing the torrent itself. Filename was required to be unique, and the info\_hash served as the primary key for the table. In the new schema, this will be expanded to include much more metadata usually associated with torrent trackers.
-
-
-The peers table was used to keep track of users who downloaded or were in the process of downloading a file. It contained an info\_hash to designate which torrent file the peer was downloading from, the user's IP address, the port they were using to connect, whether or not they had completed the file (seeder), and a timestamp for when the user connected to the swarm (time). The table was indexed by time, with a combination of ip, port, and the info\_hash server as a primary key (meaning that no two entries could share the same data for all three fields). 
-
-
-The combination of these two tables enabled Broadcast Machine to operate as a minimalist BitTorrent tracker.\footnote{for more information on trackers, see the BitTorrent section} Features associated with these tables include BitTorrent file downloads (via the web page view and RSS, as well as server-side seeding of torrents.
 
 
 \subsection{Channels}
@@ -744,7 +435,7 @@ The table for storing video information is the files table. This information is 
 Records of people who have contributed to the making of a video were stored in the file\_people table. This allowed administrators to include conprehensive credits for anyone working on the video. The table contained an identifier for which video the credit refers to (ID), their name (name), and what they were credited for (role). The combination of these three values were required to be unique as a primary key.
 
 
-"Tags", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
+\"Tags\", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
 
 
 \subsection{Donations}
@@ -860,12 +551,6 @@ A comprehensive list of the data follows (entity relationships highlighted in bo
 \item[Mime-Type] The type of file that the icon is
 \end{description}
 
-\subsection{Data associated with Torrents}
-%To be completed
-
-%Should we pop the schema itself in here?
-
-
 \subsection{Design Decisions}
 The current schema departs from the previous data structures in many ways.
 Previously, the data layer was represented as a flat-file database.
@@ -893,6 +578,7 @@ File data and video data have a one-to-one relationship, so it makes sense to me
 This will normalize the table, which will optimize queries and simplify queries that access that data.
 
 
+%% Move to design
 \chapter{Utilized Technologies}
 \section{Apache}
 % 1/18/2007, CJ: Rewrote it to be more concise.
@@ -914,7 +600,7 @@ PHP as a language is dynamic and weakly typed with a C-like syntax and a large s
 Other languages such as Perl, Python, or Ruby might be excellent choices, but they do not command the same percentage of the market share that PHP does.
 
 
-\subsection{Authentication}
+\subsection{Cookies/Sessions}
 % 1/19/2007, CJ: Added part about user authentication.
 Web applications almost always require users to be authenticated and tracked in some way, and PHP provides convenient ways to do both.
 Classic username/password authentication can be used to quickly verify the users identity and through the user of built in session\_* functions in PHP we can easily create persistent user sessions.
@@ -932,7 +618,7 @@ It is important to note that the database setup will be automated for the user l
 This automation helps us work around the problem of the user having to configure a complex database. (A great concern for us! Many of our users might not be very computer savvy.)
 
 
-\section{URL Rewriting (mod\_rewrite)}
+\section{URL Rewriting}
 % 1/22/2007, CJ: Rewrote the section about URL rewriting.
 In the past few years, URL's have become more and more difficult to understand as web applications have come to dominate.
 URL's were designed to be easier to remember than IP addresses, but the've shown they can be just as tough to remember.
@@ -945,67 +631,8 @@ Apple's iTunes will
 This feature is also necessary to make sure that iTunes can subscribe to feeds produced by Broadcast Machine.
 iTunes requires that the file to be downloaded ends as a file extension that it likes.
 Unfortunately those file extensions are not usually webpages, they are usually MP3 instead of PHP.
-It will only download your MP3 if it looks like http://www.foobar.com/index.mp3?show=4.mp3} versus the traditional http://www.foobar.com/index.mp3?show=4.mp3}. \footnote{http://www.apple.com/itunes/store/podcaststechspecs.html}
+It will only download your MP3 if it looks like \url{http://www.foobar.com/index.mp3?show=4.mp3} versus the traditional \url{http://www.foobar.com/index.mp3?show=4.mp3}. \footnote{http://www.apple.com/itunes/store/podcaststechspecs.html}
 Not convenient, but necessary given the popularity of iTunes and the demand for compatible content.
-
-
-\section{BitTorrent}
-% 1/23/2007, CJ: Draft finished.
-
-
-\subsection{Metainfo (.torrent) Files}
-In order to distribute files via using the BitTorrent protocol the server must go through three steps.
-The first is to generate a .torrent file that describes the file to be downloaded.
-This file is \"bencoded\", a format that is unaffected by endianness on various platforms and makes the file well suited for any computer. (See below for more on Bencoding.)
-The encoded information is a dictionary (or associative array) of several values.
-There are two keys in the file, the first is called 'announce' and is associated with the URL of the tracker.
-The second is another dictionary called 'info' which contains a few more keys.
-Key one is 'name' which is a suggested filename for the file, second is 'piece length' which is the length in bytes of each piece the file is split into.
-Third is 'pieces' which are the number of pieces the file was split into, fourth is 'length' which is the total file size in bytes, and last is 'path' which is \"a list of strings corresponding to subdirectory names\".
-
-
-\subsection{Trackers}
-The second step is to begin running a tracker.
-Trackers is a central point of contact for all of the people sharing a particular file.
-When a client contacts the tracker they send their information via an HTTP GET message that is formed using ordinary CGI methods.
-This means that each parameter is sent by using \"?parameter=value\" sequences that are appended to the announce URL.
-Some of the parameters include:
-\begin{description}
-\item[info\_hash] A 20-byte SHA1 hash of the value of the info key that was sent in the torrent file.
-\item[peer\_id] A 20-byte string used to identify the client.
-\item[port] The port number that the client is listening on.
-\item[uploaded] The total number of bytes uploaded.
-\item[downloaded] The total number of bytes downloaded.
-\item[left] Number of bytes the client has left to download.
-\item[compact] Indicates that the client accepts 'compact' responses. If this is set, the tracker should respond with a set of six byte strings that contain four bytes of network address and two bytes of the listening port.
-\item[event] Three 'events' can be sent to the tracker. One is 'started' which tells that the client has begun downloading, the second is 'stopped' which must be sent when the client shuts down gracefully, and the third is 'completed' which should be sent when the client finishes downloading the file.
-\end{description}
-The tracker responds to these events with a document with Mimetype \"text/plain\" that contains a bencoded dictionary with the following values.
-
-\begin{description}
-\item[failure reason] If this key is present, then no other keys can be. The value should be a (written) message explaining why the request couldn't be completed.
-\item[warning message] Like 'failure reason' except the request is still processed.
-\item[interval] The number of seconds the client should wait between regular requests to the tracker.
-\item[min interval] The minimum amount of time a client must wait between requests.
-\item[tracker id] A string that the client should send back when it announces.
-\item[complete] The number of people who have finished downloading the file.
-\item[incomplete] Number of people downloading but have not finished.
-\item[peers] Contains a list of dictionaries describing the peers, each dictionary should have three keys. The first is 'peer id' which is the peer's self-selected id number, the second is the peer's IP address and the third is the port on which the peer is listening.
-\end{description}
-
-As it is now, these are the fields that are absolutely required for a BitTorrent tracker, but there are a few unofficial extensions to the protocol that might be interesting to look at in the future. \footnote{http://wiki.theory.org/BitTorrentSpecification}
-
-
-
-\subsection{Web Seeding}
-When a user wants to distribute a file via BitTorrent, they need to stay online using their client 'seeding' the file to others.
-Web Seeding begins to alleviate this problem by using an HTTP server for seeding.
-The first thing that this extension specifies is that there should be a key added to the metainfo file that is called \"httpseeds\" and contains a list of URLs where data can be downloaded from over HTTP.
-The client then takes this base URL and appends information to it to specify which parts of the file it would like to read.
-The request is then requested via HTTP GET and fielded by the server.
-In response, the server should send HTTP status 200 for 'OK' and the requested data in binary, or an HTTP status 503 for 'Service Temporarily Unavailable'. 
-The protocol itself is relatively simple, but it leaves the door wide open for clients to make to many requests and bog down the server.
-To address this problem it is imperative that the seeding portion have some method of controlling how much upload bandwidth is used.
 
 
 \section{XML and RSS}
@@ -1056,7 +683,7 @@ While RSS 2.0 is not governed by a traditional standards body such as the W3C or
 The RSS 2.0 specification allows for publishers to specify 'channels' in which there are repeating elements of 'items' which contain the main content.
 At the top of the RSS file there is an area where the publisher can add information about the channel such as a link to the publishing website, the author, webmaster and other various information.
 Each of the items within the channel contain additional sub-elements that describe the item.
-There are descriptors for the time and date at which the content was published, links to the website with the extended or full version of the contents, and ususally there is a unique identifier that lets the computer detect duplicates.
+There are descriptors for the time and date at which the content was published, links to the website with the extended or full version of the contents, and ususally there is a unique identifier that lets the computer detect duplicates. 
 
 <?xml version=\"1.0\"?>
 <rss version=\"2.0\">
@@ -1183,10 +810,10 @@ The most notable change is the movement from the <enclosure> tag to the use of t
 Unfortunately there isn't much improvement, as they are the same thing by different names.
 The second is the specification of a media player that can be used to play the video.
 This is particularly useful in a world of Adobe Flash video where there are FLV files and SWF players.
-The next <media:hash> tag is a welcome addition as it lets the computers on the recieving end verify the integrity of file that they have just downloaded.
+The next <media:hash> tag is a welcome addition as it lets the computers on the receiving end verify the integrity of file that they have just downloaded.
 Just like the Apple extensions, Yahoo allows the <media:category> and even lets the publisher specify the scheme by which the categories are laid out.
 There is also a <media:text> tag that lets the publisher add a short description of the current media being played.
-The last part is a bit curious as the Yahoo specification recommends that the publisher include a small part about XML Dublin Core compatability and how the file can be verified.
+The last part is a bit curious as the Yahoo specification recommends that the publisher include a small part about XML Dublin Core compatibility and how the file can be verified.
 
 With these three different ways of pushing rich content with RSS there is certain variety.
 All of these need to be supported in Broadcast Machine.
@@ -1209,7 +836,7 @@ Smarty takes in the templates for the presentation layer and \"compiles\" them i
 This is much better than some systems which don't compile and instead perform the data substitution on the fly, which is very time consuming. 
 
 
-\section{XHTML and CSS}
+\section{XHTML}
 % 1/25/2007, More needs to be added about CSS.
 XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
 HTML is an application of the Standard Generalized Markup Language (SGML), a very versatile markup language, whereas XHTML is an application of XML, a more restrictive subset of SGML. 
@@ -1229,8 +856,6 @@ CSS, or Cascading Style Sheets, is presenation language used to style structured
 It's best know for being used with XHTML and HTML. 
 The power of CSS and structured documents becomes 
 
-
-\chapter{Development}
 \section{Architecture}
 %This probably isn't too latex friendly yet - Greg
 %^^ Jan/31/06: next time you want to use a list, use the item[] tag -drew
@@ -1299,18 +924,22 @@ Users will also be given the option to upload the file on their own via FTP, and
 Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (\"/channelname/remove\") and editing it (\"/channel/edit\").
 
 
-\subsection{Video view \"/channelname/videoname\"\ \&\ \"/video/videoname\"\ }
+\subsection{Video View \"/channelname/videoname\"\ \&\ \"/video/videoname\"\ }
 The video view displays all of the relevant information about an individual video, including its meta-data and download statistics.
 It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
 
+\subsection{Tag View}
 
-\subsection{User Page \"/users/\"}
+\subsection{User Administration \"/users/\"}
 The user
-
 
 \section{Model Schema}
 
-\section{Testing Environment}
+\section{Testing}
+
+\subsection{Unit Testing}
+
+\subsection{User Testing}
 % 2/8/2005, CJ: Wrote about the use of unit testing, its advantages and the setup of the test servers.
 With any software, it is necessary to test to make sure that your application works as expected.
 We decided to test our application on mock servers so that we could see how our software reacted to common configurations that we expect our users to encounter.
@@ -1339,6 +968,27 @@ Unfortunately it took a very long time to get the test servers running.
 The amount of effort put in to setting up the testing framework seemed excessive to me.
 For a project of this size, I can't say whether or not the time spend was worth it.
 Hopefully these are useful to future developers and our time was well spent. 
+
+\chapter{System in Action}
+% FOR: CJ
+
+\chapter{Results}
+% FOR: Greg
+
+\section{Unit testing}
+
+\section{Feedback}
+\subsection{Mike Benedetti}
+\subsection{Dean Jansen}
+\subsection{Others}
+
+\chapter{Future Work}
+% FOR: CJ
+% Talk about how the package will be maintained as an open source project.
+% Features that should be added: BitTorrent, Flash Video, Advanced (AJAX) UI,
+% Flash-based uploader, Internationalization, 
+
+\chapter{Conclusion}
 
 \end{document}
 
