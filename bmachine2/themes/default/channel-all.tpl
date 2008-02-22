@@ -25,7 +25,7 @@
      <div id="tagsbox">
           <b>Channel Tags:</b>
      	  {foreach from=$channel.tags item=tag}
-     	      <a href="{$baseUri}tags/{$tag.name|lower}">{$tag.name}</a>
+     	      <a href="{$baseUri}tags/{$tag|lower}">{$tag}</a>
      	  {/foreach}
      </div>
 
@@ -37,8 +37,8 @@
      </div>
      {/foreach}
      {if $isAdmin}
-	<a href="{$baseuri}channel/{$channel.title|urlencode}/edit">Edit</a> | 
-	<a href="{$baseuri}channel/{$channel.title|urlencode}/remove">Remove</a>
+	<a href="{$baseUri}channel/{$channel.title|urlencode}/edit">Edit</a> | 
+	<a href="{$baseUri}channel/{$channel.title|urlencode}/remove">Remove</a>
      {/if}
 </div>
 </div>

@@ -16,6 +16,7 @@ class SetupController extends ViewController
 				}
 			} else {
 				$this->firstuser();
+				$bm_debug = "setup";
 				return;
 			}
 		}

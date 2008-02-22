@@ -25,9 +25,8 @@
 <div id="inner_wrap">
 
 <!--done--->
-<form method="post" action="create_channel.php" name="post" enctype="multipart/form-data" accept-charset="utf-8">
+<form method="post" action="{$baseUri}channel/{$channel.title}/edit/" name="post" enctype="multipart/form-data" accept-charset="utf-8">
 <!-- , iso-8859-1 -->
-<input type="hidden" name="ID" value="" class="hidden"/>
 <div id="poststuff">
 <div class="page_name">
    <h2>Edit Channel</h2>
@@ -55,35 +54,24 @@
 
 <div id="specify_image" style="display:block;" >
 
-<input type="text" name="Icon" size="60" value="{$channel.icon_url}"/>
+<input type="text" name="icon_url" size="60" value="{$channel.icon_url}"/>
 </div>
 </fieldset>
 
 <fieldset>
 	Description<br />
-	<textarea rows="4" cols="40" name="Description" id="content">{$channel.description}</textarea>
+	<textarea rows="4" cols="40" name="description" id="content">{$channel.description}</textarea>
 </fieldset>
 
 <fieldset>
-Tags <br />
-{foreach from=$channel.tags item=tag}
-	<li><input type="checkbox" name="tags-{$tag}" value="tags-{$tag}" checked /> {$tag}</li>
-{/foreach}
-</ul>
-	...Or add new tags<br />
-<div style="block:none;">
-	<input type="textbox" name="newTag1" value="" />
-	<input type="textbox" name="newTag2" value="" />
-	<input type="textbox" name="newTag3" value="" />
-	<input type="textbox" name="newTag4" value="" />
-	<input type="textbox" name="newTag5" value="" />
-	<input type="textbox" name="newTag5" value="" />
-</div>
-</fieldset>
 
+<fieldset>
+	<label for="tags">Tags <small>seperated by spaces</small></label><br/>
+        <input name="tags" type="text" value="{$channel.tags}" size="38" /><br/>
+</fieldset>
 <fieldset>
 	Associated Webpage (Optional)<br />
-	<input type="text" name="Webpage" size="40" value="{$channel.website_url}"/>
+	<input type="text" name="website_url" size="40" value="{$channel.website_url}"/>
 </fieldset>
 
 <p class="publish_button" style="clear: both;">

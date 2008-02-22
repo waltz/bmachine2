@@ -158,6 +158,7 @@ class ChannelController extends ViewController
                         unset($channel['tags']);
 
                         //Update channel
+			print_r($channel);
                         $update = $this->db_controller->update("channels", $channel, $condition);
 
 			//Update tags
@@ -184,14 +185,15 @@ class ChannelController extends ViewController
 			}
 
 			$this->alerts[] = "Channel has been successfully edited";
-                        $this->show($params[0]);
+                        $this->show($_POST['title']);
                 } else {
                         $condition = 'title="'.$title.'"';
                         $chanarray = $this->db_controller->read("channels", $condition);
 
                         if (count($chanarray) > 0) {
                                 //Get tags and video info
-                                $chanarray = $this->getTagsAndVideos($chanarray);
+                                $chanarray[0]['videos'] = $this->getVideos($chanarray[0]['id']);
+				$chanarray[0]['tags'] = implode(" ", $this->getTags($chanarray[0]['id']));
                                 $this->view->assign('channel', $chanarray[0]);
                                 $this->display('channel-edit.tpl');
                         } else {
@@ -239,30 +241,48 @@ class ChannelController extends ViewController
 
         // PRIVATE FUNCTIONS
  
-        // Adds tags and videos to an array of channels (or just one)
+        // Adds tags and videos to an array of channels
         // Returns a fresh array of channels
         private function getTagsandVideos($channels) {
                 foreach ($channels as &$channel) {
-			$condition = 'channel_id="'.$channel["id"].'"';
-                        $tags = $this->db_controller->read("channel_tags", $condition);
-
-			// Add published videos to each channel
-			$condition = 'channel_id="'.$channel['id'].'" order by publish_date desc limit 0,5';
-			$published = $this->db_controller->read("published", $condition);
-
-			$videos = array();
-			foreach ($published as $x) {
-				$condition = 'id="'.$x['video_id'].'"';
-				$video = $this->db_controller->read("videos", $condition);
-				array_push($videos, $video[0]);
-			}
 			//Assign tag array and video array
-                        $channel['tags'] = $tags;
-			$channel['videos'] = $videos;
+                        $channel['tags'] = $this->getTags($channel['id']);
+			$channel['videos'] = $this->getVideos($channel['id']);
                 }
                 unset($channel);
                 return $channels;
         }
+
+	// Gets all tags associated with a channel
+	// Returns an array of tags
+	private function getTags($id) {
+			$condition = 'channel_id="'.$id.'"';
+                        $get = $this->db_controller->read("channel_tags", $condition);
+			//Put it into a nice array
+			$tags = array();
+			foreach ($get as $tag) {
+				$tags[] = $tag['name'];
+			}
+			return $tags;
+	}
+
+	// Gets all videos associated with a channel
+	// Returns an array of videos
+	private function getVideos($id) {
+			// Get a list of published videos
+                        $condition = 'channel_id="'.$id.'" order by publish_date desc limit 0,5';
+                        $published = $this->db_controller->read("published", $condition);
+
+			// Push videos onto an array one by one
+                        $videos = array();
+                        foreach ($published as $x) {
+                                $condition = 'id="'.$x['video_id'].'"';
+                                $video = $this->db_controller->read("videos", $condition);
+                                array_push($videos, $video[0]);
+                        }
+
+			return $videos;
+	}
 
         //Returns a channel id based on its title
         //Returns false if title not found

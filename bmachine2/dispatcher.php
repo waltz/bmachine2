@@ -27,11 +27,13 @@ if (!file_exists('.htaccess')) {
 	$uri = array();
 	$uri[0] = 'setup';
 	$uri[1] = 'cleanurls';
+	$bm_debug = "setup";
 } else {
 	if (!file_exists('bm2_conf.php')) {
 	        $uri = array();
 	        $uri[0] = 'setup';
         	$uri[1] = 'settings';
+		$bm_debug = "setup";
 	} else {
 		include('bm2_conf.php');
 

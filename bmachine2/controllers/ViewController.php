@@ -39,15 +39,9 @@ abstract class ViewController {
 			}			
 		} catch (Exception $e) {
 			//This catch needs to ignore the first two steps of setup
-			if (isset($params[0]) && isset($params[1])) {
-				if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'settings') {
-					$this->display('error-database.tpl');
-					return;
-				}
-			} else {
+			if ($bm_debug != "setup") {
 				$this->display('error-database.tpl');
                                 return;
-
 			}
 		}
 
@@ -75,13 +69,12 @@ abstract class ViewController {
 	  
 		if(isset($_SESSION['username'])) {
 	      		$this->view->assign('currentUser', $_SESSION['username']);
-			//If for some god-forsaken reason you have a session but are in setup, don't call isAdmin
-			if (isset($params[0]) && isset($params[1])) {
-                                if ($params[0] != 'setup' && $params[1] != 'cleanurls' && $params[1] != 'settings') {
-		 			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
-                                        return;
-                                }
-                        } 
+			global $bm_debug;
+			if ($bm_debug == "setup") {
+		 		$this->view->assign('isAdmin', true);
+			} else {
+	 			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
+			}
 		} else {
 			$this->view->assign('isAdmin', false);
 		}
