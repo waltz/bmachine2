@@ -39,8 +39,8 @@
 	</div>
 	
 	<p>
-	<em>Description:</em> {$channel.description}<br /><br />
-	<em>Latest videos from {$channel.title}:</em><br />
+	<em>Description:</em> {$channel.description|truncate:350}<a href="{$baseUri}channel/{$channel.title|urlencode}">(read more)</a><br /><br />
+	<em>All videos from {$channel.title}:</em><br />
 	<table align="center">
 	<tr>
 	{section name=foo loop=3}
@@ -50,7 +50,6 @@
 	{/section}
 	</tr>
 	</table>
-	<div style="text-align:right;"><a href="{$baseUri}channel/{$channel.title|urlencode}">>> see all {$channel.videos|@count} videos >></a></div>
 	</p>
 	{/foreach}
 <hr />
