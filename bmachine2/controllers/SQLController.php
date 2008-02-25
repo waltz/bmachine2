@@ -31,7 +31,7 @@ abstract class SQLController extends DatabaseController
 		}
 		$query = rtrim($query, ", ").");";
        		$this->query($query);
-		return true;
+		return $this->getID();
 	}
 	
 	//Reads from a database table

@@ -92,10 +92,8 @@ class ChannelController extends ViewController
 				unset($_POST['submit']);
 
 				// Create the channel.
-				$this->db_controller->create("channels", $_POST);
+				$id = $this->db_controller->create("channels", $_POST);
 
-				//Insert tags into the database
-				$id = $this->getID($_POST['title']);
 				foreach($tags as $tag) {
 				
 					// Build the tag structure.

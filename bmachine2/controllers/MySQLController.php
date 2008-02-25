@@ -75,7 +75,12 @@ class MySQLController extends SQLController
 		}
         }
 
-	
+	//Returns ID generated from previous insert operation, called by create
+	//Works only on AUTO_INCREMENT values
+	function getID() {
+		return mysql_insert_id();
+	}	
+
 	//Disconnect from the database
 	//Returns FALSE on failure
 	function disconnect() {

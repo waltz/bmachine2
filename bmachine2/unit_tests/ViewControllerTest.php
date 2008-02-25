@@ -79,8 +79,8 @@ class ViewControllerTest extends UnitTestCase
 
 		$params = array();
                 $foo = new TestApp($params);
-		$foo->db_controller->create("users", $user);
-
+		$id = $foo->db_controller->create("users", $user);
+		echo $id;
                 $this->assertNoErrors();
 		$this->assertTrue($foo->isLoggedIn());
 		$this->assertTrue($foo->isUser("UnitTestUser"));

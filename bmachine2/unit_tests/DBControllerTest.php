@@ -51,7 +51,6 @@ class DBControllerTest extends UnitTestCase
 			"file_url"	=>	"http://bm.com/video.avi"
 		);
 		$foo = $controller->create("videos", $data);
-		$this->assertTrue($foo);
 
 		$videos = $controller->read("videos", 'title="Unit test video"');
 		$this->assertEqual(count($videos), 1);
@@ -61,8 +60,6 @@ class DBControllerTest extends UnitTestCase
 		$creddata = array($video['id'], "testee", "tester");
 
 		$foo = $controller->create("video_credits", $creddata);
-		$this->assertTrue($foo);
-
 		$creds = $controller->read("video_credits", 'name = "testee" and role = "tester"');
 		$this->assertEqual(count($creds), 1);
 

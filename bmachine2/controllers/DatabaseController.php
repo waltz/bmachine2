@@ -42,6 +42,8 @@ abstract class DatabaseController
 	//Returns FALSE on failure
 	abstract function disconnect();	
 
+	//Should return ID of last row operated on
+	abstract function getID();
 
 	//Standard API for CRUD operations:
 	abstract function create($table, $data);
