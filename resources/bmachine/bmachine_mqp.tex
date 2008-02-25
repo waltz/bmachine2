@@ -29,160 +29,60 @@
 % Summary of the background.
 
 \section{The Current State of Internet Video}
-%Introduction
+As bandwidth and storage become increasingly cheaper, the prevalence of video on the internet has sharply risen over the past few years. 
+In August 2006 alone, the number of people in the U.S who streamed video via the internet totaled over 110 million people, which is comparable with the number of households that watch traditional television.\footnote{http://paul.kedrosky.com/archives/2006/10/19/fun_with_intern.html}
+The internet has allowed independent video producers a variety of platforms by which to publish and share their work. These platforms come in one of two forms: Video hosting services, which offer a centralized location from which users can upload and share videos, and Content Management Systems (CMS), where users host and maintain their own collections of videos.
 
-\subsection{Drupal}
-Drupal is a content managment system, often referred to as a CMS. 
-A CMS is a computer software system that assists users in managing internet content.
-It helps users organize, control, and publish content.
-Drupal allows users to easily set up, create, and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{According to  http://drupal.org/about}.
-It's written in PHP and requires either MySQL v3.23.17 or higher or PostgreSQL 7.2 or higher\footnote{As of Dec 11, according to http://drupal.org/requirements}.
-Thousands of popular sites use Drupal\footnote{As of Dec 15, 2006, according to http://DrupalSites.com}, including The Onion\footnote{ http://TheOnion.com}, OurMedia\footnote{http://www.ourmedia.org/}, and MTV's UK site\footnote{http://mtv.co.uk/}.
-The IndyMedia network is also considering using Drupal as the base for their new website \footnote{As of Dec 15, 2006, according to \url{https://docs.indymedia.org/view/Global/IndymediaAlternatives}}.
+\subsection{Video Hosting Services}
+Video hosting services are sites that offer free hosting and sharing of video files that users upload. These sites, such as Youtube (\url{http://youtube.com}), Blip.tv (\url{http://blip.tv}), and Myspace Videos ({\url{http://vids.myspace.com}) usually also offer social networking features, such as the ability to rate and comment on videos, as well as subscribe to videos posted by friends. The largest and most popular video hosting service is Youtube, which garners 42.94\% of all traffic to online video sites.\footnote{\url{http://www.hitwise.com/press-center/hitwiseHS2004/videosearch.php}}. 
 
+Video hosting services offer a convenient solution for video publishers to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, Youtube transcodes all of it's videos to low-quality flash, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact_sheet}}. 
 
-CivicSpace, formerly known as DeanSpace and Hack4Dean, was born of a distribution of Drupal developed for Howard Dean's 2004 presidental campaign website\footnote{ http://en.wikipedia.org/wiki/DeanSpace}.
-CivicSpace features an installer and many pre-configured plugins that are meant to help run political and charitable websites.
-CivicSpace is used by a huge number of websites, somewhere around 40,000 sites\footnote{As of Dec 11, according to a google search for \"powered by CivicSpace\".}, such as The New Democratic Party\footnote{ http://www.ndp.ca}, Better Donkey\footnote{http://BetterDonkey.org}, Blog for America\footnote{ http://www.blogforamerica.com/}, and Oregon's Bus Project\footnote{http://www.busproject.org}.
-As of version 5.0, Drupal includes an automatic installer and many of the functionality that set CivicSpace apart from Drupal are being included in the base software.
+None of the major video hosting services allow adult or objectionable content. Many sites regularly censor videos they deems inappropriate, including Youtube, who retains the right to control any and all content on its servers. Often, videos aimed at displaying legitimate discourse or expression are lost to this censorship\footnote{\url{http://www.nytimes.com/2006/10/09/technology/09link.html?ex=1318046400&en=e311caef3c3cf222&ei=5090&partner=rssuserland&emc=rss}}. For many publishers, the only way to ensure that their videos are presented correctly is to host them independently, using a content management system.
 
+\subsection{Content Management Systems}
 
+Content Management System, or CMS, is a blanket term for a wide array of pre-packaged software used to manage website content. CMSes can encompass software to create wikis, forums, and several other collaborative mediums. In general, CMSes provide a simple user interface for adding, editing, and removing content, while obfuscating technical details. Using a CMS, it would be possible to build and manage an entire site without having knowledge of the underlying source code. Most CMSes also offer robust theming engines, allowing users confortable with HTML and CSS to easily customize the look and feel of their site. The two most popular CMSes are Drupal and Wordpress.
 
-ing engines include: XTemplate, PHPTemplate, and Smarty. 
-Pushbutton and Bluebeach are two examples of themes that are distributed with Drupal that were created using one the included theme engines. 
-
-
-PHPTemplate is a theme engine created by Adrian Rossouw specifically for the Drupal project. 
-Unlike Smarty and XTemplate, it does not need to be interpreted by another theme engine. 
-This means PHPtemplate can execute faster. 
-Every PHPTemplate file contains an HTML skeleton with some simple PHP statements for the dynamic data. 
-PHPTemplate is a good choice for theme developers who know a bit of PHP. With some basic PHP snippets you can create complicated themes easily. 
-On the flip-side PHPTemplate is not good for people who are new to programming or who don't know any PHP. 
-Although theme designers do not neccesarily need to understand what the PHP snipets do, requiring code in the template could confuse the designers and could easily lead to trouble. 
-Code in the templates is a major drawback of the PHPTemplating engine. 
-It makes template design less accessible to ordinary users, who might know some XHTML and CSS. 
-
-
-The Internet Center Theme, the theme for \url{http://www.openwebdesign.org}, is an example of a theme that was built using PHPTemplate. Below is a snippet of code that demonstrates how PHPTemplate looks. 
-
-<div class=\"logo\">
-
-        <?PHP if (\$site\_name) : ?>
-
-            <?PHP if (\$site\_name) \{ ?><h1 class='site-name'><a href=\"<?PHP print \$base\_path ?>\"\ title=\"<?PHP print t('Home') ?>\"><?PHP print \$site\_name ?></a></h1><?PHP \} ?>
-
-        <?PHP endif;?>
-
-</div>
-
-
-Notice how difficult it is to see just the design elements. 
-Imagine if you were just trying to change the look of the page. 
-You would need to first determine which parts of the code are exclusively presentation elements and which were logical elements. 
-To someone who has never seen PHP script and is unfamiliar with programming, the code above would be very confusing. 
-They might accidentally delete an integral part of the code or accidently forget a question mark at the end of a PHP block. 
-They might be forced to learn some basic PHP programming just to change the layout or style of a page, which somewhat defeats the purpose of having a templating system.
-
-
-XTemplate is rather different from PHPTemplate and the theme engine built in to Drupal, but in many ways it's similar Smarty. 
-For the most part, it separates the layout into three layers: logic, structure, and style, making it easy for theme designers to create and modify templates. 
-Designer need not deal with the logic layer to make a new theme or modify an existing one. 
-This logic layer is made up of all the PHP code necessary to make the theme run. 
-It contains all of the functions required to interface the template with Drupal. 
-The structure layer consists of an XHTML code that establishes the general layout of the code. 
-The style layer is made up of the CSS code that adds the finishing touches to the design. 
-In concept it is very much like Smarty, the major differences between the two are in syntax and flexibility.
-Smarty is more flexible and powerful than XTemplate, but we'll get into that more later. 
-Bluebeach, the theme used by \url{http://drupal.org} was originally written as a XTemplate theme, but was recently ported to be a Smarty-based theme. 
-As of version 5.0, Drupal no longer includes XTemplate as a default templating engine but it does remain as a module mantained by user contribution. 
-For this reason, many themes that were originally written in XTemplate are now being converted to Smarty. 
-
-
-Finally, the quickest way to create a new theme is to use a theme that is already in existance and simply create a new style sheet that changes the layout and look. 
-Surprisingly a large number of new themes are created this way. 
-Marvin and Box Cleanslate are two popular themes that were both created by editing the existing style sheets of previous themes. 
-Marvin is based on Chameleon and Cleanslate is based upon Box\_grey.  
+\subsubsection{Drupal}
+Drupal allows users to easily set up, create, and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{http://drupal.org/about}.
+Written in PHP, it requires either MySQL v3.23.17 or PostgreSQL 7.2 or above\footnote{http://drupal.org/requirements}.
+Thousands of popular sites use Drupal\footnote{http://DrupalSites.com}, including The Onion\footnote{ http://TheOnion.com}, OurMedia\footnote{http://www.ourmedia.org/}, and MTV's UK site\footnote{http://mtv.co.uk/}.
 
 \subsection {Wordpress}
-include('Smarty.class.php');
-
-// create object
-\$smarty = new Smarty;
-
-// assign some content. This would typically come from
-// a database or other source, but we'll use static
-// values for the purpose of this example.
-\$smarty->assign('name', 'george smith');
-\$smarty->assign('address', '45th \& Harris');
-
-// display it
-\$smarty->display('index.tpl');
-
-
-To someone who knows XHTML and CSS, Smarty templates are very easy to read. 
-Tags are escaped using curly brackets, { and }. 
-For example, imagine we add the following two lines to our template, index.tpl. 
-
-Name: \{\$name\}<br>
-Address: \{\$address\}<br>
-
-The output would be:
-
-Name: george smith<br>
-Address: 45th \&\ Harris<br>
-
-% sources http://smarty.php.net/crashcourse.php
-% http://smarty.php.net/rightforme.php
-As shown above, Smarty clearly separates presentation elements from application code. 
-It divides the application into two distinct layers. 
-However, it's important to note that it does not entirely remove logic from the templates. 
-Smarty's design principles allow for the inclusion of logic as long as the logic pertains to the presentation. 
-For example, looping over table row colors would be considered presentation logic and would be allowable. 
-The application layer shouldn't be concerned with this sort of thing, it's a design decision. 
-The idea is that template designers should be able to completely change the templates and rebuild them without even seeing the application code.
-There is nothing stopping developers from including application logic in the template layer, but doing so would undermine the reason for using a templating system. 
-Smarty is flexible enough to allow misuse of its, but if used correcly it can make theme developement a lot easier on non-programmers. 
-Below is an example of how presentation logic can be included in the template layer without bogging down the template designer with application code. 
-
-    \{foreach from=\$data item=\"entry\"\}
-        <tr bgcolor=\"\{cycle values=\"\#dedede,\#eeeeee" advance=false\}\">
-            <td>\{\$entry.Name|escape\}</td>        
-            <td align=\"right\">\{\$entry.EntryDate|date\_format:\"\%e \%b, \%Y \%H:\%M:\%S\"\}</td>        
-        </tr>
-        <tr>
-            <td colspan=\"2\"\ bgcolor=\"\{cycle values=\"\#dedede,\#eeeeee\"\}\">{\$entry.Comment|escape\}</td>
-        </tr>
-    \{foreachelse\}
-        <tr>
-            <td colspan=\"2\">No records</td>
-        </tr>
-    \{/foreach\}
-
-
-\subsection {Wordpress}
-Wordpress and Movable Type are pieces of blogging software. 
-They are CMS's that are designed specifically for a single user or a small group of users who will regularly post text and image content. 
+Wordpress one of the most popular blogging applications, or a CMS designed specifically for posting text and image content by a small group of users.
 Wordpress is PHP 4.2 and uses MySQL 3.23 as its database backend. 
-It was created with the vision of creating a powerful GPL-licsenced internet publishing platform based on open standard. 
+It was created with the vision of creating a powerful GPL-licenced internet publishing platform based on open standards. 
 The first version was released in 2001. 
 Wordpress is blogging software designed to be installed on an individual's webhost, either their own computer connected to a broadband connection or a commercial webhost like Dreamhost or 1and1. There exist services such as the one at http://Wordpress.com} that provide webhosting and just provide users with the a fresh install of Wordpress, but for the most part Wordpress users install the software themselves. 
 
+Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There was a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
-The code in the these templates is comprised of XHTML and PHP code. 
-One of the major problems is that the XHTML is not consistently in the same place. 
-Sometimes XHTML is located within a PHP code block and sometimes it is outside of the code block. 
-Unlike Drupal and the current version of Broadcast Machine, Wordpress does not have an output variable that is updated throughout the template then later output as one output statement. 
-This makes things even more confusing for non-programmers because, without knowing PHP, he or she may not know what code effects presentation and what code effects the logic. 
-It is very easy for someone to break the program while attempting to only modify a theme. 
+\subsection {Broadcast Machine}
+Broadcast machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users can organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}. Broacast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A google search of the phrase "Powered by Broadcast Machine" returns approximately 6,700 results.}
+
+Despite it's popularity, Broadcast Machine was plagued by a number of problems onset by poor architecture and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a B-encoded flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconciliable bugs. Since the program relied on a complicated architecture based upon establishing callback functions at runtime (also called hooks), tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures, made it nearly impossible for others developers to work on the project. Due to the aforemention issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of several dedicated users.
 
 
-In Wordpress, all pages are generated on the fly, there's no server-side caching. 
-Each file is included at some point during the run of the engine. 
-This has its advantages and its drawbacks. 
-The advantage is that it is not neccesary to rebuild pages every time you make a minor change. 
-A drawback is that each page requires time to built and delivered. 
-If your blog gets a lot of traffic in a short period of time, performance may drop dramatically. 
-A number of plugin have been developed to deal with this problem, but no solutions to this problem have been incorporated into the base code of the application. 
+%% This needs to move
+\subsubsection*{The Importance of Open-Source}
+Open source software is an important part of the movement to democratize the media and Internet. 
+This common goal is what ties together PCF's mission with that of the Free Software Movement. 
+The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
+Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
+The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
+
+
+Without Free software, the Internet could not exist as a democratic medium.
+Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
+With proprietary software, users cannot \"own\" software, even if they purchase it.
+Instead, users pay for the privilege of using it.
+Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
+On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
+
+
+Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
+This culture encourages technological progress in ways that competitive, closed-source software does not. 
 
 %MOVE ME
 \subsection{Smarty Templating}
@@ -214,87 +114,6 @@ In the PHP application, the application developer starts be assigning variables 
 %% Line break
 %% summary of gaps in existing technology
 
-\subsection {Broadcast Machine}
-Broadcast Machine is an amagalmation of features from a number of different pieces of software.
-It is a type of content management systems (CMS), much like Drupal\footnote{http://Drupal.org} and Civic Space\footnote{http://CivicSpaceLabs.org}.
-Since there regular posts make up the main content in Broadcast Machine, it also is somewhat similar to blog software like Wordpress \footnote{http://WordPress.org} and Movable Type \footnote{ http://MovableType.com}.
-In fact, The Channel Channel, one of the default channels in Democracy Player, is powered by a customized version of Wordpress.
-Broadcast Machine is different from these pieces of software in that it primarily manages video content and it adds the videos to Democracy compatible channels.
-Since current CMS's were not designed with large files in mind, hosting video files can lead to extreme strain on the server.
-Broadcast Machine solves the problem of high demand for bandwidth by using BitTorrent to distribute video content.
-With a number of custom plugins and work-arounds, each of these pieces of software could undoubtedly accomplish the goals of Broadcast Machine.
-However, since none of these pieces of software were designed with video content in mind, the work required to get them to support all the requirements of Broadcast Machine is comparable to writing Broadcast Machine from scratch. 
-It would probably cost us more time to first read and understand the existing code of a CMS or blog software and then turn it into what we need, than it would to just start from scratch. 
-Below we will discuss the pros and cons of these pieces of software and explain more why it is necessary for us to design a new architecture for Broadcast Machine. 
-
-
-\subsubsection*{The Importance of Open-Source}
-Open source software is an important part of the movement to democratize the media and Internet. 
-This common goal is what ties together PCF's mission with that of the Free Software Movement. 
-The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
-Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
-The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
-
-
-Without Free software, the Internet could not exist as a democratic medium.
-Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot \"own\" software, even if they purchase it.
-Instead, users pay for the privilege of using it.
-Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
-On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
-
-
-Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
-This culture encourages technological progress in ways that competitive, closed-source software does not. 
-
-
-
-\subsubsection*{Current Issues}
-Before creating the next incarnation of Broadcast Machine, we need to understand its current shortcomings.
-The first step in addressing problems is understanding what they are.
-There are a few issues that are often brought up by users and a few more that the developers are concerned about.
-There are two larger issues that the developers hold responsible for the majority of Broadcast Machine bugs.
-Although the API is thoroughly documented, the data structures have little documentation.
-This along with poor application architecture are the two culprits that cause the majority of problems.
-These problems are becoming more important to address as Participatory Culture's flagship product Democracy Player grows in popularity and drives the demand for video content management software like Broadcast Machine.
-The problems mentioned by users are important to address, but after a while it becomes less efficient to quash bugs than it is to address the cause of these bugs.
-We hope that by re-architecting the software we can simulatneously address existing issues and improve on the overall product.
-For example, many users would like to adapt their installations to custom environments, but this is made difficult by the current architecture and understanding the current codebase is made difficult by vauge or nonexistent documentation.
-With over 20,000 current installs of Broadcast Machine there is certainly a community that would be well served by a rebuilt applictation. \footnote{A search for \"Powered by Broadcast Machine\" on Google returns upwards of 20,000 results.  http://www.google.com/search?q=\%22Powered+by+Broadcast+Machine\%22}
-
-
-Many successful applications, including Broadcast Machine, are architected in such a way that the program is split up into three distinct parts.
-This design pattern is most commonly known as \"Model-View-Controller (MVC)\".
-This design methodology separates the application into distinct parts that can be modified without having a detrimental effect on other parts of the program.
-The three sections are divided up as follows: The first is the Model which describes how the data in the program is stored, the second is the View which is responsible for how the program interacts with the user and the third is the Controller which bridges the gap between Model and View by responding to events sent by the other components. 
-Broadcast Machine currently implements this design, albeit poorly. 
-Unfortunately, the separation between the three segments is often unclear. 
-
-    
-The majority of the separation problems occur in the model layer. 
-Currently Broadcast Machine is structured so that the model is contained in two files, datastore.php and data\_layer.php. 
-The application uses each of these files to store data and handle the return of data in an understandable manner. 
-The model can store data in one of two ways, it can insert the data into a MySQL database or it can store the data using a flat-file mechanism. 
-Datastore.php and data\_layer.php are far too intertwined. 
-Each of the files provides some sort of functionality that the other relies upon. 
-Through the use of various function hooks, the data layer and the data store are constantly communicating with each other to determine where and how they should store received information. 
-This intercommunication becomes a problem when the a user or developer changes something in either one. 
-When changes are made at either place in the program, the other part might fail. 
-It is hard to be sure what effects changes will have because of this hook system. 
-Because the hooks are established at runtime, determining which function will be called is often difficult. 
-
-
-The second area in which Broadcast Machine is lacking is documentation. 
-While there is enough user end documentation to support the existing community there is certainly room for improvement. 
-The walkthroughs are often only a paragraph long and describe a bare minimum of features available in Broadcast Machine. 
-The occasional screenshot helps out by showing the user where to navigate, but this is unfortunately in the minority of cases. 
-Supporting the end user is certainly an issue for a project that wishes to put powerful software in the hands of users, but even more alarming is the sparse developer documentation. 
-An open-source project like Broadcast Machine can and should leverage the expertise of the community to build a better product and the lack of API documentation and comments in the code only make it more difficult for other developers to improve upon the software. 
-There are a few files that begin to talk about the data structures used in the program, but it stops short. 
-While it is certainly a good start, it needs to be cleaned up and completed. 
-There is a certain amount of inline documentation as well, but it is far from complete. 
-The comments that are there describe why the variables are there, but fail to mention how a function might work or what effects it has on other parts of the application. 
-Between architecture and documentation, there are significant portions that Broadcast Machine need improvement. 
 
 \chapter{Design}
 % FOR: CJ
