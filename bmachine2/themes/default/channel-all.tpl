@@ -40,7 +40,7 @@
 	
 	<p>
 	<em>Description:</em> {$channel.description|truncate:350}<a href="{$baseUri}channel/{$channel.title|urlencode}">(read more)</a><br /><br />
-	<em>All videos from {$channel.title}:</em><br />
+	<em>Recent videos from {$channel.title}:</em><br />
 	<table align="center">
 	<tr>
 	{section name=foo loop=3}
