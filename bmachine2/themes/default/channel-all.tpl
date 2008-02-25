@@ -52,6 +52,11 @@
 	</table>
 	</p>
 	{/foreach}
+
+	{if $isAdmin} 
+ 	        <a href="{$baseUri}channel/{$channel.title|urlencode}/edit">Edit</a> |  
+ 	        <a href="{$baseUri}channel/{$channel.title|urlencode}/remove">Remove</a> 
+	{/if}
 <hr />
 </div>
 

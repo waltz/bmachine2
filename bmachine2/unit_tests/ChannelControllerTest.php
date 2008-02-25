@@ -15,6 +15,8 @@ require_once '../controllers/ChannelController.php';
 
 class ChannelControllerTest extends UnitTestCase
 {
+	var $id;
+
 	// The instantiator can set different parameters for the whole test.
 	function ChannelControllerTest()
 	{
@@ -57,7 +59,8 @@ class ChannelControllerTest extends UnitTestCase
                 $this->assertEqual(count($chanarray), 1);
 
                 $testchannel = $chanarray[0];
-                $condition = 'channel_id="'.$testchannel['id'].'"';
+		$this->id = $testchannel['id'];
+                $condition = 'channel_id="'.$this->id.'"';
                 $tags = $channel->db_controller->read("channel_tags", $condition);
                 $this->assertEqual(count($tags), 2);
         }
@@ -101,6 +104,7 @@ class ChannelControllerTest extends UnitTestCase
                 $params[2] = 'edit';
 
                 $_POST = array(
+			"id"		=>	$this->id,
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only an edited test",
                         "icon_url"      =>      "http://blank.com/blank.gif",
@@ -121,6 +125,7 @@ class ChannelControllerTest extends UnitTestCase
                 $params[2] = 'edit';
 
                 $_POST = array(
+			"id"		=>	$this->id,
                         "title"         =>      "Unit test channel",
                         "description"   =>      "This is only an edited test",
                         "icon_url"      =>      "http://blank.com/blank.gif",

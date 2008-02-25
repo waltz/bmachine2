@@ -38,6 +38,7 @@
 <a href="#">Delete this channel</a>
 </div>
 <h3>Channel Info</h3>
+<input type="hidden" name="id" value="{$channel.id}" />
 <fieldset>
 	Title<br />
 	<input type="text" name="title" size="60" value="{$channel.title}" />

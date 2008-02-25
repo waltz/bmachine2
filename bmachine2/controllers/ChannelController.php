@@ -148,7 +148,9 @@ class ChannelController extends ViewController
                 // If new data is posted, update database
                 if(isset($_POST['title'])) {
 			$channel = $_POST;
-			$channel_id = $this->getID($channel['title']);
+			$channel_id = $_POST['id'];
+			unset($_POST['id']);
+
 			$condition = 'id="'.$channel_id.'"';
 
 			 //Put the tag string into an array
