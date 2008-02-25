@@ -10,12 +10,6 @@
 	</div>
 <div class="video_section">
 	<div class="align-left">
-	<h3>Video Tags</h3>
-	<p>
-		{foreach from=$videoTags item=tag}
-			<a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
-		{/foreach}
-	</p>
 
 	<h3>Channel Tags</h3>
 	<p>
@@ -23,6 +17,15 @@
 			<a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 	</p>
+
+        <h3>Video Tags</h3>
+        <p>
+                {foreach from=$videoTags item=tag}
+                        <a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
+                {/foreach}
+        </p>
+
+
 	</div>
 </div>
 

@@ -16,8 +16,10 @@
 			{elseif $channel.videos|@count gt 1}
 				showing {$channel.videos|@count} videos
 			{/if}
-<a href="{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss"><img src="{$baseUri}themes/default/images/rss_button.gif" alt="{$channel.title} video rss feed" border="0" /></a> 
-<a href="http://subscribe.getMiro.com/?url1={$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss" title="Miro: Internet TV"><img src="http://subscribe.getmiro.com/img/buttons/pcf1.gif" alt="Miro Video Player" border="0" /></a>
+<a href="{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss">
+<img src="{$baseUri}themes/default/images/rss_button.gif" alt="{$channel.title} video rss feed" border="0" /></a> 
+<a href="http://subscribe.getMiro.com/?url1={$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss" title="Miro: Internet TV">
+<img src="http://subscribe.getmiro.com/img/buttons/pcf1.gif" alt="Miro Video Player" border="0" /></a>
 
 		</div>
 	</div>
@@ -42,25 +44,29 @@
 	<p>
 	<em>Description:</em> {$channel.description}<br /><br />
 	<em>All videos from {$channel.title}:</em><br />
-	<table align="center" border="0px" valign="top">
+	<table align="center" border="0px" valign="top" padding="0" cellspacing="0">
 	{foreach from=$channel.videos item=video}
-	<tr>
+	<tr bgcolor="{cycle values="#eee,#fff" advance=false}">
 		<td rowspan="4">
 			<a href="{$baseUri}video/{$video.title|urlencode}"><img src="{$video.icon_url}" alt="{$video.title} thumbnail" width="200px"/>
 		</td>
 	</tr>
-	<tr><td><a href="{$baseUri}video/{$video.title|urlencode}">{$video.title}</a>
+	<tr bgcolor="{cycle values="#eee,#fff" advance=false}"><td><a 
+href="{$baseUri}video/{$video.title|urlencode}">{$video.title}</a> (<a 
+href="{$video.file_url}">download</a>)
 	</td></tr>
-	<tr><td>modified: {$video.modified}
+	<tr  bgcolor="{cycle values="#eee,#fff" advance=false}"><td>modified: 
+{$video.modified}
 	</td></tr>
-	<tr><td>{$video.description|truncate:50}(<a href="{$baseUri}video/{$video.title|urlencode}">more</a>)
+	<tr bgcolor="{cycle 
+values="#eee,#fff"}"><td>{$video.description|truncate:50}(<a 
+href="{$baseUri}video/{$video.title|urlencode}">more</a>)
 	</td></tr>
 
 	{/foreach}
 	</table>
 	</p>
 
-<hr />
 </div>
 
 </div>
