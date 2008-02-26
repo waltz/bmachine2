@@ -1,5 +1,7 @@
 {* Smarty *}
 
+{assign var='rss' value='channel'}
+
 {include file='header.tpl'}
 
 <div id="wrap">

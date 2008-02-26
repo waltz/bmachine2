@@ -1,5 +1,7 @@
 {* Smarty *}
 
+{assign var='rss' value='tag'}
+
 {include file='header.tpl'}
 
 <body>

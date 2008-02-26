@@ -13,6 +13,15 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css" />
 	<link rel="icon" href="{$baseUri}themes/default/favicon.png" type="image/gif" />
+
+	{if $rss eq 'channel'}
+	    <link rel="alternate" type="application/rss+xml" title="RSS"
+	    	  href="{$baseUri}channel/{$channel.title|urlencode}/rss"/>
+	{/if}
+	{if $rss eq 'tag'}
+	    <link rel="alternate" type="application/rss+xml" title="RSS"
+	    	  href="{$baseUri}tag/{$tagName|urlencode}/rss"/>
+	{/if}
 </head>
 
 <body>
