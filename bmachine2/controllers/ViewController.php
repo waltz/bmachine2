@@ -140,7 +140,7 @@ abstract class ViewController {
 
 	function forbidden() {
 	  $this->addAlert("You don't have permission to access that page!");
-	  $this->redirect('..');
+	  $this->redirect('');
 	}
 
 	// Takes in a string and adds it to the alerts array.

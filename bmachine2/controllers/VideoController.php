@@ -58,19 +58,29 @@ class VideoController extends ViewController
 	  // If there's POST data, try to parse it.
 	  if($_SERVER['REQUEST_METHOD'] == 'POST')
 	    {
+	      $validForm = TRUE;
 	      // Basic validation.
-	      if($_POST['title'] == '')
-		{
-		  $alerts[] = 'You forgot the title!';
-		  $this->view->assign('alert', $alerts);
-		  $this->display('video-add.tpl');
-		}
-	      else if($_POST['channels'] == '')
-		{
-		  $alerts[] = 'Choose a channel!';
-		  $this->view->assign('alert', $alerts);
-		  $this->display('video-add.tpl');
-		}
+	      if($_POST['title'] == ''){
+		$this->addAlert('Fill in a title!');
+		$validForm = FALSE;
+	      }
+	      if(!isset($_POST['channels'])){
+		$this->addAlert('Pick a channel!');
+		$validForm = FALSE;
+	      }
+	      if(!isset($_FILE['video_file']['size'])){
+		$this->addAlert('No video file selected!');
+		$validForm = FALSE;
+	      }
+	      if(!isset($_FILE['thumbnail_file']['size'])){
+		$this->addAlert('No thumbnail selected!');
+		$validForm = FALSE;
+	      }
+	      
+	      // If any alerts have been set, we should 
+	      if(!$validForm){
+		$this->redirect('video/add');
+	      }
 
 	      // Build the video structure.
 	      $video = array('title' => $_POST['title'],

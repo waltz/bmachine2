@@ -4,7 +4,15 @@
 
 <h2>Add a new Video</h2>
 
-<form name="video/add" method="POST" action="{$baseUri}video/add">
+<form name="video/add" 
+      method="POST" 
+      action="{$baseUri}video/add"
+      enctype="multipart/form-data"
+      >
+
+      <input type="hidden" name="MAX_FILE_SIZE" value="100000"/>
+      <input type="hidden" name="video-id" value="{$video.id}"/>
+
       <fieldset>
 	<legend>Basic Info</legend>
 	<label for="title">Title</label><br/>
@@ -32,10 +40,10 @@
 
       <fieldset>
 	<legend>Video File</legend>
-	<label for="icon_url">Icon URI:</label><br/>
-	<input name="icon_url" type="text" /><br/>
-	<label for="file_url">File URI:</label><br/>
-	<input name="file_url" type="text" /><br/>
+	<label for="video_file_">Video</label><br/>
+	<input name="video_file" type="file" /><br/>
+	<label for="thumbnail_file">Icon:</label><br/>
+	<input name="thumbnail_file" type="file" /><br/>
      </fieldset>
 
      <input name="submit" type="submit" value="Add" />
