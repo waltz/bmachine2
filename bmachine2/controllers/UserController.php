@@ -6,12 +6,13 @@ class UserController extends ViewController{
 
         // Takes on an array of url parameters and calls the correct controller function
         // Called on instantiation
-        function dispatch($params) {
-	  // This is a hack. Yikes. 
-          if (!isset($params[1])) {$params[1] = '';}
-	  if(!isset($params[3])) { $params[3] = ''; }
+        function dispatch($params)
+	{
+          if(!isset($params[1])) { $params[1] = ''; }
+	  if(!isset($params[2])) { $params[2] = ''; }
 
-	  switch($params[1]) {
+       	  switch($params[1])
+	    {
 	  case '':
 	    $this->currentUser();
 	    break;
@@ -28,12 +29,12 @@ class UserController extends ViewController{
 		($this->isAdmin()) ? $this->all() : $this->forbidden();
               break;
             default:
-              switch($params[3]) {
+              switch($params[2]) {
                 case '':
                   $this->show($params[1]);
                   break;
                 case 'show':
-                  $this->show($params[1]);
+                  $this->show($params[2]);
                   break;
                 Case 'edit':
                   ($this->isAdmin() || $this->isUser($params[0])) ? $this->edit($params[0]) : $this->forbidden();
@@ -208,6 +209,7 @@ class UserController extends ViewController{
 	  // See if there is valid session to destroy.
 	  if(isset($_SESSION['username']))
 	    {
+	      //echo($_SESSION['username']);
 	      // Unset any session variables.
 	      unset($_SESSION['username']);
 
@@ -217,18 +219,18 @@ class UserController extends ViewController{
 	      // Tell the user they've logged out.
 	      $alerts[] = "You have been successfully logged out.";
 	      
-
+	      $this->view->display('user-login.tpl');
 	      // TODO: This should redirect the user to a different URI.
-	      $this->index();
+	      //$this->index();
 	    }
 	  else
 	    {
 	      // There wasn't a session to destroy!
 	      $alerts[] = "Noone to logout!";
 	      
-
+	      $this->display('user-login.tpl');
 	      // TODO: This should redirect to a URI too...
-	      $this->index();
+	      //$this->index();
 	    }
 	}
 }

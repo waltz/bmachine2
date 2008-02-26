@@ -13,11 +13,15 @@ $pagination.totalpages - the total number page
 	<div id="library_header_wrap">
 	<div id="library_title">
 		<h1>{$video.title|truncate}</h1>
+		{if $isAdmin}
+		<a href="{$baseUri}video/{$video.title|urlencode}/edit">Edit</a> |
+		<a href="{$baseUri}video/{$video.title|urlencode}/remove">Remove</a><br/>
+		{/if}
 		<table><tr><td valign="top" align="right"><span class="smalltext"><b>channels: </b></span></td>
 		<td>
 		<span class="smalltext">
 		{foreach from=$video.channels item=channel}
-		<a href="{$settings.baseurl}/channel/{$channel}">{$channel}</a>
+		<a href="{$baseUri}channel/{$channel.title|urlencode}">{$channel.title}</a>
 		{/foreach}
 		</span>
 		</td></tr>
@@ -25,7 +29,7 @@ $pagination.totalpages - the total number page
 		<td>
 		<span class="smalltext">
 		{foreach from=$video.tags item=tag}
-		<a href="{$settings.baseurl}/channel/{$tag}">{$tag}</a>
+		<a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
 		{/foreach}
 		</span>
 		</td></tr>
@@ -38,7 +42,7 @@ $pagination.totalpages - the total number page
 <!-- VIDEO -->
 <div>
 <div style="float:right;">Support this video: <a href="{$video.donation_url}">Donate</a></div>
-<div id="download_now"><a href="{$video.title_url}/download">Download Now</a> <sup><span class="smalltext">({$video.size})</span></sup>
+<div id="download_now"><a href="{$baseUri}video/{$video.title|urlencode}/download">Download Now</a> <sup><span class="smalltext">({$video.size})</span></sup>
 </div>
 
 </div>

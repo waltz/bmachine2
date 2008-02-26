@@ -14,15 +14,20 @@
       	<label for="tags">Tags:</label><br/>
 	<input name="tags" type="text" /><br/>
 	<label for="channel">Select a Channel:</label><br/>
-	<select name="channel">
+      </fieldset>
+
+      <fieldset>
+	<legend>Channel(s):</legend>
 	{if $channels == ''}
-	    	<option>No channels! Add one first!</option>
+	    	No channels! Add one first!
 	{else}
 		{foreach from=$channels item=channel}
-		<option value="{$channel.title}">{$channel.title}</option>
+		<input type="checkbox" name="channels[]" value="{$channel.id}">
+		{$channel.title}
+		</option>
+		<br/>
 		{/foreach}
-	{/if}
-	</select>
+	{/if}	
       </fieldset>
 
       <fieldset>

@@ -39,6 +39,7 @@ if (!file_exists('.htaccess')) {
 
 		// Grab the URI since we're all set up
 		$uri = $_SERVER['REQUEST_URI'];	// Nab the current URI.
+
 		//Substitute user-defined routes
 		foreach ($routes as $route => $redirect) {
 			$uri = str_replace($route, $redirect, $uri);

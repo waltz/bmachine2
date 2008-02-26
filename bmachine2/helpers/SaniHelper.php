@@ -24,15 +24,23 @@ function array_addslashes($array)
 
 function array_strip_tags($array)
 {
-  if(is_array($array))
-    {
-      $newarray = array();
-      foreach($array as $index => $string)
-	{
-	  $newarray[$index] = strip_tags($string);
+  if(is_array($array)){
+    $newarray = array();
+    foreach($array as $index => $string){
+      if(is_array($string)){
+	$weirdArray = array();
+	foreach($string as $element){
+	  $weirdArray[] = strip_tags($element);
 	}
-      return $newarray;
+	$newarray[$index] = $weirdArray;
+      } else {
+	$newarray[$index] = strip_tags($string);
+      }
     }
- }
+    return $newarray;
+  } else {
+    return $array;
+  }
+}
 
 ?>

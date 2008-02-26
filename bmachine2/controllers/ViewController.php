@@ -11,7 +11,7 @@ require_once($baseDir . 'smarty/Smarty.class.php');
 abstract class ViewController {
 	var $db_controller;
 	var $view;
-	var $alerts;
+	public $alerts = array();
 
         abstract function dispatch($params);
         abstract function index();
@@ -61,33 +61,36 @@ abstract class ViewController {
 	}
 
 	//Displays a template unless a unit test flag is set
-	function display($template) 
-	{
-      	  	global $bm_debug, $siteDomain, $baseDir, $baseUri, $site_name, $site_description, $site_iconurl;
-	  	// If the unit test flag is on, don't display templates.
-	 	if($bm_debug == 'unittest') { return; }
-	  
-		if(isset($_SESSION['username'])) {
-	      		$this->view->assign('currentUser', $_SESSION['username']);
-			global $bm_debug;
-			if ($bm_debug == "setup") {
-		 		$this->view->assign('isAdmin', true);
-			} else {
-	 			$this->view->assign('isAdmin', $this->isAdmin($_SESSION['username']));
-			}
-		} else {
-			$this->view->assign('isAdmin', false);
-		}
+	function display($template){
+	  global
+	    $bm_debug, 
+	    $siteDomain, 
+	    $baseDir, 
+	    $baseUri, 
+	    $site_name, 
+	    $site_description, 
+	    $site_iconurl;
 
-		//Assign smarty variables
-		$this->view->assign('baseDir', $baseDir);
-		$this->view->assign('baseUri', $baseUri);
-		$this->view->assign('siteDomain', $siteDomain);
-		$this->view->assign('site_name', $site_name);
-		$this->view->assign('site_description', $site_description);
-		$this->view->assign('site_iconurl', $site_iconurl);
-		$this->view->assign('alerts', $this->alerts);
-		$this->view->display($template);
+	  // If the unit test flag is on, don't display templates.
+	  if($bm_debug == 'unittest') { return; }
+	  
+	  // If there's a session, set the current username.
+	  if(isset($_SESSION['username'])){
+	    $this->view->assign('currentUser', $_SESSION['username']);
+	  }
+
+	  // Pass some useful info to the templates.
+	  $this->view->assign('isAdmin', $this->isAdmin());
+	  $this->view->assign('baseDir', $baseDir);
+	  $this->view->assign('baseUri', $baseUri);
+	  $this->view->assign('siteDomain', $siteDomain);
+	  $this->view->assign('site_name', $site_name);
+	  $this->view->assign('site_description', $site_description);
+	  $this->view->assign('site_iconurl', $site_iconurl);
+	  $this->view->assign('alerts', $this->getAlerts());
+	  
+	  // Finally, render the template.
+	  $this->view->display($template);
 	}
 
 	// AUTHENTICATION FUNCTIONS //
@@ -114,39 +117,61 @@ abstract class ViewController {
 	}
 
 	// See if the user is an admin.
-	function isAdmin()
-	{
-		global $bm_debug;
+	function isAdmin(){
+	  global $bm_debug;
 
-		// If you're unit testing, you're always an admin.
-       		if($bm_debug == "unittest") { return true; }
-	
+	  // If you're unit testing, you're always an admin.
+	  if($bm_debug == "unittest") { return true; }
 
-		// If the session has a username, see if they're an admin.
-		if(isset($_SESSION['username']))
-		  {
-		    // Read the user's info from the database.
-		    $userArray = $this->db_controller->read('users', 'username="' . $_SESSION['username'] . '"');
+	  // If the session has a username, see if they're an admin.
+	  if(isset($_SESSION['username'])){
+	    // Read the user's info from the database.
+	    $userArray = $this->db_controller->read('users', 'username="' . $_SESSION['username'] . '"');
 		
-		    // If there were any results, see if any are admins.
-		    if(count($userArray) > 0)
-			  {
-			    // Get the first user.
-			    $user = $userArray[0];
-			    
-			    // Return true/false if they're an admin or not.
-			    return ($user['admin'] == 0) ? false : true;
-			  }
-		  }
-		
-		// Otherwise, return false.
-		return false;
-	}
+	    // If there were any results, see if any are admins.
+	    if(count($userArray) > 0){
+	      $user = $userArray[0];
+	      return ($user['admin'] == 0) ? false : true;
+	    }
+	  } else {
+	    return false;
+	  }
+    	}
 
 	function forbidden() {
-		$this->alerts[] = 'You do not have permission to access this page.';
-		$this->view->assign('alerts', $this->alerts);
-		$this->index();
+	  $this->addAlert("You don't have permission to access that page!");
+	  $this->redirect('..');
+	}
+
+	// Takes in a string and adds it to the alerts array.
+	function addAlert($alertString) {
+	  $this->alerts[] = $alertString;
+	}
+
+	// Returns an array of all currently available alerts.
+	function getAlerts() {
+	  // Get any alerts stored as cookies.
+      	  if(isset($_SESSION['alerts'])) {
+	    $this->alerts = array_merge($this->alerts, unserialize($_SESSION['alerts']));
+	    $_SESSION['alerts'] = null;
+	  }
+
+	  return $this->alerts;
+	}
+
+	// Consumes a string and redirects the user to that URI.
+	function redirect($location) {
+	  // Make sure alerts survive the redirect.
+	  $storedAlerts = serialize($this->getAlerts());
+	  $_SESSION['alerts'] = $storedAlerts;
+	 
+	  global $baseUri;
+
+	  // Send the redirection headers.
+      	  header('Location: ' . $baseUri . $location, TRUE, 303);
+	  //echo($baseUri . $location);
+	  // Stop program execution/output.
+	  exit;
 	}
 }
 ?>

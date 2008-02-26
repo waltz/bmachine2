@@ -9,9 +9,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>{$settings.name} - Powered by Broadcast Machine</title>
+	<title>{$site_name} - Powered by Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css" />
+	<link rel="icon" href="{$baseUri}themes/default/favicon.png" type="image/gif" />
 </head>
 
 <body>
@@ -21,19 +22,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	</div>
 
 	<!-- Navigation menu -->
-	<!--
-	TODO: Add these navigation links.
-	   * Home
-	   * Channels
-	   * Videos
-	   * Tags
-	-->
 	<div id="navigation-links">
-		<a href="{$baseUri}">home</a> | 
-		<a href="{$baseUri}channel/all">channels</a> |
-		<a href="{$baseUri}video/all">videos</a> |
-		<a href="{$baseUri}tags/all">tags</a>
+		<a href="{$baseUri}">Home</a> | 
+		<a href="{$baseUri}channel/all">Channels</a> |
+		<a href="{$baseUri}video/all">Videos</a> |
+		<a href="{$baseUri}tags/all">Tags</a> |
+		<a href="{$baseUri}user/all">Users</a>
 	</div>
+
 	<!-- User menu -->
 	<div id="logged_in">
 	{if $currentUser eq ""}

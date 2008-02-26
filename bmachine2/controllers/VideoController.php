@@ -6,35 +6,36 @@ class VideoController extends ViewController
 {
 	// Takes on an array of url parameters and calls the correct controller functions
 	// Called on instantiation
-	function dispatch($params) {
-	  if (!isset($params[1])) {$params[1] = '';}
-	  switch($params[1]) {
-	    case 'add':
-	      ($this->isAdmin()) ? $this->add() : $this->forbidden();
+	function dispatch($params){
+	  if(!isset($params[1])){ $params[1] = ''; }
+	  if(!isset($params[2])){ $params[2] = ''; }
+
+	  switch($params[1]){
+	  case '':
+	    $this->all();
+	    break;
+	  case 'add':
+	    ($this->isAdmin()) ? $this->add() : $this->forbidden();
+	    break;
+	  case 'all':
+	    $this->all();
+	    break;
+	  default:
+	    switch($params[2]){
+	    case '':
+	      $this->show($this->parse($params[1]));
 	      break;
-	    case 'all':
-	      $this->all();
+	    case 'edit':
+	      ($this->isAdmin()) ? $this->edit($this->parse($params[1])) : $this->forbidden();
 	      break;
-	    default:
-		$params[0] = $this->parse($params[0]);
-	      	switch($params[1]) {
-	        case '':
-		  $this->show($params[0]);
-		  break;
-		case 'show':
-		  $this->show($params[0]);
-		  break;
-		case 'edit':
-                  ($this->isAdmin()) ? $this->edit($params[0]) : $this->forbidden();
-		  break;
-		case 'remove':
-                  ($this->isAdmin()) ? $this->remove($params[0]) : $this->forbidden();
-		  break;
-		case 'download':
-		  $this->download($params[0]);
-		  break;
-	      }
+	    case 'remove':
+	      ($this->isAdmin()) ? $this->remove($this->parse($params[1])) : $this->forbidden();
 	      break;
+	    case 'download':
+	      $this->download($params[0]);
+	      break;
+	    }
+	    break;
 	  }
 	}
 
@@ -44,15 +45,11 @@ class VideoController extends ViewController
 	}
 
 	// Shows all videos
-	function all()
-	{
-		$videos = $this->db_controller->read("videos", "all");
-
-		//Get tags and channels that a video belongs to
-		$videos = $this->getMetaData($videos);
-
-		$this->view->assign('videos', $videos);
-		$this->display('video-all.tpl');
+	function all(){
+	  $videos = $this->db_controller->read("videos", "all");
+	  $videos = $this->getMultiMetaData($videos);
+	  $this->view->assign('videos', $videos);
+	  $this->display('video-all.tpl');
 	}
 	
 	// Add a video.
@@ -68,56 +65,66 @@ class VideoController extends ViewController
 		  $this->view->assign('alert', $alerts);
 		  $this->display('video-add.tpl');
 		}
+	      else if($_POST['channels'] == '')
+		{
+		  $alerts[] = 'Choose a channel!';
+		  $this->view->assign('alert', $alerts);
+		  $this->display('video-add.tpl');
+		}
 
-	      // If tags exist, process them.
+	      // Build the video structure.
+	      $video = array('title' => $_POST['title'],
+			     'description' => $_POST['description'],
+			     'icon_url' => $_POST['icon_url'],
+			     'file_url' => $_POST['file_url']);
+
+	      // Create the video.
+	      $this->db_controller->create('videos', $video);
+
+	      // Grab the Video ID.
+	      $id = $this->getID($video['title']);
+
+	      // Process and add tags.
 	      if($_POST['tags'] != '')
 		{
-		  // Put the tag string into an array
-		  $tags = explode(" ", $_POST['tags']);
+		  // Parse tags into an array.
+		  $tags = explode(' ', $_POST['tags']);
 		  
-		  // Insert tags into the database
-		  $id = $this->getID($video['title']);
 		  foreach($tags as $x)
 		    {
 		      $tag = array($id, $x);
-		      $this->db_controller->create("video_tags", $tag);
+		      $this->db_controller->create('video_tags', $tag);
 		    }
 		}
 
-	      //Get publishing channel list
+	      // Get publishing channel list
 	      $channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
-	      unset($video['channels']);
-
+	    
+	      // 'Publish' (Associate a video with a set of channels.
+	      $this->publish($id, $channels);
+	      
+	      //unset($video['channels']);
 	      //Get credits information
-	      $credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
-                        unset($video['credits']);
+	      //$credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
+	      //unset($video['credits']);
+    	      // Insert credits
+	      //foreach($credits as $x)
+	      //{
+	      //  $credit = array($id, $x['name'], $x['role']);
+	      //  $this->db_controller->create("video_credits", $credit);
+	      //}
 
-			$this->db_controller->create("videos", $video);
-
-			
-
-			//Insert publishing data
-			$this->publish($id, $channels);
-
-			//Insert credits
-			foreach ($credits as $x) {
-				$credit = array($id, $x['name'], $x['role']);
-				$this->db_controller->create("video_credits", $credit);
-			}
-
-
-			$alerts[] = 'Video was created successfully!';
-			$this->view->assign('alerts', $alerts);
-			$this->show($video['title']);
-		} 
+	      $this->alerts[] = 'Video was created successfully!';
+	      //$this->view->assign('alerts', $alerts);
+	      $this->display('video-add.tpl');
+	    } 
 	  else 
 	    {
-			//Get list of available channels
-			$channels = $this->db_controller->read('channels', 'all');
-			$this->view->assign('channels', $channels);
-
-			$this->display('video-add.tpl');
-		}
+	      // Push a list of available channels to the template.
+	      $channels = $this->db_controller->read('channels', 'all');
+	      $this->view->assign('channels', $channels);
+	      $this->display('video-add.tpl');
+	    }
         }
 	
 	// Removes a video from the database
@@ -145,40 +152,38 @@ class VideoController extends ViewController
 		$this->db_controller->delete("videos", $condition);
 
 		//Add an alert and redirect to index
-		$alerts[] = 'Video was removed successfully!';
-		$this->view->assign('alerts', $alerts);
-		$this->index();
+		$this->addAlert('Video was removed successfully!');
+      		$this->redirect('video/all');
 	}
 	
-	// If post, updates video record in db
-	// If no post, brings up an edit form
-	function edit($title) {
-		// If new data is posted, update database
-		if(isset($_POST['title']))
-                {
-                        $video_id = $this->getID($_POST['title']);
-			$condition = 'id="'.$video_id.'"';
+	// Edit a video.
+	function edit($title){
+	  // If we get new data, try to add it to the database.
+	  if($_SERVER['REQUEST_METHOD'] == 'POST'){
+	    $video_id = $this->getID($_POST['title']);
+	    $condition = 'id="'.$video_id.'"';
 
-                         //Put the tag string into an array
-                        $tags = explode(" ", $_POST['tags']);
-                        unset($_POST['tags']);
-
-                        $channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
-                        unset($_POST['channels']);
-
-			$credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
-                        unset($_POST['credits']);
-
-
-			//Update video 
-			$this->db_controller->update('videos', $_POST, $condition);
+	    // Parse the tags.
+            $tags = explode(" ", $_POST['tags']);
+            
+	    // Grab all selected channels.
+	    $channels = (isset($_POST['channels'])) ? $_POST['channels'] : array();
+            
+	    //$credits = (isset($_POST['credits'])) ? $_POST['credits'] : array();
+            
+	    // Build the video structure.
+	    $video = array('id' => $video_id,
+			   'title' => $_POST['title'],
+			   'description' => $_POST['description']);
+	  
+	    // Update the video info.
+	    $this->db_controller->update('videos', $video, $condition);
 			
-
-			//Update tags
-			$condition = 'video_id="'.$video_id.'"';
-                        $old_tags = $this->db_controller->read("video_tags", $condition);
+	    // Update tags.
+	    $condition = 'video_id="'.$video_id.'"';
+	    $old_tags = $this->db_controller->read("video_tags", $condition);
 			
-                        // If tag is in the old array, but not in the new one, delete it
+                // If tag is in the old array, but not in the new one, delete it
                         foreach ($old_tags as $old_tag) {
                                 if (array_search($old_tag['name'], $tags) === FALSE) {
                                         $condition = 'video_id="'.$video_id.'" and name="'.$old_tag['name'].'"';
@@ -206,7 +211,7 @@ class VideoController extends ViewController
         	                                $this->db_controller->delete("video_credits", $condition);
                                 }
 			}
-
+			/*
 			foreach ($credits as $credit) {
                                 //Check if credit already exists
 				$condition = 'video_id="'.$video_id.'" and name="'.$credit['name'].'" and role="'.$credit['role'].'"';
@@ -216,7 +221,7 @@ class VideoController extends ViewController
                                         $this->db_controller->create("video_credits", array($video_id, $credit['name'], $credit['role']));
                                 }
                         }
-
+			*/
 
                         //Update publishing information
 			$condition = 'video_id="'.$video_id.'"';
@@ -244,24 +249,21 @@ class VideoController extends ViewController
                                 }
                         }
 
-			$alerts[] = 'Video was edited successfully';
-			$this->view->assign('alerts', $alerts);
-			$this->show($title);
+			//$alerts[] = 'Video was edited successfully';
+      			//$this->edit($_POST['title']);
+			$this->redirect('../../video/all');
                 } else {
 			$condition = 'title="'.$title.'"';
 			$vidarray = $this->db_controller->read("videos", $condition);
 			
-			if (count($vidarray) > 0) {
-                                $video = $vidarray[0];
-
-                                //Get tags and channels info
-                                $video = $this->getMetaData($video);
-                                $this->view->assign('video', $video);
-
-				$channels = $this->db_controller->read('channels', 'all');
-				$this->view->assign('channels', 'channels');
-
-                                $this->display('video-edit.tpl');
+			if(count($vidarray) > 0){
+			  $video = $vidarray[0];
+			  $video = $this->getMetaData($video);
+			  $this->view->assign('video', $video);
+			  $channels = $this->db_controller->read('channels', 'all');
+			  //print_r($video['channels']);
+			  $this->view->assign('channels', $channels);
+			  $this->display('video-edit.tpl');
 			} else {
 				$alerts[] = "Video $title not found";
                                 $this->view->assign('alerts', $alerts);
@@ -271,14 +273,14 @@ class VideoController extends ViewController
 
 	}
 
-	function show($title) {
+	function show($title){
 		$condition = 'title="'.$title.'"';
 		$vidarray = $this->db_controller->read("videos", $condition);
-		if (count($vidarray) == 0) {
+		if(count($vidarray) == 0){
 			$alerts[] = "Video $title not found";
                         $this->view->assign('alerts', $alerts);
 		} else {
-			$video = $vidarray[0];
+      			$video = $vidarray[0];
 
 			//Get tags and channels info
 			$video = $this->getMetaData($video);
@@ -309,33 +311,42 @@ class VideoController extends ViewController
 
 	// PRIVATE FUNCTIONS
 
-	// Adds tags, credits, and channels to an array of videos (or just one)
-	// Returns a fresh array of videos
-	private function getMetaData($videos) {
-                foreach ($videos as &$video) {
-			$condition = 'video_id="'.$video['id'].'"';
-                	
-			$tags = $this->db_controller->read("video_tags", $condition);
-                        $video['tags'] = $tags;
+	// Get meta data for an array of videos.
+	private function getMultiMetaData($videos){
+	  $newarray = array();
+	  foreach($videos as $video){
+	    $newarray[] = $this->getMetaData($video);
+	  }
+	  return $newarray;
+	}   
 
-			$credits = $this->db_controller->read("video_credits", $condition);
-			$video['credits'] = $credits;
+	// Gets meta data (tags, credits, channels) for some video.
+	private function getMetaData($video){
+	  $condition = 'video_id="' . $video['id'] . '"';
+          
+	  // Get the tags.
+	  $tags = $this->db_controller->read("video_tags", $condition);
+	  $video['tags'] = $tags;
 
-			// Add published channels to each video
-                        $condition .= ' order by publish_date desc';
-                        $published = $this->db_controller->read("published", $condition);
-                        $channels = array();
-                        foreach ($published as $x) {
-                                $condition = 'id="'.$x['channel_id'].'"';
-                                $channel = $this->db_controller->read("channels", $condition);
-				//print_r($channel);
-				$channel = $channel[0]; //done by dw. not entirely sure why this works, but it does
-                                array_push($channels, $channel['title']);
-                        }
-			$video['channels'] = $channels;			
-                }
-		unset($video);
-		return $videos;
+	  // Get the credits.
+	  $credits = $this->db_controller->read("video_credits", $condition);
+	  $video['credits'] = $credits;
+
+	  // Get the channels.
+          $condition .= ' order by publish_date desc';
+        
+	  $published = $this->db_controller->read("published", $condition);
+	  $channels = array();
+
+	  foreach($published as $x){
+	    $condition = 'id="'.$x['channel_id'].'"';
+	    $channel = $this->db_controller->read("channels", $condition);
+       	    array_push($channels, $channel[0]);
+	  }
+
+	  $video['channels'] = $channels;			
+	  
+	  return $video;
 	}
 	
 	//Returns a video id based on its title
@@ -351,16 +362,25 @@ class VideoController extends ViewController
 		}
 	}
 
-	//Takes a single video id and an array of channel ids and
-	//inserts publishing associations into the database
-	private function publish($video_id, $channel_ids) {
-		foreach ($channel_ids as $channel_id) {
-			$publish = array(
-				"channel_id" 	=>	$channel_id,
-				"video_id"	=>	$video_id
-			);
-			$this->db_controller->create("published", $publish);
+	// Takes in a video ID and a channel id (or array of channel ids)
+	// and inserts them into the database.
+	private function publish($video_id, $channel_ids)
+	{
+	  if(is_array($channel_ids))
+	    {
+	      foreach($channel_ids as $channel_id)
+		{
+		  $publish = array("channel_id"	=> $channel_id,
+				   "video_id"	=> $video_id);
+		  $this->db_controller->create("published", $publish);
 		}
+	    }
+	  else
+	    {
+	      $publish = array('channel_id' => $channel_ids,
+			       'video_id'   => $video_id);
+	      $this->db_controller->create('published', $publish);
+	    }
 	}
 }
 

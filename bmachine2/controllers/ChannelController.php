@@ -244,6 +244,21 @@ class ChannelController extends ViewController
         // Returns a fresh array of channels
         private function getTagsandVideos($channels) {
                 foreach ($channels as &$channel) {
+			$condition = 'channel_id="'.$channel["id"].'"';
+                        $tags = $this->db_controller->read("channel_tags", $condition);
+
+			// Add published videos to each channel
+			$condition = 'channel_id="'.$channel['id'].'" order by publish_date desc limit 0,5';
+			$published = $this->db_controller->read("published", $condition);
+
+			$videos = array();
+			foreach ($published as $x) {
+				$condition = 'id="'.$x['video_id'].'"';
+				$video = $this->db_controller->read("videos", $condition);
+				//print($condition);
+       				array_push($videos, $video[0]);
+			}
+
 			//Assign tag array and video array
                         $channel['tags'] = $this->getTags($channel['id']);
 			$channel['videos'] = $this->getVideos($channel['id']);
