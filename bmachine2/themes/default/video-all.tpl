@@ -31,13 +31,13 @@
 			</td>
 		</tr>
 		 <tr><td>Runtime: {$video.runtime}</td></tr>
-		 <tr><td>	  Channel(s):
+		 <tr><td>	  Channels:
 	  {foreach from=$video.channels item=channel}
 			 <a href="{$baseUri}channel/{$channel.title}">{$channel.title}</a>
 		 	  {/foreach}
 		      </td></tr>
 		 <tr><td>
-		 	  Tags(s):
+		 	  Tagss:
 		 	  {foreach from=$video.tags item=tag}
 			 <a href="{$baseUri}tag/{$tag.name}">{$tag.name}</a>
 		 	  {/foreach}

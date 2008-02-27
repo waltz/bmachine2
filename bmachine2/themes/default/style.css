@@ -98,6 +98,14 @@ tr.alt-background td {
 	background-color: #eee;
 }
 
+/* -----------  video-show.tpl -----------  */
+#big-video-icon {
+	float:right;
+	padding-right:20px;
+	text-align:center;
+}
+
+
 /* -----------  shared ids and classes -----------  */
 /* ----- WRAPS ------ */
 #wrap { 
@@ -118,6 +126,9 @@ tr.alt-background td {
 	font-size: 18px; 
 	display: inline;
 }
+
+
+
 /* ----- SECTIONS ----- */
 .video_section { 
 	margin: 10px 0 0 0;
