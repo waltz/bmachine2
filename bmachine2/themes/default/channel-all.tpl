@@ -19,7 +19,7 @@
 	</div>
 
 <div class="video_section">
-	<div class="align-left">
+
 
 	{foreach from=$channels item=channel}
 	<div id="tagsbox">
@@ -29,10 +29,10 @@
 			{/foreach}
 	</div>
 
-<div style="float:left; padding-right:20px;"><img src="{$channel.icon_url}" alt="icon for {$channel.title}" width="150px" /></div>
+<div id="channel-icon"><img src="{$channel.icon_url}" alt="icon for {$channel.title}" width="150px" /></div>
 <h2><a href="{$baseUri}channel/{$channel.title|urlencode}">{$channel.title}</a></h2>
-<a href="{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss"><img src="{$baseUri}themes/default/images/rss_button.gif" alt="{$channel.title} video rss feed" border="0" /></a> 
-<a href="http://subscribe.getMiro.com/?url1={$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss" title="Miro: Internet TV"><img src="http://subscribe.getmiro.com/img/buttons/pcf1.gif" alt="Miro Video Player" border="0" /></a>
+<a href="{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss"><img src="{$baseUri}themes/default/images/rss_button.gif" alt="{$channel.title} video rss feed" /></a> 
+<a href="http://subscribe.getMiro.com/?url1={$siteDomain}{$baseUri}channel/{$channel.title|urlencode}/rss" title="Miro: Internet TV"><img src="http://subscribe.getmiro.com/img/buttons/pcf1.gif" alt="Miro Video Player" /></a>
 	<div>
 		last modified: {$channel.modified}<br />
 		<em>{$channel.videos|@count} videos in channel</em>
@@ -41,16 +41,16 @@
 	<p>
 	<em>Description:</em> {$channel.description|truncate:350}<a href="{$baseUri}channel/{$channel.title|urlencode}">(read more)</a><br /><br />
 	<em>Recent videos from {$channel.title}:</em><br />
-	<table align="center">
+	</p>
+	<table>
 	<tr>
 	{section name=foo loop=3}
 		<td>
-			<a href="{$baseUri}video/{$channel.videos[foo].title|urlencode}"><img src="{$channel.videos[foo].icon_url}" alt="{$channel.videos[foo].title} thumbnail" width="200px"/>
+			<a href="{$baseUri}video/{$channel.videos[foo].title|urlencode}"><img src="{$channel.videos[foo].icon_url}" alt="{$channel.videos[foo].title} thumbnail" width="200px"/></a>
 		</td>
 	{/section}
 	</tr>
 	</table>
-	</p>
 	{/foreach}
 
 	{if $isAdmin} 
@@ -58,8 +58,8 @@
  	        <a href="{$baseUri}channel/{$channel.title|urlencode}/remove">Remove</a> 
 	{/if}
 <hr />
-</div>
 
+</div>
 </div>
 </div>
 

@@ -1,21 +1,5 @@
 {* Smarty *}
-{* Edit a channel
-* 
-* variables available to this template:
-*  + channel (id, title, description, modified, icon_url, website_url, tags (array of channel tags)
-*  + videos (array of 10 most recent videos (id, title, title_url, modified, icon_url, website_url, release_date, runtime, *    adult, size, downloads, tags, channels))
-*  + settings (name, description, open_reg, reg_approval, bandwidth_limit, baseurl, iconurl, , donation_html, donation_url, donthideporn)
-*  + user (username, admin, banned)
-* 
-* things that might be missing:
-*  + adult
-*  + donation_url
-*  + donation_html
-* 
-*  + settings (name, description, open_reg, reg_approval, bandwidth_limit, baseurl, iconurl, donation_html, donation_url, 
-*    donthideporn)
-*
-}
+{* Edit a channel *}
 
 
 {include file='header.tpl'}
@@ -27,16 +11,13 @@
 <!--done--->
 <form method="post" action="{$baseUri}channel/{$channel.title}/edit/" name="post" enctype="multipart/form-data" accept-charset="utf-8">
 <!-- , iso-8859-1 -->
-<div id="poststuff">
 <div class="page_name">
    <h2>Edit Channel</h2>
 
 </div>
 
 <div class="section">
-<div style="float: right; font-size: 1.4em; font-weight:bold;">
-<a href="#">Delete this channel</a>
-</div>
+<div id="delete-button"><a href="#">Delete this channel</a></div>
 <h3>Channel Info</h3>
 <input type="hidden" name="id" value="{$channel.id}" />
 <fieldset>

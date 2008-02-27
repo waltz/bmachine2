@@ -9,7 +9,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>{$site_name} - Powered by Broadcast Machine</title>
+	<title>Broadcast Machine</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{$baseUri}themes/default/style.css" />
 	<link rel="icon" href="{$baseUri}themes/default/favicon.png" type="image/gif" />
@@ -22,12 +22,17 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	    <link rel="alternate" type="application/rss+xml" title="RSS"
 	    	  href="{$baseUri}tag/{$tagName|urlencode}/rss"/>
 	{/if}
+	{if $rss eq 'video-all'}
+	    <link rel="alternate" type="application/rss+xml" title="RSS"
+	    	  href="{$baseUri}video/all/rss"/>
+	{/if}
+
 </head>
 
 <body>
 	<!-- Banner/logo -->
 	<div id="head">
-	     <h1 id="preview">&nbsp;</h1>
+	     <h1 id="preview">{$siteName}</h1>
 	</div>
 
 	<!-- Navigation menu -->
@@ -53,7 +58,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
 	<!-- Display all of the alerts. -->
 	{if $alerts|@count gt 0}
-	<div id="alerts">
+	<div class="alerts">
 		<ul>
 		{foreach from=$alerts item=alert}
 			<li>{$alert}</li> 

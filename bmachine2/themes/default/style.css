@@ -1,19 +1,155 @@
+/* -----------  header.tpl -----------  */
+#head {
+	background-color: #F2F2F2;
+	padding: 4px 0 0 5px;
+	margin-bottom: 2px;
+	margin-top: 0px;
+	padding: 0;
+	height: 60px;
+}
 
-.align-left {
+#head a {
+	border-bottom: none;
+	display: block;
+	text-decoration: none;
+	text-indent: -1000px;
+	width: 200px;
+}
+
+#head h1 {
+	background: url(images/blue_light_title2.gif) no-repeat;
+	height: 60px;
+	margin: 0;
+}
+
+#navigation-links {
+	text-align: center;
+}
+
+#logged_in {
+	width: 670px;
+	margin: 0px auto 0 auto;
+	padding: 7px 0 3px 0;
+	text-align: right;
+	font-size: 11px;
+	color: #444;
+}
+
+/* ------  alerts ------  */
+.alerts {
+	margin-top: 6px;
+	padding: 5px;
+	border: 1px solid #f77;
+	background-color: #FFFFD1;
+}
+
+.alerts ul {
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+
+.alerts li {
+	margin: 0 0 5px 0;
+	font-weight: bold;
+}
+
+
+/* -----------  footer.tpl -----------  */
+#footer {
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #eee;
+}
+
+
+/* -----------  channel-all.tpl -----------  */
+#channel-icon {
+	float:left; 
+	padding-right:20px;
+}
+#tagsbox {
+	margin: 0px;
+	padding: 0px;
+	text-align: right;
+	font-size: 20px;
+}
+
+/* -----------  channel-add.tpl -----------  */
+.page_name {
+	padding-bottom: 5px;
+	margin: 0;
+	line-height: 30px;
+}
+
+.the_legend {
+	display: inline;
+	font-size: 14px;
+}
+
+/* -----------  channel-edit.tpl -----------  */
+#delete-button {
+	float: right;
+	font-size: 1.4em;
+	font-weight:bold;
+}
+
+/* -----------  channel-show.tpl -----------  */
+tr.alt-background td {
+	background-color: #eee;
+}
+
+/* -----------  shared ids and classes -----------  */
+/* ----- WRAPS ------ */
+#wrap { 
+	width: 720px;
+	margin: 0 auto 0 auto;
+	position: relative;
+}
+
+#library_header_wrap {
+	border-top: 1px solid rgb(153, 153, 153); 
+	border-bottom: 1px solid rgb(153, 153, 153); 
+	padding: 7px 6px 7px 5px; 
+	background-color: #eee; 
 	text-align: left;
 }
-#alerts {
-	width:50%;
-	margin-left: 200px;
-	background-color:pink;
-	padding:10px;
+
+#library_title { 
+	font-size: 18px; 
+	display: inline;
+}
+/* ----- SECTIONS ----- */
+.video_section { 
+	margin: 10px 0 0 0;
+	padding: 10px 10px 10px 10px; 
+	text-align: left; 
+	border: 1px solid #ccc;
+}
+.section_header {
+	font-size: 14px;
+	color: #222;
+	font-weight: bold;
+	margin: 2px 0px 8px 0;
 }
 
-#alerts h3 {
-	padding-left:20px;
-	padding-top:10px;
-	padding-bottom: 0px;
+.settings_page .section_header {
+	border-top: 1px solid #C0C2CD;
+	padding-top: 10px;
 }
+.section ul, li {
+	margin: 0;
+	list-style-type: none;
+}
+
+.section ul {
+	padding: 0px 0 10px 15px;
+}
+
+.section li {
+	padding: 0px 0 3px 0px;
+}
+
+
 
 /* -----------  add.tpl ------------ */
 
@@ -42,52 +178,6 @@ div.video_display_big {
 span.smalltext {
 	font-size: 0.6em;
 }
-
-
-/* -----------  HEAD ------------ */
-
-#head {
-	background-color: #F2F2F2;
-	padding: 4px 0 0 5px;
-	margin-bottom: 2px;
-	margin-top: 0px;
-	padding: 0;
-	height: 60px;
-}
-
-#head a {
-	border-bottom: none;
-	display: block;
-	text-decoration: none;
-	text-indent: -1000px;
-	width: 200px;
-}
-
-#head h1 {
-	background: url(images/blue_light_title2.gif) no-repeat;
-	height: 60px;
-	margin: 0;
-}
-
-#preview {
-text-align: right;
-padding: 14px 30px 20px 20px;
-color: #fff;
-font-weight: normal;
-font-size: 24px;
-}
-
-/* --------- LOGGED IN AS -------------*/
-#logged_in {
-	width: 670px;
-	margin: 0px auto 0 auto;
-	padding: 7px 0 3px 0;
-	text-align: right;
-	font-size: 11px;
-	color: #444;
-}
-
-
 /* -----------  NAV ------------ */
 #adminmenu {
 	margin: 8px 0px 15px 0px;
@@ -241,10 +331,6 @@ input {
 legend {
 }
 
-.the_legend {
-	display: inline;
-	font-size: 14px;
-}
 
 .section {
 	background-color: #E0E2ED;
@@ -259,17 +345,6 @@ legend {
 	color: #000;
 }
 
-.section_header {
-	font-size: 14px;
-	color: #222;
-	font-weight: bold;
-	margin: 2px 0px 8px 0;
-}
-
-.settings_page .section_header {
-	border-top: 1px solid #C0C2CD;
-	padding-top: 10px;
-}
 
 #video_file {
 	font-size: 14px;
@@ -287,13 +362,6 @@ h2, .page_name h2, h2.page_name {
 	padding: 0;
 	line-height: 30px;
 }
-
-.page_name {
-	padding-bottom: 5px;
-	margin: 0;
-	line-height: 30px;
-}
-
 
 /* HELP */
 .help_pop_link {
@@ -331,22 +399,6 @@ h2, .page_name h2, h2.page_name {
 .help_pop {
 	padding: 15px 15px 15px 15px;
 }
-
-/* SECTIONS */
-.section ul, li {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
-.section ul {
-	padding: 0px 0 10px 15px;
-}
-
-.section li {
-	padding: 0px 0 3px 0px;
-}
-
 
 /* CHANNELS */
 .channel_display {
@@ -662,46 +714,6 @@ padding: 3px;
 	font-size: 11px;
 }
 
-/* ------------ Alerts and Activity --------------  */
-#alerts_activity {
-	width: 310px;
-	float: left;
-}
-
-.alerts {
-	margin-top: 6px;
-	padding: 5px;
-	border: 1px solid #f77;
-	background-color: #FFFFD1;
-}
-
-.alerts h4 {
-	font-size: 14px; 
-	font-weight: normal; 
-	margin: 0; 
-	padding: 0;
-	color: #d33;
-	text-transform: uppercase;
-}
-
-.alerts ul {
-	margin: 10px 0 0 0;
-	padding: 0;
-}
-
-.alerts li {
-	margin: 0 0 5px 0;
-	font-weight: bold;
-}
-
-.activity h4 {
-	clear: both;
-	display: block;
-	padding: 10px 0 4px 0;
-	margin: 0;
-	font-size: 18px;
-}
-
 
 /* ------------ Outside Info --------------  */
 #outside_info {
@@ -928,7 +940,7 @@ a:visited {
 .video_section { 
 	margin: 10px 0 0 0;
 	padding: 10px 10px 10px 10px; 
-	text-align: center; 
+	text-align: left; 
 	border: 1px solid #ccc;
 }
 
@@ -1005,7 +1017,7 @@ embed {
 }
 
 .dl_links a {
-	font-weight; normal;	
+	font-weight: normal;	
 }
 
 
@@ -1097,7 +1109,6 @@ body {
 	padding: 0px;
 	font: 12px "Lucida Grande", Arial, sans-serif;
 	color: #000000;
-	//text-align: center;
 	text-decoration: none;
 	background: #FFFFFF;
 }
@@ -1431,7 +1442,7 @@ h1, h2, h3 {
 .channel-subscribe p a {
 	display: block;
 	padding: 4px 0px 4px 23px;
-	#background-color: #FFFFFF;
+	background-color: #FFFFFF;
 	background: url(../images/black/icon-feed.gif) no-repeat 5px 50%;
 }
 

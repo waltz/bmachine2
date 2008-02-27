@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>{$channel.title}</title>
+    <title>{$channel.title|strip_tags}</title>
     <link>{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}</link>
-    <description>{$channel.description}</description>
+    <description>{$channel.description|strip_tags}</description>
     <generator>Broadcast Machine</generator>
 	
 	{foreach from=$channel.videos item=video}
 	<item>
-		<title>{$video.title}</title>
+		<title>{$video.title|strip_tags}</title>
 		<link>{$siteDomain}{$baseUri}video/{$video.title|urlencode}</link>
-		<description>{$video.description}</description>
+		<description>{$video.description|strip_tags}</description>
 		<media:content 
 			url="{$video.file_url}" 
 			fileSize="{$video.size}" 
@@ -21,7 +21,7 @@
 		<media:rating scheme="urn:simple">adult</media:rating>
 		{/if}
 		<media:title type="plain">{$video.title}</media:title>
-		<media:description type="plain">{$video.description}</media:description>
+		<media:description type="plain">{$video.description|strip_tags}</media:description>
 		<media:keywords>
 		{$firstTime = true}
 		{foreach from=$video.tags item=tag}
