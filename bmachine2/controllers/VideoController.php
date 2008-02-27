@@ -18,6 +18,9 @@ class VideoController extends ViewController
 	    ($this->isAdmin()) ? $this->add() : $this->forbidden();
 	    break;
 	  case 'all':
+		case 'rss':
+			$this->rss();
+		break;
 	    $this->all();
 	    break;
 	  default:
@@ -50,6 +53,14 @@ class VideoController extends ViewController
 	  $videos = $this->getMultiMetaData($videos);
 	  $this->view->assign('videos', $videos);
 	  $this->display('video-all.tpl');
+	}
+	
+	// Rss of all videos
+	function rss(){
+	  $videos = $this->db_controller->read("videos", "all");
+	  $videos = $this->getMultiMetaData($videos);
+	  $this->view->assign('videos', $videos);
+	  $this->display('video-rss.tpl');
 	}
 	
 	// Add a video.
