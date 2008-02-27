@@ -18,9 +18,11 @@ class VideoController extends ViewController
 	    ($this->isAdmin()) ? $this->add() : $this->forbidden();
 	    break;
 	  case 'all':
-		case 'rss':
-			$this->rss();
-		break;
+		switch($params[2]){
+			case 'rss':
+				$this->rss();
+			break;
+		}
 	    $this->all();
 	    break;
 	  default:
