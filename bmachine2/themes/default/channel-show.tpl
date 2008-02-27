@@ -27,6 +27,10 @@
 
 <div class="video_section">
 	<div class="align-left">
+	{if $isAdmin} 
+ 	        <a href="{$baseUri}channel/{$channel.title|urlencode}/edit">Edit Channel</a> |  
+ 	        <a href="{$baseUri}channel/{$channel.title|urlencode}/remove">Remove Channel</a> 
+	{/if}
 
 	<div id="tagsbox">
 		<b>Channel Tags:</b>

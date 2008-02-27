@@ -17,9 +17,8 @@
 </div>
 
 <div class="section">
-<div id="delete-button"><a href="#">Delete this channel</a></div>
+<div id="delete-button"><a href="{$baseUri}channel/{$channel.title|urlencode}/remove">Remove this channel</a></div>
 <h3>Channel Info</h3>
-<input type="hidden" name="id" value="{$channel.id}" />
 <fieldset>
 	Title<br />
 	<input type="text" name="title" size="60" value="{$channel.title}" />
@@ -64,7 +63,7 @@
 </div>
 </div>
 </div>
-
+<input type="hidden" name="id" value="{$channel.id}" />
 </form>
 <!--done--->
 
