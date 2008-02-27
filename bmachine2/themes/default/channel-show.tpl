@@ -57,10 +57,10 @@
 href="{$baseUri}video/{$video.title|urlencode}">{$video.title}</a> (<a 
 href="{$video.file_url}">download</a>)
 	</td></tr>
-	<tr  class="{cycle values="alt-background,none" advance=false}"><td>modified: 
+	<tr  class="{cycle values="alt-background,none" advance=false}"><td><em>Last modified:</em> 
 {$video.modified}
 	</td></tr>
-	<tr class="{cycle values="alt-background,none"}"><td>{$video.description|truncate:50}(<a 
+	<tr class="{cycle values="alt-background,none"}"><td><em>Description:</em> {$video.description|truncate:50}(<a 
 href="{$baseUri}video/{$video.title|urlencode}">more</a>)
 	</td></tr>
 

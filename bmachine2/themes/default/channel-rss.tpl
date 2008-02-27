@@ -5,6 +5,11 @@
     <link>{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}</link>
     <description>{$channel.description|strip_tags}</description>
     <generator>Broadcast Machine</generator>
+	<image>
+		<url>{$channel.icon_url}</url>
+		<title>{$channel.title}</title>
+		<link>{$siteDomain}{$baseUri}channel/{$channel.title|urlencode}</link>
+	</image>
 	
 	{foreach from=$channel.videos item=video}
 	<item>

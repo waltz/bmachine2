@@ -54,13 +54,14 @@
 	<p>{$video.description}
 	<br /><br />{$video.donation_html}
 	</p>
-	<h3>Video Credits</h3>
-
-	<table>
-	{foreach from=$video.credits item=credit}
-		<tr><td><em>{$credit.role}</em></td> <td>{$credit.name}</td></tr>
-	{/foreach}
-	</table>
+	{if $video.credits|@count gt 0}
+		<h3>Video Credits</h3>
+		<table>
+		{foreach from=$video.credits item=credit}
+			<tr><td><em>{$credit.role}</em></td> <td>{$credit.name}</td></tr>
+		{/foreach}
+		</table>
+	{/if}
 
 </div>
 
