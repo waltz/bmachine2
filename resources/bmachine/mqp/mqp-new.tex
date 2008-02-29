@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt]{report}
-\author{Christian Bryan, Greg Opperman}
+\author{Christian Bryan, Greg Opperman, Drew Wilson}
 \date{\today}
 \title{Broadcast Machine}
 
@@ -30,13 +30,16 @@
 
 \section{The Current State of Internet Video}
 As bandwidth and storage become increasingly cheaper, the prevalence of video on the internet has sharply risen over the past few years. 
-In August 2006 alone, the number of people in the U.S who streamed video via the internet totaled over 110 million people, which is comparable with the number of households that watch traditional television.\footnote{http://paul.kedrosky.com/archives/2006/10/19/fun_with_intern.html}
+In August 2006 alone, the number of people in the U.S who streamed video 
+via the internet totaled over 110 million people, which is comparable 
+with the number of households that watch traditional television.\footnote{http://paul.kedrosky.com/archives/2006/10/19/fun\_with\_intern.html}
 The internet has allowed independent video producers a variety of platforms by which to publish and share their work. These platforms come in one of two forms: Video hosting services, which offer a centralized location from which users can upload and share videos, and Content Management Systems (CMS), where users host and maintain their own collections of videos.
 
 \subsection{Video Hosting Services}
 Video hosting services are sites that offer free hosting and sharing of video files that users upload. These sites, such as Youtube (\url{http://youtube.com}), Blip.tv (\url{http://blip.tv}), and Myspace Videos ({\url{http://vids.myspace.com}) usually also offer social networking features, such as the ability to rate and comment on videos, as well as subscribe to videos posted by friends. The largest and most popular video hosting service is Youtube, which garners 42.94\% of all traffic to online video sites.\footnote{\url{http://www.hitwise.com/press-center/hitwiseHS2004/videosearch.php}}. 
 
-Video hosting services offer a convenient solution for video publishers to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, Youtube transcodes all of it's videos to low-quality flash, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact_sheet}}. 
+Video hosting services offer a convenient solution for video publishers 
+to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, Youtube transcodes all of it's videos to low-quality flash, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact\_sheet}}. 
 
 None of the major video hosting services allow adult or objectionable content. Many sites regularly censor videos they deems inappropriate, including Youtube, who retains the right to control any and all content on its servers. Often, videos aimed at displaying legitimate discourse or expression are lost to this censorship\footnote{\url{http://www.nytimes.com/2006/10/09/technology/09link.html?ex=1318046400&en=e311caef3c3cf222&ei=5090&partner=rssuserland&emc=rss}}. For many publishers, the only way to ensure that their videos are presented correctly is to host them independently, using a content management system.
 
@@ -498,7 +501,9 @@ RSS is an integral part of Broadcast Machine.
 The format was developed to allow content producers to publish their content in a way that was easily syndicatable, standardized and inexpensive.
 RSS went through an unfortunate period where many individuals and groups wanted undue control over what the standard was going to be.
 Lately publishers have begun to settle on the RSS 2.0 specification.
-While RSS 2.0 is not governed by a traditional standards body such as the W3C or ISO the specification is taken care of by the RSS-DEV working group at Harvard University. \footnote{\url{http://en.wikipedia.org/wiki/RSS-DEV_Working_Group}}
+While RSS 2.0 is not governed by a traditional standards body such as 
+the W3C or ISO the specification is taken care of by the RSS-DEV working 
+group at Harvard University. \footnote{\url{http://en.wikipedia.org/wiki/RSS-DEV\_Working\_Group}}
 The RSS 2.0 specification allows for publishers to specify 'channels' in which there are repeating elements of 'items' which contain the main content.
 At the top of the RSS file there is an area where the publisher can add information about the channel such as a link to the publishing website, the author, webmaster and other various information.
 Each of the items within the channel contain additional sub-elements that describe the item.
@@ -523,7 +528,7 @@ There are descriptors for the time and date at which the content was published, 
       <link>http://bostonmusic.org/2007/01/02/brubeck</link>
       <description>Dave Brubeck is coming to the Somerville Theatre this Saturday!</description>
       <pubDate>Tue, 03 Jun 2003 09:39:21 GMT</pubDate>
-      <guid>http://bostonmusic.org/2007/01/02/brubeck#25543</guid>
+      <guid>http://bostonmusic.org/2007/01/02/brubeck</guid>
     </item>
 
   </channel>
@@ -796,8 +801,10 @@ Hopefully these are useful to future developers and our time was well spent.
 
 \section{Unit testing}
 
-\section{Feedback}
-\subsection{Mike Benedetti}
+\Chapter{Feedback}
+
+\section{Mike Benedetti}
+
 On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
 13. 
 Benedetti used our software and made comments on it as he navigated the interface. 
@@ -863,8 +870,10 @@ Meeting with Mike Benedetti gave us a good perspective on how users would see ou
 We did not incorporate all of his suggestions, but we did make a number of good changes based on his ideas. 
 It was encouraging to hear that the software that we created could be used by as large as organization as WCCA.
 
-\subsection{Specific Suggestions for Improvement and Our Responses}
-\subsubsection{Suggestion: "River of news"}
+\section{Specific Suggestions for Improvement and Our Responses}
+
+\subsection{Suggestion: "River of news"}
+
 Mike Benedetti found that our UI was not exactly what he was expecting. 
 He offered the design concept called the .river of news., and recommended that we use it in our user interface. 
 "River of news", as he explained it, is the idea that there is a visible flow of information, that each post is clearly 
@@ -874,7 +883,8 @@ post date or timestamp in a more prominent location.
 When I asked if he felt there was not enough meta-data provided about a video, he replied that there was enough data but 
 that it should be more clearly divided and laid out. 
 
-\subsubsection{Our Response}
+\subsection{Our Response}
+
 Mike's suggestion "river of news" idea resonated well with us. 
 Our software is a video blogging platform, so it makes sense to model our design after traditional blog themes. 
 Although, it is important to note that almost all of Benedetti's design suggestions can be changed by an end-user with 
@@ -887,24 +897,29 @@ It will better fill the needs of average user.
 
 As a result, we incorporated some changes. We updated the video/all page. 
 We brought the title above the icon and made it more prominent. 
-Then we moved the modified_time timestamp to directly below the video title to give some sense of continuity. 
+Then we moved the modified\_time timestamp to directly below the video 
+title to give some sense of continuity. 
 We added a larger area for the video description, changing the truncated length from 100 characters to 350. 
 We moved the metadata to the left of the icon to save space and moved the description to below the icon. 
 Then we added a divider at the end of the video post. 
 
-\subsubsection{Suggestion: Remain consistent about video/channel order}
+\subsection{Suggestion: Remain consistent about video/channel order}
+
 There are a number of pages that list both channel and video data. 
 Namely, Mike noticed that on the channel/all view and the tag/all view we were not consistent about which came first. 
 
-\subsubsection{Our Response}
+\subsection{Our Response}
+
 We went through the views and made sure channel data was always place above video data.
 
 
-\subsubsection{Suggestion: Make it more clear what data is in the rss feeds}
+\subsection{Suggestion: Make it more clear what data is in the rss feeds}
+
 Benedetti indicated that he was confused about what data was in the rss feeds, based on their placement. 
 The icons are just a standard rss icon, so also they did not offer any clues. 
 
-\subsubsection{Our Response}
+\subsection{Our Response}
+
 After reviewing the placement and icon images for the rss links, we decided to take two actions.
 We moved the rss icons to a location on the page that more clearly indicated their content. 
 For example on the tag/example-tag view, the rss icon was previously placed next to the header that read, .Items tagged 
@@ -918,14 +933,16 @@ Secondly, we added a second rss icon from the Miro website.
 It reads .Miro Channel. and provides a subscribe-in-Miro link. 
 This should make it more clear that the feed is a video feed, which can be added to a video rss reader. 
 
-\subsubsection{Suggestion: Bit torrent support}
+\subsection{Suggestion: Bit torrent support}
+
 Mike recalled that the previous version of Broadcast Machine was based on Blog Torrent, which meant that support for 
 BitTorrent was once included. 
 However, he also recalled that he never got BitTorrent working properly when he used the earlier version of Broadcast 
 Machine.this is an experience shared with many other early Broadcast Machine users. 
 He thought that BitTorrent support would be a good addition.
 
-\subsubsection{Our response}
+\subsection{Our response}
+
 The project has changed dramatically since its inception. 
 BitTorrent support was originally part of our plan for Broadcast Machine. 
 Since other aspects of the project ended up taking more time than we had originally expected and since BitTorrent 
@@ -934,13 +951,15 @@ software.
 We agree with Mike that it is a very good addition. 
 We hope it will be in a future version.
 
-\subsubsection{Suggestion: Integrated external hosting}
+\subsection{Suggestion: Integrated external hosting}
+
 Since WCCA cannot afford the bandwidth to host all of their own video, they store their video remotely in their 
 archive.org account. 
 Mike thought it would be ideal if Broadcast Machine could easily integrate with archive.org, amazon s3 or other third 
 party hosting services. 
 
-\subsubsection{Our response}
+\subsection{Our response}
+
 We are very fond of Mike's idea and believe it would be very useful for some of our users, but we decided against 
 incorporating his suggestion. 
 There are a few reasons why. 
