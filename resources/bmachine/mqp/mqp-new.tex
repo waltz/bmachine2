@@ -31,6 +31,24 @@
 \section{Introduction}
 % Summary of the background section.
 
+\section{Open-Source Software}
+Open source software is an important part of the movement to democratize the media and Internet. 
+This common goal is what ties together PCF's mission with that of the Free Software Movement. 
+The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
+Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
+The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
+
+Without Free software, the Internet could not exist as a democratic medium.
+Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
+With proprietary software, users cannot \"own\" software, even if they purchase it.
+Instead, users pay for the privilege of using it.
+Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
+On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
+
+
+Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
+This culture encourages technological progress in ways that competitive, closed-source software does not. 
+
 \section{The Current State of Internet Video}
 As bandwidth and storage become increasingly cheaper, the prevalence of video on the internet has sharply risen over the past few years. 
 In August 2006 alone, the number of people in the U.S who streamed video 
@@ -67,120 +85,39 @@ Wordpress is blogging software designed to be installed on an individual's webho
 Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There was a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
 \subsection {Broadcast Machine}
-Broadcast machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users can organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}. Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A google search of the phrase \"Powered by Broadcast Machine\" returns approximately 6,700 results.}
+Broadcast machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}. Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A google search of the phrase \"Powered by Broadcast Machine\" returns approximately 6,700 results.}
 
 Despite it's popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconciliable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures, made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
-
-
-\section*{The Importance of Open-Source}
-Open source software is an important part of the movement to democratize the media and Internet. 
-This common goal is what ties together PCF's mission with that of the Free Software Movement. 
-The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
-Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
-The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
-
-
-Without Free software, the Internet could not exist as a democratic medium.
-Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot \"own\" software, even if they purchase it.
-Instead, users pay for the privilege of using it.
-Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
-On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
-
-
-Open-source software aims to build a cultural community of developers who can use each other as resources, learning from existing code, and freely building upon it to create new technologies altogether.
-This culture encourages technological progress in ways that competitive, closed-source software does not. 
-
-
-\section{The First Version of Broadcast Machine}
-
-\subsection{Existing Data Model}
-
-
-\subsubsection{Instances}
-The instance table was used to prevent two versions of Broadcast Machine from using the same database. In the previous version of Broadcast Machine, if more than one site was using the same database, a warning was displayed on the main page of the administrative interface. The table consists of a hash string of the hostname (id), and a timestamp for when the instance was created (time). 
-
-
-\subsubsection{Stats}
-The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
-
-
-\subsubsection{Channels}
-The channels table was used to store metadata about specific RSS video feeds, or channels. This data was used to generate the channel view and RSS feeds for each channel, which is how most users interact with the application. 
-%Show a screenshot of the channel view, perhaps?
-It contained a unique integer identifier (ID, the primary key), A text explanation of the channel (description), and integer number for when the channel was made (Created), a text title for the channel (name), fields for URLs of linked icons, libraries, and the channel's main website (Icon, LibraryURL, and WebURL, respectively), a field to designate the publisher (Publisher). In addition to this, it has several tiny int values that served as settings flags, with 0 being false, and the default value, and 1 being true. This includes OpenPublish, RequireLogin, and NotPublic. OpenPublish allowed administrators to designate whether or not non-administrative users were allowed to publish videos to a channel. RequireLogin was used to determine whether or not users must be logged in to view the channel. If NotPublic was set, the channel itself would be hidden from anonymous users.
-It also contained CSSURL, which would store a link to an external style sheet to be used in rendering the channel page.
-
-
-The channel\_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
-
-
-The channel\_files table records associations between the channels table and the files table (see below). In other words, it allows Broadcast Machine to keep track of which files belong to which channel, which is essential to the channel view and RSS feeds. It contains a reference to the channel in question (channel\_id), the hash of the file (hash), and integer timestamp (thetime). The primary key is channel\_id and hash, meaning that there can't be more than one record for any channel and file pair.
-
-
-The channel\_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel\_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
-
-
-Like channel\_files, the section\_files table tracks which files are associated with which sections. The table contains a reference to channel\_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
-
-
-\subsubsection{Videos}
-The table for storing video information is the files table. This information is used to render the details page for each individual video. The files table contains a unique integer identifier for each video (ID), an ineger for when the file was created (Created), the name of the file (FileName), the name of the person who created the channel (Creator), a text summary of the file (Description), a title (Title), an optional link to a transcript for the hearing-disabled (transcript), a link to a website for more information(Webpage), an optional donation code (donation\_id), boolean flags for Excerpt, Explicit, ignore\_mimetype, and External properties, and URL, in case the file was linked to externally. It also contains a link to an image thumnail of the video (Image), name and URL of the license used to distribute the video (LicenseName, LicenseURL), the MIME-type of the file (Mimetype), an integer for the date published (Publishdate), and the date of the video release via three fields: ReleaseDay, ReleaseMonth, and ReleaseYear (all are integers). Also included is a short string called Rights, which is slightly redundant due to the License field. 
-
-
-Records of people who have contributed to the making of a video were stored in the file\_people table. This allowed administrators to include conprehensive credits for anyone working on the video. The table contained an identifier for which video the credit refers to (ID), their name (name), and what they were credited for (role). The combination of these three values were required to be unique as a primary key.
-
-
-\"Tags\", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
-
-
-\subsubsection{Donations}
-The donation table stores information on how users can contribute to the makers of a video. This allowed the generation of donation links to be displayed alongside a video in the video view, as well as from within Democracy and the RSS feed for the channel. Users could use these links to contribute to the makers of the video. Each donation record had a unique ID, an e-mail address (email), a short description (title), and a longer text donation pitch (text). Putting this information in its own table allowed publishers to frequently associate videos with the same donation info, as this info rarely changed. 
-
-
-The donation\_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
-
-
-\subsubsection{Users}
-The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
-
-
-The newusers table tracked only those users who have not verified their account. This allowed functionality to prevent scripted bots to spam Broadcast Machine installations with open registration, by requiring that all users verify their e-mail address. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
-
-
-\subsubsection{Settings}
-Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql\_prefix, mysql\_host, mysql\_username, mysql\_password, mysql\_database, and mysql\_verified), and BitTorrent sharing settings (Ping, sharing\_enable, sharing\_auto, sharing\_python, sharing\_actual\_python, minport, maxport).
 
 \chapter{Design}
 
 \section{Introduction}
 Many of Broadcast Machine's current problems stem from its poor architectural implementation. 
-To prevent these problems from happening in the future, Broadcast Machine must have a carefully planned architecture. 
-From a design standpoint, a successful architecture has several requirements. 
-
+To prevent these problems from happening in the future, Broadcast Machine must have a carefully-planned architecture that meets several design requirements.
 
 \subsection{Customizable} 
-The application must be designed so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
-Ideally, users' site layouts, or \"themes\", have the potential to look drastically different. 
+A major feature of both the former Broadcast Machine and many other CMSes is the ability to customize the look and feel of a site running the software to fit the user's own personal style. 
+As before, the application must be designed with a robust theming engine so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
+Each users' site layout, or theme, will have the potential to look drastically different from each other with only minimal modifications to CSS and template code. 
 The templates must be abstracted from the functional code, so that users need not worry about damaging the code or digging deep into its inner workings when modifying the layout. 
 Users should also have the ability to easily switch between layouts. 
 
 
 \subsection{Extensible} 
-Along the same lines, the code must be structured so that it is easily maintainable and extendable by any developer. 
-The layout of the application should appear logical and concise. 
-In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
-Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
-If features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application. 
-In this sense, a good architecture will encourage good design practices. 
+Similarly to the presentation logic, the application logic of Broadcase Machine must be structured so that it may be easily modified and maintained by any developer with relevant skills. 
+The layout of the application should appear logical and concise, with a modular architecture to encourage programmers to freely add onto Broadcast Machine's feature set in order to meet their requirements.
+The architecture should be transparent and have a well-documented API so that theses developers can start extending Broadcast Machine without exhaustive knowledge of the program, but merely a solid grasp of the documented data structures and class layouts. 
+When features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application, by adding only a few functions or classes. 
+A well-structured, extensible architecture will prevent poor programming practices by encouraging developers to replicate the design patterns used to create the foundation of the application.
 
 
 \subsection{Flexible}
-The application must be flexible enough so that it can be re-factored easily. 
-Functionality should be abstracted and delegated so that major changes to one part of the code do not affect the others. 
+In addition to additions to the program, Broadcast Machine must be flexible enough so that it can be re-factored easily. 
+Functionality should be abstracted and delegated so that major changes to one part of the code does not affect another. 
 For example, we may decide later that we would like to use a different type of database. 
 We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
-For these reasons, we have chosen a Model-View-Controller design pattern to represent our application. 
+In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
+Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
 
 
 \subsection{Compatible}
@@ -962,5 +899,64 @@ allow an enthusiastic programmer or group of programmers to add that functionali
 
 \chapter{Conclusion}
 
+\appendix
+\chapter{Former Broadcast Machine Documentation}
+
+\section{Data Model}
+
+
+\ubsection{Instances}
+The instance table was used to prevent two versions of Broadcast Machine from using the same database. In the previous version of Broadcast Machine, if more than one site was using the same database, a warning was displayed on the main page of the administrative interface. The table consists of a hash string of the hostname (id), and a timestamp for when the instance was created (time). 
+
+
+\subsection{Stats}
+The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
+
+
+\subsection{Channels}
+The channels table was used to store metadata about specific RSS video feeds, or channels. This data was used to generate the channel view and RSS feeds for each channel, which is how most users interact with the application. 
+%Show a screenshot of the channel view, perhaps?
+It contained a unique integer identifier (ID, the primary key), A text explanation of the channel (description), and integer number for when the channel was made (Created), a text title for the channel (name), fields for URLs of linked icons, libraries, and the channel's main website (Icon, LibraryURL, and WebURL, respectively), a field to designate the publisher (Publisher). In addition to this, it has several tiny int values that served as settings flags, with 0 being false, and the default value, and 1 being true. This includes OpenPublish, RequireLogin, and NotPublic. OpenPublish allowed administrators to designate whether or not non-administrative users were allowed to publish videos to a channel. RequireLogin was used to determine whether or not users must be logged in to view the channel. If NotPublic was set, the channel itself would be hidden from anonymous users.
+It also contained CSSURL, which would store a link to an external style sheet to be used in rendering the channel page.
+
+
+The channel\_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
+
+
+The channel\_files table records associations between the channels table and the files table (see below). In other words, it allows Broadcast Machine to keep track of which files belong to which channel, which is essential to the channel view and RSS feeds. It contains a reference to the channel in question (channel\_id), the hash of the file (hash), and integer timestamp (thetime). The primary key is channel\_id and hash, meaning that there can't be more than one record for any channel and file pair.
+
+
+The channel\_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel\_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
+
+
+Like channel\_files, the section\_files table tracks which files are associated with which sections. The table contains a reference to channel\_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
+
+
+\subsection{Videos}
+The table for storing video information is the files table. This information is used to render the details page for each individual video. The files table contains a unique integer identifier for each video (ID), an ineger for when the file was created (Created), the name of the file (FileName), the name of the person who created the channel (Creator), a text summary of the file (Description), a title (Title), an optional link to a transcript for the hearing-disabled (transcript), a link to a website for more information(Webpage), an optional donation code (donation\_id), boolean flags for Excerpt, Explicit, ignore\_mimetype, and External properties, and URL, in case the file was linked to externally. It also contains a link to an image thumnail of the video (Image), name and URL of the license used to distribute the video (LicenseName, LicenseURL), the MIME-type of the file (Mimetype), an integer for the date published (Publishdate), and the date of the video release via three fields: ReleaseDay, ReleaseMonth, and ReleaseYear (all are integers). Also included is a short string called Rights, which is slightly redundant due to the License field. 
+
+
+Records of people who have contributed to the making of a video were stored in the file\_people table. This allowed administrators to include conprehensive credits for anyone working on the video. The table contained an identifier for which video the credit refers to (ID), their name (name), and what they were credited for (role). The combination of these three values were required to be unique as a primary key.
+
+
+\"Tags\", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
+
+
+\subsection{Donations}
+The donation table stores information on how users can contribute to the makers of a video. This allowed the generation of donation links to be displayed alongside a video in the video view, as well as from within Democracy and the RSS feed for the channel. Users could use these links to contribute to the makers of the video. Each donation record had a unique ID, an e-mail address (email), a short description (title), and a longer text donation pitch (text). Putting this information in its own table allowed publishers to frequently associate videos with the same donation info, as this info rarely changed. 
+
+
+The donation\_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
+
+
+\subsection{Users}
+The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
+
+
+The newusers table tracked only those users who have not verified their account. This allowed functionality to prevent scripted bots to spam Broadcast Machine installations with open registration, by requiring that all users verify their e-mail address. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
+
+
+\subsection{Settings}
+Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql\_prefix, mysql\_host, mysql\_username, mysql\_password, mysql\_database, and mysql\_verified), and BitTorrent sharing settings (Ping, sharing\_enable, sharing\_auto, sharing\_python, sharing\_actual\_python, minport, maxport).
 \end{document}
 
