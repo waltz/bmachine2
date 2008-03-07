@@ -149,7 +149,7 @@ There are several requirements for features that Broadcast Machine must include:
 
 \chapter{Implementation}
 
-\section{Architecture and Languages}
+\section{Model-View-Controller}
 Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three seperate parts. First, the presentation layer needed to be seperated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This seperates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
 
 
@@ -161,9 +161,10 @@ Based on the aforementioned design requirements, it became clear that the progra
 \end{figure}
 In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in the figure above, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
 
+\section{Languages and Tools}
 There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based on the structure of the model layer.\footnote{http://rubyonrails.org} However, as a relatively new language, Ruby on Rails has not been widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{http://php.net}. PHP is currently one of the most popular web scripting languages, and offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework. 
 
-Similarly, MySQL is an open-source Database Management System (DBMS) that is perhaps the most widely used Structured Query Language (SQL) implementation, perhaps with the exception of enterprise-level applications such as Oracle. 
+Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. 
 Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
 
 
@@ -178,8 +179,6 @@ Architecting a flexible database controller will allow us to add other DBMS choi
 \section{View}
 
 \section{Controller}
-
-\
 
 
 \section{Changes to the Database}
