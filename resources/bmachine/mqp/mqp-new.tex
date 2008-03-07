@@ -152,20 +152,16 @@ There are several requirements for features that Broadcast Machine must include:
 \section{Architecture and Languages}
 Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three seperate parts. First, the presentation layer needed to be seperated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This seperates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
 
+
 \begin{figure}[h]
-\includegraphics[scale=0.5]{./images/mvc.png}
+\begin{center}
+\includegraphics[scale=0.6]{./images/mvc.png}
+\end{center}
 \caption{Interaction between layers in MVC}
 \end{figure}
-In a Model-View-Controller architecture,
+In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in the figure above, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
 
-For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. 
-Ruby on Rails is great for a Model-View-Controller web application, as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers. 
-However, it hasn’t been fully adopted by most of the web community.  
-Very few hosting services include Ruby in their hosting plan, and setting up Rails manually is a task beyond our target user-base. 
-Ruby is not perfect, it too has its draw backs, but in our opinion it would be very well suited for Broadcast Machine. 
-However, since it is not well supported we will not use it. 
-PHP, while a less than perfect programming language, comes pre-configured with most Apache installs, and is available with most, if not all, web hosting plans. 
-
+There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based on the structure of the model layer.\footnote{http://rubyonrails.org} However, as a relatively new language, Ruby on Rails has not been widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{http://php.net}. PHP is currently one of the most popular web scripting languages, and offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework. 
 
 Similarly, MySQL is an open-source Database Management System (DBMS) that is perhaps the most widely used Structured Query Language (SQL) implementation, perhaps with the exception of enterprise-level applications such as Oracle. 
 Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
@@ -207,7 +203,371 @@ In the users table, the primary key field is Name, which may have caused problem
 
 Site settings will be moved from a B-Encoded file to a table in the database. Since we will be using http-seeding of torrents, some of these settings are expected to change.
 
+\section{Architecture}
+%This probably isn't too latex friendly yet - Greg
+%^^ Jan/31/06: next time you want to use a list, use the item[] tag -drew
+Active development began with discussions of how to best architect Broadcast Machine with a defined set of features:
+\begin{description}
+\item[Unit tests for all of the implemented functionality]
+\item[A web based setup process]
+\item[Creating channels]
+\item[Browsing Channels]
+\item[Managing channels]
+\item[Creating video items from links]
+\item[Creating video items from uploaded files]
+\item[Browsing videos in a channel]
+\item[Managing video items]
+\item[Video RSS in all the forms curently available]
+\item[Subscribe via Democracy link]
+\item[User Authentication and permissions]
+\item[Ability to import data from an existing Broadcast Machine]
+\item[BitTorrent tracking]
+\item[BitTorrent seeding via HTTP seeding support]
+\end{description}
 
+
+\subsection{Flow}
+We then decided on a logical process for how the application would handle requests for information.
+First, the application would receive a URL, POST parameters, and cookie information from the web server.
+URLs will be typically received from mod\_rewrite in the form of http://baseurl.com/controller/action.
+The action field may also reference another controler, in which case it would be followed by another parameter for the action that the controller should take.
+For example, say a person runs a Broadcast Machine install on http://foobar.com.
+If a user would like to browse all videos on the site by a specific category, such as \"dogs\", he or she would go to http://www.foobar.com/tags/dogs/.
+In this case, \"/tags\" is a reference to the tag controller, which is responsible for getting all videos that contain that tag.
+The parameter to be passed to the video controller is \"dogs\", which means that only videos containing the dogs tag will be returned.
+
+
+After the controller generates an associated array of data (which may contain other arrays), it passes this information to the view layer, or the template.
+The template uses this information to fill in an XHTML or RSS page, and sets the mime type (in the case of linking to files), and renders the user interface.
+
+
+\section{Program API}
+Next, we considered the program API, or the way in which the actual code and data would be laid out.
+This affects not only the program itself, but also how developers would go about adding new features and modifying existing ones.
+
+
+\section{Controllers and Views}
+After coming up with an acceptable API, our next task was to come up with a list of views, and delegate responsibilities for getting the data necessary to render those views to the appropriate controller.
+
+
+\subsection{Front Page (/)}
+The front page is found at the top directory of the Broadcast Machine install (\"/\").
+This page lists all of the viewable channels.
+If a user is logged in as an administrator, it also provides links to add, edit, or remove that channel, as well as subscribe links for Democracy Player, RSS, and iTunes (depending on the site settings).
+The controller responsible for getting the information about each channel is aptly named the frontpage controller.
+
+
+\subsection{Channel View (/channelname)}
+The channel view lists all videos in a channel, and is accessed by going to a URL-safe truncation of that channel's name.
+This view calls the channel controller to retrieve information about every video in the channel, and then inserts that information into the template.
+The view also displays channel statistics and subscription links.
+If you are logged in as an administrator, there will be buttons to edit, delete, or add new videos, which each correspond to appropriate video controller actions.
+Administrators also have the ability to see links to delete the entire channel, or edit it.
+
+
+Adding a video to a channel is handled by the \"add\" action of the channel controller (\"/channelname/add\").
+When adding a video, users will be able to enter detailed metadata about the video, and either link directly to the file or upload it directly to the server, albeit with restrictions\footnote{PHP has a maximum file size for uploading that depends on the server configuration}.
+Users will also be given the option to upload the file on their own via FTP, and have Broadcast Machine detect it later.
+Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (\"/channelname/remove\") and editing it (\"/channel/edit\").
+
+
+\subsection{Video View (/video/videoname) }
+The video view displays all of the relevant information about an individual video, including its meta-data and download statistics.
+It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
+
+\subsection{Tag View}
+
+\subsection{User Administration (/users) }
+The user
+
+\section{Model Schema}
+
+\section{Testing}
+
+\subsection{Unit Testing}
+
+\subsection{User Testing}
+% 2/8/2005, CJ: Wrote about the use of unit testing, its advantages and the setup of the test servers.
+With any software, it is necessary to test to make sure that your application works as expected.
+We decided to test our application on mock servers so that we could see how our software reacted to common configurations that we expect our users to encounter.
+
+We ended up with three server configurations:
+\begin{description}
+	\item{Generic Linux} This server runs a common version of Linux called Ubuntu. It is running Apache 2 as its webserver with PHP version 5 and both MySQL and SQLite databases. This configuration is optimal, and we feel that it will account for the majority of our users. It is also important to have support for both database engines; we need to make sure that the program behaves correctly when both are available.
+	\item{Microsoft Vista} Having a server that is running Microsoft's Internet Information Services is important. 
+Because IIS is the second most popular webserver in use, we need to make sure that we are not preventing such a large population from running our software. Ensuring that our application runs on IIS will be difficult because of it's lack of URL rewriting support. It's important to us that our program run on servers lacking URL rewriting, because while it is convenient and common, its availability cannot be guaranteed. Fortunately that will be the only challenge on this server; its configuration is otherwise similar, sporting PHP 5 and SQLite.
+	\item{Hosted Linux} Since our program is geared towards users who are likely to have low-cost hosting services, we decided to use one popular service as a testbed. Dreamhost provides inexpensive, albeit limited hosting accounts. They provide servers with Apache 2, PHP 4, and MySQL installed. The platform provides us with a place where we can see how our program deals with setting permissions in restricted environments.
+\end{description}
+
+These testing platforms should do a good job at allowing us to see how our application is coming along.
+It lets us see how the smaller pieces work together, but it does not let us see how the smaller pieces are working by themselves.
+If the smaller parts do not work then the whole will fail.
+This is the point where unit testing becomes useful.
+Unit testing allows our group to write small pieces of code that test individual classes and functions.
+When we see something go wrong on the testing server we can run our unit tests and pinpoint the part of the program that we need to fix.
+Between the use of the testing servers and the unit tests the goal is to minimize the amount of time that we spend diagnosing bugs and instead spend more time fixing bugs.
+
+Overall I feel that these servers will be as useful as we expect.
+They will help us be as prepared as possible when it comes time to release the first version.
+This testing framework should also be very helpful to anyone who would like to continue developing Broadcast Machine.
+The unit tests will make sure that the existing code does not break, and the test servers illustrate what our target environment is.
+Unfortunately it took a very long time to get the test servers running.
+The amount of effort put in to setting up the testing framework seemed excessive to me.
+For a project of this size, I can't say whether or not the time spend was worth it.
+Hopefully these are useful to future developers and our time was well spent. 
+
+\chapter{System in Action}
+% FOR: CJ
+
+\chapter{Results}
+% FOR: Greg
+
+\section{Unit testing}
+
+\chapter{Feedback}
+
+\section{Mike Benedetti}
+
+On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
+13. 
+Benedetti used our software and made comments on it as he navigated the interface. 
+Our major goal was to determine if his expectations for the interface meshed well with where our software was heading. 
+Through our discussion with him we discovered is even more a part of the internet video community than we had expected. 
+As a result he was able to also offers insight into where our software fit into the landscape of internet video.
+
+WCCA has recently begun putting all of their video content online. 
+They currently use Drupal with a number of modules as their content management system, but Benedetti explained to us 
+that there were a number of drawbacks with his current setup. 
+Through our research we have come to many of the same conclusions as him, but it was valuable to hear frustrations about 
+other software solutions from someone with first-hand experience. 
+Mike stressed that there was not yet a one-stop video content management system, although he did point out that there 
+exist plugins and modules for existing CMS's that transforms them into a make-shift video CMS. 
+He indicated that dispite a number of solutions, there was a need for a .wordpress for video..
+
+We started our discussion by having Mike outline the procedure that WCCA follows to move video content from a recording 
+studio to the web. 
+It is the following: 
+
+\begin{enumerate}
+\item A content producer records a show in their studio. 
+\item The show is edited and cut down to fit the time-slot.
+\item The show is aired on the cable station. 
+\item Mike uploads a high-quality copy of the video is to archive.org. He must input various attributes of the video, 
+including the title, text description, director, producer, production company, keywords and information about the audio 
+and visuals. 
+\item Archive.org's servers then convert the video into a number of file sizes and formats and make the files publicly 
+available.
+\item Mike embeds a lower-quality version of the file in a post using Drupal. Mike must re-enter all of the video 
+attributes at this point.
+\item The video is posted to the WCCA site and Drupal handles adding an entry to the video rss file.
+\end{enumerate}
+
+After we talked with Mike about his setup, we opened up a browser and had him explore our software. At this point we 
+asked him to follow links and describe what his exceptions for the pages were and compare his expectations to the 
+reality of our pages. 
+It was valuable to hear that Benedetti's expectations for the views were somewhat different than what we had. 
+There were a few specific UI suggestions that he had, but most important suggestion was molding our visual design on the 
+concept of a .river of news.. 
+He explained that it made more sense to him to have the videos appear in a more traditional blog layout, with clear 
+differentiate between .posts. and with a publish date clearly indicated. 
+He also pointed out that we needed to make it clear that the rss feeds were video rss feeds that could be used with 
+programs like Miro.
+
+He gave further feedback on the rss feeds. 
+Specifically, he did not see much value in the non-video RSS feeds--for example, a feed of all the tags or of all the 
+channels. 
+We discovered that it needed to be made more clear that the video feeds had enclosures. 
+The issue may be resolved by simply moving the RSS icons to a better location.
+
+More broadly Benedetti gave us a feel for where broadcast machine fits into the landscape of internet video. 
+He seemed to be hopeful about our project and it might be a good fit for his needs.
+He is of the opinion that there still does not exist a solid one-stop solution for a video blog. 
+
+As was mentioned ealier, WCCA uses archive.org as their long-term storage. 
+Mike suggested that Broadcast Machine would be a more appealing piece of software if, in a future release, it 
+incorporated an easy mechanism for external storage solutions. 
+We looked at WCCA's account and found that there is an XML API provided for archive.org to integrate with external 
+software. 
+
+Meeting with Mike Benedetti gave us a good perspective on how users would see our software. 
+We did not incorporate all of his suggestions, but we did make a number of good changes based on his ideas. 
+It was encouraging to hear that the software that we created could be used by as large as organization as WCCA.
+
+\section{Specific Suggestions for Improvement and Our Responses}
+
+\subsection{Suggestion: "River of news"}
+
+Mike Benedetti found that our UI was not exactly what he was expecting. 
+He offered the design concept called the .river of news., and recommended that we use it in our user interface. 
+"River of news", as he explained it, is the idea that there is a visible flow of information, that each post is clearly 
+shown as an incremental addition to the site. 
+He suggested dividing video posts more clearly, making the video title more of the focus of the post, and including a 
+post date or timestamp in a more prominent location. 
+When I asked if he felt there was not enough meta-data provided about a video, he replied that there was enough data but 
+that it should be more clearly divided and laid out. 
+
+\subsection{Our Response}
+
+Mike's suggestion "river of news" idea resonated well with us. 
+Our software is a video blogging platform, so it makes sense to model our design after traditional blog themes. 
+Although, it is important to note that almost all of Benedetti's design suggestions can be changed by an end-user with 
+some HTML knowledge. 
+This shows the versatility of our templating engine. 
+Someone who intalls Broadcast Machine can just open up the smarty files and layout and style the pages however he or she 
+feels appropriate. 
+However, Mike is right that a "news river" design makes sense as the a sane default for the software. 
+It will better fill the needs of average user. 
+
+As a result, we incorporated some changes. We updated the video/all page. 
+We brought the title above the icon and made it more prominent. 
+Then we moved the modified\_time timestamp to directly below the video 
+title to give some sense of continuity. 
+We added a larger area for the video description, changing the truncated length from 100 characters to 350. 
+We moved the metadata to the left of the icon to save space and moved the description to below the icon. 
+Then we added a divider at the end of the video post. 
+
+\subsection{Suggestion: Remain consistent about video/channel order}
+
+There are a number of pages that list both channel and video data. 
+Namely, Mike noticed that on the channel/all view and the tag/all view we were not consistent about which came first. 
+
+\subsection{Our Response}
+
+We went through the views and made sure channel data was always place above video data.
+
+
+\subsection{Suggestion: Make it more clear what data is in the rss feeds}
+
+Benedetti indicated that he was confused about what data was in the rss feeds, based on their placement. 
+The icons are just a standard rss icon, so also they did not offer any clues. 
+
+\subsection{Our Response}
+
+After reviewing the placement and icon images for the rss links, we decided to take two actions.
+We moved the rss icons to a location on the page that more clearly indicated their content. 
+For example on the tag/example-tag view, the rss icon was previously placed next to the header that read, .Items tagged 
+with 'example-tag'.. 
+This was confusing because we had both channel and video data displayed on the page. 
+Since the rss was a video feed with only metadata and enclosures from videos that were tagged with the given tag, it was 
+misleading to place the icon at the top of the page. 
+We removed the rss icon from the header and added one next to the sub-heading for videos. 
+
+Secondly, we added a second rss icon from the Miro website. 
+It reads .Miro Channel. and provides a subscribe-in-Miro link. 
+This should make it more clear that the feed is a video feed, which can be added to a video rss reader. 
+
+\subsection{Suggestion: Bit torrent support}
+
+Mike recalled that the previous version of Broadcast Machine was based on Blog Torrent, which meant that support for 
+BitTorrent was once included. 
+However, he also recalled that he never got BitTorrent working properly when he used the earlier version of Broadcast 
+Machine.this is an experience shared with many other early Broadcast Machine users. 
+He thought that BitTorrent support would be a good addition.
+
+\subsection{Our response}
+
+The project has changed dramatically since its inception. 
+BitTorrent support was originally part of our plan for Broadcast Machine. 
+Since other aspects of the project ended up taking more time than we had originally expected and since BitTorrent 
+support turned out to be a larger issue than we had anticipated, we had to drop its support for this version on the 
+software. 
+We agree with Mike that it is a very good addition. 
+We hope it will be in a future version.
+
+\subsection{Suggestion: Integrated external hosting}
+
+Since WCCA cannot afford the bandwidth to host all of their own video, they store their video remotely in their 
+archive.org account. 
+Mike thought it would be ideal if Broadcast Machine could easily integrate with archive.org, amazon s3 or other third 
+party hosting services. 
+
+\subsection{Our response}
+
+We are very fond of Mike's idea and believe it would be very useful for some of our users, but we decided against 
+incorporating his suggestion. 
+There are a few reasons why. 
+Most importantly is an issue of time. 
+An addition like that would take a significant amount of time to build. 
+We simply do not have enough time before the end of the project to incorporate the new functionality. 
+We have determined that it is a good enough idea that it may be incorporated in a later version. 
+However, there is also the issue of maintaining the code. 
+There is an ever-changing number of third party hosting services. 
+Maintaining support for them be a substantial undertaking. 
+It would most likely require a person or group of people who are passionate about the functionality to keep it working 
+with the external hosting solutions. 
+Although we decided against incorporating the change, we believe we have built a framework that is extensible enough to 
+allow an enthusiastic programmer or group of programmers to add that functionality to Broadcast Machine themselves.
+
+\chapter{Future Work}
+% FOR: CJ
+% Talk about how the package will be maintained as an open source project.
+% Features that should be added: BitTorrent, Flash Video, Advanced (AJAX) UI,
+% Flash-based uploader, Internationalization, 
+
+
+\chapter{Conclusion}
+
+\appendix
+\chapter{Former Broadcast Machine Documentation}
+
+\section{Data Model}
+
+
+\subsection{Instances}
+The instance table was used to prevent two versions of Broadcast Machine from using the same database. In the previous version of Broadcast Machine, if more than one site was using the same database, a warning was displayed on the main page of the administrative interface. The table consists of a hash string of the hostname (id), and a timestamp for when the instance was created (time). 
+
+
+\subsection{Stats}
+The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
+
+
+\subsection{Channels}
+The channels table was used to store metadata about specific RSS video feeds, or channels. This data was used to generate the channel view and RSS feeds for each channel, which is how most users interact with the application. 
+%Show a screenshot of the channel view, perhaps?
+It contained a unique integer identifier (ID, the primary key), A text explanation of the channel (description), and integer number for when the channel was made (Created), a text title for the channel (name), fields for URLs of linked icons, libraries, and the channel's main website (Icon, LibraryURL, and WebURL, respectively), a field to designate the publisher (Publisher). In addition to this, it has several tiny int values that served as settings flags, with 0 being false, and the default value, and 1 being true. This includes OpenPublish, RequireLogin, and NotPublic. OpenPublish allowed administrators to designate whether or not non-administrative users were allowed to publish videos to a channel. RequireLogin was used to determine whether or not users must be logged in to view the channel. If NotPublic was set, the channel itself would be hidden from anonymous users.
+It also contained CSSURL, which would store a link to an external style sheet to be used in rendering the channel page.
+
+
+The channel\_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
+
+
+The channel\_files table records associations between the channels table and the files table (see below). In other words, it allows Broadcast Machine to keep track of which files belong to which channel, which is essential to the channel view and RSS feeds. It contains a reference to the channel in question (channel\_id), the hash of the file (hash), and integer timestamp (thetime). The primary key is channel\_id and hash, meaning that there can't be more than one record for any channel and file pair.
+
+
+The channel\_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel\_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
+
+
+Like channel\_files, the section\_files table tracks which files are associated with which sections. The table contains a reference to channel\_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
+
+
+\subsection{Videos}
+The table for storing video information is the files table. This information is used to render the details page for each individual video. The files table contains a unique integer identifier for each video (ID), an ineger for when the file was created (Created), the name of the file (FileName), the name of the person who created the channel (Creator), a text summary of the file (Description), a title (Title), an optional link to a transcript for the hearing-disabled (transcript), a link to a website for more information(Webpage), an optional donation code (donation\_id), boolean flags for Excerpt, Explicit, ignore\_mimetype, and External properties, and URL, in case the file was linked to externally. It also contains a link to an image thumnail of the video (Image), name and URL of the license used to distribute the video (LicenseName, LicenseURL), the MIME-type of the file (Mimetype), an integer for the date published (Publishdate), and the date of the video release via three fields: ReleaseDay, ReleaseMonth, and ReleaseYear (all are integers). Also included is a short string called Rights, which is slightly redundant due to the License field. 
+
+
+Records of people who have contributed to the making of a video were stored in the file\_people table. This allowed administrators to include conprehensive credits for anyone working on the video. The table contained an identifier for which video the credit refers to (ID), their name (name), and what they were credited for (role). The combination of these three values were required to be unique as a primary key.
+
+
+\"Tags\", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
+
+
+\subsection{Donations}
+The donation table stores information on how users can contribute to the makers of a video. This allowed the generation of donation links to be displayed alongside a video in the video view, as well as from within Democracy and the RSS feed for the channel. Users could use these links to contribute to the makers of the video. Each donation record had a unique ID, an e-mail address (email), a short description (title), and a longer text donation pitch (text). Putting this information in its own table allowed publishers to frequently associate videos with the same donation info, as this info rarely changed. 
+
+
+The donation\_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
+
+
+\subsection{Users}
+The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
+
+
+The newusers table tracked only those users who have not verified their account. This allowed functionality to prevent scripted bots to spam Broadcast Machine installations with open registration, by requiring that all users verify their e-mail address. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
+
+
+\subsection{Settings}
+Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql\_prefix, mysql\_host, mysql\_username, mysql\_password, mysql\_database, and mysql\_verified), and BitTorrent sharing settings (Ping, sharing\_enable, sharing\_auto, sharing\_python, sharing\_actual\_python, minport, maxport).
+
+\chapter{Disorganized Mess}
 \section{New Model}
 %This will be changed and updated as the new schema comes along further
 %Needs: People should be relational!
@@ -588,368 +948,5 @@ CSS, or Cascading Style Sheets, is presenation language used to style structured
 It's best know for being used with XHTML and HTML. 
 The power of CSS and structured documents becomes 
 
-\section{Architecture}
-%This probably isn't too latex friendly yet - Greg
-%^^ Jan/31/06: next time you want to use a list, use the item[] tag -drew
-Active development began with discussions of how to best architect Broadcast Machine with a defined set of features:
-\begin{description}
-\item[Unit tests for all of the implemented functionality]
-\item[A web based setup process]
-\item[Creating channels]
-\item[Browsing Channels]
-\item[Managing channels]
-\item[Creating video items from links]
-\item[Creating video items from uploaded files]
-\item[Browsing videos in a channel]
-\item[Managing video items]
-\item[Video RSS in all the forms curently available]
-\item[Subscribe via Democracy link]
-\item[User Authentication and permissions]
-\item[Ability to import data from an existing Broadcast Machine]
-\item[BitTorrent tracking]
-\item[BitTorrent seeding via HTTP seeding support]
-\end{description}
-
-
-\subsection{Flow}
-We then decided on a logical process for how the application would handle requests for information.
-First, the application would receive a URL, POST parameters, and cookie information from the web server.
-URLs will be typically received from mod\_rewrite in the form of http://baseurl.com/controller/action.
-The action field may also reference another controler, in which case it would be followed by another parameter for the action that the controller should take.
-For example, say a person runs a Broadcast Machine install on http://foobar.com.
-If a user would like to browse all videos on the site by a specific category, such as \"dogs\", he or she would go to http://www.foobar.com/tags/dogs/.
-In this case, \"/tags\" is a reference to the tag controller, which is responsible for getting all videos that contain that tag.
-The parameter to be passed to the video controller is \"dogs\", which means that only videos containing the dogs tag will be returned.
-
-
-After the controller generates an associated array of data (which may contain other arrays), it passes this information to the view layer, or the template.
-The template uses this information to fill in an XHTML or RSS page, and sets the mime type (in the case of linking to files), and renders the user interface.
-
-
-\section{Program API}
-Next, we considered the program API, or the way in which the actual code and data would be laid out.
-This affects not only the program itself, but also how developers would go about adding new features and modifying existing ones.
-
-
-\section{Controllers and Views}
-After coming up with an acceptable API, our next task was to come up with a list of views, and delegate responsibilities for getting the data necessary to render those views to the appropriate controller.
-
-
-\subsection{Front Page (/)}
-The front page is found at the top directory of the Broadcast Machine install (\"/\").
-This page lists all of the viewable channels.
-If a user is logged in as an administrator, it also provides links to add, edit, or remove that channel, as well as subscribe links for Democracy Player, RSS, and iTunes (depending on the site settings).
-The controller responsible for getting the information about each channel is aptly named the frontpage controller.
-
-
-\subsection{Channel View (/channelname)}
-The channel view lists all videos in a channel, and is accessed by going to a URL-safe truncation of that channel's name.
-This view calls the channel controller to retrieve information about every video in the channel, and then inserts that information into the template.
-The view also displays channel statistics and subscription links.
-If you are logged in as an administrator, there will be buttons to edit, delete, or add new videos, which each correspond to appropriate video controller actions.
-Administrators also have the ability to see links to delete the entire channel, or edit it.
-
-
-Adding a video to a channel is handled by the \"add\" action of the channel controller (\"/channelname/add\").
-When adding a video, users will be able to enter detailed metadata about the video, and either link directly to the file or upload it directly to the server, albeit with restrictions\footnote{PHP has a maximum file size for uploading that depends on the server configuration}.
-Users will also be given the option to upload the file on their own via FTP, and have Broadcast Machine detect it later.
-Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (\"/channelname/remove\") and editing it (\"/channel/edit\").
-
-
-\subsection{Video View (/video/videoname) }
-The video view displays all of the relevant information about an individual video, including its meta-data and download statistics.
-It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
-
-\subsection{Tag View}
-
-\subsection{User Administration (/users) }
-The user
-
-\section{Model Schema}
-
-\section{Testing}
-
-\subsection{Unit Testing}
-
-\subsection{User Testing}
-% 2/8/2005, CJ: Wrote about the use of unit testing, its advantages and the setup of the test servers.
-With any software, it is necessary to test to make sure that your application works as expected.
-We decided to test our application on mock servers so that we could see how our software reacted to common configurations that we expect our users to encounter.
-
-We ended up with three server configurations:
-\begin{description}
-	\item{Generic Linux} This server runs a common version of Linux called Ubuntu. It is running Apache 2 as its webserver with PHP version 5 and both MySQL and SQLite databases. This configuration is optimal, and we feel that it will account for the majority of our users. It is also important to have support for both database engines; we need to make sure that the program behaves correctly when both are available.
-	\item{Microsoft Vista} Having a server that is running Microsoft's Internet Information Services is important. 
-Because IIS is the second most popular webserver in use, we need to make sure that we are not preventing such a large population from running our software. Ensuring that our application runs on IIS will be difficult because of it's lack of URL rewriting support. It's important to us that our program run on servers lacking URL rewriting, because while it is convenient and common, its availability cannot be guaranteed. Fortunately that will be the only challenge on this server; its configuration is otherwise similar, sporting PHP 5 and SQLite.
-	\item{Hosted Linux} Since our program is geared towards users who are likely to have low-cost hosting services, we decided to use one popular service as a testbed. Dreamhost provides inexpensive, albeit limited hosting accounts. They provide servers with Apache 2, PHP 4, and MySQL installed. The platform provides us with a place where we can see how our program deals with setting permissions in restricted environments.
-\end{description}
-
-These testing platforms should do a good job at allowing us to see how our application is coming along.
-It lets us see how the smaller pieces work together, but it does not let us see how the smaller pieces are working by themselves.
-If the smaller parts do not work then the whole will fail.
-This is the point where unit testing becomes useful.
-Unit testing allows our group to write small pieces of code that test individual classes and functions.
-When we see something go wrong on the testing server we can run our unit tests and pinpoint the part of the program that we need to fix.
-Between the use of the testing servers and the unit tests the goal is to minimize the amount of time that we spend diagnosing bugs and instead spend more time fixing bugs.
-
-Overall I feel that these servers will be as useful as we expect.
-They will help us be as prepared as possible when it comes time to release the first version.
-This testing framework should also be very helpful to anyone who would like to continue developing Broadcast Machine.
-The unit tests will make sure that the existing code does not break, and the test servers illustrate what our target environment is.
-Unfortunately it took a very long time to get the test servers running.
-The amount of effort put in to setting up the testing framework seemed excessive to me.
-For a project of this size, I can't say whether or not the time spend was worth it.
-Hopefully these are useful to future developers and our time was well spent. 
-
-\chapter{System in Action}
-% FOR: CJ
-
-\chapter{Results}
-% FOR: Greg
-
-\section{Unit testing}
-
-\chapter{Feedback}
-
-\section{Mike Benedetti}
-
-On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
-13. 
-Benedetti used our software and made comments on it as he navigated the interface. 
-Our major goal was to determine if his expectations for the interface meshed well with where our software was heading. 
-Through our discussion with him we discovered is even more a part of the internet video community than we had expected. 
-As a result he was able to also offers insight into where our software fit into the landscape of internet video.
-
-WCCA has recently begun putting all of their video content online. 
-They currently use Drupal with a number of modules as their content management system, but Benedetti explained to us 
-that there were a number of drawbacks with his current setup. 
-Through our research we have come to many of the same conclusions as him, but it was valuable to hear frustrations about 
-other software solutions from someone with first-hand experience. 
-Mike stressed that there was not yet a one-stop video content management system, although he did point out that there 
-exist plugins and modules for existing CMS's that transforms them into a make-shift video CMS. 
-He indicated that dispite a number of solutions, there was a need for a .wordpress for video..
-
-We started our discussion by having Mike outline the procedure that WCCA follows to move video content from a recording 
-studio to the web. 
-It is the following: 
-
-\begin{enumerate}
-\item A content producer records a show in their studio. 
-\item The show is edited and cut down to fit the time-slot.
-\item The show is aired on the cable station. 
-\item Mike uploads a high-quality copy of the video is to archive.org. He must input various attributes of the video, 
-including the title, text description, director, producer, production company, keywords and information about the audio 
-and visuals. 
-\item Archive.org's servers then convert the video into a number of file sizes and formats and make the files publicly 
-available.
-\item Mike embeds a lower-quality version of the file in a post using Drupal. Mike must re-enter all of the video 
-attributes at this point.
-\item The video is posted to the WCCA site and Drupal handles adding an entry to the video rss file.
-\end{enumerate}
-
-After we talked with Mike about his setup, we opened up a browser and had him explore our software. At this point we 
-asked him to follow links and describe what his exceptions for the pages were and compare his expectations to the 
-reality of our pages. 
-It was valuable to hear that Benedetti's expectations for the views were somewhat different than what we had. 
-There were a few specific UI suggestions that he had, but most important suggestion was molding our visual design on the 
-concept of a .river of news.. 
-He explained that it made more sense to him to have the videos appear in a more traditional blog layout, with clear 
-differentiate between .posts. and with a publish date clearly indicated. 
-He also pointed out that we needed to make it clear that the rss feeds were video rss feeds that could be used with 
-programs like Miro.
-
-He gave further feedback on the rss feeds. 
-Specifically, he did not see much value in the non-video RSS feeds--for example, a feed of all the tags or of all the 
-channels. 
-We discovered that it needed to be made more clear that the video feeds had enclosures. 
-The issue may be resolved by simply moving the RSS icons to a better location.
-
-More broadly Benedetti gave us a feel for where broadcast machine fits into the landscape of internet video. 
-He seemed to be hopeful about our project and it might be a good fit for his needs.
-He is of the opinion that there still does not exist a solid one-stop solution for a video blog. 
-
-As was mentioned ealier, WCCA uses archive.org as their long-term storage. 
-Mike suggested that Broadcast Machine would be a more appealing piece of software if, in a future release, it 
-incorporated an easy mechanism for external storage solutions. 
-We looked at WCCA's account and found that there is an XML API provided for archive.org to integrate with external 
-software. 
-
-Meeting with Mike Benedetti gave us a good perspective on how users would see our software. 
-We did not incorporate all of his suggestions, but we did make a number of good changes based on his ideas. 
-It was encouraging to hear that the software that we created could be used by as large as organization as WCCA.
-
-\section{Specific Suggestions for Improvement and Our Responses}
-
-\subsection{Suggestion: "River of news"}
-
-Mike Benedetti found that our UI was not exactly what he was expecting. 
-He offered the design concept called the .river of news., and recommended that we use it in our user interface. 
-"River of news", as he explained it, is the idea that there is a visible flow of information, that each post is clearly 
-shown as an incremental addition to the site. 
-He suggested dividing video posts more clearly, making the video title more of the focus of the post, and including a 
-post date or timestamp in a more prominent location. 
-When I asked if he felt there was not enough meta-data provided about a video, he replied that there was enough data but 
-that it should be more clearly divided and laid out. 
-
-\subsection{Our Response}
-
-Mike's suggestion "river of news" idea resonated well with us. 
-Our software is a video blogging platform, so it makes sense to model our design after traditional blog themes. 
-Although, it is important to note that almost all of Benedetti's design suggestions can be changed by an end-user with 
-some HTML knowledge. 
-This shows the versatility of our templating engine. 
-Someone who intalls Broadcast Machine can just open up the smarty files and layout and style the pages however he or she 
-feels appropriate. 
-However, Mike is right that a "news river" design makes sense as the a sane default for the software. 
-It will better fill the needs of average user. 
-
-As a result, we incorporated some changes. We updated the video/all page. 
-We brought the title above the icon and made it more prominent. 
-Then we moved the modified\_time timestamp to directly below the video 
-title to give some sense of continuity. 
-We added a larger area for the video description, changing the truncated length from 100 characters to 350. 
-We moved the metadata to the left of the icon to save space and moved the description to below the icon. 
-Then we added a divider at the end of the video post. 
-
-\subsection{Suggestion: Remain consistent about video/channel order}
-
-There are a number of pages that list both channel and video data. 
-Namely, Mike noticed that on the channel/all view and the tag/all view we were not consistent about which came first. 
-
-\subsection{Our Response}
-
-We went through the views and made sure channel data was always place above video data.
-
-
-\subsection{Suggestion: Make it more clear what data is in the rss feeds}
-
-Benedetti indicated that he was confused about what data was in the rss feeds, based on their placement. 
-The icons are just a standard rss icon, so also they did not offer any clues. 
-
-\subsection{Our Response}
-
-After reviewing the placement and icon images for the rss links, we decided to take two actions.
-We moved the rss icons to a location on the page that more clearly indicated their content. 
-For example on the tag/example-tag view, the rss icon was previously placed next to the header that read, .Items tagged 
-with 'example-tag'.. 
-This was confusing because we had both channel and video data displayed on the page. 
-Since the rss was a video feed with only metadata and enclosures from videos that were tagged with the given tag, it was 
-misleading to place the icon at the top of the page. 
-We removed the rss icon from the header and added one next to the sub-heading for videos. 
-
-Secondly, we added a second rss icon from the Miro website. 
-It reads .Miro Channel. and provides a subscribe-in-Miro link. 
-This should make it more clear that the feed is a video feed, which can be added to a video rss reader. 
-
-\subsection{Suggestion: Bit torrent support}
-
-Mike recalled that the previous version of Broadcast Machine was based on Blog Torrent, which meant that support for 
-BitTorrent was once included. 
-However, he also recalled that he never got BitTorrent working properly when he used the earlier version of Broadcast 
-Machine.this is an experience shared with many other early Broadcast Machine users. 
-He thought that BitTorrent support would be a good addition.
-
-\subsection{Our response}
-
-The project has changed dramatically since its inception. 
-BitTorrent support was originally part of our plan for Broadcast Machine. 
-Since other aspects of the project ended up taking more time than we had originally expected and since BitTorrent 
-support turned out to be a larger issue than we had anticipated, we had to drop its support for this version on the 
-software. 
-We agree with Mike that it is a very good addition. 
-We hope it will be in a future version.
-
-\subsection{Suggestion: Integrated external hosting}
-
-Since WCCA cannot afford the bandwidth to host all of their own video, they store their video remotely in their 
-archive.org account. 
-Mike thought it would be ideal if Broadcast Machine could easily integrate with archive.org, amazon s3 or other third 
-party hosting services. 
-
-\subsection{Our response}
-
-We are very fond of Mike's idea and believe it would be very useful for some of our users, but we decided against 
-incorporating his suggestion. 
-There are a few reasons why. 
-Most importantly is an issue of time. 
-An addition like that would take a significant amount of time to build. 
-We simply do not have enough time before the end of the project to incorporate the new functionality. 
-We have determined that it is a good enough idea that it may be incorporated in a later version. 
-However, there is also the issue of maintaining the code. 
-There is an ever-changing number of third party hosting services. 
-Maintaining support for them be a substantial undertaking. 
-It would most likely require a person or group of people who are passionate about the functionality to keep it working 
-with the external hosting solutions. 
-Although we decided against incorporating the change, we believe we have built a framework that is extensible enough to 
-allow an enthusiastic programmer or group of programmers to add that functionality to Broadcast Machine themselves.
-
-\chapter{Future Work}
-% FOR: CJ
-% Talk about how the package will be maintained as an open source project.
-% Features that should be added: BitTorrent, Flash Video, Advanced (AJAX) UI,
-% Flash-based uploader, Internationalization, 
-
-
-\chapter{Conclusion}
-
-\appendix
-\chapter{Former Broadcast Machine Documentation}
-
-\section{Data Model}
-
-
-\subsection{Instances}
-The instance table was used to prevent two versions of Broadcast Machine from using the same database. In the previous version of Broadcast Machine, if more than one site was using the same database, a warning was displayed on the main page of the administrative interface. The table consists of a hash string of the hostname (id), and a timestamp for when the instance was created (time). 
-
-
-\subsection{Stats}
-The stats table allowed the user to keep track of the number of user downloads for each video. It contained a unique hash of the filename (id), and an integer for the number of downloads (downloads). The table has a one-to-one relationship with files.
-
-
-\subsection{Channels}
-The channels table was used to store metadata about specific RSS video feeds, or channels. This data was used to generate the channel view and RSS feeds for each channel, which is how most users interact with the application. 
-%Show a screenshot of the channel view, perhaps?
-It contained a unique integer identifier (ID, the primary key), A text explanation of the channel (description), and integer number for when the channel was made (Created), a text title for the channel (name), fields for URLs of linked icons, libraries, and the channel's main website (Icon, LibraryURL, and WebURL, respectively), a field to designate the publisher (Publisher). In addition to this, it has several tiny int values that served as settings flags, with 0 being false, and the default value, and 1 being true. This includes OpenPublish, RequireLogin, and NotPublic. OpenPublish allowed administrators to designate whether or not non-administrative users were allowed to publish videos to a channel. RequireLogin was used to determine whether or not users must be logged in to view the channel. If NotPublic was set, the channel itself would be hidden from anonymous users.
-It also contained CSSURL, which would store a link to an external style sheet to be used in rendering the channel page.
-
-
-The channel\_options table keeps track of the individual settings for a given channel. Each record in the table contains an integer reference to the channel it refers to (ID). Several boolean flags determined which information about a video would be shown on the channel view: Creator, Description, Filesize, Keywords, Length, Published, Thumbnail, Title, Torrent, URL. There is also a tiny int field called SubscribeOptions, whose default value is 7. This value determines which subscription links will be made available to users (RSS, Democracy, and iTunes, which requires direct URLs to be enabled in the site settings). In this field, RSS is represented by a value of 1, Democracy by a value of 2, and iTunes by a value of 4. Adding together the values of available subscription links determines the field's value. For example, A value of 7 means that all links are available for use, while a value of 1 would mean that only RSS could be used. A value of 6 would mean that iTunes and Democracy subscription links should be made available. 
-
-
-The channel\_files table records associations between the channels table and the files table (see below). In other words, it allows Broadcast Machine to keep track of which files belong to which channel, which is essential to the channel view and RSS feeds. It contains a reference to the channel in question (channel\_id), the hash of the file (hash), and integer timestamp (thetime). The primary key is channel\_id and hash, meaning that there can't be more than one record for any channel and file pair.
-
-
-The channel\_sections table allows channels to be split up into several subsections. From experience, this seems to be widely unused by BM's user base, and is also not implemented in the RSS view. As such, it may be deprecated. The table itself contains an integer reference to the channel the record refers to (channel\_id) and the name of the section (Name). The table also shares a one-to-one relationship with the channels table.
-
-
-Like channel\_files, the section\_files table tracks which files are associated with which sections. The table contains a reference to channel\_id, a reference to the name of the section, and the hash of the file. The combination of those three fields are a primary key and must be unique.
-
-
-\subsection{Videos}
-The table for storing video information is the files table. This information is used to render the details page for each individual video. The files table contains a unique integer identifier for each video (ID), an ineger for when the file was created (Created), the name of the file (FileName), the name of the person who created the channel (Creator), a text summary of the file (Description), a title (Title), an optional link to a transcript for the hearing-disabled (transcript), a link to a website for more information(Webpage), an optional donation code (donation\_id), boolean flags for Excerpt, Explicit, ignore\_mimetype, and External properties, and URL, in case the file was linked to externally. It also contains a link to an image thumnail of the video (Image), name and URL of the license used to distribute the video (LicenseName, LicenseURL), the MIME-type of the file (Mimetype), an integer for the date published (Publishdate), and the date of the video release via three fields: ReleaseDay, ReleaseMonth, and ReleaseYear (all are integers). Also included is a short string called Rights, which is slightly redundant due to the License field. 
-
-
-Records of people who have contributed to the making of a video were stored in the file\_people table. This allowed administrators to include conprehensive credits for anyone working on the video. The table contained an identifier for which video the credit refers to (ID), their name (name), and what they were credited for (role). The combination of these three values were required to be unique as a primary key.
-
-
-\"Tags\", or categories to classify videos by, were stored in the file\_keywords table. This allowed administrators to classify videos by category, so that users could browse videos in that category across many channels. This table contained an ID reference to the video, and then the keyword that the video would be tagged by. Although one video may have had many tags, no video could have two identical tags.
-
-
-\subsection{Donations}
-The donation table stores information on how users can contribute to the makers of a video. This allowed the generation of donation links to be displayed alongside a video in the video view, as well as from within Democracy and the RSS feed for the channel. Users could use these links to contribute to the makers of the video. Each donation record had a unique ID, an e-mail address (email), a short description (title), and a longer text donation pitch (text). Putting this information in its own table allowed publishers to frequently associate videos with the same donation info, as this info rarely changed. 
-
-
-The donation\_files table links together donation info with video info. The table conatined the id of the donation info, as well as the hash id of the video (hash). Each video could only be linked to one set of donation information, so id and hash are both primary keys.
-
-
-\subsection{Users}
-The user table contained information about registered users. This table contained an alias for each user (Username), the user's real name (Name), their encrypted password (Hash), their e-mail address (Email), when they registered (Created), and their permissions information (IsAdmin, IsPending). 
-
-
-The newusers table tracked only those users who have not verified their account. This allowed functionality to prevent scripted bots to spam Broadcast Machine installations with open registration, by requiring that all users verify their e-mail address. The table included a filehash, their password (Hash), their e- mail address (email), IsAdmin, and when they created the account (Created).
-
-
-\subsection{Settings}
-Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql\_prefix, mysql\_host, mysql\_username, mysql\_password, mysql\_database, and mysql\_verified), and BitTorrent sharing settings (Ping, sharing\_enable, sharing\_auto, sharing\_python, sharing\_actual\_python, minport, maxport).
 \end{document}
 
