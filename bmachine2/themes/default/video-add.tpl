@@ -2,15 +2,15 @@
 
 {include file='header.tpl'}
 
-<h2>Add a new Video</h2>
-
+<div id="wrap">
+<h1>Add a new Video</h1>
+<p>Creates a new video file and associates it with some important data.</p>
 <form name="video/add" 
       method="POST" 
       action="{$baseUri}video/add"
       enctype="multipart/form-data"
       >
 
-      <input type="hidden" name="MAX_FILE_SIZE" value="100000"/>
       <input type="hidden" name="video-id" value="{$video.id}"/>
 
       <fieldset>
@@ -38,15 +38,25 @@
 	{/if}	
       </fieldset>
 
-      <fieldset>
-	<legend>Video File</legend>
-	<label for="video_file_">Video</label><br/>
-	<input name="video_file" type="file" /><br/>
-	<label for="thumbnail_file">Icon:</label><br/>
-	<input name="thumbnail_file" type="file" /><br/>
-     </fieldset>
+      <!-- <fieldset>
+  <legend>Video File</legend>
+  <label for="video_file">Video</label><br/>
+  <input type="hidden" name="MAX_FILE_SIZE" value="{$maxPost}"/>
+  <input name="video_file" type="file"/><br/>
+  <label for="icon_file">Icon:</label><br/>
+  <input name="icon_file" type="file"/><br/>
+     </fieldset> -->
+     
+         <fieldset>
+     <legend>Video File</legend>
+     <label for="file_url">Video</label><br/>
+     <input name="file_url" type="text"/><br/>
+     <label for="icon_url">Icon:</label><br/>
+     <input name="icon_url" type="text"/><br/>
+        </fieldset>
 
      <input name="submit" type="submit" value="Add" />
 </form>
+</div>
 
 {include file='footer.tpl'}

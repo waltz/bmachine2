@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 // Absolutely start a session. Before anything else. No matter what.
 session_start();
 
+// Try to increase the max post file size.
+ini_set('post_max_size', '100M');
+ini_set('post_max_size', '100M');
+
 //Include helpers
 require_once('helpers/SaniHelper.php'); // Include the input sanitization helper.           
 require_once('helpers/UtilityHelper.php'); // Some useful but lonely functions. 
@@ -54,26 +58,18 @@ if (!file_exists('.htaccess')) {
 	}
 }
 
-// Make sure special characters are escaped.
-if (get_magic_quotes_gpc() == 0)
-  {
-    $_GET = array_addslashes($_GET);
-    $_POST = array_addslashes($_POST);
-    $_COOKIE = array_addslashes($_COOKIE);
-  }
-
-// Make sure special characters are escaped. 
-if(get_magic_quotes_gpc() == 0)
-  {
-    $_GET = array_addslashes($_GET);
-    $_POST = array_addslashes($_POST);
-    $_COOKIE = array_addslashes($_COOKIE);
-  }
-
-// Strip HTML tags from all input strings.
-if(isset($_GET)){ $_GET = array_strip_tags($_GET); }
-if(isset($_POST)){ $_POST = array_strip_tags($_POST); }
-if(isset($_COOKIE)){ $_COOKIE = array_strip_tags($_COOKIE); }
+// // Make sure special characters are escaped.
+// if (get_magic_quotes_gpc() == 0)
+//   {
+//     $_GET = array_addslashes($_GET);
+//     $_POST = array_addslashes($_POST);
+//     $_COOKIE = array_addslashes($_COOKIE);
+//   }
+// 
+// // Strip HTML tags from all input strings.
+// if(isset($_GET)){ $_GET = array_strip_tags($_GET); }
+// if(isset($_POST)){ $_POST = array_strip_tags($_POST); }
+// if(isset($_COOKIE)){ $_COOKIE = array_strip_tags($_COOKIE); }
 
 //Include the right ViewController
 if (!isset($uri[0])) {$uri[0] = 'channel';} //Default value

@@ -66,34 +66,51 @@ class VideoController extends ViewController
 	}
 	
 	// Add a video.
-        function add()
+  function add()
 	{
 	  // If there's POST data, try to parse it.
-	  if($_SERVER['REQUEST_METHOD'] == 'POST')
-	    {
-	      $validForm = TRUE;
-	      // Basic validation.
-	      if($_POST['title'] == ''){
-		$this->addAlert('Fill in a title!');
-		$validForm = FALSE;
-	      }
-	      if(!isset($_POST['channels'])){
-		$this->addAlert('Pick a channel!');
-		$validForm = FALSE;
-	      }
-	      if(!isset($_FILE['video_file']['size'])){
-		$this->addAlert('No video file selected!');
-		$validForm = FALSE;
-	      }
-	      if(!isset($_FILE['thumbnail_file']['size'])){
-		$this->addAlert('No thumbnail selected!');
-		$validForm = FALSE;
-	      }
-	      
-	      // If any alerts have been set, we should 
-	      if(!$validForm){
-		$this->redirect('video/add');
-	      }
+	  if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      // Form validation.
+      $validForm = TRUE;
+      if($_POST['title'] == ''){
+        $this->addAlert('Fill in a title!');
+        $validForm = FALSE;
+      }
+      if(!isset($_POST['channels'])){
+        $this->addAlert('Pick a channel!');
+        $validForm = FALSE;
+      }
+      // if(!isset($_FILE['video_file']['size'])){
+      //   $this->addAlert('No video file selected!');
+      //   $validForm = FALSE;
+      // }
+      // if(!isset($_FILE['icon_file']['size'])){
+      //   $this->addAlert('No thumbnail selected!');
+      //   $validForm = FALSE;
+      // }
+      // if(isset($_FILE['icon_file']['error'])) {
+      //   $this->addAlert('There was an error uploading the icon file!');
+      //   $validForm = FALSE;
+      // }
+      // if(isset($_FILE['video_file']['error'])) {
+      //   $this->addAlert('There was an error uploading the video file!');        
+      //   $validForm = FALSE;
+      // }
+      if(!isset($_POST['file_url'])){
+        $this->addAlert('Specify a file url!');
+        $validForm = FALSE;
+      }
+      if(!isset($_POST['icon_url'])){
+        $this->addAlert('Specify an icon url!');
+        $validForm = FALSE;
+      }
+
+      // If the form is invalid, return the form.
+      if(!$validForm){
+        // TODO: This should send whatever data had been filled in
+        //        back to the form.
+        $this->redirect('video/add');
+      }
 
 	      // Build the video structure.
 	      $video = array('title' => $_POST['title'],
@@ -146,6 +163,10 @@ class VideoController extends ViewController
 	      // Push a list of available channels to the template.
 	      $channels = $this->db_controller->read('channels', 'all');
 	      $this->view->assign('channels', $channels);
+	      
+	      // Push the maximum post size.
+	      $this->view->assign('maxPost', getMaxPost());
+	      
 	      $this->display('video-add.tpl');
 	    }
         }
