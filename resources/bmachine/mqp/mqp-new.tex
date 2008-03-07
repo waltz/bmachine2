@@ -95,6 +95,18 @@ Despite it's popularity, Broadcast Machine was plagued by a number of problems d
 Many of Broadcast Machine's current problems stem from its poor architectural implementation. 
 To prevent these problems from happening in the future, Broadcast Machine must have a carefully-planned architecture that meets several design requirements.
 
+\section{Ease of Use}
+The most important requirement for Broadcast Machine is that it be easy to use. 
+Broadcast Machine's target user, people who produce videos, should not need extensive technical knowledge in order to deploy and use the program. 
+Just as a devlepor has almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technologies employed. 
+Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video channels via a simple administrative interface. 
+Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application into their public HTML folder. 
+The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
+The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
+Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels.
+
+In order to ensure the best user experience possible, the new Broadcast Machine must be stable. In addition to this, it should preserve all of the functionality of its previous incarnation, while containing none of the unpredictable behavior.
+
 \subsection{Customizable} 
 A major feature of both the former Broadcast Machine and many other CMSes is the ability to customize the look and feel of a site running the software to fit the user's own personal style. 
 As before, the application must be designed with a robust theming engine so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
@@ -113,7 +125,7 @@ A well-structured, extensible architecture will prevent poor programming practic
 
 \subsection{Flexible}
 In addition to additions to the program, Broadcast Machine must be flexible enough so that it can be re-factored easily. 
-Functionality should be abstracted and delegated so that major changes to one part of the code does not affect another. 
+Functionality should be abstracted and delegated so that major changes to one part of the code will not affect another. 
 For example, we may decide later that we would like to use a different type of database. 
 We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
 In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
@@ -125,6 +137,26 @@ The new Broadcast Machine must work across several different platforms.
 While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. 
 This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
+
+\section{Features}
+% This is just an outline right now. -Greg
+There are several requirements for features that Broadcast Machine must include:
+\begin{description}
+\item[Automatic generation of RSS feeds]
+\item[Templating system]
+\item[Tagging]
+\end{description}
+
+\chapter{Implementation}
+
+\section{Architecture and Languages}
+Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three seperate parts. First, the presentation layer needed to be seperated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This seperates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{./images/mvc.png}
+\caption{Interaction between layers in MVC}
+\end{figure}
+In a Model-View-Controller architecture,
 
 For this reason, we decided that the program’s front end should be written in PHP, while the back end data layer will be represented by a MySQL database. 
 Ruby on Rails is great for a Model-View-Controller web application, as it enforces the architecture by its nature, and automatically generates and maintains basic interactions between the layers. 
@@ -146,45 +178,6 @@ Most of the queries on the database will be basic select statements for getting 
 The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. 
 Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. 
 Architecting a flexible database controller will allow us to add other DBMS choices as necessary. 
-
-
-\section{Ease of Use}
-The most obvious requirement for Broadcast Machine is that it be easy to use. 
-Our target user, people who produce videos, should not need extensive technical knowledge in order to deploy and use the program. 
-Just as we have almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technologies employed. 
-Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video channels via a simple administrative interface. 
-Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application in their public HTML folder. 
-The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
-The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
-Another way in which we will keep the install simple, is by using only one install directory. 
-We will not include any directory structure in the install file, but rather an install script will create any neccesary directories after decompression of the install file. 
-Sometimes during decompression of files, the directory structure of is lost. 
-By keeping all install files in one directory and creating a directory structure with an install script will ensure that all the neccesary directories exists and have the proper permissions. 
-
-
-Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels in Democracy Player (See use cases for more information).
- 
-
-\section{Stability}
-Most importantly, the new Broadcast Machine must be stable.
-At the very least, it should preserve all of the functionality of its previous incarnation, while containing none of the bugginess or unpredictable behavior.
-
-
-\section{Features}
-% This is just an outline right now. -Greg
-There are several requirements for features that Broadcast Machine must include:
-\begin{description}
-\item[Automatic generation of RSS feeds]
-\item[Templating system]
-\item[Server-side sharing for BitTorrent]
-\item[Tagging]
-\item[A granular permission system]
-\end{description}
-
-\chapter{Implementation}
-
-\section{Strategy}
-
 
 \section{View}
 
@@ -642,14 +635,14 @@ This affects not only the program itself, but also how developers would go about
 After coming up with an acceptable API, our next task was to come up with a list of views, and delegate responsibilities for getting the data necessary to render those views to the appropriate controller.
 
 
-\subsection{Front Page \"/\"}
+\subsection{Front Page (/)}
 The front page is found at the top directory of the Broadcast Machine install (\"/\").
 This page lists all of the viewable channels.
 If a user is logged in as an administrator, it also provides links to add, edit, or remove that channel, as well as subscribe links for Democracy Player, RSS, and iTunes (depending on the site settings).
 The controller responsible for getting the information about each channel is aptly named the frontpage controller.
 
 
-\subsection{Channel View \"/channelname\"}
+\subsection{Channel View (/channelname)}
 The channel view lists all videos in a channel, and is accessed by going to a URL-safe truncation of that channel's name.
 This view calls the channel controller to retrieve information about every video in the channel, and then inserts that information into the template.
 The view also displays channel statistics and subscription links.
@@ -663,13 +656,13 @@ Users will also be given the option to upload the file on their own via FTP, and
 Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (\"/channelname/remove\") and editing it (\"/channel/edit\").
 
 
-\subsection{Video View \"/channelname/videoname\"\ \&\ \"/video/videoname\"\ }
+\subsection{Video View (/video/videoname) }
 The video view displays all of the relevant information about an individual video, including its meta-data and download statistics.
 It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
 
 \subsection{Tag View}
 
-\subsection{User Administration \"/users/\"}
+\subsection{User Administration (/users) }
 The user
 
 \section{Model Schema}
@@ -716,7 +709,7 @@ Hopefully these are useful to future developers and our time was well spent.
 
 \section{Unit testing}
 
-\Chapter{Feedback}
+\chapter{Feedback}
 
 \section{Mike Benedetti}
 
@@ -905,7 +898,7 @@ allow an enthusiastic programmer or group of programmers to add that functionali
 \section{Data Model}
 
 
-\ubsection{Instances}
+\subsection{Instances}
 The instance table was used to prevent two versions of Broadcast Machine from using the same database. In the previous version of Broadcast Machine, if more than one site was using the same database, a warning was displayed on the main page of the administrative interface. The table consists of a hash string of the hostname (id), and a timestamp for when the instance was created (time). 
 
 
