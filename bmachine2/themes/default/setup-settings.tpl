@@ -29,12 +29,6 @@
 <div class="the_legend">Icon URL </div><br /><input type="text" name="site_iconurl" size="38" value="{$site_iconurl}" />
 </fieldset>
 
-<!--<fieldset>
-<div class="the_legend">Hide Adult Material? <input type="checkbox" name="hide_porn" value="" checked /><br />
-<small>(items tagged with the phrase 'adult' will only appear to registered users)</small>
-</div>
-</fieldset>-->
-
 <div class="section_header">Database</div>
 <p>We need some information to connect Broadcast Machine to a MySQL database, where it stores all of the important data about your videos. If 
 you're unsure about what MySQL is, check out this <a href="">guide</a>.</p>

@@ -15,6 +15,9 @@
 			{elseif $channels|@count gt 1}
 				Showing {$channels|@count} Channels
 			{/if}
+			{if $isAdmin}
+				<small><a href="{$baseUri}channel/add">(Add channel)</a></small>
+			{/if}
 		</div>
 	</div>
 

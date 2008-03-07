@@ -84,9 +84,6 @@ class SetupController extends ViewController
 			$site_name   = $_POST['site_name'];
 			$site_description   = $_POST['site_iconurl'];
 			$site_iconurl   = $_POST['site_iconurl'];
-			echo $site_name."<br/>";
-	                echo $site_description."<br/>";
-        	        echo $site_iconurl."<br/>";
 
 			//Input validation
 			if ($_POST['site_name'] == '') {
@@ -122,15 +119,18 @@ class SetupController extends ViewController
 				$users =  $this->db_controller->read("users", "all");
 
 				if (count($users) > 0) {
-					$this->index();	
+					$this->redirect('setup/settings');	
 				} else {
-					$this->display('setup-firstuser.tpl');
+					$this->redirect('setup/firstuser');
 				}
 			} else {
 				$this->display('error-database.tpl');	
 			}
 		} else {
 			//Assign variable names in case someone comes back to change them
+			$this->view->assign('hostname', $cf_hostname);
+			$this->view->assign('username', $cf_username);
+			$this->view->assign('database', $cf_database);
 			unset($_POST['password']);
                         foreach ($_POST as $field => $value) {$this->view->assign($field, $value);}  
 			$this->display('setup-settings.tpl');

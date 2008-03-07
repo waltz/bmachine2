@@ -121,7 +121,7 @@ abstract class ViewController {
 	  global $bm_debug;
 
 	  // If you're unit testing, you're always an admin.
-	  if($bm_debug == "unittest") { return true; }
+	  if($bm_debug == "unittest" || $bm_debug == 'setup') { return true; }
 
 	  // If the session has a username, see if they're an admin.
 	  if(isset($_SESSION['username'])){
