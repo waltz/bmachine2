@@ -64,7 +64,10 @@ The largest and most popular video hosting service is Youtube, which garners 42.
 Video hosting services offer a convenient solution for video publishers 
 to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, YouTube transcodes all of it's videos to a lower resolution, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact\_sheet}}. 
 
-None of the major video hosting services allow adult or objectionable content. Many sites regularly censor videos they deems inappropriate, including YouTube, who retains the right to control any and all content on its servers. Often, videos aimed at displaying legitimate discourse or expression are lost to this censorship\footnote{\url{http://www.nytimes.com/2006/10/09/technology/09link.html?ex=1318046400&en=e311caef3c3cf222&ei=5090&partner=rssuserland&emc=rss}}. For many publishers, the only way to ensure that their videos are presented correctly is to host them independently, using a content management system.
+None of the major video hosting services allow adult or objectionable content.
+Many sites regularly censor videos they deems inappropriate, including YouTube, who retains the right to control any and all content on its servers.
+Often, videos aimed at displaying legitimate discourse or expression are lost to this censorship\footnote{\url{http://www.nytimes.com/2006/10/09/technology/09link.html?ex=1318046400&en=e311caef3c3cf222&ei=5090&partner=rssuserland&emc=rss}}.
+For many publishers, the only way to ensure that their videos are presented correctly is to host them independently, using a content management system.
 
 \subsection{Content Management Systems}
 
@@ -316,7 +319,174 @@ For a project of this size, I can't say whether or not the time spend was worth 
 Hopefully these are useful to future developers and our time was well spent. 
 
 \chapter{System in Action}
-% FOR: CJ
+\section{Overview}
+This section is here to show how installation and use of Broadcast Machine works. 
+We will explain and show all of the steps needed to use the software in its intended manner.
+Starting off with a description of how the software handles an incoming page request and what internal steps are taken to display the correct data and then move on to a pictorial walkthrough of the data views that we have implemented.
+Through these concise illustrations of the software we hope to convey the full range of Broadcast Machine's features.
+
+\section{The Life of a Request}
+When a user first launches their browser and navigates to a Broadcast Machine Installation, the browser formulates an HTTP request and sends it on to the server.
+The server then processes the request and begins executing the proper piece of code.
+Broadcast Machine has one piece of code that handles all of the data that is made available by the web server.
+This executable is called the dispatcher.
+Based on the data that the dispatcher is aware of, other parts of the system are called.
+The next component that is called is a Controller.
+Each controller is called based on the information in the request; If a user requests \'video\' then the Video controller is instantiated.
+These controllers are passed along some of the same information that was available to the dispatcher.
+The controller sees what the user is trying to request and again passes the responsibility to a function that is a part of the current controller.
+The functions that make up each controller are where the real work is done.
+These functions usually make a separate request to the database where data is retrieved and formatted.
+Functions modify and format the data such that it is ready to be displayed.
+At this point, data is passed onto a part of the system that is dedicated to putting the data into some requested form.
+The data is often output in some sort of XML subset.
+Broadcast Machine most often outputs to XHTML and less often RDF.
+The way in which this software handles its requests is very common, many applications have used this structure to build their applications.
+This methodology was dubbed \"Model, View, Controller\" by a few academic researchers in the mid-1980's and has become increasingly popular for use with web applications \footnote{\url{http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html}}.
+A diagram of how these parts interact can be seen in the following diagram \includegraphics[width=60mm]{images/mvc.png}.
+(Form more information on the architecture, take a look at the previous chapter titled \"Implementation\".)
+
+
+\section{Setup}
+In this section we are going to take a look at how Broadcast Machine is initially set up on a user's server.
+The initial step is downloading the archive that contains the software.
+In the future the software will be available through a website located at \url{http://code.google.com/p/broadcastmachine}.
+After the user downloads the file, they would upload it to their server and expand it into some directory that could be accessed by a web server.
+
+\subsection{Step One}
+\includegraphics[width=60mm]{images/setup1.png}
+The first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
+In the background, the application is detecting the current server settings and is attempting to set up as many things on its own as the server will allow.
+If the server supports the Apache mod\_rewrite module the application will write an .htacccess file to the current directory.
+A few settings such as the permissions on directories and the type of PHP modules installed are also detected.
+
+\subsection{Step Two}
+\includegraphics[width=60mm]{images/setup2.png}
+The second setup step is where the basic information about the installation is entered.
+We collect information such as the title and description of the site as well as all of the information we need to connect to the database.
+
+\subsection{Step Three}
+\includegraphics{images/setup3.png}
+On the third page, the user is prompted to enter in information for their first user.
+This user will be the \'superuser\' and has the right to add other users or to escalate user permissions.
+
+\subsection{Step Four}
+\includegraphics{images/setup4.png}
+The fourth and final page is a simple confirmation that tells the user that they have successfully finished setting up the software.
+From here, we provide prompts for the user to add a new channel or to take a look at their new front page.
+
+\section{Channels}
+The main component of Broadcast Machine are channels.
+Channels offer a convenient way to group together videos.
+Most people immediately understand the goal of a channel as a collection of thematically related content.
+Our software provides an easy way for users to create, categorize and manage large amounts of video.
+
+\subsection{All}
+\includegraphics{images/channelall.png}
+The default display for the channels section is to show a few recent channels and a small sampling of videos from each channel.
+
+\subsection{Show}
+\includegraphics{images/channelshow.png}
+Each channel can be viewed individually.
+This allows the user to take a more in depth look at the channel.
+In this view we display all of the information we have about the channel and then display a few of the recent videos.
+
+\subsection{RSS}
+\includegraphics{images/channelrss.png}
+All of the channels have an associated RSS feed.
+The ten most recent videos that have been posted to the channel become a part of the RSS feed.
+These feeds are really important for integration with desktop clients such as Miro.
+With this technology Broadcast Machine users can easily integrate their content with other services and clients.
+
+\subsection{Add}
+\includegraphics{images/channeladd.png}
+None of this would be of much use if the software was lacking an interface through which to add channels.
+With this dialog, an administrator can add a new channel and associate a few pieces of meta data.
+We currently allow titles, descriptions, tags and icons to be plugged attached to a channel.
+
+\subsection{Edit}
+\includegraphics{images/channeledit.png}
+This form is very much like that of the add dialog, but this form comes pre-populated with the data from an existing channel.
+Any piece of data that can be added can also be edited.
+
+\subsection{Remove}
+There is not much that we need to display for the remove action.
+When an administrator goes to remove a channel, we simply alert them that their channel has been removed and then we forward them to the default channel page.
+
+\section{Videos}
+Videos are at the core of Broadcast Machine.
+They are the most basic component of this application.
+The video section of this software allows for all of the basic operations on a video.
+
+\subsection{All}
+\includegraphics{images/videoall.png}
+This view displays a number of the recent videos that have been added to the database.
+This page serves as a good entry point into some of the videos that the user(s) have made available.
+
+\subsection{Show}
+\includegraphics{images/videoshow.png}
+The show page displays a single video and all of the information associated with it.
+This page gives the user a way to view meta data and to download the video itself.
+It also serves as a jumping point to the channels that the video belongs to and to the tags that have been associated with the video.
+
+\subsection{Download}
+While the download portion of each video does not have a traditional HTML view, this is the most important part of the application.
+This page redirects the user to a URI where the video file can be downloaded.
+
+\subsection{Add}
+\includegraphics{images/videoadd.png}
+If a user is logged in and has sufficient privileges to add a video, they are presented with a form that allows them to fill in meta data.
+
+\subsection{Edit}
+\includegraphics{images/videoedit.png}
+This view is much like the add view. It is visually similar except for it comes populated with data associated with the video.
+
+\subsection{Remove}
+There is no discrete XHTML view associated with the remove functionality, but an alert is passed onto the administrator who removes the video.
+
+\section{Tags}
+Tags are a convenient method for users to attach information to their videos.
+Broadcast Machine offers the the ability to associate a group of single meaningful words to each video and channel.
+These words allow the viewer to more easily pick through the content that is being presented.
+Regardless of the channel or video, a viewer can immediately key in on some specific term and be able to retrieve a stream of content relevant to that term.
+
+\subsection{All}
+\includegraphics{images/tagall.png}
+This is raw tag output that allows users to see a bunch of the tags currently being used by channels and videos.
+
+\subsection{Show}
+\includegraphics{images/tagshow.png}
+In this view we see a small sample of the channels and videos that have been associated with the given tag.
+
+\subsection{RSS}
+\includegraphics{images/channelrss.png}
+This view functions exactly like the previous channel RSS view that was discussed earlier.
+Instead of keying in on channel data, this simply keys on tag data.
+
+\section{Users}
+The users control allows users and administrators to manage their and other's accounts.
+This control provides authentication mechanisms and a portal to certain amounts of user information.
+
+\subsection{Signup}
+\includegraphics{images/usersignup.png}
+The super-user has control as to wether or not the signup pane is available to the public, but this dialog adds a simple way for users and administrators to add new accounts.
+Each person is required to have a username and a password and we would prefer if they associated an email address and a name.
+
+\subsection{Login}
+\includegraphics{images/userlogin.png}
+At this page the current user is prompted for their credentials.
+Their username and password are requested and then authenticated.
+If the credentials are correct, the user is marked as \'trusted\'.
+If not, then no mark is associated.
+
+\subsection{Logout}
+This is another piece of important functionality that is without an XHTML view.
+The function is simple, it erases all of the session data currently set and alerts the user that they have logged out.
+The user is then redirected to the home page.
+
+\subsection{Show}
+\includegraphics{images/usershow.png}
+At this point users are given the chance to view a single user and all of the data that is associated with that user.
 
 \chapter{Results}
 % FOR: Greg
