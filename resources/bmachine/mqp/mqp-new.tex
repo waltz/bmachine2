@@ -140,16 +140,6 @@ The new Broadcast Machine must work across several different platforms.
 While impossible to guarantee compatibility with all web server configurations, Broadcast Machine most work on the most common web server setups. 
 This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
-
-\section{Features}
-% This is just an outline right now. -Greg
-There are several requirements for features that Broadcast Machine must include:
-\begin{description}
-\item[Automatic generation of RSS feeds]
-\item[Templating system]
-\item[Tagging]
-\end{description}
-
 \chapter{Implementation}
 
 \section{Model-View-Controller}
@@ -165,83 +155,69 @@ Based on the aforementioned design requirements, it became clear that the progra
 In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in the figure above, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
 
 \section{Languages and Tools}
-There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based on the structure of the model layer.\footnote{http://rubyonrails.org} However, as a relatively new language, Ruby on Rails has not been widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{http://php.net}. PHP is currently one of the most popular web scripting languages, and offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework. 
+There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based on the structure of the model layer.\footnote{http://rubyonrails.org} However, as a relatively new language, Ruby on Rails has not been widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. 
 
-Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. 
-Like PHP, MySQL comes installed by default with most hosting plans, and setting up a database to be used with our application is a matter of running a script with the correct permissions. 
+To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{http://php.net} running under Apache web servers\footnote{http://apache.org}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.\footnote{http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}
+Another advantage is that it is very common for PHP and Apache to be installed alongside one another. Apache's support for per-directory configurations via an .htaccess file make it very easy for users and developers to customize the environment without specialized administrator access; PHP offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework.
 
+Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and many hosts offer user-friendly interfaces to set up and manage databases. After a database has been created by the user with one of these tools, deploying the data layer of the application would be automated by a script. In terms of scalability, MySQL's performance rivals that of many enterprise-level DBMSes, especially when executing simple queries to create, read, update and delete small amounts of records. PHP offers several functions to interact with MySQL, making it the ideal choice for the data layer of the application.
 
-When choosing our DBMS, we must also predict how the application will scale with databases of varying sizes. 
-An assumption that the average database will contain less than 1000 records for unique videos is reasonable. 
-A publisher who produces a show daily would take almost three years to reach 1000 records, and most publishers release videos somewhat less frequently. 
-Most of the queries on the database will be basic select statements for getting data, and insert or alter statements for adding or modifying video information. 
-The predicted scale and function of our database would be best suited for a minimalist DBMS such as SQLite, which optimizes access to the data layer for smaller databases that do not need advanced functionality. 
-Ideally, the program will be flexible enough to use SQLite when available, and require MySQL in all other instances. 
-Architecting a flexible database controller will allow us to add other DBMS choices as necessary. 
+\section{Application layout}
+Using the aforementioned languages and tools, the traditional Model-View-Controller pattern was modified slightly for Broadcast Machine, in order for each layer to logically handle requests and delegate responsibilities as best as possible:
 
-\section{View}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{./images/flow.png}
+\end{center}
+\caption{Interaction Between Application Layers}
+\end{figure}
 
-\section{Controller}
+First, Broadcast Machine receives an incoming HTTP request and invokes the dispatcher. The dispatcher is a kind of meta-controller for Broadcast Machine, that takes in a URL request and any POST data from the user, and does any work necessary before the requested controller is instantiated. The dispatcher first checks to make sure that Broadcast Machine's .htaccess file, configuration file, and database are properly set up before invoking the proper controller. If Broadcast Machine is found to be not set up, then the dispatcher automatically ignores the URL request and invokes the setup controller to initiate the proper step of the set up process. If the application is set up, then the dispatcher parses the URL request and invokes the appropriate controller. The dispatcher expects URLs in the following format:
 
+\textbf{http://baseurl/[controller]/[param]/../[param]/} \\
 
-\section{Changes to the Database}
-In the new database model, several changes will have to be made in order to normalize the database for increased performance and easier programming. These changes are listed below:
+If no controller is given, the dispatcher by default invokes the Channel Controller. Beyond the type of controller requested, the dispatcher delegates the responsibility of interpreting URL parameters to the invoked controller.
 
+\subsection{Controllers}
 
-The stats table has a one-to one relationship with the files table. This means that the two tables can be merged, and tracking the number of downloads can be relegated to a single field in the files table. The channel\_options table is also one-to-one with the channels table, so all of its data can be stored in the channels table.
+\subsection{Model}
+Data for Broadcast Machine can be broken down into five main entities: Channels, Videos, Tags, Users, and Settings. Settings, a group of data with no relation to the other entities, are stored in the file bm2\_conf.php, while the rest of the data is stored as a relational MySQL database (see Languages and Tools above). The entities and their relationships are shown below.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{./images/er.png}
+\end{center}
+\caption{Entity-Relationship Diagram}
+\end{figure}
 
-
-The instance table can be replaced by a field in the channel settings for the base url of the website. We'll be able to assume that if, when a user goes to set up Broadcase Machine, the base URL has been filled already, then more than one copies of the program are sharing the database. Then, the user will be given a warning and a choice to overwrite this information with the new site.
-
-
-A number of fields and tables will become deprecated in the new model. CSSUrl, from the channels table, will be replaced by the new templating system. As features associated with channel\_sections are widely unused, they will also be left out of the new schema, but may be added back in later. The files table contains the runtime of the video via three fields, RuntimeHours, RuntimeMinutes, and RuntimeSeconds. These fields will be combined into one runtime field representing the time in seconds, which will be converted into the h:mm:ss format in the file view rather than at the data-layer level.
-
-
-The files table is poorly named, since it really stored information on videos, not the files that the videos are encoded in. In the future, it should be possible to have multiple files associated with one video (for hosting multiple formats and resolutions). The name of this table should be changed from files to something more descriptive, such as videos.
-
-
-In the users table, the primary key field is Name, which may have caused problems when two people with the same name would attempt to register (e.g. two John Smiths would not be allowed to join at the same time). In the future, the primary key for the table should be username, which should always be unique.
-
-
-Site settings will be moved from a B-Encoded file to a table in the database. Since we will be using http-seeding of torrents, some of these settings are expected to change.
-
-\section{Architecture}
-%This probably isn't too latex friendly yet - Greg
-%^^ Jan/31/06: next time you want to use a list, use the item[] tag -drew
-Active development began with discussions of how to best architect Broadcast Machine with a defined set of features:
+\subsubsection*{Channels}
+Channels used to organize videos into collections. Users can either view channels through Brodcast Machine, or subscribe to Channels via RSS or Miro. Each channel has the following attributes:
 \begin{description}
-\item[Unit tests for all of the implemented functionality]
-\item[A web based setup process]
-\item[Creating channels]
-\item[Browsing Channels]
-\item[Managing channels]
-\item[Creating video items from links]
-\item[Creating video items from uploaded files]
-\item[Browsing videos in a channel]
-\item[Managing video items]
-\item[Video RSS in all the forms curently available]
-\item[Subscribe via Democracy link]
-\item[User Authentication and permissions]
-\item[Ability to import data from an existing Broadcast Machine]
-\item[BitTorrent tracking]
-\item[BitTorrent seeding via HTTP seeding support]
+\item{\textbf{title: } The name of the channel. Must be unique.}
+\item{\textbf{description: } A short summary of what the channel contains.}
+\item{\textbf{website\_url: } An optional link to the channel homepage.}
+\item{\textbf{icon\_url: } The address of a channel icon, or logo.}
+\end{description}
+Each channel can have several videos published to it, meaning those videos will appear as part of the channel. Channels can also be tagged with descriptive keywords (see Tags).
+
+\subsubsection*{Videos}
+\begin{description}
+\item{\textbf{title: } The name of the video. Must be unique.}
+\item{\textbf{description: } A short summary of what the video is about.}
+\item{\textbf{website\_url: } An optional link to the video publisher homepage.}
+\item{\textbf{modified: } A timestamp of the last time a video was updated.}
+\item{\textbf{release\_date: } When the video was uploaded to Broadcast Machine.}
+\item{\textbf{runtime: } The length of the video, in seconds.}
+\item{\textbf{file\_url: } The location of the video file.}
+\item{\textbf{downloads: } The number of timess the video has been downloaded.}
+\item{\textbf{mime: } MIME-type of the video.\footnote{MIME is an international standard that defines what kind of content a file contains.}}
+\item{\textbf{size: } Size of the video.}
 \end{description}
 
+\subsubsection*{Tags}
+\subsubsection*{Users}
+\subsubsection*{Settings}
 
-\subsection{Flow}
-We then decided on a logical process for how the application would handle requests for information.
-First, the application would receive a URL, POST parameters, and cookie information from the web server.
-URLs will be typically received from mod\_rewrite in the form of http://baseurl.com/controller/action.
-The action field may also reference another controler, in which case it would be followed by another parameter for the action that the controller should take.
-For example, say a person runs a Broadcast Machine install on http://foobar.com.
-If a user would like to browse all videos on the site by a specific category, such as \"dogs\", he or she would go to http://www.foobar.com/tags/dogs/.
-In this case, \"/tags\" is a reference to the tag controller, which is responsible for getting all videos that contain that tag.
-The parameter to be passed to the video controller is \"dogs\", which means that only videos containing the dogs tag will be returned.
-
-
-After the controller generates an associated array of data (which may contain other arrays), it passes this information to the view layer, or the template.
-The template uses this information to fill in an XHTML or RSS page, and sets the mime type (in the case of linking to files), and renders the user interface.
-
+\subsection{View}
 
 \section{Program API}
 Next, we considered the program API, or the way in which the actual code and data would be laid out.
@@ -839,17 +815,6 @@ This will normalize the table, which will optimize queries and simplify queries 
 
 %% Move to design
 \chapter{Utilized Technologies}
-\section{Apache}
-% 1/18/2007, CJ: Rewrote it to be more concise.
-We chose the Apache webserver as our target environment because of its prevalence among low-cost web hosts.
-Because the audience we are trying to reach is likely to be running on a tight budget, we are making the assumption that they will choose a low-cost host.
-Even outside of this class of service providers, Apache retains market share dominance; so even when users might want to move to a better hosting solution Apache is right there with them. \footnote{From a Netcraft survey spanning Oct. 1995 through Jan. 2007. http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}
-Another advantage is that it is very common for PHP and Apache to be installed alongside one another.
-With the popularity of the \"L.A.M.P.\" server configuration it is reasonable to make such an assumption.
-Apache's support for per-directory configurations via an .htaccess file make it very easy for users and developers to customize the environment without specialized administrator access.
-These in-directory configuration files also do not require costly server restarts.
-As for Microsoft's IIS webserver, we will make sure that our program runs on the server, but there will be no guarantees that it will be particularly elegant.
-
 
 \section{PHP}
 % 1/18/2007, CJ: Rewrote to be more concise. Perhaps talk about PHP vs. Perl, Python, Ruby
@@ -1116,6 +1081,28 @@ XHTML 1.0 became an official World Wide Web Consortium (W3C) recommendation on J
 CSS, or Cascading Style Sheets, is presenation language used to style structured documents, such as XHTML, HTML, SVG, and other markup languages. 
 It's best know for being used with XHTML and HTML. 
 The power of CSS and structured documents becomes 
+
+\section{Changes to the Database}
+In the new database model, several changes will have to be made in order to normalize the database for increased performance and easier programming. These changes are listed below:
+
+
+The stats table has a one-to one relationship with the files table. This means that the two tables can be merged, and tracking the number of downloads can be relegated to a single field in the files table. The channel\_options table is also one-to-one with the channels table, so all of its data can be stored in the channels table.
+
+
+The instance table can be replaced by a field in the channel settings for the base url of the website. We'll be able to assume that if, when a user goes to set up Broadcase Machine, the base URL has been filled already, then more than one copies of the program are sharing the database. Then, the user will be given a warning and a choice to overwrite this information with the new site.
+
+
+A number of fields and tables will become deprecated in the new model. CSSUrl, from the channels table, will be replaced by the new templating system. As features associated with channel\_sections are widely unused, they will also be left out of the new schema, but may be added back in later. The files table contains the runtime of the video via three fields, RuntimeHours, RuntimeMinutes, and RuntimeSeconds. These fields will be combined into one runtime field representing the time in seconds, which will be converted into the h:mm:ss format in the file view rather than at the data-layer level.
+
+
+The files table is poorly named, since it really stored information on videos, not the files that the videos are encoded in. In the future, it should be possible to have multiple files associated with one video (for hosting multiple formats and resolutions). The name of this table should be changed from files to something more descriptive, such as videos.
+
+
+In the users table, the primary key field is Name, which may have caused problems when two people with the same name would attempt to register (e.g. two John Smiths would not be allowed to join at the same time). In the future, the primary key for the table should be username, which should always be unique.
+
+
+Site settings will be moved from a B-Encoded file to a table in the database. Since we will be using http-seeding of torrents, some of these settings are expected to change.
+
 
 \end{document}
 
