@@ -326,7 +326,7 @@ The data is often output in some sort of XML subset.
 Broadcast Machine most often outputs to XHTML and less often RDF.
 The way in which this software handles its requests is very common, many applications have used this structure to build their applications.
 This methodology was dubbed \"Model, View, Controller\" by a few academic researchers in the mid-1980's and has become increasingly popular for use with web applications \footnote{\url{http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html}}.
-A diagram of how these parts interact can be seen in the following diagram \includegraphics[width=60mm]{images/mvc.png}.
+A diagram of how these parts interact can be seen in the following diagram \includegraphics[width=150mm]{images/mvc.png}.
 (Form more information on the architecture, take a look at the previous chapter titled \"Implementation\".)
 
 
@@ -337,24 +337,28 @@ In the future the software will be available through a website located at \url{h
 After the user downloads the file, they would upload it to their server and expand it into some directory that could be accessed by a web server.
 
 \subsection{Step One}
-\includegraphics[width=60mm]{images/setup1.png}
+\includegraphics[width=150mm]{images/setup1.png}
+
 The first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
 In the background, the application is detecting the current server settings and is attempting to set up as many things on its own as the server will allow.
 If the server supports the Apache mod\_rewrite module the application will write an .htacccess file to the current directory.
 A few settings such as the permissions on directories and the type of PHP modules installed are also detected.
 
 \subsection{Step Two}
-\includegraphics[width=60mm]{images/setup2.png}
+\includegraphics[width=150mm]{images/setup2.png}
+
 The second setup step is where the basic information about the installation is entered.
 We collect information such as the title and description of the site as well as all of the information we need to connect to the database.
 
 \subsection{Step Three}
-\includegraphics{images/setup3.png}
+\includegraphics[width=150mm]{images/setup3.png}
+
 On the third page, the user is prompted to enter in information for their first user.
 This user will be the \'superuser\' and has the right to add other users or to escalate user permissions.
 
 \subsection{Step Four}
-\includegraphics{images/setup4.png}
+\includegraphics[width=150mm]{images/setup4.png}
+
 The fourth and final page is a simple confirmation that tells the user that they have successfully finished setting up the software.
 From here, we provide prompts for the user to add a new channel or to take a look at their new front page.
 
@@ -365,30 +369,35 @@ Most people immediately understand the goal of a channel as a collection of them
 Our software provides an easy way for users to create, categorize and manage large amounts of video.
 
 \subsection{All}
-\includegraphics{images/channelall.png}
+\includegraphics[width=150mm]{images/channelall.png}
+
 The default display for the channels section is to show a few recent channels and a small sampling of videos from each channel.
 
 \subsection{Show}
-\includegraphics{images/channelshow.png}
+\includegraphics[width=150mm]{images/channelshow.png}
+
 Each channel can be viewed individually.
 This allows the user to take a more in depth look at the channel.
 In this view we display all of the information we have about the channel and then display a few of the recent videos.
 
 \subsection{RSS}
-\includegraphics{images/channelrss.png}
+\includegraphics[width=150mm]{images/channelrss.png}
+
 All of the channels have an associated RSS feed.
 The ten most recent videos that have been posted to the channel become a part of the RSS feed.
 These feeds are really important for integration with desktop clients such as Miro.
 With this technology Broadcast Machine users can easily integrate their content with other services and clients.
 
 \subsection{Add}
-\includegraphics{images/channeladd.png}
+\includegraphics[width=150mm]{images/channeladd.png}
+
 None of this would be of much use if the software was lacking an interface through which to add channels.
 With this dialog, an administrator can add a new channel and associate a few pieces of meta data.
 We currently allow titles, descriptions, tags and icons to be plugged attached to a channel.
 
 \subsection{Edit}
-\includegraphics{images/channeledit.png}
+\includegraphics[width=150mm]{images/channeledit.png}
+
 This form is very much like that of the add dialog, but this form comes pre-populated with the data from an existing channel.
 Any piece of data that can be added can also be edited.
 
@@ -402,12 +411,14 @@ They are the most basic component of this application.
 The video section of this software allows for all of the basic operations on a video.
 
 \subsection{All}
-\includegraphics{images/videoall.png}
+\includegraphics[width=150mm]{images/videoall.png}
+
 This view displays a number of the recent videos that have been added to the database.
 This page serves as a good entry point into some of the videos that the user(s) have made available.
 
 \subsection{Show}
-\includegraphics{images/videoshow.png}
+\includegraphics[width=150mm]{images/videoshow.png}
+
 The show page displays a single video and all of the information associated with it.
 This page gives the user a way to view meta data and to download the video itself.
 It also serves as a jumping point to the channels that the video belongs to and to the tags that have been associated with the video.
@@ -417,11 +428,13 @@ While the download portion of each video does not have a traditional HTML view, 
 This page redirects the user to a URI where the video file can be downloaded.
 
 \subsection{Add}
-\includegraphics{images/videoadd.png}
+\includegraphics[width=150mm]{images/videoadd.png}
+
 If a user is logged in and has sufficient privileges to add a video, they are presented with a form that allows them to fill in meta data.
 
 \subsection{Edit}
-\includegraphics{images/videoedit.png}
+\includegraphics[width=150mm]{images/videoedit.png}
+
 This view is much like the add view. It is visually similar except for it comes populated with data associated with the video.
 
 \subsection{Remove}
@@ -434,15 +447,18 @@ These words allow the viewer to more easily pick through the content that is bei
 Regardless of the channel or video, a viewer can immediately key in on some specific term and be able to retrieve a stream of content relevant to that term.
 
 \subsection{All}
-\includegraphics{images/tagall.png}
+\includegraphics[width=150mm]{images/tagall.png}
+
 This is raw tag output that allows users to see a bunch of the tags currently being used by channels and videos.
 
 \subsection{Show}
-\includegraphics{images/tagshow.png}
+\includegraphics[width=150mm]{images/tagshow.png}
+
 In this view we see a small sample of the channels and videos that have been associated with the given tag.
 
 \subsection{RSS}
-\includegraphics{images/channelrss.png}
+\includegraphics[width=150mm]{images/channelrss.png}
+
 This view functions exactly like the previous channel RSS view that was discussed earlier.
 Instead of keying in on channel data, this simply keys on tag data.
 
@@ -451,12 +467,14 @@ The users control allows users and administrators to manage their and other's ac
 This control provides authentication mechanisms and a portal to certain amounts of user information.
 
 \subsection{Signup}
-\includegraphics{images/usersignup.png}
+\includegraphics[width=150mm]{images/usersignup.png}
+
 The super-user has control as to wether or not the signup pane is available to the public, but this dialog adds a simple way for users and administrators to add new accounts.
 Each person is required to have a username and a password and we would prefer if they associated an email address and a name.
 
 \subsection{Login}
-\includegraphics{images/userlogin.png}
+\includegraphics[width=150mm]{images/userlogin.png}
+
 At this page the current user is prompted for their credentials.
 Their username and password are requested and then authenticated.
 If the credentials are correct, the user is marked as \'trusted\'.
@@ -468,7 +486,8 @@ The function is simple, it erases all of the session data currently set and aler
 The user is then redirected to the home page.
 
 \subsection{Show}
-\includegraphics{images/usershow.png}
+\includegraphics[width=150mm]{images/usershow.png}
+
 At this point users are given the chance to view a single user and all of the data that is associated with that user.
 
 \chapter{Results}
@@ -651,12 +670,44 @@ Although we decided against incorporating the change, we believe we have built a
 allow an enthusiastic programmer or group of programmers to add that functionality to Broadcast Machine themselves.
 
 \chapter{Future Work}
-% FOR: CJ
-% Talk about how the package will be maintained as an open source project.
-% Features that should be added: BitTorrent, Flash Video, Advanced (AJAX) UI,
-% Flash-based uploader, Internationalization, 
+While this project has done much work to make Broadcast Machine a piece of modern video management software, there are many features that should be implemented in order to provide the best user experience possible.
+Fortunately, Broadcast Machine will live on longer than this current project.
+Our group hopes to continue to cultivate this application as an open-source project after this MQP.
+Opening this code-base to a community and encouraging all types of hobbyists to contribute will allow us to implement a few of the features that we think would be beneficial to the software.
 
+One of the first features that this project did not implement was BitTorrent support.
+The initial version of Broadcast Machine was hailed as being one of easiest ways to distribute content via this de-centralized network.
+We think that this feature is still very important to goals that Broadcast Machine tries to accomplish.
+The ability to save bandwidth and provide free redundancy is immensely important.
+These features should be trivial to implement as most of the code for these features is available in the initial version of the software.
 
+With the rise of online video, many content providers have decided to make their video viewable online through the use of a Flash applet.
+The use of this embedable program allows the provider to make video viewable on almost any computer on any platform.
+If the user has encoded their video using the FLV codec or the H.264 codec, a well-designed SWF can provide the playback interface.
+While this interface can only be provided through the use of a closed-source application framework, it is perhaps the most usable method for providing a video player.
+Fortunately, with the use of file-type detection and the adaptation of open-source Flash applications we feel that this feature would be important to provide.
+
+The next feature that would be most beneficial to the user-base would be robust internationalization support.
+The computer world largely deals with English as the default language in which to implement software, the majority of the world does not function in English.
+There are a large number of users who would benefit through the existence of a multi-language framework.
+The ability for Broadcast Machine to be translated into multiple languages would be a tremendous boon to users across the world and would increase the number of people that our package would be immediately usable to.
+This feature would be relatively easy to implement as well.
+Because of the architectural decisions that we have made, the translation would only take a few hours to a native speaker of any language.
+Given that we are able to find people willing to volunteer for this job, this feature would be of great benefit.
+
+The last feature that our team thought useful was AJAX support.
+AJAX has become popular for use in web applications lately as it allows for asynchronous functions that are often found in desktop applications.
+Through the use of these methods we would be able to allow administrators to edit the content on their pages without having to refresh the page.
+All of the necessary information changes hands in the background.
+This feature would be a bit harder to implement.
+Many changes would be needed to properly interpret the new flow of information, and integrating these client-side programs would likely take a long time.
+The benefit would be increased ease of use; Broadcast Machine would \'feel\' much like a desktop application.
+
+All of these features are certainly within reach.
+The benefits to the users afforded by their implementation versus the effort required is certainly reasonable.
+Hopefully Broadcast Machine sees these features added to its code base in the coming months.
+Its life as an open source project and the addition of other contributors should speed the addition of these features that we have not had time to add.
+ 
 \chapter{Conclusion}
 
 \appendix
@@ -1006,8 +1057,8 @@ One difference between the Yahoo and Apple specifications is that Yahoo's additi
 The Apple specification approached a restructuring of the RSS file while the Yahoo modifications are strictly media-centric metadata.
 This difference makes the Yahoo additions more desireable for embedding rich content within ordinary text feeds while the Apple additions push RSS as a multimedia only platform.
 
-<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss"
-xmlns:dcterms="http://purl.org/dc/terms/">
+<rss version=\"2.0\" xmlns:media="http://search.yahoo.com/mrss\"
+xmlns:dcterms=\"http://purl.org/dc/terms/\">
 <channel>
 <title>Music Videos 101</title>
 <link>http://www.foo.com</link>
@@ -1015,16 +1066,16 @@ xmlns:dcterms="http://purl.org/dc/terms/">
 	<item>
 		<title>The latest video from an artist</title>
 		<link>http://www.foo.com/item1.htm</link>
-		<media:content url="http://www.foo.com/movie.mov" fileSize="12216320" 
-		type="video/quicktime" expression="full">
-		<media:player url="http://www.foo.com/player?id=1111" 
-		height="200" width="400"/>
-		<media:hash algo="md5">dfdec888b72151965a34b4b59031290a</media:hash>
-		<media:credit role="producer">producer's name</media:credit>
-		<media:credit role="artist">artist's name</media:credit>
-		<media:category scheme="http://blah.com/scheme">music/artist 
+		<media:content url=\"http://www.foo.com/movie.mov\" fileSize=\"12216320\" 
+		type=\"video/quicktime\" expression=\"full\">
+		<media:player url=\"http://www.foo.com/player?id=1111\" 
+		height=\"200\" width=\"400\"/>
+		<media:hash algo=\"md5\">dfdec888b72151965a34b4b59031290a</media:hash>
+		<media:credit role=\"producer\">producer's name</media:credit>
+		<media:credit role=\"artist\">artist's name</media:credit>
+		<media:category scheme=\"http://blah.com/scheme\">music/artist 
 		name/album/song</media:category>
-		<media:text type="plain">
+		<media:text type=\"plain\">
 		Oh, say, can you see, by the dawn's early light
 		</media:text>
 		<media:rating>nonadult</media:rating>
