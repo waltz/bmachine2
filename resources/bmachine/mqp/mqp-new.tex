@@ -9,11 +9,15 @@
 
 \begin{document}
 
-\maketitle
 % We need title page here. It has to be formatted as per the schools specs.
 \begin{titlepage}
+  \topmargin 0.5in
+  \headheight 0in
 \begin{center}
-MQP-CEW-0702\\
+  \begin{flushright}
+Project Number: MQP-CEW-0702\\
+\end{flushright}
+\vspace*{40mm}
 A Major Qualifying Project Report:\\
 submitted to the Faculty\\
 of the\\
@@ -23,36 +27,95 @@ Degree of Bachelor of Science\\
 By\\
 \makebox[2in]{\hrulefill}\\
 Christian Bryan\\
+\vspace*{10mm}
 \makebox[2in]{\hrulefill}\\
 Greg Opperman\\
+\vspace*{10mm}
 \makebox[2in]{\hrulefill}\\
 Drew Wilson\\
-\date{\today}\\
+\vspace*{10mm}
+\today\\
+\vspace*{10mm}
+\begin{flushleft}
+  1. internet\\
+  2. video\\
+  3. php\\
+\end{flushleft}
+\begin{flushright}
 Approved:\\
+\vspace*{10mm}
 \makebox[2in]{\hrulefill}\\
-Professor Craig Wills\\
+Professor Craig E. Wills\\
+\end{flushright}
 \end{center}
 \end{titlepage}
 
-
-
 \chapter*{Abstract}
-% One paragraph describing the project.
+% TODO: One paragraph describing the project.
+% FOR: CJ
+% NOTE: It's gotta be 80 words or less.
+Our group came across a derelict open source web application that managed the distribution of videos.
+We rebuilt the software addressing its previous problems of scalability, maintainability and usability.
+Through careful evaluation and the use of popular software development techniques we successfully retooled a software package so that it could grow with its users and developers.
 
 \chapter*{Authorship}
-% Who wrote what.
+% TODO: Who wrote what.
+% FOR: CJ
+\begin{description}
+  \item{Introduction}Christian Bryan
+  \item{Background}Greg Opperman
+  \item{Design}Greg Opperman
+  \item{Implementation}Greg Opperman
+  \item{System in Action}Christian Bryan
+  \item{Results}Christian Bryan
+  \item{Results - Feedback}Drew Wilson
+  \item{Future Work}Christian Bryan
+  \item{Conclusion}Christian Bryan
+\end{description}
 
 \tableofcontents
 
 \chapter{Introduction}
-% A summary of the topics covered in this report.
-% Describe the goal of the project.
+% TODO: Describe the project goals and summarize the topics covered.
+% FOR: CJ
+This paper takes a look at the Broadcast Machine project and the work that was accomplished in the re-imagination of an unproductive piece of software.
+We outline the steps that we have taken in the analysis of the problem and the development of the new package.
+We guide the reader through the history of the project and its philosophical goals, the ideas that we came up with when designing the new software, how we went about implementing our ideas, and then how well our implementation performed.
+There is a full walkthrough of the new software and a description of the functionality it provides.
+Towards the end our group discusses the features that our group was unable to implement and how which ones we feel are necessary to the long-term success of the project.
+
+\section{Goals}
+The main goal of this project was to take the ideas that had driven the development of the first version of Broadcast Machine and create a piece of software that was more usable and maintainable.
+The original code base had been abandoned because the maintainers felt that it was taking up to much time and that any further work was unlikely to be fruitful.
+The first part of this project was to identify the problems that the previous developers were running into and what their underlying causes were.
+Once we had interviewed the previous developers we had a better idea of what the problems were.
+Based upon the developer's comments we found that it would be necessary to separate the content from the logic of the application.
+The next goal was to make sure that the software was licensed in the same way as the first Broadcast Machine.
+Our next step was to dive into the original Broadcast Machine code and take a look at what had been worked on previously.
+(We have collected our findings on this topic in Appendix A.)
+
+
+\section{Topics}
+This report details the methodologies and technologies that were used in the re-imagination of the Broadcast Machine package.
+We will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impend the development of this software.
+There is a detailed discussion of the requirements that we felt existed for this package.
+Each requirement has been analyzed and is discussed in detail.
+Points such as the ability of the user to interact with the software and the ability of the developer to continue building on the software in the long term are both mentioned.
+The philosophy and purpose behind this package is also talked about.
+This is an especially important point as Broadcast Machine is built as a tool to enable people to better express themselves rather than a product designed to enrich a group.
 
 \chapter{Background}
-% FOR: Greg
 
 \section{Introduction}
-% Summary of the background section.
+% TODO: A good overview of the topics covered in the Background chapter. 
+% FOR: CJ
+In this section we take a look at the history of Broadcast Machine.
+Our goal here is to provide the reader with a framework that will let them understand the reasons for this software's existence and the environment in which it is being built.
+The importance of this software to the Participatory Culture Foundation should be noted.
+As this foundation tries to promote freedom for content producers, the majority of its competitors are attempting the opposite.
+Unfortunately this software has not thrived.
+Due to decisions made early in the software's development and an lack of funds for its re-development Broadcast Machine has fallen by the wayside.
+Our group has come to see Broadcast Machine as important player in the arena of internet video and is dedicated to ensuring that it becomes viable again.
 
 \section{Open-Source Software}
 Open source software is an important part of the movement to democratize the media and Internet. 
@@ -142,7 +205,7 @@ Users should also have the ability to easily switch between layouts.
 
 
 \subsection{Extensible} 
-Similarly to the presentation logic, the application logic of Broadcase Machine must be structured so that it may be easily modified and maintained by any developer with relevant skills. 
+Similarly to the presentation logic, the application logic of Broadcast Machine must be structured so that it may be easily modified and maintained by any developer with relevant skills. 
 The layout of the application should appear logical and concise, with a modular architecture to encourage programmers to freely add onto Broadcast Machine's feature set in order to meet their requirements.
 The architecture should be transparent and have a well-documented API so that theses developers can start extending Broadcast Machine without exhaustive knowledge of the program, but merely a solid grasp of the documented data structures and class layouts. 
 When features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application, by adding only a few functions or classes. 
@@ -166,7 +229,7 @@ This includes any Apache web server with a minimal amount of installed modules, 
 \chapter{Implementation}
 
 \section{Model-View-Controller}
-Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three seperate parts. First, the presentation layer needed to be seperated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This seperates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
+Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
 
 
 \begin{figure}[h]
@@ -501,7 +564,7 @@ This page redirects the user to a URI where the video file can be downloaded.
 If a user is logged in and has sufficient privileges to add a video, they are presented with a form that allows them to fill in meta data.
 
 \subsection{Edit}
-\includegraphics[width=150mm]{images/videoedit.png}
+\includegraphics[height=200mm]{images/videoedit.png}
 
 This view is much like the add view. It is visually similar except for it comes populated with data associated with the video.
 
@@ -559,13 +622,14 @@ The user is then redirected to the home page.
 At this point users are given the chance to view a single user and all of the data that is associated with that user.
 
 \chapter{Results}
-% FOR: Greg
+
+\section{Overview}
 
 \section{Unit testing}
 
-\chapter{Feedback}
+\section{Feedback}
 
-\section{Mike Benedetti}
+\subsection{Mike Benedetti}
 
 On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
 13. Mike is a part of the internet video community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{http://www.wccatv.com/snowghost} online for WCCA.
@@ -584,13 +648,9 @@ We started our discussion by having Mike describe WCCA's video publishing proces
 \item A content producer records a show in their studio. 
 \item The show is edited and cut down to fit the time-slot.
 \item The show is aired on the cable station. 
-\item Mike uploads a high-quality copy of the video is to archive.org. He must input various attributes of the video, 
-including the title, text description, director, producer, production company, keywords and information about the audio 
-and visuals. 
-\item Archive.org's servers then convert the video into a number of file sizes and formats and make the files publicly 
-available.
-\item Mike embeds a lower-quality version of the file in a post using Drupal. Mike must re-enter all of the video 
-attributes at this point.
+\item Mike uploads a high-quality copy of the video is to archive.org. He must input various attributes of the video, including the title, text description, director, producer, production company, keywords and information about the audio and visuals. 
+\item Archive.org's servers then convert the video into a number of file sizes and formats and make the files publicly available.
+\item Mike embeds a lower-quality version of the file in a post using Drupal. Mike must re-enter all of the video attributes at this point.
 \item The video is posted to the WCCA site and Drupal handles adding an entry to the video rss file.
 \end{enumerate}
 
@@ -600,6 +660,7 @@ content of our pages.
 It was valuable to hear that Mike's expectations for the views were somewhat different than what we had. 
 There were a few specific UI suggestions that he had, but most important suggestion on how to visually present our data.
 More broadly, Mike gave us a feel for where broadcast machine fits into the landscape of Internet video publishing. 
+
 He seemed to be hopeful about our project and it might be a good fit for his needs.
 
 Mike explained that it made more sense to him to have the videos appear in a more traditional blog layout, with clear 
@@ -635,7 +696,7 @@ The ability to save bandwidth and provide free redundancy is immensely important
 These features should be trivial to implement as most of the code for these features is available in the initial version of the software.
 
 With the rise of online video, many content providers have decided to make their video viewable online through the use of a Flash applet.
-The use of this embedable program allows the provider to make video viewable on almost any computer on any platform.
+The use of this embed-able program allows the provider to make video viewable on almost any computer on any platform.
 If the user has encoded their video using the FLV codec or the H.264 codec, a well-designed SWF can provide the playback interface.
 While this interface can only be provided through the use of a closed-source application framework, it is perhaps the most usable method for providing a video player.
 Fortunately, with the use of file-type detection and the adaptation of open-source Flash applications we feel that this feature would be important to provide.
@@ -921,7 +982,7 @@ The RSS 2.0 specification allows for publishers to specify \'channels\' in which
 At the top of the RSS file there is an area where the publisher can add information about the channel such as a link to the publishing website, the author, webmaster and other various information.
 Each of the items within the channel contain additional sub-elements that describe the item.
 There are descriptors for the time and date at which the content was published, links to the website with the extended or full version of the contents, and ususally there is a unique identifier that lets the computer detect duplicates. 
-
+\begin{verbatim}
 <?xml version=\"1.0\"?>
 <rss version=\"2.0\">
   <channel>
@@ -946,7 +1007,7 @@ There are descriptors for the time and date at which the content was published, 
 
   </channel>
 </rss>
-
+\end{verbatim}
 This example provides us with exactly what anyone would need to push content updates around the internet.
 Unfortunately the internet isn't only text and images, it's a place full of music and video too.
 Recently, publishers have begun to embed video and audio into RSS feeds that provide users with an experience much like broadcast television or radio.
@@ -965,6 +1026,7 @@ Unfortunately to reach those people, Apple requires that your RSS feed be format
 
 The first step in creating an iTunes RSS feed is to include the XML namespace declaration for the iTunes tags.
 Simply place the following text at the top of the feed, and step one is done.
+\begin{verbatim}
 <rss xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" version=\"2.0\">
 Next, the publisher needs to add tags that describe the channel.
 iTunes specifies a special tag for describing the owner of the feed.
@@ -979,9 +1041,9 @@ For describing the content there is a field where people can specify categories 
 	<itunes:category text=\"Music\">
       <itunes:category text="Jazz"/>
    </itunes:category>
+\end{verbatim}   
 It is important to note that the category tags can be paired with a beginnng and an end or alone.
 We should also pay attention that it is possible to nest categories, effectively creating subcategories that iTunes recongizes.
-
 The RSS items themselves can also be extended.
 Publishers might like to specify an author for each item. (Perhaps the feed is a collection of videos from other people.)
 It can be specified using the <itunes:author> tag.
@@ -990,7 +1052,7 @@ The <itunes:summary> tag is especially useful.
 When it comes to the audio or video file, the iTunes specification uses the <enclosure> tag mentioned earlier.
 To further describe the content iTunes allows for keywords and tags to be added to each item using the <itunes:keywords> tag.
 We can see how this all comes together in this example item:
-
+\begin{verbatim}
 	<item>
 		<title>Dave Brubeck - Take Five</title>
 		<itunes:author>Dave Brubeck</itunes:author>
@@ -1004,12 +1066,12 @@ We can see how this all comes together in this example item:
 		<itunes:duration>3:59</itunes:duration>
 		<itunes:keywords>dave brubeck, jazz</itunes:keywords>
 	</item>
-
+\end{verbatim}
 The competing standard is Yahoo!'s Media RSS \footnote{\url{http://search.yahoo.com/mrss}} specification which puts forth an even larger set of extensions to RSS 2.0.
 One difference between the Yahoo and Apple specifications is that Yahoo's additions are with respect to the item that is enclosed rather than to the RSS item itself.
 The Apple specification approached a restructuring of the RSS file while the Yahoo modifications are strictly media-centric metadata.
 This difference makes the Yahoo additions more desireable for embedding rich content within ordinary text feeds while the Apple additions push RSS as a multimedia only platform.
-
+\begin{verbatim}
 <rss version=\"2.0\" xmlns:media="http://search.yahoo.com/mrss\"
 xmlns:dcterms=\"http://purl.org/dc/terms/\">
 <channel>
@@ -1041,7 +1103,7 @@ xmlns:dcterms=\"http://purl.org/dc/terms/\">
 	</item>
 </channel>
 </rss>
-
+\end{verbatim}
 From this example we can see how the specification does not place any of the tags in the section with the channel, everything is with the item.
 The most notable change is the movement from the <enclosure> tag to the use of the <media:content> tag.
 Unfortunately there isn't much improvement, as they are the same thing by different names.
