@@ -187,9 +187,9 @@ To prevent these problems from happening in the future, Broadcast Machine must h
 \section{Ease of Use}
 The most important requirement for Broadcast Machine is that it be easy to use. 
 Broadcast Machine's target user, people who produce videos, should not need extensive technical knowledge in order to deploy and use the program. 
-Just as a devlepor has almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technologies employed. 
+Just as a developer has almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technologies employed. 
 Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video channels via a simple administrative interface. 
-Without any information besides their web server login and password, the user should be able to set up Broadcast Machine by dropping the application into their public HTML folder. 
+Without any information besides their web server log in and password, the user should be able to set up Broadcast Machine by dropping the application into their public HTML folder. 
 The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
 The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
 Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels.
@@ -623,16 +623,26 @@ At this point users are given the chance to view a single user and all of the da
 
 \chapter{Results}
 
-\section{Overview}
+Quality Assurance for Broadcast Machine was an ongoing process that began very early on in our development cycles, in order to provide empirical benchmarks for code and layout correctness. An extensive system of unit Tests were developed in order to rigorously test that all controller logic and model interactions in Broadcast Machine, while we later relied on user testing in order to verify that the presentation logic was also sound.
 
 \section{Unit testing}
+In order to ensure that Broadcast Machine's controller logic was (and is) consistently functional amongst dozens of revisions made by multiple developers, we developed a comprehensive set of Unit Tests that execute every controller function and verify that they return expected results. In order to perform these tasks, we implemented tests using SimpleTest, a PHP Unit Testing framework. SimpleTest uses basic assertions to prove that a given function behaves correctly, and then generates a simple report with the number of test case successes or failures.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.45]{./images/unittest.png}
+\end{center}
+\caption{ChannelController Unit Test}
+\end{figure}
+
+Unit tests for Broadcast Machine can be found in the unit\_tests folder, and may be executed simply by navigating to the test file in any web browser, as shown in figure 6.1. While not entirely test-driven, our development process benefited greatly from good unit testing practices. Ensuring that all controllers passed their respective unit tests before checking in major portions of code helped prevent the introduction of bugs, as well as helped localize bugs to specific portions of code when they did occur. 
+
+Although convenient for basic testing, Simpletest has several limitations that prevented us from testing all of our code through unit tests. Simpletest is unable to properly emulate persistent PHP sessions, which means that we had to test user authentication manually. However, since so many aspects of Broadcast Machine rely on authentication, we became confident that user-testing through our extensive use of Broadcast Machine throughout development was sufficient to ensure that the feature was working correctly. Similarly, unit tests are not able to make judgements about the correctness or aesthetic value of presentation logic. 
 
 \section{Feedback}
 
-\subsection{Mike Benedetti}
-
-On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
-13. Mike is a part of the internet video community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{http://www.wccatv.com/snowghost} online for WCCA.
+In order to test Broadcast Machine's layout and usability, we relied on user testing and feedback. On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
+13. Mike is a part of the internet video publishing community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{http://www.wccatv.com/snowghost} online for WCCA.
 We introduced Mike to Broadcast Machine, and asked for some feedback on the user experience.
 Our major goal was to determine if his expectations for the interface meshed well with the existing feel of the application.
 Because of his experience with internet video publishing, he was in a unique position to provide feedback on Broadcast Machine.
