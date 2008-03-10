@@ -178,7 +178,12 @@ First, Broadcast Machine receives an incoming HTTP request and invokes the dispa
 
 If no controller is given, the dispatcher by default invokes the Channel Controller. Beyond the type of controller requested, the dispatcher delegates the responsibility of interpreting URL parameters to the invoked controller.
 
-\subsection{Controllers}
+\section{Controllers}
+
+All of the application logic for Broadcast Machine resides in the controller layer. Controllers are classes of objects that perform a set of related tasks. 
+
+\subsection*{View Controllers}
+View Controllers are the most common type of controller in Broadcast Machine, and are responsible for handling all of the requests that result in template rendering. All view controllers inherit some functionality and requirements from the ViewController Abstract Class. The ViewController aggregates (contains) the DatabaseController, whose specific implementation is defined by a configuration variable and automatically instantiated.\footnote{By default, Broadcast Machine uses the MySQLController.} In a similar fashion, the ViewController automatically aggregates an instance of Smarty, the default templating engine of choice.\footnote{For more information on Smarty, see the \textbf{View} section below.} ViewControllers also inherit the ability to determine permissions and assign alerts from their abstract parent. The ViewController also provides a uniform interface for invoking a template.
 
 \begin{figure}[h]
 \begin{center}
@@ -187,7 +192,83 @@ If no controller is given, the dispatcher by default invokes the Channel Control
 \caption{ViewController API}
 \end{figure}
 
-\subsection{Model}
+ViewControllers are responsible for taking in an array of URL parameters\footnote{Recall that URLs are parsed by the dispatcher into an array before instantiating a ViewController}, and invoking the correct method and parameters. For example, if the ChannelController is called with the following parameters: \\
+
+\textbf{[0] = channel, [1] = cowboys, [2] = edit} \\
+
+The Channel Controller, in the dispatch() method, assumes that 'cowboys' is the name of the channel, and invokes the edit method with 'cowboys' as the target channel. There are five classes that implement the ViewController interface: the Setup, Channel, Video, Tag, and User Controllers. \\
+
+\subsubsection{SetupController}
+The \textbf{SetupController} is responsible for completing a Broadcast Machine installation, as well managing site  and database settings after BM has been set up. The SetupController has the following methods (corresponding URL parameters in parentheses):
+\begin{description}
+\item{\textbf{index (/setup/): }calls settings() by default when there are no parameters, if a user is logged in and has admin privileges.}
+\item{\textbf{write\_htaccess (/setup/cleanurls/): }The first step of setup, sets up the .htaccess file for proper URL handling.}
+\item{\textbf{settings (/setup/settings): } Allows an admin to set up or modify site and database settings.}
+\item{\textbf{write\_bm2conf: } Writes BM's configuration file.}
+\item{\textbf{firstuser (/setup/firsuser): } Allows user to create the first admin log-in.} \\
+\end{description} 
+
+\subsubsection{ChannelController}
+The \textbf{ChannelController} is responsible for aggregating and managing data related to channels, or collections of videos. The ChannelController has the following methods:
+\begin{description}
+\item{\textbf{index (/channel/): } calls all() by default when there are no parameters.}
+\item{\textbf{all (/channel/all): } Displays all channels, as well as a short list of videos in those channels and associated tags.}
+\item{\textbf{add (/channel/add): } Adds a Channel to the database.}
+\item{\textbf{edit (/channel/channelname/edit): } Modifies channel \textit{channelname}.}
+\item{\textbf{show (/channel/channelname/): } Shows details for a channel.}
+\item{\textbf{rss (/channel/channelname/rss): } Displays a channel's RSS feed.}
+\item{\textbf{remove (/channel/channelname/remove): } Deletes a given channel from the database.} \\
+\end{description} 
+
+\subsubsection{VideoController}
+The \textbf{VideoController} is responsible for aggregating and managing data related to videos. The VideoController has the following methods:
+\begin{description}
+\item{\textbf{index (/video/): } calls all() by default when there are no parameters.}
+\item{\textbf{all (/video/all): } Displays all videos, as well as associated tags.}
+\item{\textbf{add (/video/add): } Adds a video to the database.}
+\item{\textbf{edit (/video/videoname/edit): } Modifies video \textit{videoname}.}
+\item{\textbf{show (/video/videoname/): } Shows details for a video.}
+\item{\textbf{download (/video/videoname/download): } Increments a video's download count and serves up the video file.}
+\item{\textbf{remove (/channel/videoname/remove): } Deletes a given video from the database.} \\
+\end{description} 
+
+\subsubsection{TagController}
+The \textbf{TagController} is responsible for aggregating and managing data related to tags, or categories for videos and channels. The TagController has the following methods:
+\begin{description}
+\item{\textbf{index (/tag/): } calls all() by default when there are no parameters.}
+\item{\textbf{all (/tag/all/): } Displays all tags for channels and videos.}
+\item{\textbf{show (/tag/tagname/): } Shows all videos and channels tagged with \textit{tagname}.}
+\item{\textbf{rss (/tag/rss/): } Displays an RSS feed for videos tagged with \textit{tagname}.} \\
+\end{description} 
+
+\subsubsection{UserController}
+The \textbf{UserController} is responsible for aggregating and managing data related to users. The UserController has the following methods:
+\begin{description}
+\item{\textbf{index (/user/): } calls show() for current user by default when there are no parameters, or presents a login screen if there is no active session.}
+\item{\textbf{signup (/user/signup/): } Registers a user.}
+\item{\textbf{login (/user/login/): } Begins a session with proper user credentials.}
+\item{\textbf{all (/user/all/): } Shows all users (admin-only).}
+\item{\textbf{show (/user/username/show): } Shows information for user \textit{username}.}
+\item{\textbf{edit (/user/username/edit/): } Allows a user to edit their own information.}
+\item{\textbf{remove (/user/username/remove/): } Allows a user or admin to remove an account.} \\
+\end{description}
+
+\subsection*{Database Controllers}
+Database Controllers are controller classes that manage queries to the model layer. In implementing MySQL database support for Broadcast Machine, several abstraction layers were created to make it easy to add new DBMS support to the application.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{./images/mysql.png}
+\end{center}
+\caption{MySQLController Inheritance Diagram}
+\end{figure}
+
+The abstract class \textbf{DatabaseController} defines the API by which all database controllers are expected to behave, witch functions to configure, connect, and disconnect from database sessions, as well as to create, read, update, and delete data, as well as to parse record sets into arrays and retrieve the unique ID of the last inserted record.
+
+The \textbf{SQLController} extends the Database controller by providing the create, read, update, and delete functions to build and execute SQL queries for all of these functions. This abstraction provides these functions for any developer writing controllers for any other SQL implementation (such as SQLite or PostgreSQL) automatically, so long as their implementation extends the SQLController class.
+
+Finally, the MySQL controller is a concrete implementation of the DBMS used in Broadcast Machine. It implements functions to maintain database connections by calling MySQL-specific functions in PHP, allowing other Broadcast Machine controllers to interact with the model layer.
+
+\section{Model}
 Data for Broadcast Machine can be broken down into five main entities: Channels, Videos, Tags, Users, and Settings. Settings, a group of data with no relation to the other entities, are stored in the file bm2\_conf.php, while the rest of the data is stored as a relational MySQL database (see Languages and Tools above). The entities and their relationships are shown below.
 \begin{figure}[h]
 \begin{center}
@@ -196,17 +277,17 @@ Data for Broadcast Machine can be broken down into five main entities: Channels,
 \caption{Entity-Relationship Diagram}
 \end{figure}
 
-\subsubsection*{Channels}
+\subsection*{Channels}
 Channels used to organize videos into collections. Users can either view channels through Brodcast Machine, or subscribe to Channels via RSS or Miro. Each channel has the following attributes:
 \begin{description}
 \item{\textbf{title: } The name of the channel. Must be unique.}
 \item{\textbf{description: } A short summary of what the channel contains.}
 \item{\textbf{website\_url: } An optional link to the channel homepage.}
-\item{\textbf{icon\_url: } The address of a channel icon, or logo.}
+\item{\textbf{icon\_url: } The address of a channel icon, or logo.} \\
 \end{description}
 Each channel can have several videos published to it, meaning those videos will appear as part of the channel. Channels can also be tagged with descriptive keywords (see Tags).
 
-\subsubsection*{Videos}
+\subsection*{Videos}
 \begin{description}
 \item{\textbf{title: } The name of the video. Must be unique.}
 \item{\textbf{description: } A short summary of what the video is about.}
@@ -217,13 +298,13 @@ Each channel can have several videos published to it, meaning those videos will 
 \item{\textbf{file\_url: } The location of the video file.}
 \item{\textbf{downloads: } The number of times the video has been downloaded.}
 \item{\textbf{mime: } MIME-type of the video.\footnote{MIME is an international standard that defines what kind of content a file contains.}}
-\item{\textbf{size: } Size of the video.}
+\item{\textbf{size: } Size of the video.} \\
 \end{description}
 
-\subsubsection*{Tags}
-Tags, or categorical words that describe another entity, are represented by two database tables, channel_tags and video_tags. Each tags contains the unique ID of the channel or video it refers to, as well as the one-word tag itself. Tags allow channels and videos to be aggregated and organized by category or theme, allowing videos and channels to belong to several categories at once.
+\subsection*{Tags}
+Tags, or categorical words that describe another entity, are represented by two database tables, channel\_tags and video\_tags. Each tag contains the unique ID of the channel or video it refers to, as well as the one-word tag itself. Tags allow channels and videos to be aggregated and organized by category or theme, allowing videos and channels to belong to several categories at once.
 
-\subsubsection*{Users}
+\subsection*{Users}
 Users are members of a Broadcast Machine site, and fall into one of two categories. Administrators, or Admins, are users who manage the site and are responsible for adding, updating, and removing content. It's possible for site admins to restrict all or some videos on their site to be viewable only by registered members. Information needed to represent users is as follows:
 
 \begin{description}
@@ -231,10 +312,10 @@ Users are members of a Broadcast Machine site, and fall into one of two categori
 \item{\textbf{name: } User's real-life name.}
 \item{\textbf{pass: } A hash of the user's password.}
 \item{\textbf{email: } User's e-mail address.}
-\item{\textbf{admin: } Whether or not the user has administrative privileges.}
+\item{\textbf{admin: } Whether or not the user has administrative privileges.} \\
 \end{description}
 
-\subsubsection*{Settings}
+\subsection*{Settings}
 
 Site settings pertain to global information about the specific Broadcast Machine installation. They typically include information needed by the dispatcher before connecting to the database or instantiating a controller. Site settings include:
 
@@ -243,7 +324,7 @@ Site settings pertain to global information about the specific Broadcast Machine
 \item{\textbf{baseDir: } The base directory of the BM installation. Used to properly include classes and files.}
 \item{\textbf{site\_name: } The name of the site.}
 \item{\textbf{site\_description: } A brief summary of the site.}
-\item{\textbf{site\_iconurl: } A link to the logo of the site.}
+\item{\textbf{site\_iconurl: } A link to the logo of the site.} \\
 \end{description}
 
 Database connection settings are specific to the Database Management System being utilized. As such, each Database Controller is responsible for knowing which variables are set in the settings file and including them. By convention, all database settings are prefixed with 'cf' and are in the form \$cf\_varname. An example of typical database settings (in this case for the MySQLController): \\
@@ -252,87 +333,18 @@ Database connection settings are specific to the Database Management System bein
 \item{\textbf{cf\_hostname: } The URI through which the database can be reached.}
 \item{\textbf{cf\_database: } The name of the database.}
 \item{\textbf{cf\_username: } Username needed to access database.}
-\item{\textbf{cf\_password: } Password needed to access database.}
+\item{\textbf{cf\_password: } Password needed to access database.} \\
 \end{description}
 
 All settings, both for the Site and Database, are stored in bm2\_conf.php in Broadcast Machine's base directory. For more information on files, see \textbf{File Structure}.
 
-\subsection{View}
-
-\section{Program API}
-Next, we considered the program API, or the way in which the actual code and data would be laid out.
-This affects not only the program itself, but also how developers would go about adding new features and modifying existing ones.
-
-
-\section{Controllers and Views}
-After coming up with an acceptable API, our next task was to come up with a list of views, and delegate responsibilities for getting the data necessary to render those views to the appropriate controller.
-
-
-\subsection{Front Page (/)}
-The front page is found at the top directory of the Broadcast Machine install (\"/\").
-This page lists all of the viewable channels.
-If a user is logged in as an administrator, it also provides links to add, edit, or remove that channel, as well as subscribe links for Democracy Player, RSS, and iTunes (depending on the site settings).
-The controller responsible for getting the information about each channel is aptly named the frontpage controller.
-
-
-\subsection{Channel View (/channelname)}
-The channel view lists all videos in a channel, and is accessed by going to a URL-safe truncation of that channel's name.
-This view calls the channel controller to retrieve information about every video in the channel, and then inserts that information into the template.
-The view also displays channel statistics and subscription links.
-If you are logged in as an administrator, there will be buttons to edit, delete, or add new videos, which each correspond to appropriate video controller actions.
-Administrators also have the ability to see links to delete the entire channel, or edit it.
-
-
-Adding a video to a channel is handled by the \"add\" action of the channel controller (\"/channelname/add\").
-When adding a video, users will be able to enter detailed metadata about the video, and either link directly to the file or upload it directly to the server, albeit with restrictions\footnote{PHP has a maximum file size for uploading that depends on the server configuration}.
-Users will also be given the option to upload the file on their own via FTP, and have Broadcast Machine detect it later.
-Similar to adding videos, there will also be appropriate channel controller actions for removing the channel (\"/channelname/remove\") and editing it (\"/channel/edit\").
-
-
-\subsection{Video View (/video/videoname) }
-The video view displays all of the relevant information about an individual video, including its meta-data and download statistics.
-It will optionally display a video preview of the file instead of a static thumbnail image. The view will also generate a link to download the entire file.
-
-\subsection{Tag View}
-
-\subsection{User Administration (/users) }
-The user
-
-\section{Model Schema}
-
-\section{Testing}
-
-\subsection{Unit Testing}
-
-\subsection{User Testing}
-% 2/8/2005, CJ: Wrote about the use of unit testing, its advantages and the setup of the test servers.
-With any software, it is necessary to test to make sure that your application works as expected.
-We decided to test our application on mock servers so that we could see how our software reacted to common configurations that we expect our users to encounter.
-
-We ended up with three server configurations:
-\begin{description}
-	\item{Generic Linux} This server runs a common version of Linux called Ubuntu. It is running Apache 2 as its webserver with PHP version 5 and both MySQL and SQLite databases. This configuration is optimal, and we feel that it will account for the majority of our users. It is also important to have support for both database engines; we need to make sure that the program behaves correctly when both are available.
-	\item{Microsoft Vista} Having a server that is running Microsoft's Internet Information Services is important. 
-Because IIS is the second most popular webserver in use, we need to make sure that we are not preventing such a large population from running our software. Ensuring that our application runs on IIS will be difficult because of it's lack of URL rewriting support. It's important to us that our program run on servers lacking URL rewriting, because while it is convenient and common, its availability cannot be guaranteed. Fortunately that will be the only challenge on this server; its configuration is otherwise similar, sporting PHP 5 and SQLite.
-	\item{Hosted Linux} Since our program is geared towards users who are likely to have low-cost hosting services, we decided to use one popular service as a testbed. Dreamhost provides inexpensive, albeit limited hosting accounts. They provide servers with Apache 2, PHP 4, and MySQL installed. The platform provides us with a place where we can see how our program deals with setting permissions in restricted environments.
-\end{description}
-
-These testing platforms should do a good job at allowing us to see how our application is coming along.
-It lets us see how the smaller pieces work together, but it does not let us see how the smaller pieces are working by themselves.
-If the smaller parts do not work then the whole will fail.
-This is the point where unit testing becomes useful.
-Unit testing allows our group to write small pieces of code that test individual classes and functions.
-When we see something go wrong on the testing server we can run our unit tests and pinpoint the part of the program that we need to fix.
-Between the use of the testing servers and the unit tests the goal is to minimize the amount of time that we spend diagnosing bugs and instead spend more time fixing bugs.
-
-Overall I feel that these servers will be as useful as we expect.
-They will help us be as prepared as possible when it comes time to release the first version.
-This testing framework should also be very helpful to anyone who would like to continue developing Broadcast Machine.
-The unit tests will make sure that the existing code does not break, and the test servers illustrate what our target environment is.
-Unfortunately it took a very long time to get the test servers running.
-The amount of effort put in to setting up the testing framework seemed excessive to me.
-For a project of this size, I can't say whether or not the time spend was worth it.
-Hopefully these are useful to future developers and our time was well spent. 
+\section{View}
+The implementation of the presentation layer in Broadcast Machine is handled by Smarty, an open-source PHP templating engine. 
+Smarty was chosen because it provides users with an easy way to create dynamic webpages without requiring that template developers deal directly with application logic or PHP, while still allowing users to customize each dynamically-generated views. In Smarty, data is assigned to templates via variables, much lke in PHP. The View Controller assigns these variables before calling a template to be rendered, and Smarty automatically inserts the variables when rendering the template, fully removing the data presented from SQL or Controller logic.
+Smarty also allows for simple flow control and special variable modifiers.
+These variable modifiers allow the presentation layer to retain some control over how the data is filled, while keeping a suitable amount of abstraction.
+For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
+Smarty then takes in the templates for the presentation layer and compiles them into PHP. This provides the user interface, or the portion of the application that users see and interact with.
 
 \chapter{System in Action}
 \section{Overview}
@@ -1140,19 +1152,6 @@ Supporting Yahoo Media RSS is a must because of Democracy Player's support for t
 
 % 2/1/2007, CJ: Blurb on HTTP caching?
 
-\section{Smarty}
-We chose to use the Smarty templating system because it provides our users with an easy way to create dynamic webpages without requiring that template developers deal with a mess of PHP. 
-Smarty allows us to specify tags that are later replaced with developer specified information.
-The system allows the developer to separate the presentation of the webpage from most of the logic of the PHP program. 
-Instead of having to deal with PHP functions making SQL queries and function calls from the inside of a table, there can be an XHTML file with select Smarty tags that are later replaced with data or code.
-While tag replacement is its most basic operation, Smarty also allows for simple flow control and special \"variable modifiers\".
-These variable modifiers allow the presentation layer to retain some control over how the data is filled in while keeping a suitable amount of abstraction.
-For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
-You might expect to take a performance hit from using a system like this, but Smarty makes sure it's as fast as any.
-Smarty takes in the templates for the presentation layer and \"compiles\" them into PHP which is executed with the same speed as any other PHP file.
-This is much better than some systems which don't compile and instead perform the data substitution on the fly, which is very time consuming. 
-
-
 \section{XHTML}
 % 1/25/2007, More needs to be added about CSS.
 XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
@@ -1180,7 +1179,7 @@ In the new database model, several changes will have to be made in order to norm
 The stats table has a one-to one relationship with the files table. This means that the two tables can be merged, and tracking the number of downloads can be relegated to a single field in the files table. The channel\_options table is also one-to-one with the channels table, so all of its data can be stored in the channels table.
 
 
-The instance table can be replaced by a field in the channel settings for the base url of the website. We'll be able to assume that if, when a user goes to set up Broadcase Machine, the base URL has been filled already, then more than one copies of the program are sharing the database. Then, the user will be given a warning and a choice to overwrite this information with the new site.
+The instance table can be replaced by a field in the channel settings for the base url of the website. We'll be able to assume that if, when a user goes to set up Broadcast Machine, the base URL has been filled already, then more than one copies of the program are sharing the database. Then, the user will be given a warning and a choice to overwrite this information with the new site.
 
 
 A number of fields and tables will become deprecated in the new model. CSSUrl, from the channels table, will be replaced by the new templating system. As features associated with channel\_sections are widely unused, they will also be left out of the new schema, but may be added back in later. The files table contains the runtime of the video via three fields, RuntimeHours, RuntimeMinutes, and RuntimeSeconds. These fields will be combined into one runtime field representing the time in seconds, which will be converted into the h:mm:ss format in the file view rather than at the data-layer level.
