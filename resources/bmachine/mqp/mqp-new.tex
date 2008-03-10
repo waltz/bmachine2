@@ -457,7 +457,12 @@ The data is often output in some sort of XML subset.
 Broadcast Machine most often outputs to XHTML and less often RDF.
 The way in which this software handles its requests is very common, many applications have used this structure to build their applications.
 This methodology was dubbed \"Model, View, Controller\" by a few academic researchers in the mid-1980's and has become increasingly popular for use with web applications \footnote{\url{http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html}}.
-A diagram of how these parts interact can be seen in the following diagram \includegraphics[width=150mm]{images/mvc.png}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/mvc.png}
+\end{center}
+\caption{How each portion of the software interacts.}
+\end{figure}
 (Form more information on the architecture, take a look at the previous chapter titled \"Implementation\".)
 
 
@@ -468,27 +473,41 @@ In the future the software will be available through a website located at \url{h
 After the user downloads the file, they would upload it to their server and expand it into some directory that could be accessed by a web server.
 
 \subsection{Step One}
-\includegraphics[width=150mm]{images/setup1.png}
-
+  \begin{figure}[h!]
+  \begin{center}
+  \includegraphics[width=150mm]{./images/setup1.png}
+  \end{center}
+  \end{figure}
 The first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
 In the background, the application is detecting the current server settings and is attempting to set up as many things on its own as the server will allow.
 If the server supports the Apache mod\_rewrite module the application will write an .htacccess file to the current directory.
 A few settings such as the permissions on directories and the type of PHP modules installed are also detected.
 
 \subsection{Step Two}
-\includegraphics[width=150mm]{images/setup2.png}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=150mm]{./images/setup2.png}
+\end{center}
+\end{figure}
 
 The second setup step is where the basic information about the installation is entered.
 We collect information such as the title and description of the site as well as all of the information we need to connect to the database.
 
 \subsection{Step Three}
-\includegraphics[width=150mm]{images/setup3.png}
-
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=150mm]{./images/setup3.png}
+\end{center}
+\end{figure}
 On the third page, the user is prompted to enter in information for their first user.
 This user will be the \'superuser\' and has the right to add other users or to escalate user permissions.
 
 \subsection{Step Four}
-\includegraphics[width=150mm]{images/setup4.png}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=150mm]{./images/setup4.png}
+\end{center}
+\end{figure}
 
 The fourth and final page is a simple confirmation that tells the user that they have successfully finished setting up the software.
 From here, we provide prompts for the user to add a new channel or to take a look at their new front page.
@@ -500,19 +519,34 @@ Most people immediately understand the goal of a channel as a collection of them
 Our software provides an easy way for users to create, categorize and manage large amounts of video.
 
 \subsection{All}
-\includegraphics[width=150mm]{images/channelall.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channelall.png}
+\end{center}
+\caption{Viewing all channels.}
+\end{figure}
 
 The default display for the channels section is to show a few recent channels and a small sampling of videos from each channel.
 
 \subsection{Show}
-\includegraphics[width=150mm]{images/channelshow.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channelshow.png}
+\end{center}
+\caption{Showing a channel.}
+\end{figure}
 
 Each channel can be viewed individually.
 This allows the user to take a more in depth look at the channel.
 In this view we display all of the information we have about the channel and then display a few of the recent videos.
 
 \subsection{RSS}
-\includegraphics[width=150mm]{images/channelrss.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channelrss.png}
+\end{center}
+\caption{Viewing a channel's RSS feed in Miro.}
+\end{figure}
 
 All of the channels have an associated RSS feed.
 The ten most recent videos that have been posted to the channel become a part of the RSS feed.
@@ -520,14 +554,24 @@ These feeds are really important for integration with desktop clients such as Mi
 With this technology Broadcast Machine users can easily integrate their content with other services and clients.
 
 \subsection{Add}
-\includegraphics[width=150mm]{images/channeladd.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channeladd.png}
+\end{center}
+\caption{Adding a channel.}
+\end{figure}
 
 None of this would be of much use if the software was lacking an interface through which to add channels.
 With this dialog, an administrator can add a new channel and associate a few pieces of meta data.
 We currently allow titles, descriptions, tags and icons to be attached to a channel.
 
 \subsection{Edit}
-\includegraphics[width=150mm]{images/channeledit.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channeledit.png}
+\end{center}
+\caption{Editing a channel.}
+\end{figure}
 
 This form is very much like that of the add dialog, but this form comes pre-populated with the data from an existing channel.
 Any piece of data that can be added can also be edited.
@@ -542,13 +586,23 @@ They are the most basic component of this application.
 The video section of this software allows for all of the basic operations on a video.
 
 \subsection{All}
-\includegraphics[width=150mm]{images/videoall.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/videoall.png}
+\end{center}
+\caption{All available videos.}
+\end{figure}
 
 This view displays a number of the recent videos that have been added to the database.
 This page serves as a good entry point into some of the videos that the user(s) have made available.
 
 \subsection{Show}
-\includegraphics[width=150mm]{images/videoshow.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/videoshow.png}
+\end{center}
+\caption{Showing a video.}
+\end{figure}
 
 The show page displays a single video and all of the information associated with it.
 This page gives the user a way to view meta data and to download the video itself.
@@ -559,12 +613,22 @@ While the download portion of each video does not have a traditional HTML view, 
 This page redirects the user to a URI where the video file can be downloaded.
 
 \subsection{Add}
-\includegraphics[width=150mm]{images/videoadd.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/videoadd.png}
+\end{center}
+\caption{Adding a video.}
+\end{figure}
 
 If a user is logged in and has sufficient privileges to add a video, they are presented with a form that allows them to fill in meta data.
 
 \subsection{Edit}
-\includegraphics[height=200mm]{images/videoedit.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/videoedit.png}
+\end{center}
+\caption{Editing a video.}
+\end{figure}
 
 This view is much like the add view. It is visually similar except for it comes populated with data associated with the video.
 
@@ -578,18 +642,32 @@ These words allow the viewer to more easily pick through the content that is bei
 Regardless of the channel or video, a viewer can immediately key in on some specific term and be able to retrieve a stream of content relevant to that term.
 
 \subsection{All}
-\includegraphics[width=150mm]{images/tagall.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/tagall.png}
+\end{center}
+\caption{All of the tags.}
+\end{figure}
 
 This is raw tag output that allows users to see a bunch of the tags currently being used by channels and videos.
 
 \subsection{Show}
-\includegraphics[width=150mm]{images/tagshow.png}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/tagshow.png}
+\end{center}
+\caption{Showing a tag.}
+\end{figure}
 
 In this view we see a small sample of the channels and videos that have been associated with the given tag.
 
 \subsection{RSS}
-\includegraphics[width=150mm]{images/channelrss.png}
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/channelrss.png}
+\end{center}
+\caption{Viewing an RSS feed.}
+\end{figure}
 This view functions exactly like the previous channel RSS view that was discussed earlier.
 Instead of keying in on channel data, this simply keys on tag data.
 
@@ -598,14 +676,22 @@ The users controller allows users and administrators to manage their and other's
 This controller provides authentication mechanisms and a portal to certain amounts of user information.
 
 \subsection{Signup}
-\includegraphics[width=150mm]{images/usersignup.png}
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/usersignup.png}
+\end{center}
+\caption{Signing up.}
+\end{figure}
 The super-user has control as to wether or not the signup pane is available to the public, but this dialog adds a simple way for users and administrators to add new accounts.
 Each person is required to have a username and a password and we would prefer if they associated an email address and a name.
 
 \subsection{Login}
-\includegraphics[width=150mm]{images/userlogin.png}
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/userlogin.png}
+\end{center}
+\caption{Logging in.}
+\end{figure}
 At this page the current user is prompted for their credentials.
 Their username and password are requested and then authenticated.
 If the credentials are correct, the user is marked as \'trusted\'.
@@ -617,10 +703,13 @@ The function is simple, it erases all of the session data currently set and aler
 The user is then redirected to the home page.
 
 \subsection{Show}
-\includegraphics[width=150mm]{images/usershow.png}
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=150mm]{./images/usershow.png}
+\end{center}
+\caption{Showing a user.}
+\end{figure}
 At this point users are given the chance to view a single user and all of the data that is associated with that user.
-
 \chapter{Results}
 
 Quality Assurance for Broadcast Machine was an ongoing process that began very early on in our development cycles, in order to provide empirical benchmarks for code and layout correctness. An extensive system of unit Tests were developed in order to rigorously test that all controller logic and model interactions in Broadcast Machine, while we later relied on user testing in order to verify that the presentation logic was also sound.
