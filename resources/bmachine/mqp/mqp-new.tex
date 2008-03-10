@@ -54,23 +54,22 @@ Professor Craig E. Wills\\
 % TODO: One paragraph describing the project.
 % FOR: CJ
 % NOTE: It's gotta be 80 words or less.
-Our group came across a derelict open source web application that managed the distribution of videos.
-We rebuilt the software addressing its previous problems of scalability, maintainability and usability.
-Through careful evaluation and the use of popular software development techniques we successfully retooled a software package so that it could grow with its users and developers.
+With the prevalence of high-speed internet and low-cost production equipment, internet video publishing has rapidly come into the mainstream.
+Broadcast Machine was an open-source application designed to allow Video producers to easily publish their work on the web, but was plagued with several problems.
+Through careful evaluation and the use of popular software development techniques, we successfully rebuilt Broadcast Machine to be stable, scalable, maintainable and usable.
 
 \chapter*{Authorship}
 % TODO: Who wrote what.
 % FOR: CJ
 \begin{description}
-  \item{Introduction}Christian Bryan
-  \item{Background}Greg Opperman
-  \item{Design}Greg Opperman
-  \item{Implementation}Greg Opperman
-  \item{System in Action}Christian Bryan
-  \item{Results}Christian Bryan
-  \item{Results - Feedback}Drew Wilson
-  \item{Future Work}Christian Bryan
-  \item{Conclusion}Christian Bryan
+  \item{\textbf{Introduction: }Christian Bryan}
+  \item{\textbf{Background: }Greg Opperman}
+  \item{\textbf{Design: }Greg Opperman}
+  \item{\textbf{Implementation: }Greg Opperman}
+  \item{\textbf{System in Action: }Christian Bryan}
+  \item{\textbf{Results: } Greg Opperman \& Drew Wilson}
+  \item{\textbf{Future Work: }Christian Bryan}
+    \item{\textbf{Conclusion: }Christian Bryan \& Greg Opperman}
 \end{description}
 
 \tableofcontents
@@ -78,31 +77,23 @@ Through careful evaluation and the use of popular software development technique
 \chapter{Introduction}
 % TODO: Describe the project goals and summarize the topics covered.
 % FOR: CJ
-This paper takes a look at the Broadcast Machine project and the work that was accomplished in the re-imagination of an unproductive piece of software.
-We outline the steps that we have taken in the analysis of the problem and the development of the new package.
-We guide the reader through the history of the project and its philosophical goals, the ideas that we came up with when designing the new software, how we went about implementing our ideas, and then how well our implementation performed.
-There is a full walkthrough of the new software and a description of the functionality it provides.
-Towards the end our group discusses the features that our group was unable to implement and how which ones we feel are necessary to the long-term success of the project.
+With the prevalence of high-speed internet and low-cost production equipment, internet video publishing has rapidly come into the mainstream. Independent video publishers now have the ability to create professional videos and reach thousands of viewers with consumer-level equipment and little technical skill. There are several ways in which a video producer can publish videos online. Services like Youtube and Blip.tv offer free hosting for videos, and many content management systems offer plugins for publishers to distribute video files.
+
+Created by the Participatory Culture Foundation, Broadcast Machine sought to fill the gap between centralized video hosting services and tacked-on content management system plugins by offering a complete video publishing solution for independent media producers. However, Broadcast Machine was plagued by several problems, and development was abandoned.
 
 \section{Goals}
 The main goal of this project was to take the ideas that had driven the development of the first version of Broadcast Machine and create a piece of software that was more usable and maintainable.
 The original code base had been abandoned because the maintainers felt that it was taking up to much time and that any further work was unlikely to be fruitful.
 The first part of this project was to identify the problems that the previous developers were running into and what their underlying causes were.
-Once we had interviewed the previous developers we had a better idea of what the problems were.
-Based upon the developer's comments we found that it would be necessary to separate the content from the logic of the application.
-The next goal was to make sure that the software was licensed in the same way as the first Broadcast Machine.
-Our next step was to dive into the original Broadcast Machine code and take a look at what had been worked on previously.
-(We have collected our findings on this topic in Appendix A.)
-
+After in-depth interviews with the previous developers and an extensive review of the existing code,\footnote{For documentation on the previous Broadcast Machine, refer to Appendix A.} we identified problems with the previous Broadcast Machine and created a plan to prevent them in the next version.
 
 \section{Topics}
-This report details the methodologies and technologies that were used in the re-imagination of the Broadcast Machine package.
-We will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impend the development of this software.
-There is a detailed discussion of the requirements that we felt existed for this package.
-Each requirement has been analyzed and is discussed in detail.
-Points such as the ability of the user to interact with the software and the ability of the developer to continue building on the software in the long term are both mentioned.
-The philosophy and purpose behind this package is also talked about.
-This is an especially important point as Broadcast Machine is built as a tool to enable people to better express themselves rather than a product designed to enrich a group.
+This report details the methodologies and technologies that were used in the re-imagining of the Broadcast Machine package.
+We will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impede the development of the original implementation.
+There is a detailed discussion of the requirements necessary to prevent these problems from reoccurring, with each requirement analyzed and discussed in detail.
+We then describe the design process and implementation details that result from these requirements.
+Following the chapters on design and implementation is a full walkthrough of the new software and a description of the functionality it provides.
+Finally, our group discusses the results of the project, as well as features that our group was unable to implement and which ones we feel are necessary to the long-term success of the project.
 
 \chapter{Background}
 
@@ -110,7 +101,7 @@ This is an especially important point as Broadcast Machine is built as a tool to
 % TODO: A good overview of the topics covered in the Background chapter. 
 % FOR: CJ
 In this section we take a look at the history of Broadcast Machine.
-Our goal here is to provide the reader with a framework that will let them understand the reasons for this software's existence and the environment in which it is being built.
+Our goal is to provide the reader with a framework that will let them understand the reasons for this software's existence and the environment in which it is being built.
 The importance of this software to the Participatory Culture Foundation should be noted.
 As this foundation tries to promote freedom for content producers, the majority of its competitors are attempting the opposite.
 Unfortunately this software has not thrived.
@@ -139,7 +130,7 @@ This culture encourages technological progress in ways that competitive, closed-
 As bandwidth and storage become increasingly cheaper, the prevalence of video on the internet has sharply risen over the past few years. 
 In August 2006 alone, the number of people in the U.S who streamed video 
 via the internet totaled over 110 million people, which is comparable 
-with the number of households that watch traditional television.\footnote{http://paul.kedrosky.com/archives/2006/10/19/fun\_with\_intern.html}
+with the number of households that watch traditional television.\footnote{\url{http://paul.kedrosky.com/archives/2006/10/19/fun\_with\_intern.html}}
 The internet has allowed independent video producers a variety of platforms by which to publish and share their work. These platforms come in one of two forms: video hosting services, which offer a centralized location from which users can upload and share videos, and Content Management Systems (CMS), where users host and maintain their own collections of videos.
 
 \subsection{Video Hosting Services}
@@ -148,7 +139,7 @@ These sites, such as YouTube (\url{http://youtube.com}), Blip.tv (\url{http://bl
 The largest and most popular video hosting service is Youtube, which garners 42.94\% of all traffic to online video sites.\footnote{\url{http://www.hitwise.com/press-center/hitwiseHS2004/videosearch.php}}. 
 
 Video hosting services offer a convenient solution for video publishers 
-to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, YouTube transcodes all of it's videos to a lower resolution, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact\_sheet}}. 
+to share videos with little technical expertise or resources, since bandwidth and hosting costs are shouldered by the service. These sites also allow users to embed videos into their own sites, giving them creative control over how the video is displayed. However, there are several limitations to this approach. In order to keep costs down and ensure that services remain possible under heavy traffic, most video hosting sites impose limitations that affect the quality of uploaded content. Having to service over 50,000 uploads a day, YouTube transcodes all of its videos to a lower resolution, and imposes a limitation on the length of video clips \footnote{\url{http://www.youtube.com/t/fact\_sheet}}. 
 
 None of the major video hosting services allow adult or objectionable content.
 Many sites regularly censor videos they deems inappropriate, including YouTube, who retains the right to control any and all content on its servers.
@@ -160,52 +151,52 @@ For many publishers, the only way to ensure that their videos are presented corr
 A Content Management System, or CMS, is a blanket term referring to the wide array of pre-packaged software used to manage website content. CMSes can encompass software to create wikis, forums, and several other collaborative mediums. In general, CMSes provide a simple user interface for adding, editing, and removing content, while obfuscating technical details. Using a CMS, it would be possible to build and manage an entire site without having knowledge of the underlying technologies and code. Most CMSes also offer robust theming engines, allowing users confortable with HTML and CSS to easily customize the look and feel of their site. Currently, the two most popular CMSes are Drupal and Wordpress.
 
 \subsubsection{Drupal}
-Drupal allows users to easily set up, create, and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{http://drupal.org/about}.
-Written in PHP, it requires either MySQL v3.23.17 or PostgreSQL 7.2 or above\footnote{http://drupal.org/requirements}.
-Thousands of popular sites use Drupal\footnote{http://DrupalSites.com}, including The Onion\footnote{ http://TheOnion.com}, OurMedia\footnote{http://www.ourmedia.org/}, and MTV's UK site\footnote{http://mtv.co.uk/}.
+Drupal allows users to easily set up, create, and moderate blogs, forums, webpages, newsletters, and picture galleries\footnote{\url{http://drupal.org/about}}.
+Written in PHP, it requires either MySQL v3.23.17 or PostgreSQL 7.2 or above\footnote{\url{http://drupal.org/requirements}}.
+Thousands of popular sites use Drupal\footnote{\url{http://drupalsites.com}}, including The Onion\footnote{\url{http://theonion.com}} and MTV's UK site\footnote{\url{http://mtv.co.uk/}}.
 
 \subsection{Wordpress}
 Wordpress one of the most popular weblogging applications, or a CMS designed specifically for posting text and image content by a small group of users.
-Wordpress is PHP 4.2 and uses MySQL 3.23 as its database backend. 
-It was created with the vision of creating a powerful GPL-licenced internet publishing platform based on open standards. 
+Wordpress is built with PHP 4.2 and uses MySQL 3.23 as its database back-end. 
+It was created with the vision of creating a powerful GPL-licensed internet publishing platform based on open standards. 
 The first version was released in 2001. 
-Wordpress is blogging software designed to be installed on an individual's webhost, either their own computer connected to a broadband connection or a commercial webhost like Dreamhost or 1and1. There exist services such as the one at \url{http://Wordpress.com} that provide webhosting and just provide users with the a fresh install of Wordpress, but for the most part Wordpress users install the software themselves. 
+Wordpress is blogging software designed to be installed on an individual's web host, either their own computer connected to a broadband connection or a commercial web host like Dreamhost or 1and1. Worpress also offers hosted installations of its own software on their website.\footnote{\url{http://wordpress.org}}
 
-Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There was a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
+Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There is a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
 \subsection {Broadcast Machine}
-Broadcast machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}. Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A google search of the phrase \"Powered by Broadcast Machine\" returns approximately 6,700 results.}
+Broadcast Machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}). Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A Google search of the phrase \textit{Powered by Broadcast Machine} returns approximately 6,700 results.}
 
-Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconciliable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures, made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
+Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing.}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconcilable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
 \chapter{Design}
 
 \section{Introduction}
 Many of Broadcast Machine's current problems stem from its poor architectural implementation. 
-To prevent these problems from happening in the future, Broadcast Machine must have a carefully-planned architecture that meets several design requirements.
+To prevent these problems from happening in the future, the new Broadcast Machine must have a carefully-planned architecture that meets several design requirements.
 
 \section{Ease of Use}
 The most important requirement for Broadcast Machine is that it be easy to use. 
 Broadcast Machine's target user, people who produce videos, should not need extensive technical knowledge in order to deploy and use the program. 
 Just as a developer has almost no knowledge of how to shoot or edit a video, we should not expect the user to have any knowledge of PHP, RSS, or any of the technologies employed. 
 Without being privy to any of the inner workings of the program, the user must be able to easily and intuitively publish videos and video channels via a simple administrative interface. 
-Without any information besides their web server log in and password, the user should be able to set up Broadcast Machine by dropping the application into their public HTML folder. 
+Without any information besides their web server log in and password, the user should be able to set up Broadcast Machine by dropping the application into a folder accessible by a web server. 
 The program should auto-configure itself on the first-run with a few simple clicks, even if the user is completely unaware of how his or her web server is set up. 
 The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
-Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, leave comments and feedback, and subscribe to their favorite channels.
+Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, and subscribe to their favorite channels.
 
-In order to ensure the best user experience possible, the new Broadcast Machine must be stable. In addition to this, it should preserve all of the functionality of its previous incarnation, while containing none of the unpredictable behavior.
+In order to ensure the best user experience possible, the new Broadcast Machine must be stable. In addition to, it should preserve all of the functionality of its previous incarnation, while containing none of the unpredictable behavior.
 
 \subsection{Customizable} 
-A major feature of both the former Broadcast Machine and many other CMSes is the ability to customize the look and feel of a site running the software to fit the user's own personal style. 
+A major feature of both the former Broadcast Machine and many other CMSes is the ability to customize the look and feel of an installation that fits the user's own personal style. 
 As before, the application must be designed with a robust theming engine so that a user with only basic HTML and CSS knowledge can easily customize the website to suit his or her needs. 
 Each users' site layout, or theme, will have the potential to look drastically different from each other with only minimal modifications to CSS and template code. 
-The templates must be abstracted from the functional code, so that users need not worry about damaging the code or digging deep into its inner workings when modifying the layout. 
+The templates must be abstracted from the functional code, so that users need not worry about breaking the logic of the application or having to dig deep into obscure files to modify the layout. 
 Users should also have the ability to easily switch between layouts. 
 
 
 \subsection{Extensible} 
-Similarly to the presentation logic, the application logic of Broadcast Machine must be structured so that it may be easily modified and maintained by any developer with relevant skills. 
+Similarly, the application logic of Broadcast Machine must be structured so that it may be easily modified and maintained by any developer with relevant skills. 
 The layout of the application should appear logical and concise, with a modular architecture to encourage programmers to freely add onto Broadcast Machine's feature set in order to meet their requirements.
 The architecture should be transparent and have a well-documented API so that theses developers can start extending Broadcast Machine without exhaustive knowledge of the program, but merely a solid grasp of the documented data structures and class layouts. 
 When features need to be added, the developers should be able to do so while maintaining the same architectural pattern and preserving the structure of the application, by adding only a few functions or classes. 
@@ -217,8 +208,8 @@ In addition to additions to the program, Broadcast Machine must be flexible enou
 Functionality should be abstracted and delegated so that major changes to one part of the code will not affect another. 
 For example, we may decide later that we would like to use a different type of database. 
 We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
-In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing hacked together or thrown in. 
-Developers should not need to dig through a mountain of code before finding the section that they need to edit. 
+In the event that bugs occur, localizing them to a specific section of code and implementing a fix should be possible without the fix appearing to be makeshift. 
+Developers should not need to dig through a large amount of application code before finding the section that they need to edit. 
 
 
 \subsection{Compatible}
@@ -229,7 +220,7 @@ This includes any Apache web server with a minimal amount of installed modules, 
 \chapter{Implementation}
 
 \section{Model-View-Controller}
-Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{http://www.martinfowler.com/eaaDev/uiArchs.html}.
+Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}.
 
 
 \begin{figure}[h]
@@ -241,12 +232,12 @@ Based on the aforementioned design requirements, it became clear that the progra
 In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in the figure above, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
 
 \section{Languages and Tools}
-There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based on the structure of the model layer.\footnote{http://rubyonrails.org} However, as a relatively new language, Ruby on Rails has not been widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. 
+There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based its structure.\footnote{\url{http://rubyonrails.org}} However, as a relatively new language, Ruby on Rails has not been as widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. 
 
-To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{http://php.net} running under Apache web servers\footnote{http://apache.org}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.\footnote{http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}
+To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{\url{http://php.net}} running under Apache web servers\footnote{\url{http://apache.org}}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.\footnote{\url{http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}}
 Another advantage is that it is very common for PHP and Apache to be installed alongside one another. Apache's support for per-directory configurations via an .htaccess file make it very easy for users and developers to customize the environment without specialized administrator access; PHP offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework.
 
-Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and many hosts offer user-friendly interfaces to set up and manage databases. After a database has been created by the user with one of these tools, deploying the data layer of the application would be automated by a script. In terms of scalability, MySQL's performance rivals that of many enterprise-level DBMSes, especially when executing simple queries to create, read, update and delete small amounts of records. PHP offers several functions to interact with MySQL, making it the ideal choice for the data layer of the application.
+Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and many hosts offer user-friendly interfaces to set up and manage databases. After a database has been created by the user with one of these tools, deploying the data layer of the application would be automated by a script. In terms of scalability, MySQL's performance rivals that of many enterprise-level DBMSes, especially when executing simple queries to create, read, update and delete small amounts of data. PHP offers several functions to interact with MySQL, making it the ideal choice for the data layer of the application.
 
 \section{Application layout}
 Using the aforementioned languages and tools, the traditional Model-View-Controller pattern was modified slightly for Broadcast Machine, in order for each layer to logically handle requests and delegate responsibilities as best as possible:
@@ -297,9 +288,9 @@ The \textbf{SetupController} is responsible for completing a Broadcast Machine i
 \subsubsection{ChannelController}
 The \textbf{ChannelController} is responsible for aggregating and managing data related to channels, or collections of videos. The ChannelController has the following methods:
 \begin{description}
-\item{\textbf{index (/channel/): } calls all() by default when there are no parameters.}
+\item{\textbf{index (/channel/): } Calls all() by default when there are no parameters.}
 \item{\textbf{all (/channel/all): } Displays all channels, as well as a short list of videos in those channels and associated tags.}
-\item{\textbf{add (/channel/add): } Adds a Channel to the database.}
+\item{\textbf{add (/channel/add): } Adds a channel to the database.}
 \item{\textbf{edit (/channel/channelname/edit): } Modifies channel \textit{channelname}.}
 \item{\textbf{show (/channel/channelname/): } Shows details for a channel.}
 \item{\textbf{rss (/channel/channelname/rss): } Displays a channel's RSS feed.}
@@ -422,7 +413,7 @@ Database connection settings are specific to the Database Management System bein
 \item{\textbf{cf\_password: } Password needed to access database.} \\
 \end{description}
 
-All settings, both for the Site and Database, are stored in bm2\_conf.php in Broadcast Machine's base directory. For more information on files, see \textbf{File Structure}.
+All settings, both for the Site and Database, are stored in bm2\_conf.php in Broadcast Machine's base directory.
 
 \section{View}
 The implementation of the presentation layer in Broadcast Machine is handled by Smarty, an open-source PHP templating engine. 
@@ -434,78 +425,52 @@ Smarty then takes in the templates for the presentation layer and compiles them 
 
 \chapter{System in Action}
 \section{Overview}
-This section is here to show how installation and use of Broadcast Machine works. 
-We will explain and show all of the steps needed to use the software in its intended manner.
-Starting off with a description of how the software handles an incoming page request and what internal steps are taken to display the correct data and then move on to a pictorial walkthrough of the data views that we have implemented.
+This section details how installation and use of Broadcast Machine works, with a pictorial walkthrough of the various views and pages of Broadcast Machine. 
 Through these concise illustrations of the software we hope to convey the full range of Broadcast Machine's features.
-
-\section{The Life of a Request}
-When a user first launches their browser and navigates to a Broadcast Machine Installation, the browser formulates an HTTP request and sends it on to the server.
-The server then processes the request and begins executing the proper piece of code.
-Broadcast Machine has one piece of code that handles all of the data that is made available by the web server.
-This executable is called the dispatcher.
-Based on the data that the dispatcher is aware of, other parts of the system are called.
-The next component that is called is a Controller.
-Each controller is called based on the information in the request; If a user requests \'video\' then the Video controller is instantiated.
-These controllers are passed along some of the same information that was available to the dispatcher.
-The controller sees what the user is trying to request and again passes the responsibility to a function that is a part of the current controller.
-The functions that make up each controller are where the real work is done.
-These functions usually make a separate request to the database where data is retrieved and formatted.
-Functions modify and format the data such that it is ready to be displayed.
-At this point, data is passed onto a part of the system that is dedicated to putting the data into some requested form.
-The data is often output in some sort of XML subset.
-Broadcast Machine most often outputs to XHTML and less often RDF.
-The way in which this software handles its requests is very common, many applications have used this structure to build their applications.
-This methodology was dubbed \"Model, View, Controller\" by a few academic researchers in the mid-1980's and has become increasingly popular for use with web applications \footnote{\url{http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html}}.
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=150mm]{./images/mvc.png}
-\end{center}
-\caption{How each portion of the software interacts.}
-\end{figure}
-(Form more information on the architecture, take a look at the previous chapter titled \"Implementation\".)
-
 
 \section{Setup}
 In this section we are going to take a look at how Broadcast Machine is initially set up on a user's server.
 The initial step is downloading the archive that contains the software.
-In the future the software will be available through a website located at \url{http://code.google.com/p/broadcastmachine}.
-After the user downloads the file, they would upload it to their server and expand it into some directory that could be accessed by a web server.
+In the future, the software will be available through the project's home page.\footnote{\url{http://code.google.com/p/broadcastmachine}}
+After the user downloads the file, they would upload it to their server and unpack it into some directory that will be accessed by a web server.
 
-\subsection{Step One}
+\subsection{Clean URLs}
   \begin{figure}[h!]
   \begin{center}
   \includegraphics[width=150mm]{./images/setup1.png}
+  \caption{Broadcast Machine greeting page}
   \end{center}
   \end{figure}
 The first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
-In the background, the application is detecting the current server settings and is attempting to set up as many things on its own as the server will allow.
-If the server supports the Apache mod\_rewrite module the application will write an .htacccess file to the current directory.
+In the background, the application is detecting the current server settings and is attempting to set up Apache's .htacces file, which allows for clean, user-friendly URLs using mod\_rewrite.
 A few settings such as the permissions on directories and the type of PHP modules installed are also detected.
 
-\subsection{Step Two}
+\subsection{Settings}
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup2.png}
+\caption{Site Settings Page}
 \end{center}
 \end{figure}
 
 The second setup step is where the basic information about the installation is entered.
-We collect information such as the title and description of the site as well as all of the information we need to connect to the database.
+We collect information such as the title and description of the site, as well as all of the information we need to connect to the database.
 
-\subsection{Step Three}
+\subsection{First User}
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup3.png}
+\caption{User creation}
 \end{center}
 \end{figure}
 On the third page, the user is prompted to enter in information for their first user.
 This user will be the \'superuser\' and has the right to add other users or to escalate user permissions.
 
-\subsection{Step Four}
+\subsection{Finished}
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup4.png}
+\caption{Finished page}
 \end{center}
 \end{figure}
 
@@ -577,8 +542,8 @@ This form is very much like that of the add dialog, but this form comes pre-popu
 Any piece of data that can be added can also be edited.
 
 \subsection{Remove}
-There is not much that we need to display for the remove action.
-When an administrator goes to remove a channel, we simply alert them that their channel has been removed and then we forward them to the default channel page.
+Nothing needs to be displayed for the remove action.
+Instead, when an administrator goes to remove a channel, we simply alert them that their channel has been removed and then we forward them to the default channel page.
 
 \section{Videos}
 Videos are at the core of Broadcast Machine.
@@ -731,13 +696,13 @@ Although convenient for basic testing, Simpletest has several limitations that p
 \section{Feedback}
 
 In order to test Broadcast Machine's layout and usability, we relied on user testing and feedback. On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
-13. Mike is a part of the internet video publishing community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{http://www.wccatv.com/snowghost} online for WCCA.
+13. Mike is a part of the internet video publishing community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{\url{http://www.wccatv.com/snowghost}} online for WCCA.
 We introduced Mike to Broadcast Machine, and asked for some feedback on the user experience.
 Our major goal was to determine if his expectations for the interface meshed well with the existing feel of the application.
 Because of his experience with internet video publishing, he was in a unique position to provide feedback on Broadcast Machine.
 
 WCCA has recently begun putting all of their video content online, using Drupal with a number of modules as their content management system. 
-Mike explainedthat there were a number of drawbacks with his current setup. 
+Mike explained that there were a number of drawbacks with his current setup. 
 Mike stressed that there was not yet a one-stop video content management system, although he did point out that there 
 exist plugins and modules for existing CMS's that transforms them into a make-shift video CMS. 
 
@@ -789,7 +754,7 @@ Our group hopes to continue to cultivate this application as an open-source proj
 Opening this code-base to a community and encouraging all types of hobbyists to contribute will allow us to implement a few of the features that we think would be beneficial to the software.
 
 One of the first features that this project did not implement was BitTorrent support.
-The initial version of Broadcast Machine was hailed as being one of easiest ways to distribute content via this de-centralized network.
+The initial version of Broadcast Machine was hailed as being one of easiest ways to distribute content via this de-centralized network, but very few people were able to take advantage of this, due to numerous bugs.
 We think that this feature is still very important to goals that Broadcast Machine tries to accomplish.
 The ability to save bandwidth and provide free redundancy is immensely important.
 These features should be trivial to implement as most of the code for these features is available in the initial version of the software.
@@ -822,6 +787,13 @@ Hopefully Broadcast Machine sees these features added to its code base in the co
 Its life as an open source project and the addition of other contributors should speed the addition of these features that we have not had time to add.
  
 \chapter{Conclusion}
+Internet video is one of the fastest growing information mediums in society today. Advances in communications technology has allowed video publishers to share their work with thousands across the world. Several centralized hosting services currently exist for hosting videos, but none give publishers full control over how their work is presented and distributed. Broadcast Machine, an abandoned open-source project by the Participatory Culture Foundation, attempted to fill this niche, but ultimately failed due to instability.
+
+By examining the architecture and downfalls of the previous Broadcast Machine, we were able to thoughtfully design a stable successor that enables video producers to easily publish their work on the internet. We have created a robust architecture that is easy to use for publishers, viewers, designers, and developers alike. The new Broadcast Machine allows publishers to share high quality video on their own terms, and without special technical knowledge.
+
+We hope that this new version of Broadcast Machine enjoys the same amount of popularity as its predecessor.
+Our team feels that this software can be a useful tool and has the possibility to change the current environment for internet video.
+As an open source project, we hope our continued dedication will attract additional developers so that this software may progress long after this project is over.
 
 \appendix
 \chapter{Former Broadcast Machine Documentation}
@@ -882,386 +854,6 @@ The newusers table tracked only those users who have not verified their account.
 
 \subsection{Settings}
 Settings for the website itself was stored in a B-Encoded flat file. This allowed users to customize site security features, as well as which features they wanted to use. This is also where essential information such as database connection settings were stored. These fields include whether or not new user registration was allowed (AllowRegistration), whether or not they required approval (RequireRegApproval), whether or not they needed to verify their account (RequireRegAuth), whether or not users could upload or download anonymously (UploadRegRequired and DownloadRegRequired, respectively), the default channel (DefaultChannel), whether the site has channels that anyone could modify (HasOpenChannels), their current site layout (theme), title of the site, the site description, an image associated with the site, the base url for the site (baseurl), database connection settings (mysql\_prefix, mysql\_host, mysql\_username, mysql\_password, mysql\_database, and mysql\_verified), and BitTorrent sharing settings (Ping, sharing\_enable, sharing\_auto, sharing\_python, sharing\_actual\_python, minport, maxport).
-
-\chapter{Disorganized Mess}
-\section{New Model}
-%This will be changed and updated as the new schema comes along further
-%Needs: People should be relational!
-Broadcast Machine must keep track of several pieces of information pertaining to its entities (channels, files, etc.).
-A comprehensive list of the data follows (entity relationships highlighted in bold):
-
-
-\subsection{Data associated with Channels}
-\begin{description}
-\item[Channel ID] An arbitrary, unique number to identify the channel and  associate it with other entities
-\item[Title] Each Channel has a title, represented by a string
-\item[Description] A longer body of text that describes the channel's theme or content
-\item[Icon] Reference to the thumbnail image (See below)
-\item[Credits] A list of the channel creators and maintainers, or any other people involved.
-\item[Donation information] Represented as a snippet of HTML or a simple url.
-\item[Website information] A url to link to the channel's main web page.
-\item[Tags] 0 or more keywords associated with the channel, used for categorizing and browsing multiple channels.
-\item[Permissions] Rules about which users can access or modify the channel
-\end{description}
-
-\subsection{Data associated with channel tags}
-\begin{description}
-\item[Video ID] A reference to the video that the tag describes
-\item[Tag name] A short word or phrase to categorize the channel
-\end{description}
-
-\subsection{Data associated with Users}
-\begin{description}
-\item[ID] An arbitrary, unique number to identify the user and associate him/her with other entities
-\item[Username] The user's nickname or handle
-\item[Password] Self-explanatory
-\item[Email Address] Optionally used to verify registration
-\item[Permissions] User's access credentials for specific channels, files, and the site in general
-\end{description}
-
-\subsection{Data associated with Videos}
-\begin{description}
-\item[ID] An arbitrary, unique number to identify the user and associate it with other entities
-\item[Title] A short amount of text to describe the video
-\item[Description] A longer body of text that describes the video's theme or content
-\item[Last Modified Date] A time stamp set every time any video information is changed.
-\item[Credits] A list of the channel creators and maintainers, or any other people involved.
-\item[Icon] Reference to the thumbnail image (See below)
-\item[Transcript (optional)] A text-version of the video's content or dialog for the hearing impaired
-\item[License/Copyright information] The name of the license associated with the content, and possibly a url to link to the full body of the license
-\item[Website url] A link to the video  or publisher's website
-\item[Release Date] The date and time the video was released to the public
-\item[Publish Date] A timestamp of when the video is made available to the public. note that this is different than release time (For example, a publisher might publish a movie that was released at an earlier time elsewhere).
-\item[Running time] The length of the video, in seconds
-\item[Adult] A boolean flag used for marking adult content
-\item[Donation information] Represented as a snippet of HTML or a simple url.
-\item[Tags] 0 or more keywords associated with the channel, used for categorizing and     browsing multiple channels.
-\item[Mime-type] The type of media that the file represents
-\item[Filename] the url or address on the server where the file is located
-\item[Size] the size of the file, in bytes.
-\item[Downloads] A running count of the number of users who have downloaded the file
-\item[BitTorrent Information (optional)] If the file is a torrent, additional information must be stored (see below)
-\item[Permissions] Rules about which users can access or modify the video
-\end{description}
-
-\subsection{Data associated with video tags:}
-\begin{description}
-\item[Video ID] A reference to the video that the tag describes
-\item[Tag name] A short word or phrase to categorize the video
-\end{description}
-
-\subsection{Data associated with icons}
-\begin{description}
-\item[Icon ID] A unique, autogenerated id number to identify the image
-\item[Icon URL] The address of the icon
-\item[Mime-Type] The type of file that the icon is
-\end{description}
-
-\subsection{Design Decisions}
-The current schema departs from the previous data structures in many ways.
-Previously, the data layer was represented as a flat-file database.
-Although most of the data structures were organized in a normalized, logical way, there were several inconsistencies that needed to be reconciled.
-
-
-First, several pieces of data were being improperly stored in the database. 
-For example, channel and site settings were being stored in the database. 
-This information doesn't typically belong in a relational data structure, simply because it does not interact with other entities, nor can it benefit from any of the features of a database. 
-Instead, we decided that the data belongs in a simple, transparent configuration file as part of the template system. 
-That way, data can be easily read and modified, both by the application and advanced users. 
-
-
-Channel icons and video icons, are no longer exclusive, and have been combined into a single icon table.
-This means that the same icon information can be used by both channels and videos. This will help eliminate duplicate data, and give users more choice in choosing icons.
-
-
-The new schema also drops several fields and data structures that could be simplified or generated on the fly.
-For example, in the previous version, thumbnails were represented as their own entities, because the database stored the mime-type as well as the file address.
-Since most, if not all, browsers render images without an explicit mime-type, eliminating this field also allows us to simplify the schema by storing all of the thumbnail information in the channels and video tables themselves.
-Similarly, fields like file extension, which can be derived from other data, have been pruned.
-We also store information about intellectual property licenses that could be abstracted to its own table.
-However, this doesn't provide any significant functional benefits, so the information has been moved to data fields in other tables. 
-File data and video data have a one-to-one relationship, so it makes sense to merge them into one table.
-This will normalize the table, which will optimize queries and simplify queries that access that data.
-
-
-%% Move to design
-\chapter{Utilized Technologies}
-
-\section{PHP}
-% 1/18/2007, CJ: Rewrote to be more concise. Perhaps talk about PHP vs. Perl, Python, Ruby
-Our team chose to write this application in PHP because it is the one server-side scripting language that is guaranteed to be installed virtually everywhere.
-As noted previously, it is often installed alongside Apache and there are many service providers that already have it installed on their servers.
-PHP as a language is dynamic and weakly typed with a C-like syntax and a large standard library set that geared towards web development.
-Other languages such as Perl, Python, or Ruby might be excellent choices, but they do not command the same percentage of the market share that PHP does.
-
-
-\subsection{Cookies/Sessions}
-% 1/19/2007, CJ: Added part about user authentication.
-Web applications almost always require users to be authenticated and tracked in some way, and PHP provides convenient ways to do both.
-Classic username/password authentication can be used to quickly verify the users identity and through the user of built in session\_* functions in PHP we can easily create persistent user sessions.
-More details on how this functionality will be used can be found in the implementation section.
-
-
-\section{SQL}
-% 1/18/2007, CJ: Nassar suggested that there should be some mention of object vs. relational databases here. I don't think there's much to talk about!
-To store all of the information about the channels, videos and settings in Broadcast Machine, we decided that a relational database would be best. 
-As opposed to previous releases, this version will only have SQL database support.
-We figure that since the last release SQL databases have become commonplace.
-PHP itself is proof of this, as it easily interfaces with MySQL and SQLite.
-We feel that a database lets us store and retrieve data in the most scalable and efficient way possible without sacrificing the overall goals of the program.
-It is important to note that the database setup will be automated for the user like it is with weblog package WordPress.
-This automation helps us work around the problem of the user having to configure a complex database. (A great concern for us! Many of our users might not be very computer savvy.)
-
-
-\section{URL Rewriting}
-% 1/22/2007, CJ: Rewrote the section about URL rewriting.
-In the past few years, URL's have become more and more difficult to understand as web applications have come to dominate.
-URL's were designed to be easier to remember than IP addresses, but the've shown they can be just as tough to remember.
-One way to make URL's easy to remember is to rewrite them through the use of the Apache module mod\_rewrite.
-This module rewrites making the server pretend that a file exists.
-When it receives a request for a URL it modifies it based on pre-determined rules that can be set by the user.
-These settings can be configured on a per-directory basis by placing the rewrite rules in the .htaccess file.
-URL rewriting also serves another purpose.
-Apple's iTunes will 
-This feature is also necessary to make sure that iTunes can subscribe to feeds produced by Broadcast Machine.
-iTunes requires that the file to be downloaded ends as a file extension that it likes.
-Unfortunately those file extensions are not usually webpages, they are usually MP3 instead of PHP.
-It will only download your MP3 if it looks like \url{http://www.foobar.com/index.mp3?show=4.mp3} versus the traditional \url{http://www.foobar.com/index.mp3?show=4.mp3}. \footnote{http://www.apple.com/itunes/store/podcaststechspecs.html}
-Not convenient, but necessary given the popularity of iTunes and the demand for compatible content.
-
-
-\section{XML and RSS}
-% 2/2/2007, CJ: Finished the section. Needs a review/read-through and probably some corrections.
-XML itself is a multi-purpose markup language specified by the W3C that provides an enormous amount of flexibility.
-It's loosely defined syntax makes it suitable for almost any application imaginable.
-One of the most prevalent applications of XML is RSS.
-Lately the RSS specification has gained alot of traction as a useful and feasible format for distributing syndicated content.
-
-The format was created as a way for publishers to distribute their content in a 
-Unfortunately RSS has has a tumultuous past, with three different and competing versions the format was hardly standard.
-The past few years have allowed RSS to mature into the document format that it is now.
-
-XML, or Extensible Markup Language, is a general-purpose language for describing hierarchal relationships with a variety of applications. 
-First recommended by the W3C in 1998, XML provides an easy way to convey information that is both human-legible and easily parsed by computer algorithms. 
-XML documents start out with a declaration stating what version of XML is being used, information about character encoding, and any other dependencies that the document may rely on:
-
-XML documents start out with a declaration stating what version of SML is being used, information about character encoding, and any other dependencies that the document may rely on:
-
-<?xml version=\"1.1\" encoding=\"UTF-8\"?>
-
-This tag specifies that the document is using the XML 1.1 standard, and is encoded using the UTF-8 character set.
-
-Followed by the declaration, XML files consist of several elements that may be nested within each other, defined by start and end tags.
-These tags surround text or other elements, which is referred to as the tag's content.
-Tags may have attributes which are embedded into the element's start tag. 
-The meanings of each tag and its corresponding content is left intentionally ambiguous, meaning that the XML standard allows users to define what signifigance the tags have, and what data they should contain. 
-Customizable schemas supplement the syntactical rules of XML with constraints having to do with element and attribute names, and how the information is organized heirarchically. 
-For example, a schema might specify that an XML document describing a bicycle must have an element describing the gears, and only one gearset must be present for a car. 
-It might also specify that a set of gears can have several attributes, including manufacturer, number of gears, etc. 
-
-
-<bike name=\"C200\"\ manufacturer=\"Raleigh\">
-
-<gears manufacturer=\"Shimano\"\ speed=\"21\">Y-42U98010</gear>
-
-...
-
-</bike>
-
-
-XML is a powerful markup language, and it has been used to construct many popular languages, such as XHTML and RSS.
-RSS is an integral part of Broadcast Machine.
-The format was developed to allow content producers to publish their content in a way that was easily syndicatable, standardized and inexpensive.
-RSS went through an unfortunate period where many individuals and groups wanted undue control over what the standard was going to be.
-Lately publishers have begun to settle on the RSS 2.0 specification.
-While RSS 2.0 is not governed by a traditional standards body such as 
-the W3C or ISO the specification is taken care of by the RSS-DEV working 
-group at Harvard University. \footnote{\url{http://en.wikipedia.org/wiki/RSS-DEV\_Working\_Group}}
-The RSS 2.0 specification allows for publishers to specify \'channels\' in which there are repeating elements of \'items\' which contain the main content.
-At the top of the RSS file there is an area where the publisher can add information about the channel such as a link to the publishing website, the author, webmaster and other various information.
-Each of the items within the channel contain additional sub-elements that describe the item.
-There are descriptors for the time and date at which the content was published, links to the website with the extended or full version of the contents, and ususally there is a unique identifier that lets the computer detect duplicates. 
-\begin{verbatim}
-<?xml version=\"1.0\"?>
-<rss version=\"2.0\">
-  <channel>
-    <title>Boston Concerts</title>
-    <link>http://bostonmusic.org</link>
-    <description>A collection of concerts in Boston.</description>
-    <language>en-us</language>
-    <pubDate>Tue, 10 Jan 2006 04:00:00 GMT</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2006 09:41:01 GMT</lastBuildDate>
-    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-    <generator>Weblog Editor 2.0</generator>
-    <managingEditor>bob.jones@bostonmusic.org</managingEditor>
-    <webMaster>webmaster@bostonmusic.org</webMaster>
-
-    <item>
-      <title>Dave Brubeck</title>
-      <link>http://bostonmusic.org/2007/01/02/brubeck</link>
-      <description>Dave Brubeck is coming to the Somerville Theatre this Saturday!</description>
-      <pubDate>Tue, 03 Jun 2003 09:39:21 GMT</pubDate>
-      <guid>http://bostonmusic.org/2007/01/02/brubeck</guid>
-    </item>
-
-  </channel>
-</rss>
-\end{verbatim}
-This example provides us with exactly what anyone would need to push content updates around the internet.
-Unfortunately the internet isn't only text and images, it's a place full of music and video too.
-Recently, publishers have begun to embed video and audio into RSS feeds that provide users with an experience much like broadcast television or radio.
-With audio this method has been called \"Podcasting\" and the same method but with video has been called \"Broadcatching\".
-The RSS format is built to handle text (which it does very well) but third parties have had to create extensions to the current RSS 2.0 standard that allow them to have fields for audio, video and miscellaneous metadata.
-Much to our dismay, we found that there wasn't any agreement on what this new standard should be.
-As it stands now, Apple and Yahoo are pushing their own extensive additions while other publishers are using an older yet effective method.
-The simplest solution is to use the <enclosure> tag.
-It is an optional sub-element of the <item> tag and lets the publisher specify a url for the media, a mimetype and a length in bytes for filesize.
-The tag is an official part of the RSS 2.0 specification and it provides basic and effective functionality.
-Its featureset unforuntately pales in comparison with what can be done with Apple's or Yahoo's extensions.
-The Apple extension was the next option to appear.
-With the rise in popularity of Podcasting, Apple was quick to capitalize on the trend by adding support to its prevalent iTunes application.
-The large iTunes user base is a boon to publishers who want to easily reach such a large market like that.
-Unfortunately to reach those people, Apple requires that your RSS feed be formatted using their extensions. \footnote{\url{http://www.apple.com/itunes/store/podcaststechspecs.html}}
-
-The first step in creating an iTunes RSS feed is to include the XML namespace declaration for the iTunes tags.
-Simply place the following text at the top of the feed, and step one is done.
-\begin{verbatim}
-<rss xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" version=\"2.0\">
-Next, the publisher needs to add tags that describe the channel.
-iTunes specifies a special tag for describing the owner of the feed.
-Enclose the name and email address of the producer as such:
-  <itunes:owner>
-    <itunes:name>Bob Jones</itunes:name>
-    <itunes:email>bob.jones@bostonmusic.org</itunes:email>
-  </itunes:owner>
-There is also a section where the publisher can link to an image for the podcast.
-   <itunes:image href="http://bostonmusic.org/brubeck.jpeg" />
-For describing the content there is a field where people can specify categories for their feeds.
-	<itunes:category text=\"Music\">
-      <itunes:category text="Jazz"/>
-   </itunes:category>
-\end{verbatim}   
-It is important to note that the category tags can be paired with a beginnng and an end or alone.
-We should also pay attention that it is possible to nest categories, effectively creating subcategories that iTunes recongizes.
-The RSS items themselves can also be extended.
-Publishers might like to specify an author for each item. (Perhaps the feed is a collection of videos from other people.)
-It can be specified using the <itunes:author> tag.
-The media can also be supplemented by a small summary.
-The <itunes:summary> tag is especially useful.
-When it comes to the audio or video file, the iTunes specification uses the <enclosure> tag mentioned earlier.
-To further describe the content iTunes allows for keywords and tags to be added to each item using the <itunes:keywords> tag.
-We can see how this all comes together in this example item:
-\begin{verbatim}
-	<item>
-		<title>Dave Brubeck - Take Five</title>
-		<itunes:author>Dave Brubeck</itunes:author>
-		<itunes:subtitle>Imagine yourself walking through the city.</itunes:subtitle>
-		<itunes:summary>
-			Dave Brubeck takes us on an adventure in Jazz.
-		</itunes:summary>
-		<enclosure url="http://bostonmusic.org/brubeck.mp3" length="4989537" type="audio/mpeg" />
-		<guid>http://bostonmusic.org/brubeck.mp3</guid>
-		<pubDate>Wed, 1 Jun 2005 19:00:00 GMT</pubDate>
-		<itunes:duration>3:59</itunes:duration>
-		<itunes:keywords>dave brubeck, jazz</itunes:keywords>
-	</item>
-\end{verbatim}
-The competing standard is Yahoo!'s Media RSS \footnote{\url{http://search.yahoo.com/mrss}} specification which puts forth an even larger set of extensions to RSS 2.0.
-One difference between the Yahoo and Apple specifications is that Yahoo's additions are with respect to the item that is enclosed rather than to the RSS item itself.
-The Apple specification approached a restructuring of the RSS file while the Yahoo modifications are strictly media-centric metadata.
-This difference makes the Yahoo additions more desireable for embedding rich content within ordinary text feeds while the Apple additions push RSS as a multimedia only platform.
-\begin{verbatim}
-<rss version=\"2.0\" xmlns:media="http://search.yahoo.com/mrss\"
-xmlns:dcterms=\"http://purl.org/dc/terms/\">
-<channel>
-<title>Music Videos 101</title>
-<link>http://www.foo.com</link>
-<description>Discussions of great videos</description>
-	<item>
-		<title>The latest video from an artist</title>
-		<link>http://www.foo.com/item1.htm</link>
-		<media:content url=\"http://www.foo.com/movie.mov\" fileSize=\"12216320\" 
-		type=\"video/quicktime\" expression=\"full\">
-		<media:player url=\"http://www.foo.com/player?id=1111\" 
-		height=\"200\" width=\"400\"/>
-		<media:hash algo=\"md5\">dfdec888b72151965a34b4b59031290a</media:hash>
-		<media:credit role=\"producer\">producer's name</media:credit>
-		<media:credit role=\"artist\">artist's name</media:credit>
-		<media:category scheme=\"http://blah.com/scheme\">music/artist 
-		name/album/song</media:category>
-		<media:text type=\"plain\">
-		Oh, say, can you see, by the dawn's early light
-		</media:text>
-		<media:rating>nonadult</media:rating>
-		<dcterms:valid>
-			start=2002-10-13T09:00+01:00;
-			end=2002-10-17T17:00+01:00;
-			scheme=W3C-DTF
-		</dcterms:valid>
-		</media:content>
-	</item>
-</channel>
-</rss>
-\end{verbatim}
-From this example we can see how the specification does not place any of the tags in the section with the channel, everything is with the item.
-The most notable change is the movement from the <enclosure> tag to the use of the <media:content> tag.
-Unfortunately there isn't much improvement, as they are the same thing by different names.
-The second is the specification of a media player that can be used to play the video.
-This is particularly useful in a world of Adobe Flash video where there are FLV files and SWF players.
-The next <media:hash> tag is a welcome addition as it lets the computers on the receiving end verify the integrity of file that they have just downloaded.
-Just like the Apple extensions, Yahoo allows the <media:category> and even lets the publisher specify the scheme by which the categories are laid out.
-There is also a <media:text> tag that lets the publisher add a short description of the current media being played.
-The last part is a bit curious as the Yahoo specification recommends that the publisher include a small part about XML Dublin Core compatibility and how the file can be verified.
-
-With these three different ways of pushing rich content with RSS there is certain variety.
-All of these need to be supported in Broadcast Machine.
-The simple enclosure method is supported by a large number of clients making it an easy choice.
-Apple iTunes fans are not to be left out as they are such a large community.
-Supporting Yahoo Media RSS is a must because of Democracy Player's support for the format.
-
-% 2/1/2007, CJ: Blurb on HTTP caching?
-
-\section{XHTML}
-% 1/25/2007, More needs to be added about CSS.
-XHTML, or the Extensible HyperText Markup Language, is a markup language that allows the same amount of versatility as HTML, but with a stricter syntax. 
-HTML is an application of the Standard Generalized Markup Language (SGML), a very versatile markup language, whereas XHTML is an application of XML, a more restrictive subset of SGML. 
-XHTML is a reformulation of HTML in XML, so in many ways its a cross between XML and HTML. 
-Because XHTML code needs to be well-formed and syntactically correct, XHTML documents allow for automated processing to be performed using a standard XML library. 
-This is unlike HTML, which due to its leniency requires a relatively complex and usually custom parser. 
-
-
-XHTML 1.0 became an official World Wide Web Consortium (W3C) recommendation on January 2000. 
-
-
-\section {CSS}
-% Sources:
-% http://en.wikipedia.org/wiki/Stylesheet\_language
-% http://en.wikipedia.org/wiki/Cascading\_Style\_Sheets
-CSS, or Cascading Style Sheets, is presenation language used to style structured documents, such as XHTML, HTML, SVG, and other markup languages. 
-It's best know for being used with XHTML and HTML. 
-The power of CSS and structured documents becomes 
-
-\section{Changes to the Database}
-In the new database model, several changes will have to be made in order to normalize the database for increased performance and easier programming. These changes are listed below:
-
-
-The stats table has a one-to one relationship with the files table. This means that the two tables can be merged, and tracking the number of downloads can be relegated to a single field in the files table. The channel\_options table is also one-to-one with the channels table, so all of its data can be stored in the channels table.
-
-
-The instance table can be replaced by a field in the channel settings for the base url of the website. We'll be able to assume that if, when a user goes to set up Broadcast Machine, the base URL has been filled already, then more than one copies of the program are sharing the database. Then, the user will be given a warning and a choice to overwrite this information with the new site.
-
-
-A number of fields and tables will become deprecated in the new model. CSSUrl, from the channels table, will be replaced by the new templating system. As features associated with channel\_sections are widely unused, they will also be left out of the new schema, but may be added back in later. The files table contains the runtime of the video via three fields, RuntimeHours, RuntimeMinutes, and RuntimeSeconds. These fields will be combined into one runtime field representing the time in seconds, which will be converted into the h:mm:ss format in the file view rather than at the data-layer level.
-
-
-The files table is poorly named, since it really stored information on videos, not the files that the videos are encoded in. In the future, it should be possible to have multiple files associated with one video (for hosting multiple formats and resolutions). The name of this table should be changed from files to something more descriptive, such as videos.
-
-
-In the users table, the primary key field is Name, which may have caused problems when two people with the same name would attempt to register (e.g. two John Smiths would not be allowed to join at the same time). In the future, the primary key for the table should be username, which should always be unique.
-
-
-Site settings will be moved from a B-Encoded file to a table in the database. Since we will be using http-seeding of torrents, some of these settings are expected to change.
-
 
 \end{document}
 
