@@ -215,14 +215,47 @@ Each channel can have several videos published to it, meaning those videos will 
 \item{\textbf{release\_date: } When the video was uploaded to Broadcast Machine.}
 \item{\textbf{runtime: } The length of the video, in seconds.}
 \item{\textbf{file\_url: } The location of the video file.}
-\item{\textbf{downloads: } The number of timess the video has been downloaded.}
+\item{\textbf{downloads: } The number of times the video has been downloaded.}
 \item{\textbf{mime: } MIME-type of the video.\footnote{MIME is an international standard that defines what kind of content a file contains.}}
 \item{\textbf{size: } Size of the video.}
 \end{description}
 
 \subsubsection*{Tags}
+Tags, or categorical words that describe another entity, are represented by two database tables, channel_tags and video_tags. Each tags contains the unique ID of the channel or video it refers to, as well as the one-word tag itself. Tags allow channels and videos to be aggregated and organized by category or theme, allowing videos and channels to belong to several categories at once.
+
 \subsubsection*{Users}
+Users are members of a Broadcast Machine site, and fall into one of two categories. Administrators, or Admins, are users who manage the site and are responsible for adding, updating, and removing content. It's possible for site admins to restrict all or some videos on their site to be viewable only by registered members. Information needed to represent users is as follows:
+
+\begin{description}
+\item{\textbf{username: } The nickname that a user logs in as.}
+\item{\textbf{name: } User's real-life name.}
+\item{\textbf{pass: } A hash of the user's password.}
+\item{\textbf{email: } User's e-mail address.}
+\item{\textbf{admin: } Whether or not the user has administrative privileges.}
+\end{description}
+
 \subsubsection*{Settings}
+
+Site settings pertain to global information about the specific Broadcast Machine installation. They typically include information needed by the dispatcher before connecting to the database or instantiating a controller. Site settings include:
+
+\begin{description}
+\item{\textbf{baseURI: } The URI of the root location of the BM installation. Used to dynamically generate links.}
+\item{\textbf{baseDir: } The base directory of the BM installation. Used to properly include classes and files.}
+\item{\textbf{site\_name: } The name of the site.}
+\item{\textbf{site\_description: } A brief summary of the site.}
+\item{\textbf{site\_iconurl: } A link to the logo of the site.}
+\end{description}
+
+Database connection settings are specific to the Database Management System being utilized. As such, each Database Controller is responsible for knowing which variables are set in the settings file and including them. By convention, all database settings are prefixed with 'cf' and are in the form \$cf\_varname. An example of typical database settings (in this case for the MySQLController): \\
+
+\begin{description}
+\item{\textbf{cf\_hostname: } The URI through which the database can be reached.}
+\item{\textbf{cf\_database: } The name of the database.}
+\item{\textbf{cf\_username: } Username needed to access database.}
+\item{\textbf{cf\_password: } Password needed to access database.}
+\end{description}
+
+All settings, both for the Site and Database, are stored in bm2\_conf.php in Broadcast Machine's base directory. For more information on files, see \textbf{File Structure}.
 
 \subsection{View}
 
