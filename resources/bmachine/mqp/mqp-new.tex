@@ -113,7 +113,7 @@ Wordpress and Drupal both offer plugins for video publishing. However, there are
 \subsection {Broadcast Machine}
 Broadcast machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}. Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A google search of the phrase \"Powered by Broadcast Machine\" returns approximately 6,700 results.}
 
-Despite it's popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconciliable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures, made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
+Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconciliable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures, made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
 \chapter{Design}
 
@@ -568,24 +568,17 @@ At this point users are given the chance to view a single user and all of the da
 \section{Mike Benedetti}
 
 On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
-13. 
-Benedetti used our software and made comments on it as he navigated the interface. 
-Our major goal was to determine if his expectations for the interface meshed well with where our software was heading. 
-Through our discussion with him we discovered is even more a part of the internet video community than we had expected. 
-As a result he was able to also offers insight into where our software fit into the landscape of internet video.
+13. Mike is a part of the internet video community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{http://www.wccatv.com/snowghost} online for WCCA.
+We introduced Mike to Broadcast Machine, and asked for some feedback on the user experience.
+Our major goal was to determine if his expectations for the interface meshed well with the existing feel of the application.
+Because of his experience with internet video publishing, he was in a unique position to provide feedback on Broadcast Machine.
 
-WCCA has recently begun putting all of their video content online. 
-They currently use Drupal with a number of modules as their content management system, but Benedetti explained to us 
-that there were a number of drawbacks with his current setup. 
-Through our research we have come to many of the same conclusions as him, but it was valuable to hear frustrations about 
-other software solutions from someone with first-hand experience. 
+WCCA has recently begun putting all of their video content online, using Drupal with a number of modules as their content management system. 
+Mike explainedthat there were a number of drawbacks with his current setup. 
 Mike stressed that there was not yet a one-stop video content management system, although he did point out that there 
 exist plugins and modules for existing CMS's that transforms them into a make-shift video CMS. 
-He indicated that dispite a number of solutions, there was a need for a .wordpress for video..
 
-We started our discussion by having Mike outline the procedure that WCCA follows to move video content from a recording 
-studio to the web. 
-It is the following: 
+We started our discussion by having Mike describe WCCA's video publishing process:
 
 \begin{enumerate}
 \item A content producer records a show in their studio. 
@@ -601,141 +594,33 @@ attributes at this point.
 \item The video is posted to the WCCA site and Drupal handles adding an entry to the video rss file.
 \end{enumerate}
 
-After we talked with Mike about his setup, we opened up a browser and had him explore our software. At this point we 
+After we talked with Mike about his setup, we opened up a browser and had him explore Broadcast Machine. At this point we 
 asked him to follow links and describe what his exceptions for the pages were and compare his expectations to the 
-reality of our pages. 
-It was valuable to hear that Benedetti's expectations for the views were somewhat different than what we had. 
-There were a few specific UI suggestions that he had, but most important suggestion was molding our visual design on the 
-concept of a .river of news.. 
-He explained that it made more sense to him to have the videos appear in a more traditional blog layout, with clear 
-differentiate between .posts. and with a publish date clearly indicated. 
-He also pointed out that we needed to make it clear that the rss feeds were video rss feeds that could be used with 
-programs like Miro.
-
-He gave further feedback on the rss feeds. 
-Specifically, he did not see much value in the non-video RSS feeds--for example, a feed of all the tags or of all the 
-channels. 
-We discovered that it needed to be made more clear that the video feeds had enclosures. 
-The issue may be resolved by simply moving the RSS icons to a better location.
-
-More broadly Benedetti gave us a feel for where broadcast machine fits into the landscape of internet video. 
+content of our pages. 
+It was valuable to hear that Mike's expectations for the views were somewhat different than what we had. 
+There were a few specific UI suggestions that he had, but most important suggestion on how to visually present our data.
+More broadly, Mike gave us a feel for where broadcast machine fits into the landscape of Internet video publishing. 
 He seemed to be hopeful about our project and it might be a good fit for his needs.
-He is of the opinion that there still does not exist a solid one-stop solution for a video blog. 
 
-As was mentioned ealier, WCCA uses archive.org as their long-term storage. 
+Mike explained that it made more sense to him to have the videos appear in a more traditional blog layout, with clear 
+differentiation between posts, and with a publish date clearly indicated. 
+He also pointed out that we needed to make it clear that the RSS feeds were video feeds that could be used with 
+programs like Miro. To bring attention to this feature, we moved icons for RSS and Miro subscription links to be more prominent on pages where feeds are available, and also updated several templates to clearly differentiate between video posts with better-presented information. Mike indicated that he was confused about what data was in the RSS feeds, based on their placement. We discovered that it needed to be made more clear that the video feeds had enclosures, and moved the RSS icons to a location on the page that more clearly indicated their content. In accordance with Mike's suggestions, we also edited templates for consistency in ordering videos and channels.
+
+As was mentioned earlier, WCCA uses archive.org as their long-term storage. 
 Mike suggested that Broadcast Machine would be a more appealing piece of software if, in a future release, it 
 incorporated an easy mechanism for external storage solutions. 
 We looked at WCCA's account and found that there is an XML API provided for archive.org to integrate with external 
-software. 
+software. With their API in place, implementing scraping archive.org's XML data would be an easy task for future releases. Mike also suggested integration with several other storage providers, including Amazon's S3 service. While certainly a good idea for the future, implementing robust integration with several different services is a major task, and was outside the scope of this project's time constraints.
 
-Meeting with Mike Benedetti gave us a good perspective on how users would see our software. 
-We did not incorporate all of his suggestions, but we did make a number of good changes based on his ideas. 
-It was encouraging to hear that the software that we created could be used by as large as organization as WCCA.
+Mike recalled that the previous version of Broadcast Machine was based on BlogTorrent, an implementation of the BitTorrent transfer protocol for blogs. 
+However, he also noted that he was unable to get BitTorrent support to work with previous installs of Broadcast Machine, an experience that several other users of the earlier BM often shared. 
+Mike suggested we add some sort of BitTorrent integration.
+While the current Broadcast Machine does allow users to upload or link to .torrent files and share them, we identified the need for an integrated BitTorrent server in order to automatically seed, or upload videos. We had previously considered adding this feature. However, we found that most hosting providers do not allow server-side sharing of torrents in any regard. Due to this constraint, we decided to abandon implementation of this feature, but are now reconsidering it for advanced users running their own web servers.
 
-\section{Specific Suggestions for Improvement and Our Responses}
-
-\subsection{Suggestion: "River of news"}
-
-Mike Benedetti found that our UI was not exactly what he was expecting. 
-He offered the design concept called the .river of news., and recommended that we use it in our user interface. 
-"River of news", as he explained it, is the idea that there is a visible flow of information, that each post is clearly 
-shown as an incremental addition to the site. 
-He suggested dividing video posts more clearly, making the video title more of the focus of the post, and including a 
-post date or timestamp in a more prominent location. 
-When I asked if he felt there was not enough meta-data provided about a video, he replied that there was enough data but 
-that it should be more clearly divided and laid out. 
-
-{\bf Our Response}
-
-Mike's suggestion "river of news" idea resonated well with us. 
-Our software is a video blogging platform, so it makes sense to model our design after traditional blog themes. 
-Although, it is important to note that almost all of Benedetti's design suggestions can be changed by an end-user with 
-some HTML knowledge. 
-This shows the versatility of our templating engine. 
-Someone who intalls Broadcast Machine can just open up the smarty files and layout and style the pages however he or she 
-feels appropriate. 
-However, Mike is right that a "news river" design makes sense as the a sane default for the software. 
-It will better fill the needs of average user. 
-
-As a result, we incorporated some changes. We updated the video/all page. 
-We brought the title above the icon and made it more prominent. 
-Then we moved the modified\_time timestamp to directly below the video 
-title to give some sense of continuity. 
-We added a larger area for the video description, changing the truncated length from 100 characters to 350. 
-We moved the metadata to the left of the icon to save space and moved the description to below the icon. 
-Then we added a divider at the end of the video post. 
-
-\subsection{Suggestion: Remain consistent about video/channel order}
-
-There are a number of pages that list both channel and video data. 
-Namely, Mike noticed that on the channel/all view and the tag/all view we were not consistent about which came first. 
-
-{\bf Our Response}
-
-We went through the views and made sure channel data was always place above video data.
-
-
-\subsection{Suggestion: Make it more clear what data is in the rss feeds}
-
-Benedetti indicated that he was confused about what data was in the rss feeds, based on their placement. 
-The icons are just a standard rss icon, so also they did not offer any clues. 
-
-{\bf Our Response}
-
-After reviewing the placement and icon images for the rss links, we decided to take two actions.
-We moved the rss icons to a location on the page that more clearly indicated their content. 
-For example on the tag/example-tag view, the rss icon was previously placed next to the header that read, .Items tagged 
-with 'example-tag'.. 
-This was confusing because we had both channel and video data displayed on the page. 
-Since the rss was a video feed with only metadata and enclosures from videos that were tagged with the given tag, it was 
-misleading to place the icon at the top of the page. 
-We removed the rss icon from the header and added one next to the sub-heading for videos. 
-
-Secondly, we added a second rss icon from the Miro website. 
-It reads .Miro Channel. and provides a subscribe-in-Miro link. 
-This should make it more clear that the feed is a video feed, which can be added to a video rss reader. 
-
-\subsection{Suggestion: Bit torrent support}
-
-Mike recalled that the previous version of Broadcast Machine was based on Blog Torrent, which meant that support for 
-BitTorrent was once included. 
-However, he also recalled that he never got BitTorrent working properly when he used the earlier version of Broadcast 
-Machine.this is an experience shared with many other early Broadcast Machine users. 
-He thought that BitTorrent support would be a good addition.
-
-{\bf Our Response}
-
-The project has changed dramatically since its inception. 
-BitTorrent support was originally part of our plan for Broadcast Machine. 
-Since other aspects of the project ended up taking more time than we had originally expected and since BitTorrent 
-support turned out to be a larger issue than we had anticipated, we had to drop its support for this version on the 
-software. 
-We agree with Mike that it is a very good addition. 
-We hope it will be in a future version.
-
-\subsection{Suggestion: Integrated external hosting}
-
-Since WCCA cannot afford the bandwidth to host all of their own video, they store their video remotely in their 
-archive.org account. 
-Mike thought it would be ideal if Broadcast Machine could easily integrate with archive.org, amazon s3 or other third 
-party hosting services. 
-
-{\bf Our Response}
-
-We are very fond of Mike's idea and believe it would be very useful for some of our users, but we decided against 
-incorporating his suggestion. 
-There are a few reasons why. 
-Most importantly is an issue of time. 
-An addition like that would take a significant amount of time to build. 
-We simply do not have enough time before the end of the project to incorporate the new functionality. 
-We have determined that it is a good enough idea that it may be incorporated in a later version. 
-However, there is also the issue of maintaining the code. 
-There is an ever-changing number of third party hosting services. 
-Maintaining support for them be a substantial undertaking. 
-It would most likely require a person or group of people who are passionate about the functionality to keep it working 
-with the external hosting solutions. 
-Although we decided against incorporating the change, we believe we have built a framework that is extensible enough to 
-allow an enthusiastic programmer or group of programmers to add that functionality to Broadcast Machine themselves.
+Meeting with Mike Benedetti gave us a good perspective on how video publishers would react to Broadcast Machine. 
+We did not incorporate all of his suggestions, but we did make a number of changes based on his ideas. 
+It was encouraging to hear that Broadcast Machine could grow to fill a vital niche in the video publishing field, and might even be utilized by WCCA in the future.
 
 \chapter{Future Work}
 While this project has done much work to make Broadcast Machine a piece of modern video management software, there are many features that should be implemented in order to provide the best user experience possible.
