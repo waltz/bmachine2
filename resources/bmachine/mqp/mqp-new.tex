@@ -64,7 +64,7 @@ Through careful evaluation and the use of popular software development technique
 % FOR: CJ
 \begin{description}
   \item{\textbf{Introduction: }Christian Bryan}
-  \item{\textbf{Background: }Greg Opperman}
+  \item{\textbf{Background: }Greg Opperman & Drew Wilson}
   \item{\textbf{Design: }Greg Opperman}
   \item{\textbf{Implementation: }Greg Opperman}
   \item{\textbf{System in Action: }Christian Bryan}
@@ -174,6 +174,12 @@ it acted as video blogging software, where users could organize videos into chan
 
 Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing.}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconcilable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
+\section{Summary}
+In this chapter we discussed the relavance of open source and free software. It is essential for the movement to democratize
+media to include open source software. We also gave an overview of the current state of Internet video. There was a description of some
+of the most common web hosting services and a number of content management systems that somewhat address the needs of video content
+producers. As we have shown it is neccesary for us to design a system that better addresses the specific needs of video content producers.
+
 \chapter{Design}
 
 \section{Introduction}
@@ -190,7 +196,7 @@ The program should auto-configure itself on the first-run with a few simple clic
 The application must detect server configurations that may interfere with its behavior, and handle those special cases gracefully. 
 Likewise, viewers with any level of computer proficiency must be able to easily browse and download videos, and subscribe to their favorite channels.
 
-In order to ensure the best user experience possible, the new Broadcast Machine must be stable. In addition to, it should preserve all of the functionality of its previous incarnation, while containing none of the unpredictable behavior.
+In order to ensure the best user experience possible, the new Broadcast Machine must be stable. In addition, it should preserve all of the functionality of its previous incarnation, while containing none of the unpredictable behavior.
 
 \subsection{Customizable} 
 A major feature of both the former Broadcast Machine and many other CMSes is the ability to customize the look and feel of an installation that fits the user's own personal style. 
@@ -209,7 +215,7 @@ A well-structured, extensible architecture will prevent poor programming practic
 
 
 \subsection{Flexible}
-In addition to additions to the program, Broadcast Machine must be flexible enough so that it can be re-factored easily. 
+Broadcast Machine must be flexible enough so that it can be re-factored easily. 
 Functionality should be abstracted and delegated so that major changes to one part of the code will not affect another. 
 For example, we may decide later that we would like to use a different type of database. 
 We should be able to swap out the back end without having to modify the entire application, and without significantly affecting the user experience. 
@@ -223,10 +229,18 @@ While impossible to guarantee compatibility with all web server configurations, 
 This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
 \section{Summary}
-In this chapter we discussed the relavance of open source and free software. It is essential for the movement to democratize 
-media to include open source software. We also gave an overview of the current state of Internet video. There was a description of some 
-of the most common web hosting services and a number of content management systems that somewhat address the needs of video content 
-producers. As we have shown it is neccesary for us to design a system that better addresses the specific needs of video content producers.
+In this chapter we discussed the target audience for the software and the design requirements of the system. The target audience for 
+Broadcast Machine is primarily non-technical users who have experience with 
+video editting, but who are not 
+necessarily familiar with web-programming or web-design. As such the program needs to be designed with those people in mind.
+Many other content management systems fail in this regard. Despite the need for a simple interface, the system needs to be 
+customizable. For this reason a robust theming engine is neccesary. Since the each install of Broadcast Machine is seperate and the system 
+is not central maintained, it is also important 
+to have a consistent code structure that allows for third party developers and more technical users to write extensions. 
+Flexibility and compatibility are two additional requirements of the system. The software must be able to 
+have components removed or 
+replaced without compromising the entire code base. Finally, the system needs to be designed with the most common web host platforms in 
+mind. It is essential that Broadcast Machine be compatible with the leading commercial web hosts.
 
 \chapter{Implementation}
 
