@@ -18,6 +18,7 @@
 Project Number: MQP-CEW-0702\\
 \end{flushright}
 \vspace*{40mm}
+Broadcast Machine\\
 A Major Qualifying Project Report:\\
 submitted to the Faculty\\
 of the\\
@@ -56,22 +57,8 @@ Professor Craig E. Wills\\
 % NOTE: It's gotta be 80 words or less.
 With the prevalence of high-speed Internet and low-cost production equipment, Internet video publishing has rapidly come into the 
 mainstream.
-Broadcast Machine was an open-source application designed to allow Video producers to easily publish their work on the web, but was plagued with several problems.
+The original Broadcast Machine was an open-source application designed to allow Video producers to easily publish their work on the web, but was plagued with several problems.
 Through careful evaluation and the use of popular software development techniques, we successfully rebuilt Broadcast Machine to be stable, scalable, maintainable and usable.
-
-\chapter*{Authorship}
-% TODO: Who wrote what.
-% FOR: CJ
-\begin{description}
-  \item{\textbf{Introduction: }Christian Bryan}
-  \item{\textbf{Background: }Greg Opperman \& Drew Wilson}
-  \item{\textbf{Design: }Greg Opperman}
-  \item{\textbf{Implementation: }Greg Opperman}
-  \item{\textbf{System in Action: }Christian Bryan}
-  \item{\textbf{Results: } Greg Opperman \& Drew Wilson}
-  \item{\textbf{Future Work: }Christian Bryan}
-    \item{\textbf{Conclusion: }Christian Bryan \& Greg Opperman}
-\end{description}
 
 \tableofcontents
 
@@ -83,7 +70,6 @@ mainstream. Independent video publishers now have the ability to create professi
 
 Created by the Participatory Culture Foundation, Broadcast Machine sought to fill the gap between centralized video hosting services and tacked-on content management system plugins by offering a complete video publishing solution for independent media producers. However, Broadcast Machine was plagued by several problems, and development was abandoned.
 
-\section{Goals}
 The main goal of this project was to take the ideas that had driven the development of the first version of Broadcast Machine and create a piece of software that was more usable and maintainable.
 The original code base had been abandoned because the maintainers felt that it was taking up to much time and that any further work was unlikely to be fruitful.
 The first part of this project was to identify the problems that the previous developers were running into and what their underlying causes were.
@@ -91,11 +77,11 @@ After in-depth interviews with the previous developers and an extensive review o
 
 \section{Topics}
 This report details the methodologies and technologies that were used in the re-imagining of the Broadcast Machine package.
-We will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impede the development of the original implementation.
-There is a detailed discussion of the requirements necessary to prevent these problems from reoccurring, with each requirement analyzed and discussed in detail.
-We then describe the design process and implementation details that result from these requirements.
-Following the chapters on design and implementation is a full walkthrough of the new software and a description of the functionality it provides.
-Finally, our group discusses the results of the project, as well as features that our group was unable to implement and which ones we feel are necessary to the long-term success of the project.
+In Chapter 2 we will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impede the development of the original implementation.
+In Chapter 3 there is a detailed discussion of the requirements necessary to prevent these problems from reoccurring, with each requirement analyzed and discussed in detail.
+In Chapter 4 we discuss the implementation details that result from these requirements.
+Following the chapters on design and implementation, in Chapter 5, we show the system in action with a full walkthrough of the new software and a description of the functionality it provides.
+Finally, in Chapter 6, our group discusses the results of the project, as well as features that our group was unable to implement and which ones we feel are necessary to the long-term success of the project. The future of the project is covered in Chapter 7. Finally, in Chapter 8, we close with a short reflection on the project.
 
 \chapter{Background}
 
@@ -103,7 +89,7 @@ Finally, our group discusses the results of the project, as well as features tha
 % TODO: A good overview of the topics covered in the Background chapter. 
 % FOR: CJ
 In this section we take a look at the history of Broadcast Machine.
-Our goal is to provide the reader with a framework that will let them understand the reasons for this software's existence and the environment in which it is being built.
+Our goal is to provide the reader with a framework to understand the reasons for this software's existence and the environment in which it is being built.
 The importance of this software to the Participatory Culture Foundation should be noted.
 As this foundation tries to promote freedom for content producers, the majority of its competitors are attempting the opposite.
 Unfortunately this software has not thrived.
@@ -116,11 +102,11 @@ Open source software is an important part of the movement to democratize the med
 This common goal is what ties together PCF's mission with that of the Free Software Movement. 
 The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
 Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
-The software is Free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
+The software is free in the sense that there are no conditions in distributing or using it, except that users respect the freedom of the software.
 
-Without Free software, the Internet could not exist as a democratic medium.
+Without free software, the Internet could not exist as a democratic medium.
 Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot \"own\" software, even if they purchase it.
+With proprietary software, users cannot 'own' software, even if they purchase it.
 Instead, users pay for the privilege of using it.
 Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
 On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
@@ -139,7 +125,7 @@ in one of two forms: video hosting services, which offer a centralized location 
 
 \subsection{Video Hosting Services}
 Video hosting services are sites that offer free hosting and sharing of video files that users upload.
-These sites, such as YouTube (\url{http://youtube.com}), Blip.tv (\url{http://blip.tv}), and Myspace Videos (\url{http://vids.myspace.com}) usually also offer social networking features, such as the ability to rate and comment on videos, as well as subscribe to videos posted by friends.
+These sites, such as YouTube (\url{http://youtube.com}), Blip.tv (\url{http://blip.tv}), and Myspace Videos (\url{http://vids.myspace.com}) also offer social networking features, such as the ability to rate and comment on videos, as well as subscribe to videos posted by friends.
 The largest and most popular video hosting service is Youtube, which garners 42.94\% of all traffic to online video sites.\footnote{\url{http://www.hitwise.com/press-center/hitwiseHS2004/videosearch.php}}. 
 
 Video hosting services offer a convenient solution for video publishers 
@@ -164,7 +150,7 @@ Wordpress one of the most popular weblogging applications, or a CMS designed spe
 Wordpress is built with PHP 4.2 and uses MySQL 3.23 as its database back-end. 
 It was created with the vision of creating a powerful GPL-licensed Internet publishing platform based on open standards. 
 The first version was released in 2001. 
-Wordpress is blogging software designed to be installed on an individual's web host, either their own computer connected to a broadband connection or a commercial web host like Dreamhost or 1and1. Worpress also offers hosted installations of its own software on their website.\footnote{\url{http://wordpress.org}}
+Wordpress is blogging software designed to be installed on an individual's web host, either their own computer connected to a broadband connection or a commercial web host like Dreamhost or 1and1. Wordpress also offers hosted installations of its own software on their website.\footnote{\url{http://wordpress.org}}
 
 Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There is a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
@@ -253,29 +239,29 @@ implementation.
 
 \section{Model-View-Controller}
 It became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to 
-be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}.
+be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}, as shown in Figure 4.1.
 
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.6]{./images/mvc.png}
 \end{center}
 \caption{Interaction between layers in MVC}
 \end{figure}
-In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in the figure above, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
+In a pure Model-View-Controller architecture, all data is represented by the Model layer. The layer that the user interacts with, namely user-interface of the application, is represented in the View layer. The Controller layer represents the logic of the application, and in most cases, handles interactions between the Model and View layers. These interactions are shown in Figure 4.1, with solid lines representing direct interactions, and dotted lines representing indirect interactions. Although in the general definition of this design pattern, the view can take user input and push it directly to the model, in most implementations it passes input to the controller for processing (input-validation), which in turn pushes the input to the model. Likewise, the view can also request data from the controller, who queries the Model layer. The query is then passed to the View for display and further user interaction.
 
 \section{Languages and Tools}
-There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based its structure.\footnote{\url{http://rubyonrails.org}} However, as a relatively new language, Ruby on Rails has not been as widely adopted as other, more established languages. Very few basic web hosting plans support Ruby on Rails. 
+There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based its structure.\footnote{\url{http://rubyonrails.org}} However, as a relatively new language, Ruby on Rails has not been as widely adopted as other, more established languages. Few basic web hosting plans support Ruby on Rails. 
 
 To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{\url{http://php.net}} running under Apache web servers\footnote{\url{http://apache.org}}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.\footnote{\url{http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}}
-Another advantage is that it is very common for PHP and Apache to be installed alongside one another. Apache's support for per-directory configurations via an .htaccess file make it very easy for users and developers to customize the environment without specialized administrator access; PHP offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework.
+Another advantage is that it is common for PHP and Apache to be installed alongside one another. Apache's support for per-directory configurations via an .htaccess file make it easy for users and developers to customize the environment without specialized administrator access; PHP offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework.
 
 Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and many hosts offer user-friendly interfaces to set up and manage databases. After a database has been created by the user with one of these tools, deploying the data layer of the application would be automated by a script. In terms of scalability, MySQL's performance rivals that of many enterprise-level DBMSes, especially when executing simple queries to create, read, update and delete small amounts of data. PHP offers several functions to interact with MySQL, making it the ideal choice for the data layer of the application.
 
 \section{Application layout}
-Using the aforementioned languages and tools, the traditional Model-View-Controller pattern was modified slightly for Broadcast Machine, in order for each layer to logically handle requests and delegate responsibilities as best as possible:
+Using the aforementioned languages and tools, the traditional Model-View-Controller pattern was modified slightly for Broadcast Machine, in order for each layer to logically handle requests and delegate responsibilities as best as possible, as shown in Figure 4.2.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.5]{./images/flow.png}
 \end{center}
@@ -295,14 +281,14 @@ All of the application logic for Broadcast Machine resides in the controller lay
 \subsection*{View Controllers}
 View Controllers are the most common type of controller in Broadcast Machine, and are responsible for handling all of the requests that result in template rendering. All view controllers inherit some functionality and requirements from the ViewController Abstract Class. The ViewController aggregates (contains) the DatabaseController, whose specific implementation is defined by a configuration variable and automatically instantiated.\footnote{By default, Broadcast Machine uses the MySQLController.} In a similar fashion, the ViewController automatically aggregates an instance of Smarty, the default templating engine of choice.\footnote{For more information on Smarty, see the \textbf{View} section below.} ViewControllers also inherit the ability to determine permissions and assign alerts from their abstract parent. The ViewController also provides a uniform interface for invoking a template.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.5]{./images/controllers.png}
 \end{center}
 \caption{ViewController API}
 \end{figure}
 
-ViewControllers are responsible for taking in an array of URL parameters\footnote{Recall that URLs are parsed by the dispatcher into an array before instantiating a ViewController}, and invoking the correct method and parameters. For example, if the ChannelController is called with the following parameters: \\
+As shown by Figure 4.3, the ViewControllers are responsible for taking in an array of URL parameters\footnote{Recall that URLs are parsed by the dispatcher into an array before instantiating a ViewController}, and invoking the correct method and parameters. For example, if the ChannelController is called with the following parameters: \\
 
 \textbf{[0] = channel, [1] = cowboys, [2] = edit} \\
 
@@ -365,22 +351,22 @@ The \textbf{UserController} is responsible for aggregating and managing data rel
 
 \subsection*{Database Controllers}
 Database Controllers are controller classes that manage queries to the model layer. In implementing MySQL database support for Broadcast Machine, several abstraction layers were created to make it easy to add new DBMS support to the application.
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.5]{./images/mysql.png}
 \end{center}
 \caption{MySQLController Inheritance Diagram}
 \end{figure}
 
-The abstract class \textbf{DatabaseController} defines the API by which all database controllers are expected to behave, witch functions to configure, connect, and disconnect from database sessions, as well as to create, read, update, and delete data, as well as to parse record sets into arrays and retrieve the unique ID of the last inserted record.
+As you can see in Figure 4.4, the abstract class \textbf{DatabaseController} defines the API by which all database controllers are expected to behave, witch functions to configure, connect, and disconnect from database sessions, as well as to create, read, update, and delete data, as well as to parse record sets into arrays and retrieve the unique ID of the last inserted record.
 
 The \textbf{SQLController} extends the Database controller by providing the create, read, update, and delete functions to build and execute SQL queries for all of these functions. This abstraction provides these functions for any developer writing controllers for any other SQL implementation (such as SQLite or PostgreSQL) automatically, so long as their implementation extends the SQLController class.
 
 Finally, the MySQL controller is a concrete implementation of the DBMS used in Broadcast Machine. It implements functions to maintain database connections by calling MySQL-specific functions in PHP, allowing other Broadcast Machine controllers to interact with the model layer.
 
 \section{Model}
-Data for Broadcast Machine can be broken down into five main entities: Channels, Videos, Tags, Users, and Settings. Settings, a group of data with no relation to the other entities, are stored in the file bm2\_conf.php, while the rest of the data is stored as a relational MySQL database (see Languages and Tools above). The entities and their relationships are shown below.
-\begin{figure}[h]
+Data for Broadcast Machine can be broken down into five main entities: Channels, Videos, Tags, Users, and Settings. This is shown in Figure 4.5. Settings, a group of data with no relation to the other entities, are stored in the file bm2\_conf.php, while the rest of the data is stored as a relational MySQL database (see Languages and Tools above). The entities and their relationships are shown below.
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.45]{./images/er.png}
 \end{center}
@@ -415,7 +401,7 @@ Each channel can have several videos published to it, meaning those videos will 
 Tags, or categorical words that describe another entity, are represented by two database tables, channel\_tags and video\_tags. Each tag contains the unique ID of the channel or video it refers to, as well as the one-word tag itself. Tags allow channels and videos to be aggregated and organized by category or theme, allowing videos and channels to belong to several categories at once.
 
 \subsection*{Users}
-Users are members of a Broadcast Machine site, and fall into one of two categories. Administrators, or Admins, are users who manage the site and are responsible for adding, updating, and removing content. It's possible for site admins to restrict all or some videos on their site to be viewable only by registered members. Information needed to represent users is as follows:
+Users are members of a Broadcast Machine site, and fall into one of two categories. Administrators, or admins, are users who manage the site and are responsible for adding, updating, and removing content. It's possible for site admins to restrict all or some videos on their site to be viewable only by registered members. Information needed to represent users is as follows:
 
 \begin{description}
 \item{\textbf{username: } The nickname that a user logs in as.}
@@ -450,11 +436,11 @@ All settings, both for the Site and Database, are stored in bm2\_conf.php in Bro
 
 \section{View}
 The implementation of the presentation layer in Broadcast Machine is handled by Smarty, an open-source PHP templating engine. 
-Smarty was chosen because it provides users with an easy way to create dynamic webpages without requiring that template developers deal directly with application logic or PHP, while still allowing users to customize each dynamically-generated views. In Smarty, data is assigned to templates via variables, much lke in PHP. The View Controller assigns these variables before calling a template to be rendered, and Smarty automatically inserts the variables when rendering the template, fully removing the data presented from SQL or Controller logic.
+Smarty was chosen because it provides users with an easy way to create dynamic webpages without requiring that template developers deal directly with application logic or PHP, while still allowing users to customize each dynamically-generated views. In Smarty, data is assigned to templates via variables, much like in PHP. The View Controller assigns these variables before calling a template to be rendered, and Smarty automatically inserts the variables when rendering the template, fully removing the data presented from SQL or Controller logic.
 Smarty also allows for simple flow control and special variable modifiers.
 These variable modifiers allow the presentation layer to retain some control over how the data is filled, while keeping a suitable amount of abstraction.
 For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
-Smarty then takes in the templates for the presentation layer and compiles them into PHP. This provides the user interface, or the portion of the application that users see and interact with.
+Smarty then takes in the templates for the presentation layer and compiles them into PHP. The Smarty templates together and the View Controller are the components of the the user interface.
 
 \section{Summary}
 In this chapter we outlined the implementation of the software, as it followed from the design decisions. We used the 
@@ -474,42 +460,42 @@ Through these concise illustrations of the software we hope to convey the full r
 In this section we are going to take a look at how Broadcast Machine is initially set up on a user's server.
 The initial step is downloading the archive that contains the software.
 In the future, the software will be available through the project's home page.\footnote{\url{http://code.google.com/p/broadcastmachine}}
-After the user downloads the file, they would upload it to their server and unpack it into some directory that will be accessed by a web server.
+After the user downloads the file, they upload it to their server and unpack it into some directory that will be accessed by a web server.
 
 \subsection{Clean URLs}
-  \begin{figure}[h!]
+  \begin{figure}[htp]
   \begin{center}
   \includegraphics[width=150mm]{./images/setup1.png}
-  \caption{Broadcast Machine greeting page}
+  \caption{Broadcast Machine Greeting Page}
   \end{center}
   \end{figure}
-The first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
+Figure 5.1 shows the first screen that a user encounters when installing Broadcast Machine displays a simple greeting.
 In the background, the application is detecting the current server settings and is attempting to set up Apache's .htacces file, which allows for clean, user-friendly URLs using mod\_rewrite.
 A few settings such as the permissions on directories and the type of PHP modules installed are also detected.
 
 \subsection{Settings}
-\begin{figure}[h!]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup2.png}
 \caption{Site Settings Page}
 \end{center}
 \end{figure}
 
-The second setup step is where the basic information about the installation is entered.
+Figure 5.2 shows the second setup step, where the basic information about the installation is entered.
 We collect information such as the title and description of the site, as well as all of the information we need to connect to the database.
 
 \subsection{First User}
-\begin{figure}[h!]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup3.png}
 \caption{User creation}
 \end{center}
 \end{figure}
-On the third page, the user is prompted to enter in information for their first user.
+On the third page, the user is prompted to enter in information for their first user. This is shown by Figure 5.3.
 This user will be the \'superuser\' and has the right to add other users or to escalate user permissions.
 
 \subsection{Finished}
-\begin{figure}[h!]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/setup4.png}
 \caption{Finished page}
@@ -526,7 +512,7 @@ Most people immediately understand the goal of a channel as a collection of them
 Our software provides an easy way for users to create, categorize and manage large amounts of video.
 
 \subsection{All}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channelall.png}
 \end{center}
@@ -536,7 +522,7 @@ Our software provides an easy way for users to create, categorize and manage lar
 The default display for the channels section is to show a few recent channels and a small sampling of videos from each channel.
 
 \subsection{Show}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channelshow.png}
 \end{center}
@@ -548,7 +534,7 @@ This allows the user to take a more in depth look at the channel.
 In this view we display all of the information we have about the channel and then display a few of the recent videos.
 
 \subsection{RSS}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channelrss.png}
 \end{center}
@@ -561,7 +547,7 @@ These feeds are really important for integration with desktop clients such as Mi
 With this technology Broadcast Machine users can easily integrate their content with other services and clients.
 
 \subsection{Add}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channeladd.png}
 \end{center}
@@ -573,7 +559,7 @@ With this dialog, an administrator can add a new channel and associate a few pie
 We currently allow titles, descriptions, tags and icons to be attached to a channel.
 
 \subsection{Edit}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channeledit.png}
 \end{center}
@@ -593,7 +579,7 @@ They are the most basic component of this application.
 The video section of this software allows for all of the basic operations on a video.
 
 \subsection{All}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/videoall.png}
 \end{center}
@@ -604,7 +590,7 @@ This view displays a number of the recent videos that have been added to the dat
 This page serves as a good entry point into some of the videos that the user(s) have made available.
 
 \subsection{Show}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/videoshow.png}
 \end{center}
@@ -620,7 +606,7 @@ While the download portion of each video does not have a traditional HTML view, 
 This page redirects the user to a URI where the video file can be downloaded.
 
 \subsection{Add}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/videoadd.png}
 \end{center}
@@ -630,7 +616,7 @@ This page redirects the user to a URI where the video file can be downloaded.
 If a user is logged in and has sufficient privileges to add a video, they are presented with a form that allows them to fill in meta data.
 
 \subsection{Edit}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/videoedit.png}
 \end{center}
@@ -649,7 +635,7 @@ These words allow the viewer to more easily pick through the content that is bei
 Regardless of the channel or video, a viewer can immediately key in on some specific term and be able to retrieve a stream of content relevant to that term.
 
 \subsection{All}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/tagall.png}
 \end{center}
@@ -659,7 +645,7 @@ Regardless of the channel or video, a viewer can immediately key in on some spec
 This is raw tag output that allows users to see a bunch of the tags currently being used by channels and videos.
 
 \subsection{Show}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/tagshow.png}
 \end{center}
@@ -669,7 +655,7 @@ This is raw tag output that allows users to see a bunch of the tags currently be
 In this view we see a small sample of the channels and videos that have been associated with the given tag.
 
 \subsection{RSS}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/channelrss.png}
 \end{center}
@@ -683,7 +669,7 @@ The users controller allows users and administrators to manage their and other's
 This controller provides authentication mechanisms and a portal to certain amounts of user information.
 
 \subsection{Signup}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/usersignup.png}
 \end{center}
@@ -693,7 +679,7 @@ The super-user has control as to wether or not the signup pane is available to t
 Each person is required to have a username and a password and we would prefer if they associated an email address and a name.
 
 \subsection{Login}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/userlogin.png}
 \end{center}
@@ -710,7 +696,7 @@ The function is simple, it erases all of the session data currently set and aler
 The user is then redirected to the home page.
 
 \subsection{Show}
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[width=150mm]{./images/usershow.png}
 \end{center}
@@ -736,7 +722,7 @@ An extensive system of unit Tests were developed in order to rigorously test tha
 \section{Unit testing}
 In order to ensure that Broadcast Machine's controller logic was (and is) consistently functional amongst dozens of revisions made by multiple developers, we developed a comprehensive set of Unit Tests that execute every controller function and verify that they return expected results. In order to perform these tasks, we implemented tests using SimpleTest, a PHP Unit Testing framework. SimpleTest uses basic assertions to prove that a given function behaves correctly, and then generates a simple report with the number of test case successes or failures.
 
-\begin{figure}[h]
+\begin{figure}[htp]
 \begin{center}
 \includegraphics[scale=0.45]{./images/unittest.png}
 \end{center}
@@ -778,7 +764,7 @@ asked him to follow links and describe what his exceptions for the pages were an
 content of our pages. 
 It was valuable to hear that Mike's expectations for the views were somewhat different than what we had. 
 There were a few specific UI suggestions that he had, but most important suggestion on how to visually present our data.
-More broadly, Mike gave us a feel for where broadcast machine fits into the landscape of Internet video publishing. 
+More broadly, Mike gave us a feel for where Broadcast Machine fits into the landscape of Internet video publishing. 
 
 He seemed to be hopeful about our project and it might be a good fit for his needs.
 
