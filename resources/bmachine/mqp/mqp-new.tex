@@ -1,4 +1,5 @@
 \documentclass[a4paper,12pt]{report}
+\newcommand{\scare}[1]{`#1'} 
 
 \title{Broadcast Machine}
 \author{Christian Bryan, Greg Opperman, Drew Wilson}
@@ -106,7 +107,7 @@ The software is free in the sense that there are no conditions in distributing o
 
 Without free software, the Internet could not exist as a democratic medium.
 Proprietary (meaning closed-source) software limits what users can or can't do with it, and does not give users the ability to modify code.
-With proprietary software, users cannot 'own' software, even if they purchase it.
+With proprietary software, users cannot \scare{own} software, even if they purchase it.
 Instead, users pay for the privilege of using it.
 Under this model, the software is less accessible and less usable (as users cannot fix problems on their own, and must rely on proprietary developer support).
 On top of this, other developers cannot learn from existing code, or base new work on it without paying costly licensing fees.\footnote{Ibid} 
@@ -292,7 +293,7 @@ As shown by Figure 4.3, the ViewControllers are responsible for taking in an arr
 
 \textbf{[0] = channel, [1] = cowboys, [2] = edit} \\
 
-The Channel Controller, in the dispatch() method, assumes that 'cowboys' is the name of the channel, and invokes the edit method with 'cowboys' as the target channel. There are five classes that implement the ViewController interface: the Setup, Channel, Video, Tag, and User Controllers. \\
+The Channel Controller, in the dispatch() method, assumes that \scare{cowboys} is the name of the channel, and invokes the edit method with \scare{cowboys} as the target channel. There are five classes that implement the ViewController interface: the Setup, Channel, Video, Tag, and User Controllers. \\
 
 \subsubsection{SetupController}
 The \textbf{SetupController} is responsible for completing a Broadcast Machine installation, as well managing site  and database settings after BM has been set up. The SetupController has the following methods (corresponding URL parameters in parentheses):
@@ -423,7 +424,7 @@ Site settings pertain to global information about the specific Broadcast Machine
 \item{\textbf{site\_iconurl: } A link to the logo of the site.} \\
 \end{description}
 
-Database connection settings are specific to the Database Management System being utilized. As such, each Database Controller is responsible for knowing which variables are set in the settings file and including them. By convention, all database settings are prefixed with 'cf' and are in the form \$cf\_varname. An example of typical database settings (in this case for the MySQLController): \\
+Database connection settings are specific to the Database Management System being utilized. As such, each Database Controller is responsible for knowing which variables are set in the settings file and including them. By convention, all database settings are prefixed with \scare{cf} and are in the form \$cf\_varname. An example of typical database settings (in this case for the MySQLController): \\
 
 \begin{description}
 \item{\textbf{cf\_hostname: } The URI through which the database can be reached.}
@@ -492,7 +493,7 @@ We collect information such as the title and description of the site, as well as
 \end{center}
 \end{figure}
 On the third page, the user is prompted to enter in information for their first user. This is shown by Figure 5.3.
-This user will be the 'superuser' and has the right to add other users or to escalate user permissions.
+This user will be the \scare{superuser} and has the right to add other users or to escalate user permissions.
 
 \subsection{Finished}
 \begin{figure}[htp]
@@ -562,7 +563,7 @@ We currently allow titles, descriptions, tags and icons to be attached to a chan
 \begin{center}
 \includegraphics[width=150mm]{./images/channeledit.png}
 \end{center}
-\caption{Editing a channel.}
+\caption{Editing a Channel}
 \end{figure}
 
 The channel edit form (shown in Figure 5.9) is much like that of the add dialog, but this form comes pre-populated with the data from an existing channel.
@@ -585,7 +586,7 @@ The video section of this software allows for all of the basic operations on a v
 \caption{All Available Videos}
 \end{figure}
 
-Figure 5.10 shows the video/all view, which displays a number of the recent videos that have been added to the database.
+Figure 5.10 shows the all videos view, which displays a number of the recent videos that have been added to the database.
 This page serves as a good entry point into some of the videos that the user(s) have made available.
 
 \subsection{Show}
@@ -651,7 +652,7 @@ As shown in Figure 5.14, this is raw tag output that allows users to see a bunch
 \caption{Showing a Tag}
 \end{figure}
 
-In this view we see a small sample of the channels and videos that have been associated with the given tag, as you can see in Figure 5.15.
+As you can see in Figure 5.15, in this view there is a small sample of the channels and videos that have been associated with the given tag.
 
 \subsection{RSS}
 \begin{figure}[htp]
@@ -674,7 +675,7 @@ This controller provides authentication mechanisms and a portal to certain amoun
 \end{center}
 \caption{Signing Up}
 \end{figure}
-As you can see in Figure 5.16, the super-user has control as to whether or not the signup pane is available to the public, but this dialog adds a simple way for users and administrators to add new accounts.
+As you can see in Figure 5.17, the super-user has control as to whether or not the signup pane is available to the public, but this dialog adds a simple way for users and administrators to add new accounts.
 Each person is required to have a username and a password and we would prefer if they associated an email address and a name.
 
 \subsection{Login}
@@ -682,11 +683,11 @@ Each person is required to have a username and a password and we would prefer if
 \begin{center}
 \includegraphics[width=150mm]{./images/userlogin.png}
 \end{center}
-\caption{Logging in.}
+\caption{Logging In}
 \end{figure}
-At this page the current user is prompted for their credentials.
+On the login page, as shown in Figure 5.18, the current user is prompted for their credentials.
 Their username and password are requested and then authenticated.
-If the credentials are correct, the user is marked as \'trusted\'.
+If the credentials are correct, the user is marked as \scare{trusted}.
 If not, then no mark is associated.
 
 \subsection{Logout}
@@ -699,9 +700,9 @@ The user is then redirected to the home page.
 \begin{center}
 \includegraphics[width=150mm]{./images/usershow.png}
 \end{center}
-\caption{Showing a user.}
+\caption{Showing a User}
 \end{figure}
-At this point users are given the chance to view a single user and all of the data that is associated with that user.
+In Figure 5.19 you can see that at this point users are given the chance to view a single user and all of the data that is associated with that user.
 
 \section{Summary}
 In this chapter we showed how the software operates in a real-life situation. We showed the steps a user would take to install and 
@@ -818,7 +819,7 @@ Through the use of these methods we would be able to allow administrators to edi
 All of the necessary information changes hands in the background.
 This feature would be a bit harder to implement.
 Many changes would be needed to properly interpret the new flow of information, and integrating these client-side programs would likely take a long time.
-The benefit would be increased ease of use; Broadcast Machine would 'feel' much like a desktop application.
+The benefit would be increased ease of use; Broadcast Machine would \scare{feel} much like a desktop application.
 
 All of these features are certainly within reach.
 The benefits to the users afforded by their implementation versus the effort required is certainly reasonable.
