@@ -244,8 +244,14 @@ mind. It is essential that Broadcast Machine be compatible with the leading comm
 
 \chapter{Implementation}
 
+\section{Introduction}
+Based on the design requirements is is clear that we need an architecture for abstracting the code into multiple layers. In this chapter 
+we discuss how we implemented the system. We explain the Model-View-Controller architecture and how we applied it to 
+Broadcast Machine. We discuss the programming language chosen and the expected hosting environment. 
+
 \section{Model-View-Controller}
-Based on the aforementioned design requirements, it became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}.
+It became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to 
+be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}.
 
 
 \begin{figure}[h]
@@ -447,6 +453,12 @@ Smarty also allows for simple flow control and special variable modifiers.
 These variable modifiers allow the presentation layer to retain some control over how the data is filled, while keeping a suitable amount of abstraction.
 For example, they can be used to capitalize strings, alternate colors of rows, or escape special characters.
 Smarty then takes in the templates for the presentation layer and compiles them into PHP. This provides the user interface, or the portion of the application that users see and interact with.
+
+\section{Summary}
+In this chapter we outlined the implementation of the software, as it followed from the design decisions. We used the 
+Model-View-Controller architecture for the system because it provided us with a consistent framework. The framework also allowed us to 
+abstract the different layers of the software in a way that was consistent with the design goals. Although there were a number of 
+languages and tools available for creating our software, we decided on PHP because it was the most compatible with popular web hosts.
 
 \chapter{System in Action}
 \section{Overview}
