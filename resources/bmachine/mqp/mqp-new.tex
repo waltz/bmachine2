@@ -37,7 +37,7 @@ Drew Wilson\\
 \today\\
 \vspace*{10mm}
 \begin{flushleft}
-  1. internet\\
+  1. Internet\\
   2. video\\
   3. php\\
 \end{flushleft}
@@ -54,7 +54,8 @@ Professor Craig E. Wills\\
 % TODO: One paragraph describing the project.
 % FOR: CJ
 % NOTE: It's gotta be 80 words or less.
-With the prevalence of high-speed internet and low-cost production equipment, internet video publishing has rapidly come into the mainstream.
+With the prevalence of high-speed Internet and low-cost production equipment, Internet video publishing has rapidly come into the 
+mainstream.
 Broadcast Machine was an open-source application designed to allow Video producers to easily publish their work on the web, but was plagued with several problems.
 Through careful evaluation and the use of popular software development techniques, we successfully rebuilt Broadcast Machine to be stable, scalable, maintainable and usable.
 
@@ -77,7 +78,8 @@ Through careful evaluation and the use of popular software development technique
 \chapter{Introduction}
 % TODO: Describe the project goals and summarize the topics covered.
 % FOR: CJ
-With the prevalence of high-speed internet and low-cost production equipment, internet video publishing has rapidly come into the mainstream. Independent video publishers now have the ability to create professional videos and reach thousands of viewers with consumer-level equipment and little technical skill. There are several ways in which a video producer can publish videos online. Services like Youtube and Blip.tv offer free hosting for videos, and many content management systems offer plugins for publishers to distribute video files.
+With the prevalence of high-speed Internet and low-cost production equipment, Internet video publishing has rapidly come into the 
+mainstream. Independent video publishers now have the ability to create professional videos and reach thousands of viewers with consumer-level equipment and little technical skill. There are several ways in which a video producer can publish videos online. Services like Youtube and Blip.tv offer free hosting for videos, and many content management systems offer plugins for publishers to distribute video files.
 
 Created by the Participatory Culture Foundation, Broadcast Machine sought to fill the gap between centralized video hosting services and tacked-on content management system plugins by offering a complete video publishing solution for independent media producers. However, Broadcast Machine was plagued by several problems, and development was abandoned.
 
@@ -106,7 +108,8 @@ The importance of this software to the Participatory Culture Foundation should b
 As this foundation tries to promote freedom for content producers, the majority of its competitors are attempting the opposite.
 Unfortunately this software has not thrived.
 Due to decisions made early in the software's development and an lack of funds for its re-development Broadcast Machine has fallen by the wayside.
-Our group has come to see Broadcast Machine as important player in the arena of internet video and is dedicated to ensuring that it becomes viable again.
+Our group has come to see Broadcast Machine as important player in the arena of Internet video and is dedicated to ensuring that it 
+becomes viable again.
 
 \section{Open-Source Software}
 Open source software is an important part of the movement to democratize the media and Internet. 
@@ -127,11 +130,12 @@ Open-source software aims to build a cultural community of developers who can us
 This culture encourages technological progress in ways that competitive, closed-source software does not. 
 
 \section{The Current State of Internet Video}
-As bandwidth and storage become increasingly cheaper, the prevalence of video on the internet has sharply risen over the past few years. 
+As bandwidth and storage become increasingly cheaper, the prevalence of video on the Internet has sharply risen over the past few years. 
 In August 2006 alone, the number of people in the U.S who streamed video 
-via the internet totaled over 110 million people, which is comparable 
+via the Internet totaled over 110 million people, which is comparable 
 with the number of households that watch traditional television.\footnote{\url{http://paul.kedrosky.com/archives/2006/10/19/fun\_with\_intern.html}}
-The internet has allowed independent video producers a variety of platforms by which to publish and share their work. These platforms come in one of two forms: video hosting services, which offer a centralized location from which users can upload and share videos, and Content Management Systems (CMS), where users host and maintain their own collections of videos.
+The Internet has allowed independent video producers a variety of platforms by which to publish and share their work. These platforms come 
+in one of two forms: video hosting services, which offer a centralized location from which users can upload and share videos, and Content Management Systems (CMS), where users host and maintain their own collections of videos.
 
 \subsection{Video Hosting Services}
 Video hosting services are sites that offer free hosting and sharing of video files that users upload.
@@ -158,14 +162,15 @@ Thousands of popular sites use Drupal\footnote{\url{http://drupalsites.com}}, in
 \subsection{Wordpress}
 Wordpress one of the most popular weblogging applications, or a CMS designed specifically for posting text and image content by a small group of users.
 Wordpress is built with PHP 4.2 and uses MySQL 3.23 as its database back-end. 
-It was created with the vision of creating a powerful GPL-licensed internet publishing platform based on open standards. 
+It was created with the vision of creating a powerful GPL-licensed Internet publishing platform based on open standards. 
 The first version was released in 2001. 
 Wordpress is blogging software designed to be installed on an individual's web host, either their own computer connected to a broadband connection or a commercial web host like Dreamhost or 1and1. Worpress also offers hosted installations of its own software on their website.\footnote{\url{http://wordpress.org}}
 
 Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There is a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
 \subsection {Broadcast Machine}
-Broadcast Machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}). Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered internet video platform, Broadcast Machine developed a strong following of users\footnote{A Google search of the phrase \textit{Powered by Broadcast Machine} returns approximately 6,700 results.}
+Broadcast Machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, 
+it acted as video blogging software, where users could organize videos into channels. Users could also subscribe to these channels using any RSS reader or desktop video software, such as Miro (\url{http://getmiro.com}). Broadcast Machine targeted users with little technological experience to offer a simple, easy-to-use user experience, and promoted alongside Miro (formerly Democracy Player) as part of a multi-tiered Internet video platform, Broadcast Machine developed a strong following of users\footnote{A Google search of the phrase \textit{Powered by Broadcast Machine} returns approximately 6,700 results.}
 
 Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing.}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconcilable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
@@ -696,10 +701,11 @@ Although convenient for basic testing, Simpletest has several limitations that p
 \section{Feedback}
 
 In order to test Broadcast Machine's layout and usability, we relied on user testing and feedback. On February 23, 2008 we met with Mike Benedetti, the webmaster from Worcester's Community Cable Access (WCCA) Channel 
-13. Mike is a part of the internet video publishing community, as a member of Worcester Indymedia and as an independent journalist. Mike publishes the Snow Ghost Community Show\footnote{\url{http://www.wccatv.com/snowghost}} online for WCCA.
+13. Mike is a part of the Internet video publishing community, as a member of Worcester Indymedia and as an independent journalist. Mike 
+publishes the Snow Ghost Community Show\footnote{\url{http://www.wccatv.com/snowghost}} online for WCCA.
 We introduced Mike to Broadcast Machine, and asked for some feedback on the user experience.
 Our major goal was to determine if his expectations for the interface meshed well with the existing feel of the application.
-Because of his experience with internet video publishing, he was in a unique position to provide feedback on Broadcast Machine.
+Because of his experience with Internet video publishing, he was in a unique position to provide feedback on Broadcast Machine.
 
 WCCA has recently begun putting all of their video content online, using Drupal with a number of modules as their content management system. 
 Mike explained that there were a number of drawbacks with his current setup. 
@@ -789,10 +795,11 @@ Its life as an open source project and the addition of other contributors should
 \chapter{Conclusion}
 Internet video is one of the fastest growing information mediums in society today. Advances in communications technology has allowed video publishers to share their work with thousands across the world. Several centralized hosting services currently exist for hosting videos, but none give publishers full control over how their work is presented and distributed. Broadcast Machine, an abandoned open-source project by the Participatory Culture Foundation, attempted to fill this niche, but ultimately failed due to instability.
 
-By examining the architecture and downfalls of the previous Broadcast Machine, we were able to thoughtfully design a stable successor that enables video producers to easily publish their work on the internet. We have created a robust architecture that is easy to use for publishers, viewers, designers, and developers alike. The new Broadcast Machine allows publishers to share high quality video on their own terms, and without special technical knowledge.
+By examining the architecture and downfalls of the previous Broadcast Machine, we were able to thoughtfully design a stable successor that 
+enables video producers to easily publish their work on the Internet. We have created a robust architecture that is easy to use for publishers, viewers, designers, and developers alike. The new Broadcast Machine allows publishers to share high quality video on their own terms, and without special technical knowledge.
 
 We hope that this new version of Broadcast Machine enjoys the same amount of popularity as its predecessor.
-Our team feels that this software can be a useful tool and has the possibility to change the current environment for internet video.
+Our team feels that this software can be a useful tool and has the possibility to change the current environment for Internet video.
 As an open source project, we hope our continued dedication will attract additional developers so that this software may progress long after this project is over.
 
 \appendix
