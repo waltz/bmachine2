@@ -462,7 +462,8 @@ abstract the different layers of the software in a way that was consistent with 
 languages and tools available for creating our software, we decided on PHP because it was the most compatible with popular web hosts.
 
 \chapter{System in Action}
-\section{Overview}
+
+\section{Introduction}
 This section details how installation and use of Broadcast Machine works, with a pictorial walkthrough of the various views and pages of Broadcast Machine. 
 Through these concise illustrations of the software we hope to convey the full range of Broadcast Machine's features.
 
@@ -713,9 +714,21 @@ The user is then redirected to the home page.
 \caption{Showing a user.}
 \end{figure}
 At this point users are given the chance to view a single user and all of the data that is associated with that user.
+
+\section{Summary}
+In this chapter we showed how the software system operates in a real-life situation. We showed the steps a user would take to install and 
+configure their install of Broadcast Machine. 
+
 \chapter{Results}
 
-Quality Assurance for Broadcast Machine was an ongoing process that began very early on in our development cycles, in order to provide empirical benchmarks for code and layout correctness. An extensive system of unit Tests were developed in order to rigorously test that all controller logic and model interactions in Broadcast Machine, while we later relied on user testing in order to verify that the presentation logic was also sound.
+\section{Introduction}
+Broadcast Machine has many components that work together to create a rich user experience. It is important to ensure that everything is 
+working as expected, both in terms of functions as we--the developers--had planned and how typical users would expect the system to 
+function.
+Quality Assurance for Broadcast Machine was an ongoing process that began very 
+early on in our development cycles, in order to provide 
+empirical benchmarks for code and layout correctness. 
+An extensive system of unit Tests were developed in order to rigorously test that all controller logic and model interactions in Broadcast Machine, while we later relied on user testing in order to verify that the presentation logic was also sound.
 
 \section{Unit testing}
 In order to ensure that Broadcast Machine's controller logic was (and is) consistently functional amongst dozens of revisions made by multiple developers, we developed a comprehensive set of Unit Tests that execute every controller function and verify that they return expected results. In order to perform these tasks, we implemented tests using SimpleTest, a PHP Unit Testing framework. SimpleTest uses basic assertions to prove that a given function behaves correctly, and then generates a simple report with the number of test case successes or failures.
