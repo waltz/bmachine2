@@ -245,10 +245,11 @@ mind. It is essential that Broadcast Machine be compatible with the leading comm
 \chapter{Implementation}
 
 \section{Introduction}
-Based on the design requirements is is clear that we need an architecture for abstracting the code into multiple layers. In this chapter 
+Based on the design requirements it is clear that we need an architecture for abstracting the code into multiple layers. In this chapter 
 we discuss how we implemented the system. We explain the Model-View-Controller architecture and how we applied it to 
 Broadcast Machine. We discuss the programming language chosen and the expected hosting environment. This chapter goes into detail about 
-the various controllers, the database model and the views. 
+the various controllers, the database model, and the views of the system. This chapter deals with the specifics of the code and 
+implementation. 
 
 \section{Model-View-Controller}
 It became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to 
@@ -459,7 +460,9 @@ Smarty then takes in the templates for the presentation layer and compiles them 
 In this chapter we outlined the implementation of the software, as it followed from the design decisions. We used the 
 Model-View-Controller architecture for the system because it provided us with a consistent framework. The framework also allowed us to 
 abstract the different layers of the software in a way that was consistent with the design goals. Although there were a number of 
-languages and tools available for creating our software, we decided on PHP because it was the most compatible with popular web hosts.
+languages and tools available for creating our software, we decided on PHP because it was the most compatible with popular web hosts. This 
+section also included detailed descriptions of the controllers (tag controller, the user controller, etc), their associated functions and 
+their associated views. In the next chapter we will walk through the system and show it in action, from a user's perspective. 
 
 \chapter{System in Action}
 
