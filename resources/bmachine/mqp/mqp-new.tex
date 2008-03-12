@@ -210,31 +210,24 @@ While impossible to guarantee compatibility with all web server configurations, 
 This includes any Apache web server with a minimal amount of installed modules, and most major hosting services (Dreamhost, 1And1, etc). 
 
 \section{Summary}
-In this chapter we discussed the target audience for the software and the design requirements of the system. The target audience for 
-Broadcast Machine is primarily non-technical users who have experience with 
-video editting, but who are not 
-necessarily familiar with web-programming or web-design. As such the program needs to be designed with those people in mind.
-Many other content management systems fail in this regard. Despite the need for a simple interface, the system needs to be 
-customizable. For this reason a robust theming engine is neccesary. Since the each install of Broadcast Machine is seperate and the system 
-is not central maintained, it is also important 
+The target audience for Broadcast Machine is primarily non-technical users who have experience with video editing, but who are not necessarily familiar with web-programming or web-design. 
+By evaluating the needs of this group, we were able to come up with a broad set of design requirements for the software.
+Despite the need for a simple interface, the system needs to be customizable. 
+For this reason,  a robust templating engine is necessary to allow users to change the layout of BM without affecting other vital parts of the software. 
+Since the each install of Broadcast Machine is separate and the system is not central maintained, it is also important 
 to have a consistent code structure that allows for third party developers and more technical users to write extensions. 
 Flexibility and compatibility are two additional requirements of the system. The software must be able to 
-have components removed or 
-replaced without compromising the entire code base. Finally, the system needs to be designed with the most common web host platforms in 
-mind. It is essential that Broadcast Machine be compatible with the leading commercial web hosts.
+have components removed or replaced without compromising the entire code base. Finally, the system needs to be designed with the most common web host platforms in mind. It is essential that Broadcast Machine be compatible with most web hosting services. These requirements have informed our decisions when implementing the software.
 
 \chapter{Implementation}
 
 \section{Introduction}
-Based on the design requirements it is clear that we need an architecture for abstracting the code into multiple layers. In this chapter 
-we discuss how we implemented the system. We explain the Model-View-Controller architecture and how we applied it to 
-Broadcast Machine. We discuss the programming language chosen and the expected hosting environment. This chapter goes into detail about 
-the various controllers, the database model, and the views of the system. This chapter deals with the specifics of the code and 
-implementation. 
+Based on the aforementioned design requirements, it is clear that Broadcast Machine needs an architecture for abstracting the code into multiple layers. In this chapter, we discuss the implementation of Broadcast Machine. We explain the Model-View-Controller architecture and how it was applied in order to satisfy the requirements for the application. We discuss the programming languages and technologies utilized. This chapter goes into detail about 
+the various controllers, the database model, and the templating engine. 
 
 \section{Model-View-Controller}
 It became clear that the program architecture needed to be modularized into three separate parts. First, the presentation layer needed to 
-be separated from program logic in order to create a theming system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}, as shown in Figure 4.1.
+be separated from program logic in order to create a templating system by which users with basic HTML and CSS knowledge could customize the style of their site. In order to make the program both extensible and flexible for developers looking to add onto or modify existing Broadcast Machine code, it became necessary to further abstract data storage to be independent of both the presentation layer and the rest of the program architecture. This separates the program into three layers, following the Model-View-Controller design pattern, or MVC\footnote{\url{http://www.martinfowler.com/eaaDev/uiArchs.html}}, as shown in Figure 4.1.
 
 
 \begin{figure}[htp]
@@ -438,12 +431,7 @@ For example, they can be used to capitalize strings, alternate colors of rows, o
 Smarty then takes in the templates for the presentation layer and compiles them into PHP. The Smarty templates together and the View Controller are the components of the the user interface.
 
 \section{Summary}
-In this chapter we outlined the implementation of the software, as it followed from the design decisions. We used the 
-Model-View-Controller architecture for the system because it provided us with a consistent framework. The framework also allowed us to 
-abstract the different layers of the software in a way that was consistent with the design goals. Although there were a number of 
-languages and tools available for creating our software, we decided on PHP because it was the most compatible with popular web hosts. This 
-section also included detailed descriptions of the controllers (tag controller, the user controller, etc), their associated functions and 
-their associated views. In the next chapter we will walk through the system and show it in action, from a user's perspective. 
+In keeping with the requirements for a successful implementation of Broadcast Machine, we utilized A modified Model-View-Controller architecture to abstract the application into three main parts. With the bulk of the application logic written in PHP, a widely available web scripting language, A MySQL database was chosen to represent the Model layer. In order to implement a customizable templating engine, we incorporated Smarty, and open-source theme plug-in. In the next chapter we will walk through the system and show it in action, from a user's perspective. 
 
 \chapter{System in Action}
 
