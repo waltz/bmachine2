@@ -19,7 +19,7 @@
 Project Number: MQP-CEW-0702\\
 \end{flushright}
 \vspace*{40mm}
-Broadcast Machine\\
+Content Management System for Online Video Publishing\\
 A Major Qualifying Project Report:\\
 submitted to the Faculty\\
 of the\\
@@ -53,9 +53,6 @@ Professor Craig E. Wills\\
 \end{titlepage}
 
 \chapter*{Abstract}
-% TODO: One paragraph describing the project.
-% FOR: CJ
-% NOTE: It's gotta be 80 words or less.
 With the prevalence of high-speed Internet and low-cost production equipment, Internet video publishing has rapidly come into the 
 mainstream.
 The original Broadcast Machine was an open-source application designed to allow Video producers to easily publish their work on the web, but was plagued with several problems.
@@ -67,16 +64,15 @@ Through careful evaluation and the use of popular software development technique
 % TODO: Describe the project goals and summarize the topics covered.
 % FOR: CJ
 With the prevalence of high-speed Internet and low-cost production equipment, Internet video publishing has rapidly come into the 
-mainstream. Independent video publishers now have the ability to create professional videos and reach thousands of viewers with consumer-level equipment and little technical skill. There are several ways in which a video producer can publish videos online. Services like Youtube and Blip.tv offer free hosting for videos, and many content management systems offer plugins for publishers to distribute video files.
+mainstream. Independent video publishers now have the ability to create professional videos and reach thousands of viewers with consumer-level equipment and little technical skill. There are several ways in which a video producer can publish videos online. Services like Youtube and Blip.tv offer free hosting for videos, and many content management systems offer plug-ins for publishers to distribute video files.
 
-Created by the Participatory Culture Foundation, Broadcast Machine sought to fill the gap between centralized video hosting services and tacked-on content management system plugins by offering a complete video publishing solution for independent media producers. However, Broadcast Machine was plagued by several problems, and development was abandoned.
+Created by the Participatory Culture Foundation, Broadcast Machine sought to fill the gap between centralized video hosting services and tacked-on content management system plug-ins by offering a complete video publishing solution for independent media producers. However, Broadcast Machine was plagued by several problems, and development was abandoned.
 
 The main goal of this project was to take the ideas that had driven the development of the first version of Broadcast Machine and create a piece of software that was more usable and maintainable.
 The original code base had been abandoned because the maintainers felt that it was taking up to much time and that any further work was unlikely to be fruitful.
 The first part of this project was to identify the problems that the previous developers were running into and what their underlying causes were.
 After in-depth interviews with the previous developers and an extensive review of the existing code,\footnote{For documentation on the previous Broadcast Machine, refer to Appendix A.} we identified problems with the previous Broadcast Machine and created a plan to prevent them in the next version.
 
-\section{Topics}
 This report details the methodologies and technologies that were used in the re-imagining of the Broadcast Machine package.
 In Chapter 2 we will introduce the background of the package and its original maintainers as well as outline the deficiencies that were seen to impede the development of the original implementation.
 In Chapter 3 there is a detailed discussion of the requirements necessary to prevent these problems from reoccurring, with each requirement analyzed and discussed in detail.
@@ -87,19 +83,17 @@ Finally, in Chapter 6, our group discusses the results of the project, as well a
 \chapter{Background}
 
 \section{Introduction}
-% TODO: A good overview of the topics covered in the Background chapter. 
-% FOR: CJ
-In this section we take a look at the history of Broadcast Machine.
+
+In this section we take a look at the history of Broadcast Machine and other video publishing utilities.
 Our goal is to provide the reader with a framework to understand the reasons for this software's existence and the environment in which it is being built.
-The importance of this software to the Participatory Culture Foundation should be noted.
-As this foundation tries to promote freedom for content producers, the majority of its competitors are attempting the opposite.
-Unfortunately this software has not thrived.
-Due to decisions made early in the software's development and an lack of funds for its re-development Broadcast Machine has fallen by the wayside.
+As many video publishing applications push for further centralization and less transparency, Broadcast Machine has always attempted to embody the ideals of the Open-Source Software movement.
+Due to decisions made early in the software's development and lack of funds for continuous development,  Broadcast Machine has fallen to the wayside.
 Our group has come to see Broadcast Machine as important player in the arena of Internet video and is dedicated to ensuring that it 
 becomes viable again.
 
 \section{Open-Source Software}
 Open source software is an important part of the movement to democratize the media and Internet. 
+The Participatory Culture Foundation (PCF), the original creator of Broadcast Machine, has dedicated their work to the democratization of the Internet through Open-Source and Free Software ideals.
 This common goal is what ties together PCF's mission with that of the Free Software Movement. 
 The goal of the Free Software Movement is to create software to increase the freedom of the public in general.\footnote{Richard Stallman, Why Software Should Be Free \url{http://www.gnu.org/philosophy/shouldbefree.html}}
 Open-Source Software accomplishes this through its transparency, which inspires community development of software, and gives users the freedom to modify the software to suit their needs.
@@ -153,7 +147,7 @@ It was created with the vision of creating a powerful GPL-licensed Internet publ
 The first version was released in 2001. 
 Wordpress is blogging software designed to be installed on an individual's web host, either their own computer connected to a broadband connection or a commercial web host like Dreamhost or 1and1. Wordpress also offers hosted installations of its own software on their website.\footnote{\url{http://wordpress.org}}
 
-Wordpress and Drupal both offer plugins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There is a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plugins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
+Wordpress and Drupal both offer plug-ins for video publishing. However, there are currently no CMSes that directly address the needs of online video producers. There is a clear need for an easy to use, open-source, alternative to centralized video hosting service or complicated CMS plug-ins. With this in mind, the Participatory Culture Foundation (PCF), a Worcester-based non-profit, created Broadcast machine, an open-source video publishing platform.
 
 \subsection {Broadcast Machine}
 Broadcast Machine is a content management system for video publishing designed to deliver videos via several different methods. Primarily, 
@@ -162,10 +156,10 @@ it acted as video blogging software, where users could organize videos into chan
 Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing.}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconcilable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
 \section{Summary}
-In this chapter we discussed the relavance of open source and free software. It is essential for the movement to democratize
+In this chapter we discussed the relevance of open source and free software. It is essential for the movement to democratize
 media to include open source software. We also gave an overview of the current state of Internet video. There was a description of some
 of the most common web hosting services and a number of content management systems that somewhat address the needs of video content
-producers. As we have shown it is neccesary for us to design a system that better addresses the specific needs of video content producers.
+producers. As we have shown it is necessary for us to design a system that better addresses the specific needs of video content producers.
 
 \chapter{Design}
 
