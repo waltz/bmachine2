@@ -693,8 +693,7 @@ configure their install of Broadcast Machine.
 \chapter{Results}
 
 \section{Introduction}
-Broadcast Machine has many components that work together to create a rich user experience. It is important to ensure that everything is 
-working as expected, both in terms of functions as we--the developers--had planned and how typical users would expect the system to 
+Broadcast Machine has many components that work together to create a rich user experience. It is important to ensure that everything works as expected, both in terms of functions as we--the developers--had planned and how typical users would expect the system to 
 function.
 Quality Assurance for Broadcast Machine was an ongoing process that began early on in our development cycles, in order to provide 
 empirical benchmarks for code and layout correctness. 
@@ -765,8 +764,9 @@ However, he also noted that he was unable to get BitTorrent support to work with
 Mike suggested we add some sort of BitTorrent integration.
 While the current Broadcast Machine does allow users to upload or link to .torrent files and share them, we identified the need for an integrated BitTorrent server in order to automatically seed, or upload videos. We had previously considered adding this feature. However, we found that most hosting providers do not allow server-side sharing of torrents in any regard. Due to this constraint, we decided to abandon implementation of this feature, but are now reconsidering it for advanced users running their own web servers.
 
-Meeting with Mike Benedetti gave us a good perspective on how video publishers would react to Broadcast Machine. 
-We did not incorporate all of his suggestions, but we did make a number of changes based on his ideas. 
+\section{Summary}
+Our team utilized a number of metrics in order to assure that Broadcast Machine worked well. Unit tests insured that all of the application and model logic worked properly, while user feedback from Mike Benedetti gave us a good perspective on how video publishers would react to Broadcast Machine. 
+While we did not incorporate all of his suggestions, we did make a number of changes based on his ideas. 
 It was encouraging to hear that Broadcast Machine could grow to fill a vital niche in the video publishing field, and might even be utilized by WCCA in the future.
 
 \chapter{Future Work}
@@ -818,7 +818,9 @@ We hope that this new version of Broadcast Machine enjoys the same amount of pop
 Our team feels that this software can be a useful tool and has the possibility to change the current environment for Internet video.
 As an open source project, we hope our continued dedication will attract additional developers so that this software may progress long after this project is over.
 
-\appendix
+\chapter{Acknowledgements}
+We would like to acknowledge several people for their contributions to this project. First, we would like to thank the Participatory Culture Foundation, specifically Nick Nassar and Nicholas Reville, not only for allowing us to continue to develop Broadcast Machine, but for their support and direction in the early stages of the project. We would also like to acknowledge Professor Craig Wills for his role in advising the project. Thanks to the developers of Smarty, PHP, MySQL, and Apache, for the tools we needed to complete this project.
+
 \chapter{Former Broadcast Machine Documentation}
 
 \section{Data Model}
