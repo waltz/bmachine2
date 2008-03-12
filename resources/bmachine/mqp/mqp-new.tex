@@ -156,10 +156,13 @@ it acted as video blogging software, where users could organize videos into chan
 Despite its popularity, Broadcast Machine was plagued by a number of problems due to poor architectural decisions and sloppy programming practices\footnote{PCF's bug tracker reports 67 serious, unfixed bugs as of the time of this writing.}. The original Broadcast Machine stored data in one of two ways: a MySQL database or a flat-file. However, model-layer logic was poorly abstracted from the rest of the application, and small differences between the two data-layer implementations caused several irreconcilable bugs. Since the program relied on a complicated and difficult to understand architecture, tracking down and fixing these problems became nearly impossible. Poor documentation, especially concerning Broadcast Machine's complex data structures made it especially difficult for others developers to work on the project. Due to the aforementioned issues and lack of funding, development of Broadcast Machine was abandoned in 2006, to the dismay of its dedicated users.
 
 \section{Summary}
-In this chapter we discussed the relevance of open source and free software. It is essential for the movement to democratize
-media to include open source software. We also gave an overview of the current state of Internet video. There was a description of some
-of the most common web hosting services and a number of content management systems that somewhat address the needs of video content
-producers. As we have shown it is necessary for us to design a system that better addresses the specific needs of video content producers.
+In this chapter we take a look at the factors that have led to the work on this project.
+We make sure to discuss the importance of open source and the role that this plays in the the success of this software.
+We then go on to talk about other solutions which aim to solve the same problems that Broadcast Machine attempts to address.
+There is a good comparison between these proprietary systems and the open solution that we have provided.
+In spite of the positive light in which the initial version is presented, we make a case that Broadcast Machine is buggy and unmaintainable.
+Due to the lack of development and the importance of this software, we felt that there was a need to continue work on this package.
+
 
 \chapter{Design}
 
@@ -241,7 +244,8 @@ In a pure Model-View-Controller architecture, all data is represented by the Mod
 \section{Languages and Tools}
 There are several frameworks for implementing Model-View-Controller web applications, currently the most popular of which is Ruby on Rails. Ruby on Rails provides advanced features that allow automatic, rapid-prototyping of MVC applications, and object-relational mapping for controller interaction with the model layer, meaning that all data is automatically assigned to a class object based its structure.\footnote{\url{http://rubyonrails.org}} However, as a relatively new language, Ruby on Rails has not been as widely adopted as other, more established languages. Few basic web hosting plans support Ruby on Rails. 
 
-To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{\url{http://php.net}} running under Apache web servers\footnote{\url{http://apache.org}}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.\footnote{\url{http://news.netcraft.com/archives/2007/01/05/january\_2007\_web\_server\_survey.html}}
+To satisfy the requirement that Broadcast Machine be compatible with as many hosting and web server configurations as possible, we chose to write the application in PHP\footnote{\url{http://php.net}} running under Apache web servers\footnote{\url{http://apache.org}}. PHP is currently one of the most popular web scripting languages, while Apache is also the most prevalent web server amongst low-cost web hosts and developers running personal web servers.
+\footnote{\url{http://news.netcraft.com/archives/2007/01/05/january_2007_web_server_survey.html}}
 Another advantage is that it is common for PHP and Apache to be installed alongside one another. Apache's support for per-directory configurations via an .htaccess file make it easy for users and developers to customize the environment without specialized administrator access; PHP offers object-oriented programming features that allow for the development of a MVC application that adopts many of the design principles and features of a Rails framework.
 
 Similarly, MySQL is an open-source Database Management System (DBMS) that is one of the most widely-used Structured Query Language (SQL) implementations for data storage, alongside enterprise-level applications such as Oracle. Like PHP, MySQL comes installed by default with most hosting plans, and many hosts offer user-friendly interfaces to set up and manage databases. After a database has been created by the user with one of these tools, deploying the data layer of the application would be automated by a script. In terms of scalability, MySQL's performance rivals that of many enterprise-level DBMSes, especially when executing simple queries to create, read, update and delete small amounts of data. PHP offers several functions to interact with MySQL, making it the ideal choice for the data layer of the application.
@@ -687,8 +691,8 @@ The user is then redirected to the home page.
 In Figure 5.19 you can see that at this point users are given the chance to view a single user and all of the data that is associated with that user.
 
 \section{Summary}
-In this chapter we showed how the software operates in a real-life situation. We showed the steps a user would take to install and 
-configure their install of Broadcast Machine. 
+In this chapter we guide a user through all of the use-cases an average user would be expected to encounter.
+We have aimed to give a straightforward representation of the software and its capabilities.
 
 \chapter{Results}
 
