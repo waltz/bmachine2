@@ -88,7 +88,7 @@ class UserController extends ViewController{
 	      // Validate the input.
 	      if($_POST['pass'] != $_POST['pass_conf'])
 		{
-		  $alerts[] = 'Make sure the passwords match!';
+		  $this->addAlert('Make sure the passwords match!');
 		  
 		  $this->display('user-signup.tpl');
 		  exit;
@@ -106,7 +106,7 @@ class UserController extends ViewController{
 	      // Add the new user to the database.
 	      $this->db_controller->create("users", $user);
 
-	      $alerts[] = "User successfully created! Thanks!";
+	      $this->addAlert("User successfully created! Thanks!");
 	      
 
 	      // Tell the user to activate their account.
