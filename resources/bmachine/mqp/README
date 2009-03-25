@@ -1,6 +1,0 @@
-This directory holds the LaTeX source files for the 2006-2008
-Broadcast Machine MQP report. This document was put together
-by Greg Opperman, Christian Bryan and Drew Wilson.
-
-To build a PDF, run 'make' in the current directory or 'make clean' to delete the temporary files made by LaTeX during the
-build.
